@@ -5,6 +5,7 @@ import "io/ioutil"
 import "os"
 import "strings"
 import "jvmgo/classfile"
+import "jvmgo/classpath"
 
 func main() {
     mainClassName := os.Args[1]
@@ -20,6 +21,8 @@ func main() {
         fmt.Println("ok")
         readFile(mainClassFileName)
     }
+
+    _ = &classpath.ClassPath{}
 }
 
 // todo

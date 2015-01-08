@@ -1,5 +1,8 @@
 package classpath
 
+import "strings"
+import "jvmgo/fp"
+
 type ClassPath struct {
     entries []ClassPathEntry
 }
@@ -16,7 +19,15 @@ type ClassPathJarEntry struct {
     // todo
 }
 
-func Parse(cpOption string) (*ClassPath) {
+func ParseClassPath(cpOption string) (*ClassPath) {
+    if cpOption == "" {
+        return &ClassPath{}
+    }
+    ss := strings.Split(cpOption, ";")
+
+    if strings.Index(cpOption, ";") == -1 {
+        ss.Map()
+    }
     // todo
     return nil
 }

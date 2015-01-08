@@ -15,3 +15,8 @@ type ClassPathDirEntry struct {
 type ClassPathJarEntry struct {
     // todo
 }
+
+func Parse(cpOption string) (*ClassPath) {
+    // todo
+    return nil
+}

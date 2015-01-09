@@ -1,7 +1,7 @@
 package classpath
 
 import (
-    "io/ioutil"
+    //"io/ioutil"
     "strings"
 )
 
@@ -9,22 +9,8 @@ type ClassPathEntry interface {
     readClassData(path string) ([]byte, error)
 }
 
-type ClassPathDirEntry struct {
-    dir string
-}
-
 type ClassPathJarEntry struct {
     jar string
-}
-
-func (self *ClassPathDirEntry) readClassData(path string) ([]byte, error) {
-    fullPath := self.dir + path
-    data, err := ioutil.ReadFile(fullPath) 
-    if err != nil {
-        return nil, err
-    }
-
-    return data, nil
 }
 
 func (self *ClassPathJarEntry) readClassData(path string) ([]byte, error) {

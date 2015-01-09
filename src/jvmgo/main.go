@@ -4,7 +4,7 @@ import "fmt"
 // import "io/ioutil"
 import "os"
 import "strings"
-// import "jvmgo/classfile"
+import "jvmgo/classfile"
 import "jvmgo/classpath"
 
 func main() {
@@ -14,39 +14,11 @@ func main() {
 
     cp := classpath.ParseClassPath(".")
     data, err := cp.ReadClassData(mainClassFileName)
-    fmt.Printf("err: %v \n", err)
-    fmt.Printf("data: %v \n", data)
 
-    // todo
-    // cr := classfile.NewClassReader(bytes)
-    // cf, err := classfile.ParseClassFile(cr)
-    // fmt.Printf("err: %v \n", err)
-    // fmt.Printf("cf: ", cf)
-
-
-
-    // mainClassFile, err := os.Open(mainClassFileName)
-    // if err != nil {
-    //     fmt.Println("can not open file!")
-    //     fmt.Println(err.Error())
-    // } else {
-    //     defer mainClassFile.Close()
-    //     fmt.Println("ok")
-    //     readFile(mainClassFileName)
-    // }
-
-    // _ = &classpath.ClassPath{}
+    if err == nil {
+        cr := classfile.NewClassReader(data)
+        cf, err := classfile.ParseClassFile(cr)
+        fmt.Printf("err: %v \n", err)
+        fmt.Printf("cf: %v \n", cf)
+    }
 }
-
-// todo
-// func readFile(file string) {
-//     bytes, err := ioutil.ReadFile(file) // func ReadFile(filename string) ([]byte, error)
-//     if err != nil {
-//         fmt.Println("read file err")
-//     } else {
-//         fmt.Println("read file ok")
-//         fmt.Println(len(bytes))
-
-        
-//     }
-// }

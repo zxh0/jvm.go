@@ -1,18 +1,25 @@
 package classpath
 
-import "strings"
+import (
+    "strings"
+    "errors"
+)
 
 type ClassPath struct {
     entries []ClassPathEntry
 }
 
-func (self *ClassPath) ReadClassData(path string) ([]byte) {
+func (self *ClassPath) ReadClassData(path string) ([]byte, error) {
     for _, entry := range self.entries {
-        entry.readClassData(path)
+        data, err := entry.readClassData(path)
+        if err == nil {
+            return data, nil
+        }
     }
 
     // todo
-    return nil
+    err := errors.New("class not found!")
+    return nil, err
 }
 
 func ParseClassPath(cpOption string) (*ClassPath) {

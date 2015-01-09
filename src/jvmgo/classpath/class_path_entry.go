@@ -19,12 +19,12 @@ type ClassPathJarEntry struct {
 
 func (self *ClassPathDirEntry) readClassData(path string) ([]byte, error) {
     fullPath := self.dir + path
-    bytes, err := ioutil.ReadFile(fullPath) 
+    data, err := ioutil.ReadFile(fullPath) 
     if err != nil {
         return nil, err
     }
 
-    return bytes, nil
+    return data, nil
 }
 
 func (self *ClassPathJarEntry) readClassData(path string) ([]byte, error) {

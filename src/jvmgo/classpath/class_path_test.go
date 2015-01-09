@@ -1,10 +1,9 @@
-package test
+package classpath
 
 import "testing"
-import "jvmgo/classpath"
 
 func TestParseClassPath_Empty(t *testing.T) {
-    cp := classpath.ParseClassPath("")
+    cp := ParseClassPath("")
     if len(cp.entries) != 0 {
         t.Error("TestParseClassPath_Empty")
     }
@@ -13,7 +12,7 @@ func TestParseClassPath_Empty(t *testing.T) {
 func TestParseClassPath_OneDir(t *testing.T) {
     dirs := []string{".", "abc", "a/b/c"}
     for _, dir := range dirs {
-        cp := classpath.ParseClassPath(dir)
+        cp := ParseClassPath(dir)
         if len(cp.entries) != 1 {
             t.Error("TestParseClassPath_OneDir")
         }

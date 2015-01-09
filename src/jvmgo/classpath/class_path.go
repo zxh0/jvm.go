@@ -9,9 +9,11 @@ type ClassPath struct {
     entries []ClassPathEntry
 }
 
-func (self *ClassPath) ReadClassData(path string) ([]byte, error) {
+// className: fully/qualified/ClassName
+func (self *ClassPath) ReadClassData(className string) ([]byte, error) {
+    className = className + ".class"
     for _, entry := range self.entries {
-        data, err := entry.readClassData(path)
+        data, err := entry.readClassData(className)
         if err == nil {
             return data, nil
         }

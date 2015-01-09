@@ -7,7 +7,7 @@ type ClassPathDirEntry struct {
 }
 
 func (self *ClassPathDirEntry) readClassData(className string) ([]byte, error) {
-    fullPath := self.dir + className + ".class"
+    fullPath := self.dir + className
     data, err := ioutil.ReadFile(fullPath) 
     if err != nil {
         return nil, err

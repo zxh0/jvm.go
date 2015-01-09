@@ -6,7 +6,7 @@ import (
 )
 
 type ClassPathEntry interface {
-    // className: path/to/ClassFile
+    // className: fully/qualified/ClassName.class
     readClassData(className string) ([]byte, error)
 }
 

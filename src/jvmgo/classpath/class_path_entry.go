@@ -6,7 +6,8 @@ import (
 )
 
 type ClassPathEntry interface {
-    readClassData(path string) ([]byte, error)
+    // className: path/to/ClassFile
+    readClassData(className string) ([]byte, error)
 }
 
 func parseClassPathEntry(str string) (ClassPathEntry) {

@@ -9,8 +9,7 @@ import "jvmgo/classpath"
 
 func main() {
     mainClassName := os.Args[1]
-    mainClassFileName := strings.Replace(mainClassName, ".", "/", -1) + ".class"
-    //fmt.Println(mainClassFileName)
+    mainClassFileName := strings.Replace(mainClassName, ".", "/", -1)
 
     cp := classpath.ParseClassPath(".;rt0.jar")
     data, err := cp.ReadClassData(mainClassFileName)

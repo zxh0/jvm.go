@@ -11,22 +11,32 @@ type ClassPathEntry interface {
 }
 
 type ClassPathDirEntry struct {
-    // todo
+    dir string
 }
 
 type ClassPathJarEntry struct {
-    // todo
+    jar string
 }
 
 func ParseClassPath(cpOption string) (*ClassPath) {
     if cpOption == "" {
         return &ClassPath{}
     }
-    //ss := strings.Split(cpOption, ";")
 
-    if strings.Index(cpOption, ";") == -1 {
-        //ss.Map()
+    cpOptionSplitted := strings.Split(cpOption, ";")
+    cpEntries := make([]ClassPathEntry, len(cpOptionSplitted))
+
+    for idx, str := range cpOptionSplitted {
+        cpEntries[idx] = parseClassPathEntry(str)
     }
-    // todo
-    return nil
+
+    return &ClassPath{cpEntries}
+}
+
+func parseClassPathEntry(str string) (ClassPathEntry) {
+    if strings.HasSuffix(str, ".jar") {
+        return &ClassPathJarEntry{str}
+    } else {
+        return &ClassPathDirEntry{str}
+    }
 }

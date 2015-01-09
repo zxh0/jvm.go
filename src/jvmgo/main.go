@@ -12,7 +12,7 @@ func main() {
     mainClassFileName := strings.Replace(mainClassName, ".", "/", -1) + ".class"
     //fmt.Println(mainClassFileName)
 
-    cp := classpath.ParseClassPath(".")
+    cp := classpath.ParseClassPath(".;rt0.jar")
     data, err := cp.ReadClassData(mainClassFileName)
 
     if err == nil {

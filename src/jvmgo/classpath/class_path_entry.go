@@ -3,7 +3,7 @@ package classpath
 import "strings"
 
 type ClassPathEntry interface {
-
+    ReadClassData(path string) ([]byte)
 }
 
 type ClassPathDirEntry struct {
@@ -14,6 +14,16 @@ type ClassPathJarEntry struct {
     jar string
 }
 
+func (self *ClassPathDirEntry) ReadClassData(path string) ([]byte) {
+    // todo
+    return nil
+}
+
+func (self *ClassPathJarEntry) ReadClassData(path string) ([]byte) {
+    // todo
+    return nil
+}
+
 func parseClassPathEntry(str string) (ClassPathEntry) {
     if strings.HasSuffix(str, ".jar") {
         return &ClassPathJarEntry{str}
@@ -21,3 +31,4 @@ func parseClassPathEntry(str string) (ClassPathEntry) {
         return &ClassPathDirEntry{str}
     }
 }
+

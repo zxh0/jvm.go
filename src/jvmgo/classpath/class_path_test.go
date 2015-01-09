@@ -16,6 +16,5 @@ func TestParseClassPath_OneDir(t *testing.T) {
         if len(cp.entries) != 1 {
             t.Error("TestParseClassPath_OneDir")
         }
-        // todo
     }
 }

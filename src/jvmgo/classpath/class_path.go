@@ -6,16 +6,13 @@ type ClassPath struct {
     entries []ClassPathEntry
 }
 
-type ClassPathEntry interface {
+func (self *ClassPath) ReadClassData(path string) ([]byte) {
+    for _, entry := range self.entries {
 
-}
+    }
 
-type ClassPathDirEntry struct {
-    dir string
-}
-
-type ClassPathJarEntry struct {
-    jar string
+    // todo
+    return nil
 }
 
 func ParseClassPath(cpOption string) (*ClassPath) {
@@ -31,12 +28,4 @@ func ParseClassPath(cpOption string) (*ClassPath) {
     }
 
     return &ClassPath{cpEntries}
-}
-
-func parseClassPathEntry(str string) (ClassPathEntry) {
-    if strings.HasSuffix(str, ".jar") {
-        return &ClassPathJarEntry{str}
-    } else {
-        return &ClassPathDirEntry{str}
-    }
 }

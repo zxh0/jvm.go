@@ -1,7 +1,6 @@
 package classpath
 
 import "strings"
-import "jvmgo/fp"
 
 type ClassPath struct {
     entries []ClassPathEntry
@@ -23,10 +22,10 @@ func ParseClassPath(cpOption string) (*ClassPath) {
     if cpOption == "" {
         return &ClassPath{}
     }
-    ss := strings.Split(cpOption, ";")
+    //ss := strings.Split(cpOption, ";")
 
     if strings.Index(cpOption, ";") == -1 {
-        ss.Map()
+        //ss.Map()
     }
     // todo
     return nil

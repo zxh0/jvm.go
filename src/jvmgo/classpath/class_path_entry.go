@@ -1,9 +1,12 @@
 package classpath
 
-import "strings"
+import (
+    "io/ioutil"
+    "strings"
+)
 
 type ClassPathEntry interface {
-    ReadClassData(path string) ([]byte)
+    readClassData(path string) ([]byte, error)
 }
 
 type ClassPathDirEntry struct {
@@ -14,21 +17,29 @@ type ClassPathJarEntry struct {
     jar string
 }
 
-func (self *ClassPathDirEntry) ReadClassData(path string) ([]byte) {
-    // todo
-    return nil
+func (self *ClassPathDirEntry) readClassData(path string) ([]byte, error) {
+    fullPath := self.dir + path
+    bytes, err := ioutil.ReadFile(fullPath) 
+    if err != nil {
+        return nil, err
+    }
+
+    return bytes, nil
 }
 
-func (self *ClassPathJarEntry) ReadClassData(path string) ([]byte) {
+func (self *ClassPathJarEntry) readClassData(path string) ([]byte, error) {
     // todo
-    return nil
+    return nil, nil
 }
 
 func parseClassPathEntry(str string) (ClassPathEntry) {
     if strings.HasSuffix(str, ".jar") {
         return &ClassPathJarEntry{str}
     } else {
+        if !strings.HasSuffix(str, "/") {
+            str = str + "/"
+        }
+
         return &ClassPathDirEntry{str}
     }
 }
-

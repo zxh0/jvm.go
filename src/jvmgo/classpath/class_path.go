@@ -8,7 +8,7 @@ type ClassPath struct {
 
 func (self *ClassPath) ReadClassData(path string) ([]byte) {
     for _, entry := range self.entries {
-
+        entry.readClassData(path)
     }
 
     // todo

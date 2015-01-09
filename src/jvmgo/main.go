@@ -19,5 +19,7 @@ func main() {
         cf, err := classfile.ParseClassFile(cr)
         fmt.Printf("err: %v \n", err)
         fmt.Printf("cf: %v \n", cf)
+    } else {
+        fmt.Printf("err: %v \n", err)
     }
 }

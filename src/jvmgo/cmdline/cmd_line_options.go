@@ -5,13 +5,11 @@ import (
     "jvmgo/classpath"
 )
 
-type _CP *classpath.ClassPath
-
 type Options struct {
-    classpath _CP
+    classpath *classpath.ClassPath
 }
 
-func (self *Options) Classpath() (_CP) {
+func (self *Options) Classpath() (*classpath.ClassPath) {
     if self.classpath == nil {
         self.classpath = classpath.ParseClassPath(".")
     }

@@ -1,12 +1,13 @@
 package main
 
-import "fmt"
-// import "io/ioutil"
-import "os"
-import "strings"
-import "jvmgo/classfile"
-import "jvmgo/classpath"
-import "jvmgo/cmdline"
+import (
+    "fmt"
+    "os"
+    "strings"
+    "jvmgo/classfile"
+    //"jvmgo/classpath"
+    "jvmgo/cmdline"
+)
 
 func main() {
     cmd, err := cmdline.ParseCommand(os.Args)
@@ -15,7 +16,7 @@ func main() {
         return
     }
 
-    cp := classpath.ParseClassPath(".;rt0.jar")
+    cp := cmd.Options().Classpath()
     className := strings.Replace(cmd.Class(), ".", "/", -1)
 
     data, err := cp.ReadClassData(className)

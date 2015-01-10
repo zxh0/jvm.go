@@ -13,3 +13,7 @@ type MethodArea struct {
 type ConstantPool struct {
 
 }
+
+func NewHeap() (*Heap) {
+    return &Heap{}
+}

@@ -11,5 +11,9 @@ type JVM struct {
 }
 
 func (self *JVM) startup(className string) {
+    self.heap = heap.NewHeap()
     // todo
+    // load class
+    // find main method
+    // execute main
 }

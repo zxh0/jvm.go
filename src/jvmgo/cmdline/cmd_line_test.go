@@ -38,7 +38,10 @@ func TestParseCommandOK0(t *testing.T) {
     if err != nil {
         t.Error(err)
     }
-    if cmd.class != "MyClass" || len(cmd.args) != 0 {
+    if cmd.options == nil || 
+            cmd.class != "MyClass" || 
+            len(cmd.args) != 0 {
+
         t.Error(cmd)
     }
 }

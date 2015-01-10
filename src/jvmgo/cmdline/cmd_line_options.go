@@ -11,7 +11,7 @@ type Options struct {
     classpath _CP
 }
 
-func (self *Options) ClassPath() (_CP) {
+func (self *Options) Classpath() (_CP) {
     if self.classpath == nil {
         self.classpath = classpath.ParseClassPath(".")
     }

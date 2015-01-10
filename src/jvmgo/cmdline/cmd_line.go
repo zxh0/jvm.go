@@ -4,9 +4,9 @@ import "fmt"
 
 // java [ options ] class [ arguments ]
 type Command struct {
-    options     []*Option
-    class       string
-    args        []string
+    options []*Option
+    class   string
+    args    []string
 }
 
 // getters
@@ -15,6 +15,15 @@ func (self *Command) Class() (string) {
 }
 func (self *Command) Args() ([]string) {
     return self.args
+}
+
+func (self *Command) Option(name string, defaultVal string) (string) {
+    for _, option := range self.options {
+        if option.name == name {
+            return option.value
+        }
+    }
+    return defaultVal
 }
 
 func (self *Command) parseOptions(args *CmdLineArgs) {

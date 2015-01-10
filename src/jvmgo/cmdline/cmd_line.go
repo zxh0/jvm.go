@@ -16,24 +16,6 @@ type Option struct {
     value   string
 }
 
-type CmdLineArgs struct {
-    args []string
-}
-
-func (self *CmdLineArgs) empty() (bool) {
-    return len(self.args) == 0
-}
-
-func (self *CmdLineArgs) first() (string) {
-    return self.args[0]
-}
-
-func (self *CmdLineArgs) removeFirst() (first string) {
-    first = self.args[0]
-    self.args = self.args[1:]
-    return
-}
-
 func (self *Command) parseOptions(args *CmdLineArgs) {
     if !args.empty() {
         hasVal, isOption := options[args.first()]

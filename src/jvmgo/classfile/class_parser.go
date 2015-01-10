@@ -9,7 +9,7 @@ func ParseClassFile(reader *ClassReader) (cf *ClassFile, err error) {
             var ok bool
             err, ok = r.(error)
             if !ok {
-                err = fmt.Errorf("jvmgo: %v", r)
+                err = fmt.Errorf("%v", r)
             }
         }
     }()

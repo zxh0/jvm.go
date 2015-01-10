@@ -4,7 +4,7 @@ import "fmt"
 
 // java [ options ] class [ arguments ]
 type Command struct {
-    options []*Option
+    options *Options
     class   string
     args    []string
 }
@@ -16,33 +16,8 @@ func (self *Command) Class() (string) {
 func (self *Command) Args() ([]string) {
     return self.args
 }
-
-func (self *Command) Option(name string, defaultVal string) (string) {
-    for _, option := range self.options {
-        if option.name == name {
-            return option.value
-        }
-    }
-    return defaultVal
-}
-
-func (self *Command) parseOptions(args *CmdLineArgs) {
-    for {
-        option := parseOption(args)
-        if option != nil {
-            self.options = append(self.options, option)
-        } else {
-            break
-        }
-    }
-}
-
-func (self *Command) parseClass(args *CmdLineArgs) {
-    self.class = args.removeFirst()
-}
-
-func (self *Command) parseArgs(args *CmdLineArgs) {
-    self.args = args.args
+func (self *Command) Options() (*Options) {
+    return self.options
 }
 
 func ParseCommand(osArgs []string) (cmd *Command, err error) {
@@ -56,12 +31,11 @@ func ParseCommand(osArgs []string) (cmd *Command, err error) {
         }
     }()
 
-    cmdLineArgs := &CmdLineArgs{osArgs[1:]}
+    args := &CmdLineArgs{osArgs[1:]}
     cmd = &Command{}
-    cmd.options = []*Option{} // len == 0
-    cmd.parseOptions(cmdLineArgs)
-    cmd.parseClass(cmdLineArgs)
-    cmd.parseArgs(cmdLineArgs)
+    cmd.options = parseOptions(args)
+    cmd.class = args.removeFirst()
+    cmd.args = args.args
     return
 }
 

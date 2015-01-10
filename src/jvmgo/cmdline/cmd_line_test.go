@@ -38,11 +38,7 @@ func TestParseCommandOK0(t *testing.T) {
     if err != nil {
         t.Error(err)
     }
-    if len(cmd.options) != 1 ||
-        cmd.options[0].name != "-classpath" ||
-        cmd.options[0].value != "a/b/c" ||
-        cmd.class != "MyClass" ||
-        len(cmd.args) != 0 {
+    if cmd.class != "MyClass" || len(cmd.args) != 0 {
         t.Error(cmd)
     }
 }

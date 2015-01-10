@@ -1,10 +1,10 @@
 package main
 
 import (
-    "fmt"
+    //"fmt"
     "os"
-    "strings"
-    "jvmgo/classfile"
+    //"strings"
+    //"jvmgo/classfile"
     //"jvmgo/classpath"
     "jvmgo/cmdline"
 )
@@ -16,17 +16,20 @@ func main() {
         return
     }
 
-    cp := cmd.Options().Classpath()
-    className := strings.Replace(cmd.Class(), ".", "/", -1)
+    jvm := &JVM{}
+    jvm.cp = cmd.Options().Classpath()
 
-    data, err := cp.ReadClassData(className)
+    //cp := cmd.Options().Classpath()
+    //className := strings.Replace(cmd.Class(), ".", "/", -1)
 
-    if err == nil {
-        cr := classfile.NewClassReader(data)
-        cf, err := classfile.ParseClassFile(cr)
-        fmt.Printf("err: %v \n", err)
-        fmt.Printf("cf: %v \n", cf)
-    } else {
-        fmt.Printf("err: %v \n", err)
-    }
+    // data, err := cp.ReadClassData(className)
+
+    // if err == nil {
+    //     cr := classfile.NewClassReader(data)
+    //     cf, err := classfile.ParseClassFile(cr)
+    //     fmt.Printf("err: %v \n", err)
+    //     fmt.Printf("cf: %v \n", cf)
+    // } else {
+    //     fmt.Printf("err: %v \n", err)
+    // }
 }

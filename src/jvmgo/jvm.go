@@ -1,7 +1,11 @@
 package main
 
-import "jvmgo/heap"
+import (
+    "jvmgo/classpath"
+    "jvmgo/heap"
+)
 
 type JVM struct {
-    heap *heap.Heap
+    cp      *classpath.ClassPath
+    heap    *heap.Heap
 }

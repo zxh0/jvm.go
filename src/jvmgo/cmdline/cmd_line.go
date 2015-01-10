@@ -1,6 +1,8 @@
 package cmdline 
 
-import "strings"
+//import "strings"
+
+var options = map[string]bool{"-cp": true, "-classpath": true}
 
 // java [ options ] class [ arguments ]
 type Command struct {
@@ -34,13 +36,12 @@ func (self *CmdLineArgs) removeFirst() (first string) {
 
 func (self *Command) parseOptions(args *CmdLineArgs) {
     if !args.empty() {
-        if strings.HasPrefix(args.first(), "-") {
+        hasVal, isOption := options[args.first()]
+        if isOption {
             option := &Option{}
             option.name = args.removeFirst()
-            if !args.empty() {
-                if true {
-                    option.value = args.removeFirst()
-                }
+            if hasVal {
+                option.value = args.removeFirst()
             }
         }
     }

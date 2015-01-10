@@ -1,5 +1,7 @@
 package cmdline 
 
+import "fmt"
+
 // java [ options ] class [ arguments ]
 type Command struct {
     options []*Option
@@ -11,6 +13,9 @@ type Option struct {
     
 }
 
-func ParseCommand() {
+func ParseCommand(cmdLineArgs []string) {
     // todo
+    for idx, arg := range cmdLineArgs {
+        fmt.Printf("idx: %v arg:%v \n", idx, arg)
+    }
 }

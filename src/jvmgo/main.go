@@ -9,7 +9,7 @@ import "jvmgo/classpath"
 import "jvmgo/cmdline"
 
 func main() {
-    cmdline.ParseCommand()
+    cmdline.ParseCommand(os.Args)
 
 
     mainClassName := os.Args[1]

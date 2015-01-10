@@ -21,15 +21,4 @@ func main() {
 
     className := strings.Replace(cmd.Class(), ".", "/", -1)
     jvm.startup(className)
-
-    // data, err := cp.ReadClassData(className)
-
-    // if err == nil {
-    //     cr := classfile.NewClassReader(data)
-    //     cf, err := classfile.ParseClassFile(cr)
-    //     fmt.Printf("err: %v \n", err)
-    //     fmt.Printf("cf: %v \n", cf)
-    // } else {
-    //     fmt.Printf("err: %v \n", err)
-    // }
 }

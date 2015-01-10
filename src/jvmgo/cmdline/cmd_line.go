@@ -16,6 +16,14 @@ type Option struct {
     value   string
 }
 
+// getters
+func (self *Command) Class() (string) {
+    return self.class
+}
+func (self *Command) Args() ([]string) {
+    return self.args
+}
+
 func (self *Command) parseOptions(args *CmdLineArgs) {
     if !args.empty() {
         hasVal, isOption := options[args.first()]
@@ -58,4 +66,8 @@ func ParseCommand(osArgs []string) (cmd *Command, err error) {
     cmd.parseClass(cmdLineArgs)
     cmd.parseArgs(cmdLineArgs)
     return
+}
+
+func PrintUsage() {
+    fmt.Println("usage: jvmgo [-options] class [args...]")
 }

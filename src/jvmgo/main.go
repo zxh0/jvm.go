@@ -9,14 +9,16 @@ import "jvmgo/classpath"
 import "jvmgo/cmdline"
 
 func main() {
-    cmdline.ParseCommand(os.Args)
+    cmd, err := cmdline.ParseCommand(os.Args)
+    if err != nil {
+        cmdline.PrintUsage()
+        return
+    }
 
-
-    mainClassName := os.Args[1]
-    mainClassFileName := strings.Replace(mainClassName, ".", "/", -1)
+    mainClassName := strings.Replace(cmd.Class(), ".", "/", -1)
 
     cp := classpath.ParseClassPath(".;rt0.jar")
-    data, err := cp.ReadClassData(mainClassFileName)
+    data, err := cp.ReadClassData(mainClassName)
 
     if err == nil {
         cr := classfile.NewClassReader(data)

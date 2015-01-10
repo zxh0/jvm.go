@@ -1,4 +1,4 @@
-package cmdline 
+package cmdline
 
 type CmdLineArgs struct {
     args []string

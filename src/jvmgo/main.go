@@ -15,10 +15,10 @@ func main() {
         return
     }
 
-    mainClassName := strings.Replace(cmd.Class(), ".", "/", -1)
-
     cp := classpath.ParseClassPath(".;rt0.jar")
-    data, err := cp.ReadClassData(mainClassName)
+    className := strings.Replace(cmd.Class(), ".", "/", -1)
+
+    data, err := cp.ReadClassData(className)
 
     if err == nil {
         cr := classfile.NewClassReader(data)

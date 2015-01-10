@@ -1,19 +1,12 @@
-package cmdline 
+package cmdline
 
 import "fmt"
-
-var options = map[string]bool{"-cp": true, "-classpath": true}
 
 // java [ options ] class [ arguments ]
 type Command struct {
     options     []*Option
     class       string
     args        []string
-}
-
-type Option struct {
-    name    string
-    value   string
 }
 
 // getters

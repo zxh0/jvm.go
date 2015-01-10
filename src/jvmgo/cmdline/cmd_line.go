@@ -1,6 +1,6 @@
 package cmdline 
 
-//import "strings"
+import "fmt"
 
 var options = map[string]bool{"-cp": true, "-classpath": true}
 
@@ -43,23 +43,37 @@ func (self *Command) parseOptions(args *CmdLineArgs) {
             if hasVal {
                 option.value = args.removeFirst()
             }
+
+            self.options = append(self.options, option)
+            self.parseOptions(args)
         }
     }
 }
 
 func (self *Command) parseClass(args *CmdLineArgs) {
-
+    self.class = args.removeFirst()
 }
 
 func (self *Command) parseArgs(args *CmdLineArgs) {
-
+    self.args = args.args
 }
 
-func ParseCommand(osArgs []string) {
+func ParseCommand(osArgs []string) (cmd *Command, err error) {
+    defer func() {
+        if r := recover(); r != nil {
+            var ok bool
+            err, ok = r.(error)
+            if !ok {
+                err = fmt.Errorf("%v", r)
+            }
+        }
+    }()
+
     cmdLineArgs := &CmdLineArgs{osArgs[1:]}
-    cmd := &Command{}
+    cmd = &Command{}
     cmd.options = []*Option{} // len == 0
     cmd.parseOptions(cmdLineArgs)
     cmd.parseClass(cmdLineArgs)
     cmd.parseArgs(cmdLineArgs)
+    return
 }

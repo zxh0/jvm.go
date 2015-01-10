@@ -1,9 +1,13 @@
 package cmdline
 
+const (
+    CLASSPATH = "-classpath"
+)
+
 // optionName -> hasValue
-var optionMap = map[string]bool{"-classpath": true}
+var optionMap = map[string]bool{CLASSPATH: true}
 // shortName -> fullName
-var nameMap = map[string]string{"-cp": "-classpath"}
+var nameMap = map[string]string{"-cp": CLASSPATH}
 
 type Option struct {
     name    string

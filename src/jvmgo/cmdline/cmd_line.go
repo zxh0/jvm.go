@@ -21,7 +21,7 @@ type CmdLineArgs struct {
 }
 
 func (self *CmdLineArgs) empty() (bool) {
-    return len(self.args) > 0
+    return len(self.args) == 0
 }
 
 func (self *CmdLineArgs) first() (string) {

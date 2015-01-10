@@ -6,8 +6,12 @@ import "os"
 import "strings"
 import "jvmgo/classfile"
 import "jvmgo/classpath"
+import "jvmgo/cmdline"
 
 func main() {
+    cmdline.ParseCommand()
+
+
     mainClassName := os.Args[1]
     mainClassFileName := strings.Replace(mainClassName, ".", "/", -1)
 

@@ -39,7 +39,7 @@ func TestParseCommandOK0(t *testing.T) {
         t.Error(err)
     }
     if len(cmd.options) != 1 ||
-        cmd.options[0].name != "-cp" ||
+        cmd.options[0].name != "-classpath" ||
         cmd.options[0].value != "a/b/c" ||
         cmd.class != "MyClass" ||
         len(cmd.args) != 0 {

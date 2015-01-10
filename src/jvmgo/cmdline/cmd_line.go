@@ -18,17 +18,12 @@ func (self *Command) Args() ([]string) {
 }
 
 func (self *Command) parseOptions(args *CmdLineArgs) {
-    if !args.empty() {
-        hasVal, isOption := options[args.first()]
-        if isOption {
-            option := &Option{}
-            option.name = args.removeFirst()
-            if hasVal {
-                option.value = args.removeFirst()
-            }
-
+    for {
+        option := parseOption(args)
+        if option != nil {
             self.options = append(self.options, option)
-            self.parseOptions(args)
+        } else {
+            break
         }
     }
 }

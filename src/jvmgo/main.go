@@ -3,7 +3,7 @@ package main
 import (
     //"fmt"
     "os"
-    //"strings"
+    "strings"
     //"jvmgo/classfile"
     //"jvmgo/classpath"
     "jvmgo/cmdline"
@@ -19,8 +19,8 @@ func main() {
     jvm := &JVM{}
     jvm.cp = cmd.Options().Classpath()
 
-    //cp := cmd.Options().Classpath()
-    //className := strings.Replace(cmd.Class(), ".", "/", -1)
+    className := strings.Replace(cmd.Class(), ".", "/", -1)
+    jvm.startup(className)
 
     // data, err := cp.ReadClassData(className)
 

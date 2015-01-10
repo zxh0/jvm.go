@@ -1,6 +1,6 @@
 package cmdline 
 
-import "fmt"
+//import "fmt"
 
 // java [ options ] class [ arguments ]
 type Command struct {
@@ -10,12 +10,27 @@ type Command struct {
 }
 
 type Option struct {
-    
+    name    string
+    value   string
+}
+
+func (self *Command) parseOptions() {
+
+}
+
+func (self *Command) parseClass() {
+
+}
+
+func (self *Command) parseArgs() {
+
 }
 
 func ParseCommand(cmdLineArgs []string) {
     // todo
-    for idx, arg := range cmdLineArgs {
-        fmt.Printf("idx: %v arg:%v \n", idx, arg)
-    }
+    cmd := &Command{}
+    cmd.options = []*Option{} // len == 0
+    cmd.parseOptions()
+    cmd.parseClass()
+    cmd.parseArgs()
 }

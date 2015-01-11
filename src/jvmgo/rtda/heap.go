@@ -1,11 +1,7 @@
-package heap
+package rtda
 
 type Heap struct {
-    methodArea  *MethodArea
-    // todo
-}
-
-type MethodArea struct {
+    //methodArea  *MethodArea
     // todo
 }
 

@@ -1,4 +1,4 @@
-package thread
+package rtda
 
 type Thread struct {
     // todo

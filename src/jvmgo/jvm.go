@@ -4,16 +4,16 @@ import (
     "fmt"
     "jvmgo/classfile"
     "jvmgo/classpath"
-    "jvmgo/heap"
+    "jvmgo/rtda"
 )
 
 type JVM struct {
     cp      *classpath.ClassPath
-    heap    *heap.Heap
+    heap    *rtda.Heap
 }
 
 func (self *JVM) startup(className string) {
-    self.heap = heap.NewHeap()
+    self.heap = rtda.NewHeap()
     self.loadClass(className)
     // todo
     // load class

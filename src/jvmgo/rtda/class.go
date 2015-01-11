@@ -1,5 +1,7 @@
 package rtda
 
+import "jvmgo/classfile"
+
 type Class struct {
     staticFields    []*Field
     staticMethods   []*Method
@@ -14,4 +16,9 @@ type Field struct {
 
 type Method struct {
     name    string
+}
+
+func NewClass(cf *classfile.ClassFile) (*Class) {
+    // todo
+    return &Class{}
 }

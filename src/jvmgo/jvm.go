@@ -8,8 +8,9 @@ import (
 )
 
 type JVM struct {
-    cp      *classpath.ClassPath
-    heap    *rtda.Heap
+    cp          *classpath.ClassPath
+    methodArea  *rtda.MethodArea
+    heap        *rtda.Heap
 }
 
 func (self *JVM) startup(className string) {
@@ -27,11 +28,14 @@ func (self *JVM) loadClass(className string) {
         // todo
         panic(err.Error())
     }
+
     cr := classfile.NewClassReader(data)
     cf, err := classfile.ParseClassFile(cr)
     if err != nil {
         // todo
         panic(err.Error())
     }
-    fmt.Printf("cf: %v \n", cf)
+    
+    class := rtda.NewClass(cf)
+    fmt.Printf("class: %v \n", class)
 }

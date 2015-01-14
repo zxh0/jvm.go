@@ -38,4 +38,8 @@ func (self *JVM) loadClass(className string) {
     
     class := rtda.NewClass(cf)
     fmt.Printf("class: %v \n", class)
+
+    // exec main()
+    
+    
 }

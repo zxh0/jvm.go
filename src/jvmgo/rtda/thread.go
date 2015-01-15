@@ -21,5 +21,14 @@ type Stack struct {
 }
 
 type Frame struct {
+    vars    *LocalVars
+    stack   *OperandStack
+}
+
+type LocalVars struct {
+
+}
+
+type OperandStack struct {
 
 }

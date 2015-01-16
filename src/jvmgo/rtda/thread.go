@@ -28,7 +28,3 @@ type Frame struct {
 type LocalVars struct {
 
 }
-
-type OperandStack struct {
-
-}

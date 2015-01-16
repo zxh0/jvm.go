@@ -9,9 +9,10 @@ func (self *OperandStack) pushInt(val int32) {
     self.slots[self.size] = val
     self.size++
 }
-
-func (self *OperandStack) popInt() (int32) {
-    return self.slots[self.size].(int32)
+func (self *OperandStack) popInt() (val int32) {
+    val = self.slots[self.size].(int32)
+    self.size--
+    return
 }
 
 func NewOperandStack(length uint16) (*OperandStack) {

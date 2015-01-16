@@ -42,6 +42,13 @@ func (self *ClassReader) readFloat64() (x float64) {
     return
 }
 
+func read(self *ClassReader, data interface{}) {
+    err := binary.Read(self.reader, binary.BigEndian, data)
+    if err != nil {
+        panic(err.Error())
+    }
+}
+
 func (self *ClassReader) readBytes(length uint32) ([]byte) {
     bytes := make([]byte, length)
     n, err := self.reader.Read(bytes)
@@ -59,13 +66,6 @@ func (self *ClassReader) readString() (string) {
     length := uint32(self.readUint16())
     bytes := self.readBytes(length)
     return string(bytes[:])
-} 
-
-func read(self *ClassReader, data interface{}) {
-    err := binary.Read(self.reader, binary.BigEndian, data)
-    if err != nil {
-        panic(err.Error())
-    }
 }
 
 // factory

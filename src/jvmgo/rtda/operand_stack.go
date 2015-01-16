@@ -12,3 +12,8 @@ func (self *OperandStack) pop() (any) {
     // todo
     return nil
 }
+
+func NewOperandStack(length uint16) (*OperandStack) {
+    slots := make([]any, length)
+    return &OperandStack{slots}
+}

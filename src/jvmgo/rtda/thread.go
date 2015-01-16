@@ -24,7 +24,3 @@ type Frame struct {
     vars    *LocalVars
     stack   *OperandStack
 }
-
-type LocalVars struct {
-
-}

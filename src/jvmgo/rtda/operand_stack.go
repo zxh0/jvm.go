@@ -32,7 +32,7 @@ func (self *OperandStack) popDouble() (float64) {
     return self.pop().(float64)
 }
 
-func NewOperandStack(length uint16) (*OperandStack) {
+func newOperandStack(length uint16) (*OperandStack) {
     slots := make([]any, length)
     return &OperandStack{0, slots}
 }

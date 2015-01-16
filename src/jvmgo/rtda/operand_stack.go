@@ -32,6 +32,8 @@ func (self *OperandStack) popDouble() (float64) {
     return self.pop().(float64)
 }
 
+//func (self *OperandStack) popRef()
+
 func newOperandStack(length uint16) (*OperandStack) {
     slots := make([]any, length)
     return &OperandStack{0, slots}

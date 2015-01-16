@@ -24,7 +24,9 @@ func (self *LocalVars) getDouble(index uint16) (float64) {
     return self.slots[index].(float64)
 }
 
-// func (self *LocalVars) getRef(index uint16)
+func (self *LocalVars) getRef(index uint16) (*Ref) {
+    return self.slots[index].(*Ref)
+}
 
 func newLocalVars(length uint16) (*LocalVars) {
     slots := make([]any, length)

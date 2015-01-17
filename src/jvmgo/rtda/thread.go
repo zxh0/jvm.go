@@ -10,7 +10,7 @@ JVM
         OperandStack
 */
 type Thread struct {
-    pc      uint32
+    pc      uint
     stack   *Stack
     // todo
 }

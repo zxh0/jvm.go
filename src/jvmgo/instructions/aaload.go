@@ -7,3 +7,7 @@ type aaload struct {
 func (self *aaload) fetchOperands(bcr *BytecodeReader) {
     // no operands
 }
+
+func (self *aaload) execute() {
+    // todo
+}

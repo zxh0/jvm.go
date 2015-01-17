@@ -10,9 +10,9 @@ JVM
         OperandStack
 */
 type Thread struct {
-    // todo
     pc      uint32
     stack   *Stack
+    // todo
 }
 
 func newThread(maxStackSize int) (*Thread) {

@@ -1,7 +1,7 @@
 package rtda
 
 type OperandStack struct {
-    size    uint16
+    size    int
     slots   []any
 }
 

@@ -17,6 +17,7 @@ func decode(bcr *BytecodeReader) (Instruction) {
 func newInstruction(opcode byte) (Instruction) {
     switch opcode {
     case 0x01: return &aconst_null{}
+    case 0x10: return &bipush{}
     case 0x19: return &aload{}
     case 0x2a: return &aload_0{}
     case 0x2b: return &aload_1{}

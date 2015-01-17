@@ -16,6 +16,13 @@ func (self *OperandStack) PopRef() (*Ref) {
     return self.pop().(*Ref)
 }
 
+func (self *OperandStack) PushInt(val int32) {
+    self.push(val)
+}
+func (self *OperandStack) popInt() (int32) {
+    return self.pop().(int32)
+}
+
 func (self *OperandStack) push(item any) {
     self.slots[self.size] = item
     self.size++
@@ -23,10 +30,6 @@ func (self *OperandStack) push(item any) {
 func (self *OperandStack) pop() (any) {
     self.size--
     return self.slots[self.size]
-}
-
-func (self *OperandStack) popInt() (int32) {
-    return self.pop().(int32)
 }
 
 func (self *OperandStack) popLong() (int64) {

@@ -15,6 +15,10 @@ func (self *OperandStack) pop() (any) {
     return self.slots[self.size]
 }
 
+func (self *OperandStack) PushNull() {
+    self.push(nil)
+}
+
 func (self *OperandStack) popInt() (int32) {
     return self.pop().(int32)
 }

@@ -2,6 +2,7 @@ package instructions
 
 import "jvmgo/rtda"
 
+// Push null
 type aconst_null struct {
 
 }
@@ -11,5 +12,5 @@ func (self *aconst_null) fetchOperands(bcr *BytecodeReader) {
 }
 
 func (self *aconst_null) execute(thread *rtda.Thread) {
-    // todo
+    thread.CurrentFrame().OperandStack().PushNull()
 }

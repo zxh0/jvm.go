@@ -23,6 +23,10 @@ func (self *Thread) loop() {
     }
 }
 
+func (self *Thread) CurrentFrame() (*Frame) {
+    return self.stack.top()
+}
+
 func newThread(maxStackSize int) (*Thread) {
     stack := newStack(maxStackSize)
     return &Thread{0, stack}

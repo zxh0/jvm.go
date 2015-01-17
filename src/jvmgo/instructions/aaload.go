@@ -2,6 +2,7 @@ package instructions
 
 import "jvmgo/rtda"
 
+// Load reference from array
 type aaload struct {
     // todo
 }

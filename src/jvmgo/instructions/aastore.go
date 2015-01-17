@@ -2,6 +2,7 @@ package instructions
 
 import "jvmgo/rtda"
 
+// Store into reference array 
 type aastore struct {
 
 }

@@ -6,6 +6,10 @@ type Frame struct {
     operandStack    *OperandStack
 }
 
+func (self *Frame) OperandStack() (*OperandStack) {
+    return self.operandStack;
+}
+
 func (self *Frame) executeOneInstruction() {
     // todo
 }

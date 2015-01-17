@@ -1,13 +1,10 @@
 package instructions
 
 type Instruction interface {
-
+    fetchOperands(bcr *BytecodeReader)
 }
 
-func decode(bytecodes []byte, pc uint) (Instruction) {
-    opcode := bytecodes[pc]
-    
-
+func decode(bcr *BytecodeReader) (Instruction) {
     // todo
     return nil
 }

@@ -36,6 +36,14 @@ func (self *Stack) pop() {
     self.frames[self.size] = nil
 }
 
+func (self *Stack) top() (*Frame) {
+    return self.frames[self.size - 1]
+}
+
+func (self *Stack) isEmpty() (bool) {
+    return self.size > 0
+}
+
 func newStack(maxSize int) (*Stack) {
     frames := make([]*Frame, 8)
     return &Stack{maxSize, 0, frames}

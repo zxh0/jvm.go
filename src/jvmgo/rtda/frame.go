@@ -6,6 +6,10 @@ type Frame struct {
     operandStack    *OperandStack
 }
 
+func (self *Frame) executeOneBytecode() {
+    // todo
+}
+
 func newFrame(localVarsSize, operandStackSize uint16) (*Frame) {
     localVars := newLocalVars(localVarsSize)
     operandStack := newOperandStack(operandStackSize)

@@ -15,6 +15,14 @@ type Thread struct {
     // todo
 }
 
+// todo
+func (self *Thread) loop() {
+    for !self.stack.isEmpty() {
+        currentFrame := self.stack.top()
+        currentFrame.executeOneBytecode()
+    }
+}
+
 func newThread(maxStackSize int) (*Thread) {
     stack := newStack(maxStackSize)
     return &Thread{0, stack}

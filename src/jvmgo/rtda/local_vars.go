@@ -4,7 +4,14 @@ type LocalVars struct {
     slots []any
 }
 
-func (self *LocalVars) set(index uint16, item any) {
+func (self *LocalVars) GetRef(index uint) (*Ref) {
+    return self.slots[index].(*Ref)
+}
+func (self *LocalVars) SetRef(index uint, ref *Ref) {
+    self.set(index, ref)
+}
+
+func (self *LocalVars) set(index uint, item any) {
     self.slots[index] = item
 }
 
@@ -22,10 +29,6 @@ func (self *LocalVars) getFloat(index uint16) (float32) {
 
 func (self *LocalVars) getDouble(index uint16) (float64) {
     return self.slots[index].(float64)
-}
-
-func (self *LocalVars) GetRef(index uint) (*Ref) {
-    return self.slots[index].(*Ref)
 }
 
 func newLocalVars(size uint16) (*LocalVars) {

@@ -23,6 +23,11 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x2c: return &aload_2{}
     case 0x2d: return &aload_3{}
     case 0x32: return &aaload{}
+    case 0x3a: return &astore{}
+    case 0x4b: return &astore_0{}
+    case 0x4c: return &astore_1{}
+    case 0x4d: return &astore_2{}
+    case 0x4e: return &astore_3{}
     case 0x53: return &aastore{}
     case 0xb0: return &areturn{}
     case 0xbd: return &anewarray{}

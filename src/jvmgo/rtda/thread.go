@@ -15,6 +15,7 @@ type Thread struct {
     stack   *Stack
 }
 
-func newThread() {
-    //stack := newStack()
+func newThread(maxStackSize int) (*Thread) {
+    stack := newStack(maxStackSize)
+    return &Thread{0, stack}
 }

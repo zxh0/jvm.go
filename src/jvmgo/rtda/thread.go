@@ -19,8 +19,3 @@ type Thread struct {
 type Stack struct {
     frames  []*Frame
 }
-
-type Frame struct {
-    vars    *LocalVars
-    stack   *OperandStack
-}

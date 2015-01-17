@@ -24,6 +24,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x2d: return &aload_3{}
     case 0x32: return &aaload{}
     case 0x53: return &aastore{}
+    case 0xb0: return &areturn{}
     case 0xbd: return &anewarray{}
     default: panic("BAD opcode!")
     }

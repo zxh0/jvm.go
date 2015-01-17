@@ -6,7 +6,7 @@ type Frame struct {
     operandStack    *OperandStack
 }
 
-func newFrame(localVarsSize uint16, operandStackSize uint16) (*Frame) {
+func newFrame(localVarsSize, operandStackSize uint16) (*Frame) {
     localVars := newLocalVars(localVarsSize)
     operandStack := newOperandStack(operandStackSize)
     return &Frame{localVars, operandStack}

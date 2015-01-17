@@ -5,6 +5,7 @@ import (
     "jvmgo/classfile"
     "jvmgo/classpath"
     "jvmgo/rtda"
+    "jvmgo/instructions"
 )
 
 type JVM struct {
@@ -40,6 +41,8 @@ func (self *JVM) loadClass(className string) {
     fmt.Printf("class: %v \n", class)
 
     // exec main()
-    
-    
+    var bcr *instructions.BytecodeReader = nil
+    if bcr == nil {
+        
+    }
 }

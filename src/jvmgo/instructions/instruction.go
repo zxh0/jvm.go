@@ -1,8 +1,10 @@
 package instructions
 
+import "jvmgo/rtda"
+
 type Instruction interface {
     fetchOperands(bcr *BytecodeReader)
-    execute()
+    execute(thread *rtda.Thread)
 }
 
 func decode(bcr *BytecodeReader) (Instruction) {

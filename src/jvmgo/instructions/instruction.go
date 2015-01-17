@@ -6,8 +6,10 @@ type Instruction interface {
 }
 
 func decode(bcr *BytecodeReader) (Instruction) {
-    // todo
-    return nil
+    opcode := bcr.readOpcode()
+    instruction := newInstruction(opcode)
+    instruction.fetchOperands(bcr)
+    return instruction
 }
 
 func newInstruction(opcode byte) (Instruction) {

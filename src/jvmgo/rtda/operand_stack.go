@@ -36,7 +36,7 @@ func (self *OperandStack) popRef() (*Ref) {
     return self.pop().(*Ref)
 }
 
-func newOperandStack(length uint16) (*OperandStack) {
-    slots := make([]any, length)
+func newOperandStack(size uint16) (*OperandStack) {
+    slots := make([]any, size)
     return &OperandStack{0, slots}
 }

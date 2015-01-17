@@ -28,7 +28,7 @@ func (self *LocalVars) getRef(index uint16) (*Ref) {
     return self.slots[index].(*Ref)
 }
 
-func newLocalVars(length uint16) (*LocalVars) {
-    slots := make([]any, length)
+func newLocalVars(size uint16) (*LocalVars) {
+    slots := make([]any, size)
     return &LocalVars{slots}
 }

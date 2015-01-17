@@ -12,6 +12,6 @@ func (self *Stack) push(frame *Frame) {
 }
 
 func (self *Stack) pop() {
-    self.frames[self.size] = nil
     self.size--
+    self.frames[self.size] = nil
 }

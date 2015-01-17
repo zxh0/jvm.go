@@ -10,11 +10,10 @@ func (self *OperandStack) push(item any) {
     self.size++
 }
 
-func (self *OperandStack) pop() (item any) {
-    item = self.slots[self.size]
+func (self *OperandStack) pop() (any) {
     self.size--
-    return
-} 
+    return self.slots[self.size]
+}
 
 func (self *OperandStack) popInt() (int32) {
     return self.pop().(int32)

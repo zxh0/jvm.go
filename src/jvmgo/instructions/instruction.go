@@ -32,6 +32,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xb0: return &areturn{}
     case 0xbd: return &anewarray{}
     case 0xbe: return &arraylength{}
+    case 0xbf: return &athrow{}
     default: panic("BAD opcode!")
     }
 }

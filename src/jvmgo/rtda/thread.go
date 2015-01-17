@@ -15,7 +15,3 @@ type Thread struct {
     pc      uint32
     stack   *Stack
 }
-
-type Stack struct {
-    frames  []*Frame
-}

@@ -6,7 +6,7 @@ type Frame struct {
     operandStack    *OperandStack
 }
 
-func (self *Frame) executeOneBytecode() {
+func (self *Frame) executeOneInstruction() {
     // todo
 }
 

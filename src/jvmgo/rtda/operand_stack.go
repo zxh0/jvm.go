@@ -23,6 +23,27 @@ func (self *OperandStack) popInt() (int32) {
     return self.pop().(int32)
 }
 
+func (self *OperandStack) PushLong(val int64) {
+    self.push(val)
+}
+func (self *OperandStack) PopLong() (int64) {
+    return self.pop().(int64)
+}
+
+func (self *OperandStack) PushFloat(val float32) {
+    self.push(val)
+}
+func (self *OperandStack) PopFloat() (float32) {
+    return self.pop().(float32)
+}
+
+func (self *OperandStack) PushDouble(val float64) {
+    self.push(val)
+}
+func (self *OperandStack) PopDouble() (float64) {
+    return self.pop().(float64)
+}
+
 func (self *OperandStack) push(item any) {
     self.slots[self.size] = item
     self.size++
@@ -30,18 +51,6 @@ func (self *OperandStack) push(item any) {
 func (self *OperandStack) pop() (any) {
     self.size--
     return self.slots[self.size]
-}
-
-func (self *OperandStack) popLong() (int64) {
-    return self.pop().(int64)
-}
-
-func (self *OperandStack) popFloat() (float32) {
-    return self.pop().(float32)
-}
-
-func (self *OperandStack) popDouble() (float64) {
-    return self.pop().(float64)
 }
 
 func newOperandStack(size uint16) (*OperandStack) {

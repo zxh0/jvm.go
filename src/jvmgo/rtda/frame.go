@@ -6,8 +6,12 @@ type Frame struct {
     operandStack    *OperandStack
 }
 
+func (self *Frame) LocalVars() (*LocalVars) {
+    return self.localVars
+}
+
 func (self *Frame) OperandStack() (*OperandStack) {
-    return self.operandStack;
+    return self.operandStack
 }
 
 func (self *Frame) executeOneInstruction() {

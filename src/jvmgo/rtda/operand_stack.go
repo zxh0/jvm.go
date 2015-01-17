@@ -19,6 +19,10 @@ func (self *OperandStack) PushNull() {
     self.push(nil)
 }
 
+func (self *OperandStack) PushRef(ref *Ref) {
+    self.push(ref)
+}
+
 func (self *OperandStack) popInt() (int32) {
     return self.pop().(int32)
 }

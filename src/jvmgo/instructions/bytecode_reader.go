@@ -5,7 +5,7 @@ type BytecodeReader struct {
     bytecodes   []byte
 }
 
-func (self *BytecodeReader) readOpcode() (byte) {
+func (self *BytecodeReader) readUint8() (byte) {
     b := self.bytecodes[self.pc]
     self.pc++
     return b

@@ -24,7 +24,7 @@ func (self *LocalVars) getDouble(index uint16) (float64) {
     return self.slots[index].(float64)
 }
 
-func (self *LocalVars) getRef(index uint16) (*Ref) {
+func (self *LocalVars) GetRef(index uint) (*Ref) {
     return self.slots[index].(*Ref)
 }
 

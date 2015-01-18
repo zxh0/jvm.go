@@ -93,6 +93,58 @@ func (self *dup2_x1) execute(thread *rtda.Thread) {
     }
 }
 
+// Duplicate the top one or two operand stack values and insert two, three, or four values down 
+type dup2_x2 struct {}
+func (self *dup2_x2) fetchOperands(bcr *BytecodeReader) {}
+func (self *dup2_x2) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    val1 := stack.Pop()
+    val2 := stack.Pop()
+    if isLongOrDouble(val1) {
+        if isLongOrDouble(val2) {
+            // form4
+            //.., value2, value1 →
+            //..., value1, value2, value1
+            stack.Push(val1)
+            stack.Push(val2)
+            stack.Push(val1)
+        } else {
+            // form2
+            //..., value3, value2, value1 →
+            //..., value1, value3, value2, value1
+            val3 := stack.Pop()
+            stack.Push(val1)
+            stack.Push(val3)
+            stack.Push(val2)
+            stack.Push(val1)
+        }
+    } else {
+        val3 := stack.Pop()
+        if isLongOrDouble(val3) {
+            // form3
+            //..., value3, value2, value1 →
+            //..., value2, value1, value3, value2, value1
+            stack.Push(val2)
+            stack.Push(val1)
+            stack.Push(val3)
+            stack.Push(val2)
+            stack.Push(val1)
+        } else {
+            // form1
+            //..., value4, value3, value2, value1 →
+            //..., value2, value1, value4, value3, value2, value1
+            val4 := stack.Pop()
+            stack.Push(val2)
+            stack.Push(val1)
+            stack.Push(val4)
+            stack.Push(val3)
+            stack.Push(val2)
+            stack.Push(val1)
+        }
+    }
+}
+
+// todo: move to any.go
 func isLongOrDouble(x Any) (bool) {
     if _, ok := x.(int64); ok {
         return true

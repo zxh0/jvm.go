@@ -56,6 +56,7 @@ func (self *dup2) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val1 := stack.Pop()
     if isLongOrDouble(val1) {
+        // form2
         stack.Push(val1)
         stack.Push(val1)
     } else {
@@ -63,6 +64,30 @@ func (self *dup2) execute(thread *rtda.Thread) {
         val2 := stack.Pop()
         stack.Push(val2)
         stack.Push(val1)
+        stack.Push(val2)
+        stack.Push(val1)
+    }
+}
+
+// Duplicate the top one or two operand stack values and insert two or three values down
+type dup2_x1 struct {}
+func (self *dup2_x1) fetchOperands(bcr *BytecodeReader) {}
+func (self *dup2_x1) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    val1 := stack.Pop()
+    if isLongOrDouble(val1) {
+        // form2
+        val2 := stack.Pop()
+        stack.Push(val1)
+        stack.Push(val2)
+        stack.Push(val1)
+    } else {
+        // form1
+        val2 := stack.Pop()
+        val3 := stack.Pop()
+        stack.Push(val2)
+        stack.Push(val1)
+        stack.Push(val3)
         stack.Push(val2)
         stack.Push(val1)
     }

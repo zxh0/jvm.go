@@ -1,6 +1,9 @@
 package instructions
 
-import "jvmgo/rtda"
+import (
+    "math"
+    "jvmgo/rtda"
+)
 
 // Remainder double
 type drem struct {}
@@ -9,7 +12,7 @@ func (self *drem) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
     v2 := stack.PopDouble()
-    result := v1 * v2 // todo
+    result := math.Mod(v1, v2) // todo
     stack.PushDouble(result)
 }
 
@@ -20,7 +23,7 @@ func (self *frem) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopFloat()
     v2 := stack.PopFloat()
-    result := v1 * v2 // todo
+    result := float32(math.Mod(float64(v1), float64(v2))) // todo
     stack.PushFloat(result)
 }
 

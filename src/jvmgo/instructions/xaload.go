@@ -36,3 +36,10 @@ func (self *faload) fetchOperands(bcr *BytecodeReader) {}
 func (self *faload) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Load int from array 
+type iaload struct {}
+func (self *iaload) fetchOperands(bcr *BytecodeReader) {}
+func (self *iaload) execute(thread *rtda.Thread) {
+    // todo
+}

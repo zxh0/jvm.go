@@ -1,8 +1,10 @@
 package rtda
 
+import . "jvmgo/any"
+
 type OperandStack struct {
     size    int
-    slots   []any
+    slots   []Any
 }
 
 func (self *OperandStack) PushNull() {
@@ -44,16 +46,16 @@ func (self *OperandStack) PopDouble() (float64) {
     return self.Pop().(float64)
 }
 
-func (self *OperandStack) Push(item any) {
+func (self *OperandStack) Push(item Any) {
     self.slots[self.size] = item
     self.size++
 }
-func (self *OperandStack) Pop() (any) {
+func (self *OperandStack) Pop() (Any) {
     self.size--
     return self.slots[self.size]
 }
 
 func newOperandStack(size uint16) (*OperandStack) {
-    slots := make([]any, size)
+    slots := make([]Any, size)
     return &OperandStack{0, slots}
 }

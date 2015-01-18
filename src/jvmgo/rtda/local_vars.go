@@ -1,7 +1,9 @@
 package rtda
 
+import . "jvmgo/any"
+
 type LocalVars struct {
-    slots []any
+    slots []Any
 }
 
 func (self *LocalVars) GetRef(index uint) (*Ref) {
@@ -40,6 +42,6 @@ func (self *LocalVars) SetDouble(index uint, val float64) {
 }
 
 func newLocalVars(size uint16) (*LocalVars) {
-    slots := make([]any, size)
+    slots := make([]Any, size)
     return &LocalVars{slots}
 }

@@ -35,7 +35,7 @@ func (self *iadd) execute(thread *rtda.Thread) {
     stack.PushInt(result)
 }
 
-// Add int
+// Add long
 type ladd struct {}
 func (self *ladd) fetchOperands(bcr *BytecodeReader) {}
 func (self *ladd) execute(thread *rtda.Thread) {

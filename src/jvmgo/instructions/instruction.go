@@ -42,6 +42,9 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x61: return &ladd{}
     case 0x62: return &fadd{}
     case 0x63: return &dadd{}
+    case 0x6c: return &idiv{}
+    case 0x6d: return &ldiv{}
+    case 0x6e: return &fdiv{}
     case 0x6f: return &ddiv{}
     case 0x8e: return &d2i{}
     case 0x8f: return &d2l{}

@@ -19,7 +19,7 @@ func (self *OperandStack) PopRef() (*Ref) {
 func (self *OperandStack) PushInt(val int32) {
     self.push(val)
 }
-func (self *OperandStack) popInt() (int32) {
+func (self *OperandStack) PopInt() (int32) {
     return self.pop().(int32)
 }
 

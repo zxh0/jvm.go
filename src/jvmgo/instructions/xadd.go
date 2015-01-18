@@ -23,3 +23,14 @@ func (self *fadd) execute(thread *rtda.Thread) {
     result := v1 + v2
     stack.PushFloat(result)
 }
+
+// Add int
+type iadd struct {}
+func (self *iadd) fetchOperands(bcr *BytecodeReader) {}
+func (self *iadd) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    v1 := stack.PopInt()
+    v2 := stack.PopInt()
+    result := v1 + v2
+    stack.PushInt(result)
+}

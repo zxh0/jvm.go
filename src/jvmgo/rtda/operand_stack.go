@@ -6,49 +6,49 @@ type OperandStack struct {
 }
 
 func (self *OperandStack) PushNull() {
-    self.push(nil)
+    self.Push(nil)
 }
 
 func (self *OperandStack) PushRef(ref *Ref) {
-    self.push(ref)
+    self.Push(ref)
 }
 func (self *OperandStack) PopRef() (*Ref) {
-    return self.pop().(*Ref)
+    return self.Pop().(*Ref)
 }
 
 func (self *OperandStack) PushInt(val int32) {
-    self.push(val)
+    self.Push(val)
 }
 func (self *OperandStack) PopInt() (int32) {
-    return self.pop().(int32)
+    return self.Pop().(int32)
 }
 
 func (self *OperandStack) PushLong(val int64) {
-    self.push(val)
+    self.Push(val)
 }
 func (self *OperandStack) PopLong() (int64) {
-    return self.pop().(int64)
+    return self.Pop().(int64)
 }
 
 func (self *OperandStack) PushFloat(val float32) {
-    self.push(val)
+    self.Push(val)
 }
 func (self *OperandStack) PopFloat() (float32) {
-    return self.pop().(float32)
+    return self.Pop().(float32)
 }
 
 func (self *OperandStack) PushDouble(val float64) {
-    self.push(val)
+    self.Push(val)
 }
 func (self *OperandStack) PopDouble() (float64) {
-    return self.pop().(float64)
+    return self.Pop().(float64)
 }
 
-func (self *OperandStack) push(item any) {
+func (self *OperandStack) Push(item any) {
     self.slots[self.size] = item
     self.size++
 }
-func (self *OperandStack) pop() (any) {
+func (self *OperandStack) Pop() (any) {
     self.size--
     return self.slots[self.size]
 }

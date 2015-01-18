@@ -29,3 +29,24 @@ func (self *dastore) fetchOperands(bcr *BytecodeReader) {}
 func (self *dastore) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Store into float array 
+type fastore struct {}
+func (self *fastore) fetchOperands(bcr *BytecodeReader) {}
+func (self *fastore) execute(thread *rtda.Thread) {
+    // todo
+}
+
+// Store into int array 
+type iastore struct {}
+func (self *iastore) fetchOperands(bcr *BytecodeReader) {}
+func (self *iastore) execute(thread *rtda.Thread) {
+    // todo
+}
+
+// Store into long array 
+type lastore struct {}
+func (self *lastore) fetchOperands(bcr *BytecodeReader) {}
+func (self *lastore) execute(thread *rtda.Thread) {
+    // todo
+}

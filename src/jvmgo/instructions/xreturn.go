@@ -15,3 +15,24 @@ func (self *dreturn) fetchOperands(bcr *BytecodeReader) {}
 func (self *dreturn) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Return float from method 
+type freturn struct {}
+func (self *freturn) fetchOperands(bcr *BytecodeReader) {}
+func (self *freturn) execute(thread *rtda.Thread) {
+    // todo
+}
+
+// Return int from method 
+type ireturn struct {}
+func (self *ireturn) fetchOperands(bcr *BytecodeReader) {}
+func (self *ireturn) execute(thread *rtda.Thread) {
+    // todo
+}
+
+// Return double from method 
+type lreturn struct {}
+func (self *lreturn) fetchOperands(bcr *BytecodeReader) {}
+func (self *lreturn) execute(thread *rtda.Thread) {
+    // todo
+}

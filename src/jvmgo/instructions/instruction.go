@@ -30,6 +30,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x2b: return &aload_1{}
     case 0x2c: return &aload_2{}
     case 0x2d: return &aload_3{}
+    case 0x30: return &faload{}
     case 0x31: return &daload{}
     case 0x32: return &aaload{}
     case 0x33: return &baload{}

@@ -29,3 +29,10 @@ func (self *daload) fetchOperands(bcr *BytecodeReader) {}
 func (self *daload) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Load float from array 
+type faload struct {}
+func (self *faload) fetchOperands(bcr *BytecodeReader) {}
+func (self *faload) execute(thread *rtda.Thread) {
+    // todo
+}

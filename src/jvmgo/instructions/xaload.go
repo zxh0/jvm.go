@@ -22,3 +22,10 @@ func (self *caload) fetchOperands(bcr *BytecodeReader) {}
 func (self *caload) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Load double from array 
+type daload struct {}
+func (self *daload) fetchOperands(bcr *BytecodeReader) {}
+func (self *daload) execute(thread *rtda.Thread) {
+    // todo
+}

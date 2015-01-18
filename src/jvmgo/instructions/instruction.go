@@ -52,6 +52,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x61: return &ladd{}
     case 0x62: return &fadd{}
     case 0x63: return &dadd{}
+    case 0x64: return &isub{}
+    case 0x65: return &lsub{}
+    case 0x66: return &fsub{}
+    case 0x67: return &dsub{}
     case 0x68: return &imul{}
     case 0x69: return &lmul{}
     case 0x6a: return &fmul{}

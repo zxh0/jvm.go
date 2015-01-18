@@ -8,27 +8,35 @@ func (self *LocalVars) GetRef(index uint) (*Ref) {
     return self.slots[index].(*Ref)
 }
 func (self *LocalVars) SetRef(index uint, ref *Ref) {
-    self.set(index, ref)
+    self.slots[index] = ref
 }
 
-func (self *LocalVars) set(index uint, item any) {
-    self.slots[index] = item
-}
-
-func (self *LocalVars) getInt(index uint16) (int32) {
+func (self *LocalVars) GetInt(index uint) (int32) {
     return self.slots[index].(int32)
 }
+func (self *LocalVars) SetInt(index uint, val int32) {
+    self.slots[index] = val
+}
 
-func (self *LocalVars) getLong(index uint16) (int64) {
+func (self *LocalVars) GetLong(index uint) (int64) {
     return self.slots[index].(int64)
 }
-
-func (self *LocalVars) getFloat(index uint16) (float32) {
-    return self.slots[index].(float32)
+func (self *LocalVars) SetLong(index uint, val int64) {
+    self.slots[index] = val
 }
 
-func (self *LocalVars) getDouble(index uint16) (float64) {
+func (self *LocalVars) GetFloat(index uint) (float32) {
+    return self.slots[index].(float32)
+}
+func (self *LocalVars) SetFloat(index uint, val float32) {
+    self.slots[index] = val
+}
+
+func (self *LocalVars) GetDouble(index uint) (float64) {
     return self.slots[index].(float64)
+}
+func (self *LocalVars) SetDouble(index uint, val float64) {
+    self.slots[index] = val
 }
 
 func newLocalVars(size uint16) (*LocalVars) {

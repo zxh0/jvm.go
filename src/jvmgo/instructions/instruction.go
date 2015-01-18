@@ -68,6 +68,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x90: return &d2f{}
     case 0x97: return &dcmpl{}
     case 0x98: return &dcmpg{}
+    case 0xaf: return &dreturn{}
     case 0xb0: return &areturn{}
     case 0xbd: return &anewarray{}
     case 0xbe: return &arraylength{}

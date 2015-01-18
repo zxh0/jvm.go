@@ -43,3 +43,10 @@ func (self *iaload) fetchOperands(bcr *BytecodeReader) {}
 func (self *iaload) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Load long from array 
+type laload struct {}
+func (self *laload) fetchOperands(bcr *BytecodeReader) {}
+func (self *laload) execute(thread *rtda.Thread) {
+    // todo
+}

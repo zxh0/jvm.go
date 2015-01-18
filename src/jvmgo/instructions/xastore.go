@@ -15,3 +15,10 @@ func (self *bastore) fetchOperands(bcr *BytecodeReader) {}
 func (self *bastore) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Store into char array 
+type castore struct {}
+func (self *castore) fetchOperands(bcr *BytecodeReader) {}
+func (self *castore) execute(thread *rtda.Thread) {
+    // todo
+}

@@ -21,3 +21,13 @@ func (self *d2i) execute(thread *rtda.Thread) {
     i := int32(d)
     stack.PushInt(i)
 }
+
+// Convert double to long
+type d2l struct {}
+func (self *d2l) fetchOperands(bcr *BytecodeReader) {}
+func (self *d2l) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    d := stack.PopDouble()
+    l := int64(d)
+    stack.PushLong(l)
+}

@@ -6,16 +6,16 @@ import "jvmgo/rtda"
 type dcmpg struct {}
 func (self *dcmpg) fetchOperands(bcr *BytecodeReader) {}
 func (self *dcmpg) execute(thread *rtda.Thread) {
-    dcmp(thread, true)
+    _dcmp(thread, true)
 }
 
 type dcmpl struct {}
 func (self *dcmpl) fetchOperands(bcr *BytecodeReader) {}
 func (self *dcmpl) execute(thread *rtda.Thread) {
-    dcmp(thread, false)
+    _dcmp(thread, false)
 }
 
-func dcmp(thread *rtda.Thread, gFlag bool) {
+func _dcmp(thread *rtda.Thread, gFlag bool) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
     v2 := stack.PopDouble()

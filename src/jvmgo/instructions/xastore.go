@@ -22,3 +22,10 @@ func (self *castore) fetchOperands(bcr *BytecodeReader) {}
 func (self *castore) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Store into double array 
+type dastore struct {}
+func (self *dastore) fetchOperands(bcr *BytecodeReader) {}
+func (self *dastore) execute(thread *rtda.Thread) {
+    // todo
+}

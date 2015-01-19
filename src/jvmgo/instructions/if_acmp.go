@@ -15,6 +15,18 @@ func (self *if_acmpeq) execute(thread *rtda.Thread) {
     }
 }
 
+type if_acmpne struct {
+    index int16
+}
+func (self *if_acmpne) fetchOperands(bcr *BytecodeReader) {
+    self.index = bcr.readInt16()
+}
+func (self *if_acmpne) execute(thread *rtda.Thread) {
+    if !_acmp(thread) {
+        // todo
+    }
+}
+
 func _acmp(thread *rtda.Thread) (bool) {
     stack := thread.CurrentFrame().OperandStack()
     ref1 := stack.PopRef()

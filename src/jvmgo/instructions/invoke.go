@@ -7,3 +7,10 @@ type invokestatic struct {Index16Instruction}
 func (self *invokestatic) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Invoke instance method;
+// special handling for superclass, private, and instance initialization method invocations 
+type invokespecial struct {Index16Instruction}
+func (self *invokespecial) execute(thread *rtda.Thread) {
+    // todo
+}

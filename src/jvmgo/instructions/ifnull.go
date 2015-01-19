@@ -5,8 +5,7 @@ import "jvmgo/rtda"
 // Branch if reference is null
 type ifnull struct {BranchInstruction}
 func (self *ifnull) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    ref := stack.PopRef()
+    ref := thread.CurrentFrame().OperandStack().PopRef()
     if ref == nil {
         // todo
     }
@@ -15,8 +14,7 @@ func (self *ifnull) execute(thread *rtda.Thread) {
 // Branch if reference not null
 type ifnonnull struct {BranchInstruction}
 func (self *ifnonnull) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    ref := stack.PopRef()
+    ref := thread.CurrentFrame().OperandStack().PopRef()
     if ref != nil {
         // todo
     }

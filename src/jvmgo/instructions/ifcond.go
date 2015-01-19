@@ -3,12 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Branch if int comparison with zero succeeds 
-type ifeq struct {
-    branch int16
-}
-func (self *ifeq) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
-}
+type ifeq struct {BranchInstruction}
 func (self *ifeq) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopInt()
@@ -17,12 +12,7 @@ func (self *ifeq) execute(thread *rtda.Thread) {
     }
 }
 
-type ifne struct {
-    branch int16
-}
-func (self *ifne) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
-}
+type ifne struct {BranchInstruction}
 func (self *ifne) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopInt()
@@ -30,12 +20,8 @@ func (self *ifne) execute(thread *rtda.Thread) {
         // todo
     }
 }
-type iflt struct {
-    branch int16
-}
-func (self *iflt) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
-}
+
+type iflt struct {BranchInstruction}
 func (self *iflt) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopInt()
@@ -44,12 +30,7 @@ func (self *iflt) execute(thread *rtda.Thread) {
     }
 }
 
-type ifle struct {
-    branch int16
-}
-func (self *ifle) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
-}
+type ifle struct {BranchInstruction}
 func (self *ifle) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopInt()
@@ -58,12 +39,7 @@ func (self *ifle) execute(thread *rtda.Thread) {
     }
 }
 
-type ifgt struct {
-    branch int16
-}
-func (self *ifgt) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
-}
+type ifgt struct {BranchInstruction}
 func (self *ifgt) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopInt()
@@ -72,12 +48,7 @@ func (self *ifgt) execute(thread *rtda.Thread) {
     }
 }
 
-type ifge struct {
-    branch int16
-}
-func (self *ifge) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
-}
+type ifge struct {BranchInstruction}
 func (self *ifge) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopInt()

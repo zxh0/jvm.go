@@ -3,12 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Branch if reference is null
-type ifnull struct {
-    branch int16
-}
-func (self *ifnull) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
-}
+type ifnull struct {BranchInstruction}
 func (self *ifnull) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     ref := stack.PopRef()
@@ -18,12 +13,7 @@ func (self *ifnull) execute(thread *rtda.Thread) {
 }
 
 // Branch if reference not null
-type ifnonnull struct {
-    branch int16
-}
-func (self *ifnonnull) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
-}
+type ifnonnull struct {BranchInstruction}
 func (self *ifnonnull) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     ref := stack.PopRef()

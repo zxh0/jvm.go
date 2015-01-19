@@ -3,12 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Branch always
-type _goto struct {
-    branch int16
-}
-func (self *_goto) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
-}
+type _goto struct {BranchInstruction}
 func (self *_goto) execute(thread *rtda.Thread) {
     // todo
 }

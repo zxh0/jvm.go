@@ -14,6 +14,13 @@ func (self *NoOperandsInstruction) fetchOperands(bcr *BytecodeReader) {
     // nothing to do
 }
 
+type BranchInstruction struct {
+    branch int16
+}
+func (self *BranchInstruction) fetchOperands(bcr *BytecodeReader) {
+    self.branch = bcr.readInt16()
+}
+
 func decode(bcr *BytecodeReader) (Instruction) {
     opcode := bcr.readUint8()
     instruction := newInstruction(opcode)

@@ -24,3 +24,16 @@ func (self *newarray) fetchOperands(bcr *BytecodeReader) {
 func (self *newarray) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Create new multidimensional array
+type multianewarray struct {
+    index       uint16
+    dimensions  uint8
+}
+func (self *multianewarray) fetchOperands(bcr *BytecodeReader) {
+    self.index = bcr.readUint16()
+    self.dimensions = bcr.readUint8()
+}
+func (self *multianewarray) execute(thread *rtda.Thread) {
+    // todo
+}

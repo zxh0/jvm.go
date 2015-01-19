@@ -203,6 +203,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xc1: return &instanceof{}
     case 0xc2: return &monitorenter{}
     case 0xc3: return &monitorexit{}
+    case 0xc5: return &multianewarray{}
     case 0xc6: return &ifnull{}
     case 0xc7: return &ifnonnull{}
     case 0xc8: return &goto_w{}

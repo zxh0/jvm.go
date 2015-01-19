@@ -104,6 +104,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x5c: return &dup2{}
     case 0x5d: return &dup2_x1{}
     case 0x5e: return &dup2_x2{}
+    case 0x5f: return &swap{}
     case 0x60: return &iadd{}
     case 0x61: return &ladd{}
     case 0x62: return &fadd{}

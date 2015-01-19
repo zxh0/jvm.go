@@ -105,6 +105,8 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x77: return &dneg{}
     case 0x7e: return &iand{}
     case 0x7f: return &land{}
+    case 0x80: return &ior{}
+    case 0x81: return &lor{}
     case 0x84: return &iinc{}
     case 0x85: return &i2l{}
     case 0x86: return &i2f{}

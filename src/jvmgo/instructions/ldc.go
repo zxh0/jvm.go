@@ -6,7 +6,7 @@ import "jvmgo/rtda"
 type ldc struct {Index8Instruction}
 func (self *ldc) execute(thread *rtda.Thread) {
     // todo
-    thread.CurrentFrame().Method().Class()
+    thread.CurrentFrame().Method().Class().ConstantPool()
 }
 
 // Push item from run-time constant pool (wide index)

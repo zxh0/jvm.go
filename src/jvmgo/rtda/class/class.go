@@ -11,6 +11,10 @@ type Class struct {
     // todo
 }
 
+func (self *Class) ConstantPool() (*ConstantPool) {
+    return self.constantPool
+}
+
 type Field struct {
     name string
 }

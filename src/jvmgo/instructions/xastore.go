@@ -43,3 +43,9 @@ type lastore struct {NoOperandsInstruction}
 func (self *lastore) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Store into short array 
+type sastore struct {NoOperandsInstruction}
+func (self *sastore) execute(thread *rtda.Thread) {
+    // todo
+}

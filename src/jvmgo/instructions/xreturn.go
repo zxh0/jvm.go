@@ -2,6 +2,12 @@ package instructions
 
 import "jvmgo/rtda"
 
+// Return void from method 
+type _return struct {NoOperandsInstruction}
+func (self *_return) execute(thread *rtda.Thread) {
+    // todo
+}
+
 // Return reference from method 
 type areturn struct {NoOperandsInstruction}
 func (self *areturn) execute(thread *rtda.Thread) {

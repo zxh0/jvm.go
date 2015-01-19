@@ -96,6 +96,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x54: return &bastore{}
     case 0x55: return &castore{}
     case 0x56: return &sastore{}
+    case 0x57: return &pop{}
     case 0x59: return &dup{}
     case 0x5a: return &dup_x1{}
     case 0x5b: return &dup_x2{}

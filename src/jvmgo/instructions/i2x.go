@@ -31,3 +31,13 @@ func (self *i2d) execute(thread *rtda.Thread) {
     d := float64(i)
     stack.PushDouble(d)
 }
+
+// Convert int to float
+type i2f struct {}
+func (self *i2f) fetchOperands(bcr *BytecodeReader) {}
+func (self *i2f) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    i := stack.PopInt()
+    f := float32(i)
+    stack.PushFloat(f)
+}

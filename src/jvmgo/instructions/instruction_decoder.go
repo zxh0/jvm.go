@@ -30,6 +30,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x13: return &ldc_w{}
     case 0x14: return &ldc2_w{}
     case 0x15: return &iload{}
+    case 0x16: return &lload{}
     case 0x17: return &fload{}
     case 0x18: return &dload{}
     case 0x19: return &aload{}
@@ -37,6 +38,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x1b: return &iload_1{}
     case 0x1c: return &iload_2{}
     case 0x1d: return &iload_3{}
+    case 0x1e: return &lload_0{}
+    case 0x1f: return &lload_1{}
+    case 0x20: return &lload_2{}
+    case 0x21: return &lload_3{}
     case 0x22: return &fload_0{}
     case 0x23: return &fload_1{}
     case 0x24: return &fload_2{}

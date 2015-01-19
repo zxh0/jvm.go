@@ -1,5 +1,10 @@
 package class
 
 type Method struct {
-    name string
+    name    string
+    class   *Class
+}
+
+func (self *Method) Class() (*Class) {
+    return self.class
 }

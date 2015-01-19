@@ -7,6 +7,7 @@ type Class struct {
     staticMethods   []*Method
     fields          []*Field
     methods         []*Method
+    constantPool    *ConstantPool
     // todo
 }
 

@@ -3,12 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Store double into local variable 
-type dstore struct {
-    index uint8
-}
-func (self *dstore) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readUint8()
-}
+type dstore struct {Index8Instruction}
 func (self *dstore) execute(thread *rtda.Thread) {
     _dstore(thread, uint(self.index))
 }

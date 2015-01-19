@@ -3,12 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Load float from local variable 
-type fload struct {
-    index uint8
-}
-func (self *fload) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readUint8()
-}
+type fload struct {Index8Instruction}
 func (self *fload) execute(thread *rtda.Thread) {
     _fload(thread, uint(self.index))
 }

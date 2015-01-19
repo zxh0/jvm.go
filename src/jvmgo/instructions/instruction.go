@@ -21,9 +21,16 @@ func (self *BranchInstruction) fetchOperands(bcr *BytecodeReader) {
     self.branch = bcr.readInt16()
 }
 
+type Index8Instruction struct {
+    index uint8
+}
+func (self *Index8Instruction) fetchOperands(bcr *BytecodeReader) {
+    self.index = bcr.readUint8()
+}
+
 type Index16Instruction struct {
-    index int16
+    index uint16
 }
 func (self *Index16Instruction) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readInt16()
+    self.index = bcr.readUint16()
 }

@@ -17,6 +17,8 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x06: return &iconst_3{}
     case 0x07: return &iconst_4{}
     case 0x08: return &iconst_5{}
+    case 0x09: return &lconst_0{}
+    case 0x0a: return &lconst_1{}
     case 0x0b: return &fconst_0{}
     case 0x0c: return &fconst_1{}
     case 0x0d: return &fconst_2{}

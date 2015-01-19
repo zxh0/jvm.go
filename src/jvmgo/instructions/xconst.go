@@ -70,3 +70,14 @@ type iconst_5 struct {NoOperandsInstruction}
 func (self *iconst_5) execute(thread *rtda.Thread) {
     thread.CurrentFrame().OperandStack().PushInt(5)
 }
+
+// Push long constant 
+type lconst_0 struct {NoOperandsInstruction}
+func (self *lconst_0) execute(thread *rtda.Thread) {
+    thread.CurrentFrame().OperandStack().PushLong(0)
+}
+
+type lconst_1 struct {NoOperandsInstruction}
+func (self *lconst_1) execute(thread *rtda.Thread) {
+    thread.CurrentFrame().OperandStack().PushLong(1)
+}

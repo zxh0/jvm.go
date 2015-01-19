@@ -32,10 +32,10 @@ func (self *Index8Instruction) fetchOperands(bcr *BytecodeReader) {
 }
 
 type Index16Instruction struct {
-    index uint16
+    index uint
 }
 func (self *Index16Instruction) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readUint16()
+    self.index = uint(bcr.readUint16())
 }
 
 // todo: move to any.go?

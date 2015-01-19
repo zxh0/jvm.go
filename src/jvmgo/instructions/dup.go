@@ -1,9 +1,6 @@
 package instructions
 
-import (
-    . "jvmgo/any"
-    "jvmgo/rtda"
-)
+import "jvmgo/rtda"
 
 // Duplicate the top operand stack value
 type dup struct {NoOperandsInstruction}
@@ -136,15 +133,4 @@ func (self *dup2_x2) execute(thread *rtda.Thread) {
             stack.Push(val1)
         }
     }
-}
-
-// todo: move to any.go
-func isLongOrDouble(x Any) (bool) {
-    if _, ok := x.(int64); ok {
-        return true
-    }
-    if _, ok := x.(float64); ok {
-        return true
-    }
-    return false
 }

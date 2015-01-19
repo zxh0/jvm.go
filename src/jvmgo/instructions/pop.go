@@ -7,3 +7,13 @@ type pop struct {NoOperandsInstruction}
 func (self *pop) execute(thread *rtda.Thread) {
     thread.CurrentFrame().OperandStack().Pop()
 }
+
+// Pop the top one or two operand stack values
+type pop2 struct {NoOperandsInstruction}
+func (self *pop2) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    val1 := stack.Pop()
+    if !isLongOrDouble(val1) {
+        stack.Pop()
+    }
+}

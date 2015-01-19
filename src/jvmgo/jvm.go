@@ -5,6 +5,7 @@ import (
     "jvmgo/classfile"
     "jvmgo/classpath"
     "jvmgo/rtda"
+    "jvmgo/rtda/class"
     "jvmgo/instructions"
 )
 
@@ -37,7 +38,7 @@ func (self *JVM) loadClass(className string) {
         panic(err.Error())
     }
     
-    class := rtda.NewClass(cf)
+    class := class.NewClass(cf)
     fmt.Printf("class: %v \n", class)
 
     // exec main()

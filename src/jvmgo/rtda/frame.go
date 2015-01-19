@@ -1,9 +1,12 @@
 package rtda
 
+import "jvmgo/rtda/class"
+
 // stack frame
 type Frame struct {
     localVars       *LocalVars
     operandStack    *OperandStack
+    method          *class.Class
 }
 
 func (self *Frame) LocalVars() (*LocalVars) {
@@ -21,5 +24,5 @@ func (self *Frame) executeOneInstruction() {
 func newFrame(localVarsSize, operandStackSize uint16) (*Frame) {
     localVars := newLocalVars(localVarsSize)
     operandStack := newOperandStack(operandStackSize)
-    return &Frame{localVars, operandStack}
+    return &Frame{localVars, operandStack, nil} // todo
 }

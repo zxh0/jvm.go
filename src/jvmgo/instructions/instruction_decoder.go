@@ -136,6 +136,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x91: return &i2b{}
     case 0x92: return &i2c{}
     case 0x93: return &i2s{}
+    case 0x94: return &lcmp{}
     case 0x95: return &fcmpl{}
     case 0x96: return &fcmpg{}
     case 0x97: return &dcmpl{}

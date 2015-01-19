@@ -20,3 +20,10 @@ type BranchInstruction struct {
 func (self *BranchInstruction) fetchOperands(bcr *BytecodeReader) {
     self.branch = bcr.readInt16()
 }
+
+type Index16Instruction struct {
+    index int16
+}
+func (self *Index16Instruction) fetchOperands(bcr *BytecodeReader) {
+    self.index = bcr.readInt16()
+}

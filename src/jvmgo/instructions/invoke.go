@@ -14,3 +14,9 @@ type invokespecial struct {Index16Instruction}
 func (self *invokespecial) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Invoke instance method; dispatch based on class
+type invokevirtual struct {Index16Instruction}
+func (self *invokevirtual) execute(thread *rtda.Thread) {
+    // todo
+}

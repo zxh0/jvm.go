@@ -14,6 +14,19 @@ func (self * ConstantIntegerInfo) readInfo(reader *ClassReader) {
 }
 
 /*
+CONSTANT_Float_info {
+    u1 tag;
+    u4 bytes;
+}
+*/
+type ConstantFloatInfo struct {
+    val float32
+}
+func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
+    self.val = reader.readFloat32()
+}
+
+/*
 CONSTANT_Class_info {
     u1 tag;
     u2 name_index;

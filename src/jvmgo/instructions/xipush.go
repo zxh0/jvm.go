@@ -4,12 +4,24 @@ import "jvmgo/rtda"
 
 // Push byte
 type bipush struct {
-    _byte int8
+    val int8
 }
 func (self *bipush) fetchOperands(bcr *BytecodeReader) {
-    self._byte = bcr.readInt8()
+    self.val = bcr.readInt8()
 }
 func (self *bipush) execute(thread *rtda.Thread) {
-    i := int32(self._byte)
+    i := int32(self.val)
+    thread.CurrentFrame().OperandStack().PushInt(i)
+}
+
+// Push short
+type sipush struct {
+    val int16
+}
+func (self *sipush) fetchOperands(bcr *BytecodeReader) {
+    self.val = bcr.readInt16()
+}
+func (self *sipush) execute(thread *rtda.Thread) {
+    i := int32(self.val)
     thread.CurrentFrame().OperandStack().PushInt(i)
 }

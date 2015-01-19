@@ -107,6 +107,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x96: return &fcmpg{}
     case 0x97: return &dcmpl{}
     case 0x98: return &dcmpg{}
+    case 0xa7: return &_goto{}
     case 0xac: return &ireturn{}
     case 0xad: return &lreturn{}
     case 0xae: return &freturn{}

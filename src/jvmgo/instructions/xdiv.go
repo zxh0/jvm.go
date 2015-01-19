@@ -3,8 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Divide double
-type ddiv struct {}
-func (self *ddiv) fetchOperands(bcr *BytecodeReader) {}
+type ddiv struct {NoOperandsInstruction}
 func (self *ddiv) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
@@ -14,8 +13,7 @@ func (self *ddiv) execute(thread *rtda.Thread) {
 }
 
 // Divide float
-type fdiv struct {}
-func (self *fdiv) fetchOperands(bcr *BytecodeReader) {}
+type fdiv struct {NoOperandsInstruction}
 func (self *fdiv) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopFloat()
@@ -25,8 +23,7 @@ func (self *fdiv) execute(thread *rtda.Thread) {
 }
 
 // Divide int
-type idiv struct {}
-func (self *idiv) fetchOperands(bcr *BytecodeReader) {}
+type idiv struct {NoOperandsInstruction}
 func (self *idiv) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
@@ -36,8 +33,7 @@ func (self *idiv) execute(thread *rtda.Thread) {
 }
 
 // Divide long
-type ldiv struct {}
-func (self *ldiv) fetchOperands(bcr *BytecodeReader) {}
+type ldiv struct {NoOperandsInstruction}
 func (self *ldiv) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()

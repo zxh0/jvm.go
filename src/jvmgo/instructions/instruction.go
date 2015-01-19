@@ -7,6 +7,13 @@ type Instruction interface {
     execute(thread *rtda.Thread)
 }
 
+type NoOperandsInstruction struct {
+    // empty
+}
+func (self *NoOperandsInstruction) fetchOperands(bcr *BytecodeReader) {
+    // nothing to do
+}
+
 func decode(bcr *BytecodeReader) (Instruction) {
     opcode := bcr.readUint8()
     instruction := newInstruction(opcode)

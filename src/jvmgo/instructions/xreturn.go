@@ -3,36 +3,31 @@ package instructions
 import "jvmgo/rtda"
 
 // Return reference from method 
-type areturn struct {}
-func (self *areturn) fetchOperands(bcr *BytecodeReader) {}
+type areturn struct {NoOperandsInstruction}
 func (self *areturn) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Return double from method 
-type dreturn struct {}
-func (self *dreturn) fetchOperands(bcr *BytecodeReader) {}
+type dreturn struct {NoOperandsInstruction}
 func (self *dreturn) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Return float from method 
-type freturn struct {}
-func (self *freturn) fetchOperands(bcr *BytecodeReader) {}
+type freturn struct {NoOperandsInstruction}
 func (self *freturn) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Return int from method 
-type ireturn struct {}
-func (self *ireturn) fetchOperands(bcr *BytecodeReader) {}
+type ireturn struct {NoOperandsInstruction}
 func (self *ireturn) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Return double from method 
-type lreturn struct {}
-func (self *lreturn) fetchOperands(bcr *BytecodeReader) {}
+type lreturn struct {NoOperandsInstruction}
 func (self *lreturn) execute(thread *rtda.Thread) {
     // todo
 }

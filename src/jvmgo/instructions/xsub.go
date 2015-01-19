@@ -3,8 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Subtract double
-type dsub struct {}
-func (self *dsub) fetchOperands(bcr *BytecodeReader) {}
+type dsub struct {NoOperandsInstruction}
 func (self *dsub) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
@@ -14,8 +13,7 @@ func (self *dsub) execute(thread *rtda.Thread) {
 }
 
 // Subtract float
-type fsub struct {}
-func (self *fsub) fetchOperands(bcr *BytecodeReader) {}
+type fsub struct {NoOperandsInstruction}
 func (self *fsub) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopFloat()
@@ -25,8 +23,7 @@ func (self *fsub) execute(thread *rtda.Thread) {
 }
 
 // Subtract int
-type isub struct {}
-func (self *isub) fetchOperands(bcr *BytecodeReader) {}
+type isub struct {NoOperandsInstruction}
 func (self *isub) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
@@ -36,8 +33,7 @@ func (self *isub) execute(thread *rtda.Thread) {
 }
 
 // Subtract long
-type lsub struct {}
-func (self *lsub) fetchOperands(bcr *BytecodeReader) {}
+type lsub struct {NoOperandsInstruction}
 func (self *lsub) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()

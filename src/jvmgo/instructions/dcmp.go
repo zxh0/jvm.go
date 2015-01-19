@@ -3,14 +3,12 @@ package instructions
 import "jvmgo/rtda"
 
 // Compare double
-type dcmpg struct {}
-func (self *dcmpg) fetchOperands(bcr *BytecodeReader) {}
+type dcmpg struct {NoOperandsInstruction}
 func (self *dcmpg) execute(thread *rtda.Thread) {
     _dcmp(thread, true)
 }
 
-type dcmpl struct {}
-func (self *dcmpl) fetchOperands(bcr *BytecodeReader) {}
+type dcmpl struct {NoOperandsInstruction}
 func (self *dcmpl) execute(thread *rtda.Thread) {
     _dcmp(thread, false)
 }

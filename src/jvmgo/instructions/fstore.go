@@ -13,26 +13,22 @@ func (self *fstore) execute(thread *rtda.Thread) {
     _fstore(thread, uint(self.index))
 }
 
-type fstore_0 struct {}
-func (self *fstore_0) fetchOperands(bcr *BytecodeReader) {}
+type fstore_0 struct {NoOperandsInstruction}
 func (self *fstore_0) execute(thread *rtda.Thread) {
     _fstore(thread, 0)
 }
 
-type fstore_1 struct {}
-func (self *fstore_1) fetchOperands(bcr *BytecodeReader) {}
+type fstore_1 struct {NoOperandsInstruction}
 func (self *fstore_1) execute(thread *rtda.Thread) {
     _fstore(thread, 1)
 }
 
-type fstore_2 struct {}
-func (self *fstore_2) fetchOperands(bcr *BytecodeReader) {}
+type fstore_2 struct {NoOperandsInstruction}
 func (self *fstore_2) execute(thread *rtda.Thread) {
     _fstore(thread, 2)
 }
 
-type fstore_3 struct {}
-func (self *fstore_3) fetchOperands(bcr *BytecodeReader) {}
+type fstore_3 struct {NoOperandsInstruction}
 func (self *fstore_3) execute(thread *rtda.Thread) {
     _fstore(thread, 3)
 }

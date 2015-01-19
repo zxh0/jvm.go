@@ -3,8 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Negate double
-type dneg struct {}
-func (self *dneg) fetchOperands(bcr *BytecodeReader) {}
+type dneg struct {NoOperandsInstruction}
 func (self *dneg) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopDouble()
@@ -12,8 +11,7 @@ func (self *dneg) execute(thread *rtda.Thread) {
 }
 
 // Negate float
-type fneg struct {}
-func (self *fneg) fetchOperands(bcr *BytecodeReader) {}
+type fneg struct {NoOperandsInstruction}
 func (self *fneg) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopFloat()
@@ -21,8 +19,7 @@ func (self *fneg) execute(thread *rtda.Thread) {
 }
 
 // Negate int
-type ineg struct {}
-func (self *ineg) fetchOperands(bcr *BytecodeReader) {}
+type ineg struct {NoOperandsInstruction}
 func (self *ineg) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopInt()
@@ -30,8 +27,7 @@ func (self *ineg) execute(thread *rtda.Thread) {
 }
 
 // Negate long
-type lneg struct {}
-func (self *lneg) fetchOperands(bcr *BytecodeReader) {}
+type lneg struct {NoOperandsInstruction}
 func (self *lneg) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.PopLong()

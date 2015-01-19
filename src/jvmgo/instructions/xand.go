@@ -3,8 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Boolean AND int
-type iand struct {}
-func (self *iand) fetchOperands(bcr *BytecodeReader) {}
+type iand struct {NoOperandsInstruction}
 func (self *iand) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
@@ -14,8 +13,7 @@ func (self *iand) execute(thread *rtda.Thread) {
 }
 
 // Boolean AND long
-type land struct {}
-func (self *land) fetchOperands(bcr *BytecodeReader) {}
+type land struct {NoOperandsInstruction}
 func (self *land) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()

@@ -3,8 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Convert double to float
-type d2f struct {}
-func (self *d2f) fetchOperands(bcr *BytecodeReader) {}
+type d2f struct {NoOperandsInstruction}
 func (self *d2f) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     d := stack.PopDouble()
@@ -13,8 +12,7 @@ func (self *d2f) execute(thread *rtda.Thread) {
 }
 
 // Convert double to int
-type d2i struct {}
-func (self *d2i) fetchOperands(bcr *BytecodeReader) {}
+type d2i struct {NoOperandsInstruction}
 func (self *d2i) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     d := stack.PopDouble()
@@ -23,8 +21,7 @@ func (self *d2i) execute(thread *rtda.Thread) {
 }
 
 // Convert double to long
-type d2l struct {}
-func (self *d2l) fetchOperands(bcr *BytecodeReader) {}
+type d2l struct {NoOperandsInstruction}
 func (self *d2l) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     d := stack.PopDouble()

@@ -3,50 +3,43 @@ package instructions
 import "jvmgo/rtda"
 
 // Load reference from array
-type aaload struct {}
-func (self *aaload) fetchOperands(bcr *BytecodeReader) {}
+type aaload struct {NoOperandsInstruction}
 func (self *aaload) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Load byte or boolean from array 
-type baload struct {}
-func (self *baload) fetchOperands(bcr *BytecodeReader) {}
+type baload struct {NoOperandsInstruction}
 func (self *baload) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Load char from array 
-type caload struct {}
-func (self *caload) fetchOperands(bcr *BytecodeReader) {}
+type caload struct {NoOperandsInstruction}
 func (self *caload) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Load double from array 
-type daload struct {}
-func (self *daload) fetchOperands(bcr *BytecodeReader) {}
+type daload struct {NoOperandsInstruction}
 func (self *daload) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Load float from array 
-type faload struct {}
-func (self *faload) fetchOperands(bcr *BytecodeReader) {}
+type faload struct {NoOperandsInstruction}
 func (self *faload) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Load int from array 
-type iaload struct {}
-func (self *iaload) fetchOperands(bcr *BytecodeReader) {}
+type iaload struct {NoOperandsInstruction}
 func (self *iaload) execute(thread *rtda.Thread) {
     // todo
 }
 
 // Load long from array 
-type laload struct {}
-func (self *laload) fetchOperands(bcr *BytecodeReader) {}
+type laload struct {NoOperandsInstruction}
 func (self *laload) execute(thread *rtda.Thread) {
     // todo
 }

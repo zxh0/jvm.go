@@ -3,8 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Multiply double
-type dmul struct {}
-func (self *dmul) fetchOperands(bcr *BytecodeReader) {}
+type dmul struct {NoOperandsInstruction}
 func (self *dmul) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
@@ -14,8 +13,7 @@ func (self *dmul) execute(thread *rtda.Thread) {
 }
 
 // Multiply float
-type fmul struct {}
-func (self *fmul) fetchOperands(bcr *BytecodeReader) {}
+type fmul struct {NoOperandsInstruction}
 func (self *fmul) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopFloat()
@@ -25,8 +23,7 @@ func (self *fmul) execute(thread *rtda.Thread) {
 }
 
 // Multiply int
-type imul struct {}
-func (self *imul) fetchOperands(bcr *BytecodeReader) {}
+type imul struct {NoOperandsInstruction}
 func (self *imul) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
@@ -36,8 +33,7 @@ func (self *imul) execute(thread *rtda.Thread) {
 }
 
 // Multiply long
-type lmul struct {}
-func (self *lmul) fetchOperands(bcr *BytecodeReader) {}
+type lmul struct {NoOperandsInstruction}
 func (self *lmul) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()

@@ -3,14 +3,12 @@ package instructions
 import "jvmgo/rtda"
 
 // Compare float
-type fcmpg struct {}
-func (self *fcmpg) fetchOperands(bcr *BytecodeReader) {}
+type fcmpg struct {NoOperandsInstruction}
 func (self *fcmpg) execute(thread *rtda.Thread) {
     _fcmp(thread, true)
 }
 
-type fcmpl struct {}
-func (self *fcmpl) fetchOperands(bcr *BytecodeReader) {}
+type fcmpl struct {NoOperandsInstruction}
 func (self *fcmpl) execute(thread *rtda.Thread) {
     _fcmp(thread, false)
 }

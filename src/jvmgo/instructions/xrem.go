@@ -6,8 +6,7 @@ import (
 )
 
 // Remainder double
-type drem struct {}
-func (self *drem) fetchOperands(bcr *BytecodeReader) {}
+type drem struct {NoOperandsInstruction}
 func (self *drem) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
@@ -17,8 +16,7 @@ func (self *drem) execute(thread *rtda.Thread) {
 }
 
 // Remainder float
-type frem struct {}
-func (self *frem) fetchOperands(bcr *BytecodeReader) {}
+type frem struct {NoOperandsInstruction}
 func (self *frem) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopFloat()
@@ -28,8 +26,7 @@ func (self *frem) execute(thread *rtda.Thread) {
 }
 
 // Remainder int
-type irem struct {}
-func (self *irem) fetchOperands(bcr *BytecodeReader) {}
+type irem struct {NoOperandsInstruction}
 func (self *irem) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
@@ -39,8 +36,7 @@ func (self *irem) execute(thread *rtda.Thread) {
 }
 
 // Remainder long
-type lrem struct {}
-func (self *lrem) fetchOperands(bcr *BytecodeReader) {}
+type lrem struct {NoOperandsInstruction}
 func (self *lrem) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()

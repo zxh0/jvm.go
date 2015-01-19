@@ -3,8 +3,7 @@ package instructions
 import "jvmgo/rtda"
 
 // Add double
-type dadd struct {}
-func (self *dadd) fetchOperands(bcr *BytecodeReader) {}
+type dadd struct {NoOperandsInstruction}
 func (self *dadd) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
@@ -14,8 +13,7 @@ func (self *dadd) execute(thread *rtda.Thread) {
 }
 
 // Add float
-type fadd struct {}
-func (self *fadd) fetchOperands(bcr *BytecodeReader) {}
+type fadd struct {NoOperandsInstruction}
 func (self *fadd) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopFloat()
@@ -25,8 +23,7 @@ func (self *fadd) execute(thread *rtda.Thread) {
 }
 
 // Add int
-type iadd struct {}
-func (self *iadd) fetchOperands(bcr *BytecodeReader) {}
+type iadd struct {NoOperandsInstruction}
 func (self *iadd) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
@@ -36,8 +33,7 @@ func (self *iadd) execute(thread *rtda.Thread) {
 }
 
 // Add long
-type ladd struct {}
-func (self *ladd) fetchOperands(bcr *BytecodeReader) {}
+type ladd struct {NoOperandsInstruction}
 func (self *ladd) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()

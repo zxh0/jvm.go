@@ -27,6 +27,20 @@ func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
 }
 
 /*
+CONSTANT_Long_info {
+    u1 tag;
+    u4 high_bytes;
+    u4 low_bytes;
+}
+*/
+type ConstantLongInfo struct {
+    val int64
+}
+func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
+    self.val = reader.readInt64()
+}
+
+/*
 CONSTANT_Class_info {
     u1 tag;
     u2 name_index;

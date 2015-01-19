@@ -19,12 +19,14 @@ func (self *ldc_w) execute(thread *rtda.Thread) {
 
 func _ldc(thread *rtda.Thread, index uint) {
     frame := thread.CurrentFrame()
+    stack := frame.OperandStack()
     cp := frame.Method().Class().ConstantPool()
     c := cp.GetConstant(index)
+
     if cInt, ok := c.(class.ConstantInt); ok {
-        frame.OperandStack().PushInt(cInt.Val())
+        stack.PushInt(cInt.Val())
     } else if cFloat, ok := c.(class.ConstantFloat); ok {
-        frame.OperandStack().PushFloat(cFloat.Val())
+        stack.PushFloat(cFloat.Val())
     }
     // todo
     // ref to String
@@ -35,5 +37,16 @@ func _ldc(thread *rtda.Thread, index uint) {
 // Push long or double from run-time constant pool (wide index) 
 type ldc2_w struct {Index16Instruction}
 func (self *ldc2_w) execute(thread *rtda.Thread) {
-    // todo
+    frame := thread.CurrentFrame()
+    stack := frame.OperandStack()
+    cp := frame.Method().Class().ConstantPool()
+    c := cp.GetConstant(self.index)
+
+    if cLong, ok := c.(class.ConstantLong); ok {
+        stack.PushLong(cLong.Val())
+    } else if cDouble, ok := c.(class.ConstantDouble); ok {
+        stack.PushDouble(cDouble.Val())
+    } else {
+        // todo
+    }
 }

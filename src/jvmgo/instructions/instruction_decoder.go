@@ -144,6 +144,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xb0: return &areturn{}
     case 0xb2: return &getstatic{}
     case 0xb4: return &getfield{}
+    case 0xb8: return &invokestatic{}
     case 0xbd: return &anewarray{}
     case 0xbe: return &arraylength{}
     case 0xbf: return &athrow{}

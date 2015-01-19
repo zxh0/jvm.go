@@ -22,24 +22,14 @@ func (self *i2c) execute(thread *rtda.Thread) {
     stack.PushInt(c)
 }
 
-// Convert int to double
-type i2d struct {}
-func (self *i2d) fetchOperands(bcr *BytecodeReader) {}
-func (self *i2d) execute(thread *rtda.Thread) {
+// Convert int to short
+type i2s struct {}
+func (self *i2s) fetchOperands(bcr *BytecodeReader) {}
+func (self *i2s) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     i := stack.PopInt()
-    d := float64(i)
-    stack.PushDouble(d)
-}
-
-// Convert int to float
-type i2f struct {}
-func (self *i2f) fetchOperands(bcr *BytecodeReader) {}
-func (self *i2f) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    i := stack.PopInt()
-    f := float32(i)
-    stack.PushFloat(f)
+    s := int32(int16(i))
+    stack.PushInt(s)
 }
 
 // Convert int to long
@@ -52,12 +42,22 @@ func (self *i2l) execute(thread *rtda.Thread) {
     stack.PushLong(l)
 }
 
-// Convert int to short
-type i2s struct {}
-func (self *i2s) fetchOperands(bcr *BytecodeReader) {}
-func (self *i2s) execute(thread *rtda.Thread) {
+// Convert int to float
+type i2f struct {}
+func (self *i2f) fetchOperands(bcr *BytecodeReader) {}
+func (self *i2f) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     i := stack.PopInt()
-    s := int32(int16(i))
-    stack.PushInt(s)
+    f := float32(i)
+    stack.PushFloat(f)
+}
+
+// Convert int to double
+type i2d struct {}
+func (self *i2d) fetchOperands(bcr *BytecodeReader) {}
+func (self *i2d) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    i := stack.PopInt()
+    d := float64(i)
+    stack.PushDouble(d)
 }

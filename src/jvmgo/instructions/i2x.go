@@ -21,3 +21,13 @@ func (self *i2c) execute(thread *rtda.Thread) {
     c := int32(uint16(i))
     stack.PushInt(c)
 }
+
+// Convert int to double
+type i2d struct {}
+func (self *i2d) fetchOperands(bcr *BytecodeReader) {}
+func (self *i2d) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    i := stack.PopInt()
+    d := float64(i)
+    stack.PushDouble(d)
+}

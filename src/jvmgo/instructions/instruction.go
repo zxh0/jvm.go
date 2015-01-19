@@ -97,6 +97,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x75: return &lneg{}
     case 0x76: return &fneg{}
     case 0x77: return &dneg{}
+    case 0x87: return &i2d{}
     case 0x8b: return &f2i{}
     case 0x8c: return &f2l{}
     case 0x8d: return &f2d{}

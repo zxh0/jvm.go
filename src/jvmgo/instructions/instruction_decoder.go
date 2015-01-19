@@ -27,6 +27,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x10: return &bipush{}
     case 0x11: return &sipush{}
     case 0x12: return &ldc{}
+    case 0x13: return &ldc_w{}
     case 0x15: return &iload{}
     case 0x17: return &fload{}
     case 0x18: return &dload{}

@@ -31,3 +31,11 @@ func TestReadInt16(t *testing.T) {
         t.Errorf("%v", x)
     }
 }
+
+func TestReadUint16(t *testing.T) {
+    bytecodes := []byte{0xf1, 0x17}
+    bcr := newBytecodeReader(bytecodes)
+    if x := bcr.readUint16(); x != 61719 {
+        t.Errorf("%v", x)
+    }
+}

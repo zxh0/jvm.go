@@ -30,12 +30,6 @@ type ConstantInfo interface {
     readInfo(reader *ClassReader)
 }
 
-func readConstantInfo(reader *ClassReader, tag uint8) (ConstantInfo) {
-    c := newConstantInfo(tag)
-    c.readInfo(reader)
-    return c
-}
-
 func newConstantInfo(tag uint8) (ConstantInfo) {
     switch tag {
     case CONSTANT_Integer: return &ConstantIntegerInfo{}

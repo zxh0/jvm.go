@@ -169,6 +169,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xbe: return &arraylength{}
     case 0xbf: return &athrow{}
     case 0xc0: return &checkcast{}
+    case 0xc1: return &instanceof{}
     case 0xc6: return &ifnull{}
     case 0xc7: return &ifnonnull{}
     case 0xc8: return &goto_w{}

@@ -148,6 +148,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xb7: return &invokespecial{}
     case 0xb8: return &invokestatic{}
     case 0xb9: return &invokeinterface{}
+    case 0xba: return &invokedynamic{}
     case 0xbd: return &anewarray{}
     case 0xbe: return &arraylength{}
     case 0xbf: return &athrow{}

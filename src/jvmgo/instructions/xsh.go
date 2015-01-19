@@ -20,7 +20,7 @@ func (self *ishr) execute(thread *rtda.Thread) {
     v1 := stack.PopInt()
     v2 := stack.PopInt()
     s := uint32(v2) & 0x1f
-    result := v1 >> s // todo
+    result := v1 >> s
     stack.PushInt(result)
 }
 
@@ -31,6 +31,6 @@ func (self *iushr) execute(thread *rtda.Thread) {
     v1 := stack.PopInt()
     v2 := stack.PopInt()
     s := uint32(v2) & 0x1f
-    result := v1 >> s
+    result := int32(uint32(v1) >> s)
     stack.PushInt(result)
 }

@@ -124,6 +124,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x98: return &dcmpg{}
     case 0x9f: return &if_icmpeq{}
     case 0xa0: return &if_icmpne{}
+    case 0xa1: return &if_icmplt{}
+    case 0xa2: return &if_icmpge{}
+    case 0xa3: return &if_icmpgt{}
+    case 0xa4: return &if_icmple{}
     case 0xa5: return &if_acmpeq{}
     case 0xa6: return &if_acmpne{}
     case 0xa7: return &_goto{}

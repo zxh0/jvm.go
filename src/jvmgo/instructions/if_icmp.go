@@ -32,3 +32,18 @@ func (self *if_icmpne) execute(thread *rtda.Thread) {
         // todo
     }
 }
+
+type if_icmplt struct {
+    branch int16
+}
+func (self *if_icmplt) fetchOperands(bcr *BytecodeReader) {
+    self.branch = bcr.readInt16()
+}
+func (self *if_icmplt) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    val1 := stack.PopInt()
+    val2 := stack.PopInt()
+    if val1 < val2 {
+        // todo
+    }
+}

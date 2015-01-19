@@ -48,6 +48,36 @@ func (self *if_icmplt) execute(thread *rtda.Thread) {
     }
 }
 
+type if_icmple struct {
+    branch int16
+}
+func (self *if_icmple) fetchOperands(bcr *BytecodeReader) {
+    self.branch = bcr.readInt16()
+}
+func (self *if_icmple) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    val1 := stack.PopInt()
+    val2 := stack.PopInt()
+    if val1 <= val2 {
+        // todo
+    }
+}
+
+type if_icmpgt struct {
+    branch int16
+}
+func (self *if_icmpgt) fetchOperands(bcr *BytecodeReader) {
+    self.branch = bcr.readInt16()
+}
+func (self *if_icmpgt) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    val1 := stack.PopInt()
+    val2 := stack.PopInt()
+    if val1 > val2 {
+        // todo
+    }
+}
+
 type if_icmpge struct {
     branch int16
 }
@@ -58,7 +88,7 @@ func (self *if_icmpge) execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val1 := stack.PopInt()
     val2 := stack.PopInt()
-    if val1 > val2 {
+    if val1 >= val2 {
         // todo
     }
 }

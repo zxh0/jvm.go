@@ -5,8 +5,7 @@ import "jvmgo/rtda"
 // Branch if int comparison with zero succeeds 
 type ifeq struct {BranchInstruction}
 func (self *ifeq) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    val := stack.PopInt()
+    val := thread.CurrentFrame().OperandStack().PopInt()
     if val == 0 {
         // todo
     }
@@ -14,8 +13,7 @@ func (self *ifeq) execute(thread *rtda.Thread) {
 
 type ifne struct {BranchInstruction}
 func (self *ifne) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    val := stack.PopInt()
+    val := thread.CurrentFrame().OperandStack().PopInt()
     if val != 0 {
         // todo
     }
@@ -23,8 +21,7 @@ func (self *ifne) execute(thread *rtda.Thread) {
 
 type iflt struct {BranchInstruction}
 func (self *iflt) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    val := stack.PopInt()
+    val := thread.CurrentFrame().OperandStack().PopInt()
     if val < 0 {
         // todo
     }
@@ -32,8 +29,7 @@ func (self *iflt) execute(thread *rtda.Thread) {
 
 type ifle struct {BranchInstruction}
 func (self *ifle) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    val := stack.PopInt()
+    val := thread.CurrentFrame().OperandStack().PopInt()
     if val <= 0 {
         // todo
     }
@@ -41,8 +37,7 @@ func (self *ifle) execute(thread *rtda.Thread) {
 
 type ifgt struct {BranchInstruction}
 func (self *ifgt) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    val := stack.PopInt()
+    val := thread.CurrentFrame().OperandStack().PopInt()
     if val > 0 {
         // todo
     }
@@ -50,8 +45,7 @@ func (self *ifgt) execute(thread *rtda.Thread) {
 
 type ifge struct {BranchInstruction}
 func (self *ifge) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    val := stack.PopInt()
+    val := thread.CurrentFrame().OperandStack().PopInt()
     if val >= 0 {
         // todo
     }

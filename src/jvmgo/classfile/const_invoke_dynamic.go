@@ -12,8 +12,7 @@ type ConstantInvokeDynamicInfo struct {
     nameAndTypeIndex         uint16
 }
 
-func readConstantInvokeDynamicInfo(reader *ClassReader) (*ConstantInvokeDynamicInfo) {
-    bootstrapMethodAttrIndex := reader.readUint16()
-    nameAndTypeIndex := reader.readUint16()
-    return &ConstantInvokeDynamicInfo{bootstrapMethodAttrIndex, nameAndTypeIndex}
+func (self *ConstantInvokeDynamicInfo) readInfo(reader *ClassReader) {
+    self.bootstrapMethodAttrIndex = reader.readUint16()
+    self.nameAndTypeIndex = reader.readUint16()
 }

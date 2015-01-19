@@ -12,8 +12,7 @@ type ConstantFieldrefInfo struct {
     nameAndTypeIndex uint16
 }
 
-func readConstantFieldrefInfo(reader *ClassReader) (*ConstantFieldrefInfo) {
-    classIndex := reader.readUint16()
-    nameAndTypeIndex := reader.readUint16()
-    return &ConstantFieldrefInfo{classIndex, nameAndTypeIndex}
+func (self *ConstantFieldrefInfo) readInfo(reader *ClassReader) {
+    self.classIndex = reader.readUint16()
+    self.nameAndTypeIndex = reader.readUint16()
 }

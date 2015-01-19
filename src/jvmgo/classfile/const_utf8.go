@@ -11,7 +11,6 @@ type ConstantUtf8Info struct {
     str string
 }
 
-func readConstantUtf8Info(reader *ClassReader) (*ConstantUtf8Info) {
-    str := reader.readString()
-    return &ConstantUtf8Info{str}
+func (self *ConstantUtf8Info) readInfo(reader *ClassReader) {
+    self.str = reader.readString()
 }

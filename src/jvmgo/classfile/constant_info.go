@@ -27,25 +27,31 @@ cp_info {
 }
 */
 type ConstantInfo interface {
-    // empty
+    readInfo(reader *ClassReader)
 }
 
 func readConstantInfo(reader *ClassReader, tag uint8) (ConstantInfo) {
+    c := newConstantInfo(tag)
+    c.readInfo(reader)
+    return c
+}
+
+func newConstantInfo(tag uint8) (ConstantInfo) {
     switch tag {
-    case CONSTANT_Integer: return readConstantIntegerInfo(reader)
-    case CONSTANT_Float: return readConstantFloatInfo(reader)
-    case CONSTANT_Long: return readConstantLongInfo(reader)
-    case CONSTANT_Double: return readConstantDoubleInfo(reader)
-    case CONSTANT_Utf8: return readConstantUtf8Info(reader)
-    case CONSTANT_String: return readConstantStringInfo(reader)
-    case CONSTANT_Class: return readConstantClassInfo(reader)
-    case CONSTANT_MethodType: return readConstantMethodTypeInfo(reader)
-    case CONSTANT_NameAndType: return readConstantNameAndTypeInfo(reader)
-    case CONSTANT_Fieldref: return readConstantFieldrefInfo(reader)
-    case CONSTANT_Methodref: return readConstantMethodrefInfo(reader)
-    case CONSTANT_InterfaceMethodref: return readConstantInterfaceMethodrefInfo(reader)
-    case CONSTANT_MethodHandle: return readConstantMethodHandleInfo(reader)
-    case CONSTANT_InvokeDynamic: return readConstantInvokeDynamicInfo(reader)
+    case CONSTANT_Integer: return &ConstantIntegerInfo{}
+    case CONSTANT_Float: return &ConstantFloatInfo{}
+    case CONSTANT_Long: return &ConstantLongInfo{}
+    case CONSTANT_Double: return &ConstantDoubleInfo{}
+    case CONSTANT_Utf8: return &ConstantUtf8Info{}
+    case CONSTANT_String: return &ConstantStringInfo{}
+    case CONSTANT_Class: return &ConstantClassInfo{}
+    case CONSTANT_MethodType: return &ConstantMethodTypeInfo{}
+    case CONSTANT_NameAndType: return &ConstantNameAndTypeInfo{}
+    case CONSTANT_Fieldref: return &ConstantFieldrefInfo{}
+    case CONSTANT_Methodref: return &ConstantMethodrefInfo{}
+    case CONSTANT_InterfaceMethodref: return &ConstantInterfaceMethodrefInfo{}
+    case CONSTANT_MethodHandle: return &ConstantMethodHandleInfo{}
+    case CONSTANT_InvokeDynamic: return &ConstantInvokeDynamicInfo{}
     // todo
     default: panic("Invalid Constant pool tag: " + strconv.Itoa(int(tag)))
     }

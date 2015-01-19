@@ -12,10 +12,9 @@ type ConstantMethodrefInfo struct {
     nameAndTypeIndex uint16
 }
 
-func readConstantMethodrefInfo(reader *ClassReader) (*ConstantMethodrefInfo) {
-    classIndex := reader.readUint16()
-    nameAndTypeIndex := reader.readUint16()
-    return &ConstantMethodrefInfo{classIndex, nameAndTypeIndex}
+func (self *ConstantMethodrefInfo) readInfo(reader *ClassReader) {
+    self.classIndex = reader.readUint16()
+    self.nameAndTypeIndex = reader.readUint16()
 }
 
 /*
@@ -30,8 +29,7 @@ type ConstantInterfaceMethodrefInfo struct {
     nameAndTypeIndex uint16
 }
 
-func readConstantInterfaceMethodrefInfo(reader *ClassReader) (*ConstantInterfaceMethodrefInfo) {
-    classIndex := reader.readUint16()
-    nameAndTypeIndex := reader.readUint16()
-    return &ConstantInterfaceMethodrefInfo{classIndex, nameAndTypeIndex}
+func (self *ConstantInterfaceMethodrefInfo) readInfo(reader *ClassReader) {
+    self.classIndex = reader.readUint16()
+    self.nameAndTypeIndex = reader.readUint16()
 }

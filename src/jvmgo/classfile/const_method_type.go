@@ -10,7 +10,6 @@ type ConstantMethodTypeInfo struct {
     descriptorIndex uint16
 }
 
-func readConstantMethodTypeInfo(reader *ClassReader) (*ConstantMethodTypeInfo) {
-    descriptorIndex := reader.readUint16()
-    return &ConstantMethodTypeInfo{descriptorIndex}
+func (self *ConstantMethodTypeInfo) readInfo(reader *ClassReader) {
+    self.descriptorIndex = reader.readUint16()
 }

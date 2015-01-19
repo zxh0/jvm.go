@@ -10,7 +10,6 @@ type ConstantIntegerInfo struct {
     val int32
 }
 
-func readConstantIntegerInfo(reader *ClassReader) (*ConstantIntegerInfo) {
-    val := reader.readInt32()
-    return &ConstantIntegerInfo{val}
+func (self * ConstantIntegerInfo) readInfo(reader *ClassReader) {
+    self.val = reader.readInt32()
 }

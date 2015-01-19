@@ -12,8 +12,7 @@ type ConstantNameAndTypeInfo struct {
     descriptorIndex uint16
 }
 
-func readConstantNameAndTypeInfo(reader *ClassReader) (*ConstantNameAndTypeInfo) {
-    nameIndex := reader.readUint16()
-    descriptorIndex := reader.readUint16()
-    return &ConstantNameAndTypeInfo{nameIndex, descriptorIndex}
+func (self *ConstantNameAndTypeInfo) readInfo(reader *ClassReader) {
+    self.nameIndex = reader.readUint16()
+    self.descriptorIndex = reader.readUint16()
 }

@@ -10,7 +10,6 @@ type ConstantStringInfo struct {
     stringIndex uint16
 }
 
-func readConstantStringInfo(reader *ClassReader) (*ConstantStringInfo) {
-    stringIndex := reader.readUint16()
-    return &ConstantStringInfo{stringIndex}
+func (self *ConstantStringInfo) readInfo(reader *ClassReader) {
+    self.stringIndex = reader.readUint16()
 }

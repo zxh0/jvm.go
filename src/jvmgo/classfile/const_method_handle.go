@@ -12,8 +12,7 @@ type ConstantMethodHandleInfo struct {
     referenceIndex uint16
 }
 
-func readConstantMethodHandleInfo(reader *ClassReader) (*ConstantMethodHandleInfo) {
-    referenceKind := reader.readUint8()
-    referenceIndex := reader.readUint16()
-    return &ConstantMethodHandleInfo{referenceKind, referenceIndex}
+func (self *ConstantMethodHandleInfo) readInfo(reader *ClassReader) {
+    self.referenceKind = reader.readUint8()
+    self.referenceIndex = reader.readUint16()
 }

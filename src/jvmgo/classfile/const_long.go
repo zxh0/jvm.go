@@ -11,7 +11,6 @@ type ConstantLongInfo struct {
     val int64
 }
 
-func readConstantLongInfo(reader *ClassReader) (*ConstantLongInfo) {
-    val := reader.readInt64()
-    return &ConstantLongInfo{val}
+func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
+    self.val = reader.readInt64()
 }

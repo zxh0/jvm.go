@@ -10,7 +10,6 @@ type ConstantFloatInfo struct {
     val float32
 }
 
-func readConstantFloatInfo(reader *ClassReader) (*ConstantFloatInfo) {
-    val := reader.readFloat32()
-    return &ConstantFloatInfo{val}
+func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
+    self.val = reader.readFloat32()
 }

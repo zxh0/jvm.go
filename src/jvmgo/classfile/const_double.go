@@ -11,7 +11,6 @@ type ConstantDoubleInfo struct {
     val float64
 }
 
-func readConstantDoubleInfo(reader *ClassReader) (*ConstantDoubleInfo) {
-    val := reader.readFloat64()
-    return &ConstantDoubleInfo{val}
+func (self *ConstantDoubleInfo) readInfo(reader *ClassReader) {
+    self.val = reader.readFloat64()
 }

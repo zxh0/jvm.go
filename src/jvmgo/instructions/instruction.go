@@ -25,10 +25,10 @@ func (self *BranchInstruction) fetchOperands(bcr *BytecodeReader) {
 }
 
 type Index8Instruction struct {
-    index uint8
+    index uint
 }
 func (self *Index8Instruction) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readUint8()
+    self.index = uint(bcr.readUint8())
 }
 
 type Index16Instruction struct {

@@ -13,3 +13,14 @@ type anewarray struct {Index16Instruction}
 func (self *anewarray) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Create new array
+type newarray struct {
+    atype uint8
+}
+func (self *newarray) fetchOperands(bcr *BytecodeReader) {
+    self.atype = bcr.readUint8()
+}
+func (self *newarray) execute(thread *rtda.Thread) {
+    // todo
+}

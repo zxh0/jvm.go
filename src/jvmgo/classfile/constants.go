@@ -147,12 +147,7 @@ CONSTANT_Methodref_info {
 }
 */
 type ConstantMethodrefInfo struct {
-    classIndex       uint16
-    nameAndTypeIndex uint16
-}
-func (self *ConstantMethodrefInfo) readInfo(reader *ClassReader) {
-    self.classIndex = reader.readUint16()
-    self.nameAndTypeIndex = reader.readUint16()
+    ConstantFieldrefInfo
 }
 
 /*
@@ -163,12 +158,7 @@ CONSTANT_InterfaceMethodref_info {
 }
 */
 type ConstantInterfaceMethodrefInfo struct {
-    classIndex       uint16
-    nameAndTypeIndex uint16
-}
-func (self *ConstantInterfaceMethodrefInfo) readInfo(reader *ClassReader) {
-    self.classIndex = reader.readUint16()
-    self.nameAndTypeIndex = reader.readUint16()
+    ConstantFieldrefInfo
 }
 
 /*

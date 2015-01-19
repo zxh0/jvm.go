@@ -41,3 +41,13 @@ func (self *i2f) execute(thread *rtda.Thread) {
     f := float32(i)
     stack.PushFloat(f)
 }
+
+// Convert int to long
+type i2l struct {}
+func (self *i2l) fetchOperands(bcr *BytecodeReader) {}
+func (self *i2l) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    i := stack.PopInt()
+    l := int64(i)
+    stack.PushLong(l)
+}

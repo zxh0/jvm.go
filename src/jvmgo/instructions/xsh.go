@@ -21,3 +21,13 @@ func (self *ishr) execute(thread *rtda.Thread) {
     result := v1 >> v2 // todo
     stack.PushInt(result)
 }
+
+// Arithmetic shift right int
+type iushr struct {NoOperandsInstruction}
+func (self *iushr) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    v1 := stack.PopInt()
+    v2 := uint32(stack.PopInt()) & 0x1f
+    result := v1 >> v2
+    stack.PushInt(result)
+}

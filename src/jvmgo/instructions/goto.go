@@ -15,10 +15,10 @@ func (self *_goto) execute(thread *rtda.Thread) {
 
 // Branch always (wide index) 
 type goto_w struct {
-    index int16
+    index int32
 }
 func (self *goto_w) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readInt16()
+    self.index = bcr.readInt32()
 }
 func (self *goto_w) execute(thread *rtda.Thread) {
     // todo

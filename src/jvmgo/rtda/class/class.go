@@ -11,11 +11,7 @@ type Class struct {
 }
 
 type Field struct {
-    name    string
-}
-
-type Method struct {
-    name    string
+    name string
 }
 
 func NewClass(cf *classfile.ClassFile) (*Class) {

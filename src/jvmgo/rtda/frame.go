@@ -6,15 +6,18 @@ import "jvmgo/rtda/class"
 type Frame struct {
     localVars       *LocalVars
     operandStack    *OperandStack
-    method          *class.Class
+    method          *class.Method
 }
 
+// getters
 func (self *Frame) LocalVars() (*LocalVars) {
     return self.localVars
 }
-
 func (self *Frame) OperandStack() (*OperandStack) {
     return self.operandStack
+}
+func (self *Frame) Method() (*class.Method) {
+    return self.method
 }
 
 func (self *Frame) executeOneInstruction() {

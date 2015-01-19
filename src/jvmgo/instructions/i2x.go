@@ -51,3 +51,13 @@ func (self *i2l) execute(thread *rtda.Thread) {
     l := int64(i)
     stack.PushLong(l)
 }
+
+// Convert int to short
+type i2s struct {}
+func (self *i2s) fetchOperands(bcr *BytecodeReader) {}
+func (self *i2s) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    i := stack.PopInt()
+    s := int32(int16(i))
+    stack.PushInt(s)
+}

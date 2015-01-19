@@ -171,6 +171,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xa5: return &if_acmpeq{}
     case 0xa6: return &if_acmpne{}
     case 0xa7: return &_goto{}
+    case 0xab: return &lookupswitch{}
     case 0xac: return &ireturn{}
     case 0xad: return &lreturn{}
     case 0xae: return &freturn{}

@@ -61,6 +61,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x32: return &aaload{}
     case 0x33: return &baload{}
     case 0x34: return &caload{}
+    case 0x35: return &saload{}
     case 0x36: return &istore{}
     case 0x37: return &lstore{}
     case 0x38: return &fstore{}

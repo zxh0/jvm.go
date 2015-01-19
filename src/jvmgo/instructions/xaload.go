@@ -43,3 +43,9 @@ type laload struct {NoOperandsInstruction}
 func (self *laload) execute(thread *rtda.Thread) {
     // todo
 }
+
+// Load short from array 
+type saload struct {NoOperandsInstruction}
+func (self *saload) execute(thread *rtda.Thread) {
+    // todo
+}

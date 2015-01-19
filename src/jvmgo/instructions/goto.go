@@ -4,10 +4,10 @@ import "jvmgo/rtda"
 
 // Branch always
 type _goto struct {
-    index int16
+    branch int16
 }
 func (self *_goto) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readInt16()
+    self.branch = bcr.readInt16()
 }
 func (self *_goto) execute(thread *rtda.Thread) {
     // todo
@@ -15,10 +15,10 @@ func (self *_goto) execute(thread *rtda.Thread) {
 
 // Branch always (wide index) 
 type goto_w struct {
-    index int32
+    branch int32
 }
 func (self *goto_w) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readInt32()
+    self.branch = bcr.readInt32()
 }
 func (self *goto_w) execute(thread *rtda.Thread) {
     // todo

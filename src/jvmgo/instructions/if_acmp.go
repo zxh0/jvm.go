@@ -4,10 +4,10 @@ import "jvmgo/rtda"
 
 // Branch if reference comparison succeeds 
 type if_acmpeq struct {
-    index int16
+    branch int16
 }
 func (self *if_acmpeq) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readInt16()
+    self.branch = bcr.readInt16()
 }
 func (self *if_acmpeq) execute(thread *rtda.Thread) {
     if _acmp(thread) {
@@ -16,10 +16,10 @@ func (self *if_acmpeq) execute(thread *rtda.Thread) {
 }
 
 type if_acmpne struct {
-    index int16
+    branch int16
 }
 func (self *if_acmpne) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readInt16()
+    self.branch = bcr.readInt16()
 }
 func (self *if_acmpne) execute(thread *rtda.Thread) {
     if !_acmp(thread) {

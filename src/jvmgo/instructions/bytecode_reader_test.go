@@ -23,3 +23,11 @@ func TestReadUint8(t *testing.T) {
         t.Errorf("%v", b2)
     }
 }
+
+func TestReadInt16(t *testing.T) {
+    bytecodes := []byte{0xf1, 0x17}
+    bcr := newBytecodeReader(bytecodes)
+    if x := bcr.readInt16(); x != -3817 {
+        t.Errorf("%v", x)
+    }
+}

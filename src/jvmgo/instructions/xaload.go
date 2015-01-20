@@ -7,10 +7,7 @@ import "jvmgo/rtda"
 // Load reference from array
 type aaload struct {NoOperandsInstruction}
 func (self *aaload) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    arrRef := popAndCheckArrRef(stack)
-    index := int(stack.PopInt())
-
+    stack, arrRef, index := popArrAndIndex(thread)
     refArr := arrRef.Fields().([]*rtda.Obj)
     ref := refArr[checkIndex(index, len(refArr))]
     stack.PushRef(ref)
@@ -19,10 +16,7 @@ func (self *aaload) execute(thread *rtda.Thread) {
 // Load byte or boolean from array 
 type baload struct {NoOperandsInstruction}
 func (self *baload) execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
-    arrRef := popAndCheckArrRef(stack)
-    index := int(stack.PopInt())
-
+    stack, arrRef, index := popArrAndIndex(thread)
     byteArr := arrRef.Fields().([]int8)
     val := byteArr[checkIndex(index, len(byteArr))]
     stack.PushInt(int32(val))
@@ -64,13 +58,15 @@ func (self *saload) execute(thread *rtda.Thread) {
     // todo
 }
 
-func popAndCheckArrRef(stack *rtda.OperandStack) (*rtda.Obj) {
+func popArrAndIndex(thread *rtda.Thread) (*rtda.OperandStack, *rtda.Obj, int) {
+    stack := thread.CurrentFrame().OperandStack()
     arrRef := stack.PopRef()
+    index := int(stack.PopInt())
     if arrRef == nil {
         // todo
         panic("NullPointerException")
     }
-    return arrRef
+    return stack, arrRef, index
 }
 
 func checkIndex(index, len int) (int) {

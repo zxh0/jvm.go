@@ -1,9 +1,6 @@
 package instructions
 
-import (
-    . "jvmgo/any"
-    "jvmgo/rtda"
-)
+import "jvmgo/rtda"
 
 type Instruction interface {
     fetchOperands(bcr *BytecodeReader)
@@ -36,13 +33,4 @@ type Index16Instruction struct {
 }
 func (self *Index16Instruction) fetchOperands(bcr *BytecodeReader) {
     self.index = uint(bcr.readUint16())
-}
-
-// todo: move to any.go?
-func isLongOrDouble(x Any) (bool) {
-    switch x.(type) {
-    case int64: return true
-    case float64: return true
-    default: return false
-    }
 }

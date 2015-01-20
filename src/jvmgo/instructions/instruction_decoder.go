@@ -71,6 +71,9 @@ var (
     _lstore_3 = &lstore_3{}
     _monitorenter = &monitorenter{}
     _monitorexit = &monitorexit{}
+    _nop = &nop{}
+    _pop = &pop{}
+    _pop2 = &pop2{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -82,7 +85,7 @@ func Decode(bcr *BytecodeReader) (Instruction) {
 
 func newInstruction(opcode byte) (Instruction) {
     switch opcode {
-    case 0x00: return &nop{}
+    case 0x00: return _nop
     case 0x01: return &aconst_null{}
     case 0x02: return &iconst_m1{}
     case 0x03: return &iconst_0{}
@@ -169,8 +172,8 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x54: return &bastore{}
     case 0x55: return &castore{}
     case 0x56: return &sastore{}
-    case 0x57: return &pop{}
-    case 0x58: return &pop2{}
+    case 0x57: return _pop
+    case 0x58: return _pop2
     case 0x59: return _dup
     case 0x5a: return _dup_x1
     case 0x5b: return _dup_x2

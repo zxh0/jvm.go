@@ -207,6 +207,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xc6: return &ifnull{}
     case 0xc7: return &ifnonnull{}
     case 0xc8: return &goto_w{}
+    // todo
     default: panic("BAD opcode!")
     }
 }

@@ -10,9 +10,13 @@ JVM
         OperandStack
 */
 type Thread struct {
-    pc      uint
+    pc      int
     stack   *Stack
     // todo
+}
+
+func (self *Thread) PC() (int) {
+    return self.pc
 }
 
 func (self *Thread) IsStackEmpty() (bool) {

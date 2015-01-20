@@ -1,15 +1,23 @@
 package instructions
 
 type BytecodeReader struct {
-    pc          int
-    bytecodes   []byte
+    pc      int
+    code    []byte // bytecodes
+}
+
+// setters
+func (self *BytecodeReader) SetPC(pc int) {
+    self.pc = pc
+}
+func (self *BytecodeReader) SetCode(code []byte) {
+    self.code = code
 }
 
 func (self *BytecodeReader) readInt8() (int8) {
     return int8(self.readUint8())
 }
 func (self *BytecodeReader) readUint8() (uint8) {
-    i := self.bytecodes[self.pc]
+    i := self.code[self.pc]
     self.pc++
     return i
 }
@@ -34,6 +42,6 @@ func (self *BytecodeReader) readUint32() (uint32) {
     return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4
 }
 
-func newBytecodeReader(bytecodes []byte) (*BytecodeReader) {
-    return &BytecodeReader{0, bytecodes}
+func NewBytecodeReader() (*BytecodeReader) {
+    return &BytecodeReader{}
 }

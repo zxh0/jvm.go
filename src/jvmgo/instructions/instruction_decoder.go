@@ -144,6 +144,12 @@ var (
     _pop2 = &pop2{}
     _swap = &swap{}
     
+    __return = &_return{}
+    _areturn = &areturn{}
+    _dreturn = &dreturn{}
+    _freturn = &freturn{}
+    _ireturn = &ireturn{}
+    _lreturn = &lreturn{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -327,12 +333,12 @@ func newInstruction(opcode byte) (Instruction) {
   //case 0xa9: return &ret{}
     case 0xaa: return &tableswitch{}
     case 0xab: return &lookupswitch{}
-    case 0xac: return &ireturn{}
-    case 0xad: return &lreturn{}
-    case 0xae: return &freturn{}
-    case 0xaf: return &dreturn{}
-    case 0xb0: return &areturn{}
-    case 0xb1: return &_return{}
+    case 0xac: return _ireturn
+    case 0xad: return _lreturn
+    case 0xae: return _freturn
+    case 0xaf: return _dreturn
+    case 0xb0: return _areturn
+    case 0xb1: return __return
     case 0xb2: return &getstatic{}
     case 0xb3: return &putstatic{}
     case 0xb4: return &getfield{}

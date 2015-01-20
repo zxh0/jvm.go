@@ -177,6 +177,8 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xa5: return &if_acmpeq{}
     case 0xa6: return &if_acmpne{}
     case 0xa7: return &_goto{}
+  //case 0xa8: return &jsr{}
+  //case 0xa9: return &ret{}
     case 0xaa: return &tableswitch{}
     case 0xab: return &lookupswitch{}
     case 0xac: return &ireturn{}
@@ -207,6 +209,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xc6: return &ifnull{}
     case 0xc7: return &ifnonnull{}
     case 0xc8: return &goto_w{}
+  //case 0xc9: return &jsr_w{}
+  //case 0xca: return &breakpoint{}
+  //case 0xfe: return &impdep1{}
+  //case 0xff: return &impdep2{}
     // todo
     default: panic("BAD opcode!")
     }

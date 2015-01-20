@@ -96,6 +96,12 @@ var (
     _fsub = &fsub{}
     _isub = &isub{}
     _lsub = &lsub{}
+    _iand = &iand{}
+    _land = &land{}
+    _ior = &ior{}
+    _lor = &lor{}
+    _ixor = &ixor{}
+    _lxor = &lxor{}
     _arraylength = &arraylength{}
     _athrow = &athrow{}
     _d2f = &d2f{}
@@ -130,9 +136,6 @@ var (
     _pop = &pop{}
     _pop2 = &pop2{}
     _swap = &swap{}
-    
-    _iand = &iand{}
-    _land = &land{}
     
 )
 
@@ -273,10 +276,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x7d: return &lushr{}
     case 0x7e: return _iand
     case 0x7f: return _land
-    case 0x80: return &ior{}
-    case 0x81: return &lor{}
-    case 0x82: return &ixor{}
-    case 0x83: return &lxor{}
+    case 0x80: return _ior
+    case 0x81: return _lor
+    case 0x82: return _ixor
+    case 0x83: return _lxor
     case 0x84: return &iinc{}
     case 0x85: return _i2l
     case 0x86: return _i2f

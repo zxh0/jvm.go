@@ -6,42 +6,42 @@ import "jvmgo/rtda"
 type if_icmpeq struct {BranchInstruction}
 func (self *if_icmpeq) Execute(thread *rtda.Thread) {
     if val1, val2 := pop2Ints(thread); val1 == val2 {
-        // todo
+        thread.Branch(self.offset)
     }
 }
 
 type if_icmpne struct {BranchInstruction}
 func (self *if_icmpne) Execute(thread *rtda.Thread) {
     if val1, val2 := pop2Ints(thread); val1 != val2 {
-        // todo
+        thread.Branch(self.offset)
     }
 }
 
 type if_icmplt struct {BranchInstruction}
 func (self *if_icmplt) Execute(thread *rtda.Thread) {
     if val1, val2 := pop2Ints(thread); val1 < val2 {
-        // todo
+        thread.Branch(self.offset)
     }
 }
 
 type if_icmple struct {BranchInstruction}
 func (self *if_icmple) Execute(thread *rtda.Thread) {
     if val1, val2 := pop2Ints(thread); val1 <= val2 {
-        // todo
+        thread.Branch(self.offset)
     }
 }
 
 type if_icmpgt struct {BranchInstruction}
 func (self *if_icmpgt) Execute(thread *rtda.Thread) {
     if val1, val2 := pop2Ints(thread); val1 > val2 {
-        // todo
+        thread.Branch(self.offset)
     }
 }
 
 type if_icmpge struct {BranchInstruction}
 func (self *if_icmpge) Execute(thread *rtda.Thread) {
     if val1, val2 := pop2Ints(thread); val1 >= val2 {
-        // todo
+        thread.Branch(self.offset)
     }
 }
 

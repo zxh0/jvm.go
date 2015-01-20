@@ -7,7 +7,7 @@ type ifeq struct {BranchInstruction}
 func (self *ifeq) Execute(thread *rtda.Thread) {
     val := thread.CurrentFrame().OperandStack().PopInt()
     if val == 0 {
-        _branch(thread, self.branch)
+        thread.Branch(self.offset)
     }
 }
 
@@ -15,7 +15,7 @@ type ifne struct {BranchInstruction}
 func (self *ifne) Execute(thread *rtda.Thread) {
     val := thread.CurrentFrame().OperandStack().PopInt()
     if val != 0 {
-        _branch(thread, self.branch)
+        thread.Branch(self.offset)
     }
 }
 
@@ -23,7 +23,7 @@ type iflt struct {BranchInstruction}
 func (self *iflt) Execute(thread *rtda.Thread) {
     val := thread.CurrentFrame().OperandStack().PopInt()
     if val < 0 {
-        _branch(thread, self.branch)
+        thread.Branch(self.offset)
     }
 }
 
@@ -31,7 +31,7 @@ type ifle struct {BranchInstruction}
 func (self *ifle) Execute(thread *rtda.Thread) {
     val := thread.CurrentFrame().OperandStack().PopInt()
     if val <= 0 {
-        _branch(thread, self.branch)
+        thread.Branch(self.offset)
     }
 }
 
@@ -39,7 +39,7 @@ type ifgt struct {BranchInstruction}
 func (self *ifgt) Execute(thread *rtda.Thread) {
     val := thread.CurrentFrame().OperandStack().PopInt()
     if val > 0 {
-        _branch(thread, self.branch)
+        thread.Branch(self.offset)
     }
 }
 
@@ -47,12 +47,6 @@ type ifge struct {BranchInstruction}
 func (self *ifge) Execute(thread *rtda.Thread) {
     val := thread.CurrentFrame().OperandStack().PopInt()
     if val >= 0 {
-        _branch(thread, self.branch)
+        thread.Branch(self.offset)
     }
-}
-
-func _branch(thread *rtda.Thread, offset int) {
-    pc := thread.PC()
-    pc += offset
-    thread.SetPC(pc)
 }

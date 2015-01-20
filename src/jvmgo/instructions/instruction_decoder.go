@@ -123,33 +123,31 @@ var (
     _l2d = &l2d{}
     _l2f = &l2f{}
     _l2i = &l2i{}
-
-    _arraylength = &arraylength{}
-    _athrow = &athrow{}
     _dcmpg = &dcmpg{}
     _dcmpl = &dcmpl{}
-    _dup = &dup{}
-    _dup_x1 = &dup_x1{}
-    _dup_x2 = &dup_x2{}
-    _dup2 = &dup2{}
-    _dup2_x1 = &dup2_x1{}
-    _dup2_x2 = &dup2_x2{}
     _fcmpg = &fcmpg{}
     _fcmpl = &fcmpl{}
     _lcmp = &lcmp{}
-    _monitorenter = &monitorenter{}
-    _monitorexit = &monitorexit{}
-    _nop = &nop{}
-    _pop = &pop{}
-    _pop2 = &pop2{}
-    _swap = &swap{}
-    
     __return = &_return{}
     _areturn = &areturn{}
     _dreturn = &dreturn{}
     _freturn = &freturn{}
     _ireturn = &ireturn{}
     _lreturn = &lreturn{}
+    _dup = &dup{}
+    _dup_x1 = &dup_x1{}
+    _dup_x2 = &dup_x2{}
+    _dup2 = &dup2{}
+    _dup2_x1 = &dup2_x1{}
+    _dup2_x2 = &dup2_x2{}
+    _pop = &pop{}
+    _pop2 = &pop2{}
+    _monitorenter = &monitorenter{}
+    _monitorexit = &monitorexit{}
+    _arraylength = &arraylength{}
+    _athrow = &athrow{}
+    _nop = &nop{}
+    _swap = &swap{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {

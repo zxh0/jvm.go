@@ -5,6 +5,10 @@ var (
     _aload_1 = &aload_1{}
     _aload_2 = &aload_2{}
     _aload_3 = &aload_3{}
+    _astore_0 = &astore_0{}
+    _astore_1 = &astore_1{}
+    _astore_2 = &astore_2{}
+    _astore_3 = &astore_3{}
     _arraylength = &arraylength{}
 )
 
@@ -92,10 +96,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x48: return &dstore_1{}
     case 0x49: return &dstore_2{}
     case 0x4a: return &dstore_3{}
-    case 0x4b: return &astore_0{}
-    case 0x4c: return &astore_1{}
-    case 0x4d: return &astore_2{}
-    case 0x4e: return &astore_3{}
+    case 0x4b: return _astore_0
+    case 0x4c: return _astore_1
+    case 0x4d: return _astore_2
+    case 0x4e: return _astore_3
     case 0x4f: return &iastore{}
     case 0x50: return &lastore{}
     case 0x51: return &fastore{}

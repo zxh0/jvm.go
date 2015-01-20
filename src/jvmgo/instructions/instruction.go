@@ -15,10 +15,10 @@ func (self *NoOperandsInstruction) fetchOperands(bcr *BytecodeReader) {
 }
 
 type BranchInstruction struct {
-    branch int16
+    branch int
 }
 func (self *BranchInstruction) fetchOperands(bcr *BytecodeReader) {
-    self.branch = bcr.readInt16()
+    self.branch = int(bcr.readInt16())
 }
 
 type Index8Instruction struct {

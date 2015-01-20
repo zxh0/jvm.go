@@ -25,7 +25,10 @@ func (self *baload) execute(thread *rtda.Thread) {
 // Load char from array 
 type caload struct {NoOperandsInstruction}
 func (self *caload) execute(thread *rtda.Thread) {
-    // todo
+    stack, arrRef, index := popArrAndIndex(thread)
+    charArr := arrRef.Fields().([]uint16)
+    val := charArr[checkIndex(index, len(charArr))]
+    stack.PushInt(int32(val))
 }
 
 // Load double from array 

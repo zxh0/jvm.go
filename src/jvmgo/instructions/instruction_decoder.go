@@ -108,25 +108,12 @@ var (
     _lshl = &lshl{}
     _lshr = &lshr{}
     _lushr = &lushr{}
-
-    _arraylength = &arraylength{}
-    _athrow = &athrow{}
     _d2f = &d2f{}
     _d2i = &d2i{}
     _d2l = &d2l{}
-    _dcmpg = &dcmpg{}
-    _dcmpl = &dcmpl{}
-    _dup = &dup{}
-    _dup_x1 = &dup_x1{}
-    _dup_x2 = &dup_x2{}
-    _dup2 = &dup2{}
-    _dup2_x1 = &dup2_x1{}
-    _dup2_x2 = &dup2_x2{}
     _f2d = &f2d{}
     _f2i = &f2i{}
     _f2l = &f2l{}
-    _fcmpg = &fcmpg{}
-    _fcmpl = &fcmpl{}
     _i2b = &i2b{} 
     _i2c = &i2c{}
     _i2d = &i2d{}
@@ -136,6 +123,19 @@ var (
     _l2d = &l2d{}
     _l2f = &l2f{}
     _l2i = &l2i{}
+
+    _arraylength = &arraylength{}
+    _athrow = &athrow{}
+    _dcmpg = &dcmpg{}
+    _dcmpl = &dcmpl{}
+    _dup = &dup{}
+    _dup_x1 = &dup_x1{}
+    _dup_x2 = &dup_x2{}
+    _dup2 = &dup2{}
+    _dup2_x1 = &dup2_x1{}
+    _dup2_x2 = &dup2_x2{}
+    _fcmpg = &fcmpg{}
+    _fcmpl = &fcmpl{}
     _lcmp = &lcmp{}
     _monitorenter = &monitorenter{}
     _monitorexit = &monitorexit{}

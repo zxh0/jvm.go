@@ -57,7 +57,9 @@ var (
     _istore_1 = &istore_1{}
     _istore_2 = &istore_2{}
     _istore_3 = &istore_3{}
-
+    _l2d = &l2d{}
+    _l2f = &l2f{}
+    _l2i = &l2i{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -205,9 +207,9 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x85: return _i2l
     case 0x86: return _i2f
     case 0x87: return _i2d
-    case 0x88: return &l2i{}
-    case 0x89: return &l2f{}
-    case 0x8a: return &l2d{}
+    case 0x88: return _l2i
+    case 0x89: return _l2f
+    case 0x8a: return _l2d
     case 0x8b: return _f2i
     case 0x8c: return _f2l
     case 0x8d: return _f2d

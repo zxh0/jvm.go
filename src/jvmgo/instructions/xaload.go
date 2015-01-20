@@ -43,7 +43,10 @@ func (self *daload) execute(thread *rtda.Thread) {
 // Load float from array 
 type faload struct {NoOperandsInstruction}
 func (self *faload) execute(thread *rtda.Thread) {
-    // todo
+    stack, arrRef, index := popArrAndIndex(thread)
+    floatArr := arrRef.Fields().([]float32)
+    val := floatArr[checkIndex(index, len(floatArr))]
+    stack.PushFloat(val)
 }
 
 // Load int from array 

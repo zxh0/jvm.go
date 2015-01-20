@@ -79,6 +79,14 @@ var (
     _fadd = &fadd{}
     _iadd = &iadd{}
     _ladd = &ladd{}
+    _aaload = &aaload{}
+    _baload = &baload{}
+    _caload = &caload{}
+    _daload = &daload{}
+    _faload = &faload{}
+    _iaload = &iaload{}
+    _laload = &laload{}
+    _saload = &saload{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -136,14 +144,14 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x2b: return _aload_1
     case 0x2c: return _aload_2
     case 0x2d: return _aload_3
-    case 0x2e: return &iaload{}
-    case 0x2f: return &laload{}
-    case 0x30: return &faload{}
-    case 0x31: return &daload{}
-    case 0x32: return &aaload{}
-    case 0x33: return &baload{}
-    case 0x34: return &caload{}
-    case 0x35: return &saload{}
+    case 0x2e: return _iaload
+    case 0x2f: return _laload
+    case 0x30: return _faload
+    case 0x31: return _daload
+    case 0x32: return _aaload
+    case 0x33: return _baload
+    case 0x34: return _caload
+    case 0x35: return _saload
     case 0x36: return &istore{}
     case 0x37: return &lstore{}
     case 0x38: return &fstore{}

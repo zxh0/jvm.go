@@ -31,7 +31,10 @@ func (self *newarray) fetchOperands(bcr *BytecodeReader) {
     self.atype = bcr.readUint8()
 }
 func (self *newarray) Execute(thread *rtda.Thread) {
-    // todo
+    stack := thread.CurrentFrame().OperandStack()
+    count := stack.PopInt()
+    ref := class.NewArray(self.atype, count)
+    stack.PushRef(ref)
 }
 
 // Create new multidimensional array

@@ -20,6 +20,10 @@ var (
     _dload_1 = &dload_1{}
     _dload_2 = &dload_2{}
     _dload_3 = &dload_3{}
+    _dstore_0 = &dstore_0{}
+    _dstore_1 = &dstore_1{}
+    _dstore_2 = &dstore_2{}
+    _dstore_3 = &dstore_3{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -102,10 +106,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x44: return &fstore_1{}
     case 0x45: return &fstore_2{}
     case 0x46: return &fstore_3{}
-    case 0x47: return &dstore_0{}
-    case 0x48: return &dstore_1{}
-    case 0x49: return &dstore_2{}
-    case 0x4a: return &dstore_3{}
+    case 0x47: return _dstore_0
+    case 0x48: return _dstore_1
+    case 0x49: return _dstore_2
+    case 0x4a: return _dstore_3
     case 0x4b: return _astore_0
     case 0x4c: return _astore_1
     case 0x4d: return _astore_2

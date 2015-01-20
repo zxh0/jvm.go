@@ -15,11 +15,8 @@ func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool
 }
 
-type Field struct {
-    name string
-}
-
 func NewClass(cf *classfile.ClassFile) (*Class) {
     // todo
+    // copy consts
     return &Class{}
 }

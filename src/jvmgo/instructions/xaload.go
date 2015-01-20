@@ -28,22 +28,6 @@ func (self *baload) execute(thread *rtda.Thread) {
     stack.PushInt(int32(val))
 }
 
-func popAndCheckArrRef(stack *rtda.OperandStack) (*rtda.Obj) {
-    arrRef := stack.PopRef()
-    if arrRef == nil {
-        // todo
-        panic("NullPointerException")
-    }
-    return arrRef
-}
-
-func checkIndex(index, len int) (int) {
-    if index < 0 || index >= len {
-        panic("ArrayIndexOutOfBoundsException")
-    }
-    return index
-}
-
 // Load char from array 
 type caload struct {NoOperandsInstruction}
 func (self *caload) execute(thread *rtda.Thread) {
@@ -78,4 +62,20 @@ func (self *laload) execute(thread *rtda.Thread) {
 type saload struct {NoOperandsInstruction}
 func (self *saload) execute(thread *rtda.Thread) {
     // todo
+}
+
+func popAndCheckArrRef(stack *rtda.OperandStack) (*rtda.Obj) {
+    arrRef := stack.PopRef()
+    if arrRef == nil {
+        // todo
+        panic("NullPointerException")
+    }
+    return arrRef
+}
+
+func checkIndex(index, len int) (int) {
+    if index < 0 || index >= len {
+        panic("ArrayIndexOutOfBoundsException")
+    }
+    return index
 }

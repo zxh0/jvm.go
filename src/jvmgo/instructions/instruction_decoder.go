@@ -97,6 +97,21 @@ var (
     _iastore = &iastore{}
     _lastore = &lastore{}
     _sastore = &sastore{}
+    _aconst_null = &aconst_null{}
+    _dconst_0 = &dconst_0{}
+    _dconst_1 = &dconst_1{}
+    _fconst_0 = &fconst_0{}
+    _fconst_1 = &fconst_1{}
+    _fconst_2 = &fconst_2{}
+    _iconst_m1 = &iconst_m1{}
+    _iconst_0 = &iconst_0{}
+    _iconst_1 = &iconst_1{}
+    _iconst_2 = &iconst_2{}
+    _iconst_3 = &iconst_3{}
+    _iconst_4 = &iconst_4{}
+    _iconst_5 = &iconst_5{}
+    _lconst_0 = &lconst_0{}
+    _lconst_1 = &lconst_1{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -109,21 +124,21 @@ func Decode(bcr *BytecodeReader) (Instruction) {
 func newInstruction(opcode byte) (Instruction) {
     switch opcode {
     case 0x00: return _nop
-    case 0x01: return &aconst_null{}
-    case 0x02: return &iconst_m1{}
-    case 0x03: return &iconst_0{}
-    case 0x04: return &iconst_1{}
-    case 0x05: return &iconst_2{}
-    case 0x06: return &iconst_3{}
-    case 0x07: return &iconst_4{}
-    case 0x08: return &iconst_5{}
-    case 0x09: return &lconst_0{}
-    case 0x0a: return &lconst_1{}
-    case 0x0b: return &fconst_0{}
-    case 0x0c: return &fconst_1{}
-    case 0x0d: return &fconst_2{}
-    case 0x0e: return &dconst_0{}
-    case 0x0f: return &dconst_1{}
+    case 0x01: return _aconst_null
+    case 0x02: return _iconst_m1
+    case 0x03: return _iconst_0
+    case 0x04: return _iconst_1
+    case 0x05: return _iconst_2
+    case 0x06: return _iconst_3
+    case 0x07: return _iconst_4
+    case 0x08: return _iconst_5
+    case 0x09: return _lconst_0
+    case 0x0a: return _lconst_1
+    case 0x0b: return _fconst_0
+    case 0x0c: return _fconst_1
+    case 0x0d: return _fconst_2
+    case 0x0e: return _dconst_0
+    case 0x0f: return _dconst_1
     case 0x10: return &bipush{}
     case 0x11: return &sipush{}
     case 0x12: return &ldc{}

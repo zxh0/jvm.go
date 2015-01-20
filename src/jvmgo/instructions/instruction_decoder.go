@@ -1,6 +1,21 @@
 package instructions
 
 var (
+    _aconst_null = &aconst_null{}
+    _dconst_0 = &dconst_0{}
+    _dconst_1 = &dconst_1{}
+    _fconst_0 = &fconst_0{}
+    _fconst_1 = &fconst_1{}
+    _fconst_2 = &fconst_2{}
+    _iconst_m1 = &iconst_m1{}
+    _iconst_0 = &iconst_0{}
+    _iconst_1 = &iconst_1{}
+    _iconst_2 = &iconst_2{}
+    _iconst_3 = &iconst_3{}
+    _iconst_4 = &iconst_4{}
+    _iconst_5 = &iconst_5{}
+    _lconst_0 = &lconst_0{}
+    _lconst_1 = &lconst_1{}
     _aload_0 = &aload_0{}
     _aload_1 = &aload_1{}
     _aload_2 = &aload_2{}
@@ -97,21 +112,6 @@ var (
     _ladd = &ladd{}
     _iand = &iand{}
     _land = &land{}
-    _aconst_null = &aconst_null{}
-    _dconst_0 = &dconst_0{}
-    _dconst_1 = &dconst_1{}
-    _fconst_0 = &fconst_0{}
-    _fconst_1 = &fconst_1{}
-    _fconst_2 = &fconst_2{}
-    _iconst_m1 = &iconst_m1{}
-    _iconst_0 = &iconst_0{}
-    _iconst_1 = &iconst_1{}
-    _iconst_2 = &iconst_2{}
-    _iconst_3 = &iconst_3{}
-    _iconst_4 = &iconst_4{}
-    _iconst_5 = &iconst_5{}
-    _lconst_0 = &lconst_0{}
-    _lconst_1 = &lconst_1{}
     _ddiv = &ddiv{}
     _fdiv = &fdiv{}
     _idiv = &idiv{}

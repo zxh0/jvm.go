@@ -5,11 +5,15 @@ var (
     _aload_1 = &aload_1{}
     _aload_2 = &aload_2{}
     _aload_3 = &aload_3{}
+    _arraylength = &arraylength{}
     _astore_0 = &astore_0{}
     _astore_1 = &astore_1{}
     _astore_2 = &astore_2{}
     _astore_3 = &astore_3{}
-    _arraylength = &arraylength{}
+    _athrow = &athrow{}
+    _d2f = &d2f{}
+    _d2i = &d2i{}
+    _d2l = &d2l{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -163,9 +167,9 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x8b: return &f2i{}
     case 0x8c: return &f2l{}
     case 0x8d: return &f2d{}
-    case 0x8e: return &d2i{}
-    case 0x8f: return &d2l{}
-    case 0x90: return &d2f{}
+    case 0x8e: return _d2i
+    case 0x8f: return _d2l
+    case 0x90: return _d2f
     case 0x91: return &i2b{}
     case 0x92: return &i2c{}
     case 0x93: return &i2s{}
@@ -212,7 +216,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xbc: return &newarray{}
     case 0xbd: return &anewarray{}
     case 0xbe: return _arraylength
-    case 0xbf: return &athrow{}
+    case 0xbf: return _athrow
     case 0xc0: return &checkcast{}
     case 0xc1: return &instanceof{}
     case 0xc2: return &monitorenter{}

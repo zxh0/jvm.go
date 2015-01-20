@@ -13,3 +13,11 @@ func isLongOrDouble(x Any) (bool) {
     default: return false
     }
 }
+
+// todo
+func checkArrIndex(index, len int) (int) {
+    if index < 0 || index >= len {
+        panic("ArrayIndexOutOfBoundsException")
+    }
+    return index
+}

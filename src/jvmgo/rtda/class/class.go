@@ -3,6 +3,7 @@ package class
 import "jvmgo/classfile"
 
 type Class struct {
+    Obj // todo
     staticFields    []*Field
     staticMethods   []*Method
     instanceFields  []*Field

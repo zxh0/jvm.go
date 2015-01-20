@@ -17,3 +17,8 @@ func (self *Field) GetValue(ref *Obj) (Any) {
     fields := ref.fields.([]Any)
     return fields[self.slot]
 }
+
+func (self *Field) GetStaticValue() (Any) {
+    fields := self.class.fields.([]Any)
+    return fields[self.slot]
+}

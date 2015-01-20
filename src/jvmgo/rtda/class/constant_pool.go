@@ -16,23 +16,24 @@ func (self *ConstantPool) GetConstant(index uint) (Constant) {
 func newConstantPool(cfCp * cf.ConstantPool) {
     cpInfos := cfCp.Infos()
     consts := make([]Constant, len(cpInfos))
-    for i, cpInfo := range cpInfos {
-        if i > 0 {
-            switch cpInfo.(type) {
-            case *cf.ConstantIntegerInfo:
-                cInt := cpInfo.(*cf.ConstantIntegerInfo)
-                consts[i] = cInt.Value()
-            case *cf.ConstantFloatInfo:
-                cFloat := cpInfo.(*cf.ConstantFloatInfo)
-                consts[i] = cFloat.Value()
-            case *cf.ConstantLongInfo:
-                cLong := cpInfo.(*cf.ConstantLongInfo)
-                consts[i] = cLong.Value()
-            case *cf.ConstantDoubleInfo:
-                cDouble := cpInfo.(*cf.ConstantDoubleInfo)
-                consts[i] = cDouble.Value()
-            // todo
-            }
+    for i := 1; i < len(cpInfos); i++ {
+        cpInfo := cpInfos[i]
+        switch cpInfo.(type) {
+        case *cf.ConstantIntegerInfo:
+            cInt := cpInfo.(*cf.ConstantIntegerInfo)
+            consts[i] = cInt.Value()
+        case *cf.ConstantFloatInfo:
+            cFloat := cpInfo.(*cf.ConstantFloatInfo)
+            consts[i] = cFloat.Value()
+        case *cf.ConstantLongInfo:
+            cLong := cpInfo.(*cf.ConstantLongInfo)
+            consts[i] = cLong.Value()
+            i++
+        case *cf.ConstantDoubleInfo:
+            cDouble := cpInfo.(*cf.ConstantDoubleInfo)
+            consts[i] = cDouble.Value()
+            i++
+        // todo
         }
     }
 }

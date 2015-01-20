@@ -17,6 +17,10 @@ func (self *Field) GetValue(ref *Obj) (Any) {
     fields := ref.fields.([]Any)
     return fields[self.slot]
 }
+func (self *Field) SetValue(ref *Obj, val Any) {
+    fields := ref.fields.([]Any)
+    fields[self.slot] = val
+}
 
 func (self *Field) GetStaticValue() (Any) {
     fields := self.class.fields.([]Any)

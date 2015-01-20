@@ -1,11 +1,26 @@
 package instructions
 
-import "jvmgo/rtda"
+import (
+    "jvmgo/rtda"
+    "jvmgo/rtda/class"
+)
 
 // Set field in object
 type putfield struct {Index16Instruction}
 func (self *putfield) Execute(thread *rtda.Thread) {
-    // todo
+    frame := thread.CurrentFrame()
+    stack := frame.OperandStack()
+    ref := stack.PopRef()
+    val := stack.Pop()
+    if ref == nil {
+        // todo NullPointerException
+    }
+    
+    cp := frame.Method().Class().ConstantPool()
+    cFieldRef := cp.GetConstant(self.index).(class.ConstantFieldref)
+    field := cFieldRef.Field()
+
+    field.SetValue(ref, val)
 }
 
 // Set static field in class

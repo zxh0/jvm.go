@@ -1,5 +1,13 @@
 package instructions
 
+var (
+    _aload_0 = &aload_0{}
+    _aload_1 = &aload_1{}
+    _aload_2 = &aload_2{}
+    _aload_3 = &aload_3{}
+    _arraylength = &arraylength{}
+)
+
 func Decode(bcr *BytecodeReader) (Instruction) {
     opcode := bcr.readUint8()
     instruction := newInstruction(opcode)
@@ -51,10 +59,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x27: return &dload_1{}
     case 0x28: return &dload_2{}
     case 0x29: return &dload_3{}
-    case 0x2a: return &aload_0{}
-    case 0x2b: return &aload_1{}
-    case 0x2c: return &aload_2{}
-    case 0x2d: return &aload_3{}
+    case 0x2a: return _aload_0
+    case 0x2b: return _aload_1
+    case 0x2c: return _aload_2
+    case 0x2d: return _aload_3
     case 0x2e: return &iaload{}
     case 0x2f: return &laload{}
     case 0x30: return &faload{}
@@ -199,7 +207,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xbb: return &_new{}
     case 0xbc: return &newarray{}
     case 0xbd: return &anewarray{}
-    case 0xbe: return &arraylength{}
+    case 0xbe: return _arraylength
     case 0xbf: return &athrow{}
     case 0xc0: return &checkcast{}
     case 0xc1: return &instanceof{}

@@ -52,7 +52,10 @@ func (self *faload) execute(thread *rtda.Thread) {
 // Load int from array 
 type iaload struct {NoOperandsInstruction}
 func (self *iaload) execute(thread *rtda.Thread) {
-    // todo
+    stack, arrRef, index := popArrAndIndex(thread)
+    intArr := arrRef.Fields().([]int32)
+    val := intArr[checkIndex(index, len(intArr))]
+    stack.PushInt(val)
 }
 
 // Load long from array 

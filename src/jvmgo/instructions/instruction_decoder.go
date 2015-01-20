@@ -30,6 +30,9 @@ var (
     _dup2 = &dup2{}
     _dup2_x1 = &dup2_x1{}
     _dup2_x2 = &dup2_x2{}
+    _f2d = &f2d{}
+    _f2i = &f2i{}
+    _f2l = &f2l{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -180,9 +183,9 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x88: return &l2i{}
     case 0x89: return &l2f{}
     case 0x8a: return &l2d{}
-    case 0x8b: return &f2i{}
-    case 0x8c: return &f2l{}
-    case 0x8d: return &f2d{}
+    case 0x8b: return _f2i
+    case 0x8c: return _f2l
+    case 0x8d: return _f2d
     case 0x8e: return _d2i
     case 0x8f: return _d2l
     case 0x90: return _d2f

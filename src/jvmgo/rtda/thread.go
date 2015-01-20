@@ -31,7 +31,7 @@ func (self *Thread) CurrentFrame() (*Frame) {
     return self.stack.top()
 }
 
-func (self *Thread) Branch(offset int) {
+func (self *Thread) IncrPC(offset int) {
     self.pc += offset
 }
 

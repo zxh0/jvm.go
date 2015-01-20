@@ -24,6 +24,12 @@ var (
     _dstore_1 = &dstore_1{}
     _dstore_2 = &dstore_2{}
     _dstore_3 = &dstore_3{}
+    _dup = &dup{}
+    _dup_x1 = &dup_x1{}
+    _dup_x2 = &dup_x2{}
+    _dup2 = &dup2{}
+    _dup2_x1 = &dup2_x1{}
+    _dup2_x2 = &dup2_x2{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -124,12 +130,12 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x56: return &sastore{}
     case 0x57: return &pop{}
     case 0x58: return &pop2{}
-    case 0x59: return &dup{}
-    case 0x5a: return &dup_x1{}
-    case 0x5b: return &dup_x2{}
-    case 0x5c: return &dup2{}
-    case 0x5d: return &dup2_x1{}
-    case 0x5e: return &dup2_x2{}
+    case 0x59: return _dup
+    case 0x5a: return _dup_x1
+    case 0x5b: return _dup_x2
+    case 0x5c: return _dup2
+    case 0x5d: return _dup2_x1
+    case 0x5e: return _dup2_x2
     case 0x5f: return &swap{}
     case 0x60: return &iadd{}
     case 0x61: return &ladd{}

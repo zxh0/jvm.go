@@ -8,7 +8,12 @@ import (
 // Store into reference array 
 type aastore struct {NoOperandsInstruction}
 func (self *aastore) execute(thread *rtda.Thread) {
+    arrRef, index, val := popOperands(thread)
+    refArr := arrRef.Fields().([]*rtda.Obj)
+    checkArrIndex(index, len(refArr))
     // todo
+    ref := val.(*rtda.Obj)
+    refArr[index] = ref
 }
 
 // Store into byte or boolean array 

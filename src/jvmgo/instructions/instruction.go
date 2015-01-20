@@ -40,11 +40,9 @@ func (self *Index16Instruction) fetchOperands(bcr *BytecodeReader) {
 
 // todo: move to any.go?
 func isLongOrDouble(x Any) (bool) {
-    if _, ok := x.(int64); ok {
-        return true
+    switch x.(type) {
+    case int64: return true
+    case float64: return true
+    default: return false
     }
-    if _, ok := x.(float64); ok {
-        return true
-    }
-    return false
 }

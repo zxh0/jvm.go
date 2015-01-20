@@ -20,10 +20,6 @@ func (self *Frame) Method() (*class.Method) {
     return self.method
 }
 
-func (self *Frame) executeOneInstruction() {
-    // todo
-}
-
 func newFrame(localVarsSize, operandStackSize uint16) (*Frame) {
     localVars := newLocalVars(localVarsSize)
     operandStack := newOperandStack(operandStackSize)

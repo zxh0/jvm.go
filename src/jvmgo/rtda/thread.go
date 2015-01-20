@@ -15,12 +15,8 @@ type Thread struct {
     // todo
 }
 
-// todo
-func (self *Thread) loop() {
-    for !self.stack.isEmpty() {
-        currentFrame := self.stack.top()
-        currentFrame.executeOneInstruction()
-    }
+func (self *Thread) IsStackEmpty() (bool) {
+    return self.stack.isEmpty()
 }
 
 func (self *Thread) CurrentFrame() (*Frame) {

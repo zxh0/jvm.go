@@ -43,6 +43,15 @@ var (
     _fstore_1 = &fstore_1{}
     _fstore_2 = &fstore_2{}
     _fstore_3 = &fstore_3{}
+    _i2b = &i2b{} 
+    _i2c = &i2c{}
+    _i2d = &i2d{}
+    _i2f = &i2f{}
+    _i2l = &i2l{}
+    _i2s = &i2s{}
+    
+    
+
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -187,9 +196,9 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x82: return &ixor{}
     case 0x83: return &lxor{}
     case 0x84: return &iinc{}
-    case 0x85: return &i2l{}
-    case 0x86: return &i2f{}
-    case 0x87: return &i2d{}
+    case 0x85: return _i2l
+    case 0x86: return _i2f
+    case 0x87: return _i2d
     case 0x88: return &l2i{}
     case 0x89: return &l2f{}
     case 0x8a: return &l2d{}
@@ -199,9 +208,9 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x8e: return _d2i
     case 0x8f: return _d2l
     case 0x90: return _d2f
-    case 0x91: return &i2b{}
-    case 0x92: return &i2c{}
-    case 0x93: return &i2s{}
+    case 0x91: return _i2b
+    case 0x92: return _i2c
+    case 0x93: return _i2s
     case 0x94: return &lcmp{}
     case 0x95: return _fcmpl
     case 0x96: return _fcmpg

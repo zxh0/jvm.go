@@ -1,5 +1,6 @@
 package instructions
 
+// NoOperandsInstructions
 var (
     _aconst_null = &aconst_null{}
     _dconst_0 = &dconst_0{}

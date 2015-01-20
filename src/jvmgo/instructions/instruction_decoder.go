@@ -87,6 +87,8 @@ var (
     _iaload = &iaload{}
     _laload = &laload{}
     _saload = &saload{}
+    _iand = &iand{}
+    _land = &land{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -224,8 +226,8 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x7b: return &lshr{}
     case 0x7c: return &iushr{}
     case 0x7d: return &lushr{}
-    case 0x7e: return &iand{}
-    case 0x7f: return &land{}
+    case 0x7e: return _iand
+    case 0x7f: return _land
     case 0x80: return &ior{}
     case 0x81: return &lor{}
     case 0x82: return &ixor{}

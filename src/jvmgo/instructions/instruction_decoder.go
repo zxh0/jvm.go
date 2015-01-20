@@ -69,6 +69,8 @@ var (
     _lstore_1 = &lstore_1{}
     _lstore_2 = &lstore_2{}
     _lstore_3 = &lstore_3{}
+    _monitorenter = &monitorenter{}
+    _monitorexit = &monitorexit{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -274,8 +276,8 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xbf: return _athrow
     case 0xc0: return &checkcast{}
     case 0xc1: return &instanceof{}
-    case 0xc2: return &monitorenter{}
-    case 0xc3: return &monitorexit{}
+    case 0xc2: return _monitorenter
+    case 0xc3: return _monitorexit
     case 0xc5: return &multianewarray{}
     case 0xc6: return &ifnull{}
     case 0xc7: return &ifnonnull{}

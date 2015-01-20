@@ -33,6 +33,8 @@ var (
     _f2d = &f2d{}
     _f2i = &f2i{}
     _f2l = &f2l{}
+    _fcmpg = &fcmpg{}
+    _fcmpl = &fcmpl{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -193,8 +195,8 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x92: return &i2c{}
     case 0x93: return &i2s{}
     case 0x94: return &lcmp{}
-    case 0x95: return &fcmpl{}
-    case 0x96: return &fcmpg{}
+    case 0x95: return _fcmpl
+    case 0x96: return _fcmpg
     case 0x97: return _dcmpl
     case 0x98: return _dcmpg
     case 0x99: return &ifeq{}

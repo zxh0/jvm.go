@@ -1,11 +1,20 @@
 package instructions
 
-import "jvmgo/rtda"
+import (
+    "jvmgo/rtda"
+    "jvmgo/rtda/class"
+)
 
 // Create new object
 type _new struct {Index16Instruction}
 func (self *_new) Execute(thread *rtda.Thread) {
-    // todo
+    frame := thread.CurrentFrame()
+    stack := frame.OperandStack()
+    cp := frame.Method().Class().ConstantPool()
+    cClass := cp.GetConstant(self.index).(class.ConstantClass)
+    class := cClass.Class()
+    ref := class.NewObj()
+    stack.PushRef(ref)
 }
 
 // Create new array of reference

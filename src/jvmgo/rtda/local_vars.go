@@ -6,10 +6,10 @@ type LocalVars struct {
     slots []Any
 }
 
-func (self *LocalVars) GetRef(index uint) (*Ref) {
-    return self.slots[index].(*Ref)
+func (self *LocalVars) GetRef(index uint) (*Obj) {
+    return self.slots[index].(*Obj)
 }
-func (self *LocalVars) SetRef(index uint, ref *Ref) {
+func (self *LocalVars) SetRef(index uint, ref *Obj) {
     self.slots[index] = ref
 }
 

@@ -11,11 +11,11 @@ func (self *OperandStack) PushNull() {
     self.Push(nil)
 }
 
-func (self *OperandStack) PushRef(ref *Ref) {
+func (self *OperandStack) PushRef(ref *Obj) {
     self.Push(ref)
 }
-func (self *OperandStack) PopRef() (*Ref) {
-    return self.Pop().(*Ref)
+func (self *OperandStack) PopRef() (*Obj) {
+    return self.Pop().(*Obj)
 }
 
 func (self *OperandStack) PushInt(val int32) {

@@ -61,7 +61,10 @@ func (self *iaload) execute(thread *rtda.Thread) {
 // Load long from array 
 type laload struct {NoOperandsInstruction}
 func (self *laload) execute(thread *rtda.Thread) {
-    // todo
+    stack, arrRef, index := popArrAndIndex(thread)
+    longArr := arrRef.Fields().([]int64)
+    val := longArr[checkIndex(index, len(longArr))]
+    stack.PushLong(val)
 }
 
 // Load short from array 

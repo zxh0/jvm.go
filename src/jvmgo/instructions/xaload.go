@@ -70,7 +70,10 @@ func (self *laload) execute(thread *rtda.Thread) {
 // Load short from array 
 type saload struct {NoOperandsInstruction}
 func (self *saload) execute(thread *rtda.Thread) {
-    // todo
+    stack, arrRef, index := popArrAndIndex(thread)
+    shortArr := arrRef.Fields().([]int16)
+    val := shortArr[checkIndex(index, len(shortArr))]
+    stack.PushInt(int32(val))
 }
 
 func popArrAndIndex(thread *rtda.Thread) (*rtda.OperandStack, *rtda.Obj, int) {

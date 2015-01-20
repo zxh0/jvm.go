@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 type Instruction interface {
     fetchOperands(bcr *BytecodeReader)
-    execute(thread *rtda.Thread)
+    Execute(thread *rtda.Thread)
 }
 
 type NoOperandsInstruction struct {

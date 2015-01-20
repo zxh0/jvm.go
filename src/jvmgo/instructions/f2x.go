@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 // Convert float to double
 type f2d struct {NoOperandsInstruction}
-func (self *f2d) execute(thread *rtda.Thread) {
+func (self *f2d) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     f := stack.PopFloat()
     d := float64(f)
@@ -13,7 +13,7 @@ func (self *f2d) execute(thread *rtda.Thread) {
 
 // Convert float to int
 type f2i struct {NoOperandsInstruction}
-func (self *f2i) execute(thread *rtda.Thread) {
+func (self *f2i) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     f := stack.PopFloat()
     i := int32(f)
@@ -22,7 +22,7 @@ func (self *f2i) execute(thread *rtda.Thread) {
 
 // Convert float to long
 type f2l struct {NoOperandsInstruction}
-func (self *f2l) execute(thread *rtda.Thread) {
+func (self *f2l) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     f := stack.PopFloat()
     l := int64(f)

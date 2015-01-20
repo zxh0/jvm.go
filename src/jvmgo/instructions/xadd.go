@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 // Add double
 type dadd struct {NoOperandsInstruction}
-func (self *dadd) execute(thread *rtda.Thread) {
+func (self *dadd) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
     v2 := stack.PopDouble()
@@ -14,7 +14,7 @@ func (self *dadd) execute(thread *rtda.Thread) {
 
 // Add float
 type fadd struct {NoOperandsInstruction}
-func (self *fadd) execute(thread *rtda.Thread) {
+func (self *fadd) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopFloat()
     v2 := stack.PopFloat()
@@ -24,7 +24,7 @@ func (self *fadd) execute(thread *rtda.Thread) {
 
 // Add int
 type iadd struct {NoOperandsInstruction}
-func (self *iadd) execute(thread *rtda.Thread) {
+func (self *iadd) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
     v2 := stack.PopInt()
@@ -34,7 +34,7 @@ func (self *iadd) execute(thread *rtda.Thread) {
 
 // Add long
 type ladd struct {NoOperandsInstruction}
-func (self *ladd) execute(thread *rtda.Thread) {
+func (self *ladd) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()
     v2 := stack.PopLong()

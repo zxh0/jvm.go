@@ -11,6 +11,6 @@ func (self *lookupswitch) fetchOperands(bcr *BytecodeReader) {
     // todo
 }
 
-func (self *lookupswitch) execute(thread *rtda.Thread) {
+func (self *lookupswitch) Execute(thread *rtda.Thread) {
     // todo
 }

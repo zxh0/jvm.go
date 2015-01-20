@@ -7,13 +7,13 @@ import (
 
 // Push item from run-time constant pool 
 type ldc struct {Index8Instruction}
-func (self *ldc) execute(thread *rtda.Thread) {
+func (self *ldc) Execute(thread *rtda.Thread) {
     _ldc(thread, self.index)
 }
 
 // Push item from run-time constant pool (wide index)
 type ldc_w struct {Index16Instruction}
-func (self *ldc_w) execute(thread *rtda.Thread) {
+func (self *ldc_w) Execute(thread *rtda.Thread) {
     _ldc(thread, self.index)
 }
 
@@ -35,7 +35,7 @@ func _ldc(thread *rtda.Thread, index uint) {
 
 // Push long or double from run-time constant pool (wide index) 
 type ldc2_w struct {Index16Instruction}
-func (self *ldc2_w) execute(thread *rtda.Thread) {
+func (self *ldc2_w) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
     stack := frame.OperandStack()
     cp := frame.Method().Class().ConstantPool()

@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 // Boolean AND int
 type iand struct {NoOperandsInstruction}
-func (self *iand) execute(thread *rtda.Thread) {
+func (self *iand) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
     v2 := stack.PopInt()
@@ -14,7 +14,7 @@ func (self *iand) execute(thread *rtda.Thread) {
 
 // Boolean AND long
 type land struct {NoOperandsInstruction}
-func (self *land) execute(thread *rtda.Thread) {
+func (self *land) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()
     v2 := stack.PopLong()

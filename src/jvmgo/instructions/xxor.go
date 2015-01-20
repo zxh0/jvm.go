@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 // Boolean XOR int
 type ixor struct {NoOperandsInstruction}
-func (self *ixor) execute(thread *rtda.Thread) {
+func (self *ixor) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
     v2 := stack.PopInt()
@@ -14,7 +14,7 @@ func (self *ixor) execute(thread *rtda.Thread) {
 
 // Boolean XOR long
 type lxor struct {NoOperandsInstruction}
-func (self *lxor) execute(thread *rtda.Thread) {
+func (self *lxor) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()
     v2 := stack.PopLong()

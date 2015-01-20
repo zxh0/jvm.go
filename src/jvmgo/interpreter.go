@@ -16,7 +16,7 @@ func loop(thread *rtda.Thread) {
         bcr.SetPC(thread.PC())
         bcr.SetCode(thread.CurrentFrame().Method().Code())
         inst := instructions.Decode(bcr)
-        inst.execute(thread)
+        inst.Execute(thread)
     }
 }
 

@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 // Compare long
 type lcmp struct {NoOperandsInstruction}
-func (self *lcmp) execute(thread *rtda.Thread) {
+func (self *lcmp) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()
     v2 := stack.PopLong()

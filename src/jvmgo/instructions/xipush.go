@@ -9,7 +9,7 @@ type bipush struct {
 func (self *bipush) fetchOperands(bcr *BytecodeReader) {
     self.val = bcr.readInt8()
 }
-func (self *bipush) execute(thread *rtda.Thread) {
+func (self *bipush) Execute(thread *rtda.Thread) {
     i := int32(self.val)
     thread.CurrentFrame().OperandStack().PushInt(i)
 }
@@ -21,7 +21,7 @@ type sipush struct {
 func (self *sipush) fetchOperands(bcr *BytecodeReader) {
     self.val = bcr.readInt16()
 }
-func (self *sipush) execute(thread *rtda.Thread) {
+func (self *sipush) Execute(thread *rtda.Thread) {
     i := int32(self.val)
     thread.CurrentFrame().OperandStack().PushInt(i)
 }

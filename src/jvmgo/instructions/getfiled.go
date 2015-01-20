@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 // Fetch field from object
 type getfield struct {Index16Instruction}
-func (self *getfield) execute(thread *rtda.Thread) {
+func (self *getfield) Execute(thread *rtda.Thread) {
     //stack := thread.CurrentFrame().OperandStack()
     //ref := stack.PopRef()
     // todo
@@ -12,6 +12,6 @@ func (self *getfield) execute(thread *rtda.Thread) {
 
 // Get static field from class 
 type getstatic struct {Index16Instruction}
-func (self *getstatic) execute(thread *rtda.Thread) {
+func (self *getstatic) Execute(thread *rtda.Thread) {
     // todo
 }

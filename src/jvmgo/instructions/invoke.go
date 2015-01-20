@@ -4,20 +4,20 @@ import "jvmgo/rtda"
 
 // Invoke a class (static) method 
 type invokestatic struct {Index16Instruction}
-func (self *invokestatic) execute(thread *rtda.Thread) {
+func (self *invokestatic) Execute(thread *rtda.Thread) {
     // todo
 }
 
 // Invoke instance method;
 // special handling for superclass, private, and instance initialization method invocations 
 type invokespecial struct {Index16Instruction}
-func (self *invokespecial) execute(thread *rtda.Thread) {
+func (self *invokespecial) Execute(thread *rtda.Thread) {
     // todo
 }
 
 // Invoke instance method; dispatch based on class
 type invokevirtual struct {Index16Instruction}
-func (self *invokevirtual) execute(thread *rtda.Thread) {
+func (self *invokevirtual) Execute(thread *rtda.Thread) {
     // todo
 }
 
@@ -32,7 +32,7 @@ func (self *invokeinterface) fetchOperands(bcr *BytecodeReader) {
     self.count = bcr.readUint8()
     bcr.readUint8() // must be 0
 }
-func (self *invokeinterface) execute(thread *rtda.Thread) {
+func (self *invokeinterface) Execute(thread *rtda.Thread) {
     // todo
 }
 
@@ -47,6 +47,6 @@ func (self *invokedynamic) fetchOperands(bcr *BytecodeReader) {
     bcr.readUint8() // must be 0
     bcr.readUint8() // must be 0
 }
-func (self *invokedynamic) execute(thread *rtda.Thread) {
+func (self *invokedynamic) Execute(thread *rtda.Thread) {
     // todo
 }

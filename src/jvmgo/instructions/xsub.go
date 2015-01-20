@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 // Subtract double
 type dsub struct {NoOperandsInstruction}
-func (self *dsub) execute(thread *rtda.Thread) {
+func (self *dsub) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
     v2 := stack.PopDouble()
@@ -14,7 +14,7 @@ func (self *dsub) execute(thread *rtda.Thread) {
 
 // Subtract float
 type fsub struct {NoOperandsInstruction}
-func (self *fsub) execute(thread *rtda.Thread) {
+func (self *fsub) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopFloat()
     v2 := stack.PopFloat()
@@ -24,7 +24,7 @@ func (self *fsub) execute(thread *rtda.Thread) {
 
 // Subtract int
 type isub struct {NoOperandsInstruction}
-func (self *isub) execute(thread *rtda.Thread) {
+func (self *isub) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
     v2 := stack.PopInt()
@@ -34,7 +34,7 @@ func (self *isub) execute(thread *rtda.Thread) {
 
 // Subtract long
 type lsub struct {NoOperandsInstruction}
-func (self *lsub) execute(thread *rtda.Thread) {
+func (self *lsub) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()
     v2 := stack.PopLong()

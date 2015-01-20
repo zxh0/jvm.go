@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 // Shift left int
 type ishl struct {NoOperandsInstruction}
-func (self *ishl) execute(thread *rtda.Thread) {
+func (self *ishl) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
     v2 := stack.PopInt()
@@ -15,7 +15,7 @@ func (self *ishl) execute(thread *rtda.Thread) {
 
 // Arithmetic shift right int
 type ishr struct {NoOperandsInstruction}
-func (self *ishr) execute(thread *rtda.Thread) {
+func (self *ishr) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
     v2 := stack.PopInt()
@@ -26,7 +26,7 @@ func (self *ishr) execute(thread *rtda.Thread) {
 
 // Logical shift right int
 type iushr struct {NoOperandsInstruction}
-func (self *iushr) execute(thread *rtda.Thread) {
+func (self *iushr) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
     v2 := stack.PopInt()
@@ -38,7 +38,7 @@ func (self *iushr) execute(thread *rtda.Thread) {
 
 // Shift left long
 type lshl struct {NoOperandsInstruction}
-func (self *lshl) execute(thread *rtda.Thread) {
+func (self *lshl) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()
     v2 := stack.PopInt()
@@ -49,7 +49,7 @@ func (self *lshl) execute(thread *rtda.Thread) {
 
 // Arithmetic shift right long
 type lshr struct {NoOperandsInstruction}
-func (self *lshr) execute(thread *rtda.Thread) {
+func (self *lshr) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()
     v2 := stack.PopInt()
@@ -60,7 +60,7 @@ func (self *lshr) execute(thread *rtda.Thread) {
 
 // Logical shift right long
 type lushr struct {NoOperandsInstruction}
-func (self *lushr) execute(thread *rtda.Thread) {
+func (self *lushr) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()
     v2 := stack.PopInt()

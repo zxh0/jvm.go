@@ -6,7 +6,7 @@ import "jvmgo/rtda"
 
 // Load reference from array
 type aaload struct {NoOperandsInstruction}
-func (self *aaload) execute(thread *rtda.Thread) {
+func (self *aaload) Execute(thread *rtda.Thread) {
     stack, arrRef, index := popArrAndIndex(thread)
     refArr := arrRef.Fields().([]*rtda.Obj)
     checkArrIndex(index, len(refArr))
@@ -16,7 +16,7 @@ func (self *aaload) execute(thread *rtda.Thread) {
 
 // Load byte or boolean from array 
 type baload struct {NoOperandsInstruction}
-func (self *baload) execute(thread *rtda.Thread) {
+func (self *baload) Execute(thread *rtda.Thread) {
     stack, arrRef, index := popArrAndIndex(thread)
     byteArr := arrRef.Fields().([]int8)
     checkArrIndex(index, len(byteArr))
@@ -26,7 +26,7 @@ func (self *baload) execute(thread *rtda.Thread) {
 
 // Load char from array 
 type caload struct {NoOperandsInstruction}
-func (self *caload) execute(thread *rtda.Thread) {
+func (self *caload) Execute(thread *rtda.Thread) {
     stack, arrRef, index := popArrAndIndex(thread)
     charArr := arrRef.Fields().([]uint16)
     checkArrIndex(index, len(charArr))
@@ -36,7 +36,7 @@ func (self *caload) execute(thread *rtda.Thread) {
 
 // Load double from array 
 type daload struct {NoOperandsInstruction}
-func (self *daload) execute(thread *rtda.Thread) {
+func (self *daload) Execute(thread *rtda.Thread) {
     stack, arrRef, index := popArrAndIndex(thread)
     doubleArr := arrRef.Fields().([]float64)
     checkArrIndex(index, len(doubleArr))
@@ -46,7 +46,7 @@ func (self *daload) execute(thread *rtda.Thread) {
 
 // Load float from array 
 type faload struct {NoOperandsInstruction}
-func (self *faload) execute(thread *rtda.Thread) {
+func (self *faload) Execute(thread *rtda.Thread) {
     stack, arrRef, index := popArrAndIndex(thread)
     floatArr := arrRef.Fields().([]float32)
     checkArrIndex(index, len(floatArr))
@@ -56,7 +56,7 @@ func (self *faload) execute(thread *rtda.Thread) {
 
 // Load int from array 
 type iaload struct {NoOperandsInstruction}
-func (self *iaload) execute(thread *rtda.Thread) {
+func (self *iaload) Execute(thread *rtda.Thread) {
     stack, arrRef, index := popArrAndIndex(thread)
     intArr := arrRef.Fields().([]int32)
     checkArrIndex(index, len(intArr))
@@ -66,7 +66,7 @@ func (self *iaload) execute(thread *rtda.Thread) {
 
 // Load long from array 
 type laload struct {NoOperandsInstruction}
-func (self *laload) execute(thread *rtda.Thread) {
+func (self *laload) Execute(thread *rtda.Thread) {
     stack, arrRef, index := popArrAndIndex(thread)
     longArr := arrRef.Fields().([]int64)
     checkArrIndex(index, len(longArr))
@@ -76,7 +76,7 @@ func (self *laload) execute(thread *rtda.Thread) {
 
 // Load short from array 
 type saload struct {NoOperandsInstruction}
-func (self *saload) execute(thread *rtda.Thread) {
+func (self *saload) Execute(thread *rtda.Thread) {
     stack, arrRef, index := popArrAndIndex(thread)
     shortArr := arrRef.Fields().([]int16)
     checkArrIndex(index, len(shortArr))

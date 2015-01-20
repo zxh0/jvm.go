@@ -11,6 +11,6 @@ func (self *tableswitch) fetchOperands(bcr *BytecodeReader) {
     // todo
 }
 
-func (self *tableswitch) execute(thread *rtda.Thread) {
+func (self *tableswitch) Execute(thread *rtda.Thread) {
     // todo
 }

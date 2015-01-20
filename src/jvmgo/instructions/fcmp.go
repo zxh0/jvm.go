@@ -4,12 +4,12 @@ import "jvmgo/rtda"
 
 // Compare float
 type fcmpg struct {NoOperandsInstruction}
-func (self *fcmpg) execute(thread *rtda.Thread) {
+func (self *fcmpg) Execute(thread *rtda.Thread) {
     _fcmp(thread, true)
 }
 
 type fcmpl struct {NoOperandsInstruction}
-func (self *fcmpl) execute(thread *rtda.Thread) {
+func (self *fcmpl) Execute(thread *rtda.Thread) {
     _fcmp(thread, false)
 }
 

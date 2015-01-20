@@ -4,14 +4,14 @@ import "jvmgo/rtda"
 
 // Branch if reference comparison succeeds 
 type if_acmpeq struct {BranchInstruction}
-func (self *if_acmpeq) execute(thread *rtda.Thread) {
+func (self *if_acmpeq) Execute(thread *rtda.Thread) {
     if _acmp(thread) {
         // todo
     }
 }
 
 type if_acmpne struct {BranchInstruction}
-func (self *if_acmpne) execute(thread *rtda.Thread) {
+func (self *if_acmpne) Execute(thread *rtda.Thread) {
     if !_acmp(thread) {
         // todo
     }

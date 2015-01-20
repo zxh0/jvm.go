@@ -4,13 +4,13 @@ import "jvmgo/rtda"
 
 // Create new object
 type _new struct {Index16Instruction}
-func (self *_new) execute(thread *rtda.Thread) {
+func (self *_new) Execute(thread *rtda.Thread) {
     // todo
 }
 
 // Create new array of reference
 type anewarray struct {Index16Instruction}
-func (self *anewarray) execute(thread *rtda.Thread) {
+func (self *anewarray) Execute(thread *rtda.Thread) {
     // todo
 }
 
@@ -21,7 +21,7 @@ type newarray struct {
 func (self *newarray) fetchOperands(bcr *BytecodeReader) {
     self.atype = bcr.readUint8()
 }
-func (self *newarray) execute(thread *rtda.Thread) {
+func (self *newarray) Execute(thread *rtda.Thread) {
     // todo
 }
 
@@ -34,6 +34,6 @@ func (self *multianewarray) fetchOperands(bcr *BytecodeReader) {
     self.index = bcr.readUint16()
     self.dimensions = bcr.readUint8()
 }
-func (self *multianewarray) execute(thread *rtda.Thread) {
+func (self *multianewarray) Execute(thread *rtda.Thread) {
     // todo
 }

@@ -7,7 +7,7 @@ import (
 
 // Store into reference array 
 type aastore struct {NoOperandsInstruction}
-func (self *aastore) execute(thread *rtda.Thread) {
+func (self *aastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     refArr := arrRef.Fields().([]*rtda.Obj)
     checkArrIndex(index, len(refArr))
@@ -18,7 +18,7 @@ func (self *aastore) execute(thread *rtda.Thread) {
 
 // Store into byte or boolean array 
 type bastore struct {NoOperandsInstruction}
-func (self *bastore) execute(thread *rtda.Thread) {
+func (self *bastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     byteArr := arrRef.Fields().([]int8)
     checkArrIndex(index, len(byteArr))
@@ -27,7 +27,7 @@ func (self *bastore) execute(thread *rtda.Thread) {
 
 // Store into char array 
 type castore struct {NoOperandsInstruction}
-func (self *castore) execute(thread *rtda.Thread) {
+func (self *castore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     charArr := arrRef.Fields().([]uint16)
     checkArrIndex(index, len(charArr))
@@ -36,7 +36,7 @@ func (self *castore) execute(thread *rtda.Thread) {
 
 // Store into double array 
 type dastore struct {NoOperandsInstruction}
-func (self *dastore) execute(thread *rtda.Thread) {
+func (self *dastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     doubleArr := arrRef.Fields().([]float64)
     checkArrIndex(index, len(doubleArr))
@@ -45,7 +45,7 @@ func (self *dastore) execute(thread *rtda.Thread) {
 
 // Store into float array 
 type fastore struct {NoOperandsInstruction}
-func (self *fastore) execute(thread *rtda.Thread) {
+func (self *fastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     floatArr := arrRef.Fields().([]float32)
     checkArrIndex(index, len(floatArr))
@@ -54,7 +54,7 @@ func (self *fastore) execute(thread *rtda.Thread) {
 
 // Store into int array 
 type iastore struct {NoOperandsInstruction}
-func (self *iastore) execute(thread *rtda.Thread) {
+func (self *iastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     intArr := arrRef.Fields().([]int32)
     checkArrIndex(index, len(intArr))
@@ -63,7 +63,7 @@ func (self *iastore) execute(thread *rtda.Thread) {
 
 // Store into long array 
 type lastore struct {NoOperandsInstruction}
-func (self *lastore) execute(thread *rtda.Thread) {
+func (self *lastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     longArr := arrRef.Fields().([]int64)
     checkArrIndex(index, len(longArr))
@@ -72,7 +72,7 @@ func (self *lastore) execute(thread *rtda.Thread) {
 
 // Store into short array 
 type sastore struct {NoOperandsInstruction}
-func (self *sastore) execute(thread *rtda.Thread) {
+func (self *sastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     shortArr := arrRef.Fields().([]int16)
     checkArrIndex(index, len(shortArr))

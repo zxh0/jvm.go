@@ -7,7 +7,7 @@ import (
 
 // Remainder double
 type drem struct {NoOperandsInstruction}
-func (self *drem) execute(thread *rtda.Thread) {
+func (self *drem) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopDouble()
     v2 := stack.PopDouble()
@@ -17,7 +17,7 @@ func (self *drem) execute(thread *rtda.Thread) {
 
 // Remainder float
 type frem struct {NoOperandsInstruction}
-func (self *frem) execute(thread *rtda.Thread) {
+func (self *frem) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopFloat()
     v2 := stack.PopFloat()
@@ -27,7 +27,7 @@ func (self *frem) execute(thread *rtda.Thread) {
 
 // Remainder int
 type irem struct {NoOperandsInstruction}
-func (self *irem) execute(thread *rtda.Thread) {
+func (self *irem) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopInt()
     v2 := stack.PopInt()
@@ -37,7 +37,7 @@ func (self *irem) execute(thread *rtda.Thread) {
 
 // Remainder long
 type lrem struct {NoOperandsInstruction}
-func (self *lrem) execute(thread *rtda.Thread) {
+func (self *lrem) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     v1 := stack.PopLong()
     v2 := stack.PopLong()

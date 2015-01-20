@@ -4,7 +4,7 @@ import "jvmgo/rtda"
 
 // Duplicate the top operand stack value
 type dup struct {NoOperandsInstruction}
-func (self *dup) execute(thread *rtda.Thread) {
+func (self *dup) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val := stack.Pop()
     stack.Push(val)
@@ -13,7 +13,7 @@ func (self *dup) execute(thread *rtda.Thread) {
 
 // Duplicate the top operand stack value and insert two values down
 type dup_x1 struct {NoOperandsInstruction}
-func (self *dup_x1) execute(thread *rtda.Thread) {
+func (self *dup_x1) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val1 := stack.Pop()
     val2 := stack.Pop()
@@ -24,7 +24,7 @@ func (self *dup_x1) execute(thread *rtda.Thread) {
 
 // Duplicate the top operand stack value and insert two or three values down 
 type dup_x2 struct {NoOperandsInstruction}
-func (self *dup_x2) execute(thread *rtda.Thread) {
+func (self *dup_x2) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val1 := stack.Pop()
     val2 := stack.Pop()
@@ -45,7 +45,7 @@ func (self *dup_x2) execute(thread *rtda.Thread) {
 
 // Duplicate the top one or two operand stack values 
 type dup2 struct {NoOperandsInstruction}
-func (self *dup2) execute(thread *rtda.Thread) {
+func (self *dup2) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val1 := stack.Pop()
     if isLongOrDouble(val1) {
@@ -64,7 +64,7 @@ func (self *dup2) execute(thread *rtda.Thread) {
 
 // Duplicate the top one or two operand stack values and insert two or three values down
 type dup2_x1 struct {NoOperandsInstruction}
-func (self *dup2_x1) execute(thread *rtda.Thread) {
+func (self *dup2_x1) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val1 := stack.Pop()
     if isLongOrDouble(val1) {
@@ -87,7 +87,7 @@ func (self *dup2_x1) execute(thread *rtda.Thread) {
 
 // Duplicate the top one or two operand stack values and insert two, three, or four values down 
 type dup2_x2 struct {NoOperandsInstruction}
-func (self *dup2_x2) execute(thread *rtda.Thread) {
+func (self *dup2_x2) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
     val1 := stack.Pop()
     val2 := stack.Pop()

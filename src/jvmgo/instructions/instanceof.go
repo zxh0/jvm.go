@@ -4,6 +4,6 @@ import "jvmgo/rtda"
 
 // Determine if object is of given type
 type instanceof struct {Index16Instruction}
-func (self *instanceof) execute(thread *rtda.Thread) {
+func (self *instanceof) Execute(thread *rtda.Thread) {
     // todo
 }

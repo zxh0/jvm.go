@@ -4,12 +4,12 @@ import "jvmgo/rtda"
 
 // Compare double
 type dcmpg struct {NoOperandsInstruction}
-func (self *dcmpg) execute(thread *rtda.Thread) {
+func (self *dcmpg) Execute(thread *rtda.Thread) {
     _dcmp(thread, true)
 }
 
 type dcmpl struct {NoOperandsInstruction}
-func (self *dcmpl) execute(thread *rtda.Thread) {
+func (self *dcmpl) Execute(thread *rtda.Thread) {
     _dcmp(thread, false)
 }
 

@@ -72,6 +72,30 @@ var (
     _iastore = &iastore{}
     _lastore = &lastore{}
     _sastore = &sastore{}
+    _dadd = &dadd{}
+    _fadd = &fadd{}
+    _iadd = &iadd{}
+    _ladd = &ladd{}
+    _ddiv = &ddiv{}
+    _fdiv = &fdiv{}
+    _idiv = &idiv{}
+    _ldiv = &ldiv{}
+    _dmul = &dmul{}
+    _fmul = &fmul{}
+    _imul = &imul{}
+    _lmul = &lmul{}
+    _dneg = &dneg{}
+    _fneg = &fneg{}
+    _ineg = &ineg{}
+    _lneg = &lneg{}
+    _drem = &drem{}
+    _frem = &frem{}
+    _irem = &irem{}
+    _lrem = &lrem{}
+    _dsub = &dsub{}
+    _fsub = &fsub{}
+    _isub = &isub{}
+    _lsub = &lsub{}
     _arraylength = &arraylength{}
     _athrow = &athrow{}
     _d2f = &d2f{}
@@ -106,32 +130,10 @@ var (
     _pop = &pop{}
     _pop2 = &pop2{}
     _swap = &swap{}
-    _dadd = &dadd{}
-    _fadd = &fadd{}
-    _iadd = &iadd{}
-    _ladd = &ladd{}
+    
     _iand = &iand{}
     _land = &land{}
-    _ddiv = &ddiv{}
-    _fdiv = &fdiv{}
-    _idiv = &idiv{}
-    _ldiv = &ldiv{}
-    _dmul = &dmul{}
-    _fmul = &fmul{}
-    _imul = &imul{}
-    _lmul = &lmul{}
-    _dneg = &dneg{}
-    _fneg = &fneg{}
-    _ineg = &ineg{}
-    _lneg = &lneg{}
-    _drem = &drem{}
-    _frem = &frem{}
-    _irem = &irem{}
-    _lrem = &lrem{}
-    _dsub = &dsub{}
-    _fsub = &fsub{}
-    _isub = &isub{}
-    _lsub = &lsub{}
+    
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {

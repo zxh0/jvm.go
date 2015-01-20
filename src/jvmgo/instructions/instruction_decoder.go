@@ -49,7 +49,10 @@ var (
     _i2f = &i2f{}
     _i2l = &i2l{}
     _i2s = &i2s{}
-    
+    _iload_0 = &iload_0{}
+    _iload_1 = &iload_1{}
+    _iload_2 = &iload_2{}
+    _iload_3 = &iload_3{}
     
 
 )
@@ -89,10 +92,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x17: return &fload{}
     case 0x18: return &dload{}
     case 0x19: return &aload{}
-    case 0x1a: return &iload_0{}
-    case 0x1b: return &iload_1{}
-    case 0x1c: return &iload_2{}
-    case 0x1d: return &iload_3{}
+    case 0x1a: return _iload_0
+    case 0x1b: return _iload_1
+    case 0x1c: return _iload_2
+    case 0x1d: return _iload_3
     case 0x1e: return &lload_0{}
     case 0x1f: return &lload_1{}
     case 0x20: return &lload_2{}

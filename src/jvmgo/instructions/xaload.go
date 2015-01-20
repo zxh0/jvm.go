@@ -87,6 +87,7 @@ func popArrAndIndex(thread *rtda.Thread) (*rtda.OperandStack, *rtda.Obj, int) {
     return stack, arrRef, index
 }
 
+// todo
 func checkIndex(index, len int) (int) {
     if index < 0 || index >= len {
         panic("ArrayIndexOutOfBoundsException")

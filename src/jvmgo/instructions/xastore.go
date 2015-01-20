@@ -16,19 +16,8 @@ type bastore struct {NoOperandsInstruction}
 func (self *bastore) execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     byteArr := arrRef.Fields().([]int8)
+    index = checkIndex(index, len(byteArr))
     byteArr[index] = val.(int8)
-}
-
-func popOperands(thread *rtda.Thread) (*rtda.Obj, int, Any) {
-    stack := thread.CurrentFrame().OperandStack()
-    arrRef := stack.PopRef()
-    index := int(stack.PopInt())
-    val := stack.Pop()
-    if arrRef == nil {
-        // todo
-        panic("NullPointerException")
-    }
-    return arrRef, index, val
 }
 
 // Store into char array 
@@ -65,4 +54,16 @@ func (self *lastore) execute(thread *rtda.Thread) {
 type sastore struct {NoOperandsInstruction}
 func (self *sastore) execute(thread *rtda.Thread) {
     // todo
+}
+
+func popOperands(thread *rtda.Thread) (*rtda.Obj, int, Any) {
+    stack := thread.CurrentFrame().OperandStack()
+    arrRef := stack.PopRef()
+    index := int(stack.PopInt())
+    val := stack.Pop()
+    if arrRef == nil {
+        // todo
+        panic("NullPointerException")
+    }
+    return arrRef, index, val
 }

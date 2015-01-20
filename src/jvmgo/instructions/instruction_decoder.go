@@ -53,7 +53,10 @@ var (
     _iload_1 = &iload_1{}
     _iload_2 = &iload_2{}
     _iload_3 = &iload_3{}
-    
+    _istore_0 = &istore_0{}
+    _istore_1 = &istore_1{}
+    _istore_2 = &istore_2{}
+    _istore_3 = &istore_3{}
 
 )
 
@@ -125,10 +128,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x38: return &fstore{}
     case 0x39: return &dstore{}
     case 0x3a: return &astore{}
-    case 0x3b: return &istore_0{}
-    case 0x3c: return &istore_1{}
-    case 0x3d: return &istore_2{}
-    case 0x3e: return &istore_3{}
+    case 0x3b: return _istore_0
+    case 0x3c: return _istore_1
+    case 0x3d: return _istore_2
+    case 0x3e: return _istore_3
     case 0x3f: return &lstore_0{}
     case 0x40: return &lstore_1{}
     case 0x41: return &lstore_2{}

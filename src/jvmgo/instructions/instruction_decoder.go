@@ -1,6 +1,6 @@
 package instructions
 
-func decode(bcr *BytecodeReader) (Instruction) {
+func Decode(bcr *BytecodeReader) (Instruction) {
     opcode := bcr.readUint8()
     instruction := newInstruction(opcode)
     instruction.fetchOperands(bcr)

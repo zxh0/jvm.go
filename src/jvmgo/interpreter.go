@@ -13,16 +13,14 @@ func interpret() {
 func loop(thread *rtda.Thread) {
     bcr := instructions.NewBytecodeReader()
     for !thread.IsStackEmpty() {
-        currentFrame := thread.CurrentFrame()
         bcr.SetPC(thread.PC())
-        bcr.SetCode(currentFrame.Method().Code())
-
-        
-        executeOneInstruction(currentFrame)
+        bcr.SetCode(thread.CurrentFrame().Method().Code())
+        inst := instructions.Decode(bcr)
+        inst.execute(thread)
     }
 }
 
-func executeOneInstruction(frame *rtda.Frame) {
-    // todo
+// func executeOneInstruction(frame *rtda.Frame) {
+//     // todo
     
-}
+// }

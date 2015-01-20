@@ -25,6 +25,12 @@ func newConstantPool(cfCp * cf.ConstantPool) {
             case *cf.ConstantFloatInfo:
                 cFloat := cpInfo.(*cf.ConstantFloatInfo)
                 consts[i] = cFloat.Value()
+            case *cf.ConstantLongInfo:
+                cLong := cpInfo.(*cf.ConstantLongInfo)
+                consts[i] = cLong.Value()
+            case *cf.ConstantDoubleInfo:
+                cDouble := cpInfo.(*cf.ConstantDoubleInfo)
+                consts[i] = cDouble.Value()
             // todo
             }
         }

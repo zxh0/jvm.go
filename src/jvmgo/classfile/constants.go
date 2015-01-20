@@ -45,6 +45,9 @@ type ConstantLongInfo struct {
 func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
     self.val = reader.readInt64()
 }
+func (self *ConstantLongInfo) Value() (int64) {
+    return self.val
+}
 
 /*
 CONSTANT_Double_info {
@@ -58,6 +61,9 @@ type ConstantDoubleInfo struct {
 }
 func (self *ConstantDoubleInfo) readInfo(reader *ClassReader) {
     self.val = reader.readFloat64()
+}
+func (self *ConstantDoubleInfo) Value() (float64) {
+    return self.val
 }
 
 /*

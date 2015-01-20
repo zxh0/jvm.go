@@ -5,8 +5,8 @@ import "jvmgo/classfile"
 type Class struct {
     staticFields    []*Field
     staticMethods   []*Method
-    fields          []*Field
-    methods         []*Method
+    instanceFields  []*Field
+    instanceMethods []*Method
     constantPool    *ConstantPool
     // todo
 }

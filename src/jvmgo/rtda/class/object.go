@@ -1,4 +1,4 @@
-package rtda
+package class
 
 import . "jvmgo/any"
 

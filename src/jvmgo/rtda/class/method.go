@@ -1,7 +1,7 @@
 package class
 
 type Method struct {
-    name    string
+    //name    string
     class   *Class
     code    []byte
 }

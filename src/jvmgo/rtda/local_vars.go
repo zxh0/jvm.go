@@ -1,15 +1,18 @@
 package rtda
 
-import . "jvmgo/any"
+import (
+    . "jvmgo/any"
+    "jvmgo/rtda/class"
+)
 
 type LocalVars struct {
     slots []Any
 }
 
-func (self *LocalVars) GetRef(index uint) (*Obj) {
-    return self.slots[index].(*Obj)
+func (self *LocalVars) GetRef(index uint) (*class.Obj) {
+    return self.slots[index].(*class.Obj)
 }
-func (self *LocalVars) SetRef(index uint, ref *Obj) {
+func (self *LocalVars) SetRef(index uint, ref *class.Obj) {
     self.slots[index] = ref
 }
 

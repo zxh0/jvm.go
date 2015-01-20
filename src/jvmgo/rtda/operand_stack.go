@@ -1,6 +1,9 @@
 package rtda
 
-import . "jvmgo/any"
+import (
+    . "jvmgo/any"
+    "jvmgo/rtda/class"
+)
 
 type OperandStack struct {
     size    int
@@ -11,11 +14,11 @@ func (self *OperandStack) PushNull() {
     self.Push(nil)
 }
 
-func (self *OperandStack) PushRef(ref *Obj) {
+func (self *OperandStack) PushRef(ref *class.Obj) {
     self.Push(ref)
 }
-func (self *OperandStack) PopRef() (*Obj) {
-    return self.Pop().(*Obj)
+func (self *OperandStack) PopRef() (*class.Obj) {
+    return self.Pop().(*class.Obj)
 }
 
 func (self *OperandStack) PushInt(val int32) {

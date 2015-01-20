@@ -3,16 +3,17 @@ package instructions
 import (
     . "jvmgo/any"
     "jvmgo/rtda"
+    "jvmgo/rtda/class"
 )
 
 // Store into reference array 
 type aastore struct {NoOperandsInstruction}
 func (self *aastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
-    refArr := arrRef.Fields().([]*rtda.Obj)
+    refArr := arrRef.Fields().([]*class.Obj)
     checkArrIndex(index, len(refArr))
     // todo
-    ref := val.(*rtda.Obj)
+    ref := val.(*class.Obj)
     refArr[index] = ref
 }
 
@@ -79,7 +80,7 @@ func (self *sastore) Execute(thread *rtda.Thread) {
     shortArr[index] = val.(int16)
 }
 
-func popOperands(thread *rtda.Thread) (*rtda.Obj, int, Any) {
+func popOperands(thread *rtda.Thread) (*class.Obj, int, Any) {
     stack := thread.CurrentFrame().OperandStack()
     arrRef := stack.PopRef()
     index := int(stack.PopInt())

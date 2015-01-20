@@ -8,6 +8,10 @@ type ConstantPool struct {
     consts []Constant
 }
 
+// func (self *ConstantPool) GetFieldref(index uint) (*ConstantFieldref) {
+//     return self.GetConstant()
+// }
+
 func (self *ConstantPool) GetConstant(index uint) (Constant) {
     // todo
     return self.consts[index]

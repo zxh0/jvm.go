@@ -34,7 +34,10 @@ func (self *caload) execute(thread *rtda.Thread) {
 // Load double from array 
 type daload struct {NoOperandsInstruction}
 func (self *daload) execute(thread *rtda.Thread) {
-    // todo
+    stack, arrRef, index := popArrAndIndex(thread)
+    doubleArr := arrRef.Fields().([]float64)
+    val := doubleArr[checkIndex(index, len(doubleArr))]
+    stack.PushDouble(val)
 }
 
 // Load float from array 

@@ -2,10 +2,26 @@ package instructions
 
 import "jvmgo/rtda"
 
+type Ref *rtda.Obj
+
 // Load reference from array
 type aaload struct {NoOperandsInstruction}
 func (self *aaload) execute(thread *rtda.Thread) {
-    // todo
+    stack := thread.CurrentFrame().OperandStack()
+    arrRef := stack.PopRef()
+    index := int(stack.PopInt())
+
+    if arrRef == nil {
+        panic("NullPointerException")
+    }
+
+    refArr := arrRef.Fields().([]Ref)   
+    if index < 0 || index >= len(refArr) {
+        panic("ArrayIndexOutOfBoundsException")
+    }
+
+    ref := refArr[index]
+    stack.PushRef(ref)
 }
 
 // Load byte or boolean from array 

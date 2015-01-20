@@ -7,6 +7,21 @@ type ConstantPool struct {
     cpInfos []ConstantInfo
 }
 
+func (self *ConstantPool) Infos() ([]ConstantInfo) {
+    return self.cpInfos
+}
+
+// todo
+func (self *ConstantPool) getUtf8(index uint16) (string) {
+    cpInfo := self.cpInfos[index]
+    if utf8Info, ok := cpInfo.(*ConstantUtf8Info); ok {
+        return utf8Info.str
+    } 
+    
+    // todo
+    panic(fmt.Sprintf("Const#%v is not ConstantUtf8Info!", index))
+}
+
 func readConstantPool(reader *ClassReader) (*ConstantPool) {
     cpCount := reader.readUint16()
     cpInfos := make([]ConstantInfo, cpCount)
@@ -28,15 +43,4 @@ func readConstantPool(reader *ClassReader) (*ConstantPool) {
     }
 
     return &ConstantPool{cpInfos}
-}
-
-// todo
-func (self *ConstantPool) getUtf8(index uint16) (string) {
-    cpInfo := self.cpInfos[index]
-    if utf8Info, ok := cpInfo.(*ConstantUtf8Info); ok {
-        return utf8Info.str
-    } 
-    
-    // todo
-    panic(fmt.Sprintf("Const#%v is not ConstantUtf8Info!", index))
 }

@@ -9,8 +9,11 @@ CONSTANT_Integer_info {
 type ConstantIntegerInfo struct {
     val int32
 }
-func (self * ConstantIntegerInfo) readInfo(reader *ClassReader) {
+func (self *ConstantIntegerInfo) readInfo(reader *ClassReader) {
     self.val = reader.readInt32()
+}
+func (self *ConstantIntegerInfo) Value() (int32) {
+    return self.val
 }
 
 /*
@@ -24,6 +27,9 @@ type ConstantFloatInfo struct {
 }
 func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
     self.val = reader.readFloat32()
+}
+func (self *ConstantFloatInfo) Value() (float32) {
+    return self.val
 }
 
 /*

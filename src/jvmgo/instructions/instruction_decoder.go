@@ -112,6 +112,10 @@ var (
     _iconst_5 = &iconst_5{}
     _lconst_0 = &lconst_0{}
     _lconst_1 = &lconst_1{}
+    _ddiv = &ddiv{}
+    _fdiv = &fdiv{}
+    _idiv = &idiv{}
+    _ldiv = &ldiv{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -231,10 +235,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x69: return &lmul{}
     case 0x6a: return &fmul{}
     case 0x6b: return &dmul{}
-    case 0x6c: return &idiv{}
-    case 0x6d: return &ldiv{}
-    case 0x6e: return &fdiv{}
-    case 0x6f: return &ddiv{}
+    case 0x6c: return _idiv
+    case 0x6d: return _ldiv
+    case 0x6e: return _fdiv
+    case 0x6f: return _ddiv
     case 0x70: return &irem{}
     case 0x71: return &lrem{}
     case 0x72: return &frem{}

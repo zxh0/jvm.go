@@ -16,6 +16,18 @@ func (self *aaload) execute(thread *rtda.Thread) {
     stack.PushRef(ref)
 }
 
+// Load byte or boolean from array 
+type baload struct {NoOperandsInstruction}
+func (self *baload) execute(thread *rtda.Thread) {
+    stack := thread.CurrentFrame().OperandStack()
+    arrRef := popAndCheckArrRef(stack)
+    index := int(stack.PopInt())
+
+    byteArr := arrRef.Fields().([]int8)
+    val := byteArr[checkIndex(index, len(byteArr))]
+    stack.PushInt(int32(val))
+}
+
 func popAndCheckArrRef(stack *rtda.OperandStack) (*rtda.Obj) {
     arrRef := stack.PopRef()
     if arrRef == nil {
@@ -30,12 +42,6 @@ func checkIndex(index, len int) (int) {
         panic("ArrayIndexOutOfBoundsException")
     }
     return index
-}
-
-// Load byte or boolean from array 
-type baload struct {NoOperandsInstruction}
-func (self *baload) execute(thread *rtda.Thread) {
-    // todo
 }
 
 // Load char from array 

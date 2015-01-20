@@ -6,14 +6,14 @@ import "jvmgo/rtda"
 type if_acmpeq struct {BranchInstruction}
 func (self *if_acmpeq) Execute(thread *rtda.Thread) {
     if _acmp(thread) {
-        // todo
+        thread.IncrPC(self.offset)
     }
 }
 
 type if_acmpne struct {BranchInstruction}
 func (self *if_acmpne) Execute(thread *rtda.Thread) {
     if !_acmp(thread) {
-        // todo
+        thread.IncrPC(self.offset)
     }
 }
 

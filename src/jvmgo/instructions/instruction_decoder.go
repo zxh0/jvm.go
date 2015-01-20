@@ -120,6 +120,10 @@ var (
     _fmul = &fmul{}
     _imul = &imul{}
     _lmul = &lmul{}
+    _dneg = &dneg{}
+    _fneg = &fneg{}
+    _ineg = &ineg{}
+    _lneg = &lneg{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {
@@ -247,10 +251,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0x71: return &lrem{}
     case 0x72: return &frem{}
     case 0x73: return &drem{}
-    case 0x74: return &ineg{}
-    case 0x75: return &lneg{}
-    case 0x76: return &fneg{}
-    case 0x77: return &dneg{}
+    case 0x74: return _ineg
+    case 0x75: return _lneg
+    case 0x76: return _fneg
+    case 0x77: return _dneg
     case 0x78: return &ishl{}
     case 0x79: return &lshl{}
     case 0x7a: return &ishr{}

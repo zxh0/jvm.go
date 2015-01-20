@@ -5,7 +5,10 @@ type BytecodeReader struct {
     code    []byte // bytecodes
 }
 
-// setters
+// getters & setters
+func (self *BytecodeReader) PC() (int) {
+    return self.pc
+}
 func (self *BytecodeReader) SetPC(pc int) {
     self.pc = pc
 }

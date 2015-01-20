@@ -5,22 +5,23 @@ import (
     "jvmgo/instructions"
 )
 
-func interpret() {
-
-}
-
 // todo
 func loop(thread *rtda.Thread) {
     bcr := instructions.NewBytecodeReader()
     for !thread.IsStackEmpty() {
-        bcr.SetPC(thread.PC())
-        bcr.SetCode(thread.CurrentFrame().Method().Code())
+        code := thread.CurrentFrame().Method().Code()
+        pc := thread.PC()
+
+        bcr.SetPC(pc)
+        bcr.SetCode(code)
         inst := instructions.Decode(bcr)
+
         inst.Execute(thread)
+        // todo: correct?
+        if pc == thread.PC() {
+            // no branch
+            pc = bcr.PC()
+            thread.SetPC(pc)
+        }
     }
 }
-
-// func executeOneInstruction(frame *rtda.Frame) {
-//     // todo
-    
-// }

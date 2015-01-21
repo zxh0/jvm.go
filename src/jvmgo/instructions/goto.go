@@ -5,7 +5,7 @@ import "jvmgo/rtda"
 // Branch always
 type _goto struct {BranchInstruction}
 func (self *_goto) Execute(thread *rtda.Thread) {
-    thread.IncrPC(self.offset)
+    branch(thread, self.offset)
 }
 
 // Branch always (wide index) 
@@ -16,5 +16,5 @@ func (self *goto_w) fetchOperands(bcr *BytecodeReader) {
     self.offset = int(bcr.readInt32())
 }
 func (self *goto_w) Execute(thread *rtda.Thread) {
-    thread.IncrPC(self.offset)
+    branch(thread, self.offset)
 }

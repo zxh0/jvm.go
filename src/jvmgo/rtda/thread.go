@@ -23,10 +23,6 @@ func (self *Thread) SetPC(pc int) {
     self.pc = pc
 }
 
-func (self *Thread) IncrPC(offset int) {
-    self.pc += offset
-}
-
 func (self *Thread) IsStackEmpty() (bool) {
     return self.stack.isEmpty()
 }

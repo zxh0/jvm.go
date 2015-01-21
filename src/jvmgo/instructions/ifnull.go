@@ -7,7 +7,7 @@ type ifnull struct {BranchInstruction}
 func (self *ifnull) Execute(thread *rtda.Thread) {
     ref := thread.CurrentFrame().OperandStack().PopRef()
     if ref == nil {
-        thread.IncrPC(self.offset)
+        branch(thread, self.offset)
     }
 }
 
@@ -16,6 +16,6 @@ type ifnonnull struct {BranchInstruction}
 func (self *ifnonnull) Execute(thread *rtda.Thread) {
     ref := thread.CurrentFrame().OperandStack().PopRef()
     if ref != nil {
-        thread.IncrPC(self.offset)
+        branch(thread, self.offset)
     }
 }

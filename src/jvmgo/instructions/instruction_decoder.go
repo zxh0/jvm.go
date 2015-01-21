@@ -74,6 +74,15 @@ var (
     _bastore = &bastore{}
     _castore = &castore{}
     _sastore = &sastore{}
+    _pop = &pop{}
+    _pop2 = &pop2{}
+    _dup = &dup{}
+    _dup_x1 = &dup_x1{}
+    _dup_x2 = &dup_x2{}
+    _dup2 = &dup2{}
+    _dup2_x1 = &dup2_x1{}
+    _dup2_x2 = &dup2_x2{}
+    _swap = &swap{}
     _dadd = &dadd{}
     _fadd = &fadd{}
     _iadd = &iadd{}
@@ -136,19 +145,10 @@ var (
     _freturn = &freturn{}
     _ireturn = &ireturn{}
     _lreturn = &lreturn{}
-    _dup = &dup{}
-    _dup_x1 = &dup_x1{}
-    _dup_x2 = &dup_x2{}
-    _dup2 = &dup2{}
-    _dup2_x1 = &dup2_x1{}
-    _dup2_x2 = &dup2_x2{}
-    _pop = &pop{}
-    _pop2 = &pop2{}
     _monitorenter = &monitorenter{}
     _monitorexit = &monitorexit{}
     _arraylength = &arraylength{}
     _athrow = &athrow{}
-    _swap = &swap{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {

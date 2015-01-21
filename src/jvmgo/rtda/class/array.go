@@ -12,7 +12,7 @@ const (
     AT_LONG      = 11
 )
 
-func NewArray(atype uint8, count int32) (*Obj) {
+func NewPrimitiveArray(atype uint8, count int32) (*Obj) {
     switch atype {
     case AT_BOOLEAN: return &Obj{make([]uint8, count)}
     case AT_CHAR:    return &Obj{make([]uint16, count)}
@@ -24,4 +24,9 @@ func NewArray(atype uint8, count int32) (*Obj) {
     case AT_LONG:    return &Obj{make([]int64, count)}
     default: panic("BAD atype!") // todo
     }
+}
+
+func NewRefArray(count int32) (*Obj) {
+    arr := make([]*Obj, count)
+    return &Obj{arr}
 }

@@ -1,6 +1,6 @@
 bin/
 pkg/
-ideas.sublime-workspace
+jvmgo.sublime-workspace
 /testclasses/.gradle
 /testclasses/.nb-gradle/
 /testclasses/build/

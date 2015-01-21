@@ -14,12 +14,19 @@ func (self *ConstantClass) Class() (*Class) {
 }
 
 func (self *ConstantClass) resolve() {
-    // todo
     classMap := self.cp.class.classMap
     class := classMap.getClass(self.name)
     if class != nil {
         self.class = class
     } else {
-        // load link init
+        self.loadClass()   
     }
+}
+
+// todo
+func (self *ConstantClass) loadClass() {
+    loader := self.cp.class.classLoader
+    class := loader.LoadClass(self.name)
+    self.cp.class.classMap.putClass(self.name, class)
+    self.class = class
 }

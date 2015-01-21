@@ -12,7 +12,9 @@ type Class struct {
     instanceFields  []*Field
     instanceMethods []*Method
     constantPool    *ConstantPool
-    classMap        *ClassMap
+    classMap        ClassMap
+    classLoader     ClassLoader
+    initialized     bool
     // todo
 }
 

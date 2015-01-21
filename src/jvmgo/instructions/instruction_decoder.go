@@ -66,13 +66,13 @@ var (
     _astore_1 = &astore_1{}
     _astore_2 = &astore_2{}
     _astore_3 = &astore_3{}
+    _iastore = &iastore{}
+    _lastore = &lastore{}
+    _fastore = &fastore{}
+    _dastore = &dastore{}
     _aastore = &aastore{}
     _bastore = &bastore{}
     _castore = &castore{}
-    _dastore = &dastore{}
-    _fastore = &fastore{}
-    _iastore = &iastore{}
-    _lastore = &lastore{}
     _sastore = &sastore{}
     _dadd = &dadd{}
     _fadd = &fadd{}

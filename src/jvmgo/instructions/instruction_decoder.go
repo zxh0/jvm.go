@@ -83,10 +83,10 @@ var (
     _dup2_x1 = &dup2_x1{}
     _dup2_x2 = &dup2_x2{}
     _swap = &swap{}
-    _dadd = &dadd{}
-    _fadd = &fadd{}
     _iadd = &iadd{}
     _ladd = &ladd{}
+    _fadd = &fadd{}
+    _dadd = &dadd{}
     _ddiv = &ddiv{}
     _fdiv = &fdiv{}
     _idiv = &idiv{}

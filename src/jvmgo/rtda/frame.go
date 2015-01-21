@@ -21,8 +21,8 @@ func (self *Frame) Method() (*class.Method) {
     return self.method
 }
 
-func NewFrame(localVarsSize, operandStackSize uint16, method *class.Method) (*Frame) {
-    localVars := newLocalVars(localVarsSize)
-    operandStack := newOperandStack(operandStackSize)
+func NewFrame(method *class.Method) (*Frame) {
+    localVars := newLocalVars(method.MaxLocals())
+    operandStack := newOperandStack(method.MaxStack())
     return &Frame{0, localVars, operandStack, method}
 }

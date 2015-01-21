@@ -6,7 +6,7 @@ import (
 )
 
 type OperandStack struct {
-    size    int
+    size    uint
     slots   []Any
 }
 
@@ -61,6 +61,14 @@ func (self *OperandStack) Push(item Any) {
 func (self *OperandStack) Pop() (Any) {
     self.size--
     return self.slots[self.size]
+}
+
+func (self *OperandStack) PopN(n uint) ([]Any) {
+    start := self.size - n
+    end := self.size - 1
+    top := self.slots[start:end]
+    self.size -= n
+    return top
 }
 
 func newOperandStack(size uint16) (*OperandStack) {

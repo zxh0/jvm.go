@@ -17,12 +17,6 @@ func (self *new_) Execute(thread *rtda.Thread) {
     stack.PushRef(ref)
 }
 
-// Create new array of reference
-type anewarray struct {Index16Instruction}
-func (self *anewarray) Execute(thread *rtda.Thread) {
-    // todo
-}
-
 // Create new array
 type newarray struct {
     atype uint8
@@ -35,6 +29,12 @@ func (self *newarray) Execute(thread *rtda.Thread) {
     count := stack.PopInt()
     ref := class.NewArray(self.atype, count)
     stack.PushRef(ref)
+}
+
+// Create new array of reference
+type anewarray struct {Index16Instruction}
+func (self *anewarray) Execute(thread *rtda.Thread) {
+    // todo
 }
 
 // Create new multidimensional array

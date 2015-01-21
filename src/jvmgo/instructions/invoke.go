@@ -1,10 +1,19 @@
 package instructions
 
-import "jvmgo/rtda"
+import (
+    "jvmgo/rtda"
+    "jvmgo/rtda/class"
+)
 
 // Invoke a class (static) method 
 type invokestatic struct {Index16Instruction}
 func (self *invokestatic) Execute(thread *rtda.Thread) {
+    frame := thread.CurrentFrame()
+    stack := frame.OperandStack()
+
+    cp := frame.Method().Class().ConstantPool()
+    cMethodRef := cp.GetConstant(self.index).(class.ConstantMethodref)
+    field := cFieldRef.Field()
     // todo
 }
 

@@ -65,7 +65,7 @@ func (self *OperandStack) Pop() (Any) {
 
 func (self *OperandStack) PopN(n uint) ([]Any) {
     start := self.size - n
-    end := self.size - 1
+    end := self.size
     top := self.slots[start:end]
     self.size -= n
     return top

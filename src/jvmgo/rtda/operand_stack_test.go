@@ -36,5 +36,19 @@ func TestPushAndPop(t *testing.T) {
 }
 
 func TestPopN(t *testing.T) {
+    stack := newOperandStack(6)
+    stack.PushInt(4)
+    stack.PushInt(5)
+    stack.PushInt(6)
+    stack.PushInt(8)
+    stack.PushInt(9)
 
+    top3 := stack.PopN(3)
+    if top3[0].(int32) != 6 || top3[1].(int32) != 8 || top3[2].(int32) != 9 {
+        t.Errorf("top3: %v", top3)
+    }
+
+    if newTop := stack.PopInt(); newTop != 5 {
+        t.Errorf("newTop: %v", newTop)
+    }
 }

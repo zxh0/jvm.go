@@ -54,8 +54,8 @@ func (self *OperandStack) PopDouble() (float64) {
     return self.Pop().(float64)
 }
 
-func (self *OperandStack) Push(item Any) {
-    self.slots[self.size] = item
+func (self *OperandStack) Push(any Any) {
+    self.slots[self.size] = any
     self.size++
 }
 func (self *OperandStack) Pop() (Any) {
@@ -71,7 +71,7 @@ func (self *OperandStack) PopN(n uint) ([]Any) {
     return top
 }
 
-func newOperandStack(size uint16) (*OperandStack) {
+func newOperandStack(size uint) (*OperandStack) {
     slots := make([]Any, size)
     return &OperandStack{0, slots}
 }

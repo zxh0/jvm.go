@@ -44,7 +44,11 @@ func (self *LocalVars) SetDouble(index uint, val float64) {
     self.slots[index] = val
 }
 
-func newLocalVars(size uint16) (*LocalVars) {
+func (self *LocalVars) Set(index uint, any Any) {
+    self.slots[index] = any
+}
+
+func newLocalVars(size uint) (*LocalVars) {
     slots := make([]Any, size)
     return &LocalVars{slots}
 }

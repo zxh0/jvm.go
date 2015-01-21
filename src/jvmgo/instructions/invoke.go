@@ -1,6 +1,7 @@
 package instructions
 
 import (
+    //. "jvmgo/any"
     "jvmgo/rtda"
     "jvmgo/rtda/class"
 )
@@ -17,9 +18,19 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
     newFrame := rtda.NewFrame(method)
 
     // pass args
-    // todo
-    stack.Pop()
+    if argCount := method.ArgCount(); argCount > 0 {
+        passArgs(stack, newFrame.LocalVars(), argCount)
+    }
+
     thread.PushFrame(newFrame)
+}
+
+func passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {
+    args := stack.PopN(argCount)
+    for i := 0; i < len(args); i++ {
+        arg := args[i]
+        vars.Set(uint(i), arg)
+    }
 }
 
 // Invoke instance method;

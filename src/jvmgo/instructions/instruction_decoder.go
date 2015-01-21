@@ -129,7 +129,7 @@ var (
     _fcmpg = &fcmpg{}
     _fcmpl = &fcmpl{}
     _lcmp = &lcmp{}
-    __return = &_return{}
+    _return_ = &return_{}
     _areturn = &areturn{}
     _dreturn = &dreturn{}
     _freturn = &freturn{}
@@ -327,7 +327,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xa4: return &if_icmple{}
     case 0xa5: return &if_acmpeq{}
     case 0xa6: return &if_acmpne{}
-    case 0xa7: return &_goto{}
+    case 0xa7: return &goto_{}
   //case 0xa8: return &jsr{}
   //case 0xa9: return &ret{}
     case 0xaa: return &tableswitch{}
@@ -337,7 +337,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xae: return _freturn
     case 0xaf: return _dreturn
     case 0xb0: return _areturn
-    case 0xb1: return __return
+    case 0xb1: return _return_
     case 0xb2: return &getstatic{}
     case 0xb3: return &putstatic{}
     case 0xb4: return &getfield{}
@@ -347,7 +347,7 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xb8: return &invokestatic{}
     case 0xb9: return &invokeinterface{}
     case 0xba: return &invokedynamic{}
-    case 0xbb: return &_new{}
+    case 0xbb: return &new_{}
     case 0xbc: return &newarray{}
     case 0xbd: return &anewarray{}
     case 0xbe: return _arraylength

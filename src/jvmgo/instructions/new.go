@@ -6,8 +6,8 @@ import (
 )
 
 // Create new object
-type _new struct {Index16Instruction}
-func (self *_new) Execute(thread *rtda.Thread) {
+type new_ struct {Index16Instruction}
+func (self *new_) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
     stack := frame.OperandStack()
     cp := frame.Method().Class().ConstantPool()

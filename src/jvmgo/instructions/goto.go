@@ -3,8 +3,8 @@ package instructions
 import "jvmgo/rtda"
 
 // Branch always
-type _goto struct {BranchInstruction}
-func (self *_goto) Execute(thread *rtda.Thread) {
+type goto_ struct {BranchInstruction}
+func (self *goto_) Execute(thread *rtda.Thread) {
     branch(thread, self.offset)
 }
 

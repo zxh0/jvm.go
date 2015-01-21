@@ -3,8 +3,8 @@ package instructions
 import "jvmgo/rtda"
 
 // Return void from method 
-type _return struct {NoOperandsInstruction}
-func (self *_return) Execute(thread *rtda.Thread) {
+type return_ struct {NoOperandsInstruction}
+func (self *return_) Execute(thread *rtda.Thread) {
     // todo
 }
 

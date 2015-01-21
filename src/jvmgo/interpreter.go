@@ -9,12 +9,10 @@ import (
 func loop(thread *rtda.Thread) {
     bcr := instructions.NewBytecodeReader()
     for !thread.IsStackEmpty() {
-        pc := thread.PC()
         frame := thread.CurrentFrame() 
-        code := frame.Method().Code()
 
-        bcr.SetPC(pc)
-        bcr.SetCode(code)
+        bcr.SetPC(thread.PC())
+        bcr.SetCode(frame.Method().Code())
         inst := instructions.Decode(bcr)
         frame.SetNextPC(bcr.PC())
 

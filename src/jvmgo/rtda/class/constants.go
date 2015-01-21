@@ -1,12 +1,5 @@
 package class
 
-type ConstantMethodref struct {
-    classIndex          uint16
-    nameAndTypeIndex    uint16
-    methodRef           *Method
-}
-
-
 type ConstantClass struct {
     nameIndex   uint16
     class       *Class

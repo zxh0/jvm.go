@@ -139,12 +139,12 @@ var (
     _fcmpg = &fcmpg{}
     _dcmpl = &dcmpl{}
     _dcmpg = &dcmpg{}
-    _return_ = &return_{}
-    _areturn = &areturn{}
-    _dreturn = &dreturn{}
-    _freturn = &freturn{}
     _ireturn = &ireturn{}
     _lreturn = &lreturn{}
+    _freturn = &freturn{}
+    _dreturn = &dreturn{}
+    _areturn = &areturn{}
+    _return_ = &return_{}
     _monitorenter = &monitorenter{}
     _monitorexit = &monitorexit{}
     _arraylength = &arraylength{}

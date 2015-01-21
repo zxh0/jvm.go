@@ -134,11 +134,11 @@ var (
     _i2b = &i2b{} 
     _i2c = &i2c{}
     _i2s = &i2s{}
-    _dcmpg = &dcmpg{}
-    _dcmpl = &dcmpl{}
-    _fcmpg = &fcmpg{}
-    _fcmpl = &fcmpl{}
     _lcmp = &lcmp{}
+    _fcmpl = &fcmpl{}
+    _fcmpg = &fcmpg{}
+    _dcmpl = &dcmpl{}
+    _dcmpg = &dcmpg{}
     _return_ = &return_{}
     _areturn = &areturn{}
     _dreturn = &dreturn{}

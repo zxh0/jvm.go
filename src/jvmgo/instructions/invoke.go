@@ -27,9 +27,12 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
 
 func passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {
     args := stack.PopN(argCount)
-    for i := 0; i < len(args); i++ {
+    for i := uint(0); i < argCount; i++ {
         arg := args[i]
-        vars.Set(uint(i), arg)
+        vars.Set(i, arg)
+        if isLongOrDouble(arg) {
+            i++
+        }
     }
 }
 

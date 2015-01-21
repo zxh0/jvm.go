@@ -18,7 +18,9 @@ func (self *instanceof) Execute(thread *rtda.Thread) {
 
     // todo
     if _instanceof(ref, class) {
-        
+        stack.PushInt(1)
+    } else {
+        stack.PushInt(0)
     }
 }
 

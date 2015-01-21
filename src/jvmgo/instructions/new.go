@@ -13,6 +13,11 @@ func (self *new_) Execute(thread *rtda.Thread) {
     cp := frame.Method().Class().ConstantPool()
     cClass := cp.GetConstant(self.index).(rtclass.ConstantClass)
     class := cClass.Class()
+
+    if !class.IsInitialized() {
+        // todo init class
+    }
+
     ref := class.NewObj()
     stack.PushRef(ref)
 }
@@ -40,7 +45,11 @@ func (self *anewarray) Execute(thread *rtda.Thread) {
 
     cp := frame.Method().Class().ConstantPool()
     cClass := cp.GetConstant(self.index).(rtclass.ConstantClass)
-    cClass.Class() // resolve class
+    class := cClass.Class()
+    
+    if !class.IsInitialized() {
+        // todo init class
+    }
 
     ref := rtclass.NewRefArray(count)
     stack.PushRef(ref)

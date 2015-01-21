@@ -18,6 +18,9 @@ type Class struct {
     // todo
 }
 
+func (self *Class) IsInitialized() (bool) {
+    return self.initialized
+}
 func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool
 }

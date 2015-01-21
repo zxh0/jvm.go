@@ -1,3 +1,5 @@
 bin/
 pkg/
 ideas.sublime-workspace
+/testclasses/.gradle
+/testclasses/.nb-gradle/

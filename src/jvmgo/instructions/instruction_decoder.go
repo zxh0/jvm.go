@@ -145,10 +145,10 @@ var (
     _dreturn = &dreturn{}
     _areturn = &areturn{}
     _return_ = &return_{}
-    _monitorenter = &monitorenter{}
-    _monitorexit = &monitorexit{}
     _arraylength = &arraylength{}
     _athrow = &athrow{}
+    _monitorenter = &monitorenter{}
+    _monitorexit = &monitorexit{}
 )
 
 func Decode(bcr *BytecodeReader) (Instruction) {

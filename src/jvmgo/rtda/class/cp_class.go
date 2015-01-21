@@ -1,7 +1,7 @@
 package class
 
 type ConstantClass struct {
-    name    uint16
+    name    string
     cp      *ConstantPool
     class   *Class
 }
@@ -15,6 +15,11 @@ func (self *ConstantClass) Class() (*Class) {
 
 func (self *ConstantClass) resolve() {
     // todo
-    // methodArea?
-    //ma := self.cp.class.classMap
+    classMap := self.cp.class.classMap
+    class := classMap.getClass(self.name)
+    if class != nil {
+        self.class = class
+    } else {
+        // load link init
+    }
 }

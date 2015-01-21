@@ -34,6 +34,9 @@ func (self *Thread) CurrentFrame() (*Frame) {
 func (self *Thread) PushFrame(frame *Frame) {
     self.stack.push(frame)
 }
+func (self *Thread) PopFrame() (*Frame) {
+    return self.stack.pop()
+}
 
 func newThread(maxStackSize int) (*Thread) {
     stack := newStack(maxStackSize)

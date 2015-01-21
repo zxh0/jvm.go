@@ -5,7 +5,7 @@ import "jvmgo/rtda"
 // Return void from method 
 type return_ struct {NoOperandsInstruction}
 func (self *return_) Execute(thread *rtda.Thread) {
-    // todo
+    thread.PopFrame()
 }
 
 // Return reference from method 

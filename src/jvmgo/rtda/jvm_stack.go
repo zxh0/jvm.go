@@ -31,9 +31,11 @@ func (self *Stack) expand() {
     self.frames = newFrames
 }
 
-func (self *Stack) pop() {
+func (self *Stack) pop() (*Frame) {
     self.size--
+    top := self.frames[self.size]
     self.frames[self.size] = nil
+    return top
 }
 
 func (self *Stack) top() (*Frame) {

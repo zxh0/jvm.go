@@ -15,7 +15,11 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
     cMethodRef := cp.GetConstant(self.index).(class.ConstantMethodref)
     method := cMethodRef.Method()
     newFrame := rtda.NewFrame(method)
+
+    // pass args
     // todo
+    stack.Pop()
+    thread.PushFrame(newFrame)
 }
 
 // Invoke instance method;

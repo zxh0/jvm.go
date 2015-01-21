@@ -30,6 +30,9 @@ func (self *Thread) IsStackEmpty() (bool) {
 func (self *Thread) CurrentFrame() (*Frame) {
     return self.stack.top()
 }
+func (self *Thread) TopFrame() (*Frame) {
+    return self.stack.top()
+}
 
 func (self *Thread) PushFrame(frame *Frame) {
     self.stack.push(frame)

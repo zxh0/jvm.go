@@ -11,7 +11,10 @@ func (self *return_) Execute(thread *rtda.Thread) {
 // Return reference from method 
 type areturn struct {NoOperandsInstruction}
 func (self *areturn) Execute(thread *rtda.Thread) {
-    // todo
+    currentFrame := thread.PopFrame()
+    invokerFrame := thread.TopFrame()
+    ref := currentFrame.OperandStack().PopRef()
+    invokerFrame.OperandStack().PushRef(ref)
 }
 
 // Return double from method 

@@ -4,6 +4,7 @@ import "jvmgo/rtda"
 
 type Instruction interface {
     fetchOperands(bcr *BytecodeReader)
+    // todo Execute(frame *rtda.Frame)
     Execute(thread *rtda.Thread)
 }
 

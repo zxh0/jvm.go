@@ -18,7 +18,12 @@ func (self *OperandStack) PushRef(ref *class.Obj) {
     self.Push(ref)
 }
 func (self *OperandStack) PopRef() (*class.Obj) {
-    return self.Pop().(*class.Obj)
+    ref := self.Pop()
+    if ref == nil {
+        return nil
+    } else {
+        return ref.(*class.Obj)
+    }
 }
 
 func (self *OperandStack) PushInt(val int32) {

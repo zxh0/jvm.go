@@ -30,3 +30,8 @@ func NewRefArray(count int32) (*Obj) {
     arr := make([]*Obj, count)
     return &Obj{arr}
 }
+
+func ArrayLength(arr *Obj) (int32) {
+    // todo
+    return 0
+}

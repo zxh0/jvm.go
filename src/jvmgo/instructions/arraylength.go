@@ -1,9 +1,15 @@
 package instructions
 
-import "jvmgo/rtda"
+import (
+    "jvmgo/rtda"
+    "jvmgo/rtda/class"
+)
 
 // Get length of array
 type arraylength struct {NoOperandsInstruction}
 func (self *arraylength) Execute(thread *rtda.Thread) {
-    // todo
+    stack := thread.CurrentFrame().OperandStack()
+    arrRef := stack.PopRef()
+    arrLen := class.ArrayLength(arrRef)
+    stack.PushInt(arrLen)
 }

@@ -1,8 +1,9 @@
 package class
 
 type ConstantClass struct {
-    nameIndex   uint16
-    class       *Class
+    name    uint16
+    cp      *ConstantPool
+    class   *Class
 }
 
 func (self *ConstantClass) Class() (*Class) {
@@ -14,4 +15,6 @@ func (self *ConstantClass) Class() (*Class) {
 
 func (self *ConstantClass) resolve() {
     // todo
+    // methodArea?
+    //ma := self.cp.class.classMap
 }

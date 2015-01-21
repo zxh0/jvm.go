@@ -1,6 +1,9 @@
 package class
 
-import "jvmgo/classfile"
+import (
+    "jvmgo/classfile"
+    //"jvmgo/rtda"
+)
 
 type Class struct {
     Obj // todo
@@ -9,6 +12,7 @@ type Class struct {
     instanceFields  []*Field
     instanceMethods []*Method
     constantPool    *ConstantPool
+    classMap        *ClassMap
     // todo
 }
 

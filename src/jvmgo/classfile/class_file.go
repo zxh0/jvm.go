@@ -59,6 +59,7 @@ func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
 func (self *ClassFile) readVersions(reader *ClassReader) {
     self.minorVersion = reader.readUint16()
     self.majorVersion = reader.readUint16()
+    // todo check versions
 }
 
 func (self *ClassFile) readConstantPool(reader *ClassReader) {
@@ -68,27 +69,24 @@ func (self *ClassFile) readConstantPool(reader *ClassReader) {
 
 func (self *ClassFile) readInterfaces(reader *ClassReader) {
     interfacesCount := reader.readUint16()
-    interfaces := make([]uint16, interfacesCount)
-    self.interfaces = interfaces
+    self.interfaces = make([]uint16, interfacesCount)
     for i := uint16(0); i < interfacesCount; i++ {
-        interfaces[i] = reader.readUint16()
+        self.interfaces[i] = reader.readUint16()
     }
 }
 
 func (self *ClassFile) readFields(reader *ClassReader) {
     fieldsCount := reader.readUint16()
-    fields := make([]*FieldInfo, fieldsCount)
-    self.fields = fields
+    self.fields = make([]*FieldInfo, fieldsCount)
     for i := uint16(0); i < fieldsCount; i++ {
-        fields[i] = readFieldInfo(reader, self.constantPool)
+        self.fields[i] = readFieldInfo(reader, self.constantPool)
     }
 }
 
 func (self *ClassFile) readMethods(reader *ClassReader) {
     methodsCount := reader.readUint16()
-    methods := make([]*MethodInfo, methodsCount)
-    self.methods = methods
+    self.methods = make([]*MethodInfo, methodsCount)
     for i := uint16(0); i < methodsCount; i++ {
-        methods[i] = readMethodInfo(reader, self.constantPool)
+        self.methods[i] = readMethodInfo(reader, self.constantPool)
     }
 }

@@ -1,24 +1,24 @@
 package main
 
 import (
-    //. "jvmgo/any"
+    . "jvmgo/any"
     "jvmgo/cmdline"
     "jvmgo/rtda"
-    //"jvmgo/rtda/class"
+    "jvmgo/rtda/class"
 )
 
 func startJVM(cmd *cmdline.Command) {
-
+    createJVM(cmd)
 }
 
 func createJVM(cmd *cmdline.Command) {
-    //classPath := cmd.Options().Classpath()
     className := cmd.Class()
-
-    createMainThread(className)
+    classPath := cmd.Options().Classpath()
+    classLoader := class.NewClassLoader(classPath)
+    createMainThread(className, classLoader)
 }
 
-func createMainThread(className string) {
+func createMainThread(className string, classLoader Any) {
     //fakeFields := []Any{className}
     //fakeRef := class.NewObj(fakeFields)
 

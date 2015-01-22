@@ -33,6 +33,7 @@ func (self ClassLoader) loadClass(name string) (*Class) {
     return class
 }
 
-func NewClassLoader(cp *classpath.ClassPath) {
-
+func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {
+    classMap := map[string]*Class{}
+    return &ClassLoader{cp, classMap}
 }

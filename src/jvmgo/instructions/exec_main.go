@@ -15,9 +15,10 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     className := fakeFields[0].(string)
     classLoader := fakeFields[1].(*rtc.ClassLoader)
 
-panic("!!!!!")
-    classLoader.LoadClass(className)
-    
+    mainClass := classLoader.LoadClass(className)
+    // todo find main()
+    mainClass.NewObj()
+    panic("!!!!!")
 
     
     // bytes := ref.Fields().([]byte)

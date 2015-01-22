@@ -47,7 +47,7 @@ func TestParseCommandOK0(t *testing.T) {
 }
 
 func TestParseCommandOK1(t *testing.T) {
-    args := []string{"java", "-cp", "a/b/c", "MyClass", "a", "b", "c"}
+    args := []string{"java", "-cp", "rt.jar", "MyClass", "a", "b", "c"}
     cmd, err := ParseCommand(args)
     if err != nil {
         t.Error(err)

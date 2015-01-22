@@ -1,9 +1,13 @@
 package classpath
 
 import (
-    "strings"
     "errors"
+    "os"
+    "strings"
 )
+
+// :(linux/unix) or ;(windows)
+const pathListSeparator = string(os.PathListSeparator)
 
 type ClassPath struct {
     entries []ClassPathEntry
@@ -29,7 +33,7 @@ func ParseClassPath(cpOption string) (*ClassPath) {
         return &ClassPath{}
     }
 
-    cpOptionSplitted := strings.Split(cpOption, ";")
+    cpOptionSplitted := strings.Split(cpOption, pathListSeparator)
     cpEntries := make([]ClassPathEntry, len(cpOptionSplitted))
 
     for idx, str := range cpOptionSplitted {

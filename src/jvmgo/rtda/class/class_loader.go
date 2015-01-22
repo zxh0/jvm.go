@@ -1,6 +1,7 @@
 package class
 
 import (
+    "log"
     "jvmgo/classfile"
     "jvmgo/classpath"
 )
@@ -16,6 +17,7 @@ func (self ClassLoader) LoadClass(name string) (*Class) {
         return class
     }
 
+    log.Printf("load class: %v", name)
     classData, err := self.classPath.ReadClassData(name)
     if err != nil {
         // todo
@@ -25,11 +27,17 @@ func (self ClassLoader) LoadClass(name string) (*Class) {
     cf, err := classfile.ParseClassFile(classData)
     if err != nil {
         // todo
-        panic("failed to parse class file!")
+        panic("failed to parse class file:" + name)
     }
 
     class = newClass(cf)
     self.classMap[name] = class
+
+    // todo load super class
+    if class.superClassName != "" {
+        self.LoadClass(class.superClassName)
+    }
+
     return class
 }
 

@@ -31,6 +31,7 @@ func parseOptions(args *CmdLineArgs) (*Options) {
             optionVal := args.removeFirst()
             options.classpath = classpath.ParseClassPath(optionVal)
         }
+        // todo
     }
 
     return options

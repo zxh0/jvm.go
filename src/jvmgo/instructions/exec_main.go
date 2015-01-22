@@ -16,6 +16,10 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     classLoader := fakeFields[1].(*rtc.ClassLoader)
 
     mainClass := classLoader.LoadClass(className)
+    if mainClass.IsInitialized() {
+        
+    }
+
     // todo find main()
     if mainClass == nil {
         panic("!!!!!")

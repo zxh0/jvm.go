@@ -24,13 +24,9 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         // todo init class
         initClass(mainClass)
         return
-    }
-
-    // todo find main()
-    if mainClass == nil {
-        panic("!!!!!")
     } else {
-        panic("gogogo::" + mainClass.SuperClassName())
+        // todo find main()
+        panic("gogogo!!")
     }
 }
 
@@ -39,5 +35,6 @@ func initClass(class *rtc.Class) {
     if uninitedClass != nil {
         // todo
         // <cinit>
+        panic("!!!!!")
     }
 }

@@ -17,14 +17,14 @@ type Class struct {
     // todo
 }
 
-func (self *Class) SuperClassName() (string) {
-    return self.superClassName
+// func (self *Class) SuperClassName() (string) {
+//     return self.superClassName
+// }
+func (self *Class) ConstantPool() (*ConstantPool) {
+    return self.constantPool
 }
 func (self *Class) IsInitialized() (bool) {
     return self.initialized
-}
-func (self *Class) ConstantPool() (*ConstantPool) {
-    return self.constantPool
 }
 
 func (self *Class) NewObj() (*Obj) {

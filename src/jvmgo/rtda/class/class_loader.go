@@ -40,6 +40,7 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     }
 
     class := newClass(cf)
+    class.classLoader = self
     self.classMap[name] = class
     self.loadSuperClassAndInterfaces(class)
 

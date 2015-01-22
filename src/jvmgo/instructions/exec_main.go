@@ -20,7 +20,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     if mainClass == nil {
         panic("!!!!!")
     } else {
-        panic("gogogo")
+        panic("gogogo::" + mainClass.SuperClassName())
     }
     
 

@@ -1,6 +1,6 @@
 package classfile
 
-import "fmt"
+//import "fmt"
 
 type ConstantPool struct {
     //cpCount uint
@@ -32,13 +32,17 @@ func (self *ConstantPool) Infos() ([]ConstantInfo) {
     return self.cpInfos
 }
 
-// todo
 func (self *ConstantPool) getUtf8(index uint16) (string) {
-    cpInfo := self.cpInfos[index]
-    if utf8Info, ok := cpInfo.(*ConstantUtf8Info); ok {
-        return utf8Info.str
-    } 
-    
-    // todo
-    panic(fmt.Sprintf("Const#%v is not ConstantUtf8Info!", index))
+    utf8Info := self.getConstantInfo(index).(*ConstantUtf8Info)
+    return utf8Info.str
 }
+
+func (self *ConstantPool) getClassInfo(index uint16) (*ConstantClassInfo) {
+    return self.getConstantInfo(index).(*ConstantClassInfo)
+}
+
+func (self *ConstantPool) getConstantInfo(index uint16) (ConstantInfo) {
+    // todo check index
+    return self.cpInfos[index]
+}
+

@@ -36,11 +36,6 @@ type ClassFile struct {
     attributes      []AttributeInfo
 }
 
-// getters
-func (self *ClassFile) ConstantPool() (*ConstantPool) {
-    return self.constantPool
-}
-
 func (self *ClassFile) read(reader *ClassReader) {
     self.readAndCheckMagic(reader)
     self.readVersions(reader)
@@ -93,5 +88,21 @@ func (self *ClassFile) readMethods(reader *ClassReader) {
     self.methods = make([]*MethodInfo, methodsCount)
     for i := uint16(0); i < methodsCount; i++ {
         self.methods[i] = readMethodInfo(reader, self.constantPool)
+    }
+}
+
+func (self *ClassFile) ConstantPool() (*ConstantPool) {
+    return self.constantPool
+}
+
+func (self *ClassFile) SuperClassName() (string) {
+    if self.superClass == 0 {
+        // todo Object
+        return ""
+    } else {
+        cp := self.constantPool
+        superClassInfo := cp.getClassInfo(self.superClass)
+        superClassName := cp.getUtf8(superClassInfo.nameIndex)
+        return superClassName
     }
 }

@@ -70,7 +70,7 @@ func (self *ClassFile) readConstantPool(reader *ClassReader) {
 func (self *ClassFile) readInterfaces(reader *ClassReader) {
     interfacesCount := reader.readUint16()
     self.interfaces = make([]uint16, interfacesCount)
-    for i := uint16(0); i < interfacesCount; i++ {
+    for i := range self.interfaces {
         self.interfaces[i] = reader.readUint16()
     }
 }
@@ -78,7 +78,7 @@ func (self *ClassFile) readInterfaces(reader *ClassReader) {
 func (self *ClassFile) readFields(reader *ClassReader) {
     fieldsCount := reader.readUint16()
     self.fields = make([]*FieldInfo, fieldsCount)
-    for i := uint16(0); i < fieldsCount; i++ {
+    for i := range self.fields {
         self.fields[i] = &FieldInfo{}
         self.fields[i].read(reader, self.constantPool)
     }
@@ -87,7 +87,7 @@ func (self *ClassFile) readFields(reader *ClassReader) {
 func (self *ClassFile) readMethods(reader *ClassReader) {
     methodsCount := reader.readUint16()
     self.methods = make([]*MethodInfo, methodsCount)
-    for i := uint16(0); i < methodsCount; i++ {
+    for i := range self.methods {
         self.methods[i] = &MethodInfo{}
         self.methods[i].read(reader, self.constantPool)
     }

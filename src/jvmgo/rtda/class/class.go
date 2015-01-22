@@ -8,6 +8,7 @@ import (
 type Class struct {
     Obj // todo
     superClassName  string
+    interfaceNames  []string
     staticFields    []*Field
     staticMethods   []*Method
     instanceFields  []*Field
@@ -43,6 +44,7 @@ func newClass(cf *classfile.ClassFile) (*Class) {
     class.constantPool = rtCp
 
     class.superClassName = cf.SuperClassName()
+    class.interfaceNames = cf.InterfaceNames()
 
 
     return class

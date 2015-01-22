@@ -106,3 +106,14 @@ func (self *ClassFile) SuperClassName() (string) {
         return superClassName
     }
 }
+
+func (self *ClassFile) InterfaceNames() ([]string) {
+    cp := self.constantPool
+    interfaceNames := make([]string, len(self.interfaces))
+    for i, val := range self.interfaces {
+        interfaceInfo := cp.getClassInfo(val)
+        interfaceName := cp.getUtf8(interfaceInfo.nameIndex)
+        interfaceNames[i] = interfaceName
+    }
+    return interfaceNames
+}

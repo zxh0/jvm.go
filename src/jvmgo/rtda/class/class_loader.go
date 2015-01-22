@@ -37,6 +37,8 @@ func (self ClassLoader) LoadClass(name string) (*Class) {
     if class.superClassName != "" {
         self.LoadClass(class.superClassName)
     }
+    // todo load interfaces
+    
 
     return class
 }

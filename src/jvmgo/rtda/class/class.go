@@ -56,9 +56,7 @@ func newClass(cf *classfile.ClassFile) (*Class) {
     class.superClassName = cf.SuperClassName()
     class.interfaceNames = cf.InterfaceNames()
     class.copyFields(cf)
-    //class.fields
-    //class.methods
-
+    class.copyMethods(cf)
     return class
 }
 
@@ -70,7 +68,10 @@ func (self *Class) copyFields(cf *classfile.ClassFile) {
     }
 }
 
-func copyMethods(cf *classfile.ClassFile) ([]Method) {
-    // todo
-    return nil
+func (self *Class) copyMethods(cf *classfile.ClassFile) {
+    cp := cf.ConstantPool()
+    self.methods = make([]*Method, len(cf.Methods()))
+    for i, methodInfo := range cf.Methods() {
+        self.methods[i] = newMethod(methodInfo, cp, self)
+    }
 }

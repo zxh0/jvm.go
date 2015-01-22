@@ -1,12 +1,16 @@
 package class
 
+import cf "jvmgo/classfile"
+
 type Method struct {
+    accessFlags uint16
     name        string
+    descriptor  string
     maxStack    uint
     maxLocals   uint
     argCount    uint
-    class       *Class
     code        []byte
+    class       *Class
 }
 
 // getters
@@ -26,7 +30,21 @@ func (self *Method) Code() ([]byte) {
     return self.code
 }
 
+func newMethod(methodInfo *cf.MethodInfo, cp *cf.ConstantPool, class *Class) (*Method) {
+    method := &Method{}
+    method.accessFlags = methodInfo.AccessFlags()
+    method.name = methodInfo.GetName(cp)
+    method.descriptor = methodInfo.GetDescriptor(cp)
+    method.class = class
+    return method
+}
+
 // todo
 func NewStartupMethod(code []byte) (*Method) {
-    return &Method{"<jvmgo>", 8, 8, 0, nil, code}
+    method := &Method{}
+    method.name = "<jvmgo>"
+    method.maxStack = 8
+    method.maxLocals = 8
+    method.code = code
+    return method
 }

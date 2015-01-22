@@ -37,3 +37,13 @@ func (self *MemberInfo) read(reader *ClassReader, cp *ConstantPool) {
     self.descriptorIndex = reader.readUint16()
     self.attributes = readAttributes(reader, cp)
 }
+
+func (self *MemberInfo) AccessFlags() (uint16) {
+    return self.accessFlags
+}
+func (self *MemberInfo) GetName(cp *ConstantPool) (string) {
+    return cp.getUtf8(self.nameIndex)
+}
+func (self *MemberInfo) GetDescriptor(cp *ConstantPool) (string) {
+    return cp.getUtf8(self.descriptorIndex)
+}

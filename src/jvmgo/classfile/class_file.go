@@ -96,6 +96,12 @@ func (self *ClassFile) readMethods(reader *ClassReader) {
 func (self *ClassFile) ConstantPool() (*ConstantPool) {
     return self.constantPool
 }
+func (self *ClassFile) Fields() ([]*FieldInfo) {
+    return self.fields
+}
+func (self *ClassFile) Methods() ([]*MethodInfo) {
+    return self.methods
+}
 
 func (self *ClassFile) SuperClassName() (string) {
     if self.superClass != 0 {

@@ -8,7 +8,7 @@ import (
 type Field struct {
     accessFlags uint16
     name        string
-    descriptor  uint16
+    descriptor  string
     class       *Class
     slot        uint
 }
@@ -36,7 +36,11 @@ func (self *Field) PutStaticValue(val Any) {
     fields[self.slot] = val
 }
 
-func newField(fieldInfo cf.FieldInfo) (*Field) {
-    // todo
-    return nil
+func newField(fieldInfo *cf.FieldInfo, cp *cf.ConstantPool, class *Class) (*Field) {
+    field := &Field{}
+    field.accessFlags = fieldInfo.AccessFlags()
+    field.name = fieldInfo.GetName(cp)
+    field.descriptor = fieldInfo.GetDescriptor(cp)
+    field.class = class
+    return field
 }

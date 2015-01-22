@@ -17,8 +17,12 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 
     mainClass := classLoader.LoadClass(className)
     // todo find main()
-    mainClass.NewObj()
-    panic("!!!!!")
+    if mainClass == nil {
+        panic("!!!!!")
+    } else {
+        panic("gogogo")
+    }
+    
 
     
     // bytes := ref.Fields().([]byte)

@@ -36,6 +36,11 @@ type ClassFile struct {
     attributes      []AttributeInfo
 }
 
+// getters
+func (self *ClassFile) ConstantPool() (*ConstantPool) {
+    return self.constantPool
+}
+
 func (self *ClassFile) read(reader *ClassReader) {
     self.readAndCheckMagic(reader)
     self.readVersions(reader)

@@ -30,7 +30,12 @@ func (self *Class) NewObj() (*Obj) {
 }
 
 func newClass(cf *classfile.ClassFile) (*Class) {
+    cfCp := cf.ConstantPool()
+    rtCp := newConstantPool(cfCp)
+
     // todo
     // copy consts
-    return &Class{}
+    class := &Class{}
+    class.constantPool = rtCp
+    return class
 }

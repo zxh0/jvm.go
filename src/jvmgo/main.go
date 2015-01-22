@@ -3,7 +3,7 @@ package main
 import (
     //"fmt"
     "os"
-    "strings"
+    //"strings"
     //"jvmgo/classfile"
     //"jvmgo/classpath"
     "jvmgo/cmdline"
@@ -16,9 +16,9 @@ func main() {
         return
     }
 
-    jvm := &JVM{}
-    jvm.cp = cmd.Options().Classpath()
+    // jvm := &JVM{}
+    // jvm.cp = cmd.Options().Classpath()
 
-    className := strings.Replace(cmd.Class(), ".", "/", -1)
-    jvm.startup(className)
+    // className := strings.Replace(cmd.Class(), ".", "/", -1)
+    // jvm.startup(className)
 }

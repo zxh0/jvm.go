@@ -41,7 +41,7 @@ func (self *Thread) PopFrame() (*Frame) {
     return self.stack.pop()
 }
 
-func newThread(maxStackSize int) (*Thread) {
+func NewThread(maxStackSize int) (*Thread) {
     stack := newStack(maxStackSize)
     return &Thread{0, stack}
 }

@@ -12,7 +12,6 @@ type Class struct {
     instanceFields  []*Field
     instanceMethods []*Method
     constantPool    *ConstantPool
-    classMap        ClassMap
     classLoader     ClassLoader
     initialized     bool
     // todo
@@ -30,7 +29,7 @@ func (self *Class) NewObj() (*Obj) {
     return nil
 }
 
-func NewClass(cf *classfile.ClassFile) (*Class) {
+func newClass(cf *classfile.ClassFile) (*Class) {
     // todo
     // copy consts
     return &Class{}

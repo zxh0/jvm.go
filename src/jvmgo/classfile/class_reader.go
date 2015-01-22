@@ -69,6 +69,6 @@ func (self *ClassReader) readString() (string) {
 }
 
 // factory
-func NewClassReader(data []byte) *ClassReader {
+func newClassReader(data []byte) *ClassReader {
     return &ClassReader{data, bytes.NewReader(data)}
 }

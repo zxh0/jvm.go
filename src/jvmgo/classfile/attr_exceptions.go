@@ -15,5 +15,8 @@ type ExceptionsAttribute struct {
 
 func (self *ExceptionsAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
     self.numberOfExceptions = reader.readUint16()
-    // todo
+    self.exceptionIndexTable = make([]uint16, self.numberOfExceptions)
+    for i := range self.exceptionIndexTable {
+        self.exceptionIndexTable[i] = reader.readUint16()   
+    }
 }

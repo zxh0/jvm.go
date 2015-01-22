@@ -3,7 +3,7 @@ package instructions
 import (
     . "jvmgo/any"
     "jvmgo/rtda"
-    //rtc "jvmgo/rtda/class"
+    rtc "jvmgo/rtda/class"
 )
 
 // Fake instruction to load and execute main class
@@ -13,9 +13,11 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     fakeRef := thread.CurrentFrame().OperandStack().PopRef()
     fakeFields := fakeRef.Fields().([]Any)
     className := fakeFields[0].(string)
-    //classLoader := fakeFields[1]
+    classLoader := fakeFields[1].(*rtc.ClassLoader)
 
-    panic("!!!" + className)
+panic("!!!!!")
+    classLoader.LoadClass(className)
+    
 
     
     // bytes := ref.Fields().([]byte)

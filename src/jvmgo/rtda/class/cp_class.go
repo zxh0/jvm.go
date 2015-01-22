@@ -17,5 +17,5 @@ func (self *ConstantClass) Class() (*Class) {
 func (self *ConstantClass) resolve() {
     // load class
     loader := self.cp.class.classLoader
-    self.class = loader.loadClass(self.name)
+    self.class = loader.LoadClass(self.name)
 }

@@ -16,6 +16,7 @@ func main() {
         return
     }
 
+    startJVM(cmd)
     // jvm := &JVM{}
     // jvm.cp = cmd.Options().Classpath()
 

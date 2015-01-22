@@ -37,10 +37,9 @@ type ClassFile struct {
 }
 
 func (self *ClassFile) readClass(reader *ClassReader) {
-    readAndCheckMagic(reader)
-    self.minorVersion = reader.readUint16()
-    self.majorVersion = reader.readUint16()
-    self.constantPool = readConstantPool(reader)
+    self.readAndCheckMagic(reader)
+    self.readVersions(reader)
+    
     self.accessFlags = reader.readUint16()
     self.thisClass = reader.readUint16()
     self.superClass = reader.readUint16()
@@ -50,11 +49,21 @@ func (self *ClassFile) readClass(reader *ClassReader) {
     self.attributes = readAttributes(reader, self.constantPool)
 }
 
-func readAndCheckMagic(reader *ClassReader) {
+func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
     magic := reader.readUint32()
     if magic != 0xCAFEBABE {
         panic("Bad magic!")
     }
+}
+
+func (self *ClassFile) readVersions(reader *ClassReader) {
+    self.minorVersion = reader.readUint16()
+    self.majorVersion = reader.readUint16()
+}
+
+func (self *ClassFile) readConstantPool(reader *ClassReader) {
+    self.constantPool = &ConstantPool{}
+    self.constantPool.read(reader)
 }
 
 func readInterfaces(reader *ClassReader) ([]uint16) {

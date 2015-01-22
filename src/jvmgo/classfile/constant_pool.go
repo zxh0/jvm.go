@@ -22,9 +22,10 @@ func (self *ConstantPool) getUtf8(index uint16) (string) {
     panic(fmt.Sprintf("Const#%v is not ConstantUtf8Info!", index))
 }
 
-func readConstantPool(reader *ClassReader) (*ConstantPool) {
+func (self *ConstantPool) read(reader *ClassReader) {
     cpCount := reader.readUint16()
     cpInfos := make([]ConstantInfo, cpCount)
+    self.cpInfos = cpInfos
 
     // The constant_pool table is indexed from 1 to constant_pool_count - 1. 
     for i := uint16(1); i < cpCount; i++ {
@@ -41,6 +42,4 @@ func readConstantPool(reader *ClassReader) (*ConstantPool) {
             i++;
         }
     }
-
-    return &ConstantPool{cpInfos}
 }

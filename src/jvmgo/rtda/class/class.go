@@ -6,15 +6,13 @@ import (
 )
 
 type Class struct {
-    Obj // todo
+    obj             Obj // todo
     superClassName  string
     interfaceNames  []string
-    staticFields    []*Field
-    staticMethods   []*Method
-    instanceFields  []*Field
-    instanceMethods []*Method
+    fields          []*Field
+    methods         []*Method
     constantPool    *ConstantPool
-    classLoader     ClassLoader
+    classLoader     *ClassLoader
     initialized     bool
     // todo
 }

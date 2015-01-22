@@ -23,10 +23,10 @@ func (self *Field) PutValue(ref *Obj, val Any) {
 }
 
 func (self *Field) GetStaticValue() (Any) {
-    fields := self.class.fields.([]Any)
+    fields := self.class.obj.fields.([]Any)
     return fields[self.slot]
 }
 func (self *Field) PutStaticValue(val Any) {
-    fields := self.class.fields.([]Any)
+    fields := self.class.obj.fields.([]Any)
     fields[self.slot] = val
 }

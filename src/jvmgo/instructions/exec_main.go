@@ -9,16 +9,18 @@ import (
 // Fake instruction to load and execute main class
 type exec_main struct {NoOperandsInstruction}
 func (self *exec_main) Execute(thread *rtda.Thread) {
-
-    fakeRef := thread.CurrentFrame().OperandStack().PopRef()
+    stack := thread.CurrentFrame().OperandStack()
+    fakeRef := stack.PopRef()
     fakeFields := fakeRef.Fields().([]Any)
     className := fakeFields[0].(string)
     classLoader := fakeFields[1].(*rtc.ClassLoader)
 
     mainClass := classLoader.LoadClass(className)
     if mainClass.IsInitialized() {
+        stack.PushRef(fakeRef) // undo stack pop
         // todo init class
         rtda.InitClass(mainClass)
+        return
     }
 
     // todo find main()

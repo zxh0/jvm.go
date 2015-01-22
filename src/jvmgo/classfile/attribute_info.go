@@ -1,6 +1,6 @@
 package classfile
 
-import "fmt"
+//import "fmt"
 
 /*
 attribute_info {
@@ -10,7 +10,7 @@ attribute_info {
 }
 */
 type AttributeInfo interface {
-    // todo
+    readInfo(reader *ClassReader, cp *ConstantPool)
 }
 
 type UndefinedAttribute struct {
@@ -30,16 +30,17 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) (AttributeInfo) {
     attrNameIndex := reader.readUint16()
     _ = reader.readUint32() // attribute_length
     attrName := cp.getUtf8(attrNameIndex)
-    
-    switch attrName {
-    case "Code": return readCodeAttribute(reader, cp)
-    case "LineNumberTable": return readLineNumberTableAttribute(reader)
-    case "SourceFile": return readSourceFileAttribute(reader)
-    //default:
-    }
-
-    fmt.Printf("attrName: %v \n", attrName)
-    // todo
-    panic("todo attr:" + attrName)
-    return nil
+    attr := newAttribute(attrName)
+    attr.readInfo(reader, cp)
+    return attr
 }
+
+func newAttribute(attrName string) (AttributeInfo) {
+    switch attrName {
+    case "Code": return &CodeAttribute{}
+    case "LineNumberTable": return &LineNumberTableAttribute{}
+    case "SourceFile": return &SourceFileAttribute{}
+    default: panic("BAD attr name:" + attrName) // todo
+    }
+}
+

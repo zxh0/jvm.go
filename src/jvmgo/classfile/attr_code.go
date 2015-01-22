@@ -33,15 +33,13 @@ type ExceptionTableEntry struct {
     catchType   uint16
 }
 
-func readCodeAttribute(reader *ClassReader, cp *ConstantPool) (*CodeAttribute) {
-    codeAttr := &CodeAttribute{}
-    codeAttr.maxStack = reader.readUint16()
-    codeAttr.maxLocals = reader.readUint16()
+func (self *CodeAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+    self.maxStack = reader.readUint16()
+    self.maxLocals = reader.readUint16()
     codeLength := reader.readUint32()
-    codeAttr.code = reader.readBytes(codeLength)
-    codeAttr.exceptionTable = readExceptionTable(reader)
-    codeAttr.attributes = readAttributes(reader, cp)
-    return codeAttr
+    self.code = reader.readBytes(codeLength)
+    self.exceptionTable = readExceptionTable(reader)
+    self.attributes = readAttributes(reader, cp)
 }
 
 func readExceptionTable(reader *ClassReader) ([]*ExceptionTableEntry) {

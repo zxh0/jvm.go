@@ -19,15 +19,13 @@ type LineNumberTableEntry struct {
     lineNumber  uint16
 }
 
-func readLineNumberTableAttribute(reader *ClassReader) (*LineNumberTableAttribute) {
+func (self *LineNumberTableAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
     lineNumberTableLength := reader.readUint16()
-    lineNumberTable := make([]*LineNumberTableEntry, lineNumberTableLength)
+    self.lineNumberTable = make([]*LineNumberTableEntry, lineNumberTableLength)
     for i := uint16(0); i < lineNumberTableLength; i++ {
         entry := &LineNumberTableEntry{}
         entry.startPc = reader.readUint16()
         entry.lineNumber = reader.readUint16()
-        lineNumberTable[i] = entry
+        self.lineNumberTable[i] = entry
     }
-
-    return &LineNumberTableAttribute{lineNumberTable}
 }

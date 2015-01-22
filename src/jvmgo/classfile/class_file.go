@@ -36,14 +36,14 @@ type ClassFile struct {
     attributes      []AttributeInfo
 }
 
-func (self *ClassFile) readClass(reader *ClassReader) {
+func (self *ClassFile) read(reader *ClassReader) {
     self.readAndCheckMagic(reader)
     self.readVersions(reader)
-    
+    self.readConstantPool(reader)
     self.accessFlags = reader.readUint16()
     self.thisClass = reader.readUint16()
     self.superClass = reader.readUint16()
-    self.interfaces = readInterfaces(reader)
+    self.readInterfaces(reader)
     self.fields = readFields(reader, self.constantPool)
     self.methods = readMethods(reader, self.constantPool)
     self.attributes = readAttributes(reader, self.constantPool)
@@ -66,13 +66,13 @@ func (self *ClassFile) readConstantPool(reader *ClassReader) {
     self.constantPool.read(reader)
 }
 
-func readInterfaces(reader *ClassReader) ([]uint16) {
+func (self *ClassFile) readInterfaces(reader *ClassReader) {
     interfacesCount := reader.readUint16()
     interfaces := make([]uint16, interfacesCount)
     for i := uint16(0); i < interfacesCount; i++ {
         interfaces[i] = reader.readUint16()
     }
-    return interfaces
+    self.interfaces = interfaces
 }
 
 func readFields(reader *ClassReader, cp *ConstantPool) ([]*FieldInfo) {

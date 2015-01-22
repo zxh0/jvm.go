@@ -11,6 +11,10 @@ type ClassLoader struct {
     classMap    map[string]*Class
 }
 
+func (self *ClassLoader) getClass(name string) (*Class) {
+    return self.classMap[name]
+}
+
 func (self *ClassLoader) LoadClass(name string) (*Class) {
     class := self.classMap[name]
     if class != nil {

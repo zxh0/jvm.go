@@ -42,12 +42,11 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     return class
 }
 
+// todo
 func (self *ClassLoader) loadSuperClassAndInterfaces(class *Class) {
-    // todo load super class
     if class.superClassName != "" {
         self.LoadClass(class.superClassName)
     }
-    // todo load interfaces
     for _, interfaceName := range class.interfaceNames {
         self.LoadClass(interfaceName)
     }

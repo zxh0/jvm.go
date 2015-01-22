@@ -17,7 +17,8 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 
     mainClass := classLoader.LoadClass(className)
     if mainClass.IsInitialized() {
-        
+        // todo init class
+        rtda.InitClass(mainClass)
     }
 
     // todo find main()

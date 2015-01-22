@@ -1,7 +1,7 @@
 package class
 
 type Method struct {
-    //name    string
+    name        string
     maxStack    uint
     maxLocals   uint
     argCount    uint
@@ -28,5 +28,5 @@ func (self *Method) Code() ([]byte) {
 
 // todo
 func NewStartupMethod(code []byte) (*Method) {
-    return &Method{8, 8, 0, nil, code}
+    return &Method{"<jvmgo>", 8, 8, 0, nil, code}
 }

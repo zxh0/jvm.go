@@ -5,6 +5,11 @@ import (
     //"jvmgo/rtda"
 )
 
+const (
+    cinit = "<cinit>"
+    oinit = "<init>"
+)
+
 type Class struct {
     obj             Obj // todo
     superClassName  string
@@ -25,6 +30,19 @@ func (self *Class) ConstantPool() (*ConstantPool) {
 }
 func (self *Class) IsInitialized() (bool) {
     return self.initialized
+}
+
+func (self *Class) GetCinitMethod() (*Method) {
+    return self.GetMethod(cinit)
+}
+func (self *Class) GetMethod(name string) (*Method) {
+    for _, method := range self.methods {
+        if method.name == name {
+            return method
+        }
+    }
+    // todo
+    panic("method not found:" + name)
 }
 
 func (self *Class) NewObj() (*Obj) {

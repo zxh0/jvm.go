@@ -35,6 +35,10 @@ func initClass(class *rtc.Class) {
     if uninitedClass != nil {
         // todo
         // <cinit>
+
+        cinit := class.GetCinitMethod()
+        cinit.Code()
+
         panic("!!!!!")
     }
 }

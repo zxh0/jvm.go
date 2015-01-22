@@ -1,11 +1,16 @@
 package class
 
-import . "jvmgo/any"
+import (
+    . "jvmgo/any"
+    cf "jvmgo/classfile"
+)
 
 type Field struct {
-    //name    string
-    class   *Class
-    slot    uint
+    accessFlags uint16
+    name        string
+    descriptor  uint16
+    class       *Class
+    slot        uint
 }
 
 // getters
@@ -29,4 +34,9 @@ func (self *Field) GetStaticValue() (Any) {
 func (self *Field) PutStaticValue(val Any) {
     fields := self.class.obj.fields.([]Any)
     fields[self.slot] = val
+}
+
+func newField(fieldInfo cf.FieldInfo) (*Field) {
+    // todo
+    return nil
 }

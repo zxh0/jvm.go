@@ -12,11 +12,11 @@ const (
 
 type Class struct {
     obj             Obj // todo
+    constantPool    *ConstantPool
     superClassName  string
     interfaceNames  []string
     fields          []*Field
     methods         []*Method
-    constantPool    *ConstantPool
     classLoader     *ClassLoader
     initialized     bool
     // todo
@@ -51,17 +51,22 @@ func (self *Class) NewObj() (*Obj) {
 }
 
 func newClass(cf *classfile.ClassFile) (*Class) {
-    cfCp := cf.ConstantPool()
-    rtCp := newConstantPool(cfCp)
-
-    // todo
-    // copy consts
     class := &Class{}
-    class.constantPool = rtCp
-
+    class.constantPool = newConstantPool(cf.ConstantPool())
     class.superClassName = cf.SuperClassName()
     class.interfaceNames = cf.InterfaceNames()
-
+    //class.fields
+    //class.methods
 
     return class
+}
+
+func copyFields(cf *classfile.ClassFile) ([]Field) {
+    // todo
+    return nil
+}
+
+func copyMethods(cf *classfile.ClassFile) ([]Method) {
+    // todo
+    return nil
 }

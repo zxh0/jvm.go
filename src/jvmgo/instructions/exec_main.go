@@ -26,18 +26,18 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         return
     } else {
         // todo find main()
-        panic("gogogo!!")
+        panic("todo find main()!!")
     }
 }
 
 func initClass(class *rtc.Class) {
     uninitedClass := rtc.GetUpmostUninitializedClassOrInterface(class)
     if uninitedClass != nil {
-        // todo
-        // <cinit>
-
         cinit := class.GetCinitMethod()
-        cinit.Code()
+        if cinit != nil {
+            //cinit.Code()
+            panic("todo exec <cinit>!!")
+        }
 
         panic("!!!!!")
     }

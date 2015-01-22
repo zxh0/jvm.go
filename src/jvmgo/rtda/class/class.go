@@ -42,7 +42,7 @@ func (self *Class) GetMethod(name string) (*Method) {
         }
     }
     // todo
-    panic("method not found:" + name)
+    return nil
 }
 
 func (self *Class) NewObj() (*Obj) {

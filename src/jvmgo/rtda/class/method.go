@@ -35,7 +35,12 @@ func newMethod(methodInfo *cf.MethodInfo, cp *cf.ConstantPool, class *Class) (*M
     method.accessFlags = methodInfo.AccessFlags()
     method.name = methodInfo.GetName(cp)
     method.descriptor = methodInfo.GetDescriptor(cp)
-    // method.code = 
+    if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
+        method.code = codeAttr.Code()
+        method.maxStack = codeAttr.MaxStack()
+        method.maxLocals = codeAttr.MaxLocals()
+    }
+    
     method.class = class
     return method
 }

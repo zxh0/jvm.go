@@ -32,17 +32,17 @@ func (self *ConstantPool) Infos() ([]ConstantInfo) {
     return self.cpInfos
 }
 
-func (self *ConstantPool) getUtf8(index uint16) (string) {
-    utf8Info := self.getConstantInfo(index).(*ConstantUtf8Info)
-    return utf8Info.str
-}
-
-func (self *ConstantPool) getClassInfo(index uint16) (*ConstantClassInfo) {
-    return self.getConstantInfo(index).(*ConstantClassInfo)
-}
-
 func (self *ConstantPool) getConstantInfo(index uint16) (ConstantInfo) {
     // todo check index
     return self.cpInfos[index]
 }
 
+func (self *ConstantPool) getClassName(index uint16) (string) {
+    classInfo := self.getConstantInfo(index).(*ConstantClassInfo)
+    return self.getUtf8(classInfo.nameIndex)
+}
+
+func (self *ConstantPool) getUtf8(index uint16) (string) {
+    utf8Info := self.getConstantInfo(index).(*ConstantUtf8Info)
+    return utf8Info.str
+}

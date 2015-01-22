@@ -96,24 +96,18 @@ func (self *ClassFile) ConstantPool() (*ConstantPool) {
 }
 
 func (self *ClassFile) SuperClassName() (string) {
-    if self.superClass == 0 {
+    if self.superClass != 0 {
+        return self.constantPool.getClassName(self.superClass)
+    } else {
         // todo Object
         return ""
-    } else {
-        cp := self.constantPool
-        superClassInfo := cp.getClassInfo(self.superClass)
-        superClassName := cp.getUtf8(superClassInfo.nameIndex)
-        return superClassName
     }
 }
 
 func (self *ClassFile) InterfaceNames() ([]string) {
-    cp := self.constantPool
     interfaceNames := make([]string, len(self.interfaces))
-    for i, val := range self.interfaces {
-        interfaceInfo := cp.getClassInfo(val)
-        interfaceName := cp.getUtf8(interfaceInfo.nameIndex)
-        interfaceNames[i] = interfaceName
+    for i, cpIndex := range self.interfaces {
+        interfaceNames[i] = self.constantPool.getClassName(cpIndex)
     }
     return interfaceNames
 }

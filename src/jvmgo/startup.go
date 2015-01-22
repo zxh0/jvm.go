@@ -15,18 +15,18 @@ func createJVM(cmd *cmdline.Command) {
     className := cmd.Class()
     classPath := cmd.Options().Classpath()
     classLoader := class.NewClassLoader(classPath)
-    createMainThread(className, classLoader)
+    mainThread := createMainThread(className, classLoader)
 }
 
-func createMainThread(className string, classLoader Any) {
-    //fakeFields := []Any{className}
-    //fakeRef := class.NewObj(fakeFields)
+func createMainThread(className string, classLoader Any) (*rtda.Thread) {
+    fakeFields := []Any{className, classLoader}
+    fakeRef := class.NewObj(fakeFields)
+
+    fakeMethod := class.NewStartupMethod(nil)
+    fakeFrame := rtda.NewFrame(fakeMethod)
+    fakeFrame.OperandStack().PushRef(fakeRef)
 
     mainThread := rtda.NewThread(128)
-    mainThread.PushFrame(createFakeFrame())
-}
-
-func createFakeFrame() (*rtda.Frame) {
-    //fakeFrame := rtda.NewFrame()
-    return nil
+    mainThread.PushFrame(fakeFrame)
+    return mainThread
 }

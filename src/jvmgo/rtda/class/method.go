@@ -25,3 +25,8 @@ func (self *Method) Class() (*Class) {
 func (self *Method) Code() ([]byte) {
     return self.code
 }
+
+// todo
+func NewStartupMethod(code []byte) (*Method) {
+    return &Method{8, 8, 0, nil, code}
+}

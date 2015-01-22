@@ -9,7 +9,8 @@ import (
 // Fake instruction to load and execute main class
 type exec_main struct {NoOperandsInstruction}
 func (self *exec_main) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+    frame := thread.CurrentFrame()
+    stack := frame.OperandStack()
     fakeRef := stack.PopRef()
     fakeFields := fakeRef.Fields().([]Any)
     className := fakeFields[0].(string)
@@ -17,9 +18,11 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 
     mainClass := classLoader.LoadClass(className)
     if mainClass.IsInitialized() {
-        stack.PushRef(fakeRef) // undo stack pop
+        // prepare to reexec this instruction
+        frame.SetNextPC(thread.PC())
+        stack.PushRef(fakeRef)
         // todo init class
-        rtda.InitClass(mainClass)
+        initClass(mainClass)
         return
     }
 
@@ -29,16 +32,8 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     } else {
         panic("gogogo::" + mainClass.SuperClassName())
     }
-    
+}
 
-    
-    // bytes := ref.Fields().([]byte)
-    // mainClassName := string(bytes)
-
-    // cp := frame.Method().Class().ConstantPool()
-    // cClass := cp.GetConstant(self.index).(rtc.ConstantClass)
-    // class := cClass.Class()
-    // if !class.IsInitialized() {
-    //     // todo init class
-    // }
+func initClass(class *rtc.Class) {
+    rtda.InitClass(class)
 }

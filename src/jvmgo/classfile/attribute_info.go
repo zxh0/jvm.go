@@ -24,19 +24,20 @@ func readAttributes(reader *ClassReader, cp *ConstantPool) ([]AttributeInfo) {
 
 func readAttribute(reader *ClassReader, cp *ConstantPool) (AttributeInfo) {
     attrNameIndex := reader.readUint16()
-    _ = reader.readUint32() // attribute_length
+    attrLen := reader.readUint32()
     attrName := cp.getUtf8(attrNameIndex)
-    attrInfo := newAttributeInfo(attrName)
+    attrInfo := newAttributeInfo(attrName, attrLen)
     attrInfo.readInfo(reader, cp)
     return attrInfo
 }
 
-func newAttributeInfo(attrName string) (AttributeInfo) {
+func newAttributeInfo(attrName string, attrLen uint32) (AttributeInfo) {
     switch attrName {
-    case "Code": return &CodeAttribute{}
+    case "Code":            return &CodeAttribute{}
     case "LineNumberTable": return &LineNumberTableAttribute{}
-    case "Signature": return &SignatureAttribute{}
-    case "SourceFile": return &SourceFileAttribute{}
+    case "Signature":       return &SignatureAttribute{}
+    case "SourceFile":      return &SourceFileAttribute{}
+    case "StackMapTable":   return &UndefinedAttribute{attrLen} // todo
     default: panic("BAD attr name:" + attrName) // todo
     }
 }

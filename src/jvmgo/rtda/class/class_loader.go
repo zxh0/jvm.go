@@ -16,13 +16,9 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
     if class != nil {
         // already loaded
         return class
+    } else {
+        return self.reallyLoadClass(name)
     }
-
-    class = self.reallyLoadClass(name)
-    self.classMap[name] = class
-    self.loadSuperClassAndInterfaces(class)
-
-    return class
 }
 
 func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
@@ -39,7 +35,11 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
         panic("failed to parse class file:" + name + "!" + err.Error())
     }
 
-    return newClass(cf)
+    class := newClass(cf)
+    self.classMap[name] = class
+    self.loadSuperClassAndInterfaces(class)
+
+    return class
 }
 
 func (self *ClassLoader) loadSuperClassAndInterfaces(class *Class) {

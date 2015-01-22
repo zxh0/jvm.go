@@ -9,15 +9,14 @@ type ConstantPool struct {
 
 func (self *ConstantPool) read(reader *ClassReader) {
     cpCount := reader.readUint16()
-    cpInfos := make([]ConstantInfo, cpCount)
-    self.cpInfos = cpInfos
+    self.cpInfos = make([]ConstantInfo, cpCount)
 
     // The constant_pool table is indexed from 1 to constant_pool_count - 1. 
     for i := uint16(1); i < cpCount; i++ {
         tag := reader.readUint8()
         c := newConstantInfo(tag)
         c.readInfo(reader)
-        cpInfos[i] = c
+        self.cpInfos[i] = c
         // http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.5
         // All 8-byte constants take up two entries in the constant_pool table of the class file.
         // If a CONSTANT_Long_info or CONSTANT_Double_info structure is the item in the constant_pool

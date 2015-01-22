@@ -1,7 +1,9 @@
 package classfile
 
-import "bytes"
-import "encoding/binary"
+import (
+    "bytes"
+    "encoding/binary"
+)
 
 type ClassReader struct {
     data    []byte

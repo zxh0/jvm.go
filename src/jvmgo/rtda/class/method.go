@@ -35,6 +35,7 @@ func newMethod(methodInfo *cf.MethodInfo, cp *cf.ConstantPool, class *Class) (*M
     method.accessFlags = methodInfo.AccessFlags()
     method.name = methodInfo.GetName(cp)
     method.descriptor = methodInfo.GetDescriptor(cp)
+    // method.code = 
     method.class = class
     return method
 }

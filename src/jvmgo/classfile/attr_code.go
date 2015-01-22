@@ -23,7 +23,7 @@ type CodeAttribute struct {
     maxLocals       uint16
     code            []byte
     exceptionTable  []*ExceptionTableEntry
-    attributes      []AttributeInfo
+    AttributeTable
 }
 
 type ExceptionTableEntry struct {

@@ -33,7 +33,7 @@ type ClassFile struct {
     interfaces      []uint16
     fields          []*FieldInfo
     methods         []*MethodInfo
-    attributes      []AttributeInfo
+    AttributeTable
 }
 
 func (self *ClassFile) read(reader *ClassReader) {

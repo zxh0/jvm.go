@@ -20,7 +20,7 @@ type MemberInfo struct {
     accessFlags     uint16
     nameIndex       uint16
     descriptorIndex uint16
-    attributes      []AttributeInfo
+    AttributeTable
 }
 
 type FieldInfo struct {

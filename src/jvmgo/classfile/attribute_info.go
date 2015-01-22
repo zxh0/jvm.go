@@ -13,10 +13,6 @@ type AttributeInfo interface {
     readInfo(reader *ClassReader, cp *ConstantPool)
 }
 
-type UndefinedAttribute struct {
-    // todo
-}
-
 func readAttributes(reader *ClassReader, cp *ConstantPool) ([]AttributeInfo) {
     attributesCount := reader.readUint16()
     attributes := make([]AttributeInfo, attributesCount)
@@ -30,12 +26,12 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) (AttributeInfo) {
     attrNameIndex := reader.readUint16()
     _ = reader.readUint32() // attribute_length
     attrName := cp.getUtf8(attrNameIndex)
-    attr := newAttribute(attrName)
-    attr.readInfo(reader, cp)
-    return attr
+    attrInfo := newAttributeInfo(attrName)
+    attrInfo.readInfo(reader, cp)
+    return attrInfo
 }
 
-func newAttribute(attrName string) (AttributeInfo) {
+func newAttributeInfo(attrName string) (AttributeInfo) {
     switch attrName {
     case "Code": return &CodeAttribute{}
     case "LineNumberTable": return &LineNumberTableAttribute{}
@@ -43,4 +39,3 @@ func newAttribute(attrName string) (AttributeInfo) {
     default: panic("BAD attr name:" + attrName) // todo
     }
 }
-

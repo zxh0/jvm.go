@@ -5,9 +5,12 @@ import (
     //rtc "jvmgo/rtda/class"
 )
 
-// Fake instruction to trigger JVM startup
-type main struct {NoOperandsInstruction}
-func (self *main) Execute(thread *rtda.Thread) {
+// Fake instruction to load and execute main class
+type exec_main struct {NoOperandsInstruction}
+func (self *exec_main) Execute(thread *rtda.Thread) {
+
+    panic("!!!")
+
     // ref := thread.CurrentFrame().OperandStack().PopRef()
     // bytes := ref.Fields().([]byte)
     // mainClassName := string(bytes)

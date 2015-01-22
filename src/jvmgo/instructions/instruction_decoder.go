@@ -363,7 +363,7 @@ func newInstruction(opcode byte) (Instruction) {
   //case 0xc9: return &jsr_w{}
   //case 0xca: return &breakpoint{}
   //case 0xfe: return &impdep1{}
-    case 0xff: return &main{} // impdep2
+    case 0xff: return &exec_main{} // impdep2
     // todo
     default: panic("BAD opcode!")
     }

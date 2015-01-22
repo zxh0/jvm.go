@@ -16,6 +16,6 @@ func ParseClassFile(classData []byte) (cf *ClassFile, err error) {
 
     cr := newClassReader(classData)
     cf = &ClassFile{}
-    readClass(cf, cr)
+    cf.readClass(cr)
     return
 }

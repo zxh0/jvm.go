@@ -36,18 +36,18 @@ type ClassFile struct {
     attributes      []AttributeInfo
 }
 
-func readClass(cf *ClassFile, reader *ClassReader) {
+func (self *ClassFile) readClass(reader *ClassReader) {
     readAndCheckMagic(reader)
-    cf.minorVersion = reader.readUint16()
-    cf.majorVersion = reader.readUint16()
-    cf.constantPool = readConstantPool(reader)
-    cf.accessFlags = reader.readUint16()
-    cf.thisClass = reader.readUint16()
-    cf.superClass = reader.readUint16()
-    cf.interfaces = readInterfaces(reader)
-    cf.fields = readFields(reader, cf.constantPool)
-    cf.methods = readMethods(reader, cf.constantPool)
-    cf.attributes = readAttributes(reader, cf.constantPool)
+    self.minorVersion = reader.readUint16()
+    self.majorVersion = reader.readUint16()
+    self.constantPool = readConstantPool(reader)
+    self.accessFlags = reader.readUint16()
+    self.thisClass = reader.readUint16()
+    self.superClass = reader.readUint16()
+    self.interfaces = readInterfaces(reader)
+    self.fields = readFields(reader, self.constantPool)
+    self.methods = readMethods(reader, self.constantPool)
+    self.attributes = readAttributes(reader, self.constantPool)
 }
 
 func readAndCheckMagic(reader *ClassReader) {

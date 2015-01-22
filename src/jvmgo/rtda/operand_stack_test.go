@@ -8,7 +8,7 @@ import (
 func TestPushAndPop(t *testing.T) {
     stack := newOperandStack(6)
     stack.PushNull()
-    stack.PushRef(class.NewArray(4, 4))
+    stack.PushRef(class.NewPrimitiveArray(4, 4))
     stack.PushInt(-37)
     stack.PushLong(0xabcd1234ff)
     stack.PushFloat(3.14)

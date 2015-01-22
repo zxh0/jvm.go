@@ -22,6 +22,18 @@ func TestPushPop(t *testing.T) {
     }
 }
 
+func TestIsEmpty(t *testing.T) {
+    stack := newStack(17)
+    if empty := stack.isEmpty(); !empty {
+        t.Errorf("not empty!")
+    }
+
+    stack.push(newFrame(1))
+    if empty := stack.isEmpty(); empty {
+        t.Errorf("empty!")
+    }
+}
+
 func newFrame(nextPC int) (*Frame) {
     frame := &Frame{}
     frame.nextPC = nextPC

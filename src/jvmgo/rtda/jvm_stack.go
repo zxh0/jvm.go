@@ -43,7 +43,7 @@ func (self *Stack) top() (*Frame) {
 }
 
 func (self *Stack) isEmpty() (bool) {
-    return self.size > 0
+    return self.size == 0
 }
 
 func newStack(maxSize int) (*Stack) {

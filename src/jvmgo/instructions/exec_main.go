@@ -35,5 +35,5 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 }
 
 func initClass(class *rtc.Class) {
-    rtda.InitClass(class)
+    //rtda.InitClass(class)
 }

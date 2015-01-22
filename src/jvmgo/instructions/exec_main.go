@@ -17,7 +17,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     classLoader := fakeFields[1].(*rtc.ClassLoader)
 
     mainClass := classLoader.LoadClass(className)
-    if mainClass.IsInitialized() {
+    if !mainClass.IsInitialized() {
         // prepare to reexec this instruction
         frame.SetNextPC(thread.PC())
         stack.PushRef(fakeRef)
@@ -35,5 +35,9 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 }
 
 func initClass(class *rtc.Class) {
-    //rtda.InitClass(class)
+    uninitedClass := rtc.GetUpmostUninitializedClassOrInterface(class)
+    if uninitedClass != nil {
+        // todo
+        // <cinit>
+    }
 }

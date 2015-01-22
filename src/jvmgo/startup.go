@@ -8,10 +8,6 @@ import (
 )
 
 func startJVM(cmd *cmdline.Command) {
-    createJVM(cmd)
-}
-
-func createJVM(cmd *cmdline.Command) {
     className := cmd.Class()
     classPath := cmd.Options().Classpath()
     classLoader := class.NewClassLoader(classPath)

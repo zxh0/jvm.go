@@ -1,6 +1,7 @@
 package instructions
 
 import (
+    . "jvmgo/any"
     "jvmgo/rtda"
     //rtc "jvmgo/rtda/class"
 )
@@ -9,9 +10,14 @@ import (
 type exec_main struct {NoOperandsInstruction}
 func (self *exec_main) Execute(thread *rtda.Thread) {
 
-    panic("!!!")
+    fakeRef := thread.CurrentFrame().OperandStack().PopRef()
+    fakeFields := fakeRef.Fields().([]Any)
+    className := fakeFields[0].(string)
+    //classLoader := fakeFields[1]
 
-    // ref := thread.CurrentFrame().OperandStack().PopRef()
+    panic("!!!" + className)
+
+    
     // bytes := ref.Fields().([]byte)
     // mainClassName := string(bytes)
 

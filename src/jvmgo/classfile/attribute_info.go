@@ -17,6 +17,15 @@ type UndefinedAttribute struct {
     // todo
 }
 
+func readAttributes(reader *ClassReader, cp *ConstantPool) ([]AttributeInfo) {
+    attributesCount := reader.readUint16()
+    attributes := make([]AttributeInfo, attributesCount)
+    for i := uint16(0); i < attributesCount; i++ {
+        attributes[i] = readAttribute(reader, cp)
+    }
+    return attributes
+}
+
 func readAttribute(reader *ClassReader, cp *ConstantPool) (AttributeInfo) {
     attrNameIndex := reader.readUint16()
     _ = reader.readUint32() // attribute_length

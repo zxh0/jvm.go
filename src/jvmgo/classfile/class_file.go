@@ -44,8 +44,8 @@ func (self *ClassFile) read(reader *ClassReader) {
     self.thisClass = reader.readUint16()
     self.superClass = reader.readUint16()
     self.readInterfaces(reader)
-    self.fields = readFields(reader, self.constantPool)
-    self.methods = readMethods(reader, self.constantPool)
+    self.readFields(reader)
+    self.readMethods(reader)
     self.attributes = readAttributes(reader, self.constantPool)
 }
 
@@ -69,35 +69,26 @@ func (self *ClassFile) readConstantPool(reader *ClassReader) {
 func (self *ClassFile) readInterfaces(reader *ClassReader) {
     interfacesCount := reader.readUint16()
     interfaces := make([]uint16, interfacesCount)
+    self.interfaces = interfaces
     for i := uint16(0); i < interfacesCount; i++ {
         interfaces[i] = reader.readUint16()
     }
-    self.interfaces = interfaces
 }
 
-func readFields(reader *ClassReader, cp *ConstantPool) ([]*FieldInfo) {
+func (self *ClassFile) readFields(reader *ClassReader) {
     fieldsCount := reader.readUint16()
     fields := make([]*FieldInfo, fieldsCount)
+    self.fields = fields
     for i := uint16(0); i < fieldsCount; i++ {
-        fields[i] = readFieldInfo(reader, cp)
+        fields[i] = readFieldInfo(reader, self.constantPool)
     }
-    return fields
 }
 
-func readMethods(reader *ClassReader, cp *ConstantPool) ([]*MethodInfo) {
+func (self *ClassFile) readMethods(reader *ClassReader) {
     methodsCount := reader.readUint16()
     methods := make([]*MethodInfo, methodsCount)
+    self.methods = methods
     for i := uint16(0); i < methodsCount; i++ {
-        methods[i] = readMethodInfo(reader, cp)
+        methods[i] = readMethodInfo(reader, self.constantPool)
     }
-    return methods
-}
-
-func readAttributes(reader *ClassReader, cp *ConstantPool) ([]AttributeInfo) {
-    attributesCount := reader.readUint16()
-    attributes := make([]AttributeInfo, attributesCount)
-    for i := uint16(0); i < attributesCount; i++ {
-        attributes[i] = readAttribute(reader, cp)
-    }
-    return attributes
 }

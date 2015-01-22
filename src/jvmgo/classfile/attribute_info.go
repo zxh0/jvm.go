@@ -35,6 +35,7 @@ func newAttributeInfo(attrName string) (AttributeInfo) {
     switch attrName {
     case "Code": return &CodeAttribute{}
     case "LineNumberTable": return &LineNumberTableAttribute{}
+    case "Signature": return &SignatureAttribute{}
     case "SourceFile": return &SourceFileAttribute{}
     default: panic("BAD attr name:" + attrName) // todo
     }

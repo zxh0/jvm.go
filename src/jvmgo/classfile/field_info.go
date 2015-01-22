@@ -29,20 +29,9 @@ type MethodInfo struct {
     FieldInfo
 }
 
-func readFieldInfo(reader *ClassReader, cp *ConstantPool) (*FieldInfo) {
-    fieldInfo := &FieldInfo{}
-    fieldInfo.accessFlags = reader.readUint16()
-    fieldInfo.nameIndex = reader.readUint16()
-    fieldInfo.descriptorIndex = reader.readUint16()
-    fieldInfo.attributes = readAttributes(reader, cp)
-    return fieldInfo
-}
-
-func readMethodInfo(reader *ClassReader, cp *ConstantPool) (*MethodInfo) {
-    methodInfo := &MethodInfo{}
-    methodInfo.accessFlags = reader.readUint16()
-    methodInfo.nameIndex = reader.readUint16()
-    methodInfo.descriptorIndex = reader.readUint16()
-    methodInfo.attributes = readAttributes(reader, cp)
-    return methodInfo
+func (self *FieldInfo) read(reader *ClassReader, cp *ConstantPool) {
+    self.accessFlags = reader.readUint16()
+    self.nameIndex = reader.readUint16()
+    self.descriptorIndex = reader.readUint16()
+    self.attributes = readAttributes(reader, cp)
 }

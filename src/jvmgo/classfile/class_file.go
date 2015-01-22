@@ -79,7 +79,8 @@ func (self *ClassFile) readFields(reader *ClassReader) {
     fieldsCount := reader.readUint16()
     self.fields = make([]*FieldInfo, fieldsCount)
     for i := uint16(0); i < fieldsCount; i++ {
-        self.fields[i] = readFieldInfo(reader, self.constantPool)
+        self.fields[i] = &FieldInfo{}
+        self.fields[i].read(reader, self.constantPool)
     }
 }
 
@@ -87,7 +88,8 @@ func (self *ClassFile) readMethods(reader *ClassReader) {
     methodsCount := reader.readUint16()
     self.methods = make([]*MethodInfo, methodsCount)
     for i := uint16(0); i < methodsCount; i++ {
-        self.methods[i] = readMethodInfo(reader, self.constantPool)
+        self.methods[i] = &MethodInfo{}
+        self.methods[i].read(reader, self.constantPool)
     }
 }
 

@@ -12,39 +12,39 @@ type ClassReader struct {
 }
 
 func (self *ClassReader) readUint8() (x uint8) {
-    read(self, &x)
+    readVal(self, &x)
     return
 }
 
 func (self *ClassReader) readUint16() (x uint16) {
-    read(self, &x)
+    readVal(self, &x)
     return
 }
 
 func (self *ClassReader) readUint32() (x uint32) {
-    read(self, &x)
+    readVal(self, &x)
     return
 }
 func (self *ClassReader) readInt32() (x int32) {
-    read(self, &x)
+    readVal(self, &x)
     return
 }
 
 func (self *ClassReader) readInt64() (x int64) {
-    read(self, &x)
+    readVal(self, &x)
     return
 }
 
 func (self *ClassReader) readFloat32() (x float32) {
-    read(self, &x)
+    readVal(self, &x)
     return
 }
 func (self *ClassReader) readFloat64() (x float64) {
-    read(self, &x)
+    readVal(self, &x)
     return
 }
 
-func read(self *ClassReader, data interface{}) {
+func readVal(self *ClassReader, data interface{}) {
     err := binary.Read(self.reader, binary.BigEndian, data)
     if err != nil {
         panic(err.Error())

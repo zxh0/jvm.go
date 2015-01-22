@@ -18,21 +18,14 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
         return class
     }
 
-    self.reallyLoadClass(name)
-
-    // todo load super class
-    if class.superClassName != "" {
-        self.LoadClass(class.superClassName)
-    }
-    // todo load interfaces
-    for _, interfaceName := range class.interfaceNames {
-        self.LoadClass(interfaceName)
-    }
+    class = self.reallyLoadClass(name)
+    self.classMap[name] = class
+    self.loadSuperClassAndInterfaces(class)
 
     return class
 }
 
-func (self *ClassLoader) reallyLoadClass(name string) {
+func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     log.Printf("load class: %v", name)
     classData, err := self.classPath.ReadClassData(name)
     if err != nil {
@@ -46,7 +39,18 @@ func (self *ClassLoader) reallyLoadClass(name string) {
         panic("failed to parse class file:" + name + "!" + err.Error())
     }
 
-    self.classMap[name] = newClass(cf)
+    return newClass(cf)
+}
+
+func (self *ClassLoader) loadSuperClassAndInterfaces(class *Class) {
+    // todo load super class
+    if class.superClassName != "" {
+        self.LoadClass(class.superClassName)
+    }
+    // todo load interfaces
+    for _, interfaceName := range class.interfaceNames {
+        self.LoadClass(interfaceName)
+    }
 }
 
 func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {

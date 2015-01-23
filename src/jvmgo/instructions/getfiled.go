@@ -27,15 +27,15 @@ func (self *getfield) Execute(thread *rtda.Thread) {
 type getstatic struct {Index16Instruction}
 func (self *getstatic) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
-    stack := frame.OperandStack()
-
     cp := frame.Method().Class().ConstantPool()
     cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
     field := cFieldRef.Field()
 
     if !field.Class().IsInitialized() {
-        panic("xxxxx---")
+        frame.SetNextPC(thread.PC()) // undo getstatic
+        initClass(field.Class(), thread)
+    } else {
+        val := field.GetStaticValue()
+        frame.OperandStack().Push(val)
     }
-    val := field.GetStaticValue()//
-    stack.Push(val)
 }

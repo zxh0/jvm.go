@@ -26,16 +26,23 @@ func (self *getfield) Execute(thread *rtda.Thread) {
 // Get static field from class 
 type getstatic struct {Index16Instruction}
 func (self *getstatic) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
-    cp := frame.Method().Class().ConstantPool()
+    currentFrame := thread.CurrentFrame()
+    currentMethod := currentFrame.Method()
+    currentClass := currentMethod.Class()
+
+    cp := currentClass.ConstantPool()
     cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
     field := cFieldRef.Field()
 
-    if !field.Class().IsInitialized() {
-        frame.SetNextPC(thread.PC()) // undo getstatic
-        initClass(field.Class(), thread)
-    } else {
-        val := field.GetStaticValue()
-        frame.OperandStack().Push(val)
+    classOfField := field.Class()
+    if !classOfField.IsInitialized() {
+        if classOfField != currentClass || !currentMethod.IsClinit() {
+            currentFrame.SetNextPC(thread.PC()) // undo getstatic
+            initClass(field.Class(), thread)
+            return
+        }
     }
+
+    val := field.GetStaticValue()
+    currentFrame.OperandStack().Push(val)
 }

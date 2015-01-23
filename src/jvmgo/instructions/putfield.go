@@ -36,13 +36,13 @@ func (self *putstatic) Execute(thread *rtda.Thread) {
     
     classOfField := field.Class()
     if !classOfField.IsInitialized() {
-        if classOfField == currentClass && !currentMethod.IsClinit() {
+        if classOfField != currentClass || !currentMethod.IsClinit() {
             currentFrame.SetNextPC(thread.PC()) // undo putstatic
             initClass(classOfField, thread)
             return
         }
     }
-    
+
     val := currentFrame.OperandStack().Pop()
     field.PutStaticValue(val)
 }

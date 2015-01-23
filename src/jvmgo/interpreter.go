@@ -9,16 +9,23 @@ import (
 // todo
 func loop(thread *rtda.Thread) {
     bcr := instructions.NewBytecodeReader()
-    for !thread.IsStackEmpty() {
+    for {
         frame := thread.CurrentFrame() 
 
+        // decode
         bcr.SetPC(thread.PC())
         bcr.SetCode(frame.Method().Code())
         opcode, inst := instructions.Decode(bcr)
-        log.Printf("exec instruction: 0x%x %v", opcode, inst)
         frame.SetNextPC(bcr.PC())
 
+        // execute
+        log.Printf("exec instruction: 0x%x %v", opcode, inst)
         inst.Execute(thread)
-        thread.SetPC(frame.NextPC())
+        if !thread.IsStackEmpty() {
+            topFrame := thread.TopFrame()
+            thread.SetPC(topFrame.NextPC())
+        } else {
+            break;
+        }
     }
 }

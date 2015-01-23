@@ -16,9 +16,11 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
     method := cMethodRef.Method()
+    // todo init class
+
     if method.IsNative() {
         // todo native method
-        log.Print("native method!")
+        log.Print("skip native method!")
         return
     }
 

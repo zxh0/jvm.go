@@ -18,10 +18,10 @@ func (self *ConstantPool) GetConstant(index uint) (Constant) {
     return self.consts[index]
 }
 
-func newConstantPool(class *Class, cfCp *cf.ConstantPool) (*ConstantPool) {
+func newConstantPool(owner *Class, cfCp *cf.ConstantPool) (*ConstantPool) {
     cpInfos := cfCp.Infos()
     consts := make([]Constant, len(cpInfos))
-    rtCp := &ConstantPool{nil, consts} // todo
+    rtCp := &ConstantPool{owner, consts}
 
     for i := 1; i < len(cpInfos); i++ {
         cpInfo := cpInfos[i]

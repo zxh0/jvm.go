@@ -6,6 +6,7 @@ type ConstantMethodref struct {
     className   string
     name        string
     descriptor  string
+    cp          *ConstantPool
     method      *Method
 }
 
@@ -21,21 +22,24 @@ func (self *ConstantMethodref) Method() (*Method) {
 }
 
 func (self *ConstantMethodref) resolve() {
+
     // todo
 }
 
-func newConstantMethodref(methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {
+func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {
     methodref := &ConstantMethodref{}
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
+    methodref.cp = cp
     return methodref
 }
 
-func newConstantInterfaceMethodref(methodrefInfo *cf.ConstantInterfaceMethodrefInfo) (*ConstantInterfaceMethodref) {
+func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) (*ConstantInterfaceMethodref) {
     methodref := &ConstantInterfaceMethodref{}
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
+    methodref.cp = cp
     return methodref
 }

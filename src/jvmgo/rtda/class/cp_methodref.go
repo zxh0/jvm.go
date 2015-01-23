@@ -24,14 +24,18 @@ func (self *ConstantMethodref) resolve() {
     // todo
 }
 
-func (self *ConstantMethodref) init(methodrefInfo *cf.ConstantMethodrefInfo) {
-    self.className = methodrefInfo.ClassName()
-    self.name = methodrefInfo.Name()
-    self.descriptor = methodrefInfo.Descriptor()
-}
-
 func newConstantMethodref(methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {
     methodref := &ConstantMethodref{}
-    methodref.init(methodrefInfo)
+    methodref.className = methodrefInfo.ClassName()
+    methodref.name = methodrefInfo.Name()
+    methodref.descriptor = methodrefInfo.Descriptor()
+    return methodref
+}
+
+func newConstantInterfaceMethodref(methodrefInfo *cf.ConstantInterfaceMethodrefInfo) (*ConstantInterfaceMethodref) {
+    methodref := &ConstantInterfaceMethodref{}
+    methodref.className = methodrefInfo.ClassName()
+    methodref.name = methodrefInfo.Name()
+    methodref.descriptor = methodrefInfo.Descriptor()
     return methodref
 }

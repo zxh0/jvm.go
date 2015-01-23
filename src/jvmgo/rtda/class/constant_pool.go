@@ -50,7 +50,9 @@ func newConstantPool(cfCp *cf.ConstantPool) (*ConstantPool) {
             methodrefInfo := cpInfo.(*cf.ConstantMethodrefInfo)
             consts[i] = newConstantMethodref(methodrefInfo)
         case *cf.ConstantInterfaceMethodrefInfo:
-        // todo methodref
+            methodrefInfo := cpInfo.(*cf.ConstantInterfaceMethodrefInfo)
+            consts[i] = newConstantInterfaceMethodref(methodrefInfo)
+        // todo 
         }
     }
 

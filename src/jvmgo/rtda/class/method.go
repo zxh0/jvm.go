@@ -24,11 +24,11 @@ func (self *Method) Code() ([]byte) {
     return self.code
 }
 
-func newMethod(methodInfo *cf.MethodInfo, cp *cf.ConstantPool, class *Class) (*Method) {
+func newMethod(methodInfo *cf.MethodInfo, class *Class) (*Method) {
     method := &Method{}
     method.accessFlags = methodInfo.AccessFlags()
-    method.name = methodInfo.GetName(cp)
-    method.descriptor = methodInfo.GetDescriptor(cp)
+    method.name = methodInfo.GetName()
+    method.descriptor = methodInfo.GetDescriptor()
     if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
         method.code = codeAttr.Code()
         method.maxStack = codeAttr.MaxStack()

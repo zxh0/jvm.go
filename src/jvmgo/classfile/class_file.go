@@ -80,7 +80,8 @@ func (self *ClassFile) readFields(reader *ClassReader) {
     self.fields = make([]*FieldInfo, fieldsCount)
     for i := range self.fields {
         self.fields[i] = &FieldInfo{}
-        self.fields[i].read(reader, self.constantPool)
+        self.fields[i].cp = self.constantPool
+        self.fields[i].read(reader)
     }
 }
 
@@ -89,7 +90,8 @@ func (self *ClassFile) readMethods(reader *ClassReader) {
     self.methods = make([]*MethodInfo, methodsCount)
     for i := range self.methods {
         self.methods[i] = &MethodInfo{}
-        self.methods[i].read(reader, self.constantPool)
+        self.methods[i].cp = self.constantPool
+        self.methods[i].read(reader)
     }
 }
 

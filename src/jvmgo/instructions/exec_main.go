@@ -1,7 +1,6 @@
 package instructions
 
 import (
-    "log"
     . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
@@ -52,23 +51,4 @@ func undoExec(thread *rtda.Thread, fakeRef *rtc.Obj) {
     stack := frame.OperandStack()
     frame.SetNextPC(thread.PC())
     stack.PushRef(fakeRef)
-}
-
-func initClass(class *rtc.Class, thread *rtda.Thread) {
-    uninitedClass := rtc.GetUpmostUninitializedClassOrInterface(class)
-    if uninitedClass != nil {
-        log.Printf("init class: %v", uninitedClass.Name())
-        clinit := uninitedClass.GetClinitMethod()
-        if clinit != nil {
-            // exec <clinit>
-            newFrame := rtda.NewFrame(clinit)
-            newFrame.SetOnPopAction(func() {
-                uninitedClass.MarkInitialized()
-            })
-            thread.PushFrame(newFrame)
-        } else {
-            // no <clinit> method
-            uninitedClass.MarkInitialized()
-        }
-    }
 }

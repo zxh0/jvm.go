@@ -44,6 +44,16 @@ func (self *Class) MarkInitialized() {
     self.initialized = true
 }
 
+func (self *Class) getField(name, descriptor string) (*Field) {
+    for _, field := range self.fields {
+        if field.name == name && field.descriptor == descriptor {
+            return field
+        }
+    }
+    // todo
+    return nil
+}
+
 func (self *Class) GetMainMethod() (*Method) {
     mainMethod := self.getMethod(mainMethodName, mainMethodDesc)
     if mainMethod != nil && mainMethod.IsStatic() {

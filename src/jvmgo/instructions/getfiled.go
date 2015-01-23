@@ -33,6 +33,9 @@ func (self *getstatic) Execute(thread *rtda.Thread) {
     cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
     field := cFieldRef.Field()
 
+    if !field.Class().IsInitialized() {
+        panic("xxxxx---")
+    }
     val := field.GetStaticValue()//
     stack.Push(val)
 }

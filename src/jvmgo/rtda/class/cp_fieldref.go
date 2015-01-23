@@ -18,9 +18,8 @@ func (self *ConstantFieldref) Field() (*Field) {
 }
 
 func (self *ConstantFieldref) resolve() {
-    //class := self.cp.class.classLoader.LoadClass(self.className)
-    //self.field = class.getField(self.name, self.descriptor)
-    // todo
+    class := self.cp.class.classLoader.LoadClass(self.className)
+    self.field = class.getField(self.name, self.descriptor)
 }
 
 func newConstantFieldref(cp *ConstantPool, fieldrefInfo *cf.ConstantFieldrefInfo) (*ConstantFieldref) {

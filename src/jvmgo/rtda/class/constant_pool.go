@@ -38,7 +38,8 @@ func newConstantPool(cfCp *cf.ConstantPool) (*ConstantPool) {
             cDouble := cpInfo.(*cf.ConstantDoubleInfo)
             consts[i] = cDouble.Value()
             i++
-        // todo
+            //case *cf.
+        // todo methodref
         }
     }
 

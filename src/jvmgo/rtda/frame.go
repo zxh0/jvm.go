@@ -8,6 +8,7 @@ type Frame struct {
     localVars       *LocalVars
     operandStack    *OperandStack
     method          *class.Method
+    onPopAction     func()
 }
 
 // getters & setters
@@ -26,9 +27,12 @@ func (self *Frame) OperandStack() (*OperandStack) {
 func (self *Frame) Method() (*class.Method) {
     return self.method
 }
+func (self *Frame) SetOnPopAction(f func()) {
+    self.onPopAction = f
+}
 
 func NewFrame(method *class.Method) (*Frame) {
     localVars := newLocalVars(method.MaxLocals())
     operandStack := newOperandStack(method.MaxStack())
-    return &Frame{0, localVars, operandStack, method}
+    return &Frame{0, localVars, operandStack, method, nil}
 }

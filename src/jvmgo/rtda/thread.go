@@ -38,7 +38,12 @@ func (self *Thread) PushFrame(frame *Frame) {
     self.stack.push(frame)
 }
 func (self *Thread) PopFrame() (*Frame) {
-    return self.stack.pop()
+    top := self.stack.pop()
+    if top.onPopAction != nil {
+        // todo
+        top.onPopAction()
+    }
+    return top
 }
 
 func NewThread(maxStackSize int) (*Thread) {

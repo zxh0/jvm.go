@@ -36,6 +36,9 @@ func (self *Class) Name() (string) {
 func (self *Class) IsInitialized() (bool) {
     return self.initialized
 }
+func (self *Class) MarkInitialized() {
+    self.initialized = true
+}
 
 func (self *Class) GetClinitMethod() (*Method) {
     return self.GetMethod(class_init)

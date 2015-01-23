@@ -23,7 +23,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         frame.SetNextPC(thread.PC())
         stack.PushRef(fakeRef)
         // todo init class
-        initClass(mainClass)
+        initClass(mainClass, thread)
         return
     } else {
         // todo exec main()
@@ -31,16 +31,21 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     }
 }
 
-func initClass(class *rtc.Class) {
+func initClass(class *rtc.Class, thread *rtda.Thread) {
     uninitedClass := rtc.GetUpmostUninitializedClassOrInterface(class)
     if uninitedClass != nil {
         log.Printf("init class: %v", uninitedClass.Name())
         clinit := uninitedClass.GetClinitMethod()
         if clinit != nil {
-            //clinit.Code()
-            panic("todo exec <clinit>!!")
+            // exec <clinit>
+            newFrame := rtda.NewFrame(clinit)
+            newFrame.SetOnPopAction(func() {
+                uninitedClass.MarkInitialized()
+            })
+            thread.PushFrame(newFrame)
+        } else {
+            // no <clinit> method
+            uninitedClass.MarkInitialized()
         }
-
-        panic("!!!!!")
     }
 }

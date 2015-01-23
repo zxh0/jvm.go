@@ -21,28 +21,37 @@ func (self *ConstantPool) GetConstant(index uint) (Constant) {
 func newConstantPool(cfCp *cf.ConstantPool) (*ConstantPool) {
     cpInfos := cfCp.Infos()
     consts := make([]Constant, len(cpInfos))
+    rtCp := &ConstantPool{nil, consts} // todo
+
     for i := 1; i < len(cpInfos); i++ {
         cpInfo := cpInfos[i]
         switch cpInfo.(type) {
         case *cf.ConstantIntegerInfo:
-            cInt := cpInfo.(*cf.ConstantIntegerInfo)
-            consts[i] = cInt.Value()
+            intInfo := cpInfo.(*cf.ConstantIntegerInfo)
+            consts[i] = intInfo.Value()
         case *cf.ConstantFloatInfo:
-            cFloat := cpInfo.(*cf.ConstantFloatInfo)
-            consts[i] = cFloat.Value()
+            floatInfo := cpInfo.(*cf.ConstantFloatInfo)
+            consts[i] = floatInfo.Value()
         case *cf.ConstantLongInfo:
-            cLong := cpInfo.(*cf.ConstantLongInfo)
-            consts[i] = cLong.Value()
+            longInfo := cpInfo.(*cf.ConstantLongInfo)
+            consts[i] = longInfo.Value()
             i++
         case *cf.ConstantDoubleInfo:
-            cDouble := cpInfo.(*cf.ConstantDoubleInfo)
-            consts[i] = cDouble.Value()
+            doubleInfo := cpInfo.(*cf.ConstantDoubleInfo)
+            consts[i] = doubleInfo.Value()
             i++
-            //case *cf.
+        case *cf.ConstantClassInfo:
+            classInfo := cpInfo.(*cf.ConstantClassInfo)
+            cClass := &ConstantClass{}
+            cClass.cp = rtCp
+            cClass.name = classInfo.GetName(cfCp)
+            consts[i] = cClass
+        case *cf.ConstantFieldrefInfo:
+        case *cf.ConstantMethodrefInfo:
+        case *cf.ConstantInterfaceMethodrefInfo:
         // todo methodref
         }
     }
 
-    // todo
-    return &ConstantPool{nil, consts}
+    return rtCp
 }

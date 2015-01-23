@@ -1,5 +1,7 @@
 package class
 
+//import cf "jvmgo/classfile"
+
 type ConstantClass struct {
     name    string
     cp      *ConstantPool

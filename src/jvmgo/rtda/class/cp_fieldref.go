@@ -21,11 +21,10 @@ func (self *ConstantFieldref) resolve() {
     // todo
 }
 
-func newConstantFieldref(cp *ConstantPool, fieldrefInfo *cf.ConstantFieldrefInfo) (*ConstantFieldref) {
+func newConstantFieldref(fieldrefInfo *cf.ConstantFieldrefInfo) (*ConstantFieldref) {
     fieldref := &ConstantFieldref{}
     fieldref.className = fieldrefInfo.ClassName()
     fieldref.name = fieldrefInfo.Name()
     fieldref.descriptor = fieldrefInfo.Descriptor()
-    //fieldref.cp = cp
     return fieldref
 }

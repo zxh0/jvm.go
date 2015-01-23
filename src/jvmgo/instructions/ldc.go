@@ -26,6 +26,7 @@ func _ldc(thread *rtda.Thread, index uint) {
     switch c.(type) {
     case int32: stack.PushInt(c.(int32))
     case float32: stack.PushFloat(c.(float32))
+    default: panic("todo ldc!!!")
     // todo
     // ref to String
     // ref to Class

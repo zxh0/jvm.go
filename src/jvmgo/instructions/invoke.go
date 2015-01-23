@@ -68,6 +68,7 @@ func (self *invokespecial) Execute(thread *rtda.Thread) {
 type invokevirtual struct {Index16Instruction}
 func (self *invokevirtual) Execute(thread *rtda.Thread) {
     // todo
+    panic("todo invokevirtual")
 }
 
 // Invoke interface method
@@ -83,6 +84,7 @@ func (self *invokeinterface) fetchOperands(bcr *BytecodeReader) {
 }
 func (self *invokeinterface) Execute(thread *rtda.Thread) {
     // todo
+    panic("todo invokeinterface")
 }
 
 // Invoke dynamic method
@@ -98,4 +100,5 @@ func (self *invokedynamic) fetchOperands(bcr *BytecodeReader) {
 }
 func (self *invokedynamic) Execute(thread *rtda.Thread) {
     // todo
+    panic("todo invokedynamic")
 }

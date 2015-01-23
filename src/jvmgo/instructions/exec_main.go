@@ -17,27 +17,31 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     className := fakeFields[0].(string)
     classLoader := fakeFields[1].(*rtc.ClassLoader)
 
+    // load and init java.lang.String
+    stringClass := classLoader.LoadClass("java/lang/String")
+    if stringClass.IsInitialized() {
+        undoExec(thread, fakeRef)
+        initClass(stringClass, thread)
+        return
+    }
+
+    // load and init main class
     mainClass := classLoader.LoadClass(className)
     if !mainClass.IsInitialized() {
         undoExec(thread, fakeRef)
         initClass(mainClass, thread)
+        return
+    }
+
+    // exec main()
+    mainMethod := mainClass.GetMainMethod()
+    if mainMethod != nil {
+        newFrame := rtda.NewFrame(mainMethod)
+        thread.PushFrame(newFrame)
+        // todo create args
+        panic("here!!!")
     } else {
-        // exec main()
-        mainMethod := mainClass.GetMainMethod()
-        if mainMethod != nil {
-            stringClass := mainClass.ClassLoader().LoadClass("java/lang/String")
-            if stringClass.IsInitialized() {
-                undoExec(thread, fakeRef)
-                initClass(mainClass, thread)
-            } else {
-                newFrame := rtda.NewFrame(mainMethod)
-                thread.PushFrame(newFrame)
-                // todo create args
-                panic("here!!!")
-            }
-        } else {
-            panic("no main method!")
-        }
+        panic("no main method!")
     }
 }
 

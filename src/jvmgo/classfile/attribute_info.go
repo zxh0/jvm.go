@@ -33,14 +33,16 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) (AttributeInfo) {
 
 func newAttributeInfo(attrName string, attrLen uint32) (AttributeInfo) {
     switch attrName {
-    case "Code":            return &CodeAttribute{}
-    case "ConstantValue":   return &ConstantValueAttribute{}
-    case "Deprecated":      return &DeprecatedAttribute{}
-    case "Exceptions":      return &ExceptionsAttribute{}
-    case "LineNumberTable": return &LineNumberTableAttribute{}
-    case "Signature":       return &SignatureAttribute{}
-    case "SourceFile":      return &SourceFileAttribute{}
-    case "StackMapTable":   return &UndefinedAttribute{attrLen} // todo
+    case "Code":                        return &CodeAttribute{}
+    case "ConstantValue":               return &ConstantValueAttribute{}
+    case "Deprecated":                  return &DeprecatedAttribute{}
+    case "Exceptions":                  return &ExceptionsAttribute{}
+    case "InnerClasses":                return &InnerClassesAttribute{}
+    case "LineNumberTable":             return &LineNumberTableAttribute{}
+    case "RuntimeVisibleAnnotations":   return &RuntimeVisibleAnnotationsAttribute{}
+    case "Signature":                   return &SignatureAttribute{}
+    case "SourceFile":                  return &SourceFileAttribute{}
+    case "StackMapTable":               return &UndefinedAttribute{attrLen} // todo
     default: panic("BAD attr name:" + attrName) // todo
     }
 }

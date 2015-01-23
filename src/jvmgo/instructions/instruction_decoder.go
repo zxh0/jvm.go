@@ -151,11 +151,11 @@ var (
     _monitorexit = &monitorexit{}
 )
 
-func Decode(bcr *BytecodeReader) (Instruction) {
+func Decode(bcr *BytecodeReader) (uint8, Instruction) {
     opcode := bcr.readUint8()
     instruction := newInstruction(opcode)
     instruction.fetchOperands(bcr)
-    return instruction
+    return opcode, instruction
 }
 
 func newInstruction(opcode byte) (Instruction) {

@@ -1,6 +1,7 @@
 package main
 
 import (
+    "log"
     "jvmgo/rtda"
     "jvmgo/instructions"
 )
@@ -13,7 +14,8 @@ func loop(thread *rtda.Thread) {
 
         bcr.SetPC(thread.PC())
         bcr.SetCode(frame.Method().Code())
-        inst := instructions.Decode(bcr)
+        opcode, inst := instructions.Decode(bcr)
+        log.Printf("exec instruction: %v", opcode)
         frame.SetNextPC(bcr.PC())
 
         inst.Execute(thread)

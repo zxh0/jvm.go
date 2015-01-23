@@ -3,7 +3,7 @@ package class
 import cf "jvmgo/classfile"
 
 type Method struct {
-    accessFlags uint16
+    AccessFlags
     name        string
     descriptor  string
     maxStack    uint

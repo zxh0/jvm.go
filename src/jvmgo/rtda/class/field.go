@@ -6,7 +6,7 @@ import (
 )
 
 type Field struct {
-    accessFlags uint16
+    AccessFlags
     name        string
     descriptor  string
     class       *Class

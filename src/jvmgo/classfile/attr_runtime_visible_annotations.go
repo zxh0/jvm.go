@@ -1,5 +1,7 @@
 package classfile
 
+import . "jvmgo/any"
+
 /*
 RuntimeVisibleAnnotations_attribute {
     u2         attribute_name_index;
@@ -73,15 +75,45 @@ element_value {
 }
 */
 type ElementValue struct {
-    tag                 uint8
-    constValueIndex     uint16          // tag=B,C,D,F,I,J,S,Z,s
-    enumConstValue      EnumConstValue  // tag=e
-    classInfoIndex      uint16          // tag=c
-    annotationValue     Annotation      // tag=@
-    arrayValue          ArrayValue      // tag=[
+    tag     uint8
+    value   Any
+    // constValueIndex     uint16          // tag=B,C,D,F,I,J,S,Z,s
+    // enumConstValue      EnumConstValue  // tag=e
+    // classInfoIndex      uint16          // tag=c
+    // annotationValue     Annotation      // tag=@
+    // arrayValue          ArrayValue      // tag=[
 }
 func readElementValue(reader *ClassReader) (*ElementValue) {
-    return nil
+    var value Any
+    tag := reader.readUint8();
+    switch tag {
+        case 'B': fallthrough
+        case 'C': fallthrough
+        case 'D': fallthrough
+        case 'F': fallthrough
+        case 'I': fallthrough
+        case 'J': fallthrough
+        case 'S': fallthrough
+        case 'Z': fallthrough
+        case 's': value = reader.readUint16()
+        case 'e': 
+        //     enumConstValue = new EnumConstValue();
+        //     enumConstValue.read(reader);
+        //     break;
+        case 'c':
+        //     classInfoIndex = reader.readU2CpIndex();
+        //     break;
+        case '@':
+        //     annotationValue = new AnnotationInfo();
+        //     annotationValue.read(reader);
+        //     break;
+        case '[':
+        //     arrayValue = new ArrayValue();
+        //     arrayValue.read(reader);
+        //     break;
+        // default: throw new FileParseException("Invalid element_value tag: " + tag.getDesc());
+    }
+    return &ElementValue{tag, value}
 }
 
 type EnumConstValue struct {
@@ -92,46 +124,3 @@ type ArrayValue struct {
     // private U2 numValues;
     // private Table<ElementValue> values;
 }
-
-
-
-    // @Override
-    // protected void readContent(ClassReader reader) {
-    //     numValues = reader.readU2();
-    //     values = reader.readTable(ElementValue.class, numValues);
-    // }
-    
-    // @Override
-    // protected void readContent(ClassReader reader) {
-    //     tag = reader.readU1();
-    //     tag.setDesc((char) tag.getValue());
-    //     switch (tag.getValue()) {
-    //         case 'B':
-    //         case 'C':
-    //         case 'D':
-    //         case 'F':
-    //         case 'I':
-    //         case 'J':
-    //         case 'S':
-    //         case 'Z':
-    //         case 's': 
-    //             constValueIndex = reader.readU2CpIndex();
-    //             break;
-    //         case 'e': 
-    //             enumConstValue = new EnumConstValue();
-    //             enumConstValue.read(reader);
-    //             break;
-    //         case 'c':
-    //             classInfoIndex = reader.readU2CpIndex();
-    //             break;
-    //         case '@':
-    //             annotationValue = new AnnotationInfo();
-    //             annotationValue.read(reader);
-    //             break;
-    //         case '[':
-    //             arrayValue = new ArrayValue();
-    //             arrayValue.read(reader);
-    //             break;
-    //         default: throw new FileParseException("Invalid element_value tag: " + tag.getDesc());
-    //     }
-    // }

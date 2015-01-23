@@ -6,15 +6,6 @@ import (
     //"jvmgo/rtda"
 )
 
-const (
-    mainMethodName      = "main"
-    mainMethodDesc      = "([Ljava/lang/String;)V"
-    clinitMethodName    = "<clinit>"
-    clinitMethodDesc    = "()V"
-    initMethodName      = "<init>"
-    initMethodDesc      = "()V"
-)
-
 type Class struct {
     obj             Obj // todo
     constantPool    *ConstantPool

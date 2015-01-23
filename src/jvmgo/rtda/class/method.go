@@ -2,6 +2,15 @@ package class
 
 import cf "jvmgo/classfile"
 
+const (
+    mainMethodName      = "main"
+    mainMethodDesc      = "([Ljava/lang/String;)V"
+    clinitMethodName    = "<clinit>"
+    clinitMethodDesc    = "()V"
+    initMethodName      = "<init>"
+    initMethodDesc      = "()V"
+)
+
 type Method struct {
     ClassMember
     maxStack    uint
@@ -22,6 +31,10 @@ func (self *Method) ArgCount() (uint) {
 }
 func (self *Method) Code() ([]byte) {
     return self.code
+}
+
+func (self *Method) IsClinit() (bool) {
+    return self.name == clinitMethodName && self.descriptor == clinitMethodDesc
 }
 
 func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {

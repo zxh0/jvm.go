@@ -26,13 +26,23 @@ func (self *putfield) Execute(thread *rtda.Thread) {
 // Set static field in class
 type putstatic struct {Index16Instruction}
 func (self *putstatic) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
-    stack := frame.OperandStack()
-    val := stack.Pop()
-    
-    cp := frame.Method().Class().ConstantPool()
-    cFieldRef := cp.GetConstant(self.index).(class.ConstantFieldref)
-    field := cFieldRef.Field()
+    currentFrame := thread.CurrentFrame()
+    currentMethod := currentFrame.Method()
+    currentClass := currentMethod.Class()
 
+    cp := currentClass.ConstantPool()
+    cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
+    field := cFieldRef.Field()
+    
+    classOfField := field.Class()
+    if !classOfField.IsInitialized() {
+        if classOfField == currentClass && !currentMethod.IsClinit() {
+            currentFrame.SetNextPC(thread.PC()) // undo putstatic
+            initClass(classOfField, thread)
+            return
+        }
+    }
+    
+    val := currentFrame.OperandStack().Pop()
     field.PutStaticValue(val)
 }

@@ -40,6 +40,9 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) (*ConstantPool) {
             doubleInfo := cpInfo.(*cf.ConstantDoubleInfo)
             consts[i] = doubleInfo.Value()
             i++
+        case *cf.ConstantStringInfo:
+            stringInfo := cpInfo.(*cf.ConstantStringInfo)
+            stringInfo.String()
         case *cf.ConstantClassInfo:
             classInfo := cpInfo.(*cf.ConstantClassInfo)
             consts[i] = newConstantClass(rtCp, classInfo)

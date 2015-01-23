@@ -30,6 +30,7 @@ type ConstantInfo interface {
     readInfo(reader *ClassReader)
 }
 
+// todo ugly code
 func newConstantInfo(tag uint8, cp *ConstantPool) (ConstantInfo) {
     switch tag {
     case CONSTANT_Integer:              return &ConstantIntegerInfo{}
@@ -37,7 +38,7 @@ func newConstantInfo(tag uint8, cp *ConstantPool) (ConstantInfo) {
     case CONSTANT_Long:                 return &ConstantLongInfo{}
     case CONSTANT_Double:               return &ConstantDoubleInfo{}
     case CONSTANT_Utf8:                 return &ConstantUtf8Info{}
-    case CONSTANT_String:               return &ConstantStringInfo{}
+    case CONSTANT_String:               return &ConstantStringInfo{cp:cp}
     case CONSTANT_Class:                return &ConstantClassInfo{cp:cp}
     case CONSTANT_Fieldref:             c := &ConstantFieldrefInfo{};           c.cp = cp; return c
     case CONSTANT_Methodref:            c := &ConstantMethodrefInfo{};          c.cp = cp; return c

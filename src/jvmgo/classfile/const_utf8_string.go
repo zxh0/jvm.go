@@ -22,7 +22,11 @@ CONSTANT_String_info {
 */
 type ConstantStringInfo struct {
     stringIndex uint16
+    cp          *ConstantPool
 }
 func (self *ConstantStringInfo) readInfo(reader *ClassReader) {
     self.stringIndex = reader.readUint16()
+}
+func (self *ConstantStringInfo) String() (string) {
+    return self.cp.getUtf8(self.stringIndex)
 }

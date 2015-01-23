@@ -14,7 +14,7 @@ func (self *new_) Execute(thread *rtda.Thread) {
     cClass := cp.GetConstant(self.index).(rtclass.ConstantClass)
     class := cClass.Class()
 
-    if !class.IsInitialized() {
+    if class.NotInitialized() {
         // todo init class
     }
 
@@ -47,7 +47,7 @@ func (self *anewarray) Execute(thread *rtda.Thread) {
     cClass := cp.GetConstant(self.index).(rtclass.ConstantClass)
     class := cClass.Class()
     
-    if !class.IsInitialized() {
+    if class.NotInitialized() {
         // todo init class
     }
 

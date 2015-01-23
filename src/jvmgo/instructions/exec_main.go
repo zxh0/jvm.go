@@ -18,7 +18,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 
     // load and init java.lang.String
     stringClass := classLoader.LoadClass("java/lang/String")
-    if stringClass.IsInitialized() {
+    if stringClass.NotInitialized() {
         undoExec(thread, fakeRef)
         initClass(stringClass, thread)
         return
@@ -26,7 +26,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 
     // load and init main class
     mainClass := classLoader.LoadClass(className)
-    if !mainClass.IsInitialized() {
+    if mainClass.NotInitialized() {
         undoExec(thread, fakeRef)
         initClass(mainClass, thread)
         return

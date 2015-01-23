@@ -29,7 +29,7 @@ func (self *Class) Name() (string) {
 func (self *Class) ClassLoader() (*ClassLoader) {
     return self.classLoader
 }
-func (self *Class) IsInitialized() (bool) {
+func (self *Class) NotInitialized() (bool) {
     return self.initialized
 }
 func (self *Class) MarkInitialized() {

@@ -16,7 +16,7 @@ func (self *instanceof) Execute(thread *rtda.Thread) {
     cClass := cp.GetConstant(self.index).(rtc.ConstantClass)
     class := cClass.Class()
 
-    if !class.IsInitialized() {
+    if class.NotInitialized() {
         // todo init class
     }
 

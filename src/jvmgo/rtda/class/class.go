@@ -7,10 +7,12 @@ import (
 )
 
 const (
-    clinitName = "<clinit>"
-    clinitDesc = "()V"
-    initName = "<init>"
-    initDesc = "()V"
+    mainMethodName      = "main"
+    mainMethodDesc      = "(Ljava/lang/String;)V"
+    clinitMethodName    = "<clinit>"
+    clinitMethodDesc    = "()V"
+    initMethodName      = "<init>"
+    initMethodDesc      = "()V"
 )
 
 type Class struct {
@@ -42,8 +44,16 @@ func (self *Class) MarkInitialized() {
     self.initialized = true
 }
 
+func (self *Class) GetMainMethod() (*Method) {
+    mainMethod := self.getMethod(mainMethodName, mainMethodDesc)
+    if mainMethod != nil && mainMethod.IsStatic() {
+        return mainMethod
+    } else {
+        return nil
+    }
+}
 func (self *Class) GetClinitMethod() (*Method) {
-    return self.getMethod(clinitName, clinitDesc)
+    return self.getMethod(clinitMethodName, clinitMethodDesc)
 }
 func (self *Class) getMethod(name, descriptor string) (*Method) {
     for _, method := range self.methods {

@@ -22,12 +22,18 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         // prepare to reexec this instruction
         frame.SetNextPC(thread.PC())
         stack.PushRef(fakeRef)
-        // todo init class
+        // init class
         initClass(mainClass, thread)
-        return
     } else {
-        // todo exec main()
-        panic("todo exec main()!!")
+        // exec main()
+        mainMethod := mainClass.GetMainMethod()
+        if mainMethod != nil {
+            panic("here!!!")
+            newFrame := rtda.NewFrame(mainMethod)
+            thread.PushFrame(newFrame)
+        } else {
+            panic("no main method!")
+        }
     }
 }
 

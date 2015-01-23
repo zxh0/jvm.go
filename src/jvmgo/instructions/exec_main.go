@@ -19,22 +19,34 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 
     mainClass := classLoader.LoadClass(className)
     if !mainClass.IsInitialized() {
-        // prepare to reexec this instruction
-        frame.SetNextPC(thread.PC())
-        stack.PushRef(fakeRef)
-        // init class
+        undoExec(thread, fakeRef)
         initClass(mainClass, thread)
     } else {
         // exec main()
         mainMethod := mainClass.GetMainMethod()
         if mainMethod != nil {
-            newFrame := rtda.NewFrame(mainMethod)
-            thread.PushFrame(newFrame)
-            panic("here!!!")
+            stringClass := mainClass.ClassLoader().LoadClass("java/lang/String")
+            if stringClass.IsInitialized() {
+                undoExec(thread, fakeRef)
+                initClass(mainClass, thread)
+            } else {
+                newFrame := rtda.NewFrame(mainMethod)
+                thread.PushFrame(newFrame)
+                // todo create args
+                panic("here!!!")
+            }
         } else {
             panic("no main method!")
         }
     }
+}
+
+// prepare to reexec this instruction
+func undoExec(thread *rtda.Thread, fakeRef *rtc.Obj) {
+    frame := thread.CurrentFrame()
+    stack := frame.OperandStack()
+    frame.SetNextPC(thread.PC())
+    stack.PushRef(fakeRef)
 }
 
 func initClass(class *rtc.Class, thread *rtda.Thread) {

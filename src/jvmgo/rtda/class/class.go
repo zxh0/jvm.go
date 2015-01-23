@@ -28,14 +28,14 @@ type Class struct {
     // todo
 }
 
-// func (self *Class) SuperClassName() (string) {
-//     return self.superClassName
-// }
 func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool
 }
 func (self *Class) Name() (string) {
     return self.name
+}
+func (self *Class) ClassLoader() (*ClassLoader) {
+    return self.classLoader
 }
 func (self *Class) IsInitialized() (bool) {
     return self.initialized

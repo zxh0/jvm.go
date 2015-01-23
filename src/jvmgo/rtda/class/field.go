@@ -10,11 +10,6 @@ type Field struct {
     slot uint
 }
 
-// getters
-func (self *Field) Class() (*Class) {
-    return self.class
-}
-
 func (self *Field) GetValue(ref *Obj) (Any) {
     fields := ref.fields.([]Any)
     return fields[self.slot]

@@ -20,9 +20,6 @@ func (self *Method) MaxLocals() (uint) {
 func (self *Method) ArgCount() (uint) {
     return self.argCount
 }
-func (self *Method) Class() (*Class) {
-    return self.class
-}
 func (self *Method) Code() ([]byte) {
     return self.code
 }

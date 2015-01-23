@@ -6,3 +6,7 @@ type ClassMember struct {
     descriptor  string
     class       *Class
 }
+
+func (self *ClassMember) Class() (*Class) {
+    return self.class
+}

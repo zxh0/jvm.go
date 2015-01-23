@@ -73,31 +73,26 @@ element_value {
 }
 */
 type ElementValue struct {
-    // private U1 tag;
-    // // tag=B,C,D,F,I,J,S,Z,s
-    // private U2CpIndex constValueIndex;
-    // // tag=e
-    // private EnumConstValue enumConstValue;
-    // // tag=c
-    // private U2CpIndex classInfoIndex;
-    // // tag=@
-    // private Annotation annotationValue;
-    // // tag=[
-    // private ArrayValue arrayValue;
+    tag                 uint8
+    constValueIndex     uint16          // tag=B,C,D,F,I,J,S,Z,s
+    enumConstValue      EnumConstValue  // tag=e
+    classInfoIndex      uint16          // tag=c
+    annotationValue     Annotation      // tag=@
+    arrayValue          ArrayValue      // tag=[
 }
 func readElementValue(reader *ClassReader) (*ElementValue) {
     return nil
 }
 
-// type EnumConstValue extends ClassComponent {
-//     private U2CpIndex typeNameIndex;
-//     private U2CpIndex constNameIndex;
-// }
-// type ArrayValue extends  ClassComponent {
-//     private U2 numValues;
-//     private Table<ElementValue> values;
-// }
-    
+type EnumConstValue struct {
+    // private U2CpIndex typeNameIndex;
+    // private U2CpIndex constNameIndex;
+}
+type ArrayValue struct {
+    // private U2 numValues;
+    // private Table<ElementValue> values;
+}
+
 
 
     // @Override

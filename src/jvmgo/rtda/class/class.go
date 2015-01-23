@@ -30,7 +30,7 @@ func (self *Class) ClassLoader() (*ClassLoader) {
     return self.classLoader
 }
 func (self *Class) NotInitialized() (bool) {
-    return self.initialized
+    return !self.initialized
 }
 func (self *Class) MarkInitialized() {
     self.initialized = true

@@ -2,6 +2,7 @@ package class
 
 import (
     //"fmt"
+    . "jvmgo/any"
     "jvmgo/classfile"
     //"jvmgo/rtda"
 )
@@ -79,6 +80,7 @@ func newClass(cf *classfile.ClassFile) (*Class) {
     class.interfaceNames = cf.InterfaceNames()
     class.copyFields(cf)
     class.copyMethods(cf)
+    class.initClassObj() // todo
     return class
 }
 
@@ -97,5 +99,13 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
     self.methods = make([]*Method, len(cf.Methods()))
     for i, methodInfo := range cf.Methods() {
         self.methods[i] = newMethod(self, methodInfo)
+    }
+}
+
+func (self *Class) initClassObj() {
+    fields := make([]Any, len(self.fields))
+    self.obj.fields = fields
+    for i, f := range self.fields {
+        f.slot = uint(i)
     }
 }

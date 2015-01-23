@@ -15,6 +15,8 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
     method := cMethodRef.Method()
+    // todo native method
+
     newFrame := rtda.NewFrame(method)
 
     // pass args

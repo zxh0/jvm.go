@@ -60,13 +60,17 @@ func (self *Class) NewObj() (*Obj) {
 
 func newClass(cf *classfile.ClassFile) (*Class) {
     class := &Class{}
-    class.constantPool = newConstantPool(cf.ConstantPool())
+    class.copyConstantPool(cf)
     class.name = cf.ClassName()
     class.superClassName = cf.SuperClassName()
     class.interfaceNames = cf.InterfaceNames()
     class.copyFields(cf)
     class.copyMethods(cf)
     return class
+}
+
+func (self *Class) copyConstantPool(cf *classfile.ClassFile) {
+    self.constantPool = newConstantPool(self, cf.ConstantPool())
 }
 
 func (self *Class) copyFields(cf *classfile.ClassFile) {

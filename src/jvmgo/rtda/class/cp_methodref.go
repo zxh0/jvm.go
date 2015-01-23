@@ -22,8 +22,9 @@ func (self *ConstantMethodref) Method() (*Method) {
 }
 
 func (self *ConstantMethodref) resolve() {
-
+    self.cp.class.classLoader.getClass(self.className)
     // todo
+    panic("cp_methodref.go!!")
 }
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {

@@ -7,8 +7,10 @@ import (
 )
 
 const (
-    class_init = "<clinit>"
-    obj_init = "<init>"
+    clinitName = "<clinit>"
+    clinitDesc = "()V"
+    initName = "<init>"
+    initDesc = "()V"
 )
 
 type Class struct {
@@ -41,11 +43,11 @@ func (self *Class) MarkInitialized() {
 }
 
 func (self *Class) GetClinitMethod() (*Method) {
-    return self.GetMethod(class_init)
+    return self.getMethod(clinitName, clinitDesc)
 }
-func (self *Class) GetMethod(name string) (*Method) {
+func (self *Class) getMethod(name, descriptor string) (*Method) {
     for _, method := range self.methods {
-        if method.name == name {
+        if method.name == name && method.descriptor == descriptor {
             return method
         }
     }

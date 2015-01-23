@@ -8,12 +8,13 @@ CONSTANT_Class_info {
 */
 type ConstantClassInfo struct {
     nameIndex uint16
+    cp        *ConstantPool
 }
 func (self *ConstantClassInfo) readInfo(reader *ClassReader) {
     self.nameIndex = reader.readUint16()
 }
-func (self *ConstantClassInfo) GetName(cp *ConstantPool) (string) {
-    return cp.getUtf8(self.nameIndex)
+func (self *ConstantClassInfo) Name() (string) {
+    return self.cp.getUtf8(self.nameIndex)
 }
 
 /*

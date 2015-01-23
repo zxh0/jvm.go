@@ -44,7 +44,7 @@ func newConstantPool(cfCp *cf.ConstantPool) (*ConstantPool) {
             classInfo := cpInfo.(*cf.ConstantClassInfo)
             cClass := &ConstantClass{}
             cClass.cp = rtCp
-            cClass.name = classInfo.GetName(cfCp)
+            cClass.name = classInfo.Name()
             consts[i] = cClass
         case *cf.ConstantFieldrefInfo:
         case *cf.ConstantMethodrefInfo:

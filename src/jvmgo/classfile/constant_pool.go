@@ -14,7 +14,7 @@ func (self *ConstantPool) read(reader *ClassReader) {
     // The constant_pool table is indexed from 1 to constant_pool_count - 1. 
     for i := uint16(1); i < cpCount; i++ {
         tag := reader.readUint8()
-        c := newConstantInfo(tag)
+        c := newConstantInfo(tag, self)
         c.readInfo(reader)
         self.cpInfos[i] = c
         // http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.5

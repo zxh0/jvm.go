@@ -25,57 +25,57 @@ type AccessFlags struct {
     accessFlags uint16
 }
 
-func (self *AccessFlags) isPublic() (bool) {
+func (self *AccessFlags) IsPublic() (bool) {
     return 0 != self.accessFlags & ACC_PUBLIC
 }
-func (self *AccessFlags) isPrivate() (bool) {
+func (self *AccessFlags) IsPrivate() (bool) {
     return 0 != self.accessFlags & ACC_PRIVATE
 }
-func (self *AccessFlags) isProtected() (bool) {
+func (self *AccessFlags) IsProtected() (bool) {
     return 0 != self.accessFlags & ACC_PROTECTED
 }
-func (self *AccessFlags) isStatic() (bool) {
+func (self *AccessFlags) IsStatic() (bool) {
     return 0 != self.accessFlags & ACC_STATIC
 }
-func (self *AccessFlags) isFinal() (bool) {
+func (self *AccessFlags) IsFinal() (bool) {
     return 0 != self.accessFlags & ACC_FINAL
 }
-func (self *AccessFlags) isSuper() (bool) {
+func (self *AccessFlags) IsSuper() (bool) {
     return 0 != self.accessFlags & ACC_SUPER
 }
-func (self *AccessFlags) isSynchronized() (bool) {
+func (self *AccessFlags) IsSynchronized() (bool) {
     return 0 != self.accessFlags & ACC_SYNCHRONIZED
 }
-func (self *AccessFlags) isVolatile() (bool) {
+func (self *AccessFlags) IsVolatile() (bool) {
     return 0 != self.accessFlags & ACC_VOLATILE
 }
-func (self *AccessFlags) isBridge() (bool) {
+func (self *AccessFlags) IsBridge() (bool) {
     return 0 != self.accessFlags & ACC_BRIDGE
 }
-func (self *AccessFlags) isTransient() (bool) {
+func (self *AccessFlags) IsTransient() (bool) {
     return 0 != self.accessFlags & ACC_TRANSIENT
 }
-func (self *AccessFlags) isVarargs() (bool) {
+func (self *AccessFlags) IsVarargs() (bool) {
     return 0 != self.accessFlags & ACC_VARARGS
 }
-func (self *AccessFlags) isNative() (bool) {
+func (self *AccessFlags) IsNative() (bool) {
     return 0 != self.accessFlags & ACC_NATIVE
 }
-func (self *AccessFlags) isInterface() (bool) {
+func (self *AccessFlags) IsInterface() (bool) {
     return 0 != self.accessFlags & ACC_INTERFACE
 }
-func (self *AccessFlags) isAbstract() (bool) {
+func (self *AccessFlags) IsAbstract() (bool) {
     return 0 != self.accessFlags & ACC_ABSTRACT
 }
-func (self *AccessFlags) isStrict() (bool) {
+func (self *AccessFlags) IsStrict() (bool) {
     return 0 != self.accessFlags & ACC_STRICT
 }
-func (self *AccessFlags) isSynthetic() (bool) {
+func (self *AccessFlags) IsSynthetic() (bool) {
     return 0 != self.accessFlags & ACC_SYNTHETIC
 }
-func (self *AccessFlags) isAnnotation() (bool) {
+func (self *AccessFlags) IsAnnotation() (bool) {
     return 0 != self.accessFlags & ACC_ANNOTATION
 }
-func (self *AccessFlags) isEnum() (bool) {
+func (self *AccessFlags) IsEnum() (bool) {
     return 0 != self.accessFlags & ACC_ENUM
 }

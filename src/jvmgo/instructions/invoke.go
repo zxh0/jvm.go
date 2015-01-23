@@ -1,6 +1,7 @@
 package instructions
 
 import (
+    "log"
     //. "jvmgo/any"
     "jvmgo/rtda"
     "jvmgo/rtda/class"
@@ -15,16 +16,20 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
     method := cMethodRef.Method()
-    // todo native method
+    if method.IsNative() {
+        // todo native method
+        log.Print("native method!")
+        return
+    }
 
+    // create new frame
     newFrame := rtda.NewFrame(method)
+    thread.PushFrame(newFrame)
 
     // pass args
     if argCount := method.ArgCount(); argCount > 0 {
         passArgs(stack, newFrame.LocalVars(), argCount)
     }
-
-    thread.PushFrame(newFrame)
 }
 
 func passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {

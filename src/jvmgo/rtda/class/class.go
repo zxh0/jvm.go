@@ -1,18 +1,20 @@
 package class
 
 import (
+    //"fmt"
     "jvmgo/classfile"
     //"jvmgo/rtda"
 )
 
 const (
-    cinit = "<cinit>"
-    oinit = "<init>"
+    class_init = "<clinit>"
+    obj_init = "<init>"
 )
 
 type Class struct {
     obj             Obj // todo
     constantPool    *ConstantPool
+    name            string
     superClassName  string
     interfaceNames  []string
     fields          []*Field
@@ -28,12 +30,15 @@ type Class struct {
 func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool
 }
+func (self *Class) Name() (string) {
+    return self.name
+}
 func (self *Class) IsInitialized() (bool) {
     return self.initialized
 }
 
-func (self *Class) GetCinitMethod() (*Method) {
-    return self.GetMethod(cinit)
+func (self *Class) GetClinitMethod() (*Method) {
+    return self.GetMethod(class_init)
 }
 func (self *Class) GetMethod(name string) (*Method) {
     for _, method := range self.methods {
@@ -53,6 +58,7 @@ func (self *Class) NewObj() (*Obj) {
 func newClass(cf *classfile.ClassFile) (*Class) {
     class := &Class{}
     class.constantPool = newConstantPool(cf.ConstantPool())
+    class.name = cf.ClassName()
     class.superClassName = cf.SuperClassName()
     class.interfaceNames = cf.InterfaceNames()
     class.copyFields(cf)

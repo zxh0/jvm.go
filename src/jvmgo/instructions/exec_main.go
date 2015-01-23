@@ -1,6 +1,7 @@
 package instructions
 
 import (
+    "log"
     . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
@@ -25,18 +26,19 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         initClass(mainClass)
         return
     } else {
-        // todo find main()
-        panic("todo find main()!!")
+        // todo exec main()
+        panic("todo exec main()!!")
     }
 }
 
 func initClass(class *rtc.Class) {
     uninitedClass := rtc.GetUpmostUninitializedClassOrInterface(class)
     if uninitedClass != nil {
-        cinit := class.GetCinitMethod()
-        if cinit != nil {
-            //cinit.Code()
-            panic("todo exec <cinit>!!")
+        log.Printf("init class: %v", uninitedClass.Name())
+        clinit := uninitedClass.GetClinitMethod()
+        if clinit != nil {
+            //clinit.Code()
+            panic("todo exec <clinit>!!")
         }
 
         panic("!!!!!")

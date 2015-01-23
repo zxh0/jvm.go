@@ -1,6 +1,9 @@
 package classfile
 
-import . "jvmgo/any"
+import (
+    "log"
+    . "jvmgo/any"
+)
 
 /*
 RuntimeVisibleAnnotations_attribute {
@@ -77,11 +80,6 @@ element_value {
 type ElementValue struct {
     tag     uint8
     value   Any
-    // constValueIndex     uint16          // tag=B,C,D,F,I,J,S,Z,s
-    // enumConstValue      EnumConstValue  // tag=e
-    // classInfoIndex      uint16          // tag=c
-    // annotationValue     Annotation      // tag=@
-    // arrayValue          ArrayValue      // tag=[
 }
 func readElementValue(reader *ClassReader) (*ElementValue) {
     var value Any
@@ -96,31 +94,30 @@ func readElementValue(reader *ClassReader) (*ElementValue) {
         case 'S': fallthrough
         case 'Z': fallthrough
         case 's': value = reader.readUint16()
-        case 'e': 
-        //     enumConstValue = new EnumConstValue();
-        //     enumConstValue.read(reader);
-        //     break;
-        case 'c':
-        //     classInfoIndex = reader.readU2CpIndex();
-        //     break;
-        case '@':
-        //     annotationValue = new AnnotationInfo();
-        //     annotationValue.read(reader);
-        //     break;
-        case '[':
-        //     arrayValue = new ArrayValue();
-        //     arrayValue.read(reader);
-        //     break;
-        // default: throw new FileParseException("Invalid element_value tag: " + tag.getDesc());
+        case 'e': value = readEnumConstValue(reader)
+        case 'c': value = reader.readUint16()
+        case '@': value = readAnnotation(reader)
+        case '[': value = readArrayValue(reader)
+        default: log.Panicf("BAD element_value tag: %v", tag)
     }
     return &ElementValue{tag, value}
 }
 
 type EnumConstValue struct {
-    // private U2CpIndex typeNameIndex;
-    // private U2CpIndex constNameIndex;
+    typeNameIndex   uint16
+    constNameIndex  uint16
 }
-type ArrayValue struct {
-    // private U2 numValues;
-    // private Table<ElementValue> values;
+func readEnumConstValue(reader *ClassReader) (*EnumConstValue) {
+    typeNameIndex := reader.readUint16()
+    constNameIndex := reader.readUint16()
+    return &EnumConstValue{typeNameIndex, constNameIndex}
+}
+
+func readArrayValue(reader *ClassReader) ([]*ElementValue) {
+    numValues := reader.readUint16()
+    values := make([]*ElementValue, numValues)
+    for i := range values {
+        values[i] = readElementValue(reader)
+    }
+    return values
 }

@@ -29,17 +29,19 @@ annotation {
 }
 */
 type Annotation struct {
-    //U2CpIndex typeIndex;
-    //U2 numElementValuePairs;
-    //elementValuePairs;ElementValuePair
+    typeIndex           uint16
+    elementValuePairs   []*ElementValuePair
 }
 func readAnnotation(reader *ClassReader) (*Annotation) {
-    return nil
+    typeIndex := reader.readUint16()
+    numElementValuePairs := reader.readUint16()
+    elementValuePairs := make([]*ElementValuePair, numElementValuePairs)
+    return &Annotation{typeIndex, elementValuePairs}
 }
 
 type ElementValuePair struct {
-    //elementNameIndex
-    //value ElementValue
+    //elementNameIndex    uint16
+    //value               ElementValue
 }
 
 

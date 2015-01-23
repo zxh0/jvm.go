@@ -1,6 +1,6 @@
 package class
 
-//import cf "jvmgo/classfile"
+import cf "jvmgo/classfile"
 
 type ConstantClass struct {
     name    string
@@ -20,4 +20,11 @@ func (self *ConstantClass) resolve() {
     // load class
     loader := self.cp.class.classLoader
     self.class = loader.LoadClass(self.name)
+}
+
+func newConstantClass(cp *ConstantPool, classInfo *cf.ConstantClassInfo) (*ConstantClass) {
+    cClass := &ConstantClass{}
+    cClass.name = classInfo.Name()
+    cClass.cp = cp
+    return cClass
 }

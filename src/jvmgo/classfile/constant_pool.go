@@ -37,6 +37,10 @@ func (self *ConstantPool) getConstantInfo(index uint16) (ConstantInfo) {
     return self.cpInfos[index]
 }
 
+func (self *ConstantPool) getNameAndType(index uint16) (*ConstantNameAndTypeInfo) {
+    return self.getConstantInfo(index).(*ConstantNameAndTypeInfo)
+}
+
 func (self *ConstantPool) getClassName(index uint16) (string) {
     classInfo := self.getConstantInfo(index).(*ConstantClassInfo)
     return self.getUtf8(classInfo.nameIndex)

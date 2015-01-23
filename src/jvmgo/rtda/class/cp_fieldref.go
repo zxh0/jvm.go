@@ -1,18 +1,31 @@
 package class
 
+import cf "jvmgo/classfile"
+
 type ConstantFieldref struct {
-    classIndex          uint16
-    nameAndTypeIndex    uint16
-    fieldRef            *Field
+    className   string
+    name        string
+    descriptor  string
+    //cp        *ConstantPool
+    field       *Field
 }
 
 func (self *ConstantFieldref) Field() (*Field) {
-    if self.fieldRef == nil {
+    if self.field == nil {
         self.resolve()
     }
-    return self.fieldRef
+    return self.field
 }
 
 func (self *ConstantFieldref) resolve() {
     // todo
+}
+
+func newConstantFieldref(cp *ConstantPool, fieldrefInfo *cf.ConstantFieldrefInfo) (*ConstantFieldref) {
+    fieldref := &ConstantFieldref{}
+    fieldref.className = fieldrefInfo.ClassName()
+    fieldref.name = fieldrefInfo.Name()
+    fieldref.descriptor = fieldrefInfo.Descriptor()
+    //fieldref.cp = cp
+    return fieldref
 }

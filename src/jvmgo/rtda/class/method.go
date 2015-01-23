@@ -24,8 +24,9 @@ func (self *Method) Code() ([]byte) {
     return self.code
 }
 
-func newMethod(methodInfo *cf.MethodInfo, class *Class) (*Method) {
+func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
     method := &Method{}
+    method.class = class
     method.accessFlags = methodInfo.AccessFlags()
     method.name = methodInfo.GetName()
     method.descriptor = methodInfo.GetDescriptor()
@@ -35,7 +36,6 @@ func newMethod(methodInfo *cf.MethodInfo, class *Class) (*Method) {
         method.maxLocals = codeAttr.MaxLocals()
     }
     
-    method.class = class
     return method
 }
 

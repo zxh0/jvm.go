@@ -28,11 +28,11 @@ func (self *Field) PutStaticValue(val Any) {
     fields[self.slot] = val
 }
 
-func newField(fieldInfo *cf.FieldInfo, class *Class) (*Field) {
+func newField(class *Class, fieldInfo *cf.FieldInfo) (*Field) {
     field := &Field{}
+    field.class = class
     field.accessFlags = fieldInfo.AccessFlags()
     field.name = fieldInfo.GetName()
     field.descriptor = fieldInfo.GetDescriptor()
-    field.class = class
     return field
 }

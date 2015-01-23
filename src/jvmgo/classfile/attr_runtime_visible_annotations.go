@@ -36,47 +36,59 @@ func readAnnotation(reader *ClassReader) (*Annotation) {
     typeIndex := reader.readUint16()
     numElementValuePairs := reader.readUint16()
     elementValuePairs := make([]*ElementValuePair, numElementValuePairs)
+    for i := range elementValuePairs {
+        elementValuePairs[i] = readElementValuePair(reader)
+    }
     return &Annotation{typeIndex, elementValuePairs}
 }
 
 type ElementValuePair struct {
-    //elementNameIndex    uint16
-    //value               ElementValue
+    elementNameIndex    uint16
+    value               *ElementValue
+}
+func readElementValuePair(reader *ClassReader) (*ElementValuePair) {
+    elementNameIndex := reader.readUint16()
+    value := readElementValue(reader)
+    return &ElementValuePair{elementNameIndex, value}
 }
 
+/*
+element_value {
+    u1 tag;
+    union {
+        u2 const_value_index;
 
-// element_value {
-//     u1 tag;
-//     union {
-//         u2 const_value_index;
+        {   u2 type_name_index;
+            u2 const_name_index;
+        } enum_const_value;
 
-//         {   u2 type_name_index;
-//             u2 const_name_index;
-//         } enum_const_value;
+        u2 class_info_index;
 
-//         u2 class_info_index;
+        annotation annotation_value;
 
-//         annotation annotation_value;
+        {   u2            num_values;
+            element_value values[num_values];
+        } array_value;
+    } value;
+}
+*/
+type ElementValue struct {
+    // private U1 tag;
+    // // tag=B,C,D,F,I,J,S,Z,s
+    // private U2CpIndex constValueIndex;
+    // // tag=e
+    // private EnumConstValue enumConstValue;
+    // // tag=c
+    // private U2CpIndex classInfoIndex;
+    // // tag=@
+    // private Annotation annotationValue;
+    // // tag=[
+    // private ArrayValue arrayValue;
+}
+func readElementValue(reader *ClassReader) (*ElementValue) {
+    return nil
+}
 
-//         {   u2            num_values;
-//             element_value values[num_values];
-//         } array_value;
-//     } value;
-// }
-
-// type ElementValue struct {
-//     private U1 tag;
-//     // tag=B,C,D,F,I,J,S,Z,s
-//     private U2CpIndex constValueIndex;
-//     // tag=e
-//     private EnumConstValue enumConstValue;
-//     // tag=c
-//     private U2CpIndex classInfoIndex;
-//     // tag=@
-//     private Annotation annotationValue;
-//     // tag=[
-//     private ArrayValue arrayValue;
-// }
 // type EnumConstValue extends ClassComponent {
 //     private U2CpIndex typeNameIndex;
 //     private U2CpIndex constNameIndex;

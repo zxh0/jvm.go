@@ -39,7 +39,8 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         newFrame := rtda.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
         // todo create args
-        panic("here!!!")
+        args := rtc.NewRefArray(0)
+        newFrame.OperandStack().PushRef(args)
     } else {
         panic("no main method!")
     }

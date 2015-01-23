@@ -6,11 +6,8 @@ import (
 )
 
 type Field struct {
-    AccessFlags
-    name        string
-    descriptor  string
-    class       *Class
-    slot        uint
+    ClassMember
+    slot uint
 }
 
 // getters

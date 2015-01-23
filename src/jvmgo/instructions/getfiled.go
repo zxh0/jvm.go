@@ -16,7 +16,7 @@ func (self *getfield) Execute(thread *rtda.Thread) {
     }
 
     cp := frame.Method().Class().ConstantPool()
-    cFieldRef := cp.GetConstant(self.index).(class.ConstantFieldref)
+    cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
     field := cFieldRef.Field()
 
     val := field.GetValue(ref)
@@ -30,9 +30,9 @@ func (self *getstatic) Execute(thread *rtda.Thread) {
     stack := frame.OperandStack()
 
     cp := frame.Method().Class().ConstantPool()
-    cFieldRef := cp.GetConstant(self.index).(class.ConstantFieldref)
+    cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
     field := cFieldRef.Field()
 
-    val := field.GetStaticValue()
+    val := field.GetStaticValue()//
     stack.Push(val)
 }

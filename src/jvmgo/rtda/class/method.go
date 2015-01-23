@@ -3,14 +3,11 @@ package class
 import cf "jvmgo/classfile"
 
 type Method struct {
-    AccessFlags
-    name        string
-    descriptor  string
+    ClassMember
     maxStack    uint
     maxLocals   uint
     argCount    uint
     code        []byte
-    class       *Class
 }
 
 // getters

@@ -34,6 +34,7 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) (AttributeInfo) {
 func newAttributeInfo(attrName string, attrLen uint32) (AttributeInfo) {
     switch attrName {
     case "Code":            return &CodeAttribute{}
+    case "ConstantValue":   return &ConstantValueAttribute{}
     case "Exceptions":      return &ExceptionsAttribute{}
     case "LineNumberTable": return &LineNumberTableAttribute{}
     case "Signature":       return &SignatureAttribute{}

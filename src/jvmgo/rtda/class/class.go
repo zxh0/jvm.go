@@ -8,7 +8,7 @@ import (
 
 const (
     mainMethodName      = "main"
-    mainMethodDesc      = "(Ljava/lang/String;)V"
+    mainMethodDesc      = "([Ljava/lang/String;)V"
     clinitMethodName    = "<clinit>"
     clinitMethodDesc    = "()V"
     initMethodName      = "<init>"

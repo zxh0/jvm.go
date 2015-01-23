@@ -28,9 +28,9 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         // exec main()
         mainMethod := mainClass.GetMainMethod()
         if mainMethod != nil {
-            panic("here!!!")
             newFrame := rtda.NewFrame(mainMethod)
             thread.PushFrame(newFrame)
+            panic("here!!!")
         } else {
             panic("no main method!")
         }

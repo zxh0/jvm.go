@@ -10,13 +10,22 @@ import (
 // Invoke a class (static) method 
 type invokestatic struct {Index16Instruction}
 func (self *invokestatic) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
-    stack := frame.OperandStack()
-
-    cp := frame.Method().Class().ConstantPool()
+    currentFrame := thread.CurrentFrame()
+    currentMethod := currentFrame.Method()
+    currentClass := currentMethod.Class()
+    cp := currentClass.ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
     method := cMethodRef.Method()
-    // todo init class
+
+    // init class
+    classOfMethod := method.Class()
+    if classOfMethod.NotInitialized() {
+        if classOfMethod != currentClass || !currentMethod.IsClinit() {
+            currentFrame.SetNextPC(thread.PC())
+            initClass(classOfMethod, thread)
+            return
+        }
+    }
 
     if method.IsNative() {
         // todo native method
@@ -30,7 +39,7 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
 
     // pass args
     if argCount := method.ArgCount(); argCount > 0 {
-        passArgs(stack, newFrame.LocalVars(), argCount)
+        passArgs(currentFrame.OperandStack(), newFrame.LocalVars(), argCount)
     }
 }
 

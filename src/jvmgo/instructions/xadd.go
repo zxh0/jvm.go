@@ -16,8 +16,8 @@ func (self *dadd) Execute(thread *rtda.Thread) {
 type fadd struct {NoOperandsInstruction}
 func (self *fadd) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopFloat()
     v2 := stack.PopFloat()
+    v1 := stack.PopFloat()
     result := v1 + v2
     stack.PushFloat(result)
 }
@@ -26,8 +26,8 @@ func (self *fadd) Execute(thread *rtda.Thread) {
 type iadd struct {NoOperandsInstruction}
 func (self *iadd) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopInt()
     v2 := stack.PopInt()
+    v1 := stack.PopInt()
     result := v1 + v2
     stack.PushInt(result)
 }
@@ -36,8 +36,8 @@ func (self *iadd) Execute(thread *rtda.Thread) {
 type ladd struct {NoOperandsInstruction}
 func (self *ladd) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopLong()
     v2 := stack.PopLong()
+    v1 := stack.PopLong()
     result := v1 + v2
     stack.PushLong(result)
 }

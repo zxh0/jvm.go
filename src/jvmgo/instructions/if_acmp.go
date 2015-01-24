@@ -19,7 +19,7 @@ func (self *if_acmpne) Execute(thread *rtda.Thread) {
 
 func _acmp(thread *rtda.Thread) (bool) {
     stack := thread.CurrentFrame().OperandStack()
-    ref1 := stack.PopRef()
     ref2 := stack.PopRef()
+    ref1 := stack.PopRef()
     return ref1 == ref2 // todo
 }

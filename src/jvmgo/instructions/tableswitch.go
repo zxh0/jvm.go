@@ -13,4 +13,5 @@ func (self *tableswitch) fetchOperands(bcr *BytecodeReader) {
 
 func (self *tableswitch) Execute(thread *rtda.Thread) {
     // todo
+    panic("tableswitch")
 }

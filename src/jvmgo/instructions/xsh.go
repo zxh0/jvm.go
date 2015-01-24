@@ -6,8 +6,8 @@ import "jvmgo/rtda"
 type ishl struct {NoOperandsInstruction}
 func (self *ishl) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopInt()
     v2 := stack.PopInt()
+    v1 := stack.PopInt()
     s := uint32(v2) & 0x1f
     result := v1 << s
     stack.PushInt(result)
@@ -17,8 +17,8 @@ func (self *ishl) Execute(thread *rtda.Thread) {
 type ishr struct {NoOperandsInstruction}
 func (self *ishr) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopInt()
     v2 := stack.PopInt()
+    v1 := stack.PopInt()
     s := uint32(v2) & 0x1f
     result := v1 >> s
     stack.PushInt(result)
@@ -28,8 +28,8 @@ func (self *ishr) Execute(thread *rtda.Thread) {
 type iushr struct {NoOperandsInstruction}
 func (self *iushr) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopInt()
     v2 := stack.PopInt()
+    v1 := stack.PopInt()
     s := uint32(v2) & 0x1f
     result := int32(uint32(v1) >> s)
     stack.PushInt(result)
@@ -40,8 +40,8 @@ func (self *iushr) Execute(thread *rtda.Thread) {
 type lshl struct {NoOperandsInstruction}
 func (self *lshl) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopLong()
     v2 := stack.PopInt()
+    v1 := stack.PopLong()
     s := uint32(v2) & 0x3f
     result := v1 << s
     stack.PushLong(result)
@@ -51,8 +51,8 @@ func (self *lshl) Execute(thread *rtda.Thread) {
 type lshr struct {NoOperandsInstruction}
 func (self *lshr) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopLong()
     v2 := stack.PopInt()
+    v1 := stack.PopLong()
     s := uint32(v2) & 0x3f
     result := v1 >> s
     stack.PushLong(result)
@@ -62,8 +62,8 @@ func (self *lshr) Execute(thread *rtda.Thread) {
 type lushr struct {NoOperandsInstruction}
 func (self *lushr) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopLong()
     v2 := stack.PopInt()
+    v1 := stack.PopLong()
     s := uint32(v2) & 0x3f
     result := int64(uint64(v1) >> s)
     stack.PushLong(result)

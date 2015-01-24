@@ -15,8 +15,8 @@ func (self *fcmpl) Execute(thread *rtda.Thread) {
 
 func _fcmp(thread *rtda.Thread, gFlag bool) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopFloat()
     v2 := stack.PopFloat()
+    v1 := stack.PopFloat()
     if v1 > v2 {
         stack.PushInt(1)
     } else if v1 == v2 {

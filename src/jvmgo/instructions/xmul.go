@@ -6,8 +6,8 @@ import "jvmgo/rtda"
 type dmul struct {NoOperandsInstruction}
 func (self *dmul) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopDouble()
     v2 := stack.PopDouble()
+    v1 := stack.PopDouble()
     result := v1 * v2
     stack.PushDouble(result)
 }
@@ -16,8 +16,8 @@ func (self *dmul) Execute(thread *rtda.Thread) {
 type fmul struct {NoOperandsInstruction}
 func (self *fmul) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopFloat()
     v2 := stack.PopFloat()
+    v1 := stack.PopFloat()
     result := v1 * v2
     stack.PushFloat(result)
 }
@@ -26,8 +26,8 @@ func (self *fmul) Execute(thread *rtda.Thread) {
 type imul struct {NoOperandsInstruction}
 func (self *imul) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopInt()
     v2 := stack.PopInt()
+    v1 := stack.PopInt()
     result := v1 * v2
     stack.PushInt(result)
 }
@@ -36,8 +36,8 @@ func (self *imul) Execute(thread *rtda.Thread) {
 type lmul struct {NoOperandsInstruction}
 func (self *lmul) Execute(thread *rtda.Thread) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopLong()
     v2 := stack.PopLong()
+    v1 := stack.PopLong()
     result := v1 * v2
     stack.PushLong(result)
 }

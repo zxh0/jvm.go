@@ -15,8 +15,8 @@ func (self *dcmpl) Execute(thread *rtda.Thread) {
 
 func _dcmp(thread *rtda.Thread, gFlag bool) {
     stack := thread.CurrentFrame().OperandStack()
-    v1 := stack.PopDouble()
     v2 := stack.PopDouble()
+    v1 := stack.PopDouble()
     if v1 > v2 {
         stack.PushInt(1)
     } else if v1 == v2 {

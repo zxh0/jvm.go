@@ -6,10 +6,12 @@ import "jvmgo/rtda"
 type monitorenter struct {NoOperandsInstruction}
 func (self *monitorenter) Execute(thread *rtda.Thread) {
     // todo
+    //panic("monitorenter")
 }
 
 // Exit monitor for object
 type monitorexit struct {NoOperandsInstruction}
 func (self *monitorexit) Execute(thread *rtda.Thread) {
     // todo
+    //panic("monitorexit")
 }

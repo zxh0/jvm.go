@@ -13,4 +13,5 @@ func (self *lookupswitch) fetchOperands(bcr *BytecodeReader) {
 
 func (self *lookupswitch) Execute(thread *rtda.Thread) {
     // todo
+    panic("lookupswitch")
 }

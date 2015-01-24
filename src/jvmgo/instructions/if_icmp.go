@@ -47,7 +47,7 @@ func (self *if_icmpge) Execute(thread *rtda.Thread) {
 
 func pop2Ints(thread *rtda.Thread) (val1, val2 int32) {
     stack := thread.CurrentFrame().OperandStack()
-    val1 = stack.PopInt()
     val2 = stack.PopInt()
+    val1 = stack.PopInt()
     return
 }

@@ -32,13 +32,12 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
         if method.IsRegisterNatives() {
             // todo
             log.Print("skip registerNatives()!")
-            return
         } else {
-            // todo native method
+            // exec native method
             nativeMethod := cMethodRef.NativeMethod().(native.NativeMethod)
             nativeMethod(currentFrame.OperandStack())
-            return
         }
+        return
     }
 
     // create new frame

@@ -82,9 +82,9 @@ func (self *sastore) Execute(thread *rtda.Thread) {
 
 func popOperands(thread *rtda.Thread) (*class.Obj, int, Any) {
     stack := thread.CurrentFrame().OperandStack()
-    arrRef := stack.PopRef()
-    index := int(stack.PopInt())
     val := stack.Pop()
+    index := int(stack.PopInt())
+    arrRef := stack.PopRef()
     if arrRef == nil {
         // todo
         panic("NullPointerException")

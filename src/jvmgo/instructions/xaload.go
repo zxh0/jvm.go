@@ -89,8 +89,8 @@ func (self *saload) Execute(thread *rtda.Thread) {
 
 func popArrAndIndex(thread *rtda.Thread) (*rtda.OperandStack, *class.Obj, int) {
     stack := thread.CurrentFrame().OperandStack()
-    arrRef := stack.PopRef()
     index := int(stack.PopInt())
+    arrRef := stack.PopRef()
     if arrRef == nil {
         // todo
         panic("NullPointerException")

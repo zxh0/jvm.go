@@ -68,12 +68,6 @@ func (self *Class) getMethod(name, descriptor string) (*Method) {
     return nil
 }
 
-func (self *Class) NewObj() (*Obj) {
-    // todo
-    panic("class.NewObj()")
-    return nil
-}
-
 func newClass(cf *classfile.ClassFile) (*Class) {
     class := &Class{}
     class.copyConstantPool(cf)
@@ -123,4 +117,13 @@ func (self *Class) initInstanceFields() {
         slotId++
     }
     self.instanceFieldCount = slotId
+}
+
+func (self *Class) NewObj() (*Obj) {
+    if self.instanceFieldCount > 0 {
+        fields := make([]Any, self.instanceFieldCount)
+        return &Obj{fields}
+    } else {
+        return &Obj{}
+    }
 }

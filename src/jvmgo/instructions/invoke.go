@@ -53,7 +53,7 @@ func (self *invokespecial) Execute(thread *rtda.Thread) {
     stack := frame.OperandStack()
 
     cp := frame.Method().Class().ConstantPool()
-    cMethodRef := cp.GetConstant(self.index).(class.ConstantMethodref)
+    cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
     method := cMethodRef.Method()
     newFrame := rtda.NewFrame(method)
 

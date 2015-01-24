@@ -47,3 +47,14 @@ func initClass(class *rtc.Class, thread *rtda.Thread) {
         }
     }
 }
+
+func passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {
+    args := stack.PopN(argCount)
+    for i := uint(0); i < argCount; i++ {
+        arg := args[i]
+        vars.Set(i, arg)
+        if isLongOrDouble(arg) {
+            i++
+        }
+    }
+}

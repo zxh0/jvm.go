@@ -1,4 +1,4 @@
-package class
+package classfile
 
 func calcArgCount(descriptor string) (uint) {
     count := 0

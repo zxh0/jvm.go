@@ -51,15 +51,18 @@ func (self *Class) getField(name, descriptor string) (*Field) {
 }
 
 func (self *Class) GetMainMethod() (*Method) {
-    mainMethod := self.getMethod(mainMethodName, mainMethodDesc)
-    if mainMethod != nil && mainMethod.IsStatic() {
-        return mainMethod
+    return self.getStaticMethod(mainMethodName, mainMethodDesc)
+}
+func (self *Class) GetClinitMethod() (*Method) {
+    return self.getStaticMethod(clinitMethodName, clinitMethodDesc)
+}
+func (self *Class) getStaticMethod(name, descriptor string) (*Method) {
+    method := self.getMethod(name, descriptor)
+    if method != nil && method.IsStatic() {
+        return method
     } else {
         return nil
     }
-}
-func (self *Class) GetClinitMethod() (*Method) {
-    return self.getMethod(clinitMethodName, clinitMethodDesc)
 }
 func (self *Class) getMethod(name, descriptor string) (*Method) {
     for _, method := range self.methods {

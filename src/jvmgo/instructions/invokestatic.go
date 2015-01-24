@@ -2,8 +2,6 @@ package instructions
 
 import (
     "log"
-    //. "jvmgo/any"
-    //"jvmgo/native"
     "jvmgo/rtda"
     "jvmgo/rtda/class"
 )

@@ -7,8 +7,8 @@ const (
     mainMethodDesc      = "([Ljava/lang/String;)V"
     clinitMethodName    = "<clinit>"
     clinitMethodDesc    = "()V"
-    initMethodName      = "<init>"
-    initMethodDesc      = "()V"
+    //initMethodName      = "<init>"
+    //initMethodDesc      = "()V"
 )
 
 type Method struct {

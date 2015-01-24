@@ -10,7 +10,12 @@ type LocalVars struct {
 }
 
 func (self *LocalVars) GetRef(index uint) (*class.Obj) {
-    return self.slots[index].(*class.Obj)
+    ref := self.slots[index]
+    if ref == nil {
+        return nil
+    } else {
+        return ref.(*class.Obj)
+    }
 }
 func (self *LocalVars) SetRef(index uint, ref *class.Obj) {
     self.slots[index] = ref

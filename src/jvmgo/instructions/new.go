@@ -41,20 +41,19 @@ func (self *newarray) Execute(thread *rtda.Thread) {
 type anewarray struct {Index16Instruction}
 func (self *anewarray) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
-    stack := frame.OperandStack()
-    count := stack.PopInt()
-
     cp := frame.Method().Class().ConstantPool()
     cClass := cp.GetConstant(self.index).(*rtclass.ConstantClass)
     class := cClass.Class()
     
     if class.NotInitialized() {
-        panic("todo anewarray")
-        // todo init class
-    }
-
-    ref := rtclass.NewRefArray(count)
-    stack.PushRef(ref)
+        frame.SetNextPC(thread.PC())
+        initClass(class, thread)
+    } else {
+        stack := frame.OperandStack()
+        count := stack.PopInt()
+        ref := rtclass.NewRefArray(count)
+        stack.PushRef(ref)
+    }    
 }
 
 // Create new multidimensional array

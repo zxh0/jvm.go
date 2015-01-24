@@ -8,7 +8,7 @@ import (
 )
 
 type Class struct {
-    obj                 Obj // todo
+    obj                 *Obj // todo
     constantPool        *ConstantPool
     name                string
     superClassName      string
@@ -21,6 +21,9 @@ type Class struct {
     // todo
 }
 
+func (self *Class) Obj() (*Obj) {
+    return self.obj
+}
 func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool
 }
@@ -70,6 +73,7 @@ func (self *Class) getMethod(name, descriptor string) (*Method) {
 
 func newClass(cf *classfile.ClassFile) (*Class) {
     class := &Class{}
+    class.obj = &Obj{} // todo
     class.copyConstantPool(cf)
     class.name = cf.ClassName()
     class.superClassName = cf.SuperClassName()

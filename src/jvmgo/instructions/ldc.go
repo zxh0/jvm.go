@@ -27,11 +27,11 @@ func _ldc(thread *rtda.Thread, index uint) {
     switch c.(type) {
     case int32: stack.PushInt(c.(int32))
     case float32: stack.PushFloat(c.(float32))
-    case string: panic("todo ldc string!!")
-    case *rtc.ConstantClass: 
-        panic("todo ldc class")
-        //class := c.(*rtc.ConstantClass).Class()
-        //stack.PushRef(class.(*rtc.Obj))
+    case string: // todo
+        panic("todo ldc string!!")
+    case *rtc.ConstantClass: // todo
+        class := c.(*rtc.ConstantClass).Class()
+        stack.PushRef(class.Obj())
     default: 
         fmt.Printf("CCC:::%v\n", c)
         panic("todo ldc!!!")

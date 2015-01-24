@@ -47,7 +47,7 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     class.classLoader = self
     self.classMap[name] = class
     self.loadSuperClassAndInterfaces(class)
-    class.initInstanceFields()
+    self.initInstanceFields(class)
 
     return class
 }
@@ -60,6 +60,19 @@ func (self *ClassLoader) loadSuperClassAndInterfaces(class *Class) {
     for _, interfaceName := range class.interfaceNames {
         self.LoadClass(interfaceName)
     }
+}
+
+func (self *ClassLoader) initInstanceFields(class *Class) {
+    slotId := uint(0)
+    if class.superClassName != "" {
+        superClass := self.getClass(class.superClassName)
+        slotId = superClass.instanceFieldCount
+    }
+    for _, field := range class.fields {
+        field.slot = slotId
+        slotId++
+    }
+    class.instanceFieldCount = slotId
 }
 
 func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {

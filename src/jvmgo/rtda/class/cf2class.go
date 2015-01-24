@@ -45,16 +45,3 @@ func (self *Class) initClassFields() {
         f.slot = uint(i)
     }
 }
-
-func (self *Class) initInstanceFields() {
-    slotId := uint(0)
-    if self.superClassName != "" {
-        superClass := self.classLoader.getClass(self.superClassName)
-        slotId = superClass.instanceFieldCount
-    }
-    for _, field := range self.fields {
-        field.slot = slotId
-        slotId++
-    }
-    self.instanceFieldCount = slotId
-}

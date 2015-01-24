@@ -11,10 +11,11 @@ func (self *new_) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
     stack := frame.OperandStack()
     cp := frame.Method().Class().ConstantPool()
-    cClass := cp.GetConstant(self.index).(rtclass.ConstantClass)
+    cClass := cp.GetConstant(self.index).(*rtclass.ConstantClass)
     class := cClass.Class()
 
     if class.NotInitialized() {
+        panic("todo new")
         // todo init class
     }
 
@@ -44,10 +45,11 @@ func (self *anewarray) Execute(thread *rtda.Thread) {
     count := stack.PopInt()
 
     cp := frame.Method().Class().ConstantPool()
-    cClass := cp.GetConstant(self.index).(rtclass.ConstantClass)
+    cClass := cp.GetConstant(self.index).(*rtclass.ConstantClass)
     class := cClass.Class()
     
     if class.NotInitialized() {
+        panic("todo anewarray")
         // todo init class
     }
 
@@ -66,4 +68,5 @@ func (self *multianewarray) fetchOperands(bcr *BytecodeReader) {
 }
 func (self *multianewarray) Execute(thread *rtda.Thread) {
     // todo
+    panic("todo multianewarray")
 }

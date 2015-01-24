@@ -55,6 +55,7 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
 // todo
 func NewStartupMethod(code []byte) (*Method) {
     method := &Method{}
+    method.class = &Class{name:"~jvmgo"}
     method.name = "<jvmgo>"
     method.maxStack = 8
     method.maxLocals = 8

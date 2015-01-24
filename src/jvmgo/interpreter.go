@@ -19,7 +19,7 @@ func loop(thread *rtda.Thread) {
         frame.SetNextPC(bcr.PC())
 
         // execute
-        log.Printf("exec instruction: 0x%x %v", opcode, inst)
+        logInstruction(frame, opcode, inst)
         inst.Execute(thread)
         if !thread.IsStackEmpty() {
             topFrame := thread.TopFrame()
@@ -28,4 +28,10 @@ func loop(thread *rtda.Thread) {
             break;
         }
     }
+}
+
+func logInstruction(frame *rtda.Frame, opcode uint8, inst instructions.Instruction) {
+    className := frame.Method().Class().Name()
+    methodName := frame.Method().Name()
+    log.Printf("exec instruction: %v.%v 0x%x %v", className, methodName, opcode, inst)
 }

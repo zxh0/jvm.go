@@ -1,3 +1,5 @@
 package native
 
-type NativeMethod func()
+import "jvmgo/rtda"
+
+type NativeMethod func(operandStack *rtda.OperandStack)

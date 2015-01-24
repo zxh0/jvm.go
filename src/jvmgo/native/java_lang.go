@@ -8,10 +8,16 @@ import (
 
 // register native methods
 func init() {
-    rtc.RegisterNativeMethod("java/lang/System","nanoTime","()J", system_nanoTime)
+    rtc.RegisterNativeMethod("java/lang/System","nanoTime","()J", nanoTime)
+    rtc.RegisterNativeMethod("java/lang/System","currentTimeMillis","()J", nanoTime)
 }
 
-func system_nanoTime(stack *rtda.OperandStack) {
+// java.lang.System
+func nanoTime(stack *rtda.OperandStack) {
     nanoTime := time.Now().UnixNano()
     stack.PushLong(nanoTime)
+}
+func currentTimeMillis(stack *rtda.OperandStack) {
+    millis := time.Now().UnixNano() / 1000
+    stack.PushLong(millis)
 }

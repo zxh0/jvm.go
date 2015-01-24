@@ -42,7 +42,7 @@ func (self *ConstantMethodref) SpecialMethod() (*Method) {
     if self.method == nil {
         method := self.findMethod(self.className)
         if method != nil && !method.IsStatic() {
-            if method.IsNative(){
+            if method.IsNative() {
                 self.nativeMethod = findNativeMethod(method)
             }
             self.method = method
@@ -53,10 +53,6 @@ func (self *ConstantMethodref) SpecialMethod() (*Method) {
     }
     return self.method
 }
-func (self *ConstantMethodref) findMethod(className string) (*Method) {
-    class := self.cp.class.classLoader.LoadClass(className)
-    return class.getMethod(self.name, self.descriptor)
-}
 func (self *ConstantMethodref) VirtualMethod() (*Method) {
     if self.method == nil {
         classLoader := self.cp.class.classLoader
@@ -66,6 +62,9 @@ func (self *ConstantMethodref) VirtualMethod() (*Method) {
                 class := classLoader.LoadClass(className)
                 method := class.getMethod(self.name, self.descriptor)
                 if method != nil && !method.IsStatic() {
+                    if method.IsNative() {
+                        self.nativeMethod = findNativeMethod(method)
+                    }
                     self.method = method
                     return method
                 } else {
@@ -79,6 +78,10 @@ func (self *ConstantMethodref) VirtualMethod() (*Method) {
         panic("method not found!")
     }
     return self.method
+}
+func (self *ConstantMethodref) findMethod(className string) (*Method) {
+    class := self.cp.class.classLoader.LoadClass(className)
+    return class.getMethod(self.name, self.descriptor)
 }
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {

@@ -22,8 +22,8 @@ type ConstantInterfaceMethodref struct {
 func (self *ConstantMethodref) StaticMethod() (*Method) {
     if self.method == nil {
         class := self.cp.class.classLoader.LoadClass(self.className)
-        method := class.getMethod(self.name, self.descriptor)
-        if method.IsStatic() {
+        method := class.getStaticMethod(self.name, self.descriptor)
+        if method != nil {
             if method.IsNative() && !method.IsRegisterNatives() {
                 self.nativeMethod = findNativeMethod(method)
             }
@@ -39,7 +39,7 @@ func (self *ConstantMethodref) SpecialMethod() (*Method) {
     if self.method == nil {
         class := self.cp.class.classLoader.LoadClass(self.className)
         method := class.getMethod(self.name, self.descriptor)
-        if !method.IsStatic() {
+        if method != nil && !method.IsStatic() {
             if method.IsNative(){
                 self.nativeMethod = findNativeMethod(method)
             }

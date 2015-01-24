@@ -3,7 +3,6 @@ package main
 import (
     . "jvmgo/any"
     "jvmgo/cmdline"
-    //"jvmgo/native"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
 )

@@ -47,7 +47,7 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
     method.accessFlags = methodInfo.AccessFlags()
     method.name = methodInfo.GetName()
     method.descriptor = methodInfo.GetDescriptor()
-    method.argCount = calcArgCount(method.descriptor)
+    method.argCount = methodInfo.GetArgCount()
     if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
         method.code = codeAttr.Code()
         method.maxStack = codeAttr.MaxStack()

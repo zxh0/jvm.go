@@ -43,6 +43,7 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     class.classLoader = self
     self.classMap[name] = class
     self.loadSuperClassAndInterfaces(class)
+    class.initInstanceFields()
 
     return class
 }

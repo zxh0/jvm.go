@@ -8,15 +8,16 @@ import (
 )
 
 type Class struct {
-    obj             Obj // todo
-    constantPool    *ConstantPool
-    name            string
-    superClassName  string
-    interfaceNames  []string
-    fields          []*Field
-    methods         []*Method
-    classLoader     *ClassLoader
-    initialized     bool
+    obj                 Obj // todo
+    constantPool        *ConstantPool
+    name                string
+    superClassName      string
+    interfaceNames      []string
+    fields              []*Field
+    methods             []*Method
+    classLoader         *ClassLoader
+    instanceFieldCount  uint
+    initialized         bool
     // todo
 }
 
@@ -81,7 +82,7 @@ func newClass(cf *classfile.ClassFile) (*Class) {
     class.interfaceNames = cf.InterfaceNames()
     class.copyFields(cf)
     class.copyMethods(cf)
-    class.initClassObj() // todo
+    class.initClassFields()
     return class
 }
 
@@ -103,10 +104,23 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
     }
 }
 
-func (self *Class) initClassObj() {
+func (self *Class) initClassFields() {
     fields := make([]Any, len(self.fields))
     self.obj.fields = fields
     for i, f := range self.fields {
         f.slot = uint(i)
     }
+}
+
+func (self *Class) initInstanceFields() {
+    slotId := uint(0)
+    if self.superClassName != "" {
+        superClass := self.classLoader.getClass(self.superClassName)
+        slotId = superClass.instanceFieldCount
+    }
+    for _, field := range self.fields {
+        field.slot = slotId
+        slotId++
+    }
+    self.instanceFieldCount = slotId
 }

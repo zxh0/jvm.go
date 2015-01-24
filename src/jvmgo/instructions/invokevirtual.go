@@ -14,9 +14,14 @@ func (self *invokevirtual) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-    method := cMethodRef.Method()
+    method := cMethodRef.VirtualMethod()
     newFrame := rtda.NewFrame(method)
-    newFrame.Method()
+
+    // pass args
+    argCount := 1 + method.ArgCount()
+    passArgs(frame.OperandStack(), newFrame.LocalVars(), argCount)
+
+    thread.PushFrame(newFrame)
     // todo
-    panic("todo invokevirtual")
+    //panic("todo invokevirtual")
 }

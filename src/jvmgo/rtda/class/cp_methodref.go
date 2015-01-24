@@ -58,7 +58,26 @@ func (self *ConstantMethodref) findMethod(className string) (*Method) {
     return class.getMethod(self.name, self.descriptor)
 }
 func (self *ConstantMethodref) VirtualMethod() (*Method) {
-    // todo
+    if self.method == nil {
+        classLoader := self.cp.class.classLoader
+        className := self.className
+        for {
+            if className != "" {
+                class := classLoader.LoadClass(className)
+                method := class.getMethod(self.name, self.descriptor)
+                if method != nil && !method.IsStatic() {
+                    self.method = method
+                    return method
+                } else {
+                    className = class.superClassName
+                }
+            } else {
+                break
+            }
+        }
+        // todo
+        panic("method not found!")
+    }
     return self.method
 }
 

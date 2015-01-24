@@ -1,7 +1,7 @@
 package instructions
 
 import (
-    //"log"
+    "log"
     //. "jvmgo/any"
     "jvmgo/rtda"
     "jvmgo/rtda/class"
@@ -28,9 +28,15 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
     }
 
     if method.IsNative() {
-        // todo native method
-        panic("native method:" + method.Name())
-        return
+        if method.IsRegisterNatives() {
+            // todo
+            log.Print("skip registerNatives()!")
+            return
+        } else {
+            // todo native method
+            panic("native method:" + method.Name())
+            return
+        }
     }
 
     // create new frame

@@ -1,6 +1,7 @@
 package instructions
 
 import (
+    //"fmt"
     . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
@@ -38,8 +39,8 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         newFrame := rtda.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
         // todo create args
-        args := rtc.NewRefArray(0)
-        newFrame.OperandStack().PushRef(args)
+        //args := rtc.NewRefArray(0)
+        //newFrame.OperandStack().PushRef(args)
     } else {
         panic("no main method!")
     }

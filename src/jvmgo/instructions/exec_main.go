@@ -25,6 +25,14 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         return
     }
 
+    // load and init java.io.PrintStream
+    psClass := classLoader.LoadClass("java/io/PrintStream")
+    if psClass.NotInitialized() {
+        undoExec(thread, fakeRef)
+        initClass(psClass, thread)
+        return
+    }
+
     // load and init main class
     mainClass := classLoader.LoadClass(className)
     if mainClass.NotInitialized() {

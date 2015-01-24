@@ -10,8 +10,6 @@ import (
 type invokespecial struct {Index16Instruction}
 func (self *invokespecial) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
-    stack := frame.OperandStack()
-
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
     method := cMethodRef.Method()
@@ -19,7 +17,7 @@ func (self *invokespecial) Execute(thread *rtda.Thread) {
 
     // pass args
     argCount := 1 + method.ArgCount()
-    passArgs(stack, newFrame.LocalVars(), argCount)
+    passArgs(frame.OperandStack(), newFrame.LocalVars(), argCount)
 
     thread.PushFrame(newFrame)
 }

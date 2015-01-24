@@ -31,7 +31,7 @@ func checkArrIndex(index, len int) {
 func initClass(class *rtc.Class, thread *rtda.Thread) {
     uninitedClass := rtc.GetUpmostUninitializedClassOrInterface(class)
     if uninitedClass != nil {
-        log.Printf("init class: %v", uninitedClass.Name())
+        log.Printf("init: %v", uninitedClass.Name())
         clinit := uninitedClass.GetClinitMethod()
         if clinit != nil {
             // exec <clinit>

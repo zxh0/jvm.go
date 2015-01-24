@@ -9,18 +9,17 @@ import (
 type new_ struct {Index16Instruction}
 func (self *new_) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
-    stack := frame.OperandStack()
     cp := frame.Method().Class().ConstantPool()
     cClass := cp.GetConstant(self.index).(*rtclass.ConstantClass)
     class := cClass.Class()
 
     if class.NotInitialized() {
-        panic("todo new")
-        // todo init class
+        frame.SetNextPC(thread.PC())
+        initClass(class, thread)
+    } else {
+        ref := class.NewObj()
+        frame.OperandStack().PushRef(ref)
     }
-
-    ref := class.NewObj()
-    stack.PushRef(ref)
 }
 
 // Create new array

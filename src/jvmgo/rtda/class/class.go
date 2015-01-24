@@ -69,6 +69,7 @@ func (self *Class) getMethod(name, descriptor string) (*Method) {
 
 func (self *Class) NewObj() (*Obj) {
     // todo
+    panic("class.NewObj()")
     return nil
 }
 

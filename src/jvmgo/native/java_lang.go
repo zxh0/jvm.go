@@ -2,14 +2,20 @@ package native
 
 import (
     "time"
+    "unsafe"
+    . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
 )
 
 // register native methods
 func init() {
-    rtc.RegisterNativeMethod("java/lang/System","nanoTime","()J", nanoTime)
-    rtc.RegisterNativeMethod("java/lang/System","currentTimeMillis","()J", nanoTime)
+    system("nanoTime"           ,"()J",                     nanoTime)
+    system("currentTimeMillis"  ,"()J",                     currentTimeMillis)
+    system("identityHashCode"   ,"(Ljava/lang/Object;)I",   identityHashCode)
+}
+func system(name, desc string, method Any) {
+    rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
 
 // java.lang.System
@@ -20,4 +26,10 @@ func nanoTime(stack *rtda.OperandStack) {
 func currentTimeMillis(stack *rtda.OperandStack) {
     millis := time.Now().UnixNano() / 1000
     stack.PushLong(millis)
+}
+func identityHashCode(stack *rtda.OperandStack) {
+    // todo
+    ref := stack.PopRef()
+    hashCode := int32(uintptr(unsafe.Pointer(ref)))
+    stack.PushInt(hashCode)
 }

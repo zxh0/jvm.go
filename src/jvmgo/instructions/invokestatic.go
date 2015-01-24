@@ -14,7 +14,7 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
     currentClass := currentMethod.Class()
     cp := currentClass.ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
-    method := cMethodRef.Method()
+    method := cMethodRef.StaticMethod()
 
     // init class
     classOfMethod := method.Class()

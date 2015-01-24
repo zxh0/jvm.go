@@ -12,7 +12,7 @@ func (self *invokespecial) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
-    method := cMethodRef.Method()
+    method := cMethodRef.SpecialMethod()
     newFrame := rtda.NewFrame(method)
 
     // pass args

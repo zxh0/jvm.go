@@ -37,8 +37,10 @@ func (self *Method) IsClinit() (bool) {
     return self.name == clinitMethodName && self.descriptor == clinitMethodDesc
 }
 func (self *Method) IsRegisterNatives() (bool) {
-    return self.name == registerNativesMethodName &&
+    return self.IsStatic() &&
+            self.name == registerNativesMethodName &&
             self.descriptor == registerNativesMethodDesc
+
 }
 
 func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {

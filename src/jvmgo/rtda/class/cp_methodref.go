@@ -18,12 +18,40 @@ type ConstantInterfaceMethodref struct {
     ConstantMethodref
 }
 
-func (self *ConstantMethodref) Method() (*Method) {
+// method resolution
+func (self *ConstantMethodref) StaticMethod() (*Method) {
     if self.method == nil {
-        self.resolve()
+        class := self.cp.class.classLoader.LoadClass(self.className)
+        method := class.getMethod(self.name, self.descriptor)
+        if method.IsStatic() {
+            if method.IsNative() && !method.IsRegisterNatives() {
+                self.nativeMethod = findNativeMethod(method)
+            }
+            self.method = method
+        } else {
+            // todo
+            panic("method not found!")
+        }
     }
     return self.method
 }
+func (self *ConstantMethodref) SpecialMethod() (*Method) {
+    if self.method == nil {
+        class := self.cp.class.classLoader.LoadClass(self.className)
+        method := class.getMethod(self.name, self.descriptor)
+        if !method.IsStatic() {
+            if method.IsNative(){
+                self.nativeMethod = findNativeMethod(method)
+            }
+            self.method = method
+        } else {
+            // todo
+            panic("method not found!")
+        }
+    }
+    return self.method
+}
+
 func (self *ConstantMethodref) NativeMethod() (Any) {
     return self.nativeMethod
 }

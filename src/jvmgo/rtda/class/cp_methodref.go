@@ -18,12 +18,15 @@ type ConstantInterfaceMethodref struct {
     ConstantMethodref
 }
 
+func (self *ConstantMethodref) NativeMethod() (Any) {
+    return self.nativeMethod
+}
+
 // method resolution
 func (self *ConstantMethodref) StaticMethod() (*Method) {
     if self.method == nil {
-        class := self.cp.class.classLoader.LoadClass(self.className)
-        method := class.getStaticMethod(self.name, self.descriptor)
-        if method != nil {
+        method := self.findMethod(self.className)
+        if method != nil && method.IsStatic() {
             if method.IsNative() && !method.IsRegisterNatives() {
                 self.nativeMethod = findNativeMethod(method)
             }
@@ -37,8 +40,7 @@ func (self *ConstantMethodref) StaticMethod() (*Method) {
 }
 func (self *ConstantMethodref) SpecialMethod() (*Method) {
     if self.method == nil {
-        class := self.cp.class.classLoader.LoadClass(self.className)
-        method := class.getMethod(self.name, self.descriptor)
+        method := self.findMethod(self.className)
         if method != nil && !method.IsStatic() {
             if method.IsNative(){
                 self.nativeMethod = findNativeMethod(method)
@@ -51,17 +53,13 @@ func (self *ConstantMethodref) SpecialMethod() (*Method) {
     }
     return self.method
 }
-
-func (self *ConstantMethodref) NativeMethod() (Any) {
-    return self.nativeMethod
+func (self *ConstantMethodref) findMethod(className string) (*Method) {
+    class := self.cp.class.classLoader.LoadClass(className)
+    return class.getMethod(self.name, self.descriptor)
 }
-
-func (self *ConstantMethodref) resolve() {
-    class := self.cp.class.classLoader.LoadClass(self.className)
-    self.method = class.getMethod(self.name, self.descriptor)
-    if self.method.IsNative() && !self.method.IsRegisterNatives() {
-        self.nativeMethod = findNativeMethod(self.method)
-    }
+func (self *ConstantMethodref) VirtualMethod() (*Method) {
+    // todo
+    return self.method
 }
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {

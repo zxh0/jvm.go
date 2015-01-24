@@ -9,10 +9,6 @@ type ConstantPool struct {
     consts []Constant
 }
 
-// func (self *ConstantPool) GetFieldref(index uint) (*ConstantFieldref) {
-//     return self.GetConstant()
-// }
-
 func (self *ConstantPool) GetConstant(index uint) (Constant) {
     // todo
     return self.consts[index]
@@ -42,7 +38,8 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) (*ConstantPool) {
             i++
         case *cf.ConstantStringInfo:
             stringInfo := cpInfo.(*cf.ConstantStringInfo)
-            stringInfo.String() // todo
+            // todo
+            consts[i] = stringInfo.String()
         case *cf.ConstantClassInfo:
             classInfo := cpInfo.(*cf.ConstantClassInfo)
             consts[i] = newConstantClass(rtCp, classInfo)

@@ -1,7 +1,7 @@
 package instructions
 
 import (
-    "log"
+    //"log"
     //. "jvmgo/any"
     "jvmgo/rtda"
     "jvmgo/rtda/class"
@@ -29,7 +29,7 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
 
     if method.IsNative() {
         // todo native method
-        log.Print("skip native method!")
+        panic("native method:" + method.Name())
         return
     }
 

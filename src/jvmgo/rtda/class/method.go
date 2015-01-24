@@ -3,12 +3,12 @@ package class
 import cf "jvmgo/classfile"
 
 const (
-    mainMethodName      = "main"
-    mainMethodDesc      = "([Ljava/lang/String;)V"
-    clinitMethodName    = "<clinit>"
-    clinitMethodDesc    = "()V"
-    //initMethodName      = "<init>"
-    //initMethodDesc      = "()V"
+    mainMethodName              = "main"
+    mainMethodDesc              = "([Ljava/lang/String;)V"
+    clinitMethodName            = "<clinit>"
+    clinitMethodDesc            = "()V"
+    registerNativesMethodName   = "registerNatives"
+    registerNativesMethodDesc   = "()V"
 )
 
 type Method struct {
@@ -35,6 +35,10 @@ func (self *Method) Code() ([]byte) {
 
 func (self *Method) IsClinit() (bool) {
     return self.name == clinitMethodName && self.descriptor == clinitMethodDesc
+}
+func (self *Method) IsRegisterNatives() (bool) {
+    return self.name == registerNativesMethodName &&
+            self.descriptor == registerNativesMethodDesc
 }
 
 func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {

@@ -14,34 +14,25 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     stack := frame.OperandStack()
     fakeRef := stack.PopRef()
     fakeFields := fakeRef.Fields().([]Any)
-    className := fakeFields[0].(string)
+    mainClassName := fakeFields[0].(string)
     classLoader := fakeFields[1].(*rtc.ClassLoader)
 
-    // load and init java.lang.String
-    stringClass := classLoader.LoadClass("java/lang/String")
-    if stringClass.NotInitialized() {
-        undoExec(thread, fakeRef)
-        initClass(stringClass, thread)
-        return
-    }
+    classesToLoadAndInit := []string{
+        "java/lang/String",
+        "java/io/PrintStream",
+        mainClassName}
 
-    // load and init java.io.PrintStream
-    psClass := classLoader.LoadClass("java/io/PrintStream")
-    if psClass.NotInitialized() {
-        undoExec(thread, fakeRef)
-        initClass(psClass, thread)
-        return
-    }
-
-    // load and init main class
-    mainClass := classLoader.LoadClass(className)
-    if mainClass.NotInitialized() {
-        undoExec(thread, fakeRef)
-        initClass(mainClass, thread)
-        return
+    for _, className := range classesToLoadAndInit {
+        class := classLoader.LoadClass(className)
+        if class.NotInitialized() {
+            undoExec(thread, fakeRef)
+            initClass(class, thread)
+            return
+        }
     }
 
     // exec main()
+    mainClass := classLoader.LoadClass(mainClassName)
     mainMethod := mainClass.GetMainMethod()
     if mainMethod != nil {
         newFrame := rtda.NewFrame(mainMethod)

@@ -8,13 +8,6 @@ import (
     //"jvmgo/rtda/class"
 )
 
-// Invoke instance method; dispatch based on class
-type invokevirtual struct {Index16Instruction}
-func (self *invokevirtual) Execute(thread *rtda.Thread) {
-    // todo
-    panic("todo invokevirtual")
-}
-
 // Invoke interface method
 type invokeinterface struct {
     index   uint16

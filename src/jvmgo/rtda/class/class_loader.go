@@ -15,6 +15,10 @@ func (self *ClassLoader) getClass(name string) (*Class) {
     return self.classMap[name]
 }
 
+func (self *ClassLoader) StringClass() (*Class) {
+    return self.LoadClass("java/lang/String")
+}
+
 func (self *ClassLoader) LoadClass(name string) (*Class) {
     class := self.classMap[name]
     if class != nil {

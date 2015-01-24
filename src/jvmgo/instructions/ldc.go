@@ -28,7 +28,11 @@ func _ldc(thread *rtda.Thread, index uint) {
     case int32: stack.PushInt(c.(int32))
     case float32: stack.PushFloat(c.(float32))
     case string: // todo
-        panic("todo ldc string!!")
+        // todo new string
+        //stringClass := frame.Method().Class().ClassLoader().StringClass()
+        //initMethod := stringClass.GetMethod("<init>")
+        //panic("todo ldc string!!")
+        stack.PushRef(nil)
     case *rtc.ConstantClass: // todo
         class := c.(*rtc.ConstantClass).Class()
         stack.PushRef(class.Obj())

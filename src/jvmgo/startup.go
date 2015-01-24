@@ -3,23 +3,24 @@ package main
 import (
     . "jvmgo/any"
     "jvmgo/cmdline"
+    //"jvmgo/native"
     "jvmgo/rtda"
-    "jvmgo/rtda/class"
+    rtc "jvmgo/rtda/class"
 )
 
 func startJVM(cmd *cmdline.Command) {
     className := cmd.Class()
     classPath := cmd.Options().Classpath()
-    classLoader := class.NewClassLoader(classPath)
+    classLoader := rtc.NewClassLoader(classPath)
     mainThread := createMainThread(className, classLoader)
     loop(mainThread)
 }
 
 func createMainThread(className string, classLoader Any) (*rtda.Thread) {
     fakeFields := []Any{className, classLoader}
-    fakeRef := class.NewObj(fakeFields)
+    fakeRef := rtc.NewObj(fakeFields)
 
-    fakeMethod := class.NewStartupMethod([]byte{0xff})
+    fakeMethod := rtc.NewStartupMethod([]byte{0xff})
     fakeFrame := rtda.NewFrame(fakeMethod)
     fakeFrame.OperandStack().PushRef(fakeRef)
 

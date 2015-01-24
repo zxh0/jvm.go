@@ -3,6 +3,7 @@ package instructions
 import (
     "log"
     //. "jvmgo/any"
+    "jvmgo/native"
     "jvmgo/rtda"
     "jvmgo/rtda/class"
 )
@@ -34,7 +35,8 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
             return
         } else {
             // todo native method
-            panic("native method:" + method.Name())
+            nativeMethod := cMethodRef.NativeMethod().(native.NativeMethod)
+            nativeMethod(currentFrame.OperandStack())
             return
         }
     }

@@ -24,6 +24,9 @@ func (self *ConstantMethodref) Method() (*Method) {
     }
     return self.method
 }
+func (self *ConstantMethodref) NativeMethod() (Any) {
+    return self.nativeMethod
+}
 
 func (self *ConstantMethodref) resolve() {
     class := self.cp.class.classLoader.LoadClass(self.className)

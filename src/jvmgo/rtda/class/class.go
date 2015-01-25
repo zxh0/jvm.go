@@ -77,8 +77,8 @@ func (self *Class) GetMethod(name, descriptor string) (*Method) {
 func (self *Class) NewObj() (*Obj) {
     if self.instanceFieldCount > 0 {
         fields := make([]Any, self.instanceFieldCount)
-        return &Obj{fields}
+        return &Obj{self, fields}
     } else {
-        return &Obj{}
+        return &Obj{self, nil}
     }
 }

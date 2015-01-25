@@ -14,25 +14,25 @@ const (
 
 func NewPrimitiveArray(atype uint8, count int32) (*Obj) {
     switch atype {
-    case AT_BOOLEAN: return &Obj{make([]int8, count)}
-    case AT_CHAR:    return &Obj{make([]uint16, count)}
-    case AT_FLOAT:   return &Obj{make([]float32, count)}
-    case AT_DOUBLE:  return &Obj{make([]float64, count)}
-    case AT_BYTE:    return &Obj{make([]int8, count)}
-    case AT_SHORT:   return &Obj{make([]int16, count)}
-    case AT_INT:     return &Obj{make([]int32, count)}
-    case AT_LONG:    return &Obj{make([]int64, count)}
+    case AT_BOOLEAN: return &Obj{nil, make([]int8, count)}
+    case AT_CHAR:    return &Obj{nil, make([]uint16, count)}
+    case AT_FLOAT:   return &Obj{nil, make([]float32, count)}
+    case AT_DOUBLE:  return &Obj{nil, make([]float64, count)}
+    case AT_BYTE:    return &Obj{nil, make([]int8, count)}
+    case AT_SHORT:   return &Obj{nil, make([]int16, count)}
+    case AT_INT:     return &Obj{nil, make([]int32, count)}
+    case AT_LONG:    return &Obj{nil, make([]int64, count)}
     default: panic("BAD atype!") // todo
     }
 }
 
 func NewRefArray(count int32) (*Obj) {
     arr := make([]*Obj, count)
-    return &Obj{arr}
+    return &Obj{nil, arr}
 }
 
 func NewIntArray(ints []int32) (*Obj) {
-    return &Obj{ints}
+    return &Obj{nil, ints}
 }
 
 func ArrayLength(arr *Obj) (int32) {

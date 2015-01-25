@@ -6,13 +6,10 @@ import . "jvmgo/any"
 
 // object
 type Obj struct {
-    fields Any // []Any
+    class   *Class
+    fields  Any // []Any
 }
 
 func (self *Obj) Fields() (Any) {
     return self.fields
-}
-
-func NewObj(fields Any) (*Obj) {
-    return &Obj{fields}
 }

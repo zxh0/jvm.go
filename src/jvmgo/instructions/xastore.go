@@ -23,7 +23,7 @@ func (self *bastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     byteArr := arrRef.Fields().([]int8)
     checkArrIndex(index, len(byteArr))
-    byteArr[index] = val.(int8)
+    byteArr[index] = int8(val.(int32))
 }
 
 // Store into char array 
@@ -32,7 +32,7 @@ func (self *castore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     charArr := arrRef.Fields().([]uint16)
     checkArrIndex(index, len(charArr))
-    charArr[index] = val.(uint16)
+    charArr[index] = uint16(val.(int32))
 }
 
 // Store into double array 
@@ -77,7 +77,7 @@ func (self *sastore) Execute(thread *rtda.Thread) {
     arrRef, index, val := popOperands(thread)
     shortArr := arrRef.Fields().([]int16)
     checkArrIndex(index, len(shortArr))
-    shortArr[index] = val.(int16)
+    shortArr[index] = int16(val.(int32))
 }
 
 func popOperands(thread *rtda.Thread) (*class.Obj, int, Any) {

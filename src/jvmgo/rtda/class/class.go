@@ -57,14 +57,14 @@ func (self *Class) GetClinitMethod() (*Method) {
     return self.getStaticMethod(clinitMethodName, clinitMethodDesc)
 }
 func (self *Class) getStaticMethod(name, descriptor string) (*Method) {
-    method := self.getMethod(name, descriptor)
+    method := self.GetMethod(name, descriptor)
     if method != nil && method.IsStatic() {
         return method
     } else {
         return nil
     }
 }
-func (self *Class) getMethod(name, descriptor string) (*Method) {
+func (self *Class) GetMethod(name, descriptor string) (*Method) {
     for _, method := range self.methods {
         if method.name == name && method.descriptor == descriptor {
             return method

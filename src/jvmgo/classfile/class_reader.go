@@ -71,6 +71,13 @@ func (self *ClassReader) readString() (string) {
     return string(bytes[:])
 }
 
+func (self *ClassReader) unreadUint8() {
+    err := self.reader.UnreadByte()
+    if err != nil {
+       panic(err.Error()) 
+    }
+}
+
 // factory
 func newClassReader(data []byte) *ClassReader {
     return &ClassReader{bytes.NewReader(data)}

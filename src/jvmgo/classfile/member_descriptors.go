@@ -4,13 +4,42 @@ type DescriptorReader struct {
     d   string
     r   *ClassReader
 }
-func (self DescriptorReader) readParamStart() {
+func (self *DescriptorReader) startParams() {
     b := self.r.readUint8()
     if b != '(' {
         self.causePanic()
     }
 }
-func (self DescriptorReader) causePanic() {
+func (self *DescriptorReader) endParams() {
+    b := self.r.readUint8()
+    if b != ')' {
+        self.causePanic()
+    }
+}
+func (self *DescriptorReader) readFieldType() (bool) {
+    b := self.r.readUint8()
+    switch b {
+        case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z':
+            return true
+        case 'L':
+            self.readObjectType()
+            return true
+        case '[':
+            self.readArrayType()
+            return true
+        default:
+            self.r.unreadUint8()
+            return false
+    }
+}
+func (self *DescriptorReader) readObjectType() {
+    for ';' != self.r.readUint8() {}
+}
+func (self *DescriptorReader) readArrayType() {
+    self.readFieldType()
+}
+
+func (self *DescriptorReader) causePanic() {
     panic("BAD descriptor: " + self.d)
 }
 
@@ -18,30 +47,13 @@ func (self DescriptorReader) causePanic() {
 func calcArgCount(descriptor string) (uint) {
     cr := newClassReader([]byte(descriptor))
     dr := &DescriptorReader{descriptor, cr}
-    dr.readParamStart()
 
     count := 0
-    refStarted := false
-    for pos, char := range descriptor {
-        if pos == 0 {
-            if char != '(' {
-                panic("BAD method descriptor: " + descriptor)
-            }
-        } else if refStarted {
-            if char == ';' {
-                refStarted = false
-            }
-        } else {
-            switch char {
-            case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z':
-                count++
-            case 'L', '[':
-                count++
-                refStarted = true
-            case ')': return uint(count) // break not works
-            default: panic("BAD method descriptor: " + descriptor)
-            }
-        }
+    dr.startParams()
+    for dr.readFieldType() {
+        count++
     }
+    dr.endParams()
+
     return uint(count)
 }

@@ -52,3 +52,20 @@ func TestPopN(t *testing.T) {
         t.Errorf("newTop: %v", newTop)
     }
 }
+
+func TestTopNth(t *testing.T) {
+    stack := newOperandStack(3)
+    stack.PushInt(1)
+    stack.PushInt(2)
+    stack.PushInt(3)
+    
+    if top0 := stack.TopNth(0).(int32); top0 != 3 {
+        t.Errorf("top0: %v", top0)
+    }
+    if top1 := stack.TopNth(1).(int32); top1 != 2 {
+        t.Errorf("top1: %v", top1)
+    }
+    if top2 := stack.TopNth(2).(int32); top2 != 1 {
+        t.Errorf("top2: %v", top2)
+    }
+}

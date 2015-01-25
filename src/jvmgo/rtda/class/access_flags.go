@@ -21,6 +21,7 @@ const (
     ACC_ENUM            = 0x4000
 )
 
+// todo move to classfile
 type AccessFlags struct {
     accessFlags uint16
 }

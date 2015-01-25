@@ -1,7 +1,6 @@
 package class
 
 import (
-    . "jvmgo/any"
     cf "jvmgo/classfile"
 )
 
@@ -11,15 +10,10 @@ type ConstantMethodref struct {
     descriptor      string
     cp              *ConstantPool
     method          *Method
-    nativeMethod    Any // cannot use package 'native' because of cycle import!
 }
 
 type ConstantInterfaceMethodref struct {
     ConstantMethodref
-}
-
-func (self *ConstantMethodref) NativeMethod() (Any) {
-    return self.nativeMethod
 }
 
 // method resolution
@@ -28,7 +22,7 @@ func (self *ConstantMethodref) StaticMethod() (*Method) {
         method := self.findMethod(self.className)
         if method != nil && method.IsStatic() {
             if method.IsNative() && !method.IsRegisterNatives() {
-                self.nativeMethod = findNativeMethod(method)
+                method.nativeMethod = findNativeMethod(method)
             }
             self.method = method
         } else {
@@ -43,7 +37,7 @@ func (self *ConstantMethodref) SpecialMethod() (*Method) {
         method := self.findMethod(self.className)
         if method != nil && !method.IsStatic() {
             if method.IsNative() {
-                self.nativeMethod = findNativeMethod(method)
+                method.nativeMethod = findNativeMethod(method)
             }
             self.method = method
         } else {
@@ -71,7 +65,7 @@ func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
             method := class.GetMethod(self.name, self.descriptor)
             if method != nil && !method.IsStatic() {
                 if method.IsNative() {
-                    self.nativeMethod = findNativeMethod(method)
+                    method.nativeMethod = findNativeMethod(method)
                 }
                 self.method = method
                 return method

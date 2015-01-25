@@ -32,7 +32,7 @@ func (self *invokestatic) Execute(thread *rtda.Thread) {
             log.Print("skip registerNatives()!")
         } else {
             // exec native method
-            nativeMethod := cMethodRef.NativeMethod().(func(*rtda.OperandStack))
+            nativeMethod := method.NativeMethod().(func(*rtda.OperandStack))
             nativeMethod(currentFrame.OperandStack())
         }
         return

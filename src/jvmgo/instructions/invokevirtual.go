@@ -21,13 +21,15 @@ func (self *invokevirtual) Execute(thread *rtda.Thread) {
     }
 
     method := cMethodRef.VirtualMethod(ref.(*rtc.Obj))
-    newFrame := rtda.NewFrame(method)
-    thread.PushFrame(newFrame)
+    if method.IsNative() {
+        nativeMethod := method.NativeMethod().(func(*rtda.OperandStack))
+        nativeMethod(stack)
+    } else {
+        newFrame := rtda.NewFrame(method)
+        thread.PushFrame(newFrame)
 
-    // pass args
-    argCount := 1 + method.ArgCount()
-    passArgs(stack, newFrame.LocalVars(), argCount)
-
-    // todo
-    //panic("todo invokevirtual")
+        // pass args
+        argCount := 1 + method.ArgCount()
+        passArgs(stack, newFrame.LocalVars(), argCount)
+    }
 }

@@ -1,6 +1,9 @@
 package class
 
-import cf "jvmgo/classfile"
+import (
+    . "jvmgo/any"
+    cf "jvmgo/classfile"
+)
 
 const (
     mainMethodName              = "main"
@@ -13,10 +16,11 @@ const (
 
 type Method struct {
     ClassMember
-    maxStack    uint
-    maxLocals   uint
-    argCount    uint
-    code        []byte
+    maxStack        uint
+    maxLocals       uint
+    argCount        uint
+    code            []byte
+    nativeMethod    Any // cannot use package 'native' because of cycle import!
 }
 
 // getters
@@ -31,6 +35,9 @@ func (self *Method) ArgCount() (uint) {
 }
 func (self *Method) Code() ([]byte) {
     return self.code
+}
+func (self *Method) NativeMethod() (Any) {
+    return self.nativeMethod
 }
 
 func (self *Method) IsClinit() (bool) {
@@ -50,6 +57,9 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
     method.name = methodInfo.GetName()
     method.descriptor = methodInfo.GetDescriptor()
     method.argCount = methodInfo.GetArgCount()
+    // if !method.IsStatic() { // todo
+    //     method.argCount++
+    // }
     if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
         method.code = codeAttr.Code()
         method.maxStack = codeAttr.MaxStack()

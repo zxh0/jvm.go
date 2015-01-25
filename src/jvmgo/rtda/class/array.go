@@ -31,6 +31,10 @@ func NewRefArray(count int32) (*Obj) {
     return &Obj{arr}
 }
 
+func NewIntArray(ints []int32) (*Obj) {
+    return &Obj{ints}
+}
+
 func ArrayLength(arr *Obj) (int32) {
     switch arr.fields.(type) {
         case []int8: return int32(len(arr.fields.([]int8)))

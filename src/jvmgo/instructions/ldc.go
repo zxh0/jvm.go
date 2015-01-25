@@ -2,6 +2,7 @@ package instructions
 
 import (
     "fmt"
+    "unicode/utf8"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
 )
@@ -28,12 +29,21 @@ func _ldc(thread *rtda.Thread, index uint) {
     case int32: stack.PushInt(c.(int32))
     case float32: stack.PushFloat(c.(float32))
     case string: // todo
-        // todo new string
+        // new string
         stringClass := frame.Method().Class().ClassLoader().StringClass()
-        initMethod := stringClass.GetMethod("<init>", "([BIII)V")
-        fmt.Printf("afadsfdsff:::%v\n", initMethod.Name())
-        panic("todo ldc string!!")
-        stack.PushRef(nil)
+        jStr := stringClass.NewObj()
+        stack.PushRef(jStr)
+        // init string
+        codePoints := string2CodePoints(c.(string))
+        //public String(int[] codePoints, int offset, int count)
+        initMethod := stringClass.GetMethod("<init>", "([III)V")
+        newFrame := rtda.NewFrame(initMethod)
+        localVars := newFrame.LocalVars()
+        localVars.SetRef(0, jStr) // this
+        localVars.SetRef(1, rtc.NewIntArray(codePoints))
+        localVars.SetInt(2, 0)
+        localVars.SetInt(3, int32(len(codePoints)))
+        thread.PushFrame(newFrame)
     case *rtc.ConstantClass: // todo
         class := c.(*rtc.ConstantClass).Class()
         stack.PushRef(class.Obj())
@@ -60,4 +70,17 @@ func (self *ldc2_w) Execute(thread *rtda.Thread) {
     case float64: stack.PushDouble(c.(float64))
     // todo
     }
+}
+
+func string2CodePoints(str string) ([]rune) {
+    runeCount := utf8.RuneCountInString(str)
+    codePoints := make([]rune, runeCount)
+    i := 0
+    for len(str) > 0 {
+        r, size := utf8.DecodeRuneInString(str)
+        codePoints[i] = r
+        i++
+        str = str[size:]
+    }
+    return codePoints
 }

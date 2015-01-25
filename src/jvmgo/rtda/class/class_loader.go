@@ -12,6 +12,7 @@ type ClassLoader struct {
 }
 
 func (self *ClassLoader) getClass(name string) (*Class) {
+    // todo
     return self.classMap[name]
 }
 

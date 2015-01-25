@@ -12,16 +12,22 @@ import (
 type invokevirtual struct {Index16Instruction}
 func (self *invokevirtual) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
+    stack := frame.OperandStack()
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-    method := cMethodRef.VirtualMethod()
+    ref := stack.Top(cMethodRef.VirtualMethodArgCount())
+    if ref == nil {
+        panic("NPE")
+    }
+
+    method := cMethodRef.VirtualMethod(ref.(*rtc.Obj))
     newFrame := rtda.NewFrame(method)
+    thread.PushFrame(newFrame)
 
     // pass args
     argCount := 1 + method.ArgCount()
-    passArgs(frame.OperandStack(), newFrame.LocalVars(), argCount)
+    passArgs(stack, newFrame.LocalVars(), argCount)
 
-    thread.PushFrame(newFrame)
     // todo
     //panic("todo invokevirtual")
 }

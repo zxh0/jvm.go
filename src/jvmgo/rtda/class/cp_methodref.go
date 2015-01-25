@@ -53,51 +53,53 @@ func (self *ConstantMethodref) SpecialMethod() (*Method) {
     }
     return self.method
 }
-func (self *ConstantMethodref) VirtualMethod() (*Method) {
-    if self.method == nil {
-        classLoader := self.cp.class.classLoader
-        className := self.className
-        for {
-            if className != "" {
-                class := classLoader.LoadClass(className)
-                method := class.GetMethod(self.name, self.descriptor)
-                if method != nil && !method.IsStatic() {
-                    if method.IsNative() {
-                        self.nativeMethod = findNativeMethod(method)
-                    }
-                    self.method = method
-                    return method
-                } else {
-                    className = class.superClassName
-                }
-            } else {
-                break
-            }
-        }
-        // todo
-        panic("method not found!")
-    }
-    return self.method
-}
 func (self *ConstantMethodref) findMethod(className string) (*Method) {
     class := self.cp.class.classLoader.LoadClass(className)
     return class.GetMethod(self.name, self.descriptor)
 }
 
+// todo
+func (self *ConstantMethodref) VirtualMethodArgCount() (uint) {
+    return self.SpecialMethod().ArgCount()
+}
+func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
+    classLoader := self.cp.class.classLoader
+    className := ref.class.name
+    for {
+        if className != "" {
+            class := classLoader.LoadClass(className)
+            method := class.GetMethod(self.name, self.descriptor)
+            if method != nil && !method.IsStatic() {
+                if method.IsNative() {
+                    self.nativeMethod = findNativeMethod(method)
+                }
+                self.method = method
+                return method
+            } else {
+                className = class.superClassName
+            }
+        } else {
+            break
+        }
+    }
+    // todo
+    panic("method not found!")
+}
+
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {
     methodref := &ConstantMethodref{}
+    methodref.cp = cp
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
-    methodref.cp = cp
     return methodref
 }
 
 func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) (*ConstantInterfaceMethodref) {
     methodref := &ConstantInterfaceMethodref{}
+    methodref.cp = cp
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
-    methodref.cp = cp
     return methodref
 }

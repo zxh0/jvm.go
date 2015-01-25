@@ -42,7 +42,7 @@ func initClass(class *rtc.Class, thread *rtda.Thread) {
             thread.PushFrame(newFrame)
         } else {
             // no <clinit> method
-            log.Printf("%v has no <clinit>", uninitedClass.Name())
+            //log.Printf("%v has no <clinit>", uninitedClass.Name())
             uninitedClass.MarkInitialized()
         }
     }

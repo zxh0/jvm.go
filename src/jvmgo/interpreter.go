@@ -15,11 +15,11 @@ func loop(thread *rtda.Thread) {
         // decode
         bcr.SetPC(thread.PC())
         bcr.SetCode(frame.Method().Code())
-        opcode, inst := instructions.Decode(bcr)
+        _, inst := instructions.Decode(bcr)
         frame.SetNextPC(bcr.PC())
 
         // execute
-        logInstruction(frame, opcode, inst)
+        //logInstruction(frame, opcode, inst)
         inst.Execute(thread)
         if !thread.IsStackEmpty() {
             topFrame := thread.TopFrame()

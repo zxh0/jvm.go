@@ -10,6 +10,9 @@ type Obj struct {
     fields  Any // []Any
 }
 
+func (self *Obj) Class() (*Class) {
+    return self.class
+}
 func (self *Obj) Fields() (Any) {
     return self.fields
 }

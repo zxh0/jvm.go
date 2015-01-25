@@ -1,7 +1,7 @@
 package instructions
 
 import (
-    "log"
+    //"log"
     . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
@@ -31,7 +31,7 @@ func checkArrIndex(index, len int) {
 func initClass(class *rtc.Class, thread *rtda.Thread) {
     uninitedClass := rtc.GetUpmostUninitializedClassOrInterface(class)
     if uninitedClass != nil {
-        log.Printf("init: %v", uninitedClass.Name())
+        //log.Printf("init: %v", uninitedClass.Name())
         clinit := uninitedClass.GetClinitMethod()
         if clinit != nil {
             // hack!

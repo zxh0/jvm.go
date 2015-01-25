@@ -1,6 +1,7 @@
 package native
 
 import (
+    "fmt"
     "time"
     "unsafe"
     . "jvmgo/any"
@@ -35,6 +36,14 @@ func identityHashCode(stack *rtda.OperandStack) {
     stack.PushInt(hashCode)
 }
 
+// hack
 func jvmgo_SystemOut_println(stack *rtda.OperandStack) {
-    panic("totoototototoododod")
+    str := stack.PopRef()
+    this := stack.PopRef()
+    this.Class()
+    chars := str.Class().GetField("value", "[C").GetValue(str).(*rtc.Obj).Fields().([]uint16)
+    for _, char := range chars {
+        fmt.Printf("%c", char)
+    }
+    fmt.Println()
 }

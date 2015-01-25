@@ -1,7 +1,7 @@
 package class
 
 import (
-    "log"
+    //"log"
     "jvmgo/classfile"
     "jvmgo/classpath"
 )
@@ -32,7 +32,7 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
 }
 
 func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
-    log.Printf("load: %v", name)
+    //log.Printf("load: %v", name)
     classData, err := self.classPath.ReadClassData(name)
     if err != nil {
         // todo

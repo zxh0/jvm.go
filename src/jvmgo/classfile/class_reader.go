@@ -6,11 +6,12 @@ import (
 )
 
 type ClassReader struct {
-    data    []byte
+    //data    []byte
     //index   uint
     reader  *bytes.Reader
 }
 
+// todo
 func (self *ClassReader) readUint8() (x uint8) {
     readVal(self, &x)
     return
@@ -72,5 +73,5 @@ func (self *ClassReader) readString() (string) {
 
 // factory
 func newClassReader(data []byte) *ClassReader {
-    return &ClassReader{data, bytes.NewReader(data)}
+    return &ClassReader{bytes.NewReader(data)}
 }

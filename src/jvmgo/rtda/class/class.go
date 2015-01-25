@@ -40,7 +40,7 @@ func (self *Class) MarkInitialized() {
     self.initialized = true
 }
 
-func (self *Class) getField(name, descriptor string) (*Field) {
+func (self *Class) GetField(name, descriptor string) (*Field) {
     for _, field := range self.fields {
         if field.name == name && field.descriptor == descriptor {
             return field

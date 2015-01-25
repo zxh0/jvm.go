@@ -10,10 +10,11 @@ type putfield struct {Index16Instruction}
 func (self *putfield) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
     stack := frame.OperandStack()
-    ref := stack.PopRef()
     val := stack.Pop()
+    ref := stack.PopRef()
     if ref == nil {
         // todo NullPointerException
+        panic("NPE")
     }
     
     cp := frame.Method().Class().ConstantPool()

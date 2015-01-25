@@ -70,7 +70,7 @@ func (self *OperandStack) PopN(n uint) ([]Any) {
     self.size -= n
     return top
 }
-func (self *OperandStack) TopNth(n uint) (Any) {
+func (self *OperandStack) Top(n uint) (Any) {
     return self.slots[self.size - 1 - n]
 }
 

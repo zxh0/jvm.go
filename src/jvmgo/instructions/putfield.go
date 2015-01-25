@@ -18,7 +18,7 @@ func (self *putfield) Execute(thread *rtda.Thread) {
     }
     
     cp := frame.Method().Class().ConstantPool()
-    cFieldRef := cp.GetConstant(self.index).(class.ConstantFieldref)
+    cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
     field := cFieldRef.Field()
 
     field.PutValue(ref, val)

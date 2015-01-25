@@ -20,6 +20,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     classesToLoadAndInit := []string{
         "java/lang/String",
         "java/io/PrintStream",
+        "jvmgo/StdoutOutputStream",
         mainClassName}
 
     for _, className := range classesToLoadAndInit {

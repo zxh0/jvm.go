@@ -13,6 +13,7 @@ func (self *getfield) Execute(thread *rtda.Thread) {
     ref := stack.PopRef()
     if ref == nil {
         // todo NullPointerException
+        panic("NPE")
     }
 
     cp := frame.Method().Class().ConstantPool()

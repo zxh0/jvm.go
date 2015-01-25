@@ -39,6 +39,7 @@ func newAttributeInfo(attrName string, attrLen uint32) (AttributeInfo) {
     case "Exceptions":                  return &ExceptionsAttribute{}
     case "InnerClasses":                return &InnerClassesAttribute{}
     case "LineNumberTable":             return &LineNumberTableAttribute{}
+    case "LocalVariableTable":          return &LocalVariableTableAttribute{}
     case "RuntimeVisibleAnnotations":   return &RuntimeVisibleAnnotationsAttribute{}
     case "Signature":                   return &SignatureAttribute{}
     case "SourceFile":                  return &SourceFileAttribute{}

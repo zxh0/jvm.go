@@ -21,7 +21,7 @@ func (self *ConstantMethodref) StaticMethod() (*Method) {
     if self.method == nil {
         method := self.findMethod(self.className)
         if method != nil && method.IsStatic() {
-            if method.IsNative() && !method.IsRegisterNatives() {
+            if method.IsNative() {
                 method.nativeMethod = findNativeMethod(method)
             }
             self.method = method

@@ -11,13 +11,19 @@ import (
 
 // register native methods
 func init() {
+    rtc.SetRegisterNatives(registerNatives)
     system("nanoTime"           ,"()J",                     nanoTime)
     system("currentTimeMillis"  ,"()J",                     currentTimeMillis)
     system("identityHashCode"   ,"(Ljava/lang/Object;)I",   identityHashCode)
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
+
 func system(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
+}
+
+func registerNatives(operandStack *rtda.OperandStack) {
+    // todo
 }
 
 // java.lang.System

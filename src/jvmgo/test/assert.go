@@ -18,11 +18,7 @@ func AssertEquals(expected, actual Any) {
     x := fmt.Sprintf("%v", expected)
     y := fmt.Sprintf("%v", actual)
     if x != y {
-        panicNotEquals(expected, actual)
+        msg := fmt.Sprintf("expected: %v actual: %v", expected, actual)
+        panic(msg)
     }
-}
-
-func panicNotEquals(expected, actual Any) {
-    msg := fmt.Sprintf("expected: %v actual: %v", expected, actual)
-    panic(msg)
 }

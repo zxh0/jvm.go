@@ -5,6 +5,9 @@ import (
     . "jvmgo/any"
 )
 
+func AssertNil(any Any) {
+    AssertEquals(nil, any)
+}
 func AssertNotNil(any Any) {
     if any == nil {
         panic("nil!")
@@ -12,24 +15,11 @@ func AssertNotNil(any Any) {
 }
 
 func AssertEquals(expected, actual Any) {
-    if expected == nil && actual == nil {
-        return
-    }
-    if expected == nil || actual == nil {
+    x := fmt.Sprintf("%v", expected)
+    y := fmt.Sprintf("%v", actual)
+    if x != y {
         panicNotEquals(expected, actual)
     }
-
-    switch expected.(type) {
-    case int8, int16, int32, int64:
-        switch actual.(type) {
-            case int8, int16, int32, int64:
-                if expected == actual {
-                    return
-                }
-        }
-    }
-
-    panicNotEquals(expected, actual)
 }
 
 func panicNotEquals(expected, actual Any) {

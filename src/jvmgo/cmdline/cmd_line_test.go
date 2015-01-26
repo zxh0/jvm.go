@@ -1,35 +1,26 @@
 package cmdline
 
-import "testing"
+import (
+    "testing"
+    "jvmgo/test"
+)
 
 func TestParseCommandFail0(t *testing.T) {
     args := []string{"java"}
     _, err := ParseCommand(args)
-    if err == nil {
-        t.Error("err == nil")
-    } else {
-        //t.Error(err)
-    }
+    test.AssertNotNil(err)
 }
 
 func TestParseCommandFail1(t *testing.T) {
     args := []string{"java", "-cp"}
     _, err := ParseCommand(args)
-    if err == nil {
-        t.Error("err == nil")
-    } else {
-        //t.Error(err)
-    }
+    test.AssertNotNil(err)
 }
 
 func TestParseCommandFail2(t *testing.T) {
     args := []string{"java", "-cp", "a/b/c"}
     _, err := ParseCommand(args)
-    if err == nil {
-        t.Error("err == nil")
-    } else {
-        //t.Error(err)
-    }
+    test.AssertNotNil(err)
 }
 
 func TestParseCommandOK0(t *testing.T) {

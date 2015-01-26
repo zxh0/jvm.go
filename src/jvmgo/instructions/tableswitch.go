@@ -1,6 +1,9 @@
 package instructions
 
-import "jvmgo/rtda"
+import (
+    //"fmt"
+    "jvmgo/rtda"
+)
 
 // Access jump table by index and jump
 type tableswitch struct {
@@ -8,6 +11,13 @@ type tableswitch struct {
 }
 
 func (self *tableswitch) fetchOperands(bcr *BytecodeReader) {
+    // skip padding
+    for bcr.pc % 4 != 0 {
+        bcr.readUint8()
+    }
+
+    
+
     // todo
     panic("tableswitch")
 }

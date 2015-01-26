@@ -16,7 +16,7 @@ func (self *NoOperandsInstruction) fetchOperands(bcr *BytecodeReader) {
 }
 
 type BranchInstruction struct {
-    offset int
+    offset int // todo target
 }
 func (self *BranchInstruction) fetchOperands(bcr *BytecodeReader) {
     self.offset = int(bcr.readInt16())

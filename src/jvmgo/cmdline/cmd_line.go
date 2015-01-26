@@ -1,6 +1,9 @@
 package cmdline
 
-import "fmt"
+import (
+    "fmt"
+    "strings"
+)
 
 // java [ options ] class [ arguments ]
 type Command struct {
@@ -34,7 +37,7 @@ func ParseCommand(osArgs []string) (cmd *Command, err error) {
     args := &CmdLineArgs{osArgs[1:]}
     cmd = &Command{}
     cmd.options = parseOptions(args)
-    cmd.class = args.removeFirst()
+    cmd.class = strings.Replace(args.removeFirst(), ".", "/", -1)
     cmd.args = args.args
     return
 }

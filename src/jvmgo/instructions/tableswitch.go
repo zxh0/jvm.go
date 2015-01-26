@@ -9,6 +9,7 @@ type tableswitch struct {
 
 func (self *tableswitch) fetchOperands(bcr *BytecodeReader) {
     // todo
+    panic("tableswitch")
 }
 
 func (self *tableswitch) Execute(thread *rtda.Thread) {

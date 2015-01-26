@@ -9,6 +9,7 @@ type lookupswitch struct {
 
 func (self *lookupswitch) fetchOperands(bcr *BytecodeReader) {
     // todo
+    panic("tableswitch")
 }
 
 func (self *lookupswitch) Execute(thread *rtda.Thread) {

@@ -36,13 +36,13 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     classData, err := self.classPath.ReadClassData(name)
     if err != nil {
         // todo
-        panic("class not found:" + name + "!" + err.Error())
+        panic("class not found: " + name + "!")
     }
 
     cf, err := classfile.ParseClassFile(classData)
     if err != nil {
         // todo
-        panic("failed to parse class file:" + name + "!" + err.Error())
+        panic("failed to parse class file: " + name + "!" + err.Error())
     }
 
     class := newClass(cf)

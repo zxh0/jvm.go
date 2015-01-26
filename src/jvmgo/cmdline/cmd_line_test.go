@@ -33,13 +33,13 @@ func TestParseCommandFail2(t *testing.T) {
 }
 
 func TestParseCommandOK0(t *testing.T) {
-    args := []string{"java", "-cp", "a/b/c", "MyClass"}
+    args := []string{"java", "-cp", "a/b/c", "p.MyClass"}
     cmd, err := ParseCommand(args)
     if err != nil {
         t.Error(err)
     }
     if cmd.options == nil || 
-            cmd.class != "MyClass" || 
+            cmd.class != "p/MyClass" || 
             len(cmd.args) != 0 {
 
         t.Error(cmd)

@@ -14,8 +14,9 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     stack := frame.OperandStack()
     fakeRef := stack.PopRef()
     fakeFields := fakeRef.Fields().([]Any)
-    mainClassName := fakeFields[0].(string)
-    classLoader := fakeFields[1].(*rtc.ClassLoader)
+    classLoader := fakeFields[0].(*rtc.ClassLoader)
+    mainClassName := fakeFields[1].(string)
+    args := fakeFields[2].([]string)
 
     classesToLoadAndInit := []string{
         "java/lang/String",
@@ -47,8 +48,8 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         newFrame := rtda.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
         // todo create args
-        //args := rtc.NewRefArray(0)
-        //newFrame.OperandStack().PushRef(args)
+        jArgs := rtc.NewRefArray(int32(len(args)))
+        newFrame.LocalVars().SetRef(0, jArgs)
     } else {
         panic("no main method!")
     }

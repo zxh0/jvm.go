@@ -14,15 +14,14 @@ func init() {
 }
 
 func startJVM(cmd *cmdline.Command) {
-    className := cmd.Class()
     classPath := cmd.Options().Classpath()
     classLoader := rtc.NewClassLoader(classPath)
-    mainThread := createMainThread(className, classLoader)
+    mainThread := createMainThread(classLoader, cmd.Class(), cmd.Args())
     loop(mainThread)
 }
 
-func createMainThread(className string, classLoader Any) (*rtda.Thread) {
-    fakeFields := []Any{className, classLoader}
+func createMainThread(classLoader Any, className string, args []string) (*rtda.Thread) {
+    fakeFields := []Any{classLoader, className, args}
     fakeRef := rtc.NewObj(fakeFields)
 
     fakeMethod := rtc.NewStartupMethod([]byte{0xff, 0xb1})

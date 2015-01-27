@@ -7,6 +7,7 @@ import (
     rtc "jvmgo/rtda/class"
 )
 
+// todo
 var (
     _basicClasses []string
     _classLoader *rtc.ClassLoader

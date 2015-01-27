@@ -24,30 +24,13 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     if _classLoader == nil {
         initVars(stack.PopRef())
     }
-
-    for _, className := range _basicClasses {
-        class := _classLoader.LoadClass(className)
-        if class.NotInitialized() {
-            undoExec(thread)
-            initClass(class, thread)
-            return
-        }
+    if !isBasicClassesReady(thread) {
+        return
     }
-
-    // create args
-    if len(_args) > 0 {
-        if _jArgs == nil {
-            _jArgs = make([]*rtc.Obj, 0, len(_args))
-        } else {
-            _jArgs = _jArgs[:len(_jArgs) + 1]
-            _jArgs[len(_jArgs) - 1] = stack.PopRef()
-        }
-        for len(_jArgs) < len(_args) {
-            undoExec(thread)
-            newJString(_args[len(_jArgs)], thread)
-            return
-        }
+    if !isJArgsReady(thread) {
+        return
     }
+    
 
     // create PrintStream
 
@@ -81,6 +64,36 @@ func initVars(fakeRef *rtc.Obj) {
         "java/io/PrintStream",
         "jvmgo/SystemOut",
         _mainClassName}
+}
+
+func isBasicClassesReady(thread *rtda.Thread) (bool) {
+    for _, className := range _basicClasses {
+        class := _classLoader.LoadClass(className)
+        if class.NotInitialized() {
+            undoExec(thread)
+            initClass(class, thread)
+            return false
+        }
+    }
+    return true
+}
+
+func isJArgsReady(thread *rtda.Thread) (bool) {
+    if len(_args) > 0 {
+        if _jArgs == nil {
+            _jArgs = make([]*rtc.Obj, 0, len(_args))
+        } else {
+            jStr := thread.CurrentFrame().OperandStack().PopRef()
+            _jArgs = _jArgs[:len(_jArgs) + 1]
+            _jArgs[len(_jArgs) - 1] = jStr
+        }
+        for len(_jArgs) < len(_args) {
+            undoExec(thread)
+            newJString(_args[len(_jArgs)], thread)
+            return false
+        }
+    }
+    return true
 }
 
 // prepare to reexec this instruction

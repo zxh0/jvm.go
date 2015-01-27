@@ -7,7 +7,7 @@ import (
     rtc "jvmgo/rtda/class"
 )
 
-var classLoader *rtc.ClassLoader
+var _classLoader *rtc.ClassLoader
 var mainClassName string
 var args []string
 var jArgs []*rtc.Obj
@@ -18,10 +18,10 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     frame := thread.CurrentFrame()
     stack := frame.OperandStack()
 
-    if classLoader == nil {
+    if _classLoader == nil {
         fakeRef := stack.PopRef()
         fakeFields := fakeRef.Fields().([]Any)
-        classLoader = fakeFields[0].(*rtc.ClassLoader)
+        _classLoader = fakeFields[0].(*rtc.ClassLoader)
         mainClassName = fakeFields[1].(string)
         args = fakeFields[2].([]string)
     }
@@ -33,7 +33,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         mainClassName}
 
     for _, className := range classesToLoadAndInit {
-        class := classLoader.LoadClass(className)
+        class := _classLoader.LoadClass(className)
         if class.NotInitialized() {
             undoExec(thread)
             initClass(class, thread)
@@ -59,13 +59,13 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     // create PrintStream
 
     // System.out
-    stdout := classLoader.LoadClass("jvmgo/SystemOut").NewObj()
-    sysClass := classLoader.LoadClass("java/lang/System")
+    stdout := _classLoader.LoadClass("jvmgo/SystemOut").NewObj()
+    sysClass := _classLoader.LoadClass("java/lang/System")
     outField := sysClass.GetField("out", "Ljava/io/PrintStream;")
     outField.PutStaticValue(stdout)
 
     // exec main()
-    mainClass := classLoader.LoadClass(mainClassName)
+    mainClass := _classLoader.LoadClass(mainClassName)
     mainMethod := mainClass.GetMainMethod()
     if mainMethod != nil {
         newFrame := rtda.NewFrame(mainMethod)

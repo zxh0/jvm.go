@@ -8,7 +8,7 @@ import (
 )
 
 var _classLoader *rtc.ClassLoader
-var mainClassName string
+var _mainClassName string
 var args []string
 var jArgs []*rtc.Obj
 
@@ -22,7 +22,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         fakeRef := stack.PopRef()
         fakeFields := fakeRef.Fields().([]Any)
         _classLoader = fakeFields[0].(*rtc.ClassLoader)
-        mainClassName = fakeFields[1].(string)
+        _mainClassName = fakeFields[1].(string)
         args = fakeFields[2].([]string)
     }
 
@@ -30,7 +30,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         "java/lang/String",
         "java/io/PrintStream",
         "jvmgo/SystemOut",
-        mainClassName}
+        _mainClassName}
 
     for _, className := range classesToLoadAndInit {
         class := _classLoader.LoadClass(className)
@@ -65,7 +65,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     outField.PutStaticValue(stdout)
 
     // exec main()
-    mainClass := _classLoader.LoadClass(mainClassName)
+    mainClass := _classLoader.LoadClass(_mainClassName)
     mainMethod := mainClass.GetMainMethod()
     if mainMethod != nil {
         newFrame := rtda.NewFrame(mainMethod)

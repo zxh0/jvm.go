@@ -21,11 +21,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     stack := frame.OperandStack()
 
     if _classLoader == nil {
-        fakeRef := stack.PopRef()
-        fakeFields := fakeRef.Fields().([]Any)
-        _classLoader = fakeFields[0].(*rtc.ClassLoader)
-        _mainClassName = fakeFields[1].(string)
-        _args = fakeFields[2].([]string)
+        initVars(stack.PopRef())
     }
 
     classesToLoadAndInit := []string{
@@ -78,6 +74,13 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     } else {
         panic("no main method!")
     }
+}
+
+func initVars(fakeRef *rtc.Obj) {
+    fakeFields := fakeRef.Fields().([]Any)
+    _classLoader = fakeFields[0].(*rtc.ClassLoader)
+    _mainClassName = fakeFields[1].(string)
+    _args = fakeFields[2].([]string)
 }
 
 // prepare to reexec this instruction

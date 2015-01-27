@@ -45,6 +45,14 @@ func (self *BytecodeReader) readUint32() (uint32) {
     return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4
 }
 
+func (self *BytecodeReader) readInt32s(count int32) ([]int32) {
+    ints := make([]int32, count)
+    for i := range ints {
+        ints[i] = self.readInt32()
+    }
+    return ints
+}
+
 func NewBytecodeReader() (*BytecodeReader) {
     return &BytecodeReader{}
 }

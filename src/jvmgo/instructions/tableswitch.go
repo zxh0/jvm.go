@@ -45,12 +45,12 @@ func (self *tableswitch) fetchOperands(bcr *BytecodeReader) {
 func (self *tableswitch) Execute(thread *rtda.Thread) {
     index := thread.CurrentFrame().OperandStack().PopInt()
 
-    var offset int32
+    var offset int
     if index >= self.low && index <= self.high {
-        offset = self.jumpOffsets[index - self.low]
+        offset = int(self.jumpOffsets[index - self.low])
     } else {
-        offset = self.defaultOffset
+        offset = int(self.defaultOffset)
     }
 
-    branch(thread, int(offset))
+    branch(thread, offset)
 }

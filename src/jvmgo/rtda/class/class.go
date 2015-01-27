@@ -82,3 +82,9 @@ func (self *Class) NewObj() (*Obj) {
         return &Obj{self, nil}
     }
 }
+
+func newClass() (*Class) {
+    class := &Class{}
+    class.obj = &Obj{class:class} 
+    return class
+}

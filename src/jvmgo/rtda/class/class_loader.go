@@ -45,7 +45,7 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
         panic("failed to parse class file: " + name + "!" + err.Error())
     }
 
-    class := newClass(cf)
+    class := cf2class(cf)
     class.classLoader = self
     self.classMap[name] = class
     self.loadSuperClassAndInterfaces(class)

@@ -19,20 +19,25 @@ match-offset pairs...
 type lookupswitch struct {
     defaultOffset   int32
     npairs          int32
-    // todo
+    matchOffsets    []int32
 }
 
 func (self *lookupswitch) fetchOperands(bcr *BytecodeReader) {
-    // skip padding
     for bcr.pc % 4 != 0 {
+        // skip padding
         bcr.readUint8()
     }
-
-    // todo
-    panic("tableswitch")
+    self.defaultOffset = bcr.readInt32()
+    self.npairs = bcr.readInt32()
+    self.matchOffsets = bcr.readInt32s(self.npairs * 2)
 }
 
 func (self *lookupswitch) Execute(thread *rtda.Thread) {
-    // todo
-    panic("lookupswitch")
+    key := thread.CurrentFrame().OperandStack().PopInt()
+    for i := int32(0); i < self.npairs; i+=2 {
+        if self.matchOffsets[i] == key {
+            offset := self.matchOffsets[i + 1]
+            branch(thread, int(offset))
+        }
+    }
 }

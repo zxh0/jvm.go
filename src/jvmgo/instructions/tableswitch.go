@@ -31,8 +31,8 @@ type tableswitch struct {
 }
 
 func (self *tableswitch) fetchOperands(bcr *BytecodeReader) {
-    // skip padding
     for bcr.pc % 4 != 0 {
+        // skip padding
         bcr.readUint8()
     }
     self.defaultOffset = bcr.readInt32()

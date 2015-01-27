@@ -12,6 +12,7 @@ var (
     _mainClassName string
     _args []string
     _jArgs []*rtc.Obj
+    _basicClasses []string
 )
 
 // Fake instruction to load and execute main class
@@ -24,13 +25,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         initVars(stack.PopRef())
     }
 
-    classesToLoadAndInit := []string{
-        "java/lang/String",
-        "java/io/PrintStream",
-        "jvmgo/SystemOut",
-        _mainClassName}
-
-    for _, className := range classesToLoadAndInit {
+    for _, className := range _basicClasses {
         class := _classLoader.LoadClass(className)
         if class.NotInitialized() {
             undoExec(thread)
@@ -81,6 +76,11 @@ func initVars(fakeRef *rtc.Obj) {
     _classLoader = fakeFields[0].(*rtc.ClassLoader)
     _mainClassName = fakeFields[1].(string)
     _args = fakeFields[2].([]string)
+    _basicClasses = []string{
+        "java/lang/String",
+        "java/io/PrintStream",
+        "jvmgo/SystemOut",
+        _mainClassName}
 }
 
 // prepare to reexec this instruction

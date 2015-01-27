@@ -7,10 +7,12 @@ import (
     rtc "jvmgo/rtda/class"
 )
 
-var _classLoader *rtc.ClassLoader
-var _mainClassName string
-var _cmdArgs []string
-var _jArgs []*rtc.Obj
+var (
+    _classLoader *rtc.ClassLoader
+    _mainClassName string
+    _args []string
+    _jArgs []*rtc.Obj
+)
 
 // Fake instruction to load and execute main class
 type exec_main struct {NoOperandsInstruction}
@@ -23,7 +25,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         fakeFields := fakeRef.Fields().([]Any)
         _classLoader = fakeFields[0].(*rtc.ClassLoader)
         _mainClassName = fakeFields[1].(string)
-        _cmdArgs = fakeFields[2].([]string)
+        _args = fakeFields[2].([]string)
     }
 
     classesToLoadAndInit := []string{
@@ -42,16 +44,16 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     }
 
     // create args
-    if len(_cmdArgs) > 0 {
+    if len(_args) > 0 {
         if _jArgs == nil {
-            _jArgs = make([]*rtc.Obj, 0, len(_cmdArgs))
+            _jArgs = make([]*rtc.Obj, 0, len(_args))
         } else {
             _jArgs = _jArgs[:len(_jArgs) + 1]
             _jArgs[len(_jArgs) - 1] = stack.PopRef()
         }
-        for len(_jArgs) < len(_cmdArgs) {
+        for len(_jArgs) < len(_args) {
             undoExec(thread)
-            newJString(_cmdArgs[len(_jArgs)], thread)
+            newJString(_args[len(_jArgs)], thread)
             return
         }
     }
@@ -71,7 +73,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         newFrame := rtda.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
         // todo create args
-        _jArgs := rtc.NewRefArray(int32(len(_cmdArgs)))
+        _jArgs := rtc.NewRefArray(int32(len(_args)))
         newFrame.LocalVars().SetRef(0, _jArgs)
     } else {
         panic("no main method!")

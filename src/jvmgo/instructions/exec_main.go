@@ -10,7 +10,7 @@ import (
 var _classLoader *rtc.ClassLoader
 var _mainClassName string
 var _cmdArgs []string
-var jArgs []*rtc.Obj
+var _jArgs []*rtc.Obj
 
 // Fake instruction to load and execute main class
 type exec_main struct {NoOperandsInstruction}
@@ -43,15 +43,15 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 
     // create args
     if len(_cmdArgs) > 0 {
-        if jArgs == nil {
-            jArgs = make([]*rtc.Obj, 0, len(_cmdArgs))
+        if _jArgs == nil {
+            _jArgs = make([]*rtc.Obj, 0, len(_cmdArgs))
         } else {
-            jArgs = jArgs[:len(jArgs) + 1]
-            jArgs[len(jArgs) - 1] = stack.PopRef()
+            _jArgs = _jArgs[:len(_jArgs) + 1]
+            _jArgs[len(_jArgs) - 1] = stack.PopRef()
         }
-        for len(jArgs) < len(_cmdArgs) {
+        for len(_jArgs) < len(_cmdArgs) {
             undoExec(thread)
-            newJString(_cmdArgs[len(jArgs)], thread)
+            newJString(_cmdArgs[len(_jArgs)], thread)
             return
         }
     }
@@ -71,8 +71,8 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         newFrame := rtda.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
         // todo create args
-        jArgs := rtc.NewRefArray(int32(len(_cmdArgs)))
-        newFrame.LocalVars().SetRef(0, jArgs)
+        _jArgs := rtc.NewRefArray(int32(len(_cmdArgs)))
+        newFrame.LocalVars().SetRef(0, _jArgs)
     } else {
         panic("no main method!")
     }

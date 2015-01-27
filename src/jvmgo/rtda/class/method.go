@@ -69,10 +69,10 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
     return method
 }
 
-// todo
-func NewStartupMethod(code []byte) (*Method) {
+// hack
+func NewStartupMethod(code []byte, classLoader Any) (*Method) {
     method := &Method{}
-    method.class = &Class{name:"~jvmgo"}
+    method.class = &Class{name:"~jvmgo", classLoader:classLoader.(*ClassLoader)}
     method.name = "<jvmgo>"
     method.maxStack = 8
     method.maxLocals = 8

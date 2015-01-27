@@ -24,7 +24,7 @@ func createMainThread(classLoader Any, className string, args []string) (*rtda.T
     fakeFields := []Any{classLoader, className, args}
     fakeRef := rtc.NewObj(fakeFields)
 
-    fakeMethod := rtc.NewStartupMethod([]byte{0xff, 0xb1})
+    fakeMethod := rtc.NewStartupMethod([]byte{0xff, 0xb1}, classLoader)
     fakeFrame := rtda.NewFrame(fakeMethod)
     fakeFrame.OperandStack().PushRef(fakeRef)
 

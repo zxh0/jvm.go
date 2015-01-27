@@ -51,8 +51,8 @@ func identityHashCode(stack *rtda.OperandStack) {
 // java.lang.Object
 func getClass(stack *rtda.OperandStack) {
     this := stack.PopRef()
-    class := this.Class()
-    stack.PushRef(class.Obj())
+    class := this.Class().Obj()
+    stack.PushRef(class)
 }
 
 // hack

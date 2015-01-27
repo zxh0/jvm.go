@@ -1,6 +1,7 @@
 package class
 
 import (
+    //"fmt"
     cf "jvmgo/classfile"
 )
 
@@ -27,7 +28,7 @@ func (self *ConstantMethodref) StaticMethod() (*Method) {
             self.method = method
         } else {
             // todo
-            panic("method not found!")
+            panic("method not found!" + self.className + "." + self.name + "|" + self.descriptor)
         }
     }
     return self.method
@@ -42,7 +43,7 @@ func (self *ConstantMethodref) SpecialMethod() (*Method) {
             self.method = method
         } else {
             // todo
-            panic("method not found!")
+            panic("method not found!" + self.className + "." + self.name + "|" + self.descriptor)
         }
     }
     return self.method
@@ -58,7 +59,7 @@ func (self *ConstantMethodref) VirtualMethodArgCount() (uint) {
 }
 func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
     classLoader := self.cp.class.classLoader
-    className := ref.class.name
+    className := ref.class.name //!!
     for {
         if className != "" {
             class := classLoader.LoadClass(className)
@@ -77,7 +78,7 @@ func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
         }
     }
     // todo
-    panic("method not found!")
+    panic("method not found!" + self.className + "." + self.name + "|" + self.descriptor)
 }
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {

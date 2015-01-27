@@ -1,6 +1,7 @@
 package class
 
 import (
+    //"fmt"
     //"log"
     "jvmgo/classfile"
     "jvmgo/classpath"
@@ -46,6 +47,11 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     }
 
     class := cf2class(cf)
+    if class.name == "java/lang/Class" {
+        class.obj.class = class
+    } else {
+        class.obj.class = self.classMap["java/lang/Class"]
+    }
     class.classLoader = self
     self.classMap[name] = class
     self.loadSuperClassAndInterfaces(class)

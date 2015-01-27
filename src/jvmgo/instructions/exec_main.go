@@ -59,6 +59,7 @@ func initVars(fakeRef *rtc.Obj) {
     _mainClassName = fakeFields[1].(string)
     _args = fakeFields[2].([]string)
     _basicClasses = []string{
+        "java/lang/Class",
         "java/lang/String",
         "java/io/PrintStream",
         "jvmgo/SystemOut",

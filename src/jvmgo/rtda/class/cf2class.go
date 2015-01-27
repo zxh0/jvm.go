@@ -8,7 +8,7 @@ import (
 )
 
 func cf2class(cf *classfile.ClassFile) (*Class) {
-    class := newClass()
+    class := &Class{obj:&Obj{}}
     class.copyConstantPool(cf)
     class.name = cf.ClassName()
     class.superClassName = cf.SuperClassName()

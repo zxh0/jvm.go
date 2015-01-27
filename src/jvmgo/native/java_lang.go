@@ -12,14 +12,20 @@ import (
 // register native methods
 func init() {
     rtc.SetRegisterNatives(registerNatives)
-    system("nanoTime"           ,"()J",                     nanoTime)
-    system("currentTimeMillis"  ,"()J",                     currentTimeMillis)
-    system("identityHashCode"   ,"(Ljava/lang/Object;)I",   identityHashCode)
+    system("nanoTime",             "()J",                      nanoTime)
+    system("currentTimeMillis",    "()J",                      currentTimeMillis)
+    system("identityHashCode",     "(Ljava/lang/Object;)I",    identityHashCode)
+    object("getClass",             "()Ljava/lang/Class;",      getClass)
+
+    // hack
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
 
 func system(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
+}
+func object(name, desc string, method Any) {
+    rtc.RegisterNativeMethod("java/lang/Object", name, desc, method)
 }
 
 func registerNatives(operandStack *rtda.OperandStack) {
@@ -40,6 +46,12 @@ func identityHashCode(stack *rtda.OperandStack) {
     ref := stack.PopRef()
     hashCode := int32(uintptr(unsafe.Pointer(ref)))
     stack.PushInt(hashCode)
+}
+
+// java.lang.Object
+func getClass(stack *rtda.OperandStack) {
+    // todo
+    panic("obj.getClass()!")
 }
 
 // hack

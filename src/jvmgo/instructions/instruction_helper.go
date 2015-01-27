@@ -2,6 +2,7 @@ package instructions
 
 import (
     //"log"
+    "unicode/utf8"
     . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
@@ -25,6 +26,17 @@ func isLongOrDouble(x Any) (bool) {
 func checkArrIndex(index, len int) {
     if index < 0 || index >= len {
         panic("ArrayIndexOutOfBoundsException")
+    }
+}
+
+func passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {
+    args := stack.PopN(argCount)
+    for i := uint(0); i < argCount; i++ {
+        arg := args[i]
+        vars.Set(i, arg)
+        if isLongOrDouble(arg) {
+            i++
+        }
     }
 }
 
@@ -54,13 +66,35 @@ func initClass(class *rtc.Class, thread *rtda.Thread) {
     }
 }
 
-func passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {
-    args := stack.PopN(argCount)
-    for i := uint(0); i < argCount; i++ {
-        arg := args[i]
-        vars.Set(i, arg)
-        if isLongOrDouble(arg) {
-            i++
-        }
-    }
+func newJString(goStr string, thread *rtda.Thread) {
+    currentFrame := thread.CurrentFrame()
+
+    // new string
+    stringClass := currentFrame.Method().Class().ClassLoader().StringClass()
+    jStr := stringClass.NewObj()
+    currentFrame.OperandStack().PushRef(jStr)
+    // init string
+    codePoints := string2CodePoints(goStr)
+    initMethod := stringClass.GetMethod("<init>", "([III)V") //public String(int[] codePoints, int offset, int count)
+    newFrame := rtda.NewFrame(initMethod)
+    localVars := newFrame.LocalVars()
+    localVars.SetRef(0, jStr) // this
+    localVars.SetRef(1, rtc.NewIntArray(codePoints))
+    localVars.SetInt(2, 0)
+    localVars.SetInt(3, int32(len(codePoints)))
+    thread.PushFrame(newFrame)
 }
+
+func string2CodePoints(str string) ([]rune) {
+    runeCount := utf8.RuneCountInString(str)
+    codePoints := make([]rune, runeCount)
+    i := 0
+    for len(str) > 0 {
+        r, size := utf8.DecodeRuneInString(str)
+        codePoints[i] = r
+        i++
+        str = str[size:]
+    }
+    return codePoints
+}
+

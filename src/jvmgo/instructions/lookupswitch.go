@@ -34,10 +34,12 @@ func (self *lookupswitch) fetchOperands(bcr *BytecodeReader) {
 
 func (self *lookupswitch) Execute(thread *rtda.Thread) {
     key := thread.CurrentFrame().OperandStack().PopInt()
-    for i := int32(0); i < self.npairs; i+=2 {
+    for i := int32(0); i < self.npairs * 2; i+=2 {
         if self.matchOffsets[i] == key {
             offset := self.matchOffsets[i + 1]
             branch(thread, int(offset))
+            return
         }
     }
+    branch(thread, int(self.defaultOffset))
 }

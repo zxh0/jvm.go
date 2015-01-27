@@ -8,11 +8,11 @@ import (
 )
 
 var (
+    _basicClasses []string
     _classLoader *rtc.ClassLoader
     _mainClassName string
     _args []string
     _jArgs []*rtc.Obj
-    _basicClasses []string
 )
 
 // Fake instruction to load and execute main class
@@ -31,8 +31,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         return
     }
     
-
-    // create PrintStream
+    // todo create PrintStream
 
     // System.out
     stdout := _classLoader.LoadClass("jvmgo/SystemOut").NewObj()
@@ -46,11 +45,10 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     if mainMethod != nil {
         newFrame := rtda.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
-        // todo create args
-        _jArgs := rtc.NewRefArray(int32(len(_args)))
-        newFrame.LocalVars().SetRef(0, _jArgs)
+        args := rtc.NewRefArrayOfElements(_jArgs)
+        newFrame.LocalVars().SetRef(0, args)
     } else {
-        panic("no main method!")
+        panic("no main method!") // todo
     }
 }
 

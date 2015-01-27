@@ -27,8 +27,11 @@ func NewPrimitiveArray(atype uint8, count int32) (*Obj) {
 }
 
 func NewRefArray(count int32) (*Obj) {
-    arr := make([]*Obj, count)
-    return &Obj{nil, arr}
+    elements := make([]*Obj, count)
+    return &Obj{nil, elements}
+}
+func NewRefArrayOfElements(elements []*Obj) (*Obj) {
+    return &Obj{nil, elements}
 }
 
 func NewIntArray(ints []int32) (*Obj) {

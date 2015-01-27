@@ -9,7 +9,7 @@ import (
 
 var _classLoader *rtc.ClassLoader
 var _mainClassName string
-var args []string
+var _cmdArgs []string
 var jArgs []*rtc.Obj
 
 // Fake instruction to load and execute main class
@@ -23,7 +23,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         fakeFields := fakeRef.Fields().([]Any)
         _classLoader = fakeFields[0].(*rtc.ClassLoader)
         _mainClassName = fakeFields[1].(string)
-        args = fakeFields[2].([]string)
+        _cmdArgs = fakeFields[2].([]string)
     }
 
     classesToLoadAndInit := []string{
@@ -42,16 +42,16 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     }
 
     // create args
-    if len(args) > 0 {
+    if len(_cmdArgs) > 0 {
         if jArgs == nil {
-            jArgs = make([]*rtc.Obj, 0, len(args))
+            jArgs = make([]*rtc.Obj, 0, len(_cmdArgs))
         } else {
             jArgs = jArgs[:len(jArgs) + 1]
             jArgs[len(jArgs) - 1] = stack.PopRef()
         }
-        for len(jArgs) < len(args) {
+        for len(jArgs) < len(_cmdArgs) {
             undoExec(thread)
-            newJString(args[len(jArgs)], thread)
+            newJString(_cmdArgs[len(jArgs)], thread)
             return
         }
     }
@@ -71,7 +71,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
         newFrame := rtda.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
         // todo create args
-        jArgs := rtc.NewRefArray(int32(len(args)))
+        jArgs := rtc.NewRefArray(int32(len(_cmdArgs)))
         newFrame.LocalVars().SetRef(0, jArgs)
     } else {
         panic("no main method!")

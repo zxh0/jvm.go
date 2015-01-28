@@ -15,6 +15,13 @@ func (self *invokespecial) Execute(thread *rtda.Thread) {
     method := cMethodRef.SpecialMethod()
     newFrame := rtda.NewFrame(method)
 
+    if method.IsNative() {
+        // exec native method
+        nativeMethod := method.NativeMethod().(func(*rtda.OperandStack))
+        nativeMethod(frame.OperandStack())
+        return
+    }
+
     // pass args
     argCount := 1 + method.ArgCount()
     passArgs(frame.OperandStack(), newFrame.LocalVars(), argCount)

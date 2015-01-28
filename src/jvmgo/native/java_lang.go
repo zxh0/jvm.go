@@ -12,20 +12,23 @@ import (
 // register native methods
 func init() {
     rtc.SetRegisterNatives(registerNatives)
-    system("nanoTime",             "()J",                      nanoTime)
-    system("currentTimeMillis",    "()J",                      currentTimeMillis)
-    system("identityHashCode",     "(Ljava/lang/Object;)I",    identityHashCode)
-    object("getClass",             "()Ljava/lang/Class;",      getClass)
-
+    jlSystem("nanoTime",            "()J",                      nanoTime)
+    jlSystem("currentTimeMillis",   "()J",                      currentTimeMillis)
+    jlSystem("identityHashCode",    "(Ljava/lang/Object;)I",    identityHashCode)
+    jlObject("getClass",            "()Ljava/lang/Class;",      getClass)
+    jlClass ("getName0",            "()Ljava/lang/String;",     getName0)
     // hack
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
 
-func system(name, desc string, method Any) {
+func jlSystem(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
-func object(name, desc string, method Any) {
+func jlObject(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/Object", name, desc, method)
+}
+func jlClass(name, desc string, method Any) {
+    rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
 }
 
 func registerNatives(operandStack *rtda.OperandStack) {
@@ -53,6 +56,11 @@ func getClass(stack *rtda.OperandStack) {
     this := stack.PopRef()
     class := this.Class().Obj()
     stack.PushRef(class)
+}
+
+// java.lang.Class
+func getName0(stack *rtda.OperandStack) {
+    panic("getname0")
 }
 
 // hack

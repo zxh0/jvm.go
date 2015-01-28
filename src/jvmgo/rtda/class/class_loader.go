@@ -51,14 +51,6 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     //log.Printf("load: %v", name)
     class := self.parseClassFile(name)
     class.classLoader = self
-    //class.obj.class = self.classMap[jlClassName]
-    // if class.name == "java/lang/Class" {
-    //     class.obj = class.NewObj()
-    //     class.obj.class = class
-    // } else {
-    //     //class.obj = &Obj{}
-    //     class.obj.class = self.classMap["java/lang/Class"]
-    // }
     self.loadSuperClassAndInterfaces(class)
     self.initInstanceFields(class)
     self.classMap[name] = class

@@ -1,6 +1,9 @@
 package class
 
-import cf "jvmgo/classfile"
+import (
+    //"fmt"
+    cf "jvmgo/classfile"
+)
 
 type Constant interface{}
 
@@ -51,7 +54,10 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) (*ConstantPool) {
         case *cf.ConstantInterfaceMethodrefInfo:
             methodrefInfo := cpInfo.(*cf.ConstantInterfaceMethodrefInfo)
             consts[i] = newConstantInterfaceMethodref(rtCp, methodrefInfo)
-        // todo 
+        default: 
+            // todo 
+            //fmt.Printf("%v \n", cpInfo)
+            //panic("todo")
         }
     }
 

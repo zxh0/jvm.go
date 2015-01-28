@@ -55,7 +55,6 @@ func (self *ConstantMethodref) resolveSpecialMethod() {
     }
 }
 
-
 func (self *ConstantMethodref) findMethod(className string) (*Method) {
     class := self.cp.class.classLoader.LoadClass(className)
     return class.GetMethod(self.name, self.descriptor)

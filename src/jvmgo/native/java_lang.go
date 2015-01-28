@@ -23,6 +23,10 @@ func init() {
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
 
+func registerNatives(operandStack *rtda.OperandStack) {
+    // todo
+}
+
 func jlSystem(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
@@ -31,10 +35,6 @@ func jlObject(name, desc string, method Any) {
 }
 func jlClass(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
-}
-
-func registerNatives(operandStack *rtda.OperandStack) {
-    // todo
 }
 
 // java.lang.System

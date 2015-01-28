@@ -6,13 +6,16 @@ import "jvmgo/rtda"
 type athrow struct {NoOperandsInstruction}
 func (self *athrow) Execute(thread *rtda.Thread) {
     currentFrame := thread.CurrentFrame()
-    e := currentFrame.OperandStack().PopRef()
-    if e == nil {
+    ex := currentFrame.OperandStack().PopRef()
+    if ex == nil {
         // todo NPE
         panic("athrow NPE")
     }
 
-    currentFrame.Method()
+    handler := currentFrame.Method().FindExceptionHandler(ex.Class())
+    if handler != nil {
+        panic("here!!!")
+    }
 
     // todo
     panic("todo athrow!")

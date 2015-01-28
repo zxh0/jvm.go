@@ -36,3 +36,12 @@ func newExceptionHandler(entry *cf.ExceptionTableEntry, rtCp *ConstantPool) (*Ex
     }
     return handler
 }
+
+func (self *ExceptionTable) FindExceptionHandler(exClass *Class) (*ExceptionHandler) {
+    for _, handler := range self.handlers {
+        if handler.catchType == nil || handler.catchType.Class() == exClass {
+            return handler
+        }
+    }
+    return nil
+}

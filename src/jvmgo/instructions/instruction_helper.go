@@ -31,11 +31,11 @@ func checkArrIndex(index, len int) {
 
 func passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {
     args := stack.PopN(argCount)
-    for i := uint(0); i < argCount; i++ {
+    for i, j := uint(0), uint(0); i < argCount; i++ {
         arg := args[i]
-        vars.Set(i, arg)
+        vars.Set(i + j, arg)
         if isLongOrDouble(arg) {
-            i++
+            j++
         }
     }
 }

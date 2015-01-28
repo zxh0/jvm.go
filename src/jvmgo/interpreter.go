@@ -15,11 +15,12 @@ func loop(thread *rtda.Thread) {
         // decode
         bcr.SetPC(thread.PC())
         bcr.SetCode(frame.Method().Code())
-        _, inst := instructions.Decode(bcr)
+        opcode, inst := instructions.Decode(bcr)
         frame.SetNextPC(bcr.PC())
 
         // execute
-        //logInstruction(frame, opcode, inst)
+        pc := thread.PC()
+        logInstruction(frame, pc, opcode, inst)
         inst.Execute(thread)
         if !thread.IsStackEmpty() {
             topFrame := thread.TopFrame()
@@ -30,8 +31,8 @@ func loop(thread *rtda.Thread) {
     }
 }
 
-func logInstruction(frame *rtda.Frame, opcode uint8, inst instructions.Instruction) {
+func logInstruction(frame *rtda.Frame, pc int, opcode uint8, inst instructions.Instruction) {
     className := frame.Method().Class().Name()
     methodName := frame.Method().Name()
-    log.Printf("exec: %v.%v 0x%x %v", className, methodName, opcode, inst)
+    log.Printf("exec: %v.%v #%v 0x%x %v", className, methodName, pc, opcode, inst)
 }

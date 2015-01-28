@@ -8,7 +8,8 @@ import (
 )
 
 type Class struct {
-    obj                 *Obj // todo
+    obj                 *Obj // static fields live here
+    jClass              *Obj // java.lang.Class instance
     constantPool        *ConstantPool
     name                string
     superClassName      string
@@ -16,13 +17,22 @@ type Class struct {
     fields              []*Field
     methods             []*Method
     classLoader         *ClassLoader
+    staticFieldCount    uint
     instanceFieldCount  uint
     initialized         bool
     // todo
 }
 
+// func (self *Class) Fields() ([]*Field){
+//     return self.fields
+// }
+
+// todo
 func (self *Class) Obj() (*Obj) {
     return self.obj
+}
+func (self *Class) JClass() (*Obj) {
+    return self.jClass
 }
 func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool

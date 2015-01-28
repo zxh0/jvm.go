@@ -2,8 +2,6 @@ package class
 
 import . "jvmgo/any"
 
-//type Ref *Obj
-
 // object
 type Obj struct {
     class   *Class

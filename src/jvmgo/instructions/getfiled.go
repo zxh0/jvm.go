@@ -1,7 +1,7 @@
 package instructions
 
 import (
-    "fmt"
+    //"fmt"
     "jvmgo/rtda"
     "jvmgo/rtda/class" // rtc
 )
@@ -19,20 +19,8 @@ func (self *getfield) Execute(thread *rtda.Thread) {
 
     cp := frame.Method().Class().ConstantPool()
     cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
-fmt.Printf("firef:::%v\n", cFieldRef)
     field := cFieldRef.InstanceField()
-fmt.Printf("field:::%v  class:%v\n", field, field.Class().Name())
     val := field.GetValue(ref)
-fmt.Printf("ref:::::%v\n", ref)
-fmt.Printf("val:::::%v\n", val)
-fmt.Printf("=================\n")
-for _, f := range field.Class().Fields() {
-    fmt.Printf("f %v\n", f)
-}
-
-
-
-
 
     stack.Push(val)
 }

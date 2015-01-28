@@ -3,6 +3,7 @@ package class
 import (
     //"fmt"
     //"log"
+    . "jvmgo/any"
     "jvmgo/classfile"
     "jvmgo/classpath"
 )
@@ -23,7 +24,9 @@ func (self *ClassLoader) Init() {
     self.LoadClass(jlClassName)
     jlClassClass := self.classMap[jlClassName]
     for _, class := range self.classMap {
-        class.obj = jlClassClass.NewObj()
+        if class.jClass == nil {
+            class.jClass = jlClassClass.NewObj()
+        }
     }
 }
 
@@ -52,13 +55,14 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     class := self.parseClassFile(name)
     class.classLoader = self
     self.loadSuperClassAndInterfaces(class)
+    self.initStaticFields(class)
     self.initInstanceFields(class)
-    self.initClassFields(class)
     self.classMap[name] = class
+    class.obj = &Obj{class, make([]Any, class.staticFieldCount)}
 
     jlClassClass := self.classMap[jlClassName]
     if jlClassClass != nil {
-        class.obj = jlClassClass.NewObj()
+        class.jClass = jlClassClass.NewObj()
     }
 
     return class
@@ -105,7 +109,7 @@ func (self *ClassLoader) initInstanceFields(class *Class) {
     class.instanceFieldCount = slotId
 }
 
-func (self *ClassLoader) initClassFields(class *Class) {
+func (self *ClassLoader) initStaticFields(class *Class) {
     slotId := uint(0)
     for _, f := range class.fields {
         if f.IsStatic() {
@@ -113,6 +117,7 @@ func (self *ClassLoader) initClassFields(class *Class) {
             slotId++
         }
     }
+    class.staticFieldCount = slotId
 }
 
 func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {

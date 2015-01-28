@@ -56,7 +56,7 @@ func identityHashCode(stack *rtda.OperandStack) {
 // java.lang.Object
 func getClass(stack *rtda.OperandStack) {
     this := stack.PopRef()
-    class := this.Class().Obj()
+    class := this.Class().JClass()
     stack.PushRef(class)
 }
 

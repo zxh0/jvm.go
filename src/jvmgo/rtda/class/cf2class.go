@@ -8,7 +8,7 @@ import (
 )
 
 func cf2class(cf *classfile.ClassFile) (*Class) {
-    class := &Class{obj:&Obj{}}
+    class := &Class{}
     class.copyConstantPool(cf)
     class.copyClassNames(cf)
     class.copyFields(cf)

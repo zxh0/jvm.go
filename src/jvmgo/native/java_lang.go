@@ -12,13 +12,14 @@ import (
 // register native methods
 func init() {
     rtc.SetRegisterNatives(registerNatives)
-    jlSystem("nanoTime",                "()J",                          nanoTime)
-    jlSystem("currentTimeMillis",       "()J",                          currentTimeMillis)
-    jlSystem("identityHashCode",        "(Ljava/lang/Object;)I",        identityHashCode)
-    jlObject("getClass",                "()Ljava/lang/Class;",          getClass)
-    jlClass ("getName0",                "()Ljava/lang/String;",         getName0)
-    jlClass ("getClassLoader0",         "()Ljava/lang/ClassLoader;",    getClassLoader0)
-    jlClass ("desiredAssertionStatus0", "(Ljava/lang/Class;)Z",         desiredAssertionStatus0)
+    jlSystem    ("nanoTime",                "()J",                          nanoTime)
+    jlSystem    ("currentTimeMillis",       "()J",                          currentTimeMillis)
+    jlSystem    ("identityHashCode",        "(Ljava/lang/Object;)I",        identityHashCode)
+    jlObject    ("getClass",                "()Ljava/lang/Class;",          getClass)
+    jlClass     ("getName0",                "()Ljava/lang/String;",         getName0)
+    jlClass     ("getClassLoader0",         "()Ljava/lang/ClassLoader;",    getClassLoader0)
+    jlClass     ("desiredAssertionStatus0", "(Ljava/lang/Class;)Z",         desiredAssertionStatus0)
+    jlThrowable ("fillInStackTrace",        "(I)Ljava/lang/Throwable;",    fillInStackTrace)
     // hack
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
@@ -35,6 +36,9 @@ func jlObject(name, desc string, method Any) {
 }
 func jlClass(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
+}
+func jlThrowable(name, desc string, method Any) {
+    rtc.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
 }
 
 // java.lang.System
@@ -73,6 +77,15 @@ func desiredAssertionStatus0(stack *rtda.OperandStack) {
     // todo
     _ = stack.PopRef() // this
     stack.PushBoolean(false)
+}
+
+// java.lang.Throwable
+// private native Throwable fillInStackTrace(int dummy);
+func fillInStackTrace(stack *rtda.OperandStack) {
+    _ = stack.PopInt() // dummy
+    this := stack.PopRef() // this
+    stack.PushRef(this)
+    // todo
 }
 
 // hack

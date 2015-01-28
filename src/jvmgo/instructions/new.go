@@ -44,15 +44,17 @@ func (self *anewarray) Execute(thread *rtda.Thread) {
     cClass := cp.GetConstant(self.index).(*rtclass.ConstantClass)
     class := cClass.Class()
     
+    // todo
     if class.NotInitialized() {
         //frame.SetNextPC(thread.PC())
         //initClass(class, thread)
-    } else {
-        stack := frame.OperandStack()
-        count := stack.PopInt()
-        ref := rtclass.NewRefArray(count)
-        stack.PushRef(ref)
-    }    
+        //panic("class not initialized!"  + class.Name())
+    }
+
+    stack := frame.OperandStack()
+    count := stack.PopInt()
+    ref := rtclass.NewRefArray(count)
+    stack.PushRef(ref)
 }
 
 // Create new multidimensional array

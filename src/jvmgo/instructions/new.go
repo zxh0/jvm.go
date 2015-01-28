@@ -45,8 +45,8 @@ func (self *anewarray) Execute(thread *rtda.Thread) {
     class := cClass.Class()
     
     if class.NotInitialized() {
-        frame.SetNextPC(thread.PC())
-        initClass(class, thread)
+        //frame.SetNextPC(thread.PC())
+        //initClass(class, thread)
     } else {
         stack := frame.OperandStack()
         count := stack.PopInt()

@@ -19,8 +19,8 @@ func init() {
     jlClass     ("getName0",                "()Ljava/lang/String;",         getName0)
     jlClass     ("getClassLoader0",         "()Ljava/lang/ClassLoader;",    getClassLoader0)
     jlClass     ("desiredAssertionStatus0", "(Ljava/lang/Class;)Z",         desiredAssertionStatus0)
-    jlThrowable ("fillInStackTrace",        "(I)Ljava/lang/Throwable;",    fillInStackTrace)
-    // hack
+    jlThrowable ("fillInStackTrace",        "(I)Ljava/lang/Throwable;",     fillInStackTrace)
+    // hack!
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
 

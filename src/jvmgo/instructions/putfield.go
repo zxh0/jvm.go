@@ -34,7 +34,7 @@ func (self *putstatic) Execute(thread *rtda.Thread) {
 
     cp := currentClass.ConstantPool()
     cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
-    field := cFieldRef.Field()
+    field := cFieldRef.StaticField()
     
     classOfField := field.Class()
     if classOfField.NotInitialized() {

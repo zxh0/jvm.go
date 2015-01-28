@@ -36,16 +36,22 @@ func (self *ConstantFieldref) resolveInstanceField() {
     panic("field not found!") // todo
 }
 
-func (self *ConstantFieldref) Field() (*Field) {
+func (self *ConstantFieldref) StaticField() (*Field) {
     if self.field == nil {
-        self.resolve()
+        self.resolveStaticField()
     }
     return self.field
 }
 
-func (self *ConstantFieldref) resolve() {
-    class := self.cp.class.classLoader.LoadClass(self.className)
-    self.field = class.GetField(self.name, self.descriptor)
+func (self *ConstantFieldref) resolveStaticField() {
+    classLoader := self.cp.class.classLoader
+    class := classLoader.getClass(self.className)
+    field := class.GetField(self.name, self.descriptor)
+    if field != nil && field.IsStatic() {
+        self.field = field
+    } else {
+        panic("static field not found!") // todo
+    }
 }
 
 func newConstantFieldref(cp *ConstantPool, fieldrefInfo *cf.ConstantFieldrefInfo) (*ConstantFieldref) {

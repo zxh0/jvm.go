@@ -8,6 +8,9 @@ public class AThrow {
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
+//        RuntimeException e = new RuntimeException();
+//        System.out.println("OK!");
+//        e.fillInStackTrace();
     }
     
 }

@@ -1,6 +1,9 @@
 package class
 
-import cf "jvmgo/classfile"
+import (
+    //"fmt"
+    cf "jvmgo/classfile"
+)
 
 type ExceptionTable struct {
     handlers []*ExceptionHandler
@@ -13,14 +16,19 @@ type ExceptionHandler struct {
     catchType   *ConstantClass
 }
 
-func (self *ExceptionTable) copyExceptionTable(entries []*cf.ExceptionTableEntry) {
+func (self *ExceptionTable) copyExceptionTable(entries []*cf.ExceptionTableEntry, rtCp *ConstantPool) {
     self.handlers = make([]*ExceptionHandler, len(entries))
     for i, entry := range entries {
         handler := &ExceptionHandler{}
         handler.startPc = entry.StartPc()
         handler.endPc = entry.EndPc()
         handler.handlerPc = entry.HandlerPc()
-        handler.catchType = nil
+        catchType := uint(entry.CatchType())
+        if catchType == 0 {
+            handler.catchType = nil // catch all
+        } else {
+            handler.catchType = rtCp.GetConstant(catchType).(*ConstantClass)
+        }
         self.handlers[i] = handler
     }
 }

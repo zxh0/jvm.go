@@ -30,7 +30,7 @@ func _ldc(thread *rtda.Thread, index uint) {
     case string: newJString(c.(string), thread) // todo
     case *rtc.ConstantClass: // todo
         class := c.(*rtc.ConstantClass).Class()
-        stack.PushRef(class.Obj())
+        stack.PushRef(class.JClass())
     default: 
         fmt.Printf("CCC:::%v\n", c)
         panic("todo ldc!!!")

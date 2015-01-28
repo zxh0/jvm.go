@@ -1,6 +1,7 @@
 package instructions
 
 import (
+    //"fmt"
     "jvmgo/rtda"
     "jvmgo/rtda/class"
 )
@@ -18,8 +19,7 @@ func (self *getfield) Execute(thread *rtda.Thread) {
 
     cp := frame.Method().Class().ConstantPool()
     cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
-    field := cFieldRef.Field()
-
+    field := cFieldRef.InstanceField()
     val := field.GetValue(ref)
     stack.Push(val)
 }
@@ -33,7 +33,7 @@ func (self *getstatic) Execute(thread *rtda.Thread) {
 
     cp := currentClass.ConstantPool()
     cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
-    field := cFieldRef.Field()
+    field := cFieldRef.StaticField()
 
     classOfField := field.Class()
     if classOfField.NotInitialized() {

@@ -10,9 +10,7 @@ import (
 func cf2class(cf *classfile.ClassFile) (*Class) {
     class := &Class{obj:&Obj{}}
     class.copyConstantPool(cf)
-    class.name = cf.ClassName()
-    class.superClassName = cf.SuperClassName()
-    class.interfaceNames = cf.InterfaceNames()
+    class.copyClassNames(cf)
     class.copyFields(cf)
     class.copyMethods(cf)
     return class
@@ -20,6 +18,12 @@ func cf2class(cf *classfile.ClassFile) (*Class) {
 
 func (self *Class) copyConstantPool(cf *classfile.ClassFile) {
     self.constantPool = newConstantPool(self, cf.ConstantPool())
+}
+
+func (self *Class) copyClassNames(cf *classfile.ClassFile) {
+    self.name = cf.ClassName()
+    self.superClassName = cf.SuperClassName()
+    self.interfaceNames = cf.InterfaceNames()
 }
 
 func (self *Class) copyFields(cf *classfile.ClassFile) {

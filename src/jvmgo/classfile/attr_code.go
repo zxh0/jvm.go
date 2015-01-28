@@ -35,14 +35,17 @@ func (self *CodeAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
     self.attributes = readAttributes(reader, cp)
 }
 
-func (self *CodeAttribute) Code() ([]byte) {
-    return self.code
-}
 func (self *CodeAttribute) MaxStack() (uint) {
     return uint(self.maxStack)
 }
 func (self *CodeAttribute) MaxLocals() (uint) {
     return uint(self.maxLocals)
+}
+func (self *CodeAttribute) Code() ([]byte) {
+    return self.code
+}
+func (self *CodeAttribute) ExceptionTable() ([]*ExceptionTableEntry) {
+    return self.exceptionTable
 }
 
 
@@ -65,4 +68,17 @@ func readExceptionTable(reader *ClassReader) ([]*ExceptionTableEntry) {
         exceptionTable[i] = entry
     }
     return exceptionTable
+}
+
+func (self *ExceptionTableEntry) StartPc() (uint16) {
+    return self.startPc
+}
+func (self *ExceptionTableEntry) EndPc() (uint16) {
+    return self.endPc
+}
+func (self *ExceptionTableEntry) HandlerPc() (uint16) {
+    return self.handlerPc
+}
+func (self *ExceptionTableEntry) CatchType() (uint16) {
+    return self.catchType
 }

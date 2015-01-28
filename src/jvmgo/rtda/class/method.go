@@ -16,6 +16,7 @@ const (
 
 type Method struct {
     ClassMember
+    ExceptionTable
     maxStack        uint
     maxLocals       uint
     argCount        uint
@@ -64,6 +65,9 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
         method.code = codeAttr.Code()
         method.maxStack = codeAttr.MaxStack()
         method.maxLocals = codeAttr.MaxLocals()
+        if len(codeAttr.ExceptionTable()) > 0 {
+            method.copyExceptionTable(codeAttr.ExceptionTable())
+        }
     }
     
     return method

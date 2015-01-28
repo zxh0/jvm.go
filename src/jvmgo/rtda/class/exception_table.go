@@ -13,14 +13,14 @@ type ExceptionHandler struct {
     catchType   *ConstantClass
 }
 
-func (self *ExceptionTable) copy(entries []*cf.ExceptionTableEntry) {
+func (self *ExceptionTable) copyExceptionTable(entries []*cf.ExceptionTableEntry) {
     self.handlers = make([]*ExceptionHandler, len(entries))
-    // for i, entry := range entries {
-    //     handler := &ExceptionHandler{}
-    //     handler.startPc = entry.startPc
-    //     handler.endPc = entry.endPc
-    //     handler.handlerPc = entry.handlerPc
-    //     handler.catchType = nil
-    //     self.handlers[i] = handler
-    // }
+    for i, entry := range entries {
+        handler := &ExceptionHandler{}
+        handler.startPc = entry.StartPc()
+        handler.endPc = entry.EndPc()
+        handler.handlerPc = entry.HandlerPc()
+        handler.catchType = nil
+        self.handlers[i] = handler
+    }
 }

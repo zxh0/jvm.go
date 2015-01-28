@@ -53,6 +53,7 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     class.classLoader = self
     self.loadSuperClassAndInterfaces(class)
     self.initInstanceFields(class)
+    self.initClassFields(class)
     self.classMap[name] = class
 
     jlClassClass := self.classMap[jlClassName]
@@ -102,6 +103,16 @@ func (self *ClassLoader) initInstanceFields(class *Class) {
         }
     }
     class.instanceFieldCount = slotId
+}
+
+func (self *ClassLoader) initClassFields(class *Class) {
+    slotId := uint(0)
+    for _, f := range class.fields {
+        if f.IsStatic() {
+            f.slot = uint(slotId)
+            slotId++
+        }
+    }
 }
 
 func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {

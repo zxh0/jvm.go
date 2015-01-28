@@ -49,19 +49,7 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
 
 func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     //log.Printf("load: %v", name)
-    classData, err := self.classPath.ReadClassData(name)
-    if err != nil {
-        // todo
-        panic("class not found: " + name + "!")
-    }
-
-    cf, err := classfile.ParseClassFile(classData)
-    if err != nil {
-        // todo
-        panic("failed to parse class file: " + name + "!" + err.Error())
-    }
-
-    class := cf2class(cf)//
+    class := self.parseClassFile(name)
     class.classLoader = self
     //class.obj.class = self.classMap[jlClassName]
     // if class.name == "java/lang/Class" {
@@ -81,6 +69,22 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     }
 
     return class
+}
+
+func (self *ClassLoader) parseClassFile(name string) (class *Class) {
+    classData, err := self.classPath.ReadClassData(name)
+    if err != nil {
+        // todo
+        panic("class not found: " + name + "!")
+    }
+
+    cf, err := classfile.ParseClassFile(classData)
+    if err != nil {
+        // todo
+        panic("failed to parse class file: " + name + "!" + err.Error())
+    }
+
+    return cf2class(cf)
 }
 
 // todo

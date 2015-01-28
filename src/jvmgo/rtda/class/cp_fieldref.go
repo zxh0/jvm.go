@@ -12,11 +12,11 @@ type ConstantFieldref struct {
 
 func (self *ConstantFieldref) InstanceField() (*Field) {
     if self.field == nil {
-        self.field = self.findInstanceField()
+        self.resolveInstanceField()
     }
     return self.field
 }
-func (self *ConstantFieldref) findInstanceField() (*Field) {
+func (self *ConstantFieldref) resolveInstanceField() {
     classLoader := self.cp.class.classLoader
     className := self.className
     for {
@@ -24,7 +24,8 @@ func (self *ConstantFieldref) findInstanceField() (*Field) {
             class := classLoader.getClass(className)
             field := class.GetField(self.name, self.descriptor)
             if field != nil && !field.IsStatic() {
-                return field
+                self.field = field
+                return
             } else {
                 className = class.superClassName
             }

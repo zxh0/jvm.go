@@ -7,9 +7,24 @@ import (
     "jvmgo/classpath"
 )
 
+const (
+    jlObjectName = "java/lang/Object"
+    jlClassName = "java/lang/Class"
+    jlStringName = "java/lang/String"
+)
+
 type ClassLoader struct {
     classPath   *classpath.ClassPath
     classMap    map[string]*Class
+}
+
+func (self *ClassLoader) Init() {
+    self.LoadClass(jlObjectName)
+    self.LoadClass(jlClassName)
+    jlClassClass := self.classMap[jlClassName]
+    for _, class := range self.classMap {
+        class.obj = jlClassClass.NewObj()
+    }
 }
 
 // todo GetClass
@@ -19,7 +34,7 @@ func (self *ClassLoader) getClass(name string) (*Class) {
 }
 
 func (self *ClassLoader) StringClass() (*Class) {
-    return self.LoadClass("java/lang/String")
+    return self.LoadClass(jlStringName)
 }
 
 func (self *ClassLoader) LoadClass(name string) (*Class) {
@@ -46,16 +61,24 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
         panic("failed to parse class file: " + name + "!" + err.Error())
     }
 
-    class := cf2class(cf)
-    if class.name == "java/lang/Class" {
-        class.obj.class = class
-    } else {
-        class.obj.class = self.classMap["java/lang/Class"]
-    }
+    class := cf2class(cf)//
     class.classLoader = self
-    self.classMap[name] = class
+    //class.obj.class = self.classMap[jlClassName]
+    // if class.name == "java/lang/Class" {
+    //     class.obj = class.NewObj()
+    //     class.obj.class = class
+    // } else {
+    //     //class.obj = &Obj{}
+    //     class.obj.class = self.classMap["java/lang/Class"]
+    // }
     self.loadSuperClassAndInterfaces(class)
     self.initInstanceFields(class)
+    self.classMap[name] = class
+
+    jlClassClass := self.classMap[jlClassName]
+    if jlClassClass != nil {
+        class.obj = jlClassClass.NewObj()
+    }
 
     return class
 }

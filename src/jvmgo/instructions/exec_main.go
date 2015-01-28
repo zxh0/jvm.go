@@ -24,6 +24,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
 
     if _classLoader == nil {
         initVars(stack.PopRef())
+        _classLoader.Init()
     }
     if !isBasicClassesReady(thread) {
         return

@@ -26,6 +26,14 @@ func (self *OperandStack) PopRef() (*class.Obj) {
     }
 }
 
+func (self *OperandStack) PushBoolean(val bool) {
+    if val {
+        self.PushInt(1)
+    } else {
+        self.PushInt(0)
+    }
+}
+
 func (self *OperandStack) PushInt(val int32) {
     self.Push(val)
 }

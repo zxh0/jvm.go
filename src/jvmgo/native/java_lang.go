@@ -12,12 +12,13 @@ import (
 // register native methods
 func init() {
     rtc.SetRegisterNatives(registerNatives)
-    jlSystem("nanoTime",            "()J",                          nanoTime)
-    jlSystem("currentTimeMillis",   "()J",                          currentTimeMillis)
-    jlSystem("identityHashCode",    "(Ljava/lang/Object;)I",        identityHashCode)
-    jlObject("getClass",            "()Ljava/lang/Class;",          getClass)
-    jlClass ("getName0",            "()Ljava/lang/String;",         getName0)
-    jlClass ("getClassLoader0",     "()Ljava/lang/ClassLoader;",    getClassLoader0)
+    jlSystem("nanoTime",                "()J",                          nanoTime)
+    jlSystem("currentTimeMillis",       "()J",                          currentTimeMillis)
+    jlSystem("identityHashCode",        "(Ljava/lang/Object;)I",        identityHashCode)
+    jlObject("getClass",                "()Ljava/lang/Class;",          getClass)
+    jlClass ("getName0",                "()Ljava/lang/String;",         getName0)
+    jlClass ("getClassLoader0",         "()Ljava/lang/ClassLoader;",    getClassLoader0)
+    jlClass ("desiredAssertionStatus0", "(Ljava/lang/Class;)Z",         desiredAssertionStatus0)
     // hack
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
@@ -65,7 +66,13 @@ func getName0(stack *rtda.OperandStack) {
 }
 func getClassLoader0(stack *rtda.OperandStack) {
     // todo
+    _ = stack.PopRef() // this
     stack.PushRef(nil)
+}
+func desiredAssertionStatus0(stack *rtda.OperandStack) {
+    // todo
+    _ = stack.PopRef() // this
+    stack.PushBoolean(false)
 }
 
 // hack

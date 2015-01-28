@@ -96,8 +96,10 @@ func (self *ClassLoader) initInstanceFields(class *Class) {
         slotId = superClass.instanceFieldCount
     }
     for _, field := range class.fields {
-        field.slot = slotId
-        slotId++
+        if !field.IsStatic() {
+            field.slot = slotId
+            slotId++
+        }
     }
     class.instanceFieldCount = slotId
 }

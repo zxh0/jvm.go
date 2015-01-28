@@ -12,11 +12,12 @@ import (
 // register native methods
 func init() {
     rtc.SetRegisterNatives(registerNatives)
-    jlSystem("nanoTime",            "()J",                      nanoTime)
-    jlSystem("currentTimeMillis",   "()J",                      currentTimeMillis)
-    jlSystem("identityHashCode",    "(Ljava/lang/Object;)I",    identityHashCode)
-    jlObject("getClass",            "()Ljava/lang/Class;",      getClass)
-    jlClass ("getName0",            "()Ljava/lang/String;",     getName0)
+    jlSystem("nanoTime",            "()J",                          nanoTime)
+    jlSystem("currentTimeMillis",   "()J",                          currentTimeMillis)
+    jlSystem("identityHashCode",    "(Ljava/lang/Object;)I",        identityHashCode)
+    jlObject("getClass",            "()Ljava/lang/Class;",          getClass)
+    jlClass ("getName0",            "()Ljava/lang/String;",         getName0)
+    jlClass ("getClassLoader0",     "()Ljava/lang/ClassLoader;",    getClassLoader0)
     // hack
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
@@ -60,7 +61,11 @@ func getClass(stack *rtda.OperandStack) {
 
 // java.lang.Class
 func getName0(stack *rtda.OperandStack) {
-    panic("getname0")
+    panic("getName0")
+}
+func getClassLoader0(stack *rtda.OperandStack) {
+    // todo
+    stack.PushRef(nil)
 }
 
 // hack

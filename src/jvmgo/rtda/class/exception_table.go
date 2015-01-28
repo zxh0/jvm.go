@@ -19,16 +19,20 @@ type ExceptionHandler struct {
 func (self *ExceptionTable) copyExceptionTable(entries []*cf.ExceptionTableEntry, rtCp *ConstantPool) {
     self.handlers = make([]*ExceptionHandler, len(entries))
     for i, entry := range entries {
-        handler := &ExceptionHandler{}
-        handler.startPc = entry.StartPc()
-        handler.endPc = entry.EndPc()
-        handler.handlerPc = entry.HandlerPc()
-        catchType := uint(entry.CatchType())
-        if catchType == 0 {
-            handler.catchType = nil // catch all
-        } else {
-            handler.catchType = rtCp.GetConstant(catchType).(*ConstantClass)
-        }
-        self.handlers[i] = handler
+        self.handlers[i] = newExceptionHandler(entry, rtCp)
     }
+}
+
+func newExceptionHandler(entry *cf.ExceptionTableEntry, rtCp *ConstantPool) (*ExceptionHandler) {
+    handler := &ExceptionHandler{}
+    handler.startPc = entry.StartPc()
+    handler.endPc = entry.EndPc()
+    handler.handlerPc = entry.HandlerPc()
+    catchType := uint(entry.CatchType())
+    if catchType == 0 {
+        handler.catchType = nil // catch all
+    } else {
+        handler.catchType = rtCp.GetConstant(catchType).(*ConstantClass)
+    }
+    return handler
 }

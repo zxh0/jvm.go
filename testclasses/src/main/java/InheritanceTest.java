@@ -6,6 +6,7 @@ public class InheritanceTest {
         sub.y = 2L;
         sub.a = 3.14f;
         sub.b = 2.71828;
+        System.out.println("OK!");
     }
     
 }

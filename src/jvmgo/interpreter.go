@@ -19,8 +19,7 @@ func loop(thread *rtda.Thread) {
         frame.SetNextPC(bcr.PC())
 
         // execute
-        //pc := thread.PC()
-        //logInstruction(frame, pc, opcode, inst)
+        //logInstruction(frame, thread.PC(), opcode, inst)
         inst.Execute(frame)
         if !thread.IsStackEmpty() {
             topFrame := thread.TopFrame()

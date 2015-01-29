@@ -8,8 +8,7 @@ import (
 
 // Fetch field from object
 type getfield struct {Index16Instruction}
-func (self *getfield) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
+func (self *getfield) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     ref := stack.PopRef()
     if ref == nil {
@@ -27,9 +26,8 @@ func (self *getfield) Execute(thread *rtda.Thread) {
 
 // Get static field from class 
 type getstatic struct {Index16Instruction}
-func (self *getstatic) Execute(thread *rtda.Thread) {
-    currentFrame := thread.CurrentFrame()
-    currentMethod := currentFrame.Method()
+func (self *getstatic) Execute(frame *rtda.Frame) {
+    currentMethod := frame.Method()
     currentClass := currentMethod.Class()
 
     cp := currentClass.ConstantPool()
@@ -39,12 +37,13 @@ func (self *getstatic) Execute(thread *rtda.Thread) {
     classOfField := field.Class()
     if classOfField.NotInitialized() {
         if classOfField != currentClass || !currentMethod.IsClinit() {
-            currentFrame.SetNextPC(thread.PC()) // undo getstatic
+            thread := frame.Thread()
+            frame.SetNextPC(thread.PC()) // undo getstatic
             initClass(field.Class(), thread)
             return
         }
     }
 
     val := field.GetStaticValue()
-    currentFrame.OperandStack().Push(val)
+    frame.OperandStack().Push(val)
 }

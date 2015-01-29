@@ -7,8 +7,7 @@ import (
 
 // Check whether object is of given type
 type checkcast struct {Index16Instruction}
-func (self *checkcast) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
+func (self *checkcast) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     ref := stack.PopRef()
     stack.PushRef(ref)
@@ -18,10 +17,12 @@ func (self *checkcast) Execute(thread *rtda.Thread) {
     class := cClass.Class()
     if class.NotInitialized() {
         // todo init class
+        panic("class not initialized!")
     }
 
     // todo
     if !_instanceof(ref, class) {
         // todo ClassCastException
+        panic("ClassCastException")
     }
 }

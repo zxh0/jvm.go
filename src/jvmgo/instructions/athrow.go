@@ -7,13 +7,14 @@ import (
 
 // Throw exception or error
 type athrow struct {NoOperandsInstruction}
-func (self *athrow) Execute(thread *rtda.Thread) {
-    ex := thread.CurrentFrame().OperandStack().PopRef()
+func (self *athrow) Execute(frame *rtda.Frame) {
+    ex := frame.OperandStack().PopRef()
     if ex == nil {
         // todo NPE
         panic("athrow NPE")
     }
 
+    thread := frame.Thread()
     for {
         frame := thread.CurrentFrame()
         stack := frame.OperandStack()

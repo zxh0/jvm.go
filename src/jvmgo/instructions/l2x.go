@@ -4,8 +4,8 @@ import "jvmgo/rtda"
 
 // Convert long to double
 type l2d struct {NoOperandsInstruction}
-func (self *l2d) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *l2d) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     l := stack.PopLong()
     d := float64(l)
     stack.PushDouble(d)
@@ -13,8 +13,8 @@ func (self *l2d) Execute(thread *rtda.Thread) {
 
 // Convert long to float
 type l2f struct {NoOperandsInstruction}
-func (self *l2f) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *l2f) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     l := stack.PopLong()
     f := float32(l)
     stack.PushFloat(f)
@@ -22,8 +22,8 @@ func (self *l2f) Execute(thread *rtda.Thread) {
 
 // Convert long to int
 type l2i struct {NoOperandsInstruction}
-func (self *l2i) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *l2i) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     l := stack.PopLong()
     i := int32(l)
     stack.PushInt(i)

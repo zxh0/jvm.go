@@ -11,7 +11,7 @@ type ConstantMethodref struct {
     descriptor      string
     cp              *ConstantPool
     method          *Method
-    argCount        int
+    argCount        uint
 }
 
 type ConstantInterfaceMethodref struct {
@@ -66,9 +66,9 @@ func (self *ConstantMethodref) VirtualMethodArgCount() (uint) {
     if self.argCount < 0 {
         className := self.className
         argCount := self.findVirtualMethod(className).ArgCount()
-        self.argCount = int(argCount)
+        self.argCount = argCount
     }
-    return uint(self.argCount)       
+    return self.argCount       
 }
 func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
     className := ref.class.name // todo
@@ -102,7 +102,7 @@ func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefI
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
-    methodref.argCount = -1
+    methodref.argCount = methodrefInfo.ArgCount()
     return methodref
 }
 
@@ -112,6 +112,6 @@ func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantI
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
-    methodref.argCount = -1
+    methodref.argCount = methodrefInfo.ArgCount()
     return methodref
 }

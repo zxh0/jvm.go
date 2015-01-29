@@ -42,13 +42,13 @@ func (self *MemberInfo) read(reader *ClassReader) {
 func (self *MemberInfo) AccessFlags() (uint16) {
     return self.accessFlags
 }
-func (self *MemberInfo) GetName() (string) {
+func (self *MemberInfo) Name() (string) {
     return self.cp.getUtf8(self.nameIndex)
 }
-func (self *MemberInfo) GetDescriptor() (string) {
+func (self *MemberInfo) Descriptor() (string) {
     return self.cp.getUtf8(self.descriptorIndex)
 }
 
-func (self *MethodInfo) GetArgCount() (uint) {
-    return calcArgCount(self.GetDescriptor())
+func (self *MethodInfo) ArgCount() (uint) {
+    return calcArgCount(self.Descriptor())
 }

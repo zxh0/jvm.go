@@ -32,7 +32,7 @@ func newField(class *Class, fieldInfo *cf.FieldInfo) (*Field) {
     field := &Field{}
     field.class = class
     field.accessFlags = fieldInfo.AccessFlags()
-    field.name = fieldInfo.GetName()
-    field.descriptor = fieldInfo.GetDescriptor()
+    field.name = fieldInfo.Name()
+    field.descriptor = fieldInfo.Descriptor()
     return field
 }

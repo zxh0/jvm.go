@@ -55,9 +55,9 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
     method := &Method{}
     method.class = class
     method.accessFlags = methodInfo.AccessFlags()
-    method.name = methodInfo.GetName()
-    method.descriptor = methodInfo.GetDescriptor()
-    method.argCount = methodInfo.GetArgCount()
+    method.name = methodInfo.Name()
+    method.descriptor = methodInfo.Descriptor()
+    method.argCount = methodInfo.ArgCount()
     // if !method.IsStatic() { // todo
     //     method.argCount++
     // }

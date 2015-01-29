@@ -55,6 +55,9 @@ func (self *ConstantMemberrefInfo) Descriptor() (string) {
     ntInfo := self.cp.getNameAndType(self.nameAndTypeIndex)
     return self.cp.getUtf8(ntInfo.descriptorIndex)
 }
+func (self *ConstantMemberrefInfo) ArgCount() (uint) {
+    return calcArgCount(self.Descriptor())
+}
 
 type ConstantFieldrefInfo struct {
     ConstantMemberrefInfo

@@ -7,13 +7,13 @@ import (
 
 // Create new object
 type new_ struct {Index16Instruction}
-func (self *new_) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
+func (self *new_) Execute(frame *rtda.Frame) {
     cp := frame.Method().Class().ConstantPool()
     cClass := cp.GetConstant(self.index).(*rtclass.ConstantClass)
     class := cClass.Class()
 
     if class.NotInitialized() {
+        thread := frame.Thread()
         frame.SetNextPC(thread.PC())
         initClass(class, thread)
     } else {
@@ -29,8 +29,8 @@ type newarray struct {
 func (self *newarray) fetchOperands(bcr *BytecodeReader) {
     self.atype = bcr.readUint8()
 }
-func (self *newarray) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *newarray) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     count := stack.PopInt()
     ref := rtclass.NewPrimitiveArray(self.atype, count)
     stack.PushRef(ref)
@@ -38,8 +38,7 @@ func (self *newarray) Execute(thread *rtda.Thread) {
 
 // Create new array of reference
 type anewarray struct {Index16Instruction}
-func (self *anewarray) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
+func (self *anewarray) Execute(frame *rtda.Frame) {
     cp := frame.Method().Class().ConstantPool()
     cClass := cp.GetConstant(self.index).(*rtclass.ConstantClass)
     class := cClass.Class()
@@ -66,7 +65,7 @@ func (self *multianewarray) fetchOperands(bcr *BytecodeReader) {
     self.index = bcr.readUint16()
     self.dimensions = bcr.readUint8()
 }
-func (self *multianewarray) Execute(thread *rtda.Thread) {
+func (self *multianewarray) Execute(frame *rtda.Frame) {
     // todo
     panic("todo multianewarray")
 }

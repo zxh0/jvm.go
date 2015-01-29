@@ -5,15 +5,20 @@ import (
     cf "jvmgo/classfile"
 )
 
-type ExceptionTable struct {
-    handlers []*ExceptionHandler
+type ExceptionHandler struct {
+    startPc     int
+    endPc       int
+    handlerPc   int
+    catchType   *ConstantClass
 }
 
-type ExceptionHandler struct {
-    startPc     uint16
-    endPc       uint16
-    handlerPc   uint16
-    catchType   *ConstantClass
+func (self *ExceptionHandler) HandlerPc() (int) {
+    return self.handlerPc
+}
+
+
+type ExceptionTable struct {
+    handlers []*ExceptionHandler
 }
 
 func (self *ExceptionTable) copyExceptionTable(entries []*cf.ExceptionTableEntry, rtCp *ConstantPool) {
@@ -25,9 +30,9 @@ func (self *ExceptionTable) copyExceptionTable(entries []*cf.ExceptionTableEntry
 
 func newExceptionHandler(entry *cf.ExceptionTableEntry, rtCp *ConstantPool) (*ExceptionHandler) {
     handler := &ExceptionHandler{}
-    handler.startPc = entry.StartPc()
-    handler.endPc = entry.EndPc()
-    handler.handlerPc = entry.HandlerPc()
+    handler.startPc = int(entry.StartPc())
+    handler.endPc = int(entry.EndPc())
+    handler.handlerPc = int(entry.HandlerPc())
     catchType := uint(entry.CatchType())
     if catchType == 0 {
         handler.catchType = nil // catch all
@@ -37,10 +42,12 @@ func newExceptionHandler(entry *cf.ExceptionTableEntry, rtCp *ConstantPool) (*Ex
     return handler
 }
 
-func (self *ExceptionTable) FindExceptionHandler(exClass *Class) (*ExceptionHandler) {
+func (self *ExceptionTable) FindExceptionHandler(exClass *Class, pc int) (*ExceptionHandler) {
     for _, handler := range self.handlers {
-        if handler.catchType == nil || handler.catchType.Class() == exClass {
-            return handler
+        if handler.startPc <= pc && handler.endPc >= pc {
+            if handler.catchType == nil || handler.catchType.Class() == exClass {
+                return handler
+            }
         }
     }
     return nil

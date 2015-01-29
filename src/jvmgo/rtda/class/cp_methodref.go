@@ -62,11 +62,15 @@ func (self *ConstantMethodref) findMethod(className string) (*Method) {
 
 // todo
 func (self *ConstantMethodref) VirtualMethodArgCount() (uint) {
-    return self.SpecialMethod().ArgCount()
+    className := self.className
+    return self.findVirtualMethod(className).ArgCount()
 }
 func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
+    className := ref.class.name // todo
+    return self.findVirtualMethod(className)
+}
+func (self *ConstantMethodref) findVirtualMethod(className string) (*Method) {
     classLoader := self.cp.class.classLoader
-    className := ref.class.name //!!
     for {
         if className != "" {
             class := classLoader.LoadClass(className)
@@ -75,7 +79,7 @@ func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
                 if method.IsNative() {
                     method.nativeMethod = findNativeMethod(method)
                 }
-                self.method = method
+                //self.method = method
                 return method
             } else {
                 className = class.superClassName

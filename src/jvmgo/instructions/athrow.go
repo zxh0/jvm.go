@@ -1,20 +1,27 @@
 package instructions
 
-import "jvmgo/rtda"
+import (
+    //"fmt"
+    "jvmgo/rtda"
+)
 
 // Throw exception or error
 type athrow struct {NoOperandsInstruction}
 func (self *athrow) Execute(thread *rtda.Thread) {
-    currentFrame := thread.CurrentFrame()
-    ex := currentFrame.OperandStack().PopRef()
+    frame := thread.CurrentFrame()
+    stack := frame.OperandStack()
+
+    ex := frame.OperandStack().PopRef()
     if ex == nil {
         // todo NPE
         panic("athrow NPE")
     }
 
-    handler := currentFrame.Method().FindExceptionHandler(ex.Class())
+    handler := frame.Method().FindExceptionHandler(ex.Class(), thread.PC())
     if handler != nil {
-        panic("here!!!")
+        stack.PushRef(ex)
+        frame.SetNextPC(handler.HandlerPc())
+        return
     }
 
     // todo

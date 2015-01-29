@@ -37,9 +37,5 @@ func (self *invokestatic) Execute(frame *rtda.Frame) {
     // create new frame
     newFrame := thread.NewFrame(method)
     thread.PushFrame(newFrame)
-
-    // pass args
-    if argCount := method.ArgCount(); argCount > 0 {
-        passArgs(currentFrame.OperandStack(), newFrame.LocalVars(), argCount)
-    }
+    passArgs(currentFrame.OperandStack(), newFrame.LocalVars(), method.ArgCount())
 }

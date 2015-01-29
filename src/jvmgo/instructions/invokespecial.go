@@ -13,7 +13,6 @@ func (self *invokespecial) Execute(frame *rtda.Frame) {
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
     method := cMethodRef.SpecialMethod()
-    newFrame := thread.NewFrame(method)
 
     if method.IsNative() {
         // exec native method
@@ -22,6 +21,7 @@ func (self *invokespecial) Execute(frame *rtda.Frame) {
         return
     }
 
+    newFrame := thread.NewFrame(method)
     passArgs(frame.OperandStack(), newFrame.LocalVars(), method.ArgCount() + 1)
     thread.PushFrame(newFrame)
 }

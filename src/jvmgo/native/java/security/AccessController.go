@@ -1,6 +1,7 @@
 package security
 
 import (
+    "fmt"
     . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
@@ -20,8 +21,8 @@ func _ac(name, desc string, method Any) {
 func doPrivileged(frame *rtda.Frame) {
     stack := frame.OperandStack()
     action := stack.PopRef()
-    action.Class()
-
+    mref := action.Class().ConstantPool().GetMethodref("run") // todo
+    fmt.Printf("mref::%v\n", mref)
 
     // todo
     panic("doPrivileged")

@@ -17,6 +17,18 @@ func (self *ConstantPool) GetConstant(index uint) (Constant) {
     return self.consts[index]
 }
 
+// todo
+func (self *ConstantPool) GetMethodref(name string) (*ConstantMethodref) {
+    for _, c := range self.consts {
+        if methodref, ok := c.(*ConstantMethodref); ok {
+            if methodref.name == name {
+                return methodref
+            }
+        }
+    }
+    return nil // todo
+}
+
 func newConstantPool(owner *Class, cfCp *cf.ConstantPool) (*ConstantPool) {
     cpInfos := cfCp.Infos()
     consts := make([]Constant, len(cpInfos))

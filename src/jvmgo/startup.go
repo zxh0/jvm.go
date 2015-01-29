@@ -3,15 +3,15 @@ package main
 import (
     . "jvmgo/any"
     "jvmgo/cmdline"
-    "jvmgo/native"
+    _ "jvmgo/native"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
 )
 
 // load native methods
-func init() {
-    var _ native.NativeMethod = nil
-}
+// func init() {
+//     var _ native.NativeMethod = nil
+// }
 
 func startJVM(cmd *cmdline.Command) {
     classPath := cmd.Options().Classpath()

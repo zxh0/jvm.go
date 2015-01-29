@@ -2,19 +2,15 @@ package native
 
 import (
     "fmt"
-    "time"
-    "unsafe"
     . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
+    _ "jvmgo/native/java/lang"
 )
 
 // register native methods
 func init() {
     rtc.SetRegisterNatives(registerNatives)
-    jlSystem    ("nanoTime",                "()J",                          nanoTime)
-    jlSystem    ("currentTimeMillis",       "()J",                          currentTimeMillis)
-    jlSystem    ("identityHashCode",        "(Ljava/lang/Object;)I",        identityHashCode)
     jlObject    ("getClass",                "()Ljava/lang/Class;",          getClass)
     jlClass     ("getName0",                "()Ljava/lang/String;",         getName0)
     jlClass     ("getClassLoader0",         "()Ljava/lang/ClassLoader;",    getClassLoader0)
@@ -28,9 +24,6 @@ func registerNatives(operandStack *rtda.OperandStack) {
     // todo
 }
 
-func jlSystem(name, desc string, method Any) {
-    rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
-}
 func jlObject(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/Object", name, desc, method)
 }
@@ -39,22 +32,6 @@ func jlClass(name, desc string, method Any) {
 }
 func jlThrowable(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
-}
-
-// java.lang.System
-func nanoTime(stack *rtda.OperandStack) {
-    nanoTime := time.Now().UnixNano()
-    stack.PushLong(nanoTime)
-}
-func currentTimeMillis(stack *rtda.OperandStack) {
-    millis := time.Now().UnixNano() / 1000
-    stack.PushLong(millis)
-}
-func identityHashCode(stack *rtda.OperandStack) {
-    // todo
-    ref := stack.PopRef()
-    hashCode := int32(uintptr(unsafe.Pointer(ref)))
-    stack.PushInt(hashCode)
 }
 
 // java.lang.Object

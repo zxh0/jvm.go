@@ -4,8 +4,8 @@ import "jvmgo/rtda"
 
 // Enter monitor for object
 type monitorenter struct {NoOperandsInstruction}
-func (self *monitorenter) Execute(thread *rtda.Thread) {
-    ref := thread.CurrentFrame().OperandStack().PopRef()
+func (self *monitorenter) Execute(frame *rtda.Frame) {
+    ref := frame.OperandStack().PopRef()
     if ref != nil {
         
     }
@@ -15,8 +15,8 @@ func (self *monitorenter) Execute(thread *rtda.Thread) {
 
 // Exit monitor for object
 type monitorexit struct {NoOperandsInstruction}
-func (self *monitorexit) Execute(thread *rtda.Thread) {
-    ref := thread.CurrentFrame().OperandStack().PopRef()
+func (self *monitorexit) Execute(frame *rtda.Frame) {
+    ref := frame.OperandStack().PopRef()
     if ref != nil {
         
     }

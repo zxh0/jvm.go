@@ -11,25 +11,11 @@ import (
 // register native methods
 func init() {
     rtc.SetRegisterNatives(registerNatives)
-    jlThrowable ("fillInStackTrace",        "(I)Ljava/lang/Throwable;",     fillInStackTrace)
     // hack!
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
 
 func registerNatives(operandStack *rtda.OperandStack) {
-    // todo
-}
-
-func jlThrowable(name, desc string, method Any) {
-    rtc.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
-}
-
-// java.lang.Throwable
-// private native Throwable fillInStackTrace(int dummy);
-func fillInStackTrace(stack *rtda.OperandStack) {
-    _ = stack.PopInt() // dummy
-    this := stack.PopRef() // this
-    stack.PushRef(this)
     // todo
 }
 

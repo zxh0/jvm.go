@@ -13,6 +13,9 @@ type Frame struct {
 }
 
 // getters & setters
+func (self *Frame) Thread() (*Thread) {
+    return self.thread
+}
 func (self *Frame) NextPC() (int) {
     return self.nextPC
 }

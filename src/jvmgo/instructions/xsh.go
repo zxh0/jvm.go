@@ -4,8 +4,8 @@ import "jvmgo/rtda"
 
 // Shift left int
 type ishl struct {NoOperandsInstruction}
-func (self *ishl) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *ishl) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopInt()
     v1 := stack.PopInt()
     s := uint32(v2) & 0x1f
@@ -15,8 +15,8 @@ func (self *ishl) Execute(thread *rtda.Thread) {
 
 // Arithmetic shift right int
 type ishr struct {NoOperandsInstruction}
-func (self *ishr) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *ishr) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopInt()
     v1 := stack.PopInt()
     s := uint32(v2) & 0x1f
@@ -26,8 +26,8 @@ func (self *ishr) Execute(thread *rtda.Thread) {
 
 // Logical shift right int
 type iushr struct {NoOperandsInstruction}
-func (self *iushr) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *iushr) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopInt()
     v1 := stack.PopInt()
     s := uint32(v2) & 0x1f
@@ -38,8 +38,8 @@ func (self *iushr) Execute(thread *rtda.Thread) {
 
 // Shift left long
 type lshl struct {NoOperandsInstruction}
-func (self *lshl) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *lshl) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopInt()
     v1 := stack.PopLong()
     s := uint32(v2) & 0x3f
@@ -49,8 +49,8 @@ func (self *lshl) Execute(thread *rtda.Thread) {
 
 // Arithmetic shift right long
 type lshr struct {NoOperandsInstruction}
-func (self *lshr) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *lshr) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopInt()
     v1 := stack.PopLong()
     s := uint32(v2) & 0x3f
@@ -60,8 +60,8 @@ func (self *lshr) Execute(thread *rtda.Thread) {
 
 // Logical shift right long
 type lushr struct {NoOperandsInstruction}
-func (self *lushr) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *lushr) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopInt()
     v1 := stack.PopLong()
     s := uint32(v2) & 0x3f

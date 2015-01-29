@@ -9,8 +9,8 @@ import (
 
 // Load reference from array
 type aaload struct {NoOperandsInstruction}
-func (self *aaload) Execute(thread *rtda.Thread) {
-    stack, arrRef, index := popArrAndIndex(thread)
+func (self *aaload) Execute(frame *rtda.Frame) {
+    stack, arrRef, index := popArrAndIndex(frame)
     refArr := arrRef.Fields().([]*class.Obj)
     checkArrIndex(index, len(refArr))
     ref := refArr[index]
@@ -19,8 +19,8 @@ func (self *aaload) Execute(thread *rtda.Thread) {
 
 // Load byte or boolean from array 
 type baload struct {NoOperandsInstruction}
-func (self *baload) Execute(thread *rtda.Thread) {
-    stack, arrRef, index := popArrAndIndex(thread)
+func (self *baload) Execute(frame *rtda.Frame) {
+    stack, arrRef, index := popArrAndIndex(frame)
     byteArr := arrRef.Fields().([]int8)
     checkArrIndex(index, len(byteArr))
     val := byteArr[index]
@@ -29,8 +29,8 @@ func (self *baload) Execute(thread *rtda.Thread) {
 
 // Load char from array 
 type caload struct {NoOperandsInstruction}
-func (self *caload) Execute(thread *rtda.Thread) {
-    stack, arrRef, index := popArrAndIndex(thread)
+func (self *caload) Execute(frame *rtda.Frame) {
+    stack, arrRef, index := popArrAndIndex(frame)
     charArr := arrRef.Fields().([]uint16)
     checkArrIndex(index, len(charArr))
     val := charArr[index]
@@ -39,8 +39,8 @@ func (self *caload) Execute(thread *rtda.Thread) {
 
 // Load double from array 
 type daload struct {NoOperandsInstruction}
-func (self *daload) Execute(thread *rtda.Thread) {
-    stack, arrRef, index := popArrAndIndex(thread)
+func (self *daload) Execute(frame *rtda.Frame) {
+    stack, arrRef, index := popArrAndIndex(frame)
     doubleArr := arrRef.Fields().([]float64)
     checkArrIndex(index, len(doubleArr))
     val := doubleArr[index]
@@ -49,8 +49,8 @@ func (self *daload) Execute(thread *rtda.Thread) {
 
 // Load float from array 
 type faload struct {NoOperandsInstruction}
-func (self *faload) Execute(thread *rtda.Thread) {
-    stack, arrRef, index := popArrAndIndex(thread)
+func (self *faload) Execute(frame *rtda.Frame) {
+    stack, arrRef, index := popArrAndIndex(frame)
     floatArr := arrRef.Fields().([]float32)
     checkArrIndex(index, len(floatArr))
     val := floatArr[index]
@@ -59,8 +59,8 @@ func (self *faload) Execute(thread *rtda.Thread) {
 
 // Load int from array 
 type iaload struct {NoOperandsInstruction}
-func (self *iaload) Execute(thread *rtda.Thread) {
-    stack, arrRef, index := popArrAndIndex(thread)
+func (self *iaload) Execute(frame *rtda.Frame) {
+    stack, arrRef, index := popArrAndIndex(frame)
     intArr := arrRef.Fields().([]int32)
     checkArrIndex(index, len(intArr))
     val := intArr[index]
@@ -69,8 +69,8 @@ func (self *iaload) Execute(thread *rtda.Thread) {
 
 // Load long from array 
 type laload struct {NoOperandsInstruction}
-func (self *laload) Execute(thread *rtda.Thread) {
-    stack, arrRef, index := popArrAndIndex(thread)
+func (self *laload) Execute(frame *rtda.Frame) {
+    stack, arrRef, index := popArrAndIndex(frame)
     longArr := arrRef.Fields().([]int64)
     checkArrIndex(index, len(longArr))
     val := longArr[index]
@@ -79,16 +79,16 @@ func (self *laload) Execute(thread *rtda.Thread) {
 
 // Load short from array 
 type saload struct {NoOperandsInstruction}
-func (self *saload) Execute(thread *rtda.Thread) {
-    stack, arrRef, index := popArrAndIndex(thread)
+func (self *saload) Execute(frame *rtda.Frame) {
+    stack, arrRef, index := popArrAndIndex(frame)
     shortArr := arrRef.Fields().([]int16)
     checkArrIndex(index, len(shortArr))
     val := shortArr[index]
     stack.PushInt(int32(val))
 }
 
-func popArrAndIndex(thread *rtda.Thread) (*rtda.OperandStack, *class.Obj, int) {
-    stack := thread.CurrentFrame().OperandStack()
+func popArrAndIndex(frame *rtda.Frame) (*rtda.OperandStack, *class.Obj, int) {
+    stack := frame.OperandStack()
     index := int(stack.PopInt())
     arrRef := stack.PopRef()
     if arrRef == nil {

@@ -15,7 +15,7 @@ func (self *invokevirtual) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-    ref := stack.Top(cMethodRef.VirtualMethodArgCount())
+    ref := stack.Top(cMethodRef.ArgCount())
     if ref == nil {
         panic("NPE")
     }

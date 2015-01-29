@@ -18,6 +18,10 @@ type ConstantInterfaceMethodref struct {
     ConstantMethodref
 }
 
+func (self *ConstantMethodref) ArgCount() (uint) {
+    return self.argCount       
+}
+
 func (self *ConstantMethodref) StaticMethod() (*Method) {
     if self.method == nil {
         self.resolveStaticMethod()
@@ -62,14 +66,6 @@ func (self *ConstantMethodref) findMethod(className string) (*Method) {
 }
 
 // todo
-func (self *ConstantMethodref) VirtualMethodArgCount() (uint) {
-    if self.argCount < 0 {
-        className := self.className
-        argCount := self.findVirtualMethod(className).ArgCount()
-        self.argCount = argCount
-    }
-    return self.argCount       
-}
 func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
     className := ref.class.name // todo
     return self.findVirtualMethod(className)

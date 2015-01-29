@@ -11,6 +11,7 @@ type ConstantMethodref struct {
     descriptor      string
     cp              *ConstantPool
     method          *Method
+    argCount        int
 }
 
 type ConstantInterfaceMethodref struct {
@@ -62,8 +63,12 @@ func (self *ConstantMethodref) findMethod(className string) (*Method) {
 
 // todo
 func (self *ConstantMethodref) VirtualMethodArgCount() (uint) {
-    className := self.className
-    return self.findVirtualMethod(className).ArgCount()
+    if self.argCount < 0 {
+        className := self.className
+        argCount := self.findVirtualMethod(className).ArgCount()
+        self.argCount = int(argCount)
+    }
+    return uint(self.argCount)       
 }
 func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
     className := ref.class.name // todo
@@ -76,10 +81,9 @@ func (self *ConstantMethodref) findVirtualMethod(className string) (*Method) {
             class := classLoader.LoadClass(className)
             method := class.GetMethod(self.name, self.descriptor)
             if method != nil && !method.IsStatic() {
-                if method.IsNative() {
+                if method.IsNative() && method.nativeMethod == nil {
                     method.nativeMethod = findNativeMethod(method)
                 }
-                //self.method = method
                 return method
             } else {
                 className = class.superClassName
@@ -98,6 +102,7 @@ func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefI
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
+    methodref.argCount = -1
     return methodref
 }
 
@@ -107,5 +112,6 @@ func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantI
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
+    methodref.argCount = -1
     return methodref
 }

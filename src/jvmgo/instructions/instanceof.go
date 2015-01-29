@@ -8,8 +8,7 @@ import (
 
 // Determine if object is of given type
 type instanceof struct {Index16Instruction}
-func (self *instanceof) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
+func (self *instanceof) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     ref := stack.PopRef()
 

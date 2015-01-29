@@ -18,18 +18,21 @@ func _system(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
 
-func nanoTime(stack *rtda.OperandStack) {
+func nanoTime(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     nanoTime := time.Now().UnixNano()
     stack.PushLong(nanoTime)
 }
 
-func currentTimeMillis(stack *rtda.OperandStack) {
+func currentTimeMillis(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     millis := time.Now().UnixNano() / 1000
     stack.PushLong(millis)
 }
 
-func identityHashCode(stack *rtda.OperandStack) {
-    // todo
+// todo
+func identityHashCode(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     ref := stack.PopRef()
     hashCode := int32(uintptr(unsafe.Pointer(ref)))
     stack.PushInt(hashCode)

@@ -17,8 +17,9 @@ func _ac(name, desc string, method Any) {
 
 //doPrivileged(Ljava/security/PrivilegedAction;)Ljava/lang/Object;
 //public static native <T> T doPrivileged(PrivilegedAction<T> action);
-func doPrivileged(operandStack *rtda.OperandStack) {
-    action := operandStack.PopRef()
+func doPrivileged(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    action := stack.PopRef()
     action.Class()
 
 

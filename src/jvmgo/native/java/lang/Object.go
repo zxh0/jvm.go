@@ -14,7 +14,8 @@ func _object(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/Object", name, desc, method)
 }
 
-func getClass(stack *rtda.OperandStack) {
+func getClass(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     this := stack.PopRef()
     class := this.Class().JClass()
     stack.PushRef(class)

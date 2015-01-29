@@ -16,18 +16,20 @@ func _class(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
 }
 
-func getName0(stack *rtda.OperandStack) {
+func getName0(frame *rtda.Frame) {
     panic("getName0")
 }
 
-func getClassLoader0(stack *rtda.OperandStack) {
+func getClassLoader0(frame *rtda.Frame) {
     // todo
+    stack := frame.OperandStack()
     _ = stack.PopRef() // this
     stack.PushRef(nil)
 }
 
-func desiredAssertionStatus0(stack *rtda.OperandStack) {
+func desiredAssertionStatus0(frame *rtda.Frame) {
     // todo
+    stack := frame.OperandStack()
     _ = stack.PopRef() // this
     stack.PushBoolean(false)
 }

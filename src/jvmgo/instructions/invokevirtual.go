@@ -22,8 +22,8 @@ func (self *invokevirtual) Execute(frame *rtda.Frame) {
 
     method := cMethodRef.VirtualMethod(ref.(*rtc.Obj))
     if method.IsNative() {
-        nativeMethod := method.NativeMethod().(func(*rtda.OperandStack))
-        nativeMethod(stack)
+        nativeMethod := method.NativeMethod().(func(*rtda.Frame))
+        nativeMethod(frame)
     } else {
         newFrame := thread.NewFrame(method)
         thread.PushFrame(newFrame)

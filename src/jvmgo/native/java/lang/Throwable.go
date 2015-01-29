@@ -15,7 +15,8 @@ func _throwable(name, desc string, method Any) {
 }
 
 // private native Throwable fillInStackTrace(int dummy);
-func fillInStackTrace(stack *rtda.OperandStack) {
+func fillInStackTrace(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     _ = stack.PopInt() // dummy
     this := stack.PopRef() // this
     stack.PushRef(this)

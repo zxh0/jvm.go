@@ -16,12 +16,13 @@ func init() {
     rtc.RegisterNativeMethod("jvmgo/SystemOut", "println", "(Ljava/lang/String;)V", jvmgo_SystemOut_println)
 }
 
-func registerNatives(operandStack *rtda.OperandStack) {
+func registerNatives(frame *rtda.Frame) {
     // todo
 }
 
 // hack
-func jvmgo_SystemOut_println(stack *rtda.OperandStack) {
+func jvmgo_SystemOut_println(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     str := stack.PopRef()
     this := stack.PopRef()
     this.Class()

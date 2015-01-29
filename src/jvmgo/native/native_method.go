@@ -5,4 +5,4 @@ import (
     //rtc "jvmgo/rtda/class"
 )
 
-type NativeMethod func(operandStack *rtda.OperandStack)
+type NativeMethod func(frame *rtda.Frame)

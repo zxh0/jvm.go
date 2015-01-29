@@ -16,8 +16,20 @@ func (self *Obj) Fields() (Any) {
 }
 
 func (self *Obj) IsInstanceOf(class *Class) (bool) {
-    // todo
-    return self.class == class
+    classLoader := self.class.classLoader
+    k := self.class 
+    for {
+        if k == class {
+            return true
+        }
+        if k.superClassName != "" {
+            k = classLoader.getClass(k.superClassName)
+        } else {
+            break;
+        }
+    }
+
+    return false
 }
 
 // todo

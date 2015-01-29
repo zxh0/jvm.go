@@ -4,8 +4,8 @@ import "jvmgo/rtda"
 
 // Multiply double
 type dmul struct {NoOperandsInstruction}
-func (self *dmul) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *dmul) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopDouble()
     v1 := stack.PopDouble()
     result := v1 * v2
@@ -14,8 +14,8 @@ func (self *dmul) Execute(thread *rtda.Thread) {
 
 // Multiply float
 type fmul struct {NoOperandsInstruction}
-func (self *fmul) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *fmul) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopFloat()
     v1 := stack.PopFloat()
     result := v1 * v2
@@ -24,8 +24,8 @@ func (self *fmul) Execute(thread *rtda.Thread) {
 
 // Multiply int
 type imul struct {NoOperandsInstruction}
-func (self *imul) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *imul) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopInt()
     v1 := stack.PopInt()
     result := v1 * v2
@@ -34,8 +34,8 @@ func (self *imul) Execute(thread *rtda.Thread) {
 
 // Multiply long
 type lmul struct {NoOperandsInstruction}
-func (self *lmul) Execute(thread *rtda.Thread) {
-    stack := thread.CurrentFrame().OperandStack()
+func (self *lmul) Execute(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     v2 := stack.PopLong()
     v1 := stack.PopLong()
     result := v1 * v2

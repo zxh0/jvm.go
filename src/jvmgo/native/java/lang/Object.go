@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-    jlObject    ("getClass",    "()Ljava/lang/Class;",  getClass)
+    jlObject("getClass",    "()Ljava/lang/Class;",  getClass)
 }
 
 func jlObject(name, desc string, method Any) {

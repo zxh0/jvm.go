@@ -7,9 +7,9 @@ import (
 )
 
 func init() {
-    jlClass ("getName0",                "()Ljava/lang/String;",         getName0)
-    jlClass ("getClassLoader0",         "()Ljava/lang/ClassLoader;",    getClassLoader0)
-    jlClass ("desiredAssertionStatus0", "(Ljava/lang/Class;)Z",         desiredAssertionStatus0)
+    jlClass("getName0",                 "()Ljava/lang/String;",         getName0)
+    jlClass("getClassLoader0",          "()Ljava/lang/ClassLoader;",    getClassLoader0)
+    jlClass("desiredAssertionStatus0",  "(Ljava/lang/Class;)Z",         desiredAssertionStatus0)
 }
 
 func jlClass(name, desc string, method Any) {

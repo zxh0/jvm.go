@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-    jlThrowable ("fillInStackTrace",    "(I)Ljava/lang/Throwable;", fillInStackTrace)
+    jlThrowable("fillInStackTrace", "(I)Ljava/lang/Throwable;", fillInStackTrace)
 }
 
 func jlThrowable(name, desc string, method Any) {

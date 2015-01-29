@@ -8,8 +8,7 @@ import (
 
 // Set field in object
 type putfield struct {Index16Instruction}
-func (self *putfield) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
+func (self *putfield) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     val := stack.Pop()
     ref := stack.PopRef()
@@ -27,9 +26,8 @@ func (self *putfield) Execute(thread *rtda.Thread) {
 
 // Set static field in class
 type putstatic struct {Index16Instruction}
-func (self *putstatic) Execute(thread *rtda.Thread) {
-    currentFrame := thread.CurrentFrame()
-    currentMethod := currentFrame.Method()
+func (self *putstatic) Execute(frame *rtda.Frame) {
+    currentMethod := frame.Method()
     currentClass := currentMethod.Class()
 
     cp := currentClass.ConstantPool()
@@ -39,12 +37,13 @@ func (self *putstatic) Execute(thread *rtda.Thread) {
     classOfField := field.Class()
     if classOfField.NotInitialized() {
         if classOfField != currentClass || !currentMethod.IsClinit() {
-            currentFrame.SetNextPC(thread.PC()) // undo putstatic
+            thread := frame.Thread()
+            frame.SetNextPC(thread.PC()) // undo putstatic
             initClass(classOfField, thread)
             return
         }
     }
 
-    val := currentFrame.OperandStack().Pop()
+    val := frame.OperandStack().Pop()
     field.PutStaticValue(val)
 }

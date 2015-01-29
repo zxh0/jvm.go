@@ -12,7 +12,7 @@ func (self *new_) Execute(frame *rtda.Frame) {
     cClass := cp.GetConstant(self.index).(*rtclass.ConstantClass)
     class := cClass.Class()
 
-    if class.NotInitialized() {
+    if class.InitializationNotStarted() {
         thread := frame.Thread()
         frame.SetNextPC(thread.PC())
         initClass(class, thread)
@@ -44,7 +44,7 @@ func (self *anewarray) Execute(frame *rtda.Frame) {
     class := cClass.Class()
     
     // todo
-    if class.NotInitialized() {
+    if class.InitializationNotStarted() {
         //frame.SetNextPC(thread.PC())
         //initClass(class, thread)
         //panic("class not initialized!"  + class.Name())

@@ -7,6 +7,11 @@ import (
     //"jvmgo/rtda"
 )
 
+const (
+    _initializing = 1
+    _initialized  = 2
+)
+
 type Class struct {
     obj                 *Obj // static fields live here
     jClass              *Obj // java.lang.Class instance
@@ -19,7 +24,7 @@ type Class struct {
     classLoader         *ClassLoader
     staticFieldCount    uint
     instanceFieldCount  uint
-    initialized         bool
+    state               int
     // todo
 }
 
@@ -43,11 +48,15 @@ func (self *Class) Name() (string) {
 func (self *Class) ClassLoader() (*ClassLoader) {
     return self.classLoader
 }
-func (self *Class) NotInitialized() (bool) {
-    return !self.initialized
+
+func (self *Class) InitializationNotStarted() (bool) {
+    return self.state < _initializing // todo
+}
+func (self *Class) MarkInitializing() {
+    self.state = _initializing
 }
 func (self *Class) MarkInitialized() {
-    self.initialized = true
+    self.state = _initialized
 }
 
 func (self *Class) GetField(name, descriptor string) (*Field) {

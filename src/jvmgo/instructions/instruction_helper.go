@@ -33,6 +33,7 @@ func initClass(class *rtc.Class, thread *rtda.Thread) {
             }
 
             // exec <clinit>
+            uninitedClass.MarkInitializing()
             newFrame := thread.NewFrame(clinit)
             newFrame.SetOnPopAction(func() {
                 uninitedClass.MarkInitialized()

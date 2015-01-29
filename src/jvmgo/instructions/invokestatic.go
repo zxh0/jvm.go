@@ -19,7 +19,7 @@ func (self *invokestatic) Execute(frame *rtda.Frame) {
 
     // init class
     classOfMethod := method.Class()
-    if classOfMethod.NotInitialized() {
+    if classOfMethod.InitializationNotStarted() {
         if classOfMethod != currentClass || !currentMethod.IsClinit() {
             currentFrame.SetNextPC(thread.PC())
             initClass(classOfMethod, thread)

@@ -16,7 +16,7 @@ func (self *instanceof) Execute(frame *rtda.Frame) {
     cClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
     class := cClass.Class()
 
-    if class.NotInitialized() {
+    if class.InitializationNotStarted() {
         // todo init class
         panic("class not initialized!" + class.Name())
     }

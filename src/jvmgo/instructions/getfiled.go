@@ -35,7 +35,7 @@ func (self *getstatic) Execute(frame *rtda.Frame) {
     field := cFieldRef.StaticField()
 
     classOfField := field.Class()
-    if classOfField.NotInitialized() {
+    if classOfField.InitializationNotStarted() {
         if classOfField != currentClass || !currentMethod.IsClinit() {
             thread := frame.Thread()
             frame.SetNextPC(thread.PC()) // undo getstatic

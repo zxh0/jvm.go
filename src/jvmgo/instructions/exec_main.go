@@ -70,7 +70,7 @@ func initVars(fakeRef *rtc.Obj) {
 func isBasicClassesReady(thread *rtda.Thread) (bool) {
     for _, className := range _basicClasses {
         class := _classLoader.LoadClass(className)
-        if class.NotInitialized() {
+        if class.InitializationNotStarted() {
             undoExec(thread)
             initClass(class, thread)
             return false

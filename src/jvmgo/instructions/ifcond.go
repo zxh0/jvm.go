@@ -4,49 +4,49 @@ import "jvmgo/rtda"
 
 // Branch if int comparison with zero succeeds 
 type ifeq struct {BranchInstruction}
-func (self *ifeq) Execute(thread *rtda.Thread) {
-    val := thread.CurrentFrame().OperandStack().PopInt()
+func (self *ifeq) Execute(frame *rtda.Frame) {
+    val := frame.OperandStack().PopInt()
     if val == 0 {
-        branch(thread, self.offset)
+        branch(frame, self.offset)
     }
 }
 
 type ifne struct {BranchInstruction}
-func (self *ifne) Execute(thread *rtda.Thread) {
-    val := thread.CurrentFrame().OperandStack().PopInt()
+func (self *ifne) Execute(frame *rtda.Frame) {
+    val := frame.OperandStack().PopInt()
     if val != 0 {
-        branch(thread, self.offset)
+        branch(frame, self.offset)
     }
 }
 
 type iflt struct {BranchInstruction}
-func (self *iflt) Execute(thread *rtda.Thread) {
-    val := thread.CurrentFrame().OperandStack().PopInt()
+func (self *iflt) Execute(frame *rtda.Frame) {
+    val := frame.OperandStack().PopInt()
     if val < 0 {
-        branch(thread, self.offset)
+        branch(frame, self.offset)
     }
 }
 
 type ifle struct {BranchInstruction}
-func (self *ifle) Execute(thread *rtda.Thread) {
-    val := thread.CurrentFrame().OperandStack().PopInt()
+func (self *ifle) Execute(frame *rtda.Frame) {
+    val := frame.OperandStack().PopInt()
     if val <= 0 {
-        branch(thread, self.offset)
+        branch(frame, self.offset)
     }
 }
 
 type ifgt struct {BranchInstruction}
-func (self *ifgt) Execute(thread *rtda.Thread) {
-    val := thread.CurrentFrame().OperandStack().PopInt()
+func (self *ifgt) Execute(frame *rtda.Frame) {
+    val := frame.OperandStack().PopInt()
     if val > 0 {
-        branch(thread, self.offset)
+        branch(frame, self.offset)
     }
 }
 
 type ifge struct {BranchInstruction}
-func (self *ifge) Execute(thread *rtda.Thread) {
-    val := thread.CurrentFrame().OperandStack().PopInt()
+func (self *ifge) Execute(frame *rtda.Frame) {
+    val := frame.OperandStack().PopInt()
     if val >= 0 {
-        branch(thread, self.offset)
+        branch(frame, self.offset)
     }
 }

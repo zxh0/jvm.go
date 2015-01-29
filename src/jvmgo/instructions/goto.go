@@ -4,8 +4,8 @@ import "jvmgo/rtda"
 
 // Branch always
 type goto_ struct {BranchInstruction}
-func (self *goto_) Execute(thread *rtda.Thread) {
-    branch(thread, self.offset)
+func (self *goto_) Execute(frame *rtda.Frame) {
+    branch(frame, self.offset)
 }
 
 // Branch always (wide index) 
@@ -15,6 +15,6 @@ type goto_w struct {
 func (self *goto_w) fetchOperands(bcr *BytecodeReader) {
     self.offset = int(bcr.readInt32())
 }
-func (self *goto_w) Execute(thread *rtda.Thread) {
-    branch(thread, self.offset)
+func (self *goto_w) Execute(frame *rtda.Frame) {
+    branch(frame, self.offset)
 }

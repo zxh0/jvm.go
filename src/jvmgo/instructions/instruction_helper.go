@@ -8,9 +8,9 @@ import (
     rtc "jvmgo/rtda/class"
 )
 
-func branch(thread *rtda.Thread, offset int) {
-    nextPC := thread.PC() + offset
-    thread.CurrentFrame().SetNextPC(nextPC)
+func branch(frame *rtda.Frame, offset int) {
+    nextPC := frame.Thread().PC() + offset
+    frame.SetNextPC(nextPC)
 }
 
 // todo: move to any.go?

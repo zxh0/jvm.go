@@ -27,9 +27,6 @@ func (self *invokevirtual) Execute(frame *rtda.Frame) {
     } else {
         newFrame := thread.NewFrame(method)
         thread.PushFrame(newFrame)
-
-        // pass args
-        argCount := 1 + method.ArgCount()
-        passArgs(stack, newFrame.LocalVars(), argCount)
+        passArgs(stack, newFrame.LocalVars(), method.ArgCount() + 1)
     }
 }

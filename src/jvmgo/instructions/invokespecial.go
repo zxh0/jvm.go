@@ -22,9 +22,6 @@ func (self *invokespecial) Execute(frame *rtda.Frame) {
         return
     }
 
-    // pass args
-    argCount := 1 + method.ArgCount()
-    passArgs(frame.OperandStack(), newFrame.LocalVars(), argCount)
-
+    passArgs(frame.OperandStack(), newFrame.LocalVars(), method.ArgCount() + 1)
     thread.PushFrame(newFrame)
 }

@@ -9,12 +9,12 @@ import (
 )
 
 func init() {
-    jlSystem("nanoTime",            "()J",                      nanoTime)
-    jlSystem("currentTimeMillis",   "()J",                      currentTimeMillis)
-    jlSystem("identityHashCode",    "(Ljava/lang/Object;)I",    identityHashCode)
+    _system("nanoTime",             "()J",                      nanoTime)
+    _system("currentTimeMillis",    "()J",                      currentTimeMillis)
+    _system("identityHashCode",     "(Ljava/lang/Object;)I",    identityHashCode)
 }
 
-func jlSystem(name, desc string, method Any) {
+func _system(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
 

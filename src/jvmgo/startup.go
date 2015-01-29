@@ -8,11 +8,6 @@ import (
     rtc "jvmgo/rtda/class"
 )
 
-// load native methods
-// func init() {
-//     var _ native.NativeMethod = nil
-// }
-
 func startJVM(cmd *cmdline.Command) {
     classPath := cmd.Options().Classpath()
     classLoader := rtc.NewClassLoader(classPath)

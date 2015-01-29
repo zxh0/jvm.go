@@ -19,7 +19,7 @@ func (self *invokedynamic) fetchOperands(bcr *BytecodeReader) {
     bcr.readUint8() // must be 0
     bcr.readUint8() // must be 0
 }
-func (self *invokedynamic) Execute(thread *rtda.Thread) {
+func (self *invokedynamic) Execute(frame *rtda.Frame) {
     // todo
     panic("todo invokedynamic")
 }

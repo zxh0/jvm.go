@@ -19,7 +19,7 @@ func (self *invokeinterface) fetchOperands(bcr *BytecodeReader) {
     self.count = bcr.readUint8()
     bcr.readUint8() // must be 0
 }
-func (self *invokeinterface) Execute(thread *rtda.Thread) {
+func (self *invokeinterface) Execute(frame *rtda.Frame) {
     // todo
     panic("todo invokeinterface")
 }

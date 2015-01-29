@@ -10,8 +10,8 @@ import (
 
 // Invoke instance method; dispatch based on class
 type invokevirtual struct {Index16Instruction}
-func (self *invokevirtual) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
+func (self *invokevirtual) Execute(frame *rtda.Frame) {
+    thread := frame.Thread()
     stack := frame.OperandStack()
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)

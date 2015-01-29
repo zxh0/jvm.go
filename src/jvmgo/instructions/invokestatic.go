@@ -8,8 +8,9 @@ import (
 
 // Invoke a class (static) method 
 type invokestatic struct {Index16Instruction}
-func (self *invokestatic) Execute(thread *rtda.Thread) {
-    currentFrame := thread.CurrentFrame()
+func (self *invokestatic) Execute(frame *rtda.Frame) {
+    thread := frame.Thread()
+    currentFrame := frame
     currentMethod := currentFrame.Method()
     currentClass := currentMethod.Class()
     cp := currentClass.ConstantPool()

@@ -13,7 +13,7 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
     stack.PushRef(ref)
 
     cp := frame.Method().Class().ConstantPool()
-    cClass := cp.GetConstant(self.index).(rtc.ConstantClass)
+    cClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
     class := cClass.Class()
     if class.InitializationNotStarted() {
         // todo init class

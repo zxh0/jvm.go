@@ -30,10 +30,13 @@ func (self *ClassLoader) Init() {
     }
 }
 
-// todo GetClass
+// todo dangerous
 func (self *ClassLoader) getClass(name string) (*Class) {
-    // todo
-    return self.classMap[name]
+    class := self.classMap[name]
+    if class == nil {
+        panic("class not loaded! " + name)
+    }
+    return class
 }
 
 func (self *ClassLoader) StringClass() (*Class) {

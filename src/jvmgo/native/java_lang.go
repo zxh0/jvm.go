@@ -11,7 +11,6 @@ import (
 // register native methods
 func init() {
     rtc.SetRegisterNatives(registerNatives)
-    jlObject    ("getClass",                "()Ljava/lang/Class;",          getClass)
     jlClass     ("getName0",                "()Ljava/lang/String;",         getName0)
     jlClass     ("getClassLoader0",         "()Ljava/lang/ClassLoader;",    getClassLoader0)
     jlClass     ("desiredAssertionStatus0", "(Ljava/lang/Class;)Z",         desiredAssertionStatus0)
@@ -24,21 +23,11 @@ func registerNatives(operandStack *rtda.OperandStack) {
     // todo
 }
 
-func jlObject(name, desc string, method Any) {
-    rtc.RegisterNativeMethod("java/lang/Object", name, desc, method)
-}
 func jlClass(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
 }
 func jlThrowable(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
-}
-
-// java.lang.Object
-func getClass(stack *rtda.OperandStack) {
-    this := stack.PopRef()
-    class := this.Class().JClass()
-    stack.PushRef(class)
 }
 
 // java.lang.Class

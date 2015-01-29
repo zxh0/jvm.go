@@ -29,7 +29,14 @@ func checkArrIndex(index, len int) {
     }
 }
 
-func passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {
+func invokeMethod(method * rtc.Method, thread *rtda.Thread) {
+    currentFrame := thread.CurrentFrame()
+    newFrame := thread.NewFrame(method)
+    thread.PushFrame(newFrame)
+    _passArgs(currentFrame.OperandStack(), newFrame.LocalVars(), method.ActualArgCount())
+}
+
+func _passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {
     if argCount > 0 {
         args := stack.PopN(argCount)
         for i, j := uint(0), uint(0); i < argCount; i++ {

@@ -43,13 +43,13 @@ func (self *Method) NativeMethod() (Any) {
 
 // argCount for static method
 // argCount+1 for instance method
-// func (self *Method) ActualArgCount() (uint) {
-//     if (self.IsStatic()) {
-//         return self.argCount
-//     } else {
-//         return self.argCount + 1
-//     }
-// }
+func (self *Method) ActualArgCount() (uint) {
+    if (self.IsStatic()) {
+        return self.argCount
+    } else {
+        return self.argCount + 1
+    }
+}
 
 func (self *Method) IsClinit() (bool) {
     return self.name == clinitMethodName && self.descriptor == clinitMethodDesc

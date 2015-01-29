@@ -1,5 +1,7 @@
 package rtda
 
+import rtc "jvmgo/rtda/class"
+
 /*
 JVM
   Thread
@@ -44,6 +46,10 @@ func (self *Thread) PopFrame() (*Frame) {
         top.onPopAction()
     }
     return top
+}
+
+func (self *Thread) NewFrame(method *rtc.Method) (*Frame) {
+    return newFrame(self, method)
 }
 
 func NewThread(maxStackSize int) (*Thread) {

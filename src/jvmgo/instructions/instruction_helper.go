@@ -53,7 +53,7 @@ func initClass(class *rtc.Class, thread *rtda.Thread) {
             }
 
             // exec <clinit>
-            newFrame := rtda.NewFrame(clinit)
+            newFrame := thread.NewFrame(clinit)
             newFrame.SetOnPopAction(func() {
                 uninitedClass.MarkInitialized()
             })
@@ -76,7 +76,7 @@ func newJString(goStr string, thread *rtda.Thread) {
     // init string
     codePoints := string2CodePoints(goStr)
     initMethod := stringClass.GetMethod("<init>", "([III)V") //public String(int[] codePoints, int offset, int count)
-    newFrame := rtda.NewFrame(initMethod)
+    newFrame := thread.NewFrame(initMethod)
     localVars := newFrame.LocalVars()
     localVars.SetRef(0, jStr) // this
     localVars.SetRef(1, rtc.NewIntArray(codePoints))

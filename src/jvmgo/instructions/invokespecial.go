@@ -13,7 +13,7 @@ func (self *invokespecial) Execute(thread *rtda.Thread) {
     cp := frame.Method().Class().ConstantPool()
     cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
     method := cMethodRef.SpecialMethod()
-    newFrame := rtda.NewFrame(method)
+    newFrame := thread.NewFrame(method)
 
     if method.IsNative() {
         // exec native method

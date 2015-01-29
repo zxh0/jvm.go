@@ -4,6 +4,7 @@ import (
     . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
+    //_ "jvmgo/instructions"
 )
 
 func init() {
@@ -17,6 +18,10 @@ func _ac(name, desc string, method Any) {
 //doPrivileged(Ljava/security/PrivilegedAction;)Ljava/lang/Object;
 //public static native <T> T doPrivileged(PrivilegedAction<T> action);
 func doPrivileged(operandStack *rtda.OperandStack) {
+    action := operandStack.PopRef()
+    action.Class()
+
+
     // todo
     panic("doPrivileged")
 }

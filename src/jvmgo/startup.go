@@ -18,12 +18,12 @@ func startJVM(cmd *cmdline.Command) {
 func createMainThread(classLoader Any, className string, args []string) (*rtda.Thread) {
     fakeFields := []Any{classLoader, className, args}
     fakeRef := rtc.NewObj(fakeFields)
-
     fakeMethod := rtc.NewStartupMethod([]byte{0xff, 0xb1}, classLoader)
-    fakeFrame := rtda.NewFrame(fakeMethod)
-    fakeFrame.OperandStack().PushRef(fakeRef)
 
     mainThread := rtda.NewThread(128)
-    mainThread.PushFrame(fakeFrame)
+    mainFrame := mainThread.NewFrame(fakeMethod)
+    mainFrame.OperandStack().PushRef(fakeRef)
+    mainThread.PushFrame(mainFrame)
+
     return mainThread
 }

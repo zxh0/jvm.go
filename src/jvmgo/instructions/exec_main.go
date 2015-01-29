@@ -45,7 +45,7 @@ func (self *exec_main) Execute(thread *rtda.Thread) {
     mainClass := _classLoader.LoadClass(_mainClassName)
     mainMethod := mainClass.GetMainMethod()
     if mainMethod != nil {
-        newFrame := rtda.NewFrame(mainMethod)
+        newFrame := thread.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
         args := rtc.NewRefArrayOfElements(_jArgs)
         newFrame.LocalVars().SetRef(0, args)

@@ -25,7 +25,7 @@ func (self *invokevirtual) Execute(thread *rtda.Thread) {
         nativeMethod := method.NativeMethod().(func(*rtda.OperandStack))
         nativeMethod(stack)
     } else {
-        newFrame := rtda.NewFrame(method)
+        newFrame := thread.NewFrame(method)
         thread.PushFrame(newFrame)
 
         // pass args

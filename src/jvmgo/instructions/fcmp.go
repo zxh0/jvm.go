@@ -4,17 +4,17 @@ import "jvmgo/rtda"
 
 // Compare float
 type fcmpg struct {NoOperandsInstruction}
-func (self *fcmpg) Execute(thread *rtda.Thread) {
-    _fcmp(thread, true)
+func (self *fcmpg) Execute(frame *rtda.Frame) {
+    _fcmp(frame, true)
 }
 
 type fcmpl struct {NoOperandsInstruction}
-func (self *fcmpl) Execute(thread *rtda.Thread) {
-    _fcmp(thread, false)
+func (self *fcmpl) Execute(frame *rtda.Frame) {
+    _fcmp(frame, false)
 }
 
-func _fcmp(thread *rtda.Thread, gFlag bool) {
-    stack := thread.CurrentFrame().OperandStack()
+func _fcmp(frame *rtda.Frame, gFlag bool) {
+    stack := frame.OperandStack()
     v2 := stack.PopFloat()
     v1 := stack.PopFloat()
     if v1 > v2 {

@@ -12,6 +12,10 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
     ref := stack.PopRef()
     stack.PushRef(ref)
 
+    if ref == nil {
+        return
+    }
+
     cp := frame.Method().Class().ConstantPool()
     cClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
     class := cClass.Class()
@@ -21,7 +25,7 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
     }
 
     // todo
-    if !_instanceof(ref, class) {
+    if !ref.IsInstanceOf(class) {
         // todo ClassCastException
         panic("ClassCastException")
     }

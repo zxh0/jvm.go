@@ -21,18 +21,11 @@ func (self *instanceof) Execute(frame *rtda.Frame) {
         panic("class not initialized!" + class.Name())
     }
 
-    // todo
-    if _instanceof(ref, class) {
+    if ref == nil {
+        stack.PushInt(0)
+    } else if ref.IsInstanceOf(class) {
         stack.PushInt(1)
     } else {
         stack.PushInt(0)
-    }
-}
-
-func _instanceof(ref *rtc.Obj, class *rtc.Class) (bool) {
-    if ref == nil {
-        return false
-    } else {
-        return ref.Class() == class
     }
 }

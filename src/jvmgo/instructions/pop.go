@@ -1,6 +1,9 @@
 package instructions
 
-import "jvmgo/rtda"
+import (
+    "jvmgo/any"
+    "jvmgo/rtda"
+)
 
 // Pop the top operand stack value
 type pop struct {NoOperandsInstruction}
@@ -13,7 +16,7 @@ type pop2 struct {NoOperandsInstruction}
 func (self *pop2) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     val1 := stack.Pop()
-    if !isLongOrDouble(val1) {
+    if !any.IsLongOrDouble(val1) {
         stack.Pop()
     }
 }

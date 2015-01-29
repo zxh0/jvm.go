@@ -3,7 +3,7 @@ package instructions
 import (
     //"log"
     "unicode/utf8"
-    . "jvmgo/any"
+    //. "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
 )
@@ -13,39 +13,10 @@ func branch(frame *rtda.Frame, offset int) {
     frame.SetNextPC(nextPC)
 }
 
-// todo: move to any.go?
-func isLongOrDouble(x Any) (bool) {
-    switch x.(type) {
-    case int64: return true
-    case float64: return true
-    default: return false
-    }
-}
-
 // todo
 func checkArrIndex(index, len int) {
     if index < 0 || index >= len {
         panic("ArrayIndexOutOfBoundsException")
-    }
-}
-
-func invokeMethod(method * rtc.Method, thread *rtda.Thread) {
-    currentFrame := thread.CurrentFrame()
-    newFrame := thread.NewFrame(method)
-    thread.PushFrame(newFrame)
-    _passArgs(currentFrame.OperandStack(), newFrame.LocalVars(), method.ActualArgCount())
-}
-
-func _passArgs(stack *rtda.OperandStack, vars *rtda.LocalVars, argCount uint) {
-    if argCount > 0 {
-        args := stack.PopN(argCount)
-        for i, j := uint(0), uint(0); i < argCount; i++ {
-            arg := args[i]
-            vars.Set(i + j, arg)
-            if isLongOrDouble(arg) {
-                j++
-            }
-        }
     }
 }
 

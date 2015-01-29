@@ -25,6 +25,6 @@ func (self *invokevirtual) Execute(frame *rtda.Frame) {
         nativeMethod := method.NativeMethod().(func(*rtda.Frame))
         nativeMethod(frame)
     } else {
-        invokeMethod(method, thread)
+        thread.InvokeMethod(method)
     }
 }

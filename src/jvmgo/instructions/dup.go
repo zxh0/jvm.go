@@ -1,6 +1,9 @@
 package instructions
 
-import "jvmgo/rtda"
+import (
+    "jvmgo/any"
+    "jvmgo/rtda"
+)
 
 // Duplicate the top operand stack value
 type dup struct {NoOperandsInstruction}
@@ -28,7 +31,7 @@ func (self *dup_x2) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     val1 := stack.Pop()
     val2 := stack.Pop()
-    if isLongOrDouble(val2) {
+    if any.IsLongOrDouble(val2) {
         // form2
         stack.Push(val1)
         stack.Push(val2)
@@ -48,7 +51,7 @@ type dup2 struct {NoOperandsInstruction}
 func (self *dup2) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     val1 := stack.Pop()
-    if isLongOrDouble(val1) {
+    if any.IsLongOrDouble(val1) {
         // form2
         stack.Push(val1)
         stack.Push(val1)
@@ -67,7 +70,7 @@ type dup2_x1 struct {NoOperandsInstruction}
 func (self *dup2_x1) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     val1 := stack.Pop()
-    if isLongOrDouble(val1) {
+    if any.IsLongOrDouble(val1) {
         // form2
         val2 := stack.Pop()
         stack.Push(val1)
@@ -91,8 +94,8 @@ func (self *dup2_x2) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     val1 := stack.Pop()
     val2 := stack.Pop()
-    if isLongOrDouble(val1) {
-        if isLongOrDouble(val2) {
+    if any.IsLongOrDouble(val1) {
+        if any.IsLongOrDouble(val2) {
             // form4
             //.., value2, value1 →
             //..., value1, value2, value1
@@ -111,7 +114,7 @@ func (self *dup2_x2) Execute(frame *rtda.Frame) {
         }
     } else {
         val3 := stack.Pop()
-        if isLongOrDouble(val3) {
+        if any.IsLongOrDouble(val3) {
             // form3
             //..., value3, value2, value1 →
             //..., value2, value1, value3, value2, value1

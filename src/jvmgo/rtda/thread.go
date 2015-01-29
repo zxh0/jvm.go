@@ -1,6 +1,9 @@
 package rtda
 
-import rtc "jvmgo/rtda/class"
+import (
+    "jvmgo/any"
+    rtc "jvmgo/rtda/class"
+)
 
 /*
 JVM
@@ -47,6 +50,28 @@ func (self *Thread) PopFrame() (*Frame) {
     }
     return top
 }
+
+
+func (self *Thread) InvokeMethod(method * rtc.Method) {
+    currentFrame := self.CurrentFrame()
+    newFrame := self.NewFrame(method)
+    self.PushFrame(newFrame)
+    _passArgs(currentFrame.OperandStack(), newFrame.LocalVars(), method.ActualArgCount())
+}
+
+func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
+    if argCount > 0 {
+        args := stack.PopN(argCount)
+        for i, j := uint(0), uint(0); i < argCount; i++ {
+            arg := args[i]
+            vars.Set(i + j, arg)
+            if any.IsLongOrDouble(arg) {
+                j++
+            }
+        }
+    }
+}
+
 
 func (self *Thread) NewFrame(method *rtc.Method) (*Frame) {
     return newFrame(self, method)

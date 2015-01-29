@@ -21,5 +21,5 @@ func (self *invokespecial) Execute(frame *rtda.Frame) {
         return
     }
 
-    invokeMethod(method, thread)
+    thread.InvokeMethod(method)
 }

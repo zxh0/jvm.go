@@ -36,6 +36,7 @@ func newAttributeInfo(attrName string, attrLen uint32) (AttributeInfo) {
     case "Code":                        return &CodeAttribute{}
     case "ConstantValue":               return &ConstantValueAttribute{}
     case "Deprecated":                  return &DeprecatedAttribute{}
+    case "EnclosingMethod":             return &EnclosingMethodAttribute{}
     case "Exceptions":                  return &ExceptionsAttribute{}
     case "InnerClasses":                return &InnerClassesAttribute{}
     case "LineNumberTable":             return &LineNumberTableAttribute{}

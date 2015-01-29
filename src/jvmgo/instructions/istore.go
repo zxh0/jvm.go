@@ -4,31 +4,31 @@ import "jvmgo/rtda"
 
 // Store int into local variable 
 type istore struct {Index8Instruction}
-func (self *istore) Execute(thread *rtda.Thread) {
-    _istore(thread, uint(self.index))
+func (self *istore) Execute(frame *rtda.Frame) {
+    _istore(frame, uint(self.index))
 }
 
 type istore_0 struct {NoOperandsInstruction}
-func (self *istore_0) Execute(thread *rtda.Thread) {
-    _istore(thread, 0)
+func (self *istore_0) Execute(frame *rtda.Frame) {
+    _istore(frame, 0)
 }
 
 type istore_1 struct {NoOperandsInstruction}
-func (self *istore_1) Execute(thread *rtda.Thread) {
-    _istore(thread, 1)
+func (self *istore_1) Execute(frame *rtda.Frame) {
+    _istore(frame, 1)
 }
 
 type istore_2 struct {NoOperandsInstruction}
-func (self *istore_2) Execute(thread *rtda.Thread) {
-    _istore(thread, 2)
+func (self *istore_2) Execute(frame *rtda.Frame) {
+    _istore(frame, 2)
 }
 
 type istore_3 struct {NoOperandsInstruction}
-func (self *istore_3) Execute(thread *rtda.Thread) {
-    _istore(thread, 3)
+func (self *istore_3) Execute(frame *rtda.Frame) {
+    _istore(frame, 3)
 }
 
-func _istore(thread *rtda.Thread, index uint) {
-    val := thread.CurrentFrame().OperandStack().PopInt()
-    thread.CurrentFrame().LocalVars().SetInt(index, val)
+func _istore(frame *rtda.Frame, index uint) {
+    val := frame.OperandStack().PopInt()
+    frame.LocalVars().SetInt(index, val)
 }

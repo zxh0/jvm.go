@@ -13,8 +13,8 @@ func (self *iinc) fetchOperands(bcr *BytecodeReader) {
     self._const = bcr.readInt8()
 }
 
-func (self *iinc) Execute(thread *rtda.Thread) {
-    localVars := thread.CurrentFrame().LocalVars()
+func (self *iinc) Execute(frame *rtda.Frame) {
+    localVars := frame.LocalVars()
     index := uint(self.index)
     val := localVars.GetInt(index)
     val += int32(self._const)

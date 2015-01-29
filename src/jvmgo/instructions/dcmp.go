@@ -4,17 +4,17 @@ import "jvmgo/rtda"
 
 // Compare double
 type dcmpg struct {NoOperandsInstruction}
-func (self *dcmpg) Execute(thread *rtda.Thread) {
-    _dcmp(thread, true)
+func (self *dcmpg) Execute(frame *rtda.Frame) {
+    _dcmp(frame, true)
 }
 
 type dcmpl struct {NoOperandsInstruction}
-func (self *dcmpl) Execute(thread *rtda.Thread) {
-    _dcmp(thread, false)
+func (self *dcmpl) Execute(frame *rtda.Frame) {
+    _dcmp(frame, false)
 }
 
-func _dcmp(thread *rtda.Thread, gFlag bool) {
-    stack := thread.CurrentFrame().OperandStack()
+func _dcmp(frame *rtda.Frame, gFlag bool) {
+    stack := frame.OperandStack()
     v2 := stack.PopDouble()
     v1 := stack.PopDouble()
     if v1 > v2 {

@@ -4,13 +4,20 @@ public class AThrow {
 
     public static void main(String[] args) {
         try {
-            throw new RuntimeException("**RE!");
+            foo();
         } catch (RuntimeException e) {
+            System.out.println("main!!");
             System.out.println(e.getMessage());
         }
-//        RuntimeException e = new RuntimeException();
-//        System.out.println("OK!");
-//        e.fillInStackTrace();
+    }
+    
+    static void foo() {
+        try {
+            throw new RuntimeException("foo!");
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException("bar!");
+        }
     }
     
 }

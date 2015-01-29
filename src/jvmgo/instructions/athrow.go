@@ -8,20 +8,29 @@ import (
 // Throw exception or error
 type athrow struct {NoOperandsInstruction}
 func (self *athrow) Execute(thread *rtda.Thread) {
-    frame := thread.CurrentFrame()
-    stack := frame.OperandStack()
-
-    ex := frame.OperandStack().PopRef()
+    ex := thread.CurrentFrame().OperandStack().PopRef()
     if ex == nil {
         // todo NPE
         panic("athrow NPE")
     }
 
-    handler := frame.Method().FindExceptionHandler(ex.Class(), thread.PC())
-    if handler != nil {
-        stack.PushRef(ex)
-        frame.SetNextPC(handler.HandlerPc())
-        return
+    for {
+        frame := thread.CurrentFrame()
+        stack := frame.OperandStack()
+
+        handler := frame.Method().FindExceptionHandler(ex.Class(), thread.PC())
+        if handler != nil {
+            stack.PushRef(ex)
+            frame.SetNextPC(handler.HandlerPc())
+            return
+        }
+
+        thread.PopFrame()
+        if !thread.IsStackEmpty() {
+            thread.SetPC(thread.TopFrame().NextPC())
+        } else {
+            break;
+        }
     }
 
     // todo

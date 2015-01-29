@@ -36,9 +36,9 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
     // todo create PrintStream
 
     // System.out
-    stdout := _classLoader.LoadClass("jvmgo/SystemOut").NewObj()
     sysClass := _classLoader.LoadClass("java/lang/System")
     outField := sysClass.GetField("out", "Ljava/io/PrintStream;")
+    stdout := _classLoader.LoadClass("jvmgo/SystemOut").NewObj()
     outField.PutStaticValue(stdout)
 
     // exec main()
@@ -62,6 +62,7 @@ func initVars(fakeRef *rtc.Obj) {
     _basicClasses = []string{
         "java/lang/Class",
         "java/lang/String",
+        "java/lang/System",
         "java/io/PrintStream",
         "jvmgo/SystemOut",
         _mainClassName}

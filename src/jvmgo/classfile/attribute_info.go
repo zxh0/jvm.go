@@ -45,9 +45,11 @@ func newAttributeInfo(attrName string, attrLen uint32) (AttributeInfo) {
     case "RuntimeInvisibleAnnotations":             return &AnnotationsAttribute{}
     case "RuntimeInvisibleParameterAnnotations":    return &ParameterAnnotationsAttribute{}
     case "RuntimeVisibleAnnotations":               return &AnnotationsAttribute{}
+    case "RuntimeVisibleParameterAnnotations":      return &ParameterAnnotationsAttribute{}
     case "Signature":                               return &SignatureAttribute{}
     case "SourceFile":                              return &SourceFileAttribute{}
     case "StackMapTable":                           return &UndefinedAttribute{attrLen} // todo
+    case "Synthetic":                               return &SyntheticAttribute{}
     default: panic("BAD attr name:" + attrName) // todo
     }
 }

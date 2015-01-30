@@ -42,8 +42,8 @@ func newAttributeInfo(attrName string, attrLen uint32) (AttributeInfo) {
     case "LineNumberTable":             return &LineNumberTableAttribute{}
     case "LocalVariableTable":          return &LocalVariableTableAttribute{}
     case "LocalVariableTypeTable":      return &LocalVariableTypeTableAttribute{}
-    case "RuntimeInvisibleAnnotations": return &RuntimeVisibleAnnotationsAttribute{}
-    case "RuntimeVisibleAnnotations":   return &RuntimeVisibleAnnotationsAttribute{}
+    case "RuntimeInvisibleAnnotations": return &AnnotationsAttribute{}
+    case "RuntimeVisibleAnnotations":   return &AnnotationsAttribute{}
     case "Signature":                   return &SignatureAttribute{}
     case "SourceFile":                  return &SourceFileAttribute{}
     case "StackMapTable":               return &UndefinedAttribute{attrLen} // todo

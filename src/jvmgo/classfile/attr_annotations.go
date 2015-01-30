@@ -12,11 +12,17 @@ RuntimeVisibleAnnotations_attribute {
     u2         num_annotations;
     annotation annotations[num_annotations];
 }
+RuntimeInvisibleAnnotations_attribute {
+    u2         attribute_name_index;
+    u4         attribute_length;
+    u2         num_annotations;
+    annotation annotations[num_annotations];
+}
 */
-type RuntimeVisibleAnnotationsAttribute struct {
+type AnnotationsAttribute struct {
     annotations []*Annotation
 }
-func (self *RuntimeVisibleAnnotationsAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *AnnotationsAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
     numAnnotations := reader.readUint16()
     self.annotations = make([]*Annotation, numAnnotations)
     for i := range self.annotations {

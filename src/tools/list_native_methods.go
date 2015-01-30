@@ -17,7 +17,7 @@ func main() {
 }
 
 func handleJar(jarFileName string) {
-    fmt.Printf("jar: %v\n", jarFileName)
+    //fmt.Printf("jar: %v\n", jarFileName)
 
     // open jar
     r, err := zip.OpenReader(jarFileName) // func OpenReader(name string) (*ReadCloser, error)
@@ -29,9 +29,23 @@ func handleJar(jarFileName string) {
     // find classes
     for _, f := range r.File {
         if strings.HasSuffix(f.Name, ".class") {
-            handleClass(f)
+            if !skip(f.Name) {
+                handleClass(f)
+            }
         }
     }
+}
+
+func skip(className string) (bool) {
+    return strings.HasPrefix(className, "apple") ||
+            strings.HasPrefix(className, "com/apple") ||
+            strings.HasPrefix(className, "com/sun/java/swing") ||
+            strings.HasPrefix(className, "com/sun/media/sound") ||
+            strings.HasPrefix(className, "sun/awt") ||
+            strings.HasPrefix(className, "sun/font") ||
+            strings.HasPrefix(className, "sun/java2d") ||
+            strings.HasPrefix(className, "sun/lwawt/macosx") ||
+            strings.HasPrefix(className, "java/awt") 
 }
 
 func handleClass(f *zip.File) {

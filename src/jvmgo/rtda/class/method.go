@@ -64,7 +64,7 @@ func (self *Method) IsRegisterNatives() (bool) {
 func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
     method := &Method{}
     method.class = class
-    method.accessFlags = methodInfo.AccessFlags()
+    method.SetAccessFlags(methodInfo.GetAccessFlags())
     method.name = methodInfo.Name()
     method.descriptor = methodInfo.Descriptor()
     method.argCount = methodInfo.ArgCount()

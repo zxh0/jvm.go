@@ -31,7 +31,7 @@ func (self *Field) PutStaticValue(val Any) {
 func newField(class *Class, fieldInfo *cf.FieldInfo) (*Field) {
     field := &Field{}
     field.class = class
-    field.accessFlags = fieldInfo.AccessFlags()
+    field.SetAccessFlags(fieldInfo.GetAccessFlags())
     field.name = fieldInfo.Name()
     field.descriptor = fieldInfo.Descriptor()
     return field

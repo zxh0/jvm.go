@@ -1,4 +1,4 @@
-package class
+package classfile
 
 const (
     ACC_PUBLIC          = 0x0001
@@ -24,6 +24,13 @@ const (
 // todo move to classfile
 type AccessFlags struct {
     accessFlags uint16
+}
+
+func (self *AccessFlags) GetAccessFlags() (uint16) {
+    return self.accessFlags
+}
+func (self *AccessFlags) SetAccessFlags(flags uint16) {
+    self.accessFlags = flags
 }
 
 func (self *AccessFlags) IsPublic() (bool) {

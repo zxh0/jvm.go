@@ -1,5 +1,10 @@
 package classfile
 
+type MarkerAttribute struct {}
+func (self *MarkerAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+    // read nothing
+}
+
 /*
 Deprecated_attribute {
     u2 attribute_name_index;
@@ -7,11 +12,7 @@ Deprecated_attribute {
 }
 */
 type DeprecatedAttribute struct {
-
-}
-
-func (self *DeprecatedAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
-    // read nothing
+    MarkerAttribute
 }
 
 /*
@@ -21,9 +22,5 @@ Synthetic_attribute {
 }
 */
 type SyntheticAttribute struct {
-
-}
-
-func (self *SyntheticAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
-    // read nothing
+    MarkerAttribute
 }

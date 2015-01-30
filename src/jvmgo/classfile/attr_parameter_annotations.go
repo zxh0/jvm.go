@@ -23,7 +23,7 @@ type ParameterAnnotationsAttribute struct {
     parameterAnnotations [][]*Annotation
 }
 
-func (self *ParameterAnnotationsAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *ParameterAnnotationsAttribute) readInfo(reader *ClassReader) {
     numParameters := reader.readUint8()
     self.parameterAnnotations = make([][]*Annotation, numParameters)
 

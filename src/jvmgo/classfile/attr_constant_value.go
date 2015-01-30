@@ -11,6 +11,6 @@ type ConstantValueAttribute struct {
     constantValueIdex uint16
 }
 
-func (self *ConstantValueAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *ConstantValueAttribute) readInfo(reader *ClassReader) {
     self.constantValueIdex = reader.readUint16()
 }

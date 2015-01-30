@@ -11,6 +11,6 @@ type AnnotationDefaultAttribute struct {
     elementValue *ElementValue
 }
 
-func (self *AnnotationDefaultAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *AnnotationDefaultAttribute) readInfo(reader *ClassReader) {
     self.elementValue = readElementValue(reader)
 }

@@ -1,7 +1,7 @@
 package classfile
 
 type MarkerAttribute struct {}
-func (self *MarkerAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *MarkerAttribute) readInfo(reader *ClassReader) {
     // read nothing
 }
 

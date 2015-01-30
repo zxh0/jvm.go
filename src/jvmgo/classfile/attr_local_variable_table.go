@@ -25,7 +25,7 @@ type LocalVariableTableEntry struct {
     index           uint16
 }
 
-func (self *LocalVariableTableAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *LocalVariableTableAttribute) readInfo(reader *ClassReader) {
     LocalVariableTableLength := reader.readUint16()
     self.LocalVariableTable = make([]*LocalVariableTableEntry, LocalVariableTableLength)
     for i := uint16(0); i < LocalVariableTableLength; i++ {

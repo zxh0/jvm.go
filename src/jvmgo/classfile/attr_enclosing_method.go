@@ -13,7 +13,7 @@ type EnclosingMethodAttribute struct {
     methodIndex uint16
 }
 
-func (self *EnclosingMethodAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *EnclosingMethodAttribute) readInfo(reader *ClassReader) {
     self.classIndex = reader.readUint16()
     self.methodIndex = reader.readUint16()
 }

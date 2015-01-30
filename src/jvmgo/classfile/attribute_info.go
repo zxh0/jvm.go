@@ -10,7 +10,7 @@ attribute_info {
 }
 */
 type AttributeInfo interface {
-    readInfo(reader *ClassReader, cp *ConstantPool)
+    readInfo(reader *ClassReader)
 }
 
 func readAttributes(reader *ClassReader, cp *ConstantPool) ([]AttributeInfo) {
@@ -26,15 +26,15 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) (AttributeInfo) {
     attrNameIndex := reader.readUint16()
     attrLen := reader.readUint32()
     attrName := cp.getUtf8(attrNameIndex)
-    attrInfo := newAttributeInfo(attrName, attrLen)
-    attrInfo.readInfo(reader, cp)
+    attrInfo := newAttributeInfo(attrName, attrLen, cp)
+    attrInfo.readInfo(reader)
     return attrInfo
 }
 
-func newAttributeInfo(attrName string, attrLen uint32) (AttributeInfo) {
+func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) (AttributeInfo) {
     switch attrName {
     case "AnnotationDefault":                       return &AnnotationDefaultAttribute{}
-    case "Code":                                    return &CodeAttribute{}
+    case "Code":                                    return &CodeAttribute{cp: cp}
     case "ConstantValue":                           return &ConstantValueAttribute{}
     case "Deprecated":                              return &DeprecatedAttribute{}
     case "EnclosingMethod":                         return &EnclosingMethodAttribute{}

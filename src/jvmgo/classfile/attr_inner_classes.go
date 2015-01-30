@@ -15,7 +15,7 @@ InnerClasses_attribute {
 type InnerClassesAttribute struct {
     classes []*InnerClassInfo
 }
-func (self *InnerClassesAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *InnerClassesAttribute) readInfo(reader *ClassReader) {
     numberOfClasses := reader.readUint16()
     self.classes = make([]*InnerClassInfo, numberOfClasses)
     for i := range self.classes {

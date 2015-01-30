@@ -11,6 +11,6 @@ type SignatureAttribute struct {
     signatureIndex uint16
 }
 
-func (self *SignatureAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *SignatureAttribute) readInfo(reader *ClassReader) {
     self.signatureIndex = reader.readUint16()
 }

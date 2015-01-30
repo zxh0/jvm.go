@@ -22,7 +22,7 @@ RuntimeInvisibleAnnotations_attribute {
 type AnnotationsAttribute struct {
     annotations []*Annotation
 }
-func (self *AnnotationsAttribute) readInfo(reader *ClassReader, cp *ConstantPool) {
+func (self *AnnotationsAttribute) readInfo(reader *ClassReader) {
     numAnnotations := reader.readUint16()
     self.annotations = make([]*Annotation, numAnnotations)
     for i := range self.annotations {

@@ -3,7 +3,10 @@ package main
 import (
     "archive/zip"
     "fmt"
+    "io/ioutil"
     "os"
+    "strings"
+    "jvmgo/classfile"
 )
 
 func main() {
@@ -23,21 +26,40 @@ func handleJar(jarFileName string) {
     }
     defer r.Close()
 
-    // find class
+    // find classes
     for _, f := range r.File {
-        fmt.Printf("%v\n", f.Name)
-        // if f.Name == className {
-        //     rc, err := f.Open() // func (f *File) Open() (rc io.ReadCloser, err error)
-        //     if err != nil {
-        //         return nil, err
-        //     }
-        //     // read class data
-        //     data, err := ioutil.ReadAll(rc) // func ReadAll(r io.Reader) ([]byte, error)
-        //     rc.Close()
-        //     if err != nil {
-        //         return nil, err
-        //     }
-        //     return data, nil
-        // }
+        if strings.HasSuffix(f.Name, ".class") {
+            handleClass(f)
+        }
     }
+}
+
+func handleClass(f *zip.File) {
+    //fmt.Printf("%v\n", f.Name)
+    
+    // open classfile
+    rc, err := f.Open() // func (f *File) Open() (rc io.ReadCloser, err error)
+    if err != nil {
+        panic(err.Error())
+    }
+
+    // read class data
+    data, err := ioutil.ReadAll(rc) // func ReadAll(r io.Reader) ([]byte, error)
+    rc.Close()
+    if err != nil {
+        panic(err.Error())
+    }
+
+    // parse classfile
+    cf, err := classfile.ParseClassFile(data)
+    if err != nil {
+        panic(err.Error())
+    }
+
+    handleClassfile(cf)
+}
+
+func handleClassfile(cf *classfile.ClassFile) {
+    fmt.Printf("%v\n", cf)
+
 }

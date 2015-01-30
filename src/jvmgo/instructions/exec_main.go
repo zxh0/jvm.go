@@ -37,6 +37,12 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
 
     // System.out
     sysClass := _classLoader.LoadClass("java/lang/System")
+    propsField := sysClass.GetField("props", "Ljava/util/Properties;")
+    props := propsField.GetStaticValue()
+    if props == nil {
+        sysClass.GetStaticMethod("", "")
+    }
+
     outField := sysClass.GetField("out", "Ljava/io/PrintStream;")
     stdout := _classLoader.LoadClass("jvmgo/SystemOut").NewObj()
     outField.PutStaticValue(stdout)

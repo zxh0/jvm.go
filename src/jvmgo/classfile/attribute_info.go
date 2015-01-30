@@ -33,20 +33,21 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) (AttributeInfo) {
 
 func newAttributeInfo(attrName string, attrLen uint32) (AttributeInfo) {
     switch attrName {
-    case "Code":                        return &CodeAttribute{}
-    case "ConstantValue":               return &ConstantValueAttribute{}
-    case "Deprecated":                  return &DeprecatedAttribute{}
-    case "EnclosingMethod":             return &EnclosingMethodAttribute{}
-    case "Exceptions":                  return &ExceptionsAttribute{}
-    case "InnerClasses":                return &InnerClassesAttribute{}
-    case "LineNumberTable":             return &LineNumberTableAttribute{}
-    case "LocalVariableTable":          return &LocalVariableTableAttribute{}
-    case "LocalVariableTypeTable":      return &LocalVariableTypeTableAttribute{}
-    case "RuntimeInvisibleAnnotations": return &AnnotationsAttribute{}
-    case "RuntimeVisibleAnnotations":   return &AnnotationsAttribute{}
-    case "Signature":                   return &SignatureAttribute{}
-    case "SourceFile":                  return &SourceFileAttribute{}
-    case "StackMapTable":               return &UndefinedAttribute{attrLen} // todo
+    case "Code":                                    return &CodeAttribute{}
+    case "ConstantValue":                           return &ConstantValueAttribute{}
+    case "Deprecated":                              return &DeprecatedAttribute{}
+    case "EnclosingMethod":                         return &EnclosingMethodAttribute{}
+    case "Exceptions":                              return &ExceptionsAttribute{}
+    case "InnerClasses":                            return &InnerClassesAttribute{}
+    case "LineNumberTable":                         return &LineNumberTableAttribute{}
+    case "LocalVariableTable":                      return &LocalVariableTableAttribute{}
+    case "LocalVariableTypeTable":                  return &LocalVariableTypeTableAttribute{}
+    case "RuntimeInvisibleAnnotations":             return &AnnotationsAttribute{}
+    case "RuntimeInvisibleParameterAnnotations":    return &ParameterAnnotationsAttribute{}
+    case "RuntimeVisibleAnnotations":               return &AnnotationsAttribute{}
+    case "Signature":                               return &SignatureAttribute{}
+    case "SourceFile":                              return &SourceFileAttribute{}
+    case "StackMapTable":                           return &UndefinedAttribute{attrLen} // todo
     default: panic("BAD attr name:" + attrName) // todo
     }
 }

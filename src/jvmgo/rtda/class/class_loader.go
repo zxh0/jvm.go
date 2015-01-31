@@ -56,11 +56,12 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
 func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     //log.Printf("load: %v", name)
     class := self.parseClassFile(name)
-    class.classLoader = self
     self.loadSuperClassAndInterfaces(class)
     calcStaticFieldSlots(class)
     calcInstanceFieldSlots(class)
     prepare(class)
+    // todo
+    class.classLoader = self
     self.classMap[name] = class
 
     jlClassClass := self.classMap[jlClassName]

@@ -11,12 +11,8 @@ const (
 )
 
 type Class struct {
-    obj                 *Obj // static fields live here
-    jClass              *Obj // java.lang.Class instance
-    superClass          *Class
     constantPool        *ConstantPool
-    classLoader         *ClassLoader // defining class loader
-    name                string
+    name                string // thisClassName
     superClassName      string
     interfaceNames      []string
     fields              []*Field
@@ -24,13 +20,13 @@ type Class struct {
     staticFieldCount    uint
     instanceFieldCount  uint
     state               int
+    obj                 *Obj // static fields live here
+    jClass              *Obj // java.lang.Class instance
+    superClass          *Class
+    classLoader         *ClassLoader // defining class loader
     // todo
 }
 
-// todo
-func (self *Class) Obj() (*Obj) {
-    return self.obj
-}
 func (self *Class) JClass() (*Obj) {
     return self.jClass
 }

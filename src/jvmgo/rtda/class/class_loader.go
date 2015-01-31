@@ -112,8 +112,7 @@ func (self *ClassLoader) initStaticFields(class *Class) {
 func (self *ClassLoader) initInstanceFields(class *Class) {
     slotId := uint(0)
     if class.superClassName != "" {
-        superClass := self.getClass(class.superClassName)
-        slotId = superClass.instanceFieldCount
+        slotId = class.superClass.instanceFieldCount
     }
     for _, field := range class.fields {
         if !field.IsStatic() {

@@ -61,8 +61,7 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     calcStaticFieldSlots(class)
     calcInstanceFieldSlots(class)
     self.classMap[name] = class
-    class.staticFieldValues = make([]Any, class.staticFieldCount)
-    class.zeroStaticFields()
+    prepare(class)
 
     jlClassClass := self.classMap[jlClassName]
     if jlClassClass != nil {
@@ -121,6 +120,11 @@ func calcInstanceFieldSlots(class *Class) {
         }
     }
     class.instanceFieldCount = slotId
+}
+
+func prepare(class *Class) {
+    class.staticFieldValues = make([]Any, class.staticFieldCount)
+    class.zeroStaticFields()
 }
 
 func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {

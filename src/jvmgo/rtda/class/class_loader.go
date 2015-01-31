@@ -124,13 +124,9 @@ func calcInstanceFieldSlots(class *Class) {
 
 func prepare(class *Class) {
     class.staticFieldValues = make([]Any, class.staticFieldCount)
-    zeroStaticFields(class)
-}
-
-func zeroStaticFields(class *Class) {
-    for _, f := range class.fields {
-        if f.IsStatic() {
-            class.staticFieldValues[f.slot] = f.zeroValue()
+    for _, field := range class.fields {
+        if field.IsStatic() {
+            class.staticFieldValues[field.slot] = field.zeroValue()
         }
     }
 }

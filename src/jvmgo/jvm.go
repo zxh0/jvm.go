@@ -1,49 +1,33 @@
 package main
 
 import (
-    // "fmt"
-    // "jvmgo/classfile"
-    // "jvmgo/classpath"
-    // "jvmgo/rtda"
-    // "jvmgo/rtda/class"
-    // "jvmgo/instructions"
+    . "jvmgo/any"
+    "jvmgo/cmdline"
+    _ "jvmgo/native"
+    "jvmgo/rtda"
+    rtc "jvmgo/rtda/class"
 )
 
 type JVM struct {
-    //cp          *classpath.ClassPath
-    //methodArea  *rtda.MethodArea
-    //heap        *rtda.Heap
+    // todo
 }
 
-// func (self *JVM) startup(className string) {
-//     self.heap = rtda.NewHeap()
-//     self.loadClass(className)
-//     // todo
-//     // load class
-//     // find main method
-//     // execute main
-// }
+func (self JVM) startup(cmd *cmdline.Command) {
+    classPath := cmd.Options().Classpath()
+    classLoader := rtc.NewClassLoader(classPath)
+    mainThread := createMainThread(classLoader, cmd.Class(), cmd.Args())
+    loop(mainThread)
+}
 
-// func (self *JVM) loadClass(className string) {
-//     data, err := self.cp.ReadClassData(className)
-//     if err != nil {
-//         // todo
-//         panic(err.Error())
-//     }
+func createMainThread(classLoader Any, className string, args []string) (*rtda.Thread) {
+    fakeFields := []Any{classLoader, className, args}
+    fakeRef := rtc.NewObj(fakeFields)
+    fakeMethod := rtc.NewStartupMethod([]byte{0xff, 0xb1}, classLoader)
 
-//     cr := classfile.NewClassReader(data)
-//     cf, err := classfile.ParseClassFile(cr)
-//     if err != nil {
-//         // todo
-//         panic(err.Error())
-//     }
-    
-//     class := class.NewClass(cf)
-//     fmt.Printf("class: %v \n", class)
+    mainThread := rtda.NewThread(128)
+    mainFrame := mainThread.NewFrame(fakeMethod)
+    mainFrame.OperandStack().PushRef(fakeRef)
+    mainThread.PushFrame(mainFrame)
 
-//     // exec main()
-//     var bcr *instructions.BytecodeReader = nil
-//     if bcr == nil {
-        
-//     }
-// }
+    return mainThread
+}

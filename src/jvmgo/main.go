@@ -10,6 +10,7 @@ func main() {
     if err != nil {
         cmdline.PrintUsage()
     } else {
-        startJVM(cmd)
+        jvm := JVM{}
+        jvm.startup(cmd)
     }
 }

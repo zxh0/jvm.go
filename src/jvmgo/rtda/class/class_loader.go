@@ -98,6 +98,17 @@ func (self *ClassLoader) loadSuperClassAndInterfaces(class *Class) {
     }
 }
 
+func (self *ClassLoader) initStaticFields(class *Class) {
+    slotId := uint(0)
+    for _, f := range class.fields {
+        if f.IsStatic() {
+            f.slot = uint(slotId)
+            slotId++
+        }
+    }
+    class.staticFieldCount = slotId
+}
+
 func (self *ClassLoader) initInstanceFields(class *Class) {
     slotId := uint(0)
     if class.superClassName != "" {
@@ -111,17 +122,6 @@ func (self *ClassLoader) initInstanceFields(class *Class) {
         }
     }
     class.instanceFieldCount = slotId
-}
-
-func (self *ClassLoader) initStaticFields(class *Class) {
-    slotId := uint(0)
-    for _, f := range class.fields {
-        if f.IsStatic() {
-            f.slot = uint(slotId)
-            slotId++
-        }
-    }
-    class.staticFieldCount = slotId
 }
 
 func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {

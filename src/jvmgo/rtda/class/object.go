@@ -34,12 +34,13 @@ func (self *Obj) IsInstanceOf(class *Class) (bool) {
     return false
 }
 
+// todo
 func (self *Obj) zeroFields() {
     fields := self.fields.([]Any)
     for class := self.class; class != nil; class = class.superClass {
         for _, f := range class.fields {
             if !f.IsStatic() {
-                fields[f.slot] = f.zeroValue()
+                fields[f.slot] = f.defaultValue()
             }
         }
     }

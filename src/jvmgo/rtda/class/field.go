@@ -26,8 +26,8 @@ func (self *Field) PutStaticValue(val Any) {
     self.class.staticFieldValues[self.slot] = val
 }
 
-func (self *Field) zeroValue() (Any) {
-    return zeroValue(self.descriptor)
+func (self *Field) defaultValue() (Any) {
+    return defaultValue(self.descriptor)
 }
 
 func newField(class *Class, fieldInfo *cf.FieldInfo) (*Field) {

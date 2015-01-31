@@ -127,7 +127,7 @@ func prepare(class *Class) {
     class.staticFieldValues = make([]Any, class.staticFieldCount)
     for _, field := range class.fields {
         if field.IsStatic() {
-            class.staticFieldValues[field.slot] = field.zeroValue()
+            class.staticFieldValues[field.slot] = field.defaultValue()
         }
     }
 }

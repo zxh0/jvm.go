@@ -2,7 +2,7 @@ package class
 
 import . "jvmgo/any"
 
-func zeroValue(fieldDescriptor string) (Any) {
+func defaultValue(fieldDescriptor string) (Any) {
     switch fieldDescriptor[0] {
     case 'Z': // boolean
         fallthrough

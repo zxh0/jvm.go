@@ -3,8 +3,6 @@ package class
 import (
     //"fmt"
     . "jvmgo/any"
-    //"jvmgo/classfile"
-    //"jvmgo/rtda"
 )
 
 const (
@@ -98,15 +96,18 @@ func (self *Class) NewObj() (*Obj) {
     if self.instanceFieldCount > 0 {
         fields := make([]Any, self.instanceFieldCount)
         obj := &Obj{self, fields}
-        obj.init()
+        obj.zeroFields()
         return obj
     } else {
         return &Obj{self, nil}
     }
 }
 
-// func newClass() (*Class) {
-//     class := &Class{}
-//     class.obj = &Obj{class:class} 
-//     return class
-// }
+func (self *Class) zeroStaticFields() {
+    staticFields := self.obj.fields.([]Any)
+    for _, f := range self.fields {
+        if f.IsStatic() {
+            staticFields[f.slot] = f.zeroValue()
+        }
+    }
+}

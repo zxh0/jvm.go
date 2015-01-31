@@ -34,7 +34,7 @@ func (self *Obj) IsInstanceOf(class *Class) (bool) {
     return false
 }
 
-func (self *Obj) init() {
+func (self *Obj) zeroFields() {
     fields := self.fields.([]Any)
     for class := self.class; class != nil; class = class.superClass {
         for _, f := range class.fields {

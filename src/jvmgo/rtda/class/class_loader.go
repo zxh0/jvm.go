@@ -100,9 +100,9 @@ func (self *ClassLoader) loadSuperClassAndInterfaces(class *Class) {
 
 func initStaticFields(class *Class) {
     slotId := uint(0)
-    for _, f := range class.fields {
-        if f.IsStatic() {
-            f.slot = uint(slotId)
+    for _, field := range class.fields {
+        if field.IsStatic() {
+            field.slot = slotId
             slotId++
         }
     }

@@ -57,3 +57,12 @@ func calcArgCount(descriptor string) (uint) {
 
     return uint(count)
 }
+
+// todo
+// func IsBaseType(fieldDescriptor string) (bool) {
+//     switch fieldDescriptor[0] {
+//     case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z':
+//         return true
+//     default: return false
+//     }
+// }

@@ -1,6 +1,8 @@
 package class
 
-import . "jvmgo/any"
+import (
+    . "jvmgo/any"
+)
 
 // object
 type Obj struct {
@@ -30,6 +32,17 @@ func (self *Obj) IsInstanceOf(class *Class) (bool) {
     }
 
     return false
+}
+
+func (self *Obj) init() {
+    fields := self.fields.([]Any)
+    for class := self.class; class != nil; class = class.superClass {
+        for _, f := range class.fields {
+            if !f.IsStatic() {
+                fields[f.slot] = f.zeroValue()
+            }
+        }
+    }
 }
 
 // todo

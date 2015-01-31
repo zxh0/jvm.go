@@ -13,6 +13,7 @@ const (
 )
 
 type Class struct {
+    superClass          *Class
     obj                 *Obj // static fields live here
     jClass              *Obj // java.lang.Class instance
     constantPool        *ConstantPool
@@ -96,7 +97,9 @@ func (self *Class) GetMethod(name, descriptor string) (*Method) {
 func (self *Class) NewObj() (*Obj) {
     if self.instanceFieldCount > 0 {
         fields := make([]Any, self.instanceFieldCount)
-        return &Obj{self, fields}
+        obj := &Obj{self, fields}
+        obj.init()
+        return obj
     } else {
         return &Obj{self, nil}
     }

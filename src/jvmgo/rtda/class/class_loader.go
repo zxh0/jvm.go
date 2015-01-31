@@ -90,7 +90,7 @@ func (self *ClassLoader) parseClassFile(name string) (class *Class) {
 // todo
 func (self *ClassLoader) loadSuperClassAndInterfaces(class *Class) {
     if class.superClassName != "" {
-        self.LoadClass(class.superClassName)
+        class.superClass = self.LoadClass(class.superClassName)
     }
     for _, interfaceName := range class.interfaceNames {
         self.LoadClass(interfaceName)

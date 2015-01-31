@@ -28,6 +28,10 @@ func (self *Field) PutStaticValue(val Any) {
     fields[self.slot] = val
 }
 
+func (self *Field) zeroValue() (Any) {
+    return zeroValue(self.descriptor)
+}
+
 func newField(class *Class, fieldInfo *cf.FieldInfo) (*Field) {
     field := &Field{}
     field.class = class

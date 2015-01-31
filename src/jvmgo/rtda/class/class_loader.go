@@ -14,6 +14,7 @@ const (
     jlStringName = "java/lang/String"
 )
 
+// the bootstrap class loader
 type ClassLoader struct {
     classPath   *classpath.ClassPath
     classMap    map[string]*Class
@@ -56,7 +57,8 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
 func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     //log.Printf("load: %v", name)
     class := self.parseClassFile(name)
-    self.loadSuperClassAndInterfaces(class)
+    self.resolveSuperClass(class)
+    self.resolveInterfaces(class)
     calcStaticFieldSlots(class)
     calcInstanceFieldSlots(class)
     prepare(class)
@@ -89,10 +91,12 @@ func (self *ClassLoader) parseClassFile(name string) (class *Class) {
 }
 
 // todo
-func (self *ClassLoader) loadSuperClassAndInterfaces(class *Class) {
+func (self *ClassLoader) resolveSuperClass(class *Class) {
     if class.superClassName != "" {
         class.superClass = self.LoadClass(class.superClassName)
     }
+}
+func (self *ClassLoader) resolveInterfaces(class *Class) {
     for _, interfaceName := range class.interfaceNames {
         self.LoadClass(interfaceName)
     }

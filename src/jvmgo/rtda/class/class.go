@@ -26,14 +26,15 @@ type Class struct {
     classLoader         *ClassLoader // defining class loader
 }
 
-func (self *Class) JClass() (*Obj) {
-    return self.jClass
-}
 func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool
 }
 func (self *Class) Name() (string) {
     return self.name
+}
+
+func (self *Class) JClass() (*Obj) {
+    return self.jClass
 }
 func (self *Class) ClassLoader() (*ClassLoader) {
     return self.classLoader

@@ -58,8 +58,8 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     class := self.parseClassFile(name)
     class.classLoader = self
     self.loadSuperClassAndInterfaces(class)
-    self.initStaticFields(class)
-    self.initInstanceFields(class)
+    initStaticFields(class)
+    initInstanceFields(class)
     self.classMap[name] = class
     class.staticFieldValues = make([]Any, class.staticFieldCount)
     class.zeroStaticFields()
@@ -98,7 +98,7 @@ func (self *ClassLoader) loadSuperClassAndInterfaces(class *Class) {
     }
 }
 
-func (self *ClassLoader) initStaticFields(class *Class) {
+func initStaticFields(class *Class) {
     slotId := uint(0)
     for _, f := range class.fields {
         if f.IsStatic() {
@@ -109,7 +109,7 @@ func (self *ClassLoader) initStaticFields(class *Class) {
     class.staticFieldCount = slotId
 }
 
-func (self *ClassLoader) initInstanceFields(class *Class) {
+func initInstanceFields(class *Class) {
     slotId := uint(0)
     if class.superClassName != "" {
         slotId = class.superClass.instanceFieldCount

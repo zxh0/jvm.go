@@ -27,10 +27,6 @@ type Class struct {
     // todo
 }
 
-// func (self *Class) Fields() ([]*Field){
-//     return self.fields
-// }
-
 // todo
 func (self *Class) Obj() (*Obj) {
     return self.obj

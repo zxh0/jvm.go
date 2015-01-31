@@ -9,10 +9,10 @@ import (
 )
 
 func init() {
-    _ac("doPrivileged", "(Ljava/security/PrivilegedAction;)Ljava/lang/Object;", doPrivileged)
+    _ac(doPrivileged, "doPrivileged", "(Ljava/security/PrivilegedAction;)Ljava/lang/Object;")
 }
 
-func _ac(name, desc string, method Any) {
+func _ac(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/security/AccessController", name, desc, method)
 }
 

@@ -7,10 +7,10 @@ import (
 )
 
 func init() {
-    _throwable("fillInStackTrace",  "(I)Ljava/lang/Throwable;", fillInStackTrace)
+    _throwable(fillInStackTrace, "fillInStackTrace", "(I)Ljava/lang/Throwable;")
 }
 
-func _throwable(name, desc string, method Any) {
+func _throwable(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
 }
 

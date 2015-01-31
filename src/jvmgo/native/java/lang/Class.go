@@ -7,13 +7,13 @@ import (
 )
 
 func init() {
-    _class("desiredAssertionStatus0",   "(Ljava/lang/Class;)Z",                     desiredAssertionStatus0)
-    _class("getClassLoader0",           "()Ljava/lang/ClassLoader;",                getClassLoader0)
-    _class("getName0",                  "()Ljava/lang/String;",                     getName0)
-    _class("getPrimitiveClass",         "(Ljava/lang/String;)Ljava/lang/Class;",    getPrimitiveClass)
+    _class(desiredAssertionStatus0, "desiredAssertionStatus0",  "(Ljava/lang/Class;)Z")
+    _class(getClassLoader0,         "getClassLoader0",          "()Ljava/lang/ClassLoader;")
+    _class(getName0,                "getName0",                 "()Ljava/lang/String;")
+    _class(getPrimitiveClass,       "getPrimitiveClass",        "(Ljava/lang/String;)Ljava/lang/Class;")
 }
 
-func _class(name, desc string, method Any) {
+func _class(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
 }
 

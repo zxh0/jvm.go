@@ -9,13 +9,13 @@ import (
 )
 
 func init() {
-    _system("arraycopy",            "(Ljava/lang/Object;ILjava/lang/Object;II)V",   arraycopy)
-    _system("currentTimeMillis",    "()J",                                          currentTimeMillis)
-    _system("identityHashCode",     "(Ljava/lang/Object;)I",                        identityHashCode)
-    _system("nanoTime",             "()J",                                          nanoTime)
+    _system(arraycopy,          "arraycopy",            "(Ljava/lang/Object;ILjava/lang/Object;II)V")
+    _system(currentTimeMillis,  "currentTimeMillis",    "()J")
+    _system(identityHashCode,   "identityHashCode",     "(Ljava/lang/Object;)I")
+    _system(nanoTime,           "nanoTime",             "()J")
 }
 
-func _system(name, desc string, method Any) {
+func _system(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
 

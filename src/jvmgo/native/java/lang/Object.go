@@ -7,10 +7,10 @@ import (
 )
 
 func init() {
-    _object("getClass", "()Ljava/lang/Class;",  getClass)
+    _object(getClass, "getClass", "()Ljava/lang/Class;")
 }
 
-func _object(name, desc string, method Any) {
+func _object(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/lang/Object", name, desc, method)
 }
 

@@ -11,16 +11,16 @@ const (
 )
 
 type Class struct {
-    superClass          *Class
     obj                 *Obj // static fields live here
     jClass              *Obj // java.lang.Class instance
+    superClass          *Class
     constantPool        *ConstantPool
+    classLoader         *ClassLoader // defining class loader
     name                string
     superClassName      string
     interfaceNames      []string
     fields              []*Field
     methods             []*Method
-    classLoader         *ClassLoader
     staticFieldCount    uint
     instanceFieldCount  uint
     state               int

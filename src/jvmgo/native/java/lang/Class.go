@@ -39,5 +39,7 @@ func getName0(frame *rtda.Frame) {
 //getPrimitiveClass(Ljava/lang/String;)Ljava/lang/Class;
 func getPrimitiveClass(frame *rtda.Frame) {
     // todo
-    panic("getPrimitiveClass")
+    stack := frame.OperandStack()
+    _ = stack.PopRef() // name
+    stack.PushRef(nil) // todo
 }

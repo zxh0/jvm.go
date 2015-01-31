@@ -28,6 +28,20 @@ func arraycopy(frame *rtda.Frame) {
     dest := stack.PopRef()
     srcPos := stack.PopInt()
     src := stack.PopRef()
+
+    // NullPointerException
+    if src == nil || dest == nil {
+        panic("NPE") // todo
+    }
+    // ArrayStoreException
+    if !rtc.IsArray(src) || !rtc.IsArray(dest) {
+        panic("ArrayStoreException")
+    }
+    // IndexOutOfBoundsException
+    if srcPos < 0 || destPos < 0 || length < 0 {
+        panic("IndexOutOfBoundsException") // todo
+    }
+
     rtc.ArrayCopy(src, dest, srcPos, destPos, length)
 }
 

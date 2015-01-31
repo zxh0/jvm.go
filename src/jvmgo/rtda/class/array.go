@@ -38,6 +38,11 @@ func NewIntArray(ints []int32) (*Obj) {
     return &Obj{nil, ints}
 }
 
+// todo
+func IsArray(obj *Obj) (bool) {
+    return obj.class == nil
+}
+
 func ArrayLength(arr *Obj) (int32) {
     switch arr.fields.(type) {
         case []int8: return int32(len(arr.fields.([]int8)))
@@ -53,6 +58,9 @@ func ArrayLength(arr *Obj) (int32) {
 }
 
 func ArrayCopy(src, dest *Obj, srcPos, destPos, length int32) {
+
+
+
     // todo
     panic("ArrayCopy")
 }

@@ -84,10 +84,40 @@ func ArrayLength(arr *Obj) (int32) {
     }
 }
 
-func ArrayCopy(src, dest *Obj, srcPos, destPos, length int32) {
-
-
-
-    // todo
-    panic("ArrayCopy")
+func ArrayCopy(src, dst *Obj, srcPos, dstPos, length int32) {
+    switch src.fields.(type) {
+        case []int8: 
+            _src := src.fields.([]int8)[srcPos:srcPos+length]
+            _dst := dst.fields.([]int8)[dstPos:dstPos+length]
+            copy(_dst, _src)
+        case []int16:
+            _src := src.fields.([]int16)[srcPos:srcPos+length]
+            _dst := dst.fields.([]int16)[dstPos:dstPos+length]
+            copy(_dst, _src)
+        case []int32:
+            _src := src.fields.([]int32)[srcPos:srcPos+length]
+            _dst := dst.fields.([]int32)[dstPos:dstPos+length]
+            copy(_dst, _src)
+        case []int64:
+            _src := src.fields.([]int64)[srcPos:srcPos+length]
+            _dst := dst.fields.([]int64)[dstPos:dstPos+length]
+            copy(_dst, _src)
+        case []uint16:
+            _src := src.fields.([]uint16)[srcPos:srcPos+length]
+            _dst := dst.fields.([]uint16)[dstPos:dstPos+length]
+            copy(_dst, _src)
+        case []float32:
+            _src := src.fields.([]float32)[srcPos:srcPos+length]
+            _dst := dst.fields.([]float32)[dstPos:dstPos+length]
+            copy(_dst, _src)
+        case []float64:
+            _src := src.fields.([]float64)[srcPos:srcPos+length]
+            _dst := dst.fields.([]float64)[dstPos:dstPos+length]
+            copy(_dst, _src)
+        case []*Obj:
+            _src := src.fields.([]*Obj)[srcPos:srcPos+length]
+            _dst := dst.fields.([]*Obj)[dstPos:dstPos+length]
+            copy(_dst, _src)
+        default: panic("Not array!") // todo
+    }
 }

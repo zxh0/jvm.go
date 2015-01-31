@@ -6,6 +6,7 @@ public class StringBuilderTest {
         
         StringBuilder sb = new StringBuilder();
         sb.append("abc");
+        System.out.println(sb.toString());
     }
     
     private static int threadInitNumber;

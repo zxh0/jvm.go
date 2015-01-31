@@ -34,7 +34,7 @@ func arraycopy(frame *rtda.Frame) {
         panic("NPE") // todo
     }
     // ArrayStoreException
-    if !rtc.IsArray(src) || !rtc.IsArray(dest) {
+    if !rtc.HaveSameArrayType(src, dest) {
         panic("ArrayStoreException")
     }
     // IndexOutOfBoundsException

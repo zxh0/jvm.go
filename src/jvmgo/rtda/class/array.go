@@ -51,3 +51,8 @@ func ArrayLength(arr *Obj) (int32) {
         default: panic("Not array!") // todo
     }
 }
+
+func ArrayCopy(src, dest *Obj, srcPos, destPos, length int32) {
+    // todo
+    panic("ArrayCopy")
+}

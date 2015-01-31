@@ -9,13 +9,26 @@ import (
 )
 
 func init() {
-    _system("currentTimeMillis",    "()J",                      currentTimeMillis)
-    _system("identityHashCode",     "(Ljava/lang/Object;)I",    identityHashCode)
-    _system("nanoTime",             "()J",                      nanoTime)
+    _system("arraycopy",            "(Ljava/lang/Object;ILjava/lang/Object;II)V",   arraycopy)
+    _system("currentTimeMillis",    "()J",                                          currentTimeMillis)
+    _system("identityHashCode",     "(Ljava/lang/Object;)I",                        identityHashCode)
+    _system("nanoTime",             "()J",                                          nanoTime)
 }
 
 func _system(name, desc string, method Any) {
     rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
+}
+
+//arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+//public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+func arraycopy(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    length := stack.PopInt()
+    destPos := stack.PopInt()
+    dest := stack.PopRef()
+    srcPos := stack.PopInt()
+    src := stack.PopRef()
+    rtc.ArrayCopy(src, dest, srcPos, destPos, length)
 }
 
 func currentTimeMillis(frame *rtda.Frame) {

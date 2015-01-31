@@ -19,12 +19,11 @@ type Class struct {
     methods             []*Method
     staticFieldCount    uint
     instanceFieldCount  uint
+    staticFieldValues   []Any
     state               int
-    obj                 *Obj // static fields live here
     jClass              *Obj // java.lang.Class instance
     superClass          *Class
     classLoader         *ClassLoader // defining class loader
-    // todo
 }
 
 func (self *Class) JClass() (*Obj) {
@@ -96,10 +95,9 @@ func (self *Class) NewObj() (*Obj) {
 }
 
 func (self *Class) zeroStaticFields() {
-    staticFields := self.obj.fields.([]Any)
     for _, f := range self.fields {
         if f.IsStatic() {
-            staticFields[f.slot] = f.zeroValue()
+            self.staticFieldValues[f.slot] = f.zeroValue()
         }
     }
 }

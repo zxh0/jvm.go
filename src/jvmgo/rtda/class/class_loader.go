@@ -61,7 +61,7 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     self.initStaticFields(class)
     self.initInstanceFields(class)
     self.classMap[name] = class
-    class.obj = &Obj{class, make([]Any, class.staticFieldCount)}
+    class.staticFieldValues = make([]Any, class.staticFieldCount)
     class.zeroStaticFields()
 
     jlClassClass := self.classMap[jlClassName]

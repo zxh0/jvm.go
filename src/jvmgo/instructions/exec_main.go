@@ -43,6 +43,7 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
         initSys := sysClass.GetStaticMethod("initializeSystemClass", "()V")
         undoExec(thread)
         thread.InvokeMethod(initSys)
+        return
     }
 
     outField := sysClass.GetField("out", "Ljava/io/PrintStream;")

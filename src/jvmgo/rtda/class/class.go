@@ -94,11 +94,3 @@ func (self *Class) NewObj() (*Obj) {
         return &Obj{self, nil}
     }
 }
-
-func (self *Class) zeroStaticFields() {
-    for _, f := range self.fields {
-        if f.IsStatic() {
-            self.staticFieldValues[f.slot] = f.zeroValue()
-        }
-    }
-}

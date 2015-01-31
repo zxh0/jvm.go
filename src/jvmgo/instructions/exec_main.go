@@ -40,7 +40,9 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
     propsField := sysClass.GetField("props", "Ljava/util/Properties;")
     props := propsField.GetStaticValue()
     if props == nil {
-        sysClass.GetStaticMethod("", "")
+        initSys := sysClass.GetStaticMethod("initializeSystemClass", "()V")
+        undoExec(thread)
+        thread.InvokeMethod(initSys)
     }
 
     outField := sysClass.GetField("out", "Ljava/io/PrintStream;")

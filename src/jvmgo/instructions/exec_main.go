@@ -129,6 +129,7 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         return false
     }
     if thread.JThread() == nil {
+        undoExec(thread)
         threadClass := _classLoader.LoadClass("java/lang/Thread")
         mainThread := threadClass.NewObj()
         threadClass.GetField("priority", "I").PutValue(mainThread, int32(1))

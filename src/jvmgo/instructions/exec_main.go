@@ -105,7 +105,7 @@ func isJArgsReady(thread *rtda.Thread) (bool) {
             undoExec(thread)
             n := len(_jArgs)
             _jArgs = _jArgs[:n + 1]
-            _jArgs[n] = newJString(_args[n], thread)
+            _jArgs[n] = rtda.NewJString(_args[n], thread)
             return false
         }
     }
@@ -125,7 +125,7 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
     }
     if _mainThreadName == nil {
         undoExec(thread)
-        _mainThreadName = newJString("main", thread)
+        _mainThreadName = rtda.NewJString("main", thread)
         return false
     }
     if thread.JThread() == nil {

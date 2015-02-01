@@ -17,7 +17,6 @@ func _thread(method Any, name, desc string) {
 // public static native Thread currentThread();
 // ()Ljava/lang/Thread;
 func currentThread(frame *rtda.Frame) {
-    // stack := frame.OperandStack()
-    // todo
-    panic("currentThread()")
+    jThread := frame.Thread().JThread()
+    frame.OperandStack().PushRef(jThread)
 }

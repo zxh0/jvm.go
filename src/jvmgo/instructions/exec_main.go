@@ -34,9 +34,9 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
     if !isJArgsReady(thread) {
         return
     }
-    // if !isMainThreadReady(thread) {
-    //     return
-    // }
+    if !isMainThreadReady(thread) {
+        return
+    }
     
     // todo create PrintStream
 
@@ -116,9 +116,9 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
     stack := thread.CurrentFrame().OperandStack()
     if _mainThreadGroup == nil {
         undoExec(thread)
-        threadGroupClass := _classLoader.LoadClass("java/lang/ThreadGroup")
-        _mainThreadGroup = threadGroupClass.NewObj()
-        initMethod := threadGroupClass.GetMethod("<init>", "()V")
+        jThreadGroupClass := _classLoader.LoadClass("java/lang/ThreadGroup")
+        _mainThreadGroup = jThreadGroupClass.NewObj()
+        initMethod := jThreadGroupClass.GetMethod("<init>", "()V")
         stack.PushRef(_mainThreadGroup) // this
         thread.InvokeMethod(initMethod)
         return false
@@ -129,11 +129,12 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         return false
     }
     if thread.JThread() == nil {
-        threadClass := _classLoader.LoadClass("java/lang/Thread")
-        mainThread := threadClass.NewObj()
+        jThreadClass := _classLoader.LoadClass("java/lang/Thread")
+        mainThread := jThreadClass.NewObj()
+        //jThreadClass.GetField("priority", "I").SetValue(mainThread, int32(1))
         thread.SetJThread(mainThread)
 
-        initMethod := threadClass.GetMethod("<init>", "(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
+        initMethod := jThreadClass.GetMethod("<init>", "(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
         stack.PushRef(mainThread) // this
         stack.PushRef(_mainThreadGroup) // group
         stack.PushRef(_mainThreadName) // name

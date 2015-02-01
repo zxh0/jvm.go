@@ -48,12 +48,10 @@ func initClass(class *rtc.Class, thread *rtda.Thread) {
 }
 
 func newJString(goStr string, thread *rtda.Thread) (*rtc.Obj) {
-    currentFrame := thread.CurrentFrame()
-
     // new string
-    stringClass := currentFrame.Method().Class().ClassLoader().StringClass()
+    stringClass := thread.CurrentFrame().Method().Class().ClassLoader().StringClass()
     jStr := stringClass.NewObj()
-    //currentFrame.OperandStack().PushRef(jStr)
+    
     // init string
     codePoints := string2CodePoints(goStr)
     initMethod := stringClass.GetMethod("<init>", "([III)V") //public String(int[] codePoints, int offset, int count)

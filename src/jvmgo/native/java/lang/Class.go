@@ -17,6 +17,8 @@ func _class(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
 }
 
+// private static native boolean desiredAssertionStatus0(Class<?> clazz);
+// (Ljava/lang/Class;)Z
 func desiredAssertionStatus0(frame *rtda.Frame) {
     // todo
     stack := frame.OperandStack()
@@ -24,6 +26,8 @@ func desiredAssertionStatus0(frame *rtda.Frame) {
     stack.PushBoolean(false)
 }
 
+// native ClassLoader getClassLoader0();
+// ()Ljava/lang/ClassLoader;
 func getClassLoader0(frame *rtda.Frame) {
     // todo
     stack := frame.OperandStack()
@@ -31,12 +35,14 @@ func getClassLoader0(frame *rtda.Frame) {
     stack.PushRef(nil)
 }
 
+// private native String getName0();
+// ()Ljava/lang/String;
 func getName0(frame *rtda.Frame) {
     panic("getName0")
 }
 
-//static native Class<?> getPrimitiveClass(String name);
-//getPrimitiveClass(Ljava/lang/String;)Ljava/lang/Class;
+// static native Class<?> getPrimitiveClass(String name);
+// (Ljava/lang/String;)Ljava/lang/Class;
 func getPrimitiveClass(frame *rtda.Frame) {
     // todo
     stack := frame.OperandStack()

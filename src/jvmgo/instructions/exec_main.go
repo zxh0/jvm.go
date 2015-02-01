@@ -116,9 +116,9 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
     stack := thread.CurrentFrame().OperandStack()
     if _mainThreadGroup == nil {
         undoExec(thread)
-        jThreadGroupClass := _classLoader.LoadClass("java/lang/ThreadGroup")
-        _mainThreadGroup = jThreadGroupClass.NewObj()
-        initMethod := jThreadGroupClass.GetMethod("<init>", "()V")
+        threadGroupClass := _classLoader.LoadClass("java/lang/ThreadGroup")
+        _mainThreadGroup = threadGroupClass.NewObj()
+        initMethod := threadGroupClass.GetMethod("<init>", "()V")
         stack.PushRef(_mainThreadGroup) // this
         thread.InvokeMethod(initMethod)
         return false
@@ -129,12 +129,12 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         return false
     }
     if thread.JThread() == nil {
-        jThreadClass := _classLoader.LoadClass("java/lang/Thread")
-        mainThread := jThreadClass.NewObj()
-        //jThreadClass.GetField("priority", "I").SetValue(mainThread, int32(1))
+        threadClass := _classLoader.LoadClass("java/lang/Thread")
+        mainThread := threadClass.NewObj()
+        threadClass.GetField("priority", "I").PutValue(mainThread, int32(1))
         thread.SetJThread(mainThread)
 
-        initMethod := jThreadClass.GetMethod("<init>", "(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
+        initMethod := threadClass.GetMethod("<init>", "(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
         stack.PushRef(mainThread) // this
         stack.PushRef(_mainThreadGroup) // group
         stack.PushRef(_mainThreadName) // name

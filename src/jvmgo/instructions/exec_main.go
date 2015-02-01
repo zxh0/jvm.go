@@ -9,11 +9,13 @@ import (
 
 // todo
 var (
-    _basicClasses []string
-    _classLoader *rtc.ClassLoader
-    _mainClassName string
-    _args []string
-    _jArgs []*rtc.Obj
+    _basicClasses       []string
+    _classLoader        *rtc.ClassLoader
+    _mainClassName      string
+    _args               []string
+    _jArgs              []*rtc.Obj
+    _mainThreadGroup    *rtc.Obj
+    _mainThreadName     *rtc.Obj
 )
 
 // Fake instruction to load and execute main class
@@ -32,6 +34,9 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
     if !isJArgsReady(thread) {
         return
     }
+    // if !isMainThreadReady(thread) {
+    //     return
+    // }
     
     // todo create PrintStream
 
@@ -72,6 +77,8 @@ func initVars(fakeRef *rtc.Obj) {
         "java/lang/Class",
         "java/lang/String",
         "java/lang/System",
+        "java/lang/Thread",
+        "java/lang/ThreadGroup",
         "java/io/PrintStream",
         "jvmgo/SystemOut",
         _mainClassName}
@@ -93,16 +100,45 @@ func isJArgsReady(thread *rtda.Thread) (bool) {
     if len(_args) > 0 {
         if _jArgs == nil {
             _jArgs = make([]*rtc.Obj, 0, len(_args))
-        } else {
-            jStr := thread.CurrentFrame().OperandStack().PopRef()
-            _jArgs = _jArgs[:len(_jArgs) + 1]
-            _jArgs[len(_jArgs) - 1] = jStr
         }
         for len(_jArgs) < len(_args) {
             undoExec(thread)
-            newJString(_args[len(_jArgs)], thread)
+            n := len(_jArgs)
+            _jArgs = _jArgs[:n + 1]
+            _jArgs[n] = newJString(_args[n], thread)
             return false
         }
+    }
+    return true
+}
+
+func isMainThreadReady(thread *rtda.Thread) (bool) {
+    stack := thread.CurrentFrame().OperandStack()
+    if _mainThreadGroup == nil {
+        undoExec(thread)
+        threadGroupClass := _classLoader.LoadClass("java/lang/ThreadGroup")
+        _mainThreadGroup = threadGroupClass.NewObj()
+        initMethod := threadGroupClass.GetMethod("<init>", "()V")
+        stack.PushRef(_mainThreadGroup) // this
+        thread.InvokeMethod(initMethod)
+        return false
+    }
+    if _mainThreadName == nil {
+        undoExec(thread)
+        _mainThreadName = newJString("main", thread)
+        return false
+    }
+    if thread.JThread() == nil {
+        threadClass := _classLoader.LoadClass("java/lang/Thread")
+        mainThread := threadClass.NewObj()
+        thread.SetJThread(mainThread)
+
+        initMethod := threadClass.GetMethod("<init>", "(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
+        stack.PushRef(mainThread) // this
+        stack.PushRef(_mainThreadGroup) // group
+        stack.PushRef(_mainThreadName) // name
+        thread.InvokeMethod(initMethod)
+        return false
     }
     return true
 }

@@ -11,6 +11,7 @@ import (
 const (
     jlObjectName = "java/lang/Object"
     jlClassName = "java/lang/Class"
+    jlThreadName = "java/lang/Thread"
     jlStringName = "java/lang/String"
 )
 
@@ -41,7 +42,10 @@ func (self *ClassLoader) getClass(name string) (*Class) {
 }
 
 func (self *ClassLoader) StringClass() (*Class) {
-    return self.LoadClass(jlStringName)
+    return self.getClass(jlStringName)
+}
+func (self *ClassLoader) ThreadClass() (*Class) {
+    return self.getClass(jlThreadName)
 }
 
 func (self *ClassLoader) LoadClass(name string) (*Class) {

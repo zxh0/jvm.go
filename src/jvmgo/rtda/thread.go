@@ -17,6 +17,7 @@ JVM
 type Thread struct {
     pc      int
     stack   *Stack
+    jThread *rtc.Obj // java.lang.Thread
     // todo
 }
 
@@ -26,6 +27,12 @@ func (self *Thread) PC() (int) {
 }
 func (self *Thread) SetPC(pc int) {
     self.pc = pc
+}
+func (self *Thread) JThread() (*rtc.Obj) {
+    return self.jThread
+}
+func (self *Thread) SetJThread(jThread *rtc.Obj) {
+    self.jThread = jThread
 }
 
 func (self *Thread) IsStackEmpty() (bool) {
@@ -77,7 +84,7 @@ func (self *Thread) NewFrame(method *rtc.Method) (*Frame) {
     return newFrame(self, method)
 }
 
-func NewThread(maxStackSize int) (*Thread) {
+func NewThread(maxStackSize int, jThread *rtc.Obj) (*Thread) {
     stack := newStack(maxStackSize)
-    return &Thread{0, stack}
+    return &Thread{0, stack, jThread}
 }

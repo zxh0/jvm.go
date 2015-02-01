@@ -59,6 +59,15 @@ func (self *Class) GetField(name, descriptor string) (*Field) {
     // todo
     return nil
 }
+func (self *Class) GetMethod(name, descriptor string) (*Method) {
+    for _, method := range self.methods {
+        if method.name == name && method.descriptor == descriptor {
+            return method
+        }
+    }
+    // todo
+    return nil
+}
 
 func (self *Class) GetMainMethod() (*Method) {
     return self.GetStaticMethod(mainMethodName, mainMethodDesc)
@@ -73,15 +82,6 @@ func (self *Class) GetStaticMethod(name, descriptor string) (*Method) {
     } else {
         return nil
     }
-}
-func (self *Class) GetMethod(name, descriptor string) (*Method) {
-    for _, method := range self.methods {
-        if method.name == name && method.descriptor == descriptor {
-            return method
-        }
-    }
-    // todo
-    return nil
 }
 
 func (self *Class) NewObj() (*Obj) {

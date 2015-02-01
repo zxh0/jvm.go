@@ -26,7 +26,9 @@ func _ldc(frame *rtda.Frame, index uint) {
     switch c.(type) {
     case int32: stack.PushInt(c.(int32))
     case float32: stack.PushFloat(c.(float32))
-    case string: newJString(c.(string), frame.Thread()) // todo
+    case string: 
+        jStr := newJString(c.(string), frame.Thread())
+        stack.PushRef(jStr)
     case *rtc.ConstantClass: // todo
         class := c.(*rtc.ConstantClass).Class()
         stack.PushRef(class.JClass())

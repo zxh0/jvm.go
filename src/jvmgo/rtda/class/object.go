@@ -8,6 +8,7 @@ import (
 type Obj struct {
     class   *Class
     fields  Any // []Any
+    //_       Any // todo
 }
 
 func (self *Obj) Class() (*Class) {

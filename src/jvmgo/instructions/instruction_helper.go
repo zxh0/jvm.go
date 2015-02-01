@@ -47,13 +47,13 @@ func initClass(class *rtc.Class, thread *rtda.Thread) {
     }
 }
 
-func newJString(goStr string, thread *rtda.Thread) {
+func newJString(goStr string, thread *rtda.Thread) (*rtc.Obj) {
     currentFrame := thread.CurrentFrame()
 
     // new string
     stringClass := currentFrame.Method().Class().ClassLoader().StringClass()
     jStr := stringClass.NewObj()
-    currentFrame.OperandStack().PushRef(jStr)
+    //currentFrame.OperandStack().PushRef(jStr)
     // init string
     codePoints := string2CodePoints(goStr)
     initMethod := stringClass.GetMethod("<init>", "([III)V") //public String(int[] codePoints, int offset, int count)
@@ -64,6 +64,8 @@ func newJString(goStr string, thread *rtda.Thread) {
     localVars.SetInt(2, 0)
     localVars.SetInt(3, int32(len(codePoints)))
     thread.PushFrame(newFrame)
+
+    return jStr
 }
 
 func string2CodePoints(str string) ([]rune) {

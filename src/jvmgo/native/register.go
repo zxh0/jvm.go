@@ -7,6 +7,7 @@ import (
     rtc "jvmgo/rtda/class"
     _ "jvmgo/native/java/lang"
     _ "jvmgo/native/java/security"
+    _ "jvmgo/native/sun/misc"
 )
 
 // register native methods

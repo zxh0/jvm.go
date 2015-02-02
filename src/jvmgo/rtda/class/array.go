@@ -34,18 +34,6 @@ func NewRefArray(componentClass *Class, count int32, classLoader *ClassLoader) (
     return &Obj{arrClass, components, nil}
 }
 
-// todo only used by exec_main.go
-func NewStringArray(strs []*Obj, classLoader *ClassLoader) (*Obj) {
-    componentClass := classLoader.StringClass()
-    arrClass := classLoader.getRefArrayClass(componentClass)
-    return &Obj{arrClass, strs, nil}
-}
-
-// todo only used by string_helper.go
-func NewIntArray(ints []int32) (*Obj) {
-    return &Obj{nil, ints, nil}
-}
-
 // todo
 func HaveSameArrayType(obj1, obj2 *Obj) (bool) {
     at1 := _arrayType(obj1)
@@ -75,7 +63,6 @@ func _arrayType(arr *Obj) (int) {
     }
 }
 
-// todo GetArrayLength
 func ArrayLength(arr *Obj) (int32) {
     switch arr.fields.(type) {
         case []int8: return int32(len(arr.fields.([]int8)))

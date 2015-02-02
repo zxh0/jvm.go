@@ -27,21 +27,16 @@ func (self *ConstantFieldref) InstanceField() (*Field) {
 }
 func (self *ConstantFieldref) resolveInstanceField() {
     classLoader := self.cp.class.classLoader
-    className := self.className
-    for {
-        if className != "" {
-            class := classLoader.getClass(className)
-            field := class.GetField(self.name, self.descriptor)
-            if field != nil && !field.IsStatic() {
-                self.field = field
-                return
-            } else {
-                className = class.superClassName
-            }
-        } else {
-            break
+    fromClass := classLoader.getClass(self.className)
+
+    for class := fromClass; class != nil; class = class.superClass {
+        field := class.GetField(self.name, self.descriptor)
+        if field != nil && !field.IsStatic() {
+            self.field = field
+            return
         }
     }
+    
     panic("field not found!") // todo
 }
 

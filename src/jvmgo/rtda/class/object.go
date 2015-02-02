@@ -49,8 +49,3 @@ func (self *Obj) zeroFields() {
         }
     }
 }
-
-// todo
-func NewObj(fields Any) (*Obj) {
-    return &Obj{nil, fields, nil}
-}

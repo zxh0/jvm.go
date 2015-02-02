@@ -4,6 +4,11 @@ import (
     . "jvmgo/any"
 )
 
+// only used by jvm.go
+func NewObj(fields Any) (*Obj) {
+    return &Obj{nil, fields, nil}
+}
+
 // only used by exec_main.go
 func NewStringArray(strs []*Obj, classLoader *ClassLoader) (*Obj) {
     componentClass := classLoader.StringClass()

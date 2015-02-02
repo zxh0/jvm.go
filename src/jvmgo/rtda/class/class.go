@@ -132,6 +132,15 @@ func (self *Class) GetStaticMethod(name, descriptor string) (*Method) {
     }
 }
 
+func (self *Class) GetConstructor(descriptor string) (*Method) {
+    c := self.GetMethod(constructorName, descriptor)
+    if c != nil && !c.IsStatic() {
+        return c
+    } else {
+        return nil
+    }
+}
+
 func (self *Class) NewObj() (*Obj) {
     if self.instanceFieldCount > 0 {
         fields := make([]Any, self.instanceFieldCount)

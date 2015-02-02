@@ -51,10 +51,40 @@ func getDeclaredFields0(frame *rtda.Frame) {
     fieldClass := classLoader.LoadClass("java/lang/reflect/Field")
     count := int32(len(goFields))
     fieldArr := rtc.NewRefArray(fieldClass, count, classLoader)
+    stack.PushRef(fieldArr)
 
-    fieldArr.Class()
+    if count > 0 {
+        /*
+        Field(Class<?> declaringClass,
+            String name,
+            Class<?> type,
+            int modifiers,
+            int slot,
+            String signature,
+            byte[] annotations)
+        */
+        constructor := fieldClass.GetConstructor("(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Class;IILjava/lang/String;[B)V")
+        jFields := fieldArr.Fields().([]*rtc.Obj)
+        thread := frame.Thread()
+        for i, goField := range goFields {
+            jField := fieldClass.NewObj()
+            jFields[i] = jField
 
-    panic("todo getDeclaredFields0")
+            newFrame := thread.NewFrame(constructor)
+            vars := newFrame.LocalVars()
+            vars.SetRef(0, jField) // this
+            vars.SetRef(1, jClass) // declaringClass
+            vars.SetRef(2, nil) // todo name
+            vars.SetRef(3, nil) // todo type
+            vars.SetInt(4, int32(goField.GetAccessFlags())) // modifiers
+            vars.SetInt(5, 0) // slot
+            vars.SetRef(6, nil) // todo signature
+            vars.SetRef(7, nil) // todo annotations
+            thread.PushFrame(newFrame)
+        }
+
+        //panic("todo getDeclaredFields0")
+    }
 }
 
 

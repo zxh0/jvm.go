@@ -25,13 +25,13 @@ type anewarray struct {Index16Instruction}
 func (self *anewarray) Execute(frame *rtda.Frame) {
     cp := frame.Method().Class().ConstantPool()
     cClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
-    class := cClass.Class()
-    
-    // todo
-    if class.InitializationNotStarted() {
-        //frame.SetNextPC(thread.PC())
-        //initClass(class, thread)
-        //panic("class not initialized!"  + class.Name())
+    componentClass := cClass.Class()
+
+    if componentClass.InitializationNotStarted() {
+        thread := frame.Thread()
+        frame.SetNextPC(thread.PC())
+        initClass(componentClass, thread)
+        return
     }
 
     stack := frame.OperandStack()

@@ -50,6 +50,7 @@ func (self *ClassLoader) loadPrimitiveClass(className string) {
     class := &Class{name: className}
     class.jClass = jlClassClass.NewObj()
     class.jClass.extra = class
+    class.MarkInitialized()
     self.classMap[className] = class
 }
 
@@ -67,11 +68,15 @@ func (self *ClassLoader) loadArrayClass(className string) {
     class.superClass = jlObjecClass
     class.jClass = jlClassClass.NewObj()
     class.jClass.extra = class
+    class.MarkInitialized()
     self.classMap[className] = class
 }
 
 func (self *ClassLoader) getRefArrayClass(componentClass *Class) (*Class) {
     arrClassName := "[" + componentClass.Name() + ";"
+    return self._getRefArrayClass(arrClassName)
+}
+func (self *ClassLoader) _getRefArrayClass(arrClassName string) (*Class) {
     arrClass := self.classMap[arrClassName]
     if arrClass == nil {
         self.loadArrayClass(arrClassName)
@@ -106,7 +111,11 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
         // already loaded
         return class
     } else {
-        return self.reallyLoadClass(name)
+        if name[0] == '[' {
+            return self._getRefArrayClass(name)
+        } else {
+            return self.reallyLoadClass(name)
+        }
     }
 }
 

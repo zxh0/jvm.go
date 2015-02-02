@@ -56,10 +56,10 @@ func (self *ClassLoader) loadPrimitiveClass(className string) {
 func (self *ClassLoader) loadPrimitiveArrayClasses() {
     arrayTypes := []string{"[Z", "[B", "[C", "[S", "[I", "[J", "[F", "[D"}
     for _, arrayType := range arrayTypes {
-        self.loadPrimitiveArrayClass(arrayType)
+        self.loadArrayClass(arrayType)
     }
 }
-func (self *ClassLoader) loadPrimitiveArrayClass(className string) {
+func (self *ClassLoader) loadArrayClass(className string) {
     jlClassClass := self.classMap[jlClassName]
     jlObjecClass := self.classMap[jlObjectName]
 
@@ -70,12 +70,13 @@ func (self *ClassLoader) loadPrimitiveArrayClass(className string) {
     self.classMap[className] = class
 }
 
-func (self *ClassLoader) loadPrimitiveOrArrayClass(className string) {
-    jlClassClass := self.classMap[jlClassName]
-    class := &Class{name: className}
-    class.jClass = jlClassClass.NewObj()
-    class.jClass.extra = class
-    self.classMap[className] = class
+func (self *ClassLoader) getRefArrayClass(componentClass *Class) (*Class) {
+    arrClassName := "[" + componentClass.Name() + ";"
+    arrClass := self.classMap[arrClassName]
+    if arrClass == nil {
+        self.loadArrayClass(arrClassName)
+    }
+    return self.classMap[arrClassName]
 }
 
 func (self *ClassLoader) StringClass() (*Class) {

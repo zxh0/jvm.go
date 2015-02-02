@@ -16,8 +16,8 @@ func (self *newarray) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     count := stack.PopInt()
     classLoader := frame.Method().Class().ClassLoader()
-    ref := rtc.NewPrimitiveArray(self.atype, count, classLoader)
-    stack.PushRef(ref)
+    arr := rtc.NewPrimitiveArray(self.atype, count, classLoader)
+    stack.PushRef(arr)
 }
 
 // Create new array of reference
@@ -36,8 +36,9 @@ func (self *anewarray) Execute(frame *rtda.Frame) {
 
     stack := frame.OperandStack()
     count := stack.PopInt()
-    ref := rtc.NewRefArray(count)
-    stack.PushRef(ref)
+    classLoader := frame.Method().Class().ClassLoader()
+    arr := rtc.NewRefArray(componentClass, count, classLoader)
+    stack.PushRef(arr)
 }
 
 // Create new multidimensional array

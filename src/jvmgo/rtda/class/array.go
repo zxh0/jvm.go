@@ -28,14 +28,18 @@ func NewPrimitiveArray(atype uint8, count int32, classLoader *ClassLoader) (*Obj
     }
 }
 
-func NewRefArray(count int32) (*Obj) {
-    elements := make([]*Obj, count)
-    return &Obj{nil, elements, nil}
-}
-func NewRefArrayOfElements(elements []*Obj) (*Obj) {
-    return &Obj{nil, elements, nil}
+func NewRefArray(componentClass *Class, count int32, classLoader *ClassLoader) (*Obj) {
+    arrClass := classLoader.getRefArrayClass(componentClass)
+    components := make([]*Obj, count)
+    return &Obj{arrClass, components, nil}
 }
 
+// todo
+func NewRefArrayOfElements(components []*Obj) (*Obj) {
+    return &Obj{nil, components, nil}
+}
+
+// todo
 func NewIntArray(ints []int32) (*Obj) {
     return &Obj{nil, ints, nil}
 }

@@ -14,16 +14,16 @@ const (
     AT_NOT_ARRAY = 101 // not jvm spec
 )
 
-func NewPrimitiveArray(atype uint8, count int32) (*Obj) {
+func NewPrimitiveArray(atype uint8, count int32, classLoader *ClassLoader) (*Obj) {
     switch atype {
-    case AT_BOOLEAN: return &Obj{nil, make([]int8, count),      nil}
-    case AT_BYTE:    return &Obj{nil, make([]int8, count),      nil}
-    case AT_CHAR:    return &Obj{nil, make([]uint16, count),    nil}
-    case AT_SHORT:   return &Obj{nil, make([]int16, count),     nil}
-    case AT_INT:     return &Obj{nil, make([]int32, count),     nil}
-    case AT_LONG:    return &Obj{nil, make([]int64, count),     nil}
-    case AT_FLOAT:   return &Obj{nil, make([]float32, count),   nil}
-    case AT_DOUBLE:  return &Obj{nil, make([]float64, count),   nil}
+    case AT_BOOLEAN: return &Obj{classLoader.getClass("[Z"), make([]int8, count),      nil}
+    case AT_BYTE:    return &Obj{classLoader.getClass("[B"), make([]int8, count),      nil}
+    case AT_CHAR:    return &Obj{classLoader.getClass("[C"), make([]uint16, count),    nil}
+    case AT_SHORT:   return &Obj{classLoader.getClass("[S"), make([]int16, count),     nil}
+    case AT_INT:     return &Obj{classLoader.getClass("[I"), make([]int32, count),     nil}
+    case AT_LONG:    return &Obj{classLoader.getClass("[J"), make([]int64, count),     nil}
+    case AT_FLOAT:   return &Obj{classLoader.getClass("[F"), make([]float32, count),   nil}
+    case AT_DOUBLE:  return &Obj{classLoader.getClass("[D"), make([]float64, count),   nil}
     default: panic("BAD atype!") // todo
     }
 }

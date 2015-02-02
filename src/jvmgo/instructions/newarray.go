@@ -15,7 +15,8 @@ func (self *newarray) fetchOperands(bcr *BytecodeReader) {
 func (self *newarray) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     count := stack.PopInt()
-    ref := rtc.NewPrimitiveArray(self.atype, count)
+    classLoader := frame.Method().Class().ClassLoader()
+    ref := rtc.NewPrimitiveArray(self.atype, count, classLoader)
     stack.PushRef(ref)
 }
 

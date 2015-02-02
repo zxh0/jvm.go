@@ -61,7 +61,7 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
     if mainMethod != nil {
         newFrame := thread.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
-        args := rtc.NewRefArrayOfElements(_jArgs)
+        args := rtc.NewStringArray(_jArgs, _classLoader)
         newFrame.LocalVars().SetRef(0, args)
     } else {
         panic("no main method!") // todo

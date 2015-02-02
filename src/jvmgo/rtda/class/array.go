@@ -34,12 +34,14 @@ func NewRefArray(componentClass *Class, count int32, classLoader *ClassLoader) (
     return &Obj{arrClass, components, nil}
 }
 
-// todo
-func NewRefArrayOfElements(components []*Obj) (*Obj) {
-    return &Obj{nil, components, nil}
+// todo only used by exec_main.go
+func NewStringArray(strs []*Obj, classLoader *ClassLoader) (*Obj) {
+    componentClass := classLoader.StringClass()
+    arrClass := classLoader.getRefArrayClass(componentClass)
+    return &Obj{arrClass, strs, nil}
 }
 
-// todo
+// todo only used by string_helper.go
 func NewIntArray(ints []int32) (*Obj) {
     return &Obj{nil, ints, nil}
 }

@@ -110,12 +110,11 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
     if class != nil {
         // already loaded
         return class
+    } else if name[0] == '[' {
+        // array class
+        return self._getRefArrayClass(name)
     } else {
-        if name[0] == '[' {
-            return self._getRefArrayClass(name)
-        } else {
-            return self.reallyLoadClass(name)
-        }
+        return self.reallyLoadClass(name)
     }
 }
 

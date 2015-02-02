@@ -36,6 +36,22 @@ func (self *ClassLoader) Init() {
             class.jClass.extra = class
         }
     }
+    self.loadPrimitiveClasses()
+}
+
+func (self *ClassLoader) loadPrimitiveClasses() {
+    primitiveTypes := []string{"boolean", "byte", "char", "short", "int", "long", "float", "double"}
+    for _, primitiveType := range primitiveTypes {
+        self.loadPrimitiveClass(primitiveType)
+    }
+}
+
+func (self *ClassLoader) loadPrimitiveClass(name string) {
+    jlClassClass := self.classMap[jlClassName]
+    class := &Class{name: name}
+    class.jClass = jlClassClass.NewObj()
+    class.jClass.extra = class
+    self.classMap[name] = class
 }
 
 // todo dangerous

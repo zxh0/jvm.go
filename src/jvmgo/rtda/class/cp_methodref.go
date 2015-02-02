@@ -95,6 +95,7 @@ type ConstantInterfaceMethodref struct {
     ConstantMethodref
 }
 
+// todo
 func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) (*ConstantInterfaceMethodref) {
     methodref := &ConstantInterfaceMethodref{}
     methodref.cp = cp

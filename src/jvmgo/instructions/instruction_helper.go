@@ -23,12 +23,6 @@ func initClass(class *rtc.Class, thread *rtda.Thread) {
         //log.Printf("init: %v", uninitedClass.Name())
         clinit := uninitedClass.GetClinitMethod()
         if clinit != nil {
-            // hack!
-            if uninitedClass.Name() == "java/lang/Character" {
-                uninitedClass.MarkInitialized()
-                return
-            }
-
             // exec <clinit>
             uninitedClass.MarkInitializing()
             newFrame := thread.NewFrame(clinit)

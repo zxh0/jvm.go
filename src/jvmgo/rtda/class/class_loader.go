@@ -54,6 +54,13 @@ func (self *ClassLoader) loadPrimitiveClass(name string) {
     self.classMap[name] = class
 }
 
+func (self *ClassLoader) StringClass() (*Class) {
+    return self.getClass(jlStringName)
+}
+func (self *ClassLoader) ThreadClass() (*Class) {
+    return self.getClass(jlThreadName)
+}
+
 // todo dangerous
 func (self *ClassLoader) getClass(name string) (*Class) {
     class := self.classMap[name]
@@ -61,13 +68,6 @@ func (self *ClassLoader) getClass(name string) (*Class) {
         panic("class not loaded! " + name)
     }
     return class
-}
-
-func (self *ClassLoader) StringClass() (*Class) {
-    return self.getClass(jlStringName)
-}
-func (self *ClassLoader) ThreadClass() (*Class) {
-    return self.getClass(jlThreadName)
 }
 
 func (self *ClassLoader) LoadClass(name string) (*Class) {

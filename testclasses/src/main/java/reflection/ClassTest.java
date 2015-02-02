@@ -4,6 +4,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class ClassTest implements Runnable {
+    static {
+        System.out.println("clinit");
+    }
+
+    public ClassTest() {
+        System.out.println("init");
+    }
     
     public static void main(String[] args) {
         Class<?> c = ClassTest.class;

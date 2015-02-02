@@ -10,6 +10,7 @@ const (
     mainMethodDesc              = "([Ljava/lang/String;)V"
     clinitMethodName            = "<clinit>"
     clinitMethodDesc            = "()V"
+    constructorName             = "<init>"
     registerNativesMethodName   = "registerNatives"
     registerNativesMethodDesc   = "()V"
 )
@@ -74,8 +75,11 @@ func (self *Method) ActualArgCount() (uint) {
     }
 }
 
+func (self *Method) isConstructor() (bool) {
+    return self.name == constructorName
+}
 func (self *Method) IsClinit() (bool) {
-    return self.name == clinitMethodName && self.descriptor == clinitMethodDesc
+    return self.name == clinitMethodName
 }
 func (self *Method) IsRegisterNatives() (bool) {
     return self.IsStatic() &&

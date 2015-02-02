@@ -71,6 +71,19 @@ func (self *Class) GetFields(publicOnly bool) ([]*Field) {
         return self.fields
     }
 }
+func (self *Class) GetMethods(publicOnly bool) ([]*Method) {
+    publicMethods := make([]*Method, 0, len(self.methods))
+    for _, method := range self.methods {
+        if !method.IsClinit() && !method.isConstructor() {
+            if !publicOnly || method.IsPublic() {
+                n := len(publicMethods)
+                publicMethods := publicMethods[:n + 1]
+                publicMethods[n] = method
+            }
+        }
+    }
+    return publicMethods
+}
 
 func (self *Class) GetField(name, descriptor string) (*Field) {
     for _, field := range self.fields {

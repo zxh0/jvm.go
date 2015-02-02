@@ -22,19 +22,11 @@ func (self *Obj) Extra() (Any) {
 }
 
 func (self *Obj) IsInstanceOf(class *Class) (bool) {
-    classLoader := self.class.classLoader
-    k := self.class 
-    for {
+    for k := self.class; k != nil; k = k.superClass {
         if k == class {
             return true
         }
-        if k.superClassName != "" {
-            k = classLoader.getClass(k.superClassName)
-        } else {
-            break;
-        }
     }
-
     return false
 }
 

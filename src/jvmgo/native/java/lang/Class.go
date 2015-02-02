@@ -40,8 +40,10 @@ func getClassLoader0(frame *rtda.Frame) {
 func getName0(frame *rtda.Frame) {
     stack := frame.OperandStack()
     this := stack.PopRef()
-    name := this.Class().Name()
-    panic("getName0" + name)
+    goClass := this.Extra().(*rtc.Class)
+    goName := goClass.Name()
+    jName := rtda.NewJString(goName, frame.Thread())
+    stack.PushRef(jName)
 }
 
 // static native Class<?> getPrimitiveClass(String name);

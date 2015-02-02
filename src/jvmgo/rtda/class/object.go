@@ -17,6 +17,9 @@ func (self *Obj) Class() (*Class) {
 func (self *Obj) Fields() (Any) {
     return self.fields
 }
+func (self *Obj) Extra() (Any) {
+    return self.extra
+}
 
 func (self *Obj) IsInstanceOf(class *Class) (bool) {
     classLoader := self.class.classLoader

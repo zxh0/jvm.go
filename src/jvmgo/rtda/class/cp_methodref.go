@@ -14,8 +14,14 @@ type ConstantMethodref struct {
     argCount        uint
 }
 
-type ConstantInterfaceMethodref struct {
-    ConstantMethodref
+func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {
+    methodref := &ConstantMethodref{}
+    methodref.cp = cp
+    methodref.className = methodrefInfo.ClassName()
+    methodref.name = methodrefInfo.Name()
+    methodref.descriptor = methodrefInfo.Descriptor()
+    methodref.argCount = methodrefInfo.ArgCount()
+    return methodref
 }
 
 func (self *ConstantMethodref) ArgCount() (uint) {
@@ -92,14 +98,9 @@ func (self *ConstantMethodref) findVirtualMethod(className string) (*Method) {
     panic("virtual method not found!")
 }
 
-func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {
-    methodref := &ConstantMethodref{}
-    methodref.cp = cp
-    methodref.className = methodrefInfo.ClassName()
-    methodref.name = methodrefInfo.Name()
-    methodref.descriptor = methodrefInfo.Descriptor()
-    methodref.argCount = methodrefInfo.ArgCount()
-    return methodref
+
+type ConstantInterfaceMethodref struct {
+    ConstantMethodref
 }
 
 func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) (*ConstantInterfaceMethodref) {

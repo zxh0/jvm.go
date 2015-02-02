@@ -10,6 +10,15 @@ type Field struct {
     slot uint
 }
 
+func newField(class *Class, fieldInfo *cf.FieldInfo) (*Field) {
+    field := &Field{}
+    field.class = class
+    field.SetAccessFlags(fieldInfo.GetAccessFlags())
+    field.name = fieldInfo.Name()
+    field.descriptor = fieldInfo.Descriptor()
+    return field
+}
+
 func (self *Field) GetValue(ref *Obj) (Any) {
     fields := ref.fields.([]Any)
     return fields[self.slot]
@@ -40,13 +49,4 @@ func (self *Field) defaultValue() (Any) {
     case '[': return nil        // Array
     default: panic("BAD field descriptor: " + self.descriptor)
     }
-}
-
-func newField(class *Class, fieldInfo *cf.FieldInfo) (*Field) {
-    field := &Field{}
-    field.class = class
-    field.SetAccessFlags(fieldInfo.GetAccessFlags())
-    field.name = fieldInfo.Name()
-    field.descriptor = fieldInfo.Descriptor()
-    return field
 }

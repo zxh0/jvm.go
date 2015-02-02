@@ -8,6 +8,13 @@ type ConstantClass struct {
     class   *Class
 }
 
+func newConstantClass(cp *ConstantPool, classInfo *cf.ConstantClassInfo) (*ConstantClass) {
+    cClass := &ConstantClass{}
+    cClass.name = classInfo.Name()
+    cClass.cp = cp
+    return cClass
+}
+
 func (self *ConstantClass) Class() (*Class) {
     if self.class == nil {
         self.resolve()
@@ -20,11 +27,4 @@ func (self *ConstantClass) resolve() {
     // load class
     loader := self.cp.class.classLoader
     self.class = loader.LoadClass(self.name)
-}
-
-func newConstantClass(cp *ConstantPool, classInfo *cf.ConstantClassInfo) (*ConstantClass) {
-    cClass := &ConstantClass{}
-    cClass.name = classInfo.Name()
-    cClass.cp = cp
-    return cClass
 }

@@ -24,6 +24,29 @@ type Method struct {
     nativeMethod    Any // cannot use package 'native' because of cycle import!
 }
 
+func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
+    method := &Method{}
+    method.class = class
+    method.SetAccessFlags(methodInfo.GetAccessFlags())
+    method.name = methodInfo.Name()
+    method.descriptor = methodInfo.Descriptor()
+    method.argCount = methodInfo.ArgCount()
+    // if !method.IsStatic() { // todo
+    //     method.argCount++
+    // }
+    if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
+        method.code = codeAttr.Code()
+        method.maxStack = codeAttr.MaxStack()
+        method.maxLocals = codeAttr.MaxLocals()
+        rtCp := method.class.constantPool
+        if len(codeAttr.ExceptionTable()) > 0 {
+            method.copyExceptionTable(codeAttr.ExceptionTable(), rtCp)
+        }
+    }
+    
+    return method
+}
+
 // getters
 func (self *Method) MaxStack() (uint) {
     return self.maxStack
@@ -59,29 +82,6 @@ func (self *Method) IsRegisterNatives() (bool) {
             self.name == registerNativesMethodName &&
             self.descriptor == registerNativesMethodDesc
 
-}
-
-func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
-    method := &Method{}
-    method.class = class
-    method.SetAccessFlags(methodInfo.GetAccessFlags())
-    method.name = methodInfo.Name()
-    method.descriptor = methodInfo.Descriptor()
-    method.argCount = methodInfo.ArgCount()
-    // if !method.IsStatic() { // todo
-    //     method.argCount++
-    // }
-    if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
-        method.code = codeAttr.Code()
-        method.maxStack = codeAttr.MaxStack()
-        method.maxLocals = codeAttr.MaxLocals()
-        rtCp := method.class.constantPool
-        if len(codeAttr.ExceptionTable()) > 0 {
-            method.copyExceptionTable(codeAttr.ExceptionTable(), rtCp)
-        }
-    }
-    
-    return method
 }
 
 // hack

@@ -21,6 +21,11 @@ type ClassLoader struct {
     classMap    map[string]*Class
 }
 
+func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {
+    classMap := map[string]*Class{}
+    return &ClassLoader{cp, classMap}
+}
+
 func (self *ClassLoader) Init() {
     self.LoadClass(jlObjectName)
     self.LoadClass(jlClassName)
@@ -140,9 +145,4 @@ func prepare(class *Class) {
             class.staticFieldValues[field.slot] = field.defaultValue()
         }
     }
-}
-
-func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {
-    classMap := map[string]*Class{}
-    return &ClassLoader{cp, classMap}
 }

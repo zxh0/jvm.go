@@ -10,6 +10,15 @@ type ConstantFieldref struct {
     field       *Field
 }
 
+func newConstantFieldref(cp *ConstantPool, fieldrefInfo *cf.ConstantFieldrefInfo) (*ConstantFieldref) {
+    fieldref := &ConstantFieldref{}
+    fieldref.cp = cp
+    fieldref.className = fieldrefInfo.ClassName()
+    fieldref.name = fieldrefInfo.Name()
+    fieldref.descriptor = fieldrefInfo.Descriptor()
+    return fieldref
+}
+
 func (self *ConstantFieldref) InstanceField() (*Field) {
     if self.field == nil {
         self.resolveInstanceField()
@@ -52,13 +61,4 @@ func (self *ConstantFieldref) resolveStaticField() {
     } else {
         panic("static field not found!") // todo
     }
-}
-
-func newConstantFieldref(cp *ConstantPool, fieldrefInfo *cf.ConstantFieldrefInfo) (*ConstantFieldref) {
-    fieldref := &ConstantFieldref{}
-    fieldref.cp = cp
-    fieldref.className = fieldrefInfo.ClassName()
-    fieldref.name = fieldrefInfo.Name()
-    fieldref.descriptor = fieldrefInfo.Descriptor()
-    return fieldref
 }

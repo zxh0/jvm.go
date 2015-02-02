@@ -9,18 +9,18 @@ type ConstantMethodref struct {
     className       string
     name            string
     descriptor      string
+    argCount        uint
     cp              *ConstantPool
     method          *Method
-    argCount        uint
 }
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) (*ConstantMethodref) {
     methodref := &ConstantMethodref{}
-    methodref.cp = cp
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
     methodref.argCount = methodrefInfo.ArgCount()
+    methodref.cp = cp
     return methodref
 }
 

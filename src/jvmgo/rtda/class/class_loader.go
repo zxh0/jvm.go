@@ -37,21 +37,29 @@ func (self *ClassLoader) Init() {
         }
     }
     self.loadPrimitiveClasses()
+    self.loadPrimitiveArrayClasses()
 }
 
 func (self *ClassLoader) loadPrimitiveClasses() {
     primitiveTypes := []string{"boolean", "byte", "char", "short", "int", "long", "float", "double"}
     for _, primitiveType := range primitiveTypes {
-        self.loadPrimitiveClass(primitiveType)
+        self.loadPrimitiveOrArrayClass(primitiveType)
     }
 }
 
-func (self *ClassLoader) loadPrimitiveClass(name string) {
+func (self *ClassLoader) loadPrimitiveArrayClasses() {
+    arrayTypes := []string{"[Z", "[B", "[C", "[S", "[I", "[J", "[F", "[D"}
+    for _, arrayType := range arrayTypes {
+        self.loadPrimitiveOrArrayClass(arrayType)
+    }
+}
+
+func (self *ClassLoader) loadPrimitiveOrArrayClass(className string) {
     jlClassClass := self.classMap[jlClassName]
-    class := &Class{name: name}
+    class := &Class{name: className}
     class.jClass = jlClassClass.NewObj()
     class.jClass.extra = class
-    self.classMap[name] = class
+    self.classMap[className] = class
 }
 
 func (self *ClassLoader) StringClass() (*Class) {

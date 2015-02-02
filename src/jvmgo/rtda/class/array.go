@@ -10,8 +10,8 @@ const (
     AT_SHORT     = 9
     AT_INT       = 10
     AT_LONG      = 11
-    AT_OBJEC     = 100 // no jvm spec
-    AT_NOT_ARRAY = 101 // no jvm spec
+    AT_OBJEC     = 100 // not jvm spec
+    AT_NOT_ARRAY = 101 // not jvm spec
 )
 
 func NewPrimitiveArray(atype uint8, count int32) (*Obj) {

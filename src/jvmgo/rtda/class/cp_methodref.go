@@ -73,27 +73,19 @@ func (self *ConstantMethodref) findMethod(className string) (*Method) {
 
 // todo
 func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
-    className := ref.class.name // todo
-    return self.findVirtualMethod(className)
+    return self.findVirtualMethod(ref)
 }
-func (self *ConstantMethodref) findVirtualMethod(className string) (*Method) {
-    classLoader := self.cp.class.classLoader
-    for {
-        if className != "" {
-            class := classLoader.LoadClass(className)
-            method := class.GetMethod(self.name, self.descriptor)
-            if method != nil && !method.IsStatic() {
-                if method.IsNative() && method.nativeMethod == nil {
-                    method.nativeMethod = findNativeMethod(method)
-                }
-                return method
-            } else {
-                className = class.superClassName
+func (self *ConstantMethodref) findVirtualMethod(ref *Obj) (*Method) {
+    for class := ref.class; class != nil; class = class.superClass {
+        method := class.GetMethod(self.name, self.descriptor)
+        if method != nil && !method.IsStatic() {
+            if method.IsNative() && method.nativeMethod == nil {
+                method.nativeMethod = findNativeMethod(method)
             }
-        } else {
-            break
+            return method
         }
     }
+
     // todo
     panic("virtual method not found!")
 }

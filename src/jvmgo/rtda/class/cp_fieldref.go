@@ -36,8 +36,9 @@ func (self *ConstantFieldref) resolveInstanceField() {
             return
         }
     }
-    
-    panic("field not found!") // todo
+
+    // todo
+    panic("field not found!")
 }
 
 func (self *ConstantFieldref) StaticField() (*Field) {

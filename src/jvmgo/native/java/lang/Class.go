@@ -9,6 +9,7 @@ import (
 func init() {
     _class(desiredAssertionStatus0, "desiredAssertionStatus0",  "(Ljava/lang/Class;)Z")
     _class(getClassLoader0,         "getClassLoader0",          "()Ljava/lang/ClassLoader;")
+    _class(getDeclaredFields0,      "getDeclaredFields0",       "(Z)[Ljava/lang/reflect/Field;")
     _class(getName0,                "getName0",                 "()Ljava/lang/String;")
     _class(getPrimitiveClass,       "getPrimitiveClass",        "(Ljava/lang/String;)Ljava/lang/Class;")
     _class(isInterface,             "isInterface",              "()Z")
@@ -36,6 +37,30 @@ func getClassLoader0(frame *rtda.Frame) {
     _ = stack.PopRef() // this
     stack.PushRef(nil)
 }
+
+// private native Field[] getDeclaredFields0(boolean publicOnly);
+// (Z)[Ljava/lang/reflect/Field;
+func getDeclaredFields0(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    publicOnly := stack.PopBoolean()
+    jClass := stack.PopRef() // this
+    goClass := jClass.Extra().(*rtc.Class)
+    goFields := goClass.GetFields(publicOnly)
+
+    classLoader := goClass.ClassLoader()
+    fieldClass := classLoader.LoadClass("java/lang/reflect/Field")
+    count := int32(len(goFields))
+    fieldArr := rtc.NewRefArray(fieldClass, count, classLoader)
+
+    fieldArr.Class()
+
+    panic("todo getDeclaredFields0")
+}
+
+
+// private native Method[]      getDeclaredMethods0(boolean publicOnly);
+// private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
+// private native Class<?>[]   getDeclaredClasses0();
 
 // private native String getName0();
 // ()Ljava/lang/String;

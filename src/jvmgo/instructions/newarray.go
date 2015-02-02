@@ -2,7 +2,7 @@ package instructions
 
 import (
     "jvmgo/rtda"
-    rtclass "jvmgo/rtda/class"
+    rtc "jvmgo/rtda/class"
 )
 
 // Create new array
@@ -15,7 +15,7 @@ func (self *newarray) fetchOperands(bcr *BytecodeReader) {
 func (self *newarray) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     count := stack.PopInt()
-    ref := rtclass.NewPrimitiveArray(self.atype, count)
+    ref := rtc.NewPrimitiveArray(self.atype, count)
     stack.PushRef(ref)
 }
 
@@ -23,7 +23,7 @@ func (self *newarray) Execute(frame *rtda.Frame) {
 type anewarray struct {Index16Instruction}
 func (self *anewarray) Execute(frame *rtda.Frame) {
     cp := frame.Method().Class().ConstantPool()
-    cClass := cp.GetConstant(self.index).(*rtclass.ConstantClass)
+    cClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
     class := cClass.Class()
     
     // todo
@@ -35,7 +35,7 @@ func (self *anewarray) Execute(frame *rtda.Frame) {
 
     stack := frame.OperandStack()
     count := stack.PopInt()
-    ref := rtclass.NewRefArray(count)
+    ref := rtc.NewRefArray(count)
     stack.PushRef(ref)
 }
 

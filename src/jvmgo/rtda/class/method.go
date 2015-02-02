@@ -76,10 +76,12 @@ func (self *Method) ActualArgCount() (uint) {
 }
 
 func (self *Method) isConstructor() (bool) {
-    return self.name == constructorName
+    return !self.IsStatic() && self.name == constructorName
 }
 func (self *Method) IsClinit() (bool) {
-    return self.name == clinitMethodName
+    return self.IsStatic() &&
+            self.name == clinitMethodName && 
+            self.descriptor == clinitMethodDesc
 }
 func (self *Method) IsRegisterNatives() (bool) {
     return self.IsStatic() &&

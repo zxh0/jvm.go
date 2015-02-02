@@ -49,8 +49,29 @@ func getName0(frame *rtda.Frame) {
 // static native Class<?> getPrimitiveClass(String name);
 // (Ljava/lang/String;)Ljava/lang/Class;
 func getPrimitiveClass(frame *rtda.Frame) {
-    // todo
     stack := frame.OperandStack()
-    _ = stack.PopRef() // name
-    stack.PushRef(nil) // todo
+    jName := stack.PopRef()
+    charsVal := jName.Class().GetField("value", "[C").GetValue(jName)
+    chars := charsVal.(*rtc.Obj).Fields().([]uint16)
+
+    classLoader := frame.Method().Class().ClassLoader()
+    jClass := _getPrimitiveClass(chars, classLoader).JClass()
+    stack.PushRef(jClass)
+}
+
+func _getPrimitiveClass(name []uint16, classLoader *rtc.ClassLoader) (*rtc.Class) {
+    switch name[0] {
+    case 'b':
+        switch name[1] {
+            case 'o': return classLoader.GetPrimitiveClass("boolean")
+            case 'y': return classLoader.GetPrimitiveClass("byte")
+        }
+    case 'c': return classLoader.GetPrimitiveClass("char")
+    case 'd': return classLoader.GetPrimitiveClass("double")
+    case 'f': return classLoader.GetPrimitiveClass("float")
+    case 'i': return classLoader.GetPrimitiveClass("int")
+    case 'l': return classLoader.GetPrimitiveClass("long")
+    case 's': return classLoader.GetPrimitiveClass("short")
+    }
+    panic("BAD primitive type!") // todo
 }

@@ -61,6 +61,11 @@ func (self *ClassLoader) ThreadClass() (*Class) {
     return self.getClass(jlThreadName)
 }
 
+// todo
+func (self *ClassLoader) GetPrimitiveClass(name string) (*Class) {
+    return self.getClass(name)
+}
+
 // todo dangerous
 func (self *ClassLoader) getClass(name string) (*Class) {
     class := self.classMap[name]

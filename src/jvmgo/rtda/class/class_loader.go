@@ -73,7 +73,7 @@ func (self *ClassLoader) loadArrayClass(className string) {
 }
 
 func (self *ClassLoader) getRefArrayClass(componentClass *Class) (*Class) {
-    arrClassName := "[" + componentClass.Name() + ";"
+    arrClassName := "[L" + componentClass.Name() + ";"
     return self._getRefArrayClass(arrClassName)
 }
 func (self *ClassLoader) _getRefArrayClass(arrClassName string) (*Class) {

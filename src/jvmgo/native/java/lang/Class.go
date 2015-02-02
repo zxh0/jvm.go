@@ -73,6 +73,7 @@ func _getPrimitiveClass(name []uint16, classLoader *rtc.ClassLoader) (*rtc.Class
     case 'i': return classLoader.GetPrimitiveClass("int")
     case 'l': return classLoader.GetPrimitiveClass("long")
     case 's': return classLoader.GetPrimitiveClass("short")
+    case 'v': return classLoader.GetPrimitiveClass("void")
     }
     panic("BAD primitive type!") // todo
 }

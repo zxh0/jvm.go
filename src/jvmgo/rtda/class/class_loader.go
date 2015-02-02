@@ -41,7 +41,7 @@ func (self *ClassLoader) Init() {
 }
 
 func (self *ClassLoader) loadPrimitiveClasses() {
-    primitiveTypes := []string{"boolean", "byte", "char", "short", "int", "long", "float", "double"}
+    primitiveTypes := []string{"void", "boolean", "byte", "char", "short", "int", "long", "float", "double"}
     for _, primitiveType := range primitiveTypes {
         self.loadPrimitiveClass(primitiveType)
     }

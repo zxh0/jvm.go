@@ -15,8 +15,14 @@ public class ClassTest implements Runnable {
         for (Field f : c.getFields()) {
             System.out.println("field: " + f.getName());
         }
+        for (Field f : c.getDeclaredFields()) {
+            System.out.println("declaredFields:" + f.getName());
+        }
         for (Method m : c.getMethods()) {
             System.out.println("method: " + m.getName());
+        }
+        for (Method m : c.getDeclaredMethods()) {
+            System.out.println("declaredMethods: " + m.getName());
         }
     }
 

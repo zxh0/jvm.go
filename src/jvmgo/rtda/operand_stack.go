@@ -38,6 +38,9 @@ func (self *OperandStack) PushBoolean(val bool) {
         self.PushInt(0)
     }
 }
+func (self *OperandStack) PopBoolean() (bool) {
+    return self.PopInt() == 1
+}
 
 func (self *OperandStack) PushInt(val int32) {
     self.Push(val)

@@ -8,6 +8,7 @@ import (
     _ "jvmgo/native/java/lang"
     _ "jvmgo/native/java/security"
     _ "jvmgo/native/sun/misc"
+    _ "jvmgo/native/sun/reflect"
 )
 
 // register native methods

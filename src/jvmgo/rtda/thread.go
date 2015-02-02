@@ -21,7 +21,7 @@ type Thread struct {
     // todo
 }
 
-func NewThread(maxStackSize int, jThread *rtc.Obj) (*Thread) {
+func NewThread(maxStackSize uint, jThread *rtc.Obj) (*Thread) {
     stack := newStack(maxStackSize)
     return &Thread{0, stack, jThread}
 }

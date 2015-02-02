@@ -2,12 +2,12 @@ package rtda
 
 // jvm stack
 type Stack struct {
-    maxSize int
-    size    int 
+    maxSize uint
+    size    uint 
     frames  []*Frame
 }
 
-func newStack(maxSize int) (*Stack) {
+func newStack(maxSize uint) (*Stack) {
     frames := make([]*Frame, 8)
     return &Stack{maxSize, 0, frames}
 }
@@ -17,7 +17,7 @@ func (self *Stack) push(frame *Frame) {
         // todo
         panic("StackOverflowError")
     }
-    if self.size == len(self.frames) {
+    if self.size == uint(len(self.frames)) {
         // todo
         self.expand()
     }
@@ -45,6 +45,9 @@ func (self *Stack) pop() (*Frame) {
 
 func (self *Stack) top() (*Frame) {
     return self.frames[self.size - 1]
+}
+func (self *Stack) topN(n uint) (*Frame) {
+    return self.frames[self.size - 1 - n]
 }
 
 func (self *Stack) isEmpty() (bool) {

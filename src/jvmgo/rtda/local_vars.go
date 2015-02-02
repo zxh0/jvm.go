@@ -9,6 +9,11 @@ type LocalVars struct {
     slots []Any
 }
 
+func newLocalVars(size uint) (*LocalVars) {
+    slots := make([]Any, size)
+    return &LocalVars{slots}
+}
+
 func (self *LocalVars) GetRef(index uint) (*class.Obj) {
     ref := self.slots[index]
     if ref == nil {
@@ -51,9 +56,4 @@ func (self *LocalVars) SetDouble(index uint, val float64) {
 
 func (self *LocalVars) Set(index uint, any Any) {
     self.slots[index] = any
-}
-
-func newLocalVars(size uint) (*LocalVars) {
-    slots := make([]Any, size)
-    return &LocalVars{slots}
 }

@@ -10,6 +10,11 @@ type OperandStack struct {
     slots   []Any
 }
 
+func newOperandStack(size uint) (*OperandStack) {
+    slots := make([]Any, size)
+    return &OperandStack{0, slots}
+}
+
 func (self *OperandStack) PushNull() {
     self.Push(nil)
 }
@@ -80,9 +85,4 @@ func (self *OperandStack) PopN(n uint) ([]Any) {
 }
 func (self *OperandStack) Top(n uint) (Any) {
     return self.slots[self.size - 1 - n]
-}
-
-func newOperandStack(size uint) (*OperandStack) {
-    slots := make([]Any, size)
-    return &OperandStack{0, slots}
 }

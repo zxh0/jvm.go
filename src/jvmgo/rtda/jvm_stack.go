@@ -7,6 +7,11 @@ type Stack struct {
     frames  []*Frame
 }
 
+func newStack(maxSize int) (*Stack) {
+    frames := make([]*Frame, 8)
+    return &Stack{maxSize, 0, frames}
+}
+
 func (self *Stack) push(frame *Frame) {
     if self.size >= self.maxSize {
         // todo
@@ -44,9 +49,4 @@ func (self *Stack) top() (*Frame) {
 
 func (self *Stack) isEmpty() (bool) {
     return self.size == 0
-}
-
-func newStack(maxSize int) (*Stack) {
-    frames := make([]*Frame, 8)
-    return &Stack{maxSize, 0, frames}
 }

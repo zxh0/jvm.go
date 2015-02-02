@@ -12,6 +12,12 @@ type Frame struct {
     onPopAction     func()
 }
 
+func newFrame(thread *Thread, method *rtc.Method) (*Frame) {
+    localVars := newLocalVars(method.MaxLocals())
+    operandStack := newOperandStack(method.MaxStack())
+    return &Frame{thread, 0, localVars, operandStack, method, nil}
+}
+
 // getters & setters
 func (self *Frame) Thread() (*Thread) {
     return self.thread
@@ -33,10 +39,4 @@ func (self *Frame) Method() (*rtc.Method) {
 }
 func (self *Frame) SetOnPopAction(f func()) {
     self.onPopAction = f
-}
-
-func newFrame(thread *Thread, method *rtc.Method) (*Frame) {
-    localVars := newLocalVars(method.MaxLocals())
-    operandStack := newOperandStack(method.MaxStack())
-    return &Frame{thread, 0, localVars, operandStack, method, nil}
 }

@@ -21,6 +21,11 @@ type Thread struct {
     // todo
 }
 
+func NewThread(maxStackSize int, jThread *rtc.Obj) (*Thread) {
+    stack := newStack(maxStackSize)
+    return &Thread{0, stack, jThread}
+}
+
 // getters & setters
 func (self *Thread) PC() (int) {
     return self.pc
@@ -82,9 +87,4 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
 
 func (self *Thread) NewFrame(method *rtc.Method) (*Frame) {
     return newFrame(self, method)
-}
-
-func NewThread(maxStackSize int, jThread *rtc.Obj) (*Thread) {
-    stack := newStack(maxStackSize)
-    return &Thread{0, stack, jThread}
 }

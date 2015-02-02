@@ -50,6 +50,9 @@ func (self *Thread) CurrentFrame() (*Frame) {
 func (self *Thread) TopFrame() (*Frame) {
     return self.stack.top()
 }
+func (self *Thread) TopNFrame(n uint) (*Frame) {
+    return self.stack.topN(n)
+}
 
 func (self *Thread) PushFrame(frame *Frame) {
     self.stack.push(frame)

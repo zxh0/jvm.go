@@ -19,11 +19,7 @@ func _reflection(method Any, name, desc string) {
 // (I)Ljava/lang/Class;
 func getCallerClass(frame *rtda.Frame) {
     stack := frame.OperandStack()
-    i := stack.PopInt()
-    if i == 0 {
-        callerClass := frame.Method().Class().JClass()
-        stack.PushRef(callerClass)
-    } else {
-        panic("todo getCallerClass()!")
-    }
+    i := uint(stack.PopInt())
+    callerClass := frame.Thread().TopNFrame(i).Method().Class().JClass()
+    stack.PushRef(callerClass)
 }

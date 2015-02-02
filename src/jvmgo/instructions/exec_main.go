@@ -2,7 +2,6 @@ package instructions
 
 import (
     //"fmt"
-    . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
 )
@@ -25,7 +24,7 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
 
     if _classLoader == nil {
-        initVars(stack.PopRef())
+        initVars(stack)
         _classLoader.Init()
     }
     if !isBasicClassesReady(thread) {
@@ -68,11 +67,10 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
     }
 }
 
-func initVars(fakeRef *rtc.Obj) {
-    fakeFields := fakeRef.Fields().([]Any)
-    _classLoader = fakeFields[0].(*rtc.ClassLoader)
-    _mainClassName = fakeFields[1].(string)
-    _args = fakeFields[2].([]string)
+func initVars(stack *rtda.OperandStack) {
+    _classLoader = stack.Pop().(*rtc.ClassLoader)
+    _mainClassName = stack.Pop().(string)
+    _args = stack.Pop().([]string)
     _basicClasses = []string{
         "java/lang/Class",
         "java/lang/String",

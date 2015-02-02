@@ -87,10 +87,10 @@ func (self *Class) GetStaticMethod(name, descriptor string) (*Method) {
 func (self *Class) NewObj() (*Obj) {
     if self.instanceFieldCount > 0 {
         fields := make([]Any, self.instanceFieldCount)
-        obj := &Obj{self, fields}
+        obj := &Obj{self, fields, nil}
         obj.zeroFields()
         return obj
     } else {
-        return &Obj{self, nil}
+        return &Obj{self, nil, nil}
     }
 }

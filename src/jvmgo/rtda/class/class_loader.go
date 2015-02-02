@@ -28,6 +28,7 @@ func (self *ClassLoader) Init() {
     for _, class := range self.classMap {
         if class.jClass == nil {
             class.jClass = jlClassClass.NewObj()
+            class.jClass.extra = class
         }
     }
 }
@@ -73,6 +74,7 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     jlClassClass := self.classMap[jlClassName]
     if jlClassClass != nil {
         class.jClass = jlClassClass.NewObj()
+        class.jClass.extra = class
     }
 
     return class

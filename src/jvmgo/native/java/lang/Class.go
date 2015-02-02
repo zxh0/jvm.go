@@ -38,7 +38,10 @@ func getClassLoader0(frame *rtda.Frame) {
 // private native String getName0();
 // ()Ljava/lang/String;
 func getName0(frame *rtda.Frame) {
-    panic("getName0")
+    stack := frame.OperandStack()
+    this := stack.PopRef()
+    name := this.Class().Name()
+    panic("getName0" + name)
 }
 
 // static native Class<?> getPrimitiveClass(String name);

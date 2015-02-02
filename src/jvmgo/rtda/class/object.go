@@ -7,8 +7,8 @@ import (
 // object
 type Obj struct {
     class   *Class
-    fields  Any // []Any
-    //_       Any // todo
+    fields  Any // []Any for Object, []int32 for int[] ...
+    extra   Any // todo
 }
 
 func (self *Obj) Class() (*Class) {
@@ -49,5 +49,5 @@ func (self *Obj) zeroFields() {
 
 // todo
 func NewObj(fields Any) (*Obj) {
-    return &Obj{nil, fields}
+    return &Obj{nil, fields, nil}
 }

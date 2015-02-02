@@ -12,6 +12,7 @@ func init() {
     _class(getName0,                "getName0",                 "()Ljava/lang/String;")
     _class(getPrimitiveClass,       "getPrimitiveClass",        "(Ljava/lang/String;)Ljava/lang/Class;")
     _class(isInterface,             "isInterface",              "()Z")
+    _class(isPrimitive,             "isPrimitive",              "()Z")
 }
 
 func _class(method Any, name, desc string) {
@@ -85,4 +86,13 @@ func isInterface(frame *rtda.Frame) {
     jClass := stack.PopRef() // this
     goClass := jClass.Extra().(*rtc.Class)
     stack.PushBoolean(goClass.IsInterface())
+}
+
+// public native boolean isPrimitive();
+// ()Z
+func isPrimitive(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    jClass := stack.PopRef() // this
+    goClass := jClass.Extra().(*rtc.Class)
+    stack.PushBoolean(goClass.IsPrimitive())
 }

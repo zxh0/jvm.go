@@ -35,6 +35,10 @@ func (self *Class) Name() (string) {
     return self.name
 }
 
+func (self *Class) IsPrimitive() (bool) {
+    return isPrimitiveType(self.name)
+}
+
 func (self *Class) JClass() (*Obj) {
     return self.jClass
 }

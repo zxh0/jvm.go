@@ -83,14 +83,3 @@ func (self *Method) IsRegisterNatives() (bool) {
             self.descriptor == registerNativesMethodDesc
 
 }
-
-// hack
-func NewStartupMethod(code []byte, classLoader Any) (*Method) {
-    method := &Method{}
-    method.class = &Class{name:"~jvmgo", classLoader:classLoader.(*ClassLoader)}
-    method.name = "<jvmgo>"
-    method.maxStack = 8
-    method.maxLocals = 8
-    method.code = code
-    return method
-}

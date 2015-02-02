@@ -2,9 +2,7 @@ package class
 
 import (
     //"fmt"
-    //. "jvmgo/any"
     "jvmgo/classfile"
-    //"jvmgo/rtda"
 )
 
 func cf2class(cf *classfile.ClassFile) (*Class) {

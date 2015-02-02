@@ -8,6 +8,7 @@ import (
 
 func init() {
     _thread(currentThread,  "currentThread",    "()Ljava/lang/Thread;")
+    _thread(isAlive,        "isAlive",          "()Z")
     _thread(setPriority0,   "setPriority0",     "(I)V")
 }
 
@@ -20,6 +21,14 @@ func _thread(method Any, name, desc string) {
 func currentThread(frame *rtda.Frame) {
     jThread := frame.Thread().JThread()
     frame.OperandStack().PushRef(jThread)
+}
+
+// public final native boolean isAlive();
+// ()Z
+func isAlive(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    stack.PopRef() // this
+    stack.PushBoolean(false) // todo
 }
 
 // private native void setPriority0(int newPriority);

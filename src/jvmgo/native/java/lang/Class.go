@@ -11,6 +11,7 @@ func init() {
     _class(getClassLoader0,         "getClassLoader0",          "()Ljava/lang/ClassLoader;")
     _class(getName0,                "getName0",                 "()Ljava/lang/String;")
     _class(getPrimitiveClass,       "getPrimitiveClass",        "(Ljava/lang/String;)Ljava/lang/Class;")
+    _class(isInterface,             "isInterface",              "()Z")
 }
 
 func _class(method Any, name, desc string) {
@@ -39,8 +40,8 @@ func getClassLoader0(frame *rtda.Frame) {
 // ()Ljava/lang/String;
 func getName0(frame *rtda.Frame) {
     stack := frame.OperandStack()
-    this := stack.PopRef()
-    goClass := this.Extra().(*rtc.Class)
+    jClass := stack.PopRef() // this
+    goClass := jClass.Extra().(*rtc.Class)
     goName := goClass.Name()
     jName := rtda.NewJString(goName, frame.Thread())
     stack.PushRef(jName)
@@ -74,4 +75,13 @@ func _getPrimitiveClass(name []uint16, classLoader *rtc.ClassLoader) (*rtc.Class
     case 's': return classLoader.GetPrimitiveClass("short")
     }
     panic("BAD primitive type!") // todo
+}
+
+// public native boolean isInterface();
+// ()Z
+func isInterface(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    jClass := stack.PopRef() // this
+    goClass := jClass.Extra().(*rtc.Class)
+    stack.PushBoolean(goClass.IsInterface())
 }

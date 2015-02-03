@@ -84,9 +84,10 @@ func _logInvoke(method * rtc.Method) {
 }
 func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
     if argCount > 0 {
-        args := stack.PopN(argCount)
+        args := stack.popN(argCount)
         for i, j := uint(0), uint(0); i < argCount; i++ {
             arg := args[i]
+            args[i] = nil
             vars.Set(i + j, arg)
             if any.IsLongOrDouble(arg) {
                 j++

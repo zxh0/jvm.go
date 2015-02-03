@@ -81,7 +81,7 @@ func (self *OperandStack) Pop() (Any) {
     return top
 }
 
-func (self *OperandStack) PopN(n uint) ([]Any) {
+func (self *OperandStack) popN(n uint) ([]Any) {
     start := self.size - n
     end := self.size
     top := self.slots[start:end]

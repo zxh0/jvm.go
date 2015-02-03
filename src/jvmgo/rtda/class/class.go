@@ -42,6 +42,9 @@ func (self *Class) IsPrimitive() (bool) {
 func (self *Class) JClass() (*Obj) {
     return self.jClass
 }
+func (self *Class) SuperClass() (*Class) {
+    return self.superClass
+}
 func (self *Class) ClassLoader() (*ClassLoader) {
     return self.classLoader
 }

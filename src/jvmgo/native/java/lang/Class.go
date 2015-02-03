@@ -12,6 +12,7 @@ func init() {
     _class(getDeclaredFields0,      "getDeclaredFields0",       "(Z)[Ljava/lang/reflect/Field;")
     _class(getName0,                "getName0",                 "()Ljava/lang/String;")
     _class(getPrimitiveClass,       "getPrimitiveClass",        "(Ljava/lang/String;)Ljava/lang/Class;")
+    _class(getSuperclass,           "getSuperclass",            "()Ljava/lang/Class;")
     _class(isInterface,             "isInterface",              "()Z")
     _class(isPrimitive,             "isPrimitive",              "()Z")
 }
@@ -132,6 +133,16 @@ func _getPrimitiveClass(name []uint16, classLoader *rtc.ClassLoader) (*rtc.Class
     case 'v': return classLoader.GetPrimitiveClass("void")
     }
     panic("BAD primitive type!") // todo
+}
+
+// public native Class<? super T> getSuperclass();
+// ()Ljava/lang/Class;
+func getSuperclass(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    jClass := stack.PopRef() // this
+    goClass := jClass.Extra().(*rtc.Class)
+    jSuperClass := goClass.SuperClass().JClass()
+    stack.PushRef(jSuperClass)
 }
 
 // public native boolean isInterface();

@@ -10,6 +10,7 @@ func init() {
     _thread(currentThread,  "currentThread",    "()Ljava/lang/Thread;")
     _thread(isAlive,        "isAlive",          "()Z")
     _thread(setPriority0,   "setPriority0",     "(I)V")
+    _thread(start0,         "start0",           "()V")
 }
 
 func _thread(method Any, name, desc string) {
@@ -36,5 +37,13 @@ func setPriority0(frame *rtda.Frame) {
     stack := frame.OperandStack()
     /*newPriority := */stack.PopInt()
     /*this := */stack.PopRef()
+    // todo
+}
+
+// private native void start0();
+// ()V
+func start0(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    stack.PopRef() // this
     // todo
 }

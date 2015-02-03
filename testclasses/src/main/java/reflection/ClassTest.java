@@ -16,9 +16,9 @@ public class ClassTest implements Runnable {
         Class<?> c = ClassTest.class;
         System.out.println(c.getName());
         System.out.println("superclass: " + c.getSuperclass().getName());
-//        for (Class<?> ic : c.getInterfaces()) {
-//            System.out.println("interfaces: " + ic.getName());
-//        }
+        for (Class<?> ic : c.getInterfaces()) {
+            System.out.println("interfaces: " + ic.getName());
+        }
 //        for (Field f : c.getFields()) {
 //            System.out.println("field: " + f.getName());
 //        }

@@ -22,9 +22,18 @@ func (self *Obj) Extra() (Any) {
 }
 
 func (self *Obj) IsInstanceOf(class *Class) (bool) {
-    for k := self.class; k != nil; k = k.superClass {
-        if k == class {
-            return true
+    if class.IsInterface() {
+        // todo
+        for _, i := range self.class.interfaces {
+            if i == class {
+                return true
+            }
+        }
+    } else {
+        for k := self.class; k != nil; k = k.superClass {
+            if k == class {
+                return true
+            }
         }
     }
     return false

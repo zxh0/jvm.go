@@ -162,8 +162,12 @@ func (self *ClassLoader) resolveSuperClass(class *Class) {
     }
 }
 func (self *ClassLoader) resolveInterfaces(class *Class) {
-    for _, interfaceName := range class.interfaceNames {
-        self.LoadClass(interfaceName)
+    interfaceCount := len(class.interfaceNames)
+    if interfaceCount > 0 {
+        class.interfaces = make([]*Class, interfaceCount)
+        for i, interfaceName := range class.interfaceNames {
+            class.interfaces[i] = self.LoadClass(interfaceName)
+        }
     }
 }
 

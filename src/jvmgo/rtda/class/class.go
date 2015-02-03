@@ -25,6 +25,7 @@ type Class struct {
     state               int
     jClass              *Obj // java.lang.Class instance
     superClass          *Class
+    interfaces          []*Class
     classLoader         *ClassLoader // defining class loader
 }
 
@@ -44,6 +45,9 @@ func (self *Class) JClass() (*Obj) {
 }
 func (self *Class) SuperClass() (*Class) {
     return self.superClass
+}
+func (self *Class) Interfaces() ([]*Class) {
+    return self.interfaces
 }
 func (self *Class) ClassLoader() (*ClassLoader) {
     return self.classLoader

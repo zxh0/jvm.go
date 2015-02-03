@@ -16,7 +16,7 @@ func TestInternSameString(t *testing.T) {
     test.AssertSame(str2, str3)
 }
 
-func TestInternStrings(t *testing.T) {
+func TestInternDifferentStrings(t *testing.T) {
     str1, chars1 := &Obj{extra:1}, []uint16{3, 2, 1}
     str2, chars2 := &Obj{extra:2}, []uint16{1, 2, 3, 4}
     str3, chars3 := &Obj{extra:3}, []uint16{1, 2, 3}

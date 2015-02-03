@@ -29,9 +29,9 @@ func _ldc(frame *rtda.Frame, index uint) {
     case *rtc.ConstantString: 
         constStr := c.(*rtc.ConstantString)
         if constStr.JStr() == nil {
-            jStr := rtda.NewJString(constStr.GoStr(), frame)
+            chars, jStr := rtda.NewJString(constStr.GoStr(), frame)
+            jStr = rtc.InternString(chars, jStr)
             constStr.SetJStr(jStr)
-            // todo string intern
         }
         stack.PushRef(constStr.JStr())
     case *rtc.ConstantClass: // todo

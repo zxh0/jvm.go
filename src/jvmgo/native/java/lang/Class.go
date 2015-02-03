@@ -72,11 +72,13 @@ func getDeclaredFields0(frame *rtda.Frame) {
             jField := fieldClass.NewObj()
             jFields[i] = jField
 
+            _, jName := rtda.NewJString(goField.Name(), frame)
+
             newFrame := thread.NewFrame(constructor)
             vars := newFrame.LocalVars()
             vars.SetRef(0, jField) // this
             vars.SetRef(1, jClass) // declaringClass
-            vars.SetRef(2, rtda.NewJString(goField.Name(), frame)) // name
+            vars.SetRef(2, jName) // name
             vars.SetRef(3, nil) // todo type
             vars.SetInt(4, int32(goField.GetAccessFlags())) // modifiers
             vars.SetInt(5, 0) // slot
@@ -101,7 +103,7 @@ func getName0(frame *rtda.Frame) {
     jClass := stack.PopRef() // this
     goClass := jClass.Extra().(*rtc.Class)
     goName := goClass.Name()
-    jName := rtda.NewJString(goName, frame)
+    _, jName := rtda.NewJString(goName, frame)
     stack.PushRef(jName)
 }
 

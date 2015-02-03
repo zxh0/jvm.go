@@ -11,6 +11,11 @@ type Obj struct {
     extra   Any // todo
 }
 
+func (self *Obj) String() string {
+    return "{Obj class:" + self.class.String() + "}"
+}
+
+// getters
 func (self *Obj) Class() (*Class) {
     return self.class
 }

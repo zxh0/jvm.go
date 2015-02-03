@@ -29,6 +29,10 @@ type Class struct {
     classLoader         *ClassLoader // defining class loader
 }
 
+func (self *Class) String() string {
+    return "{Class name:" + self.name + "}"
+}
+
 // getters
 func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool

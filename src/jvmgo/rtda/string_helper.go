@@ -6,6 +6,12 @@ import (
     rtc "jvmgo/rtda/class"
 )
 
+func JStringChars(jStr *rtc.Obj) ([]uint16) {
+    valueField := jStr.Class().GetField("value", "[C")
+    charArr := valueField.GetValue(jStr).(*rtc.Obj)
+    return charArr.Fields().([]uint16)
+}
+
 // todo: is there a better way to create String?
 func NewJString(goStr string, frame *Frame) ([]uint16, *rtc.Obj) {
     classLoader := frame.Method().Class().ClassLoader()

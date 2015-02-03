@@ -112,8 +112,7 @@ func getName0(frame *rtda.Frame) {
 func getPrimitiveClass(frame *rtda.Frame) {
     stack := frame.OperandStack()
     jName := stack.PopRef()
-    charsVal := jName.Class().GetField("value", "[C").GetValue(jName)
-    chars := charsVal.(*rtc.Obj).Fields().([]uint16)
+    chars := rtda.JStringChars(jName)
 
     classLoader := frame.Method().Class().ClassLoader()
     jClass := _getPrimitiveClass(chars, classLoader).JClass()

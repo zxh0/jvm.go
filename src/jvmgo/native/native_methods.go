@@ -26,9 +26,8 @@ func registerNatives(frame *rtda.Frame) {
 func jvmgo_SystemOut_println(frame *rtda.Frame) {
     stack := frame.OperandStack()
     str := stack.PopRef()
-    this := stack.PopRef()
-    this.Class()
-    chars := str.Class().GetField("value", "[C").GetValue(str).(*rtc.Obj).Fields().([]uint16)
+    stack.PopRef() // this
+    chars := rtda.JStringChars(str)
     for _, char := range chars {
         fmt.Printf("%c", char)
     }

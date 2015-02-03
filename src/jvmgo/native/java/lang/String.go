@@ -19,8 +19,7 @@ func _string(method Any, name, desc string) {
 func intern(frame *rtda.Frame) {
     stack := frame.OperandStack()
     str := stack.PopRef() // this
-    charArr := str.Class().GetField("value", "[C").GetValue(str).(*rtc.Obj)
-    chars := charArr.Fields().([]uint16)
+    chars := rtda.JStringChars(str)
     internedStr := rtc.InternString(chars, str)
     stack.PushRef(internedStr)
 }

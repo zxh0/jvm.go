@@ -1,5 +1,7 @@
 package class
 
+//import "fmt"
+
 // home for interned Strings
 var _stringPool = []StringItem{}
 
@@ -13,7 +15,7 @@ func InternString(chars []uint16, str *Obj) (*Obj) {
     if index >= 0 {
         return _stringPool[index].str
     } else {
-        _insert(str)
+        _insert(-index-1, chars, str)
         return str
     }
 }
@@ -66,6 +68,23 @@ func _min(a, b int) (int) {
     }
 }
 
-func _insert(str *Obj) {
-    // todo
+func _insert(index int, chars []uint16, str *Obj) {
+    poolLen := len(_stringPool)
+    if poolLen == cap(_stringPool) {
+        _expandPool()
+    }
+
+    _stringPool = _stringPool[:poolLen + 1]
+    src := _stringPool[index: poolLen]
+    dst := _stringPool[index + 1: poolLen + 1]
+    copy(dst, src)
+
+    _stringPool[index] = StringItem{chars, str}
+}
+
+func _expandPool() {
+    poolLen := len(_stringPool)
+    newPool := make([]StringItem, poolLen, poolLen + 100)
+    copy(newPool, _stringPool) // func copy(dst, src []T) int
+    _stringPool = newPool
 }

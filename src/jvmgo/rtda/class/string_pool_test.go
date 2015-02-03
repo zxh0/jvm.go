@@ -11,4 +11,7 @@ func TestInternSameString(t *testing.T) {
 
     str2 := InternString(chars, str)
     test.AssertSame(str, str2)
+
+    str3 := InternString(chars, str2)
+    test.AssertSame(str2, str3)
 }

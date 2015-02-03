@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 
 public class ClassTest implements Runnable {
     static {
-        System.out.println("clinit");
+        //System.out.println("clinit");
     }
 
     public ClassTest() {
@@ -16,21 +16,21 @@ public class ClassTest implements Runnable {
         Class<?> c = ClassTest.class;
         System.out.println(c.getName());
         System.out.println("superclass: " + c.getSuperclass().getName());
-        for (Class<?> ic : c.getInterfaces()) {
-            System.out.println("interfaces: " + ic.getName());
-        }
-        for (Field f : c.getFields()) {
-            System.out.println("field: " + f.getName());
-        }
-        for (Field f : c.getDeclaredFields()) {
-            System.out.println("declaredFields:" + f.getName());
-        }
-        for (Method m : c.getMethods()) {
-            System.out.println("method: " + m.getName());
-        }
-        for (Method m : c.getDeclaredMethods()) {
-            System.out.println("declaredMethods: " + m.getName());
-        }
+//        for (Class<?> ic : c.getInterfaces()) {
+//            System.out.println("interfaces: " + ic.getName());
+//        }
+//        for (Field f : c.getFields()) {
+//            System.out.println("field: " + f.getName());
+//        }
+//        for (Field f : c.getDeclaredFields()) {
+//            System.out.println("declaredFields:" + f.getName());
+//        }
+//        for (Method m : c.getMethods()) {
+//            System.out.println("method: " + m.getName());
+//        }
+//        for (Method m : c.getDeclaredMethods()) {
+//            System.out.println("declaredMethods: " + m.getName());
+//        }
     }
 
     @Override

@@ -2,6 +2,9 @@ package reflection;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Properties;
+import sun.reflect.Reflection;
 
 public class ClassTest implements Runnable {
     static {
@@ -29,12 +32,21 @@ public class ClassTest implements Runnable {
         for (Field f : c.getDeclaredFields()) {
             System.out.println("declaredFields:" + f.getName());
         }
+        
+        //Object x = new Reflection();
+        //new Properties();
+        
 //        for (Method m : c.getMethods()) {
 //            System.out.println("method: " + m.getName());
 //        }
 //        for (Method m : c.getDeclaredMethods()) {
 //            System.out.println("declaredMethods: " + m.getName());
 //        }
+        
+        
+        
+        int[] x = {1};
+        System.out.println(Arrays.binarySearch(x, 8));
     }
 
     @Override

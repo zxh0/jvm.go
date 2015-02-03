@@ -1,6 +1,6 @@
 package class
 
-//import "fmt"
+import "fmt"
 
 // home for interned Strings
 var _stringPool = []StringItem{}
@@ -13,8 +13,10 @@ type StringItem struct {
 func InternString(chars []uint16, str *Obj) (*Obj) {
     index := _binarySearch(chars)
     if index >= 0 {
+fmt.Println("found!!")
         return _stringPool[index].str
     } else {
+fmt.Println("not found!!")
         _insert(-index-1, chars, str)
         return str
     }
@@ -49,14 +51,14 @@ func _compare(a, b []uint16) (int) {
             return -1
         } else if x > y {
             return 1
-        } else {
-            return 0
         }
     }
     if aLen > bLen {
         return 1
-    } else {
+    } else if aLen < bLen {
         return -1
+    } else {
+        return 0
     }
 }
 

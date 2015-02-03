@@ -14,7 +14,7 @@ func (self *new_) Execute(frame *rtda.Frame) {
 
     if class.InitializationNotStarted() {
         thread := frame.Thread()
-        frame.SetNextPC(thread.PC())
+        frame.SetNextPC(thread.PC()) // undo new
         initClass(class, thread)
     } else {
         ref := class.NewObj()

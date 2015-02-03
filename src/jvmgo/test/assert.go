@@ -7,11 +7,20 @@ import (
 )
 
 func AssertNil(any Any) {
-    AssertEquals(nil, any)
+    if any != nil {
+        panic("Not nil!")   
+    }
 }
 func AssertNotNil(any Any) {
     if any == nil {
         panic("nil!")
+    }
+}
+
+func AssertSame(expected, actual Any) {
+    if expected != actual {
+        msg := fmt.Sprintf("Not same! expected: %v actual: %v", expected, actual)
+        panic(msg)
     }
 }
 
@@ -29,6 +38,6 @@ func AssertEquals(expected, actual Any) {
         return
     }
 
-    msg := fmt.Sprintf("expected: %v actual: %v", expected, actual)
+    msg := fmt.Sprintf("Not equals! expected: %v actual: %v", expected, actual)
     panic(msg)
 }

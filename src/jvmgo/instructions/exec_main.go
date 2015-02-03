@@ -30,9 +30,6 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
     if !isBasicClassesReady(thread) {
         return
     }
-    if !isJArgsReady(thread) {
-        return
-    }
     if !isMainThreadReady(thread) {
         return
     }
@@ -60,7 +57,7 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
     if mainMethod != nil {
         newFrame := thread.NewFrame(mainMethod)
         thread.PushFrame(newFrame)
-        args := rtc.NewRefArray2(_classLoader.StringClass(), _jArgs, _classLoader)
+        args := createArgs(newFrame)
         newFrame.LocalVars().SetRef(0, args)
     } else {
         panic("no main method!") // todo
@@ -94,20 +91,13 @@ func isBasicClassesReady(thread *rtda.Thread) (bool) {
     return true
 }
 
-func isJArgsReady(thread *rtda.Thread) (bool) {
-    if len(_args) > 0 {
-        if _jArgs == nil {
-            _jArgs = make([]*rtc.Obj, 0, len(_args))
-        }
-        for len(_jArgs) < len(_args) {
-            undoExec(thread)
-            n := len(_jArgs)
-            _jArgs = _jArgs[:n + 1]
-            _jArgs[n] = rtda.NewJString(_args[n], thread.CurrentFrame())
-            return false
-        }
+func createArgs(frame *rtda.Frame) (*rtc.Obj) {
+    jArgs := make([]*rtc.Obj, len(_args))
+    for i, arg := range _args {
+        jArgs[i] = rtda.NewJString(arg, frame)
     }
-    return true
+
+    return rtc.NewRefArray2(_classLoader.StringClass(), jArgs, _classLoader)
 }
 
 func isMainThreadReady(thread *rtda.Thread) (bool) {

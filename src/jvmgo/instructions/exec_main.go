@@ -91,15 +91,6 @@ func isBasicClassesReady(thread *rtda.Thread) (bool) {
     return true
 }
 
-func createArgs(frame *rtda.Frame) (*rtc.Obj) {
-    jArgs := make([]*rtc.Obj, len(_args))
-    for i, arg := range _args {
-        jArgs[i] = rtda.NewJString(arg, frame)
-    }
-
-    return rtc.NewRefArray2(_classLoader.StringClass(), jArgs, _classLoader)
-}
-
 func isMainThreadReady(thread *rtda.Thread) (bool) {
     stack := thread.CurrentFrame().OperandStack()
     if _mainThreadGroup == nil {
@@ -136,4 +127,13 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
 // prepare to reexec this instruction
 func undoExec(thread *rtda.Thread) {
     thread.CurrentFrame().SetNextPC(thread.PC())
+}
+
+func createArgs(frame *rtda.Frame) (*rtc.Obj) {
+    jArgs := make([]*rtc.Obj, len(_args))
+    for i, arg := range _args {
+        jArgs[i] = rtda.NewJString(arg, frame)
+    }
+
+    return rtc.NewRefArray2(_classLoader.StringClass(), jArgs, _classLoader)
 }

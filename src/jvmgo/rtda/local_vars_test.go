@@ -2,13 +2,13 @@ package rtda
 
 import (
     "testing"
-    "jvmgo/rtda/class"
+    rtc "jvmgo/rtda/class"
 )
 
 func TestGetSet(t *testing.T) {
     vars := newLocalVars(6)
     vars.SetRef(0, nil)
-    vars.SetRef(1, class.NewPrimitiveArray(4, 4))
+    vars.SetRef(1, &rtc.Obj{})
     vars.SetInt(2, -37)
     vars.SetLong(3, 0xabcd1234ff)
     vars.SetFloat(4, 3.14)

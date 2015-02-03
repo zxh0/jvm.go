@@ -76,7 +76,9 @@ func (self *OperandStack) Push(any Any) {
 }
 func (self *OperandStack) Pop() (Any) {
     self.size--
-    return self.slots[self.size]
+    top := self.slots[self.size]
+    self.slots[self.size] = nil
+    return top
 }
 
 func (self *OperandStack) PopN(n uint) ([]Any) {

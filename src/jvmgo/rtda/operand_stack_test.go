@@ -2,13 +2,13 @@ package rtda
 
 import (
     "testing"
-    "jvmgo/rtda/class"
+    rtc "jvmgo/rtda/class"
 )
 
 func TestPushAndPop(t *testing.T) {
     stack := newOperandStack(6)
     stack.PushNull()
-    stack.PushRef(class.NewPrimitiveArray(4, 4))
+    stack.PushRef(&rtc.Obj{})
     stack.PushInt(-37)
     stack.PushLong(0xabcd1234ff)
     stack.PushFloat(3.14)

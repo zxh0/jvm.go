@@ -29,17 +29,13 @@ type Class struct {
     classLoader         *ClassLoader // defining class loader
 }
 
+// getters
 func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool
 }
 func (self *Class) Name() (string) {
     return self.name
 }
-
-func (self *Class) IsPrimitive() (bool) {
-    return isPrimitiveType(self.name)
-}
-
 func (self *Class) JClass() (*Obj) {
     return self.jClass
 }
@@ -51,6 +47,10 @@ func (self *Class) Interfaces() ([]*Class) {
 }
 func (self *Class) ClassLoader() (*ClassLoader) {
     return self.classLoader
+}
+
+func (self *Class) IsPrimitive() (bool) {
+    return isPrimitiveType(self.name)
 }
 
 func (self *Class) InitializationNotStarted() (bool) {

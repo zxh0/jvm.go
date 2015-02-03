@@ -31,7 +31,12 @@ func loop(thread *rtda.Thread) {
 }
 
 func _logInstruction(frame *rtda.Frame, pc int, opcode uint8, inst instructions.Instruction) {
-    className := frame.Method().Class().Name()
-    methodName := frame.Method().Name()
-    log.Printf("exec: %v.%v() #%v 0x%x %v", className, methodName, pc, opcode, inst)
+    method := frame.Method()
+    methodName := method.Name()
+    className := method.Class().Name()
+    if method.IsStatic() {
+        log.Printf("exec: %v.%v() #%v 0x%x %v", className, methodName, pc, opcode, inst)
+    } else {
+        log.Printf("exec: %v#%v() #%v 0x%x %v", className, methodName, pc, opcode, inst)
+    }
 }

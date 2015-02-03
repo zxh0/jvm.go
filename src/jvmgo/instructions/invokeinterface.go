@@ -28,7 +28,7 @@ func (self *invokeinterface) Execute(frame *rtda.Frame) {
     ref := stack.Top(cMethodRef.ArgCount()).(*rtc.Obj)
 
     if ref == nil {
-        panic("NPE")
+        panic("NPE") // todo
     }
 
     method := cMethodRef.VirtualMethod(ref)

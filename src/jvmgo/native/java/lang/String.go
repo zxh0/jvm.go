@@ -20,6 +20,6 @@ func intern(frame *rtda.Frame) {
     stack := frame.OperandStack()
     str := stack.PopRef() // this
     chars := rtda.JStringChars(str)
-    internedStr := rtc.InternString(chars, str)
+    internedStr := rtda.InternString(chars, str)
     stack.PushRef(internedStr)
 }

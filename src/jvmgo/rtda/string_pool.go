@@ -1,6 +1,8 @@
 package rtda
 
-import rtc "jvmgo/rtda/class"
+import (
+    rtc "jvmgo/rtda/class"
+)
 
 // home for interned Strings
 var _stringPool = []StringItem{}

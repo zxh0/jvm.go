@@ -13,14 +13,19 @@ func JStringChars(jStr *rtc.Obj) ([]uint16) {
 }
 
 // todo: is there a better way to create String?
-func NewJString(goStr string, frame *Frame) ([]uint16, *rtc.Obj) {
+func NewJString(goStr string, frame *Frame) (*rtc.Obj) {
+    chars := string2chars(goStr) // utf16
+    internedStr := getInternedString(chars)
+    if internedStr != nil {
+        return internedStr
+    }
+
     classLoader := frame.Method().Class().ClassLoader()
     stringClass := classLoader.StringClass()
-    chars := string2chars(goStr) // utf16
     jCharArr := rtc.NewCharArray(chars, classLoader)
     jStr := stringClass.NewObj()
     stringClass.GetField("value", "[C").PutValue(jStr, jCharArr)
-    return chars, jStr
+    return InternString(chars, jStr)
 }
 
 func string2chars(str string) ([]uint16) {

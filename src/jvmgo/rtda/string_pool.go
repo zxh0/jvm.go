@@ -1,16 +1,25 @@
-package class
+package rtda
 
-//import "fmt"
+import rtc "jvmgo/rtda/class"
 
 // home for interned Strings
 var _stringPool = []StringItem{}
 
 type StringItem struct {
     chars   []uint16
-    str     *Obj
+    str     *rtc.Obj
 }
 
-func InternString(chars []uint16, str *Obj) (*Obj) {
+func getInternedString(chars []uint16) (*rtc.Obj) {
+    index := _binarySearch(chars)
+    if index >= 0 {
+        return _stringPool[index].str
+    } else {
+        return nil
+    }
+}
+
+func InternString(chars []uint16, str *rtc.Obj) (*rtc.Obj) {
     index := _binarySearch(chars)
     if index >= 0 {
         return _stringPool[index].str
@@ -62,7 +71,7 @@ func _min(a, b int) (int) {
     }
 }
 
-func _insert(index int, chars []uint16, str *Obj) {
+func _insert(index int, chars []uint16, str *rtc.Obj) {
     poolLen := len(_stringPool)
     if poolLen == cap(_stringPool) {
         _expandPool()

@@ -103,7 +103,7 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
     }
     if _mainThreadName == nil {
         undoExec(thread)
-        _, _mainThreadName = rtda.NewJString("main", thread.CurrentFrame())
+        _mainThreadName = rtda.NewJString("main", thread.CurrentFrame())
         return false
     }
     if thread.JThread() == nil {
@@ -131,7 +131,7 @@ func undoExec(thread *rtda.Thread) {
 func createArgs(frame *rtda.Frame) (*rtc.Obj) {
     jArgs := make([]*rtc.Obj, len(_args))
     for i, arg := range _args {
-        _, jArgs[i] = rtda.NewJString(arg, frame)
+        jArgs[i] = rtda.NewJString(arg, frame)
     }
 
     return rtc.NewRefArray2(_classLoader.StringClass(), jArgs, _classLoader)

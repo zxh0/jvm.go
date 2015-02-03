@@ -1,6 +1,7 @@
 package lang
 
 import (
+    //"fmt"
     . "jvmgo/any"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
@@ -72,7 +73,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
             jField := fieldClass.NewObj()
             jFields[i] = jField
 
-            _, jName := rtda.NewJString(goField.Name(), frame)
+            jName := rtda.NewJString(goField.Name(), frame)
 
             newFrame := thread.NewFrame(constructor)
             vars := newFrame.LocalVars()
@@ -103,7 +104,7 @@ func getName0(frame *rtda.Frame) {
     jClass := stack.PopRef() // this
     goClass := jClass.Extra().(*rtc.Class)
     goName := goClass.Name()
-    _, jName := rtda.NewJString(goName, frame)
+    jName := rtda.NewJString(goName, frame)
     stack.PushRef(jName)
 }
 

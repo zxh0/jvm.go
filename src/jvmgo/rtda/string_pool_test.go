@@ -1,4 +1,4 @@
-package class
+package rtda
 
 import (
     "testing"
@@ -24,4 +24,8 @@ func TestInternDifferentStrings(t *testing.T) {
     test.AssertSame(str1, InternString(chars1, str1))
     test.AssertSame(str2, InternString(chars2, str2))
     test.AssertSame(str3, InternString(chars3, str3))
+
+    test.AssertSame(str1, InternString(chars1, &Obj{}))
+    test.AssertSame(str2, InternString(chars2, &Obj{}))
+    test.AssertSame(str3, InternString(chars3, &Obj{}))
 }

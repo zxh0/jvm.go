@@ -12,7 +12,6 @@ var (
     _classLoader        *rtc.ClassLoader
     _mainClassName      string
     _args               []string
-    _jArgs              []*rtc.Obj
     _mainThreadGroup    *rtc.Obj
     _mainThreadName     *rtc.Obj
 )

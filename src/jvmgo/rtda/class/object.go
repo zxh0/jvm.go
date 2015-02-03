@@ -23,10 +23,11 @@ func (self *Obj) Extra() (Any) {
 
 func (self *Obj) IsInstanceOf(class *Class) (bool) {
     if class.IsInterface() {
-        // todo
-        for _, i := range self.class.interfaces {
-            if i == class {
-                return true
+        for k := self.class; k != nil; k = k.superClass {
+            for _, i := range k.interfaces {
+                if _interfaceXextendsY(i, class) {
+                    return true
+                }
             }
         }
     } else {
@@ -34,6 +35,17 @@ func (self *Obj) IsInstanceOf(class *Class) (bool) {
             if k == class {
                 return true
             }
+        }
+    }
+    return false
+}
+func _interfaceXextendsY(x, y *Class) (bool) {
+    if x == y {
+        return true
+    }
+    for _, superInterface := range x.interfaces {
+        if _interfaceXextendsY(superInterface, y) {
+            return true
         }
     }
     return false

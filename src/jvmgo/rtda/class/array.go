@@ -34,6 +34,12 @@ func NewRefArray(componentClass *Class, count int32, classLoader *ClassLoader) (
     return &Obj{arrClass, components, nil}
 }
 
+// todo rename
+func NewRefArray2(componentClass *Class, components []*Obj, classLoader *ClassLoader) (*Obj) {
+    arrClass := classLoader.getRefArrayClass(componentClass)
+    return &Obj{arrClass, components, nil}
+}
+
 // todo
 func HaveSameArrayType(obj1, obj2 *Obj) (bool) {
     at1 := _arrayType(obj1)

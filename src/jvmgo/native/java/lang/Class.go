@@ -10,6 +10,7 @@ func init() {
     _class(desiredAssertionStatus0, "desiredAssertionStatus0",  "(Ljava/lang/Class;)Z")
     _class(getClassLoader0,         "getClassLoader0",          "()Ljava/lang/ClassLoader;")
     _class(getDeclaredFields0,      "getDeclaredFields0",       "(Z)[Ljava/lang/reflect/Field;")
+    _class(getInterfaces,           "getInterfaces",            "()[Ljava/lang/Class;")
     _class(getName0,                "getName0",                 "()Ljava/lang/String;")
     _class(getPrimitiveClass,       "getPrimitiveClass",        "(Ljava/lang/String;)Ljava/lang/Class;")
     _class(getSuperclass,           "getSuperclass",            "()Ljava/lang/Class;")
@@ -133,6 +134,26 @@ func _getPrimitiveClass(name []uint16, classLoader *rtc.ClassLoader) (*rtc.Class
     case 'v': return classLoader.GetPrimitiveClass("void")
     }
     panic("BAD primitive type!") // todo
+}
+
+// private native Class<?>[] getInterfaces();
+// ()[Ljava/lang/Class;
+func getInterfaces(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    jClass := stack.PopRef() // this
+    goClass := jClass.Extra().(*rtc.Class)
+    goInterfaces := goClass.Interfaces()
+    jInterfaces := make([]*rtc.Obj, len(goInterfaces))
+
+    for i, goInterface := range goInterfaces {
+        jInterfaces[i] = goInterface.JClass()
+    }
+
+    classLoader := goClass.ClassLoader()
+    classClass := classLoader.LoadClass("java/lang/Class")
+
+    interfaceArr := rtc.NewRefArray2(classClass, jInterfaces, classLoader)
+    stack.PushRef(interfaceArr)
 }
 
 // public native Class<? super T> getSuperclass();

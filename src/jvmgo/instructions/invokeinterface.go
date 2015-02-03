@@ -1,7 +1,7 @@
 package instructions
 
 import (
-    //"log"
+    //"fmt"
     "jvmgo/rtda"
     rtc "jvmgo/rtda/class"
 )
@@ -25,12 +25,13 @@ func (self *invokeinterface) Execute(frame *rtda.Frame) {
     cp := frame.Method().Class().ConstantPool()
     c := cp.GetConstant(uint(self.index))
     cMethodRef := c.(*rtc.ConstantInterfaceMethodref)
-    ref := stack.Top(cMethodRef.ArgCount())
+    ref := stack.Top(cMethodRef.ArgCount()).(*rtc.Obj)
+
     if ref == nil {
         panic("NPE")
     }
 
-    method := cMethodRef.VirtualMethod(ref.(*rtc.Obj))
+    method := cMethodRef.VirtualMethod(ref)
     if method.IsNative() {
         nativeMethod := method.NativeMethod().(func(*rtda.Frame))
         nativeMethod(frame)

@@ -8,6 +8,10 @@ public class ClassTest implements Runnable {
         //System.out.println("clinit");
     }
 
+    private int a;
+    public double b;
+    static boolean z;
+    
     public ClassTest() {
         System.out.println("init");
     }
@@ -19,12 +23,12 @@ public class ClassTest implements Runnable {
         for (Class<?> ic : c.getInterfaces()) {
             System.out.println("interfaces: " + ic.getName());
         }
-//        for (Field f : c.getFields()) {
-//            System.out.println("field: " + f.getName());
-//        }
-//        for (Field f : c.getDeclaredFields()) {
-//            System.out.println("declaredFields:" + f.getName());
-//        }
+        for (Field f : c.getFields()) {
+            System.out.println("field: " + f.getName());
+        }
+        for (Field f : c.getDeclaredFields()) {
+            System.out.println("declaredFields:" + f.getName());
+        }
 //        for (Method m : c.getMethods()) {
 //            System.out.println("method: " + m.getName());
 //        }

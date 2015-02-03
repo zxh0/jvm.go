@@ -2,29 +2,22 @@ package rtda
 
 import (
     "unicode/utf8"
+    "unicode/utf16"
     rtc "jvmgo/rtda/class"
 )
 
-func NewJString(goStr string, thread *Thread) (*rtc.Obj) {
-    // new string
-    stringClass := thread.CurrentFrame().Method().Class().ClassLoader().StringClass()
+// todo: is there a better way to create String?
+func NewJString(goStr string, frame *Frame) (*rtc.Obj) {
+    classLoader := frame.Method().Class().ClassLoader()
+    stringClass := classLoader.StringClass()
+    chars := string2chars(goStr) // utf16
+    jCharArr := rtc.NewCharArray(chars, classLoader)
     jStr := stringClass.NewObj()
-    
-    // init string
-    codePoints := string2CodePoints(goStr)
-    initMethod := stringClass.GetMethod("<init>", "([III)V") //public String(int[] codePoints, int offset, int count)
-    newFrame := thread.NewFrame(initMethod)
-    localVars := newFrame.LocalVars()
-    localVars.SetRef(0, jStr) // this
-    localVars.SetRef(1, rtc.NewIntArray(codePoints))
-    localVars.SetInt(2, 0)
-    localVars.SetInt(3, int32(len(codePoints)))
-    thread.PushFrame(newFrame)
-
+    stringClass.GetField("value", "[C").PutValue(jStr, jCharArr)
     return jStr
 }
 
-func string2CodePoints(str string) ([]rune) {
+func string2chars(str string) ([]uint16) {
     runeCount := utf8.RuneCountInString(str)
     codePoints := make([]rune, runeCount)
     i := 0
@@ -34,5 +27,7 @@ func string2CodePoints(str string) ([]rune) {
         i++
         str = str[size:]
     }
-    return codePoints
+
+    // func Encode(s []rune) []uint16
+    return utf16.Encode(codePoints)
 }

@@ -28,6 +28,10 @@ func NewPrimitiveArray(atype uint8, count int32, classLoader *ClassLoader) (*Obj
     }
 }
 
+func NewCharArray(chars []uint16, classLoader *ClassLoader) (*Obj) {
+    return &Obj{classLoader.getClass("[C"), chars, nil}
+}
+
 func NewRefArray(componentClass *Class, count int32, classLoader *ClassLoader) (*Obj) {
     arrClass := classLoader.getRefArrayClass(componentClass)
     components := make([]*Obj, count)

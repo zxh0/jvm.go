@@ -69,17 +69,17 @@ func (self *Thread) PopFrame() (*Frame) {
 
 
 func (self *Thread) InvokeMethod(method * rtc.Method) {
-    //_logInvoke(method)
+    //_logInvoke(self.stack.size, method)
     currentFrame := self.CurrentFrame()
     newFrame := self.NewFrame(method)
     self.PushFrame(newFrame)
     _passArgs(currentFrame.OperandStack(), newFrame.LocalVars(), method.ActualArgCount())
 }
-func _logInvoke(method * rtc.Method) {
+func _logInvoke(stackSize uint, method * rtc.Method) {
     if method.IsStatic() {
-        log.Printf("invoke method: %v.%v()", method.Class().Name(), method.Name())
+        log.Printf("invoke method: #%v %v.%v()", stackSize, method.Class().Name(), method.Name())
     } else {
-        log.Printf("invoke method: %v#%v()", method.Class().Name(), method.Name())
+        log.Printf("invoke method: #%v %v#%v()", stackSize, method.Class().Name(), method.Name())
     }
 }
 func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {

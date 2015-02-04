@@ -51,6 +51,6 @@ func objectFieldOffset(frame *rtda.Frame) {
     stack := frame.OperandStack()
     jField := stack.PopRef()
     stack.PopRef() // this
-    offset := jField.Class().GetField("slot", "I").GetValue(jField).(int32)
+    offset := rtc.GetFieldValue(jField, "slot", "I").(int32)
     stack.PushLong(int64(offset))
 }

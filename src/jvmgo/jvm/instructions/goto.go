@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/rtda"
+import "jvmgo/jvm/rtda"
 
 // Branch always
 type goto_ struct {BranchInstruction}

@@ -2,7 +2,7 @@ package rtda
 
 import (
     "testing"
-    rtc "jvmgo/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 func TestGetSet(t *testing.T) {

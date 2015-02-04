@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/rtda"
+import "jvmgo/jvm/rtda"
 
 // Load double from local variable 
 type dload struct {Index8Instruction}

@@ -3,6 +3,7 @@ package main
 import (
     "os"
     "jvmgo/cmdline"
+    "jvmgo/jvm"
 )
 
 func main() {
@@ -10,7 +11,7 @@ func main() {
     if err != nil {
         cmdline.PrintUsage()
     } else {
-        jvm := JVM{}
-        jvm.startup(cmd)
+        vm := jvm.JVM{}
+        vm.Startup(cmd)
     }
 }

@@ -3,9 +3,9 @@ package security
 import (
     //"fmt"
     . "jvmgo/any"
-    "jvmgo/rtda"
-    rtc "jvmgo/rtda/class"
-    //_ "jvmgo/instructions"
+    "jvmgo/jvm/rtda"
+    rtc "jvmgo/jvm/rtda/class"
+    //_ "jvmgo/jvm/instructions"
 )
 
 func init() {

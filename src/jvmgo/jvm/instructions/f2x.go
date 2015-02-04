@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/rtda"
+import "jvmgo/jvm/rtda"
 
 // Convert float to double
 type f2d struct {NoOperandsInstruction}

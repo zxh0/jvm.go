@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/rtda"
+import "jvmgo/jvm/rtda"
 
 // Branch if int comparison succeeds 
 type if_icmpeq struct {BranchInstruction}

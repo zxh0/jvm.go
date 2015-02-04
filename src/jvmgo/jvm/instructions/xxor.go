@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/rtda"
+import "jvmgo/jvm/rtda"
 
 // Boolean XOR int
 type ixor struct {NoOperandsInstruction}

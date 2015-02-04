@@ -4,8 +4,8 @@ import (
     //"log"
     //. "jvmgo/any"
     //"jvmgo/native"
-    "jvmgo/rtda"
-    rtc "jvmgo/rtda/class"
+    "jvmgo/jvm/rtda"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 // Invoke instance method; dispatch based on class

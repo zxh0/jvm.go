@@ -3,8 +3,8 @@ package lang
 import (
     "unsafe"
     . "jvmgo/any"
-    "jvmgo/rtda"
-    rtc "jvmgo/rtda/class"
+    "jvmgo/jvm/rtda"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 func init() {

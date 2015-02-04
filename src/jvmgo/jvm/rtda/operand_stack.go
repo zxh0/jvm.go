@@ -2,7 +2,7 @@ package rtda
 
 import (
     . "jvmgo/any"
-    "jvmgo/rtda/class"
+    "jvmgo/jvm/rtda/class"
 )
 
 type OperandStack struct {

@@ -2,7 +2,7 @@ package instructions
 
 import (
     "math"
-    "jvmgo/rtda"
+    "jvmgo/jvm/rtda"
 )
 
 // Remainder double

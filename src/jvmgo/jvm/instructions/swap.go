@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/rtda"
+import "jvmgo/jvm/rtda"
 
 // Swap the top two operand stack values
 type swap struct {NoOperandsInstruction}

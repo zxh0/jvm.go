@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/rtda"
+import "jvmgo/jvm/rtda"
 
 // Branch if reference comparison succeeds 
 type if_acmpeq struct {BranchInstruction}

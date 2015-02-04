@@ -1,9 +1,9 @@
-package main
+package jvm
 
 import (
     "log"
-    "jvmgo/rtda"
-    "jvmgo/instructions"
+    "jvmgo/jvm/rtda"
+    "jvmgo/jvm/instructions"
 )
 
 // todo

@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/rtda"
+import "jvmgo/jvm/rtda"
 
 // Convert int to byte
 type i2b struct {NoOperandsInstruction}

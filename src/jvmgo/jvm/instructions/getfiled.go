@@ -2,8 +2,8 @@ package instructions
 
 import (
     //"fmt"
-    "jvmgo/rtda"
-    "jvmgo/rtda/class" // rtc
+    "jvmgo/jvm/rtda"
+    "jvmgo/jvm/rtda/class" // rtc
 )
 
 // Fetch field from object

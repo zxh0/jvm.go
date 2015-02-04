@@ -2,7 +2,7 @@ package instructions
 
 import (
     //"fmt"
-    "jvmgo/rtda"
+    "jvmgo/jvm/rtda"
 )
 
 /*

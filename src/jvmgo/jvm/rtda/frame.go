@@ -1,6 +1,6 @@
 package rtda
 
-import rtc "jvmgo/rtda/class"
+import rtc "jvmgo/jvm/rtda/class"
 
 // stack frame
 type Frame struct {

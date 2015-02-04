@@ -2,7 +2,7 @@ package rtda
 
 import (
     "testing"
-    //"jvmgo/rtda/class"
+    //"jvmgo/jvm/rtda/class"
 )
 
 func TestPushPop(t *testing.T) {

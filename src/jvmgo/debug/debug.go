@@ -2,7 +2,7 @@ package debug
 
 import (
     "fmt"
-    rtc "jvmgo/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 func LogJString(jStr *rtc.Obj) {

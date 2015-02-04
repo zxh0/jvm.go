@@ -3,7 +3,7 @@ package rtda
 import (
     "unicode/utf8"
     "unicode/utf16"
-    rtc "jvmgo/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 func JStringChars(jStr *rtc.Obj) ([]uint16) {

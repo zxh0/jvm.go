@@ -3,7 +3,7 @@ package rtda
 import (
     "log"
     "jvmgo/any"
-    rtc "jvmgo/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 /*

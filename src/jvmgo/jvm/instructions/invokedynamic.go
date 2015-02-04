@@ -4,8 +4,8 @@ import (
     //"log"
     //. "jvmgo/any"
     //"jvmgo/native"
-    "jvmgo/rtda"
-    //"jvmgo/rtda/class"
+    "jvmgo/jvm/rtda"
+    //"jvmgo/jvm/rtda/class"
 )
 
 // Invoke dynamic method

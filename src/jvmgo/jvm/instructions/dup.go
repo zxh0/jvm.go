@@ -2,7 +2,7 @@ package instructions
 
 import (
     "jvmgo/any"
-    "jvmgo/rtda"
+    "jvmgo/jvm/rtda"
 )
 
 // Duplicate the top operand stack value

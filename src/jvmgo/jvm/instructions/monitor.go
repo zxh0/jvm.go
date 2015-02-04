@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/rtda"
+import "jvmgo/jvm/rtda"
 
 // Enter monitor for object
 type monitorenter struct {NoOperandsInstruction}

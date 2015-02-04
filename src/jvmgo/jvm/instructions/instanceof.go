@@ -2,8 +2,8 @@ package instructions
 
 import (
     //"fmt"
-    "jvmgo/rtda"
-    rtc "jvmgo/rtda/class"
+    "jvmgo/jvm/rtda"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 // Determine if object is of given type

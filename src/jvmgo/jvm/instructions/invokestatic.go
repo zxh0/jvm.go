@@ -2,8 +2,8 @@ package instructions
 
 import (
     //"log"
-    "jvmgo/rtda"
-    "jvmgo/rtda/class"
+    "jvmgo/jvm/rtda"
+    "jvmgo/jvm/rtda/class"
 )
 
 // Invoke a class (static) method 

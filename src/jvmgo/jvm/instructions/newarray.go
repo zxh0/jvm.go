@@ -1,8 +1,8 @@
 package instructions
 
 import (
-    "jvmgo/rtda"
-    rtc "jvmgo/rtda/class"
+    "jvmgo/jvm/rtda"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 // Create new array

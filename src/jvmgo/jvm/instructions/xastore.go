@@ -2,8 +2,8 @@ package instructions
 
 import (
     . "jvmgo/any"
-    "jvmgo/rtda"
-    "jvmgo/rtda/class"
+    "jvmgo/jvm/rtda"
+    "jvmgo/jvm/rtda/class"
 )
 
 // Store into reference array 

@@ -1,8 +1,8 @@
 package instructions
 
 import (
-    "jvmgo/rtda"
-    "jvmgo/rtda/class"
+    "jvmgo/jvm/rtda"
+    "jvmgo/jvm/rtda/class"
 )
 
 // Invoke instance method;

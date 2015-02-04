@@ -14,6 +14,7 @@ func init() {
     _system(identityHashCode,   "identityHashCode",     "(Ljava/lang/Object;)I")
     _system(initProperties,     "initProperties",       "(Ljava/util/Properties;)Ljava/util/Properties;")
     _system(nanoTime,           "nanoTime",             "()J")
+    _system(setIn0,             "setIn0",               "(Ljava/io/InputStream;)V")
 }
 
 func _system(method Any, name, desc string) {
@@ -84,6 +85,15 @@ func nanoTime(frame *rtda.Frame) {
     stack.PushLong(nanoTime)
 }
 
-// private static native void setIn0(InputStream in);
-// private static native void setOut0(PrintStream out);
 // private static native void setErr0(PrintStream err);
+
+// private static native void setIn0(InputStream in);
+// (Ljava/io/InputStream;)V
+func setIn0(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    in := stack.PopRef()
+    sysClass := frame.Method().Class()
+    sysClass.SetStaticValue("in", "Ljava/io/InputStream;", in)
+}
+
+// private static native void setOut0(PrintStream out);

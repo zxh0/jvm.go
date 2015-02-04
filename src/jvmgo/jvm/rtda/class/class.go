@@ -162,3 +162,13 @@ func (self *Class) NewObj() (*Obj) {
         return &Obj{self, nil, nil}
     }
 }
+
+// reflection
+func (self *Class) GetStaticValue(fieldName, fieldDescriptor string) Any {
+    field := self.GetField(fieldName, fieldDescriptor)
+    return field.GetStaticValue()
+}
+func (self *Class) SetStaticValue(fieldName, fieldDescriptor string, value Any) {
+    field := self.GetField(fieldName, fieldDescriptor)
+    field.PutStaticValue(value)
+}

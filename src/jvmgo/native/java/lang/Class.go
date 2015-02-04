@@ -101,7 +101,7 @@ func _getFieldType(descriptor string, classLoader *rtc.ClassLoader) (*rtc.Obj) {
         case 'D': return classLoader.GetPrimitiveClass("double").JClass()
         case 'F': return classLoader.GetPrimitiveClass("float").JClass()
         case 'I': return classLoader.GetPrimitiveClass("int").JClass()
-        case 'L': return classLoader.GetPrimitiveClass("long").JClass()
+        case 'J': return classLoader.GetPrimitiveClass("long").JClass()
         case 'S': return classLoader.GetPrimitiveClass("short").JClass()
         case 'V': return classLoader.GetPrimitiveClass("void").JClass()
         case 'Z': return classLoader.GetPrimitiveClass("boolean").JClass()

@@ -42,14 +42,8 @@ func TestTop(t *testing.T) {
     stack.PushInt(1)
     stack.PushInt(2)
     stack.PushInt(3)
-    
-    if top0 := stack.Top(0).(int32); top0 != 3 {
-        t.Errorf("top0: %v", top0)
-    }
-    if top1 := stack.Top(1).(int32); top1 != 2 {
-        t.Errorf("top1: %v", top1)
-    }
-    if top2 := stack.Top(2).(int32); top2 != 1 {
-        t.Errorf("top2: %v", top2)
-    }
+
+    AssertEquals(3, stack.Top(0))
+    AssertEquals(2, stack.Top(1))
+    AssertEquals(1, stack.Top(2))
 }

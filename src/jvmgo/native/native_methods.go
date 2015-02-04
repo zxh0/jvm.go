@@ -5,6 +5,7 @@ import (
     . "jvmgo/any"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
+    _ "jvmgo/native/java/io"
     _ "jvmgo/native/java/lang"
     _ "jvmgo/native/java/security"
     _ "jvmgo/native/sun/misc"

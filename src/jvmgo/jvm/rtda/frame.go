@@ -4,18 +4,22 @@ import rtc "jvmgo/jvm/rtda/class"
 
 // stack frame
 type Frame struct {
+    lower           *Frame // stack is implemented as linked list
     thread          *Thread
-    nextPC          int
+    method          *rtc.Method
     localVars       *LocalVars
     operandStack    *OperandStack
-    method          *rtc.Method
+    nextPC          int
     onPopAction     func()
 }
 
 func newFrame(thread *Thread, method *rtc.Method) (*Frame) {
-    localVars := newLocalVars(method.MaxLocals())
-    operandStack := newOperandStack(method.MaxStack())
-    return &Frame{thread, 0, localVars, operandStack, method, nil}
+    frame := &Frame{}
+    frame.thread = thread
+    frame.method = method
+    frame.localVars = newLocalVars(method.MaxLocals())
+    frame.operandStack = newOperandStack(method.MaxStack())
+    return frame
 }
 
 // getters & setters

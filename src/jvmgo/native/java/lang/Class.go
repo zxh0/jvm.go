@@ -74,13 +74,14 @@ func getDeclaredFields0(frame *rtda.Frame) {
             jFields[i] = jField
 
             jName := rtda.NewJString(goField.Name(), frame)
+            jType := _getFieldType(goField.Descriptor(), classLoader)
 
             newFrame := thread.NewFrame(constructor)
             vars := newFrame.LocalVars()
             vars.SetRef(0, jField) // this
             vars.SetRef(1, jClass) // declaringClass
             vars.SetRef(2, jName) // name
-            vars.SetRef(3, nil) // todo type
+            vars.SetRef(3, jType) // type
             vars.SetInt(4, int32(goField.GetAccessFlags())) // modifiers
             vars.SetInt(5, int32(goField.Slot())) // slot
             vars.SetRef(6, nil) // todo signature
@@ -90,6 +91,26 @@ func getDeclaredFields0(frame *rtda.Frame) {
 
         //panic("todo getDeclaredFields0")
     }
+}
+
+func _getFieldType(descriptor string, classLoader *rtc.ClassLoader) (*rtc.Obj) {
+    if len(descriptor) == 1 {
+        switch descriptor[0] {
+        case 'B': return classLoader.GetPrimitiveClass("byte").JClass()
+        case 'C': return classLoader.GetPrimitiveClass("char").JClass()
+        case 'D': return classLoader.GetPrimitiveClass("double").JClass()
+        case 'F': return classLoader.GetPrimitiveClass("float").JClass()
+        case 'I': return classLoader.GetPrimitiveClass("int").JClass()
+        case 'L': return classLoader.GetPrimitiveClass("long").JClass()
+        case 'S': return classLoader.GetPrimitiveClass("short").JClass()
+        case 'V': return classLoader.GetPrimitiveClass("void").JClass()
+        case 'Z': return classLoader.GetPrimitiveClass("boolean").JClass()
+        }
+    } 
+    if descriptor[0] == 'L' {
+        return classLoader.LoadClass(descriptor[1:len(descriptor)-1]).JClass()
+    } 
+    return classLoader.LoadClass(descriptor).JClass()
 }
 
 

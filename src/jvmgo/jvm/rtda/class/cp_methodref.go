@@ -37,7 +37,7 @@ func (self *ConstantMethodref) StaticMethod() (*Method) {
 func (self *ConstantMethodref) resolveStaticMethod() {
     method := self.findMethod(self.className)
     if method != nil && method.IsStatic() {
-        if method.IsNative() {
+        if method.IsNative() && method.nativeMethod == nil {
             method.nativeMethod = findNativeMethod(method)
         }
         self.method = method
@@ -56,7 +56,7 @@ func (self *ConstantMethodref) SpecialMethod() (*Method) {
 func (self *ConstantMethodref) resolveSpecialMethod() {
     method := self.findMethod(self.className)
     if method != nil && !method.IsStatic() {
-        if method.IsNative() {
+        if method.IsNative() && method.nativeMethod == nil {
             method.nativeMethod = findNativeMethod(method)
         }
         self.method = method

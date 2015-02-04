@@ -73,7 +73,7 @@ func (self *Thread) InvokeMethod(method * rtc.Method) {
     currentFrame := self.CurrentFrame()
     newFrame := self.NewFrame(method)
     self.PushFrame(newFrame)
-    _passArgs(currentFrame.OperandStack(), newFrame.LocalVars(), method.ActualArgCount())
+    _passArgs(currentFrame.operandStack, newFrame.localVars, method.ActualArgCount())
 }
 func _logInvoke(stackSize uint, method * rtc.Method) {
     if method.IsStatic() {
@@ -94,6 +94,14 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
             }
         }
     }
+}
+
+// args not passed!
+func (self *Thread) InvokeMethod2(method * rtc.Method) (*LocalVars) {
+    //_logInvoke(self.stack.size, method)
+    newFrame := self.NewFrame(method)
+    self.PushFrame(newFrame)
+    return newFrame.localVars
 }
 
 

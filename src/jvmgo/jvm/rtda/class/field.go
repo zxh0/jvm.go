@@ -19,6 +19,10 @@ func newField(class *Class, fieldInfo *cf.FieldInfo) (*Field) {
     return field
 }
 
+func (self *Field) Slot() uint {
+    return self.slot
+}
+
 func (self *Field) GetValue(ref *Obj) (Any) {
     fields := ref.fields.([]Any)
     return fields[self.slot]

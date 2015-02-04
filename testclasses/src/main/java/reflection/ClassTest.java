@@ -42,11 +42,6 @@ public class ClassTest implements Runnable {
 //        for (Method m : c.getDeclaredMethods()) {
 //            System.out.println("declaredMethods: " + m.getName());
 //        }
-        
-        
-        
-        int[] x = {1};
-        System.out.println(Arrays.binarySearch(x, 8));
     }
 
     @Override

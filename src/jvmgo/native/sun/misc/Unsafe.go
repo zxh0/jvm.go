@@ -8,9 +8,10 @@ import (
 )
 
 func init() {
-    _unsafe(addressSize,        "addressSize",      "()I")
-    _unsafe(arrayBaseOffset,    "arrayBaseOffset",  "(Ljava/lang/Class;)I")
-    _unsafe(arrayIndexScale,    "arrayIndexScale",  "(Ljava/lang/Class;)I")
+    _unsafe(addressSize,        "addressSize",          "()I")
+    _unsafe(arrayBaseOffset,    "arrayBaseOffset",      "(Ljava/lang/Class;)I")
+    _unsafe(arrayIndexScale,    "arrayIndexScale",      "(Ljava/lang/Class;)I")
+    _unsafe(objectFieldOffset,  "objectFieldOffset",    "(Ljava/lang/reflect/Field;)J")
 }
 
 func _unsafe(method Any, name, desc string) {
@@ -30,8 +31,8 @@ func addressSize(frame *rtda.Frame) {
 // (Ljava/lang/Class;)I
 func arrayBaseOffset(frame *rtda.Frame) {
     stack := frame.OperandStack()
-    stack.PopRef() // this
     stack.PopRef() // type
+    stack.PopRef() // this
     stack.PushInt(0) // todo
 }
 
@@ -39,7 +40,17 @@ func arrayBaseOffset(frame *rtda.Frame) {
 // (Ljava/lang/Class;)I
 func arrayIndexScale(frame *rtda.Frame) {
     stack := frame.OperandStack()
-    stack.PopRef() // this
     stack.PopRef() // type
+    stack.PopRef() // this
     stack.PushInt(1) // todo
+}
+
+// public native long objectFieldOffset(Field field);
+// (Ljava/lang/reflect/Field;)J
+func objectFieldOffset(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    jField := stack.PopRef()
+    stack.PopRef() // this
+    offset := jField.Class().GetField("slot", "I").GetValue(jField).(int32)
+    stack.PushLong(int64(offset))
 }

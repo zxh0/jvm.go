@@ -12,9 +12,13 @@ func (self *aastore) Execute(frame *rtda.Frame) {
     arrRef, index, val := popOperands(frame)
     refArr := arrRef.Fields().([]*rtc.Obj)
     checkArrIndex(index, len(refArr))
-    // todo
-    ref := val.(*rtc.Obj)
-    refArr[index] = ref
+
+    if val == nil {
+        refArr[index] = nil
+    } else {
+        ref := val.(*rtc.Obj)
+        refArr[index] = ref
+    }
 }
 
 // Store into byte or boolean array 

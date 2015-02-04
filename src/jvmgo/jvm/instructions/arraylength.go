@@ -2,7 +2,7 @@ package instructions
 
 import (
     "jvmgo/jvm/rtda"
-    "jvmgo/jvm/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 // Get length of array
@@ -10,6 +10,6 @@ type arraylength struct {NoOperandsInstruction}
 func (self *arraylength) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
     arrRef := stack.PopRef()
-    arrLen := class.ArrayLength(arrRef)
+    arrLen := rtc.ArrayLength(arrRef)
     stack.PushInt(arrLen)
 }

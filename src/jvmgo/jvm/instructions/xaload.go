@@ -2,7 +2,7 @@ package instructions
 
 import (
     "jvmgo/jvm/rtda"
-    "jvmgo/jvm/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 //type Ref *rtda.Obj
@@ -11,7 +11,7 @@ import (
 type aaload struct {NoOperandsInstruction}
 func (self *aaload) Execute(frame *rtda.Frame) {
     stack, arrRef, index := popArrAndIndex(frame)
-    refArr := arrRef.Fields().([]*class.Obj)
+    refArr := arrRef.Fields().([]*rtc.Obj)
     checkArrIndex(index, len(refArr))
     ref := refArr[index]
     stack.PushRef(ref)
@@ -87,7 +87,7 @@ func (self *saload) Execute(frame *rtda.Frame) {
     stack.PushInt(int32(val))
 }
 
-func popArrAndIndex(frame *rtda.Frame) (*rtda.OperandStack, *class.Obj, int) {
+func popArrAndIndex(frame *rtda.Frame) (*rtda.OperandStack, *rtc.Obj, int) {
     stack := frame.OperandStack()
     index := int(stack.PopInt())
     arrRef := stack.PopRef()

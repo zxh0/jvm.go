@@ -3,7 +3,7 @@ package instructions
 import (
     //"fmt"
     "jvmgo/jvm/rtda"
-    "jvmgo/jvm/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 // Set field in object
@@ -18,7 +18,7 @@ func (self *putfield) Execute(frame *rtda.Frame) {
     }
     
     cp := frame.Method().Class().ConstantPool()
-    cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
+    cFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
     field := cFieldRef.InstanceField()
 
     field.PutValue(ref, val)
@@ -31,7 +31,7 @@ func (self *putstatic) Execute(frame *rtda.Frame) {
     currentClass := currentMethod.Class()
 
     cp := currentClass.ConstantPool()
-    cFieldRef := cp.GetConstant(self.index).(*class.ConstantFieldref)
+    cFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
     field := cFieldRef.StaticField()
     
     classOfField := field.Class()

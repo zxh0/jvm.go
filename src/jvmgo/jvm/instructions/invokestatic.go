@@ -3,7 +3,7 @@ package instructions
 import (
     //"log"
     "jvmgo/jvm/rtda"
-    "jvmgo/jvm/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 // Invoke a class (static) method 
@@ -14,7 +14,7 @@ func (self *invokestatic) Execute(frame *rtda.Frame) {
     currentMethod := currentFrame.Method()
     currentClass := currentMethod.Class()
     cp := currentClass.ConstantPool()
-    cMethodRef := cp.GetConstant(self.index).(*class.ConstantMethodref)
+    cMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
     method := cMethodRef.StaticMethod()
 
     // init class

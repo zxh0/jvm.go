@@ -2,7 +2,6 @@ package test
 
 import (
     "fmt"
-    "reflect"
     . "jvmgo/any"
 )
 
@@ -37,19 +36,10 @@ func AssertSame(expected, actual Any) {
 }
 
 func AssertEquals(expected, actual Any) {
-    switch expected.(type) {
-    case int8, uint8, int16, uint16, int32, uint32, int64, uint64, int, uint, float32, float64:
-        x := fmt.Sprintf("%v", expected)
-        y := fmt.Sprintf("%v", actual)
-        if x == y {
-            return
-        }
+    x := fmt.Sprintf("%v", expected)
+    y := fmt.Sprintf("%v", actual)
+    if x != y {
+        msg := fmt.Sprintf("Not equals! expected: %v actual: %v", expected, actual)
+        panic(msg)
     }
-
-    if reflect.DeepEqual(expected, actual) {
-        return
-    }
-
-    msg := fmt.Sprintf("Not equals! expected: %v actual: %v", expected, actual)
-    panic(msg)
 }

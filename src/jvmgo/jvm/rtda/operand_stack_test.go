@@ -21,9 +21,6 @@ func TestPushAndPop(t *testing.T) {
     AssertEquals(int64(0xabcd1234ff), stack.PopLong())
     AssertEquals(-37, stack.PopInt())
     AssertNotNil(stack.PopRef())
-    // if x := stack.PopRef(); x != nil {
-    //     t.Errorf("not nil: %v", x)
-    // }
     AssertNil(stack.PopRef())
 }
 
@@ -36,13 +33,8 @@ func TestPopN(t *testing.T) {
     stack.PushInt(9)
 
     top3 := stack.popN(3)
-    if top3[0].(int32) != 6 || top3[1].(int32) != 8 || top3[2].(int32) != 9 {
-        t.Errorf("top3: %v", top3)
-    }
-
-    if newTop := stack.PopInt(); newTop != 5 {
-        t.Errorf("newTop: %v", newTop)
-    }
+    AssertEquals([]int32{6, 8, 9}, top3)
+    AssertEquals(5, stack.PopInt())
 }
 
 func TestTop(t *testing.T) {

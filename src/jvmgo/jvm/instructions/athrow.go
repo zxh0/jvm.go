@@ -35,5 +35,5 @@ func (self *athrow) Execute(frame *rtda.Frame) {
     }
 
     // todo
-    panic("todo athrow!")
+    panic("todo athrow!" + ex.Class().Name())
 }

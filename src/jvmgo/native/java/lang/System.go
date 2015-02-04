@@ -83,3 +83,7 @@ func nanoTime(frame *rtda.Frame) {
     nanoTime := time.Now().UnixNano()
     stack.PushLong(nanoTime)
 }
+
+// private static native void setIn0(InputStream in);
+// private static native void setOut0(PrintStream out);
+// private static native void setErr0(PrintStream err);

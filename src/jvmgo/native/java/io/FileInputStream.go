@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-    _fis(initIDs, "initIDs", "()V")
+    _fis(fis_initIDs, "initIDs", "()V")
 }
 
 func _fis(method Any, name, desc string) {
@@ -16,6 +16,6 @@ func _fis(method Any, name, desc string) {
 
 // private static native void initIDs();
 // ()V
-func initIDs(frame *rtda.Frame) {
+func fis_initIDs(frame *rtda.Frame) {
     // todo
 }

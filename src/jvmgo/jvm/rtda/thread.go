@@ -75,13 +75,6 @@ func (self *Thread) InvokeMethod(method * rtc.Method) {
     self.PushFrame(newFrame)
     _passArgs(currentFrame.operandStack, newFrame.localVars, method.ActualArgCount())
 }
-func _logInvoke(stackSize uint, method * rtc.Method) {
-    if method.IsStatic() {
-        log.Printf("invoke method: #%v %v.%v()", stackSize, method.Class().Name(), method.Name())
-    } else {
-        log.Printf("invoke method: #%v %v#%v()", stackSize, method.Class().Name(), method.Name())
-    }
-}
 func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
     if argCount > 0 {
         args := stack.popN(argCount)
@@ -93,6 +86,13 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
                 j++
             }
         }
+    }
+}
+func _logInvoke(stackSize uint, method * rtc.Method) {
+    if method.IsStatic() {
+        log.Printf("invoke method: #%v %v.%v()", stackSize, method.Class().Name(), method.Name())
+    } else {
+        log.Printf("invoke method: #%v %v#%v()", stackSize, method.Class().Name(), method.Name())
     }
 }
 

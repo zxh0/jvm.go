@@ -3,8 +3,6 @@ package class
 import . "jvmgo/any"
 
 func GetFieldValue(obj *Obj, fieldName, fieldDescriptor string) Any {
-    class := obj.Class()
-    field := class.GetField(fieldName, fieldDescriptor)
-    value := field.GetValue(obj)
-    return value
+    field := obj.class.GetField(fieldName, fieldDescriptor)
+    return field.GetValue(obj)
 }

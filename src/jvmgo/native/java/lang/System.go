@@ -1,6 +1,7 @@
 package lang
 
 import (
+    //"fmt"
     "time"
     "unsafe"
     . "jvmgo/any"
@@ -74,7 +75,25 @@ func initProperties(frame *rtda.Frame) {
     stack := frame.OperandStack()
     props := stack.PopRef()
     stack.PushRef(props)
-    // todo
+    // public synchronized Object setProperty(String key, String value)
+    garbageMethod := rtc.NewGarbageMethod()
+    setPropMethod := props.Class().GetMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
+    thread := frame.Thread()
+    for key, val := range _props() {
+        thread.InvokeMethod(garbageMethod)
+        jKey := rtda.NewJString(key, frame)
+        jVal := rtda.NewJString(val, frame)
+        vars := thread.InvokeMethod2(setPropMethod)
+        vars.SetRef(0, props) // this
+        vars.SetRef(1, jKey)
+        vars.SetRef(2, jVal)
+    }
+}
+
+func _props() map[string]string {
+    return map[string]string{
+        "file.encoding": "UTF-8",
+    }
 }
 
 // public static native long nanoTime();

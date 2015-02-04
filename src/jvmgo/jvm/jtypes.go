@@ -1,4 +1,4 @@
-package main
+package jvm
 
 type jboolean   uint8
 type jbyte      int8

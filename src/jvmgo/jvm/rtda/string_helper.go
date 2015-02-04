@@ -7,7 +7,7 @@ import (
 )
 
 func JStringChars(jStr *rtc.Obj) ([]uint16) {
-    charArr := rtc.GetFieldValue(jStr, "value", "[C").(*rtc.Obj)
+    charArr := jStr.GetFieldValue("value", "[C").(*rtc.Obj)
     return charArr.Fields().([]uint16)
 }
 

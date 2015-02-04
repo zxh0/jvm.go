@@ -67,3 +67,9 @@ func (self *Obj) zeroFields() {
         }
     }
 }
+
+// reflection
+func (self *Obj) GetFieldValue(fieldName, fieldDescriptor string) Any {
+    field := self.class.GetField(fieldName, fieldDescriptor)
+    return field.GetValue(self)
+}

@@ -6,7 +6,7 @@ import (
 )
 
 func LogJString(jStr *rtc.Obj) {
-    charArr := rtc.GetFieldValue(jStr, "value", "[C").(*rtc.Obj)
+    charArr := jStr.GetFieldValue("value", "[C").(*rtc.Obj)
     chars := charArr.Fields().([]uint16)
     // todo
     for _, char := range chars {

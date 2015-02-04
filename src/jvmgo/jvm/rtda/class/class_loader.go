@@ -10,7 +10,7 @@ import (
 
 const (
     jlObjectName = "java/lang/Object"
-    jlClassName = "java/lang/Class"
+    jlClassName  = "java/lang/Class"
     jlThreadName = "java/lang/Thread"
     jlStringName = "java/lang/String"
 )

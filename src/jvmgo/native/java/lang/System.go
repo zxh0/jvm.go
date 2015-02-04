@@ -12,6 +12,7 @@ func init() {
     _system(arraycopy,          "arraycopy",            "(Ljava/lang/Object;ILjava/lang/Object;II)V")
     _system(currentTimeMillis,  "currentTimeMillis",    "()J")
     _system(identityHashCode,   "identityHashCode",     "(Ljava/lang/Object;)I")
+    _system(initProperties,     "initProperties",       "(Ljava/util/Properties;)Ljava/util/Properties;")
     _system(nanoTime,           "nanoTime",             "()J")
 }
 
@@ -68,7 +69,12 @@ func identityHashCode(frame *rtda.Frame) {
 
 // private static native Properties initProperties(Properties props);
 // (Ljava/util/Properties;)Ljava/util/Properties;
-
+func initProperties(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    props := stack.PopRef()
+    stack.PushRef(props)
+    // todo
+}
 
 // public static native long nanoTime();
 // ()J

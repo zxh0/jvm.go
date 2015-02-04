@@ -23,7 +23,7 @@ func NewJString(goStr string, frame *Frame) (*rtc.Obj) {
     stringClass := classLoader.StringClass()
     jCharArr := rtc.NewCharArray(chars, classLoader)
     jStr := stringClass.NewObj()
-    stringClass.GetField("value", "[C").PutValue(jStr, jCharArr)
+    jStr.SetFieldValue("value", "[C", jCharArr)
     return InternString(chars, jStr)
 }
 

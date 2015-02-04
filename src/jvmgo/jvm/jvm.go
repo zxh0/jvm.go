@@ -8,11 +8,7 @@ import (
     rtc "jvmgo/jvm/rtda/class"
 )
 
-type JVM struct {
-    // todo
-}
-
-func (self JVM) Startup(cmd *cmdline.Command) {
+func Startup(cmd *cmdline.Command) {
     classPath := cmd.Options().Classpath()
     classLoader := rtc.NewClassLoader(classPath)
     mainThread := createMainThread(classLoader, cmd.Class(), cmd.Args())

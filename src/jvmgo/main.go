@@ -11,7 +11,6 @@ func main() {
     if err != nil {
         cmdline.PrintUsage()
     } else {
-        vm := jvm.JVM{}
-        vm.Startup(cmd)
+        jvm.Startup(cmd)
     }
 }

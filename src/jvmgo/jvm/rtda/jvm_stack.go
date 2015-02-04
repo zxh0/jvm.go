@@ -1,15 +1,16 @@
 package rtda
 
+import "fmt"
+
 // jvm stack
 type Stack struct {
     maxSize uint
-    size    uint 
-    frames  []*Frame
+    size    uint
+    _top    *Frame
 }
 
 func newStack(maxSize uint) (*Stack) {
-    frames := make([]*Frame, 8)
-    return &Stack{maxSize, 0, frames}
+    return &Stack{maxSize, 0, nil}
 }
 
 func (self *Stack) push(frame *Frame) {
@@ -17,39 +18,50 @@ func (self *Stack) push(frame *Frame) {
         // todo
         panic("StackOverflowError")
     }
-    if self.size == uint(len(self.frames)) {
-        // todo
-        self.expand()
+
+    if self._top != nil {
+        frame.lower = self._top
     }
 
-    self.frames[self.size] = frame
+    self._top = frame
     self.size++
 }
 
-func (self *Stack) expand() {
-    newLen := self.size + 8
-    if newLen > self.maxSize {
-        newLen = self.maxSize
-    }
-    newFrames := make([]*Frame, newLen)
-    copy(newFrames, self.frames) // func copy(dst, src []T) int
-    self.frames = newFrames
-}
-
 func (self *Stack) pop() (*Frame) {
+    if self._top == nil {
+        panic("jvm stack is empty!")
+    }
+
+    top := self._top
+    self._top = top.lower
+    top.lower = nil
     self.size--
-    top := self.frames[self.size]
-    self.frames[self.size] = nil
+
     return top
 }
 
 func (self *Stack) top() (*Frame) {
-    return self.frames[self.size - 1]
+    if self._top == nil {
+        panic("jvm stack is empty!")
+    }
+
+    return self._top
 }
+
 func (self *Stack) topN(n uint) (*Frame) {
-    return self.frames[self.size - 1 - n]
+    if self.size < n {
+        panic(fmt.Sprintf("jvm stack size:%v n:%v", self.size, n))
+    }
+
+    frame := self._top
+    for n > 0 {
+        frame = frame.lower
+        n--
+    }
+
+    return frame
 }
 
 func (self *Stack) isEmpty() (bool) {
-    return self.size == 0
+    return self._top == nil
 }

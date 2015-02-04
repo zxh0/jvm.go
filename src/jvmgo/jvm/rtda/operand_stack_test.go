@@ -43,7 +43,7 @@ func TestPopN(t *testing.T) {
     stack.PushInt(8)
     stack.PushInt(9)
 
-    top3 := stack.PopN(3)
+    top3 := stack.popN(3)
     if top3[0].(int32) != 6 || top3[1].(int32) != 8 || top3[2].(int32) != 9 {
         t.Errorf("top3: %v", top3)
     }

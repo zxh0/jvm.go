@@ -8,7 +8,8 @@ import (
 )
 
 func init() {
-    _reflection(getCallerClass, "getCallerClass", "(I)Ljava/lang/Class;")
+    _reflection(getCallerClass,         "getCallerClass",       "(I)Ljava/lang/Class;")
+    _reflection(getClassAccessFlags,    "getClassAccessFlags",  "(Ljava/lang/Class;)I")
 }
 
 func _reflection(method Any, name, desc string) {
@@ -22,4 +23,14 @@ func getCallerClass(frame *rtda.Frame) {
     i := uint(stack.PopInt())
     callerClass := frame.Thread().TopNFrame(i).Method().Class().JClass()
     stack.PushRef(callerClass)
+}
+
+// public static native int getClassAccessFlags(Class<?> type);
+// (Ljava/lang/Class;)I
+func getClassAccessFlags(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    _type := stack.PopRef()
+    goClass := _type.Extra().(*rtc.Class)
+    flags := goClass.GetAccessFlags()
+    stack.PushInt(int32(flags))
 }

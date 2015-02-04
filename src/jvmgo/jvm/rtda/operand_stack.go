@@ -2,7 +2,7 @@ package rtda
 
 import (
     . "jvmgo/any"
-    "jvmgo/jvm/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 type OperandStack struct {
@@ -19,15 +19,15 @@ func (self *OperandStack) PushNull() {
     self.Push(nil)
 }
 
-func (self *OperandStack) PushRef(ref *class.Obj) {
+func (self *OperandStack) PushRef(ref *rtc.Obj) {
     self.Push(ref)
 }
-func (self *OperandStack) PopRef() (*class.Obj) {
+func (self *OperandStack) PopRef() (*rtc.Obj) {
     ref := self.Pop()
     if ref == nil {
         return nil
     } else {
-        return ref.(*class.Obj)
+        return ref.(*rtc.Obj)
     }
 }
 

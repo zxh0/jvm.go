@@ -2,7 +2,7 @@ package rtda
 
 import (
     . "jvmgo/any"
-    "jvmgo/jvm/rtda/class"
+    rtc "jvmgo/jvm/rtda/class"
 )
 
 type LocalVars struct {
@@ -14,15 +14,15 @@ func newLocalVars(size uint) (*LocalVars) {
     return &LocalVars{slots}
 }
 
-func (self *LocalVars) GetRef(index uint) (*class.Obj) {
+func (self *LocalVars) GetRef(index uint) (*rtc.Obj) {
     ref := self.slots[index]
     if ref == nil {
         return nil
     } else {
-        return ref.(*class.Obj)
+        return ref.(*rtc.Obj)
     }
 }
-func (self *LocalVars) SetRef(index uint, ref *class.Obj) {
+func (self *LocalVars) SetRef(index uint, ref *rtc.Obj) {
     self.slots[index] = ref
 }
 

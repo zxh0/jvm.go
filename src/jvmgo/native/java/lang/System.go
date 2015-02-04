@@ -19,8 +19,8 @@ func _system(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
 
-//arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
-//public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+// public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+// (Ljava/lang/Object;ILjava/lang/Object;II)V
 func arraycopy(frame *rtda.Frame) {
     stack := frame.OperandStack()
     length := stack.PopInt()
@@ -48,20 +48,30 @@ func arraycopy(frame *rtda.Frame) {
     rtc.ArrayCopy(src, dest, srcPos, destPos, length)
 }
 
+// public static native long currentTimeMillis();
+// ()J
 func currentTimeMillis(frame *rtda.Frame) {
     stack := frame.OperandStack()
     millis := time.Now().UnixNano() / 1000
     stack.PushLong(millis)
 }
 
-// todo
+// public static native int identityHashCode(Object x);
+// (Ljava/lang/Object;)I
 func identityHashCode(frame *rtda.Frame) {
+    // todo
     stack := frame.OperandStack()
     ref := stack.PopRef()
     hashCode := int32(uintptr(unsafe.Pointer(ref)))
     stack.PushInt(hashCode)
 }
 
+// private static native Properties initProperties(Properties props);
+// (Ljava/util/Properties;)Ljava/util/Properties;
+
+
+// public static native long nanoTime();
+// ()J
 func nanoTime(frame *rtda.Frame) {
     stack := frame.OperandStack()
     nanoTime := time.Now().UnixNano()

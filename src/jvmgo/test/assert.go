@@ -6,6 +6,17 @@ import (
     . "jvmgo/any"
 )
 
+func AssertTrue(b bool) {
+    if !b {
+        panic("Not true!")
+    }
+}
+func AssertFalse(b bool) {
+    if b {
+        panic("Not false!")
+    }
+}
+
 func AssertNil(any Any) {
     if any != nil {
         panic("Not nil!")   

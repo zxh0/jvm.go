@@ -6,7 +6,7 @@ import "fmt"
 type Stack struct {
     maxSize uint
     size    uint
-    _top    *Frame
+    _top    *Frame // stack is implemented as linked list
 }
 
 func newStack(maxSize uint) (*Stack) {

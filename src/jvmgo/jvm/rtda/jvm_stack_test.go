@@ -2,7 +2,7 @@ package rtda
 
 import (
     "testing"
-    //"jvmgo/jvm/rtda/class"
+    "jvmgo/test"
 )
 
 func TestPushPop(t *testing.T) {
@@ -16,22 +16,16 @@ func TestPushPop(t *testing.T) {
 
     for i := maxSize - 1; i >= 0 ; i-- {
         frame := stack.pop()
-        if frame.nextPC != i {
-            t.Errorf("i %v", i)
-        }
+        test.AssertEquals(i, frame.nextPC)
     }
 }
 
 func TestIsEmpty(t *testing.T) {
     stack := newStack(17)
-    if empty := stack.isEmpty(); !empty {
-        t.Errorf("not empty!")
-    }
+    test.AssertTrue(stack.isEmpty())
 
     stack.push(_newFrame(1))
-    if empty := stack.isEmpty(); empty {
-        t.Errorf("empty!")
-    }
+    test.AssertFalse(stack.isEmpty())
 }
 
 func _newFrame(nextPC int) (*Frame) {

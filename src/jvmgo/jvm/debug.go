@@ -1,4 +1,4 @@
-package debug
+package jvm
 
 import (
     "fmt"

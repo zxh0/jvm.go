@@ -3,6 +3,7 @@ package rtda
 import (
     "testing"
     rtc "jvmgo/jvm/rtda/class"
+    . "jvmgo/test"
 )
 
 func TestPushAndPop(t *testing.T) {
@@ -15,24 +16,15 @@ func TestPushAndPop(t *testing.T) {
     stack.PushDouble(-2.71828)
     //stack.PushInt(0)
 
-    if x:= stack.PopDouble(); x != -2.71828 {
-        t.Errorf("double:%v", x)
-    }
-    if x:= stack.PopFloat(); x != 3.14 {
-        t.Errorf("float:%v", x)
-    }
-    if x := stack.PopLong(); x != 0xabcd1234ff {
-        t.Errorf("long:%v", x)
-    }
-    if x := stack.PopInt(); x != -37 {
-        t.Errorf("int:%v", x)
-    }
-    if x := stack.PopRef(); x == nil {
-        t.Errorf("nil!")
-    }
-    if x := stack.PopRef(); x != nil {
-        t.Errorf("not nil: %v", x)
-    }
+    AssertEquals(-2.71828, stack.PopDouble())
+    AssertEquals(3.14, stack.PopFloat())
+    AssertEquals(int64(0xabcd1234ff), stack.PopLong())
+    AssertEquals(-37, stack.PopInt())
+    AssertNotNil(stack.PopRef())
+    // if x := stack.PopRef(); x != nil {
+    //     t.Errorf("not nil: %v", x)
+    // }
+    AssertNil(stack.PopRef())
 }
 
 func TestPopN(t *testing.T) {

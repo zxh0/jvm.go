@@ -18,8 +18,9 @@ func AssertFalse(b bool) {
 }
 
 func AssertNil(any Any) {
-    if any != nil {
-        panic("Not nil!")   
+    v := fmt.Sprintf("%v", any)
+    if v != "<nil>" {
+        panic("Not nil! " + v)   
     }
 }
 func AssertNotNil(any Any) {

@@ -1,7 +1,7 @@
 package lang
 
 import (
-    //"fmt"
+    // "fmt"
     "strings"
     . "jvmgo/any"
     "jvmgo/jvm/rtda"
@@ -46,14 +46,16 @@ func forName0(frame *rtda.Frame) {
     goName = strings.Replace(goName, ".", "/", -1)
     goClass := frame.Method().Class().ClassLoader().LoadClass(goName)
     jClass := goClass.JClass()
-
+    
     if initialize && goClass.InitializationNotStarted() {
         // undo forName0
+        thread := frame.Thread()
+        frame.SetNextPC(thread.PC())
         stack.PushRef(jName)
         stack.PushBoolean(initialize)
         stack.PushRef(jLoader)
         // init class
-        panic("todo forName0")
+        rtda.InitClass(goClass, thread)
     } else {
         stack.PushRef(jClass)
     }

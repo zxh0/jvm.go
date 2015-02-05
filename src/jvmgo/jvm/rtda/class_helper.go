@@ -2,7 +2,6 @@ package rtda
 
 import rtc "jvmgo/jvm/rtda/class"
 
-// todo move to jvmgo/jvm/rtda/class_helper.go
 func InitClass(class *rtc.Class, thread *Thread) {
     uninitedClass := getUpmostUninitializedClassOrInterface(class)
     if uninitedClass != nil {

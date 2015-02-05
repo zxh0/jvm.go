@@ -1,5 +1,19 @@
 package class
 
+func calcArgCount(descriptor string) (uint) {
+    dr := &DescriptorReader{descriptor, 0}
+
+    count := 0
+    dr.startParams()
+    for dr.readFieldType() {
+        count++
+    }
+    dr.endParams()
+
+    return uint(count)
+}
+
+
 type DescriptorReader struct {
     d       string
     offset  int
@@ -46,30 +60,6 @@ func (self *DescriptorReader) readObjectType() {
 func (self *DescriptorReader) readArrayType() {
     self.readFieldType()
 }
-
 func (self *DescriptorReader) causePanic() {
     panic("BAD descriptor: " + self.d)
 }
-
-// descriptor looks like: (IDLjava/lang/Thread;)Ljava/lang/Object;
-func calcArgCount(descriptor string) (uint) {
-    dr := &DescriptorReader{descriptor, 0}
-
-    count := 0
-    dr.startParams()
-    for dr.readFieldType() {
-        count++
-    }
-    dr.endParams()
-
-    return uint(count)
-}
-
-// todo
-// func IsBaseType(fieldDescriptor string) (bool) {
-//     switch fieldDescriptor[0] {
-//     case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z':
-//         return true
-//     default: return false
-//     }
-// }

@@ -4,7 +4,7 @@ import rtc "jvmgo/jvm/rtda/class"
 
 // todo move to jvmgo/jvm/rtda/class_helper.go
 func InitClass(class *rtc.Class, thread *Thread) {
-    uninitedClass := rtc.GetUpmostUninitializedClassOrInterface(class)
+    uninitedClass := getUpmostUninitializedClassOrInterface(class)
     if uninitedClass != nil {
         //log.Printf("init: %v", uninitedClass.Name())
         clinit := uninitedClass.GetClinitMethod()
@@ -22,4 +22,21 @@ func InitClass(class *rtc.Class, thread *Thread) {
             uninitedClass.MarkInitialized()
         }
     }
+}
+
+func getUpmostUninitializedClassOrInterface(from *rtc.Class) (*rtc.Class) {
+    if !from.InitializationNotStarted() {
+        return nil
+    }
+    for k := from.SuperClass(); k != nil; k = k.SuperClass() {
+        if k.InitializationNotStarted() {
+            return getUpmostUninitializedClassOrInterface(k)
+        }
+    }
+    for _, i := range from.Interfaces() {
+        if i.InitializationNotStarted() {
+            return getUpmostUninitializedClassOrInterface(i)
+        }
+    }
+    return from
 }

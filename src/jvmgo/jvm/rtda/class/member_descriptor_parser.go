@@ -12,20 +12,11 @@ func isVoidReturnType(descriptor string) bool {
     return strings.HasSuffix(descriptor, ")V")
 }
 
+
 type MemberDescriptorParser struct {
     descriptor  string
     offset      int
 }
-
-func (self *MemberDescriptorParser) readUint8() uint8 {
-    b := self.descriptor[self.offset]
-    self.offset++
-    return b
-}
-func (self *MemberDescriptorParser) unreadUint8() {
-    self.offset--
-}
-
 
 func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
     parser := MemberDescriptorParser{descriptor, 0}
@@ -71,6 +62,15 @@ func (self *MemberDescriptorParser) finish() {
     if self.offset != len(self.descriptor) {
         self.causePanic()
     }
+}
+
+func (self *MemberDescriptorParser) readUint8() uint8 {
+    b := self.descriptor[self.offset]
+    self.offset++
+    return b
+}
+func (self *MemberDescriptorParser) unreadUint8() {
+    self.offset--
 }
 
 func (self *MemberDescriptorParser) readFieldType() (*FieldType) {

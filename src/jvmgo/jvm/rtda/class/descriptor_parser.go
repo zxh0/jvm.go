@@ -17,7 +17,7 @@ func newMemberDescriptorParser(descriptor string) (*MemberDescriptorParser) {
 func (self *MemberDescriptorParser) parse() (*MethodDescriptor) {
     self.md = &MethodDescriptor{}
     self.startParams()
-    self.parseParameterTypes()
+    self.parseParamTypes()
     self.endParams()
     self.parseReturnType()
     self.finish()
@@ -49,9 +49,9 @@ func (self *MemberDescriptorParser) unreadUint8() {
     self.offset--
 }
 
-func (self *MemberDescriptorParser) parseParameterTypes() {
+func (self *MemberDescriptorParser) parseParamTypes() {
     for {
-        t := self.readFieldType()
+        t := self.parseFieldType()
         if t != nil {
             self.md.addParameterType(t)
         } else {
@@ -60,7 +60,7 @@ func (self *MemberDescriptorParser) parseParameterTypes() {
     }
 }
 func (self *MemberDescriptorParser) parseReturnType() {
-    t := self.readFieldType()
+    t := self.parseFieldType()
     if t != nil {
         self.md.returnType = t
     } else {
@@ -68,7 +68,7 @@ func (self *MemberDescriptorParser) parseReturnType() {
     }
 }
 
-func (self *MemberDescriptorParser) readFieldType() (*FieldType) {
+func (self *MemberDescriptorParser) parseFieldType() (*FieldType) {
     switch self.readUint8() {
     case 'B': return baseTypeB
     case 'C': return baseTypeC
@@ -79,14 +79,14 @@ func (self *MemberDescriptorParser) readFieldType() (*FieldType) {
     case 'S': return baseTypeS
     case 'Z': return baseTypeZ
     case 'V': return baseTypeV
-    case 'L': return self.readObjectType()
-    case '[': return self.readArrayType()
+    case 'L': return self.parseObjectType()
+    case '[': return self.parseArrayType()
     default:
         self.unreadUint8()
         return nil
     }
 }
-func (self *MemberDescriptorParser) readObjectType() (*FieldType) {
+func (self *MemberDescriptorParser) parseObjectType() (*FieldType) {
     unread := self.descriptor[self.offset:]
     semicolonIndex := strings.IndexRune(unread, ';')
     if semicolonIndex == -1 {
@@ -100,9 +100,9 @@ func (self *MemberDescriptorParser) readObjectType() (*FieldType) {
         return &FieldType{descriptor}
     }
 }
-func (self *MemberDescriptorParser) readArrayType() (*FieldType) {
+func (self *MemberDescriptorParser) parseArrayType() (*FieldType) {
     arrStart := self.offset - 1
-    self.readFieldType()
+    self.parseFieldType()
     arrEnd := self.offset
     descriptor := self.descriptor[arrStart: arrEnd]
     return &FieldType{descriptor}

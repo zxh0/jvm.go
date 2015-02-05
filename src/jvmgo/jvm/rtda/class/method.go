@@ -23,6 +23,7 @@ type Method struct {
     argCount        uint
     code            []byte
     nativeMethod    Any // cannot use package 'native' because of cycle import!
+    parameterTypes  []*Class
 }
 
 func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
@@ -32,9 +33,6 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
     method.name = methodInfo.Name()
     method.descriptor = methodInfo.Descriptor()
     method.argCount = calcArgCount(method.descriptor)
-    // if !method.IsStatic() { // todo
-    //     method.argCount++
-    // }
     if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
         method.code = codeAttr.Code()
         method.maxStack = codeAttr.MaxStack()
@@ -92,4 +90,15 @@ func (self *Method) IsRegisterNatives() (bool) {
             self.name == registerNativesMethodName &&
             self.descriptor == registerNativesMethodDesc
 
+}
+
+// reflection
+func (self *Method) ParameterTypes() ([]*Class) {
+    if self.parameterTypes == nil {
+        self.resolveParameterTypes()
+    }
+    return self.parameterTypes
+}
+func (self *Method) resolveParameterTypes() {
+    // todo
 }

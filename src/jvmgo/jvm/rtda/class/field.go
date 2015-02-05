@@ -56,6 +56,7 @@ func (self *Field) defaultValue() (Any) {
     }
 }
 
+// reflection
 func (self *Field) Type() (*Class) {
     if self._type == nil {
         self._type = self.resolveType()
@@ -76,6 +77,7 @@ func (self *Field) resolveType() *Class {
         case 'S': return classLoader.GetPrimitiveClass("short")
         case 'V': return classLoader.GetPrimitiveClass("void")
         case 'Z': return classLoader.GetPrimitiveClass("boolean")
+        default: panic("BAD descriptor: " + descriptor)
         }
     } 
     if descriptor[0] == 'L' {

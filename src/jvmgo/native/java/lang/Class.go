@@ -1,7 +1,7 @@
 package lang
 
 import (
-    //"fmt"
+    "fmt"
     . "jvmgo/any"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
@@ -9,6 +9,7 @@ import (
 
 func init() {
     _class(desiredAssertionStatus0, "desiredAssertionStatus0",  "(Ljava/lang/Class;)Z")
+    _class(forName0,                "forName0",                 "(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;")
     _class(getClassLoader0,         "getClassLoader0",          "()Ljava/lang/ClassLoader;")
     _class(getDeclaredFields0,      "getDeclaredFields0",       "(Z)[Ljava/lang/reflect/Field;")
     _class(getInterfaces,           "getInterfaces",            "()[Ljava/lang/Class;")
@@ -31,6 +32,20 @@ func desiredAssertionStatus0(frame *rtda.Frame) {
     _ = stack.PopRef() // this
     stack.PushBoolean(false)
 }
+
+// private static native Class<?> forName0(String name, boolean initialize, ClassLoader loader)
+//          throws ClassNotFoundException;
+// (Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;
+func forName0(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    loader := stack.PopRef()
+    initialize := stack.PopBoolean()
+    name := stack.PopRef()
+fmt.Printf("loader:%v initialize:%v ", loader, initialize)
+rtc.LogJString(name)
+panic("getName0.....")
+}
+
 
 // native ClassLoader getClassLoader0();
 // ()Ljava/lang/ClassLoader;

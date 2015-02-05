@@ -41,3 +41,21 @@ func string2chars(str string) ([]uint16) {
     // func Encode(s []rune) []uint16
     return utf16.Encode(codePoints)
 }
+
+func chars2string(chars []uint16) string {
+    // func Decode(s []uint16) []rune
+    codePoints := utf16.Decode(chars)
+
+    byteCount := 0
+    for _, codePoint := range codePoints {
+        byteCount += utf8.RuneLen(codePoint)
+    }
+
+    i := 0
+    bytes := make([]byte, byteCount)
+    for _, codePoint := range codePoints {
+        i += utf8.EncodeRune(bytes[i:], codePoint)
+    }
+
+    return string(codePoints)
+}

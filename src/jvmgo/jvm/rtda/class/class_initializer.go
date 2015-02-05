@@ -9,12 +9,9 @@ func GetUpmostUninitializedClassOrInterface(from *Class) (*Class) {
             return GetUpmostUninitializedClassOrInterface(k)
         }
     }
-
-    loader := from.classLoader
-    for _, interfaceName := range from.interfaceNames {
-        iClass := loader.getClass(interfaceName)
-        if iClass.InitializationNotStarted() {
-            return GetUpmostUninitializedClassOrInterface(iClass)
+    for _, i := range from.interfaces {
+        if i.InitializationNotStarted() {
+            return GetUpmostUninitializedClassOrInterface(i)
         }
     }
     return from

@@ -46,7 +46,7 @@ func forName0(frame *rtda.Frame) {
     goName = strings.Replace(goName, ".", "/", -1)
     goClass := frame.Method().Class().ClassLoader().LoadClass(goName)
     jClass := goClass.JClass()
-    
+
     if initialize && goClass.InitializationNotStarted() {
         // undo forName0
         thread := frame.Thread()
@@ -103,7 +103,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
             jFields[i] = jField
 
             jName := rtda.NewJString(goField.Name(), frame)
-            jType := _getFieldType(goField.Descriptor(), classLoader)
+            jType := goField.Type().JClass()
 
             newFrame := thread.NewFrame(constructor)
             vars := newFrame.LocalVars()
@@ -122,29 +122,18 @@ func getDeclaredFields0(frame *rtda.Frame) {
     }
 }
 
-func _getFieldType(descriptor string, classLoader *rtc.ClassLoader) (*rtc.Obj) {
-    if len(descriptor) == 1 {
-        switch descriptor[0] {
-        case 'B': return classLoader.GetPrimitiveClass("byte").JClass()
-        case 'C': return classLoader.GetPrimitiveClass("char").JClass()
-        case 'D': return classLoader.GetPrimitiveClass("double").JClass()
-        case 'F': return classLoader.GetPrimitiveClass("float").JClass()
-        case 'I': return classLoader.GetPrimitiveClass("int").JClass()
-        case 'J': return classLoader.GetPrimitiveClass("long").JClass()
-        case 'S': return classLoader.GetPrimitiveClass("short").JClass()
-        case 'V': return classLoader.GetPrimitiveClass("void").JClass()
-        case 'Z': return classLoader.GetPrimitiveClass("boolean").JClass()
-        }
-    } 
-    if descriptor[0] == 'L' {
-        return classLoader.LoadClass(descriptor[1:len(descriptor)-1]).JClass()
-    } 
-    return classLoader.LoadClass(descriptor).JClass()
+// private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
+// (Z)[Ljava/lang/reflect/Constructor;
+func getDeclaredConstructors0(frame *rtda.Frame) {
+    // stack := frame.OperandStack()
+    // publicOnly := stack.PopBoolean()
+    // jClass := stack.PopRef() // this
+    // goClass := jClass.Extra().(*rtc.Class)
+    // goConstructors := goClass.
+    panic("getDeclaredConstructors0")
 }
 
-
 // private native Method[]      getDeclaredMethods0(boolean publicOnly);
-// private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
 // private native Class<?>[]   getDeclaredClasses0();
 
 // private native String getName0();

@@ -1,6 +1,7 @@
 package class
 
 import (
+    "fmt"
     . "jvmgo/any"
     cf "jvmgo/classfile"
 )
@@ -44,6 +45,10 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
     }
     
     return method
+}
+
+func (self *Method) String() string {
+    return fmt.Sprintf("{Method name:%v descriptor:%v}", self.name, self.descriptor)
 }
 
 // getters
@@ -101,4 +106,8 @@ func (self *Method) ParameterTypes() ([]*Class) {
 }
 func (self *Method) resolveParameterTypes() {
     // todo
+    md := parseMethodDescriptor(self.descriptor)
+    for _, paramType := range md.parameterTypes {
+        fmt.Printf("@@@@@ paramType: %v \n", paramType)
+    }
 }

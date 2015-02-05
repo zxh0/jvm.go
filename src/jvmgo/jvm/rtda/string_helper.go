@@ -1,8 +1,7 @@
 package rtda
 
 import (
-    "unicode/utf8"
-    "unicode/utf16"
+    "jvmgo/gox"
     rtc "jvmgo/jvm/rtda/class"
 )
 
@@ -13,7 +12,7 @@ func JStringChars(jStr *rtc.Obj) ([]uint16) {
 
 // todo: is there a better way to create String?
 func NewJString(goStr string, frame *Frame) (*rtc.Obj) {
-    chars := string2chars(goStr) // utf16
+    chars := gox.StringToUtf16(goStr)
     internedStr := getInternedString(chars)
     if internedStr != nil {
         return internedStr
@@ -25,37 +24,4 @@ func NewJString(goStr string, frame *Frame) (*rtc.Obj) {
     jStr := stringClass.NewObj()
     jStr.SetFieldValue("value", "[C", jCharArr)
     return InternString(chars, jStr)
-}
-
-func string2chars(str string) ([]uint16) {
-    runeCount := utf8.RuneCountInString(str)
-    codePoints := make([]rune, runeCount)
-    i := 0
-    for len(str) > 0 {
-        r, size := utf8.DecodeRuneInString(str)
-        codePoints[i] = r
-        i++
-        str = str[size:]
-    }
-
-    // func Encode(s []rune) []uint16
-    return utf16.Encode(codePoints)
-}
-
-func chars2string(chars []uint16) string {
-    // func Decode(s []uint16) []rune
-    codePoints := utf16.Decode(chars)
-
-    byteCount := 0
-    for _, codePoint := range codePoints {
-        byteCount += utf8.RuneLen(codePoint)
-    }
-
-    i := 0
-    bytes := make([]byte, byteCount)
-    for _, codePoint := range codePoints {
-        i += utf8.EncodeRune(bytes[i:], codePoint)
-    }
-
-    return string(codePoints)
 }

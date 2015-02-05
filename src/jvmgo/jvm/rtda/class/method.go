@@ -105,9 +105,15 @@ func (self *Method) ParameterTypes() ([]*Class) {
     return self.parameterTypes
 }
 func (self *Method) resolveParameterTypes() {
+    if self.argCount == 0 {
+        // todo optimize
+        self.parameterTypes = make([]*Class, 0)
+    }
+
     // todo
     md := parseMethodDescriptor(self.descriptor)
-    for _, paramType := range md.parameterTypes {
-        fmt.Printf("@@@@@ paramType: %v \n", paramType)
+    self.parameterTypes = make([]*Class, len(md.parameterTypes))
+    for i, paramType := range md.parameterTypes {
+        self.parameterTypes[i] = self.class.classLoader.LoadClass(paramType.descriptor) // todo
     }
 }

@@ -1,7 +1,7 @@
 package lang
 
 import (
-    // "fmt"
+    //"fmt"
     "strings"
     . "jvmgo/any"
     "jvmgo/jvm/rtda"
@@ -9,16 +9,17 @@ import (
 )
 
 func init() {
-    _class(desiredAssertionStatus0, "desiredAssertionStatus0",  "(Ljava/lang/Class;)Z")
-    _class(forName0,                "forName0",                 "(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;")
-    _class(getClassLoader0,         "getClassLoader0",          "()Ljava/lang/ClassLoader;")
-    _class(getDeclaredFields0,      "getDeclaredFields0",       "(Z)[Ljava/lang/reflect/Field;")
-    _class(getInterfaces,           "getInterfaces",            "()[Ljava/lang/Class;")
-    _class(getName0,                "getName0",                 "()Ljava/lang/String;")
-    _class(getPrimitiveClass,       "getPrimitiveClass",        "(Ljava/lang/String;)Ljava/lang/Class;")
-    _class(getSuperclass,           "getSuperclass",            "()Ljava/lang/Class;")
-    _class(isInterface,             "isInterface",              "()Z")
-    _class(isPrimitive,             "isPrimitive",              "()Z")
+    _class(desiredAssertionStatus0,     "desiredAssertionStatus0",  "(Ljava/lang/Class;)Z")
+    _class(forName0,                    "forName0",                 "(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;")
+    _class(getClassLoader0,             "getClassLoader0",          "()Ljava/lang/ClassLoader;")
+    _class(getDeclaredConstructors0,    "getDeclaredConstructors0", "(Z)[Ljava/lang/reflect/Constructor;")
+    _class(getDeclaredFields0,          "getDeclaredFields0",       "(Z)[Ljava/lang/reflect/Field;")
+    _class(getInterfaces,               "getInterfaces",            "()[Ljava/lang/Class;")
+    _class(getName0,                    "getName0",                 "()Ljava/lang/String;")
+    _class(getPrimitiveClass,           "getPrimitiveClass",        "(Ljava/lang/String;)Ljava/lang/Class;")
+    _class(getSuperclass,               "getSuperclass",            "()Ljava/lang/Class;")
+    _class(isInterface,                 "isInterface",              "()Z")
+    _class(isPrimitive,                 "isPrimitive",              "()Z")
 }
 
 func _class(method Any, name, desc string) {
@@ -88,12 +89,12 @@ func getDeclaredFields0(frame *rtda.Frame) {
     if count > 0 {
         /*
         Field(Class<?> declaringClass,
-            String name,
-            Class<?> type,
-            int modifiers,
-            int slot,
-            String signature,
-            byte[] annotations)
+              String name,
+              Class<?> type,
+              int modifiers,
+              int slot,
+              String signature,
+              byte[] annotations)
         */
         constructor := fieldClass.GetConstructor("(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Class;IILjava/lang/String;[B)V")
         jFields := fieldArr.Fields().([]*rtc.Obj)
@@ -125,12 +126,34 @@ func getDeclaredFields0(frame *rtda.Frame) {
 // private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Constructor;
 func getDeclaredConstructors0(frame *rtda.Frame) {
-    // stack := frame.OperandStack()
-    // publicOnly := stack.PopBoolean()
-    // jClass := stack.PopRef() // this
-    // goClass := jClass.Extra().(*rtc.Class)
-    // goConstructors := goClass.
-    panic("getDeclaredConstructors0")
+    stack := frame.OperandStack()
+    publicOnly := stack.PopBoolean()
+    jClass := stack.PopRef() // this
+    goClass := jClass.Extra().(*rtc.Class)
+    goConstructors := goClass.GetConstructors(publicOnly)
+    
+    classLoader := goClass.ClassLoader()
+    constructorClass := classLoader.LoadClass("java/lang/reflect/Constructor")
+    count := int32(len(goConstructors))
+    constructorArr := rtc.NewRefArray(constructorClass, count, classLoader)
+    stack.PushRef(constructorArr)
+
+    if count > 0 {
+        //goConstructors[0].ParameterTypes()
+        panic("getDeclaredConstructors0"+goClass.Name())
+
+        /*
+        Constructor(Class<T> declaringClass,
+                    Class<?>[] parameterTypes,
+                    Class<?>[] checkedExceptions,
+                    int modifiers,
+                    int slot,
+                    String signature,
+                    byte[] annotations,
+                    byte[] parameterAnnotations)
+        }
+        */
+    }
 }
 
 // private native Method[]      getDeclaredMethods0(boolean publicOnly);

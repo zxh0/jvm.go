@@ -73,7 +73,7 @@ func (self *Class) GetFields(publicOnly bool) ([]*Field) {
         for _, field := range self.fields {
             if field.IsPublic() {
                 n := len(publicFields)
-                publicFields := publicFields[:n + 1]
+                publicFields = publicFields[:n + 1]
                 publicFields[n] = field
             }
         }
@@ -88,7 +88,7 @@ func (self *Class) GetMethods(publicOnly bool) ([]*Method) {
         if !method.IsClinit() && !method.isConstructor() {
             if !publicOnly || method.IsPublic() {
                 n := len(result)
-                result := result[:n + 1]
+                result = result[:n + 1]
                 result[n] = method
             }
         }
@@ -101,7 +101,7 @@ func (self *Class) GetConstructors(publicOnly bool) ([]*Method) {
         if method.isConstructor() {
             if !publicOnly || method.IsPublic() {
                 n := len(constructors)
-                constructors := constructors[:n + 1]
+                constructors = constructors[:n + 1]
                 constructors[n] = method
             }
         }

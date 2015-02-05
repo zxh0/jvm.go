@@ -2,6 +2,7 @@ package rtda
 
 import (
     "log"
+    "strings"
     "jvmgo/any"
     rtc "jvmgo/jvm/rtda/class"
 )
@@ -89,10 +90,11 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
     }
 }
 func _logInvoke(stackSize uint, method * rtc.Method) {
+    space := strings.Repeat(" ", int(stackSize))
     if method.IsStatic() {
-        log.Printf("invoke method: #%v %v.%v()", stackSize, method.Class().Name(), method.Name())
+        log.Printf("invoke method:%v %v.%v()", space, method.Class().Name(), method.Name())
     } else {
-        log.Printf("invoke method: #%v %v#%v()", stackSize, method.Class().Name(), method.Name())
+        log.Printf("invoke method:%v %v#%v()", space, method.Class().Name(), method.Name())
     }
 }
 

@@ -39,7 +39,7 @@ func (self *getstatic) Execute(frame *rtda.Frame) {
         if classOfField != currentClass || !currentMethod.IsClinit() {
             thread := frame.Thread()
             frame.SetNextPC(thread.PC()) // undo getstatic
-            initClass(field.Class(), thread)
+            rtda.InitClass(field.Class(), thread)
             return
         }
     }

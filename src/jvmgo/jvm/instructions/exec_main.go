@@ -83,7 +83,7 @@ func isBasicClassesReady(thread *rtda.Thread) (bool) {
         class := _classLoader.LoadClass(className)
         if class.InitializationNotStarted() {
             undoExec(thread)
-            initClass(class, thread)
+            rtda.InitClass(class, thread)
             return false
         }
     }

@@ -11,29 +11,33 @@ type MemberDescriptorParser struct {
 
 func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
     parser := MemberDescriptorParser{descriptor, 0}
+    return parser.parse()
+}
+
+func (self *MemberDescriptorParser) parse() (*MethodDescriptor) {
     md := &MethodDescriptor{}
 
     // parse parameter types
-    parser.startParams()
+    self.startParams()
     for {
-        t := parser.readFieldType()
+        t := self.readFieldType()
         if t != nil {
             md.addParameterType(t)
         } else {
             break
         }
     }
-    parser.endParams()
+    self.endParams()
 
     // parse return type
-    t := parser.readFieldType()
+    t := self.readFieldType()
     if t != nil {
         md.returnType = t
     } else {
-        parser.causePanic()
+        self.causePanic()
     }
 
-    parser.finish()
+    self.finish()
     return md
 }
 

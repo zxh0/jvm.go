@@ -1,7 +1,5 @@
 package class
 
-//import cf "jvmgo/classfile"
-
 type ClassMember struct {
     AccessFlags
     name        string
@@ -12,13 +10,6 @@ type ClassMember struct {
 func (self *ClassMember) Name() (string) {
     return self.name
 }
-func (self *ClassMember) Descriptor() (string) {
-    return self.descriptor
-}
 func (self *ClassMember) Class() (*Class) {
     return self.class
 }
-
-// func (self *ClassMember) ArgCount() (uint) {
-//     return calcArgCount(self.descriptor)
-// }

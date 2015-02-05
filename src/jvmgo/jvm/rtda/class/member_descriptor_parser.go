@@ -4,6 +4,14 @@ import (
     "strings"
 )
 
+func calcArgCount(descriptor string) (uint) {
+    return parseMethodDescriptor(descriptor).argCount()
+}
+
+func isVoidReturnType(descriptor string) bool {
+    return strings.HasSuffix(descriptor, ")V")
+}
+
 type MemberDescriptorParser struct {
     descriptor  string
     offset      int
@@ -18,13 +26,6 @@ func (self *MemberDescriptorParser) unreadUint8() {
     self.offset--
 }
 
-// todo
-func calcArgCount(descriptor string) (uint) {
-    return 0
-}
-func isVoidReturnType(descriptor string) bool {
-    return false
-}
 
 func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
     parser := MemberDescriptorParser{descriptor, 0}

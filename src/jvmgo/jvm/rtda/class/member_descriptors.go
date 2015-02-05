@@ -18,8 +18,8 @@ type MethodDescriptor struct {
 }
 
 // parameterCount()
-func (self *MethodDescriptor) argCount() (int) {
-    return len(self.parameterTypes)
+func (self *MethodDescriptor) argCount() (uint) {
+    return uint(len(self.parameterTypes))
 }
 
 func (self *MethodDescriptor) addParameterType(t *FieldType) {

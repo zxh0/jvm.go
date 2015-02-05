@@ -1,7 +1,8 @@
 package lang
 
 import (
-    "fmt"
+    //"fmt"
+    "strings"
     . "jvmgo/any"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
@@ -33,17 +34,30 @@ func desiredAssertionStatus0(frame *rtda.Frame) {
     stack.PushBoolean(false)
 }
 
-// private static native Class<?> forName0(String name, boolean initialize, ClassLoader loader)
-//          throws ClassNotFoundException;
+// private static native Class<?> forName0(String name, boolean initialize, ClassLoader loader) throws ClassNotFoundException;
 // (Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;
 func forName0(frame *rtda.Frame) {
     stack := frame.OperandStack()
-    loader := stack.PopRef()
+    jLoader := stack.PopRef()
     initialize := stack.PopBoolean()
-    name := stack.PopRef()
-fmt.Printf("loader:%v initialize:%v name:%v", loader, initialize, rtda.GoString(name))
-}
+    jName := stack.PopRef()
 
+    goName := rtda.GoString(jName)
+    goName = strings.Replace(goName, ".", "/", -1)
+    goClass := frame.Method().Class().ClassLoader().LoadClass(goName)
+    jClass := goClass.JClass()
+
+    if initialize && goClass.InitializationNotStarted() {
+        // undo forName0
+        stack.PushRef(jName)
+        stack.PushBoolean(initialize)
+        stack.PushRef(jLoader)
+        // init class
+        panic("todo forName0")
+    } else {
+        stack.PushRef(jClass)
+    }
+}
 
 // native ClassLoader getClassLoader0();
 // ()Ljava/lang/ClassLoader;

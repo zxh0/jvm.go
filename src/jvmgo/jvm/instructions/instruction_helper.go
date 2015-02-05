@@ -17,6 +17,7 @@ func checkArrIndex(index, len int) {
     }
 }
 
+// todo move to jvmgo/jvm/rtda/class_helper.go
 func initClass(class *rtc.Class, thread *rtda.Thread) {
     uninitedClass := rtc.GetUpmostUninitializedClassOrInterface(class)
     if uninitedClass != nil {

@@ -6,7 +6,7 @@ type MethodDescriptor struct {
 }
 
 func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
-    parser := MemberDescriptorParser{descriptor, 0}
+    parser := newMemberDescriptorParser(descriptor)
     return parser.parse()
 }
 

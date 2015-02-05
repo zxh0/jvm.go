@@ -7,33 +7,41 @@ import (
 type MemberDescriptorParser struct {
     descriptor  string
     offset      int
+    md          *MethodDescriptor
+}
+
+func newMemberDescriptorParser(descriptor string) (*MemberDescriptorParser) {
+    return &MemberDescriptorParser{descriptor: descriptor}
 }
 
 func (self *MemberDescriptorParser) parse() (*MethodDescriptor) {
-    md := &MethodDescriptor{}
+    self.md = &MethodDescriptor{}
 
-    // parse parameter types
-    self.startParams()
-    for {
-        t := self.readFieldType()
-        if t != nil {
-            md.addParameterType(t)
-        } else {
-            break
-        }
-    }
-    self.endParams()
+    self.parseParameterTypes()
 
     // parse return type
     t := self.readFieldType()
     if t != nil {
-        md.returnType = t
+        self.md.returnType = t
     } else {
         self.causePanic()
     }
 
     self.finish()
-    return md
+    return self.md
+}
+
+func (self *MemberDescriptorParser) parseParameterTypes() {
+    self.startParams()
+    for {
+        t := self.readFieldType()
+        if t != nil {
+            self.md.addParameterType(t)
+        } else {
+            break
+        }
+    }
+    self.endParams()
 }
 
 func (self *MemberDescriptorParser) startParams() {

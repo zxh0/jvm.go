@@ -46,7 +46,7 @@ func (self *DescriptorReader) endParams() {
 func (self *DescriptorReader) readFieldType() (bool) {
     b := self.readUint8()
     switch b {
-    case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z':
+    case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z': // base type
         return true
     case 'L':
         self.readObjectType()

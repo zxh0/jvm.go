@@ -25,14 +25,12 @@ func (self *MemberDescriptorParser) parse() (*MethodDescriptor) {
 }
 
 func (self *MemberDescriptorParser) startParams() {
-    b := self.readUint8()
-    if b != '(' {
+    if self.readUint8() != '(' {
         self.causePanic()
     }
 }
 func (self *MemberDescriptorParser) endParams() {
-    b := self.readUint8()
-    if b != ')' {
+    if self.readUint8() != ')' {
         self.causePanic()
     }
 }

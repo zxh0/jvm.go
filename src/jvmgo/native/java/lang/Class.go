@@ -41,9 +41,7 @@ func forName0(frame *rtda.Frame) {
     loader := stack.PopRef()
     initialize := stack.PopBoolean()
     name := stack.PopRef()
-fmt.Printf("loader:%v initialize:%v ", loader, initialize)
-rtc.LogJString(name)
-panic("getName0.....")
+fmt.Printf("loader:%v initialize:%v name:%v", loader, initialize, rtda.GoString(name))
 }
 
 

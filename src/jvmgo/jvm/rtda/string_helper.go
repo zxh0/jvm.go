@@ -25,3 +25,8 @@ func NewJString(goStr string, frame *Frame) (*rtc.Obj) {
     jStr.SetFieldValue("value", "[C", jCharArr)
     return InternString(chars, jStr)
 }
+
+func GoString(jStr *rtc.Obj) string {
+    utf16 := JStringChars(jStr)
+    return gox.Utf16ToString(utf16)
+}

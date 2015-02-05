@@ -16,23 +16,15 @@ func newMemberDescriptorParser(descriptor string) (*MemberDescriptorParser) {
 
 func (self *MemberDescriptorParser) parse() (*MethodDescriptor) {
     self.md = &MethodDescriptor{}
-
+    self.startParams()
     self.parseParameterTypes()
-
-    // parse return type
-    t := self.readFieldType()
-    if t != nil {
-        self.md.returnType = t
-    } else {
-        self.causePanic()
-    }
-
+    self.endParams()
+    self.parseReturnType()
     self.finish()
     return self.md
 }
 
 func (self *MemberDescriptorParser) parseParameterTypes() {
-    self.startParams()
     for {
         t := self.readFieldType()
         if t != nil {
@@ -41,7 +33,14 @@ func (self *MemberDescriptorParser) parseParameterTypes() {
             break
         }
     }
-    self.endParams()
+}
+func (self *MemberDescriptorParser) parseReturnType() {
+    t := self.readFieldType()
+    if t != nil {
+        self.md.returnType = t
+    } else {
+        self.causePanic()
+    }
 }
 
 func (self *MemberDescriptorParser) startParams() {

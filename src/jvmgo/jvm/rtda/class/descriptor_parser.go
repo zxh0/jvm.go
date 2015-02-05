@@ -9,11 +9,6 @@ type MemberDescriptorParser struct {
     offset      int
 }
 
-func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
-    parser := MemberDescriptorParser{descriptor, 0}
-    return parser.parse()
-}
-
 func (self *MemberDescriptorParser) parse() (*MethodDescriptor) {
     md := &MethodDescriptor{}
 

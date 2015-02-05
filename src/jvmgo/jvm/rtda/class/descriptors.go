@@ -5,6 +5,11 @@ type MethodDescriptor struct {
     returnType      *FieldType
 }
 
+func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
+    parser := MemberDescriptorParser{descriptor, 0}
+    return parser.parse()
+}
+
 // parameterCount()
 func (self *MethodDescriptor) argCount() (uint) {
     return uint(len(self.parameterTypes))

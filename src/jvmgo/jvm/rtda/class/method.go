@@ -75,6 +75,10 @@ func (self *Method) ActualArgCount() (uint) {
     }
 }
 
+func (self *Method) IsVoidReturnType() bool {
+    return isVoidReturnType(self.descriptor)
+}
+
 func (self *Method) isConstructor() (bool) {
     return !self.IsStatic() && self.name == constructorName
 }

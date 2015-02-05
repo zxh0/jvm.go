@@ -99,6 +99,13 @@ func _logInvoke(stackSize uint, method * rtc.Method) {
 // args not passed!
 func (self *Thread) InvokeMethod2(method * rtc.Method) (*LocalVars) {
     //_logInvoke(self.stack.size, method)
+    if !method.IsVoidReturnType() {
+        // insert a garbage frame
+        garbageMethod := rtc.NewGarbageMethod()
+        garbageFrame := self.NewFrame(garbageMethod)
+        self.PushFrame(garbageFrame)
+    }
+
     newFrame := self.NewFrame(method)
     self.PushFrame(newFrame)
     return newFrame.localVars

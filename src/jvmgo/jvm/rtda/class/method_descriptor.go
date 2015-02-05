@@ -1,5 +1,7 @@
 package class
 
+import "strings"
+
 func calcArgCount(descriptor string) (uint) {
     dr := &DescriptorReader{descriptor, 0}
 
@@ -13,6 +15,9 @@ func calcArgCount(descriptor string) (uint) {
     return uint(count)
 }
 
+func isVoidReturnType(descriptor string) bool {
+    return strings.HasSuffix(descriptor, ")V")
+}
 
 type DescriptorReader struct {
     d       string

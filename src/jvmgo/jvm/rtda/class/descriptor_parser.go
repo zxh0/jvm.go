@@ -40,6 +40,10 @@ func (self *MemberDescriptorParser) finish() {
     }
 }
 
+func (self *MemberDescriptorParser) causePanic() {
+    panic("BAD descriptor: " + self.descriptor)
+}
+
 func (self *MemberDescriptorParser) readUint8() uint8 {
     b := self.descriptor[self.offset]
     self.offset++
@@ -106,8 +110,4 @@ func (self *MemberDescriptorParser) parseArrayType() (*FieldType) {
     arrEnd := self.offset
     descriptor := self.descriptor[arrStart: arrEnd]
     return &FieldType{descriptor}
-}
-
-func (self *MemberDescriptorParser) causePanic() {
-    panic("BAD descriptor: " + self.descriptor)
 }

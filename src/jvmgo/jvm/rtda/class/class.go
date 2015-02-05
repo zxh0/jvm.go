@@ -3,7 +3,7 @@ package class
 import (
     //"fmt"
     . "jvmgo/any"
-    cf "jvmgo/classfile"
+    //cf "jvmgo/classfile"
 )
 
 const (
@@ -13,7 +13,7 @@ const (
 
 type Class struct {
     constantPool        *ConstantPool
-    cf.AccessFlags
+    AccessFlags
     name                string // thisClassName
     superClassName      string
     interfaceNames      []string

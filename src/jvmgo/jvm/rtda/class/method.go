@@ -28,7 +28,7 @@ type Method struct {
 func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
     method := &Method{}
     method.class = class
-    method.SetAccessFlags(methodInfo.GetAccessFlags())
+    method.accessFlags = methodInfo.AccessFlags()
     method.name = methodInfo.Name()
     method.descriptor = methodInfo.Descriptor()
     method.argCount = methodInfo.ArgCount()

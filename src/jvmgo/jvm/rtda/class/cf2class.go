@@ -7,7 +7,7 @@ import (
 
 func cf2class(cf *classfile.ClassFile) (*Class) {
     class := &Class{}
-    class.SetAccessFlags(cf.GetAccessFlags())
+    class.accessFlags = cf.AccessFlags()
     class.copyConstantPool(cf)
     class.copyClassNames(cf)
     class.copyFields(cf)

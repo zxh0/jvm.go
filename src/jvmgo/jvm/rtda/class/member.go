@@ -1,9 +1,9 @@
 package class
 
-import cf "jvmgo/classfile"
+//import cf "jvmgo/classfile"
 
 type ClassMember struct {
-    cf.AccessFlags
+    AccessFlags
     name        string
     descriptor  string
     class       *Class

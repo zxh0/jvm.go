@@ -27,7 +27,7 @@ type ClassFile struct {
     minorVersion    uint16
     majorVersion    uint16
     constantPool    *ConstantPool
-    AccessFlags
+    accessFlags     uint16
     thisClass       uint16
     superClass      uint16
     interfaces      []uint16
@@ -97,6 +97,9 @@ func (self *ClassFile) readMethods(reader *ClassReader) {
 
 func (self *ClassFile) ConstantPool() (*ConstantPool) {
     return self.constantPool
+}
+func (self *ClassFile) AccessFlags() (uint16) {
+    return self.accessFlags
 }
 func (self *ClassFile) Fields() ([]*FieldInfo) {
     return self.fields

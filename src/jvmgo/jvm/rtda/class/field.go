@@ -13,7 +13,7 @@ type Field struct {
 func newField(class *Class, fieldInfo *cf.FieldInfo) (*Field) {
     field := &Field{}
     field.class = class
-    field.SetAccessFlags(fieldInfo.GetAccessFlags())
+    field.accessFlags = fieldInfo.AccessFlags()
     field.name = fieldInfo.Name()
     field.descriptor = fieldInfo.Descriptor()
     return field

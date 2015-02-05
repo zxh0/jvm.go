@@ -1,6 +1,8 @@
 package class
 
-import "strings"
+import (
+    "strings"
+)
 
 type MemberDescriptorParser struct {
     descriptor  string
@@ -16,30 +18,39 @@ func (self *MemberDescriptorParser) unreadUint8() {
     self.offset--
 }
 
-func (self *MemberDescriptorParser) parseMethodDescriptor() (*MethodDescriptor) {
+// todo
+func calcArgCount(descriptor string) (uint) {
+    return 0
+}
+func isVoidReturnType(descriptor string) bool {
+    return false
+}
+
+func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
+    parser := MemberDescriptorParser{descriptor, 0}
     md := &MethodDescriptor{}
 
     // parse parameter types
-    self.startParams()
+    parser.startParams()
     for {
-        t := self.readFieldType()
+        t := parser.readFieldType()
         if t != nil {
             md.addParameterType(t)
         } else {
             break
         }
     }
-    self.endParams()
+    parser.endParams()
 
     // parse return type
-    t := self.readFieldType()
+    t := parser.readFieldType()
     if t != nil {
         md.returnType = t
     } else {
-        self.causePanic()
+        parser.causePanic()
     }
 
-    self.finish()
+    parser.finish()
     return md
 }
 
@@ -71,6 +82,7 @@ func (self *MemberDescriptorParser) readFieldType() (*FieldType) {
     case 'J': return baseTypeJ
     case 'S': return baseTypeS
     case 'Z': return baseTypeZ
+    case 'V': return baseTypeV
     case 'L': return self.readObjectType()
     case '[': return self.readArrayType()
     default:
@@ -86,8 +98,8 @@ func (self *MemberDescriptorParser) readObjectType() (*FieldType) {
         return nil
     } else {
         objStart := self.offset - 1
-        objEnd := semicolonIndex + 1
-        self.offset = semicolonIndex + 1
+        objEnd := self.offset + semicolonIndex + 1
+        self.offset = objEnd
         descriptor := self.descriptor[objStart: objEnd]
         return &FieldType{descriptor}
     }

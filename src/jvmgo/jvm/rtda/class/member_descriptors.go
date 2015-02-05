@@ -9,12 +9,17 @@ var (
     baseTypeJ = &FieldType{"J"} // long
     baseTypeS = &FieldType{"S"} // short
     baseTypeZ = &FieldType{"Z"} // boolean
-    //baseTypeV = &FieldType{"V"}
+    baseTypeV = &FieldType{"V"} // void
 )
 
 type MethodDescriptor struct {
     parameterTypes  []*FieldType
     returnType      *FieldType
+}
+
+// parameterCount()
+func (self *MethodDescriptor) argCount() (int) {
+    return len(self.parameterTypes)
 }
 
 func (self *MethodDescriptor) addParameterType(t *FieldType) {

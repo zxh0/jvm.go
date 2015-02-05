@@ -40,6 +40,15 @@ func (self *MemberDescriptorParser) finish() {
     }
 }
 
+func (self *MemberDescriptorParser) readUint8() uint8 {
+    b := self.descriptor[self.offset]
+    self.offset++
+    return b
+}
+func (self *MemberDescriptorParser) unreadUint8() {
+    self.offset--
+}
+
 func (self *MemberDescriptorParser) parseParameterTypes() {
     for {
         t := self.readFieldType()
@@ -57,15 +66,6 @@ func (self *MemberDescriptorParser) parseReturnType() {
     } else {
         self.causePanic()
     }
-}
-
-func (self *MemberDescriptorParser) readUint8() uint8 {
-    b := self.descriptor[self.offset]
-    self.offset++
-    return b
-}
-func (self *MemberDescriptorParser) unreadUint8() {
-    self.offset--
 }
 
 func (self *MemberDescriptorParser) readFieldType() (*FieldType) {

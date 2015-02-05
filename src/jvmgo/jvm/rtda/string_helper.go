@@ -1,7 +1,7 @@
 package rtda
 
 import (
-    "jvmgo/gox"
+    "jvmgo/util"
     rtc "jvmgo/jvm/rtda/class"
 )
 
@@ -12,7 +12,7 @@ func JStringChars(jStr *rtc.Obj) ([]uint16) {
 
 // todo: is there a better way to create String?
 func NewJString(goStr string, frame *Frame) (*rtc.Obj) {
-    chars := gox.StringToUtf16(goStr)
+    chars := util.StringToUtf16(goStr)
     internedStr := getInternedString(chars)
     if internedStr != nil {
         return internedStr
@@ -28,5 +28,5 @@ func NewJString(goStr string, frame *Frame) (*rtc.Obj) {
 
 func GoString(jStr *rtc.Obj) string {
     utf16 := JStringChars(jStr)
-    return gox.Utf16ToString(utf16)
+    return util.Utf16ToString(utf16)
 }

@@ -1,4 +1,4 @@
-package gox
+package util
 
 import (
     "unicode/utf8"

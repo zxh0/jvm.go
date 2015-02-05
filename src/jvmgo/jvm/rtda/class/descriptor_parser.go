@@ -24,6 +24,24 @@ func (self *MemberDescriptorParser) parse() (*MethodDescriptor) {
     return self.md
 }
 
+func (self *MemberDescriptorParser) startParams() {
+    b := self.readUint8()
+    if b != '(' {
+        self.causePanic()
+    }
+}
+func (self *MemberDescriptorParser) endParams() {
+    b := self.readUint8()
+    if b != ')' {
+        self.causePanic()
+    }
+}
+func (self *MemberDescriptorParser) finish() {
+    if self.offset != len(self.descriptor) {
+        self.causePanic()
+    }
+}
+
 func (self *MemberDescriptorParser) parseParameterTypes() {
     for {
         t := self.readFieldType()
@@ -39,24 +57,6 @@ func (self *MemberDescriptorParser) parseReturnType() {
     if t != nil {
         self.md.returnType = t
     } else {
-        self.causePanic()
-    }
-}
-
-func (self *MemberDescriptorParser) startParams() {
-    b := self.readUint8()
-    if b != '(' {
-        self.causePanic()
-    }
-}
-func (self *MemberDescriptorParser) endParams() {
-    b := self.readUint8()
-    if b != ')' {
-        self.causePanic()
-    }
-}
-func (self *MemberDescriptorParser) finish() {
-    if self.offset != len(self.descriptor) {
         self.causePanic()
     }
 }

@@ -2,19 +2,12 @@ package class
 
 import (
     "testing"
+    . "jvmgo/test"
 )
 
 func TestCalcArgCount(t *testing.T) {
-    if count := calcArgCount("()V"); count != 0 {
-        t.Errorf("%v", count)
-    }
-    if count := calcArgCount("(I)F"); count != 1 {
-        t.Errorf("%v", count)
-    }
-    if count := calcArgCount("([BIII)V"); count != 4 {
-        t.Errorf("%v", count)
-    }
-    if count := calcArgCount("(IDLjava/lang/Thread;)Ljava/lang/Object;"); count != 3 {
-        t.Errorf("%v", count)
-    }
+    AssertEquals(0, calcArgCount("()V"))
+    AssertEquals(1, calcArgCount("(I)F"))
+    AssertEquals(4, calcArgCount("([BIII)V"))
+    AssertEquals(3, calcArgCount("(IDLjava/lang/Thread;)Ljava/lang/Object;"))
 }

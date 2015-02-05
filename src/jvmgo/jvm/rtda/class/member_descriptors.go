@@ -27,17 +27,17 @@ func (self *DescriptorReader) endParams() {
 func (self *DescriptorReader) readFieldType() (bool) {
     b := self.readUint8()
     switch b {
-        case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z':
-            return true
-        case 'L':
-            self.readObjectType()
-            return true
-        case '[':
-            self.readArrayType()
-            return true
-        default:
-            self.unreadUint8()
-            return false
+    case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z':
+        return true
+    case 'L':
+        self.readObjectType()
+        return true
+    case '[':
+        self.readArrayType()
+        return true
+    default:
+        self.unreadUint8()
+        return false
     }
 }
 func (self *DescriptorReader) readObjectType() {

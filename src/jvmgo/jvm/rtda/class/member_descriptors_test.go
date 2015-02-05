@@ -1,4 +1,4 @@
-package classfile
+package class
 
 import (
     "testing"

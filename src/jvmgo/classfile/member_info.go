@@ -48,7 +48,3 @@ func (self *MemberInfo) Name() (string) {
 func (self *MemberInfo) Descriptor() (string) {
     return self.cp.getUtf8(self.descriptorIndex)
 }
-
-func (self *MethodInfo) ArgCount() (uint) {
-    return calcArgCount(self.Descriptor())
-}

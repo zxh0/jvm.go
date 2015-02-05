@@ -1,23 +1,31 @@
-package classfile
+package class
 
 type DescriptorReader struct {
-    d   string
-    r   *ClassReader
+    d       string
+    offset  int
+}
+func (self *DescriptorReader) readUint8() uint8 {
+    b := self.d[self.offset]
+    self.offset++
+    return b
+}
+func (self *DescriptorReader) unreadUint8() {
+    self.offset--
 }
 func (self *DescriptorReader) startParams() {
-    b := self.r.readUint8()
+    b := self.readUint8()
     if b != '(' {
         self.causePanic()
     }
 }
 func (self *DescriptorReader) endParams() {
-    b := self.r.readUint8()
+    b := self.readUint8()
     if b != ')' {
         self.causePanic()
     }
 }
 func (self *DescriptorReader) readFieldType() (bool) {
-    b := self.r.readUint8()
+    b := self.readUint8()
     switch b {
         case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z':
             return true
@@ -28,12 +36,12 @@ func (self *DescriptorReader) readFieldType() (bool) {
             self.readArrayType()
             return true
         default:
-            self.r.unreadUint8()
+            self.unreadUint8()
             return false
     }
 }
 func (self *DescriptorReader) readObjectType() {
-    for ';' != self.r.readUint8() {}
+    for ';' != self.readUint8() {}
 }
 func (self *DescriptorReader) readArrayType() {
     self.readFieldType()
@@ -45,8 +53,7 @@ func (self *DescriptorReader) causePanic() {
 
 // descriptor looks like: (IDLjava/lang/Thread;)Ljava/lang/Object;
 func calcArgCount(descriptor string) (uint) {
-    cr := newClassReader([]byte(descriptor))
-    dr := &DescriptorReader{descriptor, cr}
+    dr := &DescriptorReader{descriptor, 0}
 
     count := 0
     dr.startParams()

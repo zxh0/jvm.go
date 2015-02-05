@@ -19,7 +19,7 @@ func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefI
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
-    methodref.argCount = methodrefInfo.ArgCount()
+    methodref.argCount = calcArgCount(methodref.descriptor)
     methodref.cp = cp
     return methodref
 }
@@ -102,6 +102,6 @@ func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantI
     methodref.className = methodrefInfo.ClassName()
     methodref.name = methodrefInfo.Name()
     methodref.descriptor = methodrefInfo.Descriptor()
-    methodref.argCount = methodrefInfo.ArgCount()
+    methodref.argCount = calcArgCount(methodref.descriptor)
     return methodref
 }

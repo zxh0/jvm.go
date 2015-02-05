@@ -18,3 +18,7 @@ func (self *ClassMember) Descriptor() (string) {
 func (self *ClassMember) Class() (*Class) {
     return self.class
 }
+
+// func (self *ClassMember) ArgCount() (uint) {
+//     return calcArgCount(self.descriptor)
+// }

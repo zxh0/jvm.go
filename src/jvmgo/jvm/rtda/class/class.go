@@ -114,11 +114,16 @@ func (self *Class) getArrayClass() (*Class) {
     return self.classLoader.getRefArrayClass(self)
 }
 
+func (self *Class) NewObjWithExtra(extra Any) (*Obj) {
+    obj := self.NewObj()
+    obj.extra = extra
+    return obj
+}
 func (self *Class) NewObj() (*Obj) {
     if self.instanceFieldCount > 0 {
         fields := make([]Any, self.instanceFieldCount)
         obj := &Obj{self, fields, nil}
-        obj.zeroFields()
+        obj.initFields()
         return obj
     } else {
         return &Obj{self, nil, nil}

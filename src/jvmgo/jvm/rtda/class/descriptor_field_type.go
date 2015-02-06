@@ -16,12 +16,16 @@ type FieldType struct {
     descriptor string
 }
 
-func (self FieldType) isBaseType() bool {
+func (self *FieldType) Descriptor() string {
+    return self.descriptor
+}
+
+func (self *FieldType) IsBaseType() bool {
     return len(self.descriptor) == 1
 }
-func (self FieldType) isObjectType() bool {
+func (self *FieldType) IsObjectType() bool {
     return self.descriptor[0] == 'L'
 }
-func (self FieldType) isArrayType() bool {
+func (self *FieldType) IsArrayType() bool {
     return self.descriptor[0] == '['
 }

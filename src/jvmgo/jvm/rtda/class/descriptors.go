@@ -10,6 +10,9 @@ func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
     return parser.parse()
 }
 
+func (self *MethodDescriptor) ParameterTypes() ([]*FieldType) {
+    return self.parameterTypes
+}
 // parameterCount()
 func (self *MethodDescriptor) argCount() (uint) {
     return uint(len(self.parameterTypes))

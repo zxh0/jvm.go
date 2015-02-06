@@ -1,6 +1,7 @@
 package class
 
 import (
+    "fmt"
     . "jvmgo/any"
 )
 
@@ -12,7 +13,8 @@ type Obj struct {
 }
 
 func (self *Obj) String() string {
-    return "{Obj class:" + self.class.String() + "}"
+    return fmt.Sprintf("{Obj@%p class:%v extra:%v}",
+            self, self.class, self.extra)
 }
 
 // getters
@@ -57,7 +59,7 @@ func _interfaceXextendsY(x, y *Class) (bool) {
 }
 
 // todo
-func (self *Obj) zeroFields() {
+func (self *Obj) initFields() {
     fields := self.fields.([]Any)
     for class := self.class; class != nil; class = class.superClass {
         for _, f := range class.fields {

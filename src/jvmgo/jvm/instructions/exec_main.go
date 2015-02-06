@@ -37,7 +37,7 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
 
     // System.out
     sysClass := _classLoader.LoadClass("java/lang/System")
-    propsField := sysClass.GetField("props", "Ljava/util/Properties;")
+    propsField := sysClass.GetStaticField("props", "Ljava/util/Properties;")
     props := propsField.GetStaticValue()
     if props == nil {
         undoExec(thread)
@@ -46,7 +46,7 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
         return
     }
 
-    outField := sysClass.GetField("out", "Ljava/io/PrintStream;")
+    outField := sysClass.GetStaticField("out", "Ljava/io/PrintStream;")
     stdout := _classLoader.LoadClass("jvmgo/SystemOut").NewObj()
     outField.PutStaticValue(stdout)
 
@@ -110,7 +110,7 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         undoExec(thread)
         threadClass := _classLoader.LoadClass("java/lang/Thread")
         mainThread := threadClass.NewObj()
-        threadClass.GetField("priority", "I").PutValue(mainThread, int32(1))
+        threadClass.GetInstanceField("priority", "I").PutValue(mainThread, int32(1))
         thread.SetJThread(mainThread)
 
         initMethod := threadClass.GetMethod("<init>", "(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")

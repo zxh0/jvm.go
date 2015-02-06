@@ -6,9 +6,8 @@ func (self *Method) ParameterTypes() ([]*Class) {
         return make([]*Class, 0)
     }
 
-    // todo
-    md := parseMethodDescriptor(self.descriptor)
-    parameterTypes := make([]*Class, len(md.parameterTypes))
+    md := self.MethodDescriptor()
+    parameterTypes := make([]*Class, self.argCount)
     for i, paramType := range md.parameterTypes {
         parameterTypes[i] = self.class.classLoader.LoadClass(paramType.descriptor) // todo
     }

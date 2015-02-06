@@ -68,6 +68,10 @@ func (self *Thread) PopFrame() (*Frame) {
     return top
 }
 
+func (self *Thread) NewFrame(method *rtc.Method) (*Frame) {
+    return newFrame(self, method)
+}
+
 
 func (self *Thread) InvokeMethod(method * rtc.Method) {
     //_logInvoke(self.stack.size, method)
@@ -113,7 +117,8 @@ func (self *Thread) InvokeMethod2(method * rtc.Method) (*LocalVars) {
     return newFrame.localVars
 }
 
-
-func (self *Thread) NewFrame(method *rtc.Method) (*Frame) {
-    return newFrame(self, method)
-}
+// func (self *Thread) PushMethod(method *rtc.Method) (*Frame) {
+//     frame := newFrame(self, method)
+//     self.PushFrame(frame)
+//     return frame
+// }

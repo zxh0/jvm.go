@@ -28,7 +28,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
         constructorObjs := constructorArr.Fields().([]*rtc.Obj)
         thread := frame.Thread()
         for i, goConstructor := range goConstructors {
-            constructorObj := constructorClass.NewObj()
+            constructorObj := constructorClass.NewObjWithExtra(goConstructor)
             constructorObjs[i] = constructorObj
             // call <init>
             /*

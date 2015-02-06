@@ -11,12 +11,10 @@ var _allocatedMemories = map[int64][]byte{}
 
 func init() {
     _unsafe(addressSize,        "addressSize",          "()I")
-    _unsafe(allocateMemory,     "allocateMemory",       "(J)J")
     _unsafe(arrayBaseOffset,    "arrayBaseOffset",      "(Ljava/lang/Class;)I")
     _unsafe(arrayIndexScale,    "arrayIndexScale",      "(Ljava/lang/Class;)I")
     _unsafe(compareAndSwapInt,  "compareAndSwapInt",    "(Ljava/lang/Object;JII)Z")
     _unsafe(objectFieldOffset,  "objectFieldOffset",    "(Ljava/lang/reflect/Field;)J")
-    _unsafe(putLong,            "putLong",              "(JJ)V")
 }
 
 func _unsafe(method Any, name, desc string) {

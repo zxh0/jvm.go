@@ -42,6 +42,13 @@ func (self *OperandStack) PopBoolean() (bool) {
     return self.PopInt() == 1
 }
 
+// func (self *OperandStack) PushByte(val int8) {
+//     self.PushInt(int32(val))
+// }
+// func (self *OperandStack) PopByte() (int8) {
+//     return int8(self.PopInt())
+// }
+
 func (self *OperandStack) PushInt(val int32) {
     self.Push(val)
 }

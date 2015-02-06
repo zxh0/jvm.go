@@ -151,9 +151,14 @@ func getInterfaces(frame *rtda.Frame) {
 func getSuperclass(frame *rtda.Frame) {
     stack := frame.OperandStack()
     jClass := stack.PopRef() // this
+    
     goClass := jClass.Extra().(*rtc.Class)
-    jSuperClass := goClass.SuperClass().JClass()
-    stack.PushRef(jSuperClass)
+    goSuperClass := goClass.SuperClass()
+    if goSuperClass != nil {
+        stack.PushRef(goSuperClass.JClass())
+    } else {
+        stack.PushNull()
+    }
 }
 
 // public native boolean isInterface();

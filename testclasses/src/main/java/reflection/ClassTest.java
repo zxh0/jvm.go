@@ -20,6 +20,8 @@ public class ClassTest implements Runnable {
     }
     
     public static void main(String[] args) {
+        //System.out.println(Object.class.getSuperclass());
+        
         Class<?> c = ClassTest.class;
         System.out.println(c.getName());
         System.out.println("superclass: " + c.getSuperclass().getName());

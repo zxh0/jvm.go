@@ -1,6 +1,9 @@
 package class
 
-import cf "jvmgo/classfile"
+import (
+    cf "jvmgo/classfile"
+    "jvmgo/util"
+)
 
 type ConstantFieldref struct {
     className   string
@@ -38,7 +41,7 @@ func (self *ConstantFieldref) resolveInstanceField() {
     }
 
     // todo
-    panic("field not found!")
+    util.Panicf("field not found!")
 }
 
 func (self *ConstantFieldref) StaticField() (*Field) {

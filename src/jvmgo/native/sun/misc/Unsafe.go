@@ -38,20 +38,8 @@ func allocateMemory(frame *rtda.Frame) {
     size := stack.PopLong()
     stack.PopRef() // this
 
-    key := _nextAllocatedMemoryKey()
-    mem := make([]byte, size)
-    _allocatedMemories[key] = mem
-
-    stack.PushLong(key)
-}
-func _nextAllocatedMemoryKey() int64 {
-    maxKey := int64(0)
-    for key, _ := range _allocatedMemories {
-        if key > maxKey {
-            maxKey = key
-        }
-    }
-    return maxKey + 1
+    address := allocate(size)
+    stack.PushLong(address)
 }
 
 // public native int arrayBaseOffset(Class<?> type);
@@ -102,4 +90,13 @@ func objectFieldOffset(frame *rtda.Frame) {
     stack.PopRef() // this
     offset := jField.GetFieldValue("slot", "I").(int32)
     stack.PushLong(int64(offset))
+}
+
+// public native void putLong(long l, long l1);
+//
+func putLong(frame *rtda.Frame) {
+    // stack := frame.OperandStack()
+    // value := stack.PopLong()
+    // offset := stack.PopLong()
+    panic("todo putLong")
 }

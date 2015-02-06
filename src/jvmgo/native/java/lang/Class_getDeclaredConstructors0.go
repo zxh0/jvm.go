@@ -16,15 +16,15 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
     jClass := stack.PopRef() // this
     goClass := jClass.Extra().(*rtc.Class)
     goConstructors := goClass.GetConstructors(publicOnly)
+    constructorCount := int32(len(goConstructors))
     
     constructorClass := goClass.ClassLoader().LoadClass("java/lang/reflect/Constructor")
+    constructorArr := constructorClass.NewArray(constructorCount)
     constructorInitMethod := constructorClass.GetConstructor("(Ljava/lang/Class;[Ljava/lang/Class;[Ljava/lang/Class;IILjava/lang/String;[B[B)V")
     
-    count := int32(len(goConstructors))
-    constructorArr := rtc.NewRefArray(constructorClass, count)
     stack.PushRef(constructorArr)
 
-    if count > 0 {
+    if constructorCount > 0 {
         /*
         Constructor(Class<T> declaringClass,
                     Class<?>[] parameterTypes,

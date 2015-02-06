@@ -68,12 +68,12 @@ func (self *Class) MarkInitialized() {
 }
 
 func (self *Class) GetStaticField(name, descriptor string) (*Field) {
-    return self._getField(name, descriptor, true)
+    return self.getField(name, descriptor, true)
 }
 func (self *Class) GetInstanceField(name, descriptor string) (*Field) {
-    return self._getField(name, descriptor, false)
+    return self.getField(name, descriptor, false)
 }
-func (self *Class) _getField(name, descriptor string, isStatic bool) (*Field) {
+func (self *Class) getField(name, descriptor string, isStatic bool) (*Field) {
     for _, field := range self.fields {
         if field.IsStatic() == isStatic &&
                 field.name == name &&

@@ -30,16 +30,24 @@ func (self *ConstantFieldref) String() string {
 
 func (self *ConstantFieldref) InstanceField() (*Field) {
     if self.field == nil {
-        self.resolveInstanceField()
+        self.resolveField(false)
     }
     return self.field
 }
-func (self *ConstantFieldref) resolveInstanceField() {
+
+func (self *ConstantFieldref) StaticField() (*Field) {
+    if self.field == nil {
+        self.resolveField(true)
+    }
+    return self.field
+}
+
+func (self *ConstantFieldref) resolveField(isStatic bool) {
     classLoader := self.cp.class.classLoader
-    fromClass := classLoader.getClass(self.className)
+    fromClass := classLoader.LoadClass(self.className)
 
     for class := fromClass; class != nil; class = class.superClass {
-        field := class.GetInstanceField(self.name, self.descriptor)
+        field := class.getField(self.name, self.descriptor, isStatic)
         if field != nil {
             self.field = field
             return
@@ -48,25 +56,4 @@ func (self *ConstantFieldref) resolveInstanceField() {
 
     // todo
     util.Panicf("field not found! %v", self)
-}
-
-func (self *ConstantFieldref) StaticField() (*Field) {
-    if self.field == nil {
-        self.resolveStaticField()
-    }
-    return self.field
-}
-
-func (self *ConstantFieldref) resolveStaticField() {
-    classLoader := self.cp.class.classLoader
-    class := classLoader.LoadClass(self.className)
-
-    field := class.GetStaticField(self.name, self.descriptor)
-    if field != nil && field.IsStatic() {
-        self.field = field
-        return
-    }
-
-    // todo
-    util.Panicf("static field not found! %v", self)
 }

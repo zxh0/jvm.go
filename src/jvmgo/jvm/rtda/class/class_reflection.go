@@ -15,3 +15,31 @@ func (self *Class) GetFields(publicOnly bool) ([]*Field) {
         return self.fields
     }
 }
+
+func (self *Class) GetMethods(publicOnly bool) ([]*Method) {
+    result := make([]*Method, 0, len(self.methods))
+    for _, method := range self.methods {
+        if !method.IsClinit() && !method.isConstructor() {
+            if !publicOnly || method.IsPublic() {
+                n := len(result)
+                result = result[:n + 1]
+                result[n] = method
+            }
+        }
+    }
+    return result
+}
+
+func (self *Class) GetConstructors(publicOnly bool) ([]*Method) {
+    constructors := make([]*Method, 0, len(self.methods))
+    for _, method := range self.methods {
+        if method.isConstructor() {
+            if !publicOnly || method.IsPublic() {
+                n := len(constructors)
+                constructors = constructors[:n + 1]
+                constructors[n] = method
+            }
+        }
+    }
+    return constructors
+}

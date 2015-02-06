@@ -34,14 +34,19 @@ func newInstance0(frame *rtda.Frame) {
     if goConstructor.ArgCount() > 0 {
         paramTypes := goConstructor.MethodDescriptor().ParameterTypes()
         argObjs := argArrObj.Fields().([]*rtc.Obj)
+        j := 1
         for i, paramType := range paramTypes {
             argObj := argObjs[i]
+            slot := uint(i + j)
             if paramType.IsBaseType() {
                 // todo
                 unboxed := unbox(argObj, paramType.Descriptor())
-                vars.Set(uint(i + 1), unboxed)
+                vars.Set(slot, unboxed)
+                if IsLongOrDouble(unboxed) {
+                    j++
+                }
             } else {
-                vars.Set(uint(i + 1), argObj)
+                vars.Set(slot, argObj)
             }
         }
     }

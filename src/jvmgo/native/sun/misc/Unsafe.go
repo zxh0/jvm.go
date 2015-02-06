@@ -7,8 +7,11 @@ import (
     rtc "jvmgo/jvm/rtda/class"
 )
 
+var _allocatedMemories = map[int64][]byte{}
+
 func init() {
     _unsafe(addressSize,        "addressSize",          "()I")
+    _unsafe(allocateMemory,     "allocateMemory",       "(J)J")
     _unsafe(arrayBaseOffset,    "arrayBaseOffset",      "(Ljava/lang/Class;)I")
     _unsafe(arrayIndexScale,    "arrayIndexScale",      "(Ljava/lang/Class;)I")
     _unsafe(compareAndSwapInt,  "compareAndSwapInt",    "(Ljava/lang/Object;JII)Z")
@@ -26,6 +29,29 @@ func addressSize(frame *rtda.Frame) {
     stack.PopRef() // this
     //size := unsafe.Sizeof(int)
     stack.PushInt(0)
+}
+
+// public native long allocateMemory(long l);
+// (J)J
+func allocateMemory(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    size := stack.PopLong()
+    stack.PopRef() // this
+
+    key := _nextAllocatedMemoryKey()
+    mem := make([]byte, size)
+    _allocatedMemories[key] = mem
+
+    stack.PushLong(key)
+}
+func _nextAllocatedMemoryKey() int64 {
+    maxKey := int64(0)
+    for key, _ := range _allocatedMemories {
+        if key > maxKey {
+            maxKey = key
+        }
+    }
+    return maxKey + 1
 }
 
 // public native int arrayBaseOffset(Class<?> type);

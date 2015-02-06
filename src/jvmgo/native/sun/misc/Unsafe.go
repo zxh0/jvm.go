@@ -2,6 +2,7 @@ package misc
 
 import (
     //"unsafe"
+    "encoding/binary"
     . "jvmgo/any"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
@@ -16,6 +17,7 @@ func init() {
     _unsafe(arrayIndexScale,    "arrayIndexScale",      "(Ljava/lang/Class;)I")
     _unsafe(compareAndSwapInt,  "compareAndSwapInt",    "(Ljava/lang/Object;JII)Z")
     _unsafe(objectFieldOffset,  "objectFieldOffset",    "(Ljava/lang/reflect/Field;)J")
+    _unsafe(putLong,            "putLong",              "(JJ)V")
 }
 
 func _unsafe(method Any, name, desc string) {
@@ -88,15 +90,19 @@ func objectFieldOffset(frame *rtda.Frame) {
     stack := frame.OperandStack()
     jField := stack.PopRef()
     stack.PopRef() // this
+
     offset := jField.GetFieldValue("slot", "I").(int32)
     stack.PushLong(int64(offset))
 }
 
 // public native void putLong(long l, long l1);
-//
+// (JJ)V
 func putLong(frame *rtda.Frame) {
-    // stack := frame.OperandStack()
-    // value := stack.PopLong()
-    // offset := stack.PopLong()
-    panic("todo putLong")
+    stack := frame.OperandStack()
+    value := stack.PopLong()
+    address := stack.PopLong()
+    stack.PopRef() // this
+
+    mem := memoryAt(address)
+    binary.BigEndian.PutUint64(mem, uint64(value))
 }

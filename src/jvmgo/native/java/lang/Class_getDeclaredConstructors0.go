@@ -25,28 +25,28 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
     stack.PushRef(constructorArr)
 
     if constructorCount > 0 {
-        /*
-        Constructor(Class<T> declaringClass,
-                    Class<?>[] parameterTypes,
-                    Class<?>[] checkedExceptions,
-                    int modifiers,
-                    int slot,
-                    String signature,
-                    byte[] annotations,
-                    byte[] parameterAnnotations)
-        }
-        */
         constructorObjs := constructorArr.Fields().([]*rtc.Obj)
         thread := frame.Thread()
         for i, goConstructor := range goConstructors {
             constructorObj := constructorClass.NewObj()
             constructorObjs[i] = constructorObj
             // call <init>
+            /*
+            Constructor(Class<T> declaringClass,
+                        Class<?>[] parameterTypes,
+                        Class<?>[] checkedExceptions,
+                        int modifiers,
+                        int slot,
+                        String signature,
+                        byte[] annotations,
+                        byte[] parameterAnnotations)
+            }
+            */
             newFrame := thread.NewFrame(constructorInitMethod)
             vars := newFrame.LocalVars()
             vars.SetRef(0, constructorObj) // this
             vars.SetRef(1, jClass) // declaringClass
-            vars.SetRef(2, nil) // todo parameterTypes
+            vars.SetRef(2, getParameterTypes(goConstructor)) // parameterTypes
             vars.SetRef(3, nil) // todo checkedExceptions
             vars.SetInt(4, int32(goConstructor.GetAccessFlags())) // modifiers
             vars.SetInt(5, int32(0)) // todo slot
@@ -56,4 +56,9 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
             thread.PushFrame(newFrame)
         }
     }
+}
+
+func getParameterTypes(method *rtc.Method) (*rtc.Obj) {
+    return nil
+    // todo
 }

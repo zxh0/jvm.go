@@ -24,7 +24,6 @@ type Method struct {
     argCount        uint
     code            []byte
     nativeMethod    Any // cannot use package 'native' because of cycle import!
-    parameterTypes  []*Class
 }
 
 func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
@@ -95,25 +94,4 @@ func (self *Method) IsRegisterNatives() (bool) {
             self.name == registerNativesMethodName &&
             self.descriptor == registerNativesMethodDesc
 
-}
-
-// reflection
-func (self *Method) ParameterTypes() ([]*Class) {
-    if self.parameterTypes == nil {
-        self.resolveParameterTypes()
-    }
-    return self.parameterTypes
-}
-func (self *Method) resolveParameterTypes() {
-    if self.argCount == 0 {
-        // todo optimize
-        self.parameterTypes = make([]*Class, 0)
-    }
-
-    // todo
-    md := parseMethodDescriptor(self.descriptor)
-    self.parameterTypes = make([]*Class, len(md.parameterTypes))
-    for i, paramType := range md.parameterTypes {
-        self.parameterTypes[i] = self.class.classLoader.LoadClass(paramType.descriptor) // todo
-    }
 }

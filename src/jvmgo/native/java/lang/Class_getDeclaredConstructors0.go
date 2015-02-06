@@ -63,7 +63,14 @@ func getParameterTypeArr(method *rtc.Method) (*rtc.Obj) {
     paramCount := len(goParamTypes)
 
     classClass := method.Class().ClassLoader().LoadClass("java/lang/Class")
-    classArr := classClass.NewArray(paramCount) 
+    classArr := classClass.NewArray(paramCount)
+
+    if paramCount > 0 {
+        classObjs := classArr.Fields().([]*rtc.Obj)
+        for i, goParamType := range goParamTypes {
+            classObjs[i] = goParamType.JClass()
+        }
+    }
 
     return classArr
 }

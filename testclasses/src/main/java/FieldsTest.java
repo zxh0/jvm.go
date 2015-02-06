@@ -1,28 +1,38 @@
 public class FieldsTest {
     
-    static int x;
-    static int y;
-    int a;
-    int b;
+    static class Sup {
+        static int x;
+        int a;
+    }
+    
+    static class Sub extends Sup {
+        static int y;
+        int b;
+    }
     
     public static void main(String[] args) {
-        FieldsTest.x = 200;
-        FieldsTest.y = 100;
-        int z = FieldsTest.x / FieldsTest.y;
-        if (z == 2) {
-            System.out.println("OKXY!");
-        } else {
-            System.out.println("FailXY!");
+        staticFields();
+        instanceFields();
+    }
+    
+    private static void staticFields() {
+        int z = Sub.x + Sub.y;
+        z += 100;
+        Sub.y = z;
+        Sub.x = z;
+        if (Sub.x == 100 && Sub.y == 100) {
+            System.out.println("OK! staticFields");
         }
-        
-        FieldsTest t = new FieldsTest();
-        t.a = 200;
-        t.b = 100;
-        int c = t.a / t.b;
-        if (c == 2) {
-            System.out.println("OKAB!");
-        } else {
-            System.out.println("FailAB!");
+    }
+    
+    private static void instanceFields() {
+        Sub sub = new Sub();
+        int c = sub.a + sub.b;
+        c += 100;
+        sub.a = c;
+        sub.b = c;
+        if (sub.a == 100 && sub.b == 100) {
+            System.out.println("OK! instanceFields");
         }
     }
     

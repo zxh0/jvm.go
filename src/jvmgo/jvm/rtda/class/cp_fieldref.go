@@ -1,6 +1,7 @@
 package class
 
 import (
+    "fmt"
     cf "jvmgo/classfile"
     "jvmgo/util"
 )
@@ -22,6 +23,11 @@ func newConstantFieldref(cp *ConstantPool, fieldrefInfo *cf.ConstantFieldrefInfo
     return fieldref
 }
 
+func (self *ConstantFieldref) String() string {
+    return fmt.Sprintf("{ConstantFieldref className:%v name:%v descriptor:%v}",
+            self.className, self.name, self.descriptor)
+}
+
 func (self *ConstantFieldref) InstanceField() (*Field) {
     if self.field == nil {
         self.resolveInstanceField()
@@ -41,7 +47,7 @@ func (self *ConstantFieldref) resolveInstanceField() {
     }
 
     // todo
-    util.Panicf("field not found!")
+    util.Panicf("field not found! %v", self)
 }
 
 func (self *ConstantFieldref) StaticField() (*Field) {
@@ -54,10 +60,13 @@ func (self *ConstantFieldref) StaticField() (*Field) {
 func (self *ConstantFieldref) resolveStaticField() {
     classLoader := self.cp.class.classLoader
     class := classLoader.LoadClass(self.className)
+
     field := class.GetField(self.name, self.descriptor)
     if field != nil && field.IsStatic() {
         self.field = field
-    } else {
-        panic("static field not found!") // todo
+        return
     }
+
+    // todo
+    util.Panicf("static field not found! %v", self)
 }

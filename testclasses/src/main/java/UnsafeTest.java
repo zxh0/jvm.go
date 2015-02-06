@@ -32,6 +32,9 @@ public class UnsafeTest {
         unsafe.putLong(address, 0x0102030405060708L);
         System.out.println(unsafe.getByte(address));
         System.out.println(unsafe.getByte(address + 1));
+        
+        //unsafe.putLong(address + 16, 0);
+        //unsafe.freeMemory(address + 2);
     }
     
 }

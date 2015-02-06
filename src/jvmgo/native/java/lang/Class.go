@@ -83,7 +83,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
     classLoader := goClass.ClassLoader()
     fieldClass := classLoader.LoadClass("java/lang/reflect/Field")
     count := int32(len(goFields))
-    fieldArr := rtc.NewRefArray(fieldClass, count, classLoader)
+    fieldArr := rtc.NewRefArray(fieldClass, count)
     stack.PushRef(fieldArr)
 
     if count > 0 {
@@ -183,7 +183,7 @@ func getInterfaces(frame *rtda.Frame) {
     classLoader := goClass.ClassLoader()
     classClass := classLoader.LoadClass("java/lang/Class")
 
-    interfaceArr := rtc.NewRefArray2(classClass, jInterfaces, classLoader)
+    interfaceArr := rtc.NewRefArray2(classClass, jInterfaces)
     stack.PushRef(interfaceArr)
 }
 

@@ -20,7 +20,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
     classLoader := goClass.ClassLoader()
     constructorClass := classLoader.LoadClass("java/lang/reflect/Constructor")
     count := int32(len(goConstructors))
-    constructorArr := rtc.NewRefArray(constructorClass, count, classLoader)
+    constructorArr := rtc.NewRefArray(constructorClass, count)
     stack.PushRef(constructorArr)
 
     if count > 0 {

@@ -102,6 +102,10 @@ func (self *Class) GetStaticMethod(name, descriptor string) (*Method) {
     }
 }
 
+func (self *Class) getArrayClass() (*Class) {
+    return self.classLoader.getRefArrayClass(self)
+}
+
 func (self *Class) NewObj() (*Obj) {
     if self.instanceFieldCount > 0 {
         fields := make([]Any, self.instanceFieldCount)

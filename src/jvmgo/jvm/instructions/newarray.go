@@ -36,8 +36,7 @@ func (self *anewarray) Execute(frame *rtda.Frame) {
 
     stack := frame.OperandStack()
     count := stack.PopInt()
-    classLoader := frame.Method().Class().ClassLoader()
-    arr := rtc.NewRefArray(componentClass, count, classLoader)
+    arr := rtc.NewRefArray(componentClass, count)
     stack.PushRef(arr)
 }
 

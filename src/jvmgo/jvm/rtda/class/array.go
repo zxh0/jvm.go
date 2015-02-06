@@ -32,15 +32,15 @@ func NewCharArray(chars []uint16, classLoader *ClassLoader) (*Obj) {
     return &Obj{classLoader.getClass("[C"), chars, nil}
 }
 
-func NewRefArray(componentClass *Class, count int32, classLoader *ClassLoader) (*Obj) {
-    arrClass := classLoader.getRefArrayClass(componentClass)
+func NewRefArray(componentClass *Class, count int32) (*Obj) {
+    arrClass := componentClass.getArrayClass()
     components := make([]*Obj, count)
     return &Obj{arrClass, components, nil}
 }
 
 // todo rename
-func NewRefArray2(componentClass *Class, components []*Obj, classLoader *ClassLoader) (*Obj) {
-    arrClass := classLoader.getRefArrayClass(componentClass)
+func NewRefArray2(componentClass *Class, components []*Obj) (*Obj) {
+    arrClass := componentClass.getArrayClass()
     return &Obj{arrClass, components, nil}
 }
 

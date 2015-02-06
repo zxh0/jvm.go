@@ -67,21 +67,6 @@ func (self *Class) MarkInitialized() {
     self.state = _initialized
 }
 
-func (self *Class) GetFields(publicOnly bool) ([]*Field) {
-    if publicOnly {
-        publicFields := make([]*Field, 0, len(self.fields))
-        for _, field := range self.fields {
-            if field.IsPublic() {
-                n := len(publicFields)
-                publicFields = publicFields[:n + 1]
-                publicFields[n] = field
-            }
-        }
-        return publicFields
-    } else {
-        return self.fields
-    }
-}
 func (self *Class) GetMethods(publicOnly bool) ([]*Method) {
     result := make([]*Method, 0, len(self.methods))
     for _, method := range self.methods {

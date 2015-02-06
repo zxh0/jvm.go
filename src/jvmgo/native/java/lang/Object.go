@@ -8,12 +8,22 @@ import (
 )
 
 func init() {
-    _object(getClass, "getClass", "()Ljava/lang/Class;")
-    _object(hashCode, "hashCode", "()I")
+    _object(clone,      "clone",    "()Ljava/lang/Object;")
+    _object(getClass,   "getClass", "()Ljava/lang/Class;")
+    _object(hashCode,   "hashCode", "()I")
 }
 
 func _object(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/lang/Object", name, desc, method)
+}
+
+// protected native Object clone() throws CloneNotSupportedException;
+// ()Ljava/lang/Object;
+func clone(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    this := stack.PopRef()
+    // todo
+    stack.PushRef(this)
 }
 
 // public final native Class<?> getClass();

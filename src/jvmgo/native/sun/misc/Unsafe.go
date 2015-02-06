@@ -2,7 +2,6 @@ package misc
 
 import (
     //"unsafe"
-    "encoding/binary"
     . "jvmgo/any"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
@@ -31,17 +30,6 @@ func addressSize(frame *rtda.Frame) {
     stack.PopRef() // this
     //size := unsafe.Sizeof(int)
     stack.PushInt(0)
-}
-
-// public native long allocateMemory(long l);
-// (J)J
-func allocateMemory(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    size := stack.PopLong()
-    stack.PopRef() // this
-
-    address := allocate(size)
-    stack.PushLong(address)
 }
 
 // public native int arrayBaseOffset(Class<?> type);
@@ -93,16 +81,4 @@ func objectFieldOffset(frame *rtda.Frame) {
 
     offset := jField.GetFieldValue("slot", "I").(int32)
     stack.PushLong(int64(offset))
-}
-
-// public native void putLong(long l, long l1);
-// (JJ)V
-func putLong(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    value := stack.PopLong()
-    address := stack.PopLong()
-    stack.PopRef() // this
-
-    mem := memoryAt(address)
-    binary.BigEndian.PutUint64(mem, uint64(value))
 }

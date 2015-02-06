@@ -10,6 +10,7 @@ public class UnsafeTest {
         Unsafe unsafe = (Unsafe) f.get(null);
 
         array(unsafe);
+        memory(unsafe);
     }
     
     private static void array(Unsafe unsafe) {
@@ -23,6 +24,14 @@ public class UnsafeTest {
         System.out.println(unsafe.arrayIndexScale(new long[0].getClass()));
         System.out.println(unsafe.arrayIndexScale(new Object[0].getClass()));
         System.out.println(unsafe.arrayIndexScale(new Class<?>[0].getClass()));
+    }
+    
+    private static void memory(Unsafe unsafe) {
+        System.out.println("memory");
+        long address = unsafe.allocateMemory(8);
+        unsafe.putLong(address, 0x0102030405060708L);
+        System.out.println(unsafe.getByte(address));
+        System.out.println(unsafe.getByte(address + 1));
     }
     
 }

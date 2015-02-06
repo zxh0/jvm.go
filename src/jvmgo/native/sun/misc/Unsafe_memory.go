@@ -8,6 +8,7 @@ import (
 
 func init() {
     _unsafe(allocateMemory, "allocateMemory",   "(J)J")
+    _unsafe(freeMemory,     "freeMemory",       "(J)V")
     _unsafe(putLong,        "putLong",          "(JJ)V")
     _unsafe(getByte,        "getByte",          "(J)B")
 }
@@ -21,6 +22,15 @@ func allocateMemory(frame *rtda.Frame) {
 
     address := allocate(size)
     stack.PushLong(address)
+}
+
+// public native void freeMemory(long l);
+// (J)V
+func freeMemory(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    address := stack.PopLong()
+    stack.PopRef() // this
+    free(address)
 }
 
 // public native void putLong(long l, long l1);

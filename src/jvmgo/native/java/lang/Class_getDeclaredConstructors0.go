@@ -17,8 +17,9 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
     goClass := jClass.Extra().(*rtc.Class)
     goConstructors := goClass.GetConstructors(publicOnly)
     
-    classLoader := goClass.ClassLoader()
-    constructorClass := classLoader.LoadClass("java/lang/reflect/Constructor")
+    constructorClass := goClass.ClassLoader().LoadClass("java/lang/reflect/Constructor")
+    constructorInitMethod := constructorClass.GetConstructor("(Ljava/lang/Class;[Ljava/lang/Class;[Ljava/lang/Class;IILjava/lang/String;[B[B)V")
+    
     count := int32(len(goConstructors))
     constructorArr := rtc.NewRefArray(constructorClass, count)
     stack.PushRef(constructorArr)
@@ -35,14 +36,13 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
                     byte[] parameterAnnotations)
         }
         */
-        constructor := constructorClass.GetConstructor("(Ljava/lang/Class;[Ljava/lang/Class;[Ljava/lang/Class;IILjava/lang/String;[B[B)V")
         jConstructors := constructorArr.Fields().([]*rtc.Obj)
         thread := frame.Thread()
         for i, goConstructor := range goConstructors {
             jConstructor := constructorClass.NewObj()
             jConstructors[i] = jConstructor
 
-            newFrame := thread.NewFrame(constructor)
+            newFrame := thread.NewFrame(constructorInitMethod)
             vars := newFrame.LocalVars()
             vars.SetRef(0, jConstructor) // this
             vars.SetRef(1, jClass) // declaringClass

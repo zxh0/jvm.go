@@ -17,7 +17,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 
     goClass := jClass.Extra().(*rtc.Class)
     goConstructors := goClass.GetConstructors(publicOnly)
-    constructorCount := int32(len(goConstructors))
+    constructorCount := len(goConstructors)
     
     constructorClass := goClass.ClassLoader().LoadClass("java/lang/reflect/Constructor")
     constructorInitMethod := constructorClass.GetConstructor("(Ljava/lang/Class;[Ljava/lang/Class;[Ljava/lang/Class;IILjava/lang/String;[B[B)V")
@@ -46,7 +46,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
             vars := newFrame.LocalVars()
             vars.SetRef(0, constructorObj) // this
             vars.SetRef(1, jClass) // declaringClass
-            vars.SetRef(2, getParameterTypes(goConstructor)) // parameterTypes
+            vars.SetRef(2, getParameterTypeArr(goConstructor)) // parameterTypes
             vars.SetRef(3, nil) // todo checkedExceptions
             vars.SetInt(4, int32(goConstructor.GetAccessFlags())) // modifiers
             vars.SetInt(5, int32(0)) // todo slot
@@ -58,7 +58,12 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
     }
 }
 
-func getParameterTypes(method *rtc.Method) (*rtc.Obj) {
-    return nil
-    // todo
+func getParameterTypeArr(method *rtc.Method) (*rtc.Obj) {
+    goParamTypes := method.ParameterTypes()
+    paramCount := len(goParamTypes)
+
+    classClass := method.Class().ClassLoader().LoadClass("java/lang/Class")
+    classArr := classClass.NewArray(paramCount) 
+
+    return classArr
 }

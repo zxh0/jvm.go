@@ -32,7 +32,7 @@ func NewCharArray(chars []uint16, classLoader *ClassLoader) (*Obj) {
     return &Obj{classLoader.getClass("[C"), chars, nil}
 }
 
-func NewRefArray(componentClass *Class, count int32) (*Obj) {
+func NewRefArray(componentClass *Class, count int) (*Obj) {
     arrClass := componentClass.getArrayClass()
     components := make([]*Obj, count)
     return &Obj{arrClass, components, nil}

@@ -70,10 +70,10 @@ func (self *Obj) zeroFields() {
 
 // reflection
 func (self *Obj) GetFieldValue(fieldName, fieldDescriptor string) Any {
-    field := self.class.GetField(fieldName, fieldDescriptor)
+    field := self.class.GetInstanceField(fieldName, fieldDescriptor)
     return field.GetValue(self)
 }
 func (self *Obj) SetFieldValue(fieldName, fieldDescriptor string, value Any) {
-    field := self.class.GetField(fieldName, fieldDescriptor)
+    field := self.class.GetInstanceField(fieldName, fieldDescriptor)
     field.PutValue(self, value)
 }

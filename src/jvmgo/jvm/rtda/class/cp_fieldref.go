@@ -39,8 +39,8 @@ func (self *ConstantFieldref) resolveInstanceField() {
     fromClass := classLoader.getClass(self.className)
 
     for class := fromClass; class != nil; class = class.superClass {
-        field := class.GetField(self.name, self.descriptor)
-        if field != nil && !field.IsStatic() {
+        field := class.GetInstanceField(self.name, self.descriptor)
+        if field != nil {
             self.field = field
             return
         }
@@ -61,7 +61,7 @@ func (self *ConstantFieldref) resolveStaticField() {
     classLoader := self.cp.class.classLoader
     class := classLoader.LoadClass(self.className)
 
-    field := class.GetField(self.name, self.descriptor)
+    field := class.GetStaticField(self.name, self.descriptor)
     if field != nil && field.IsStatic() {
         self.field = field
         return

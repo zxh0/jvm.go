@@ -67,10 +67,18 @@ func (self *Class) MarkInitialized() {
     self.state = _initialized
 }
 
-
-func (self *Class) GetField(name, descriptor string) (*Field) {
+func (self *Class) GetStaticField(name, descriptor string) (*Field) {
+    return self._getField(name, descriptor, true)
+}
+func (self *Class) GetInstanceField(name, descriptor string) (*Field) {
+    return self._getField(name, descriptor, false)
+}
+func (self *Class) _getField(name, descriptor string, isStatic bool) (*Field) {
     for _, field := range self.fields {
-        if field.name == name && field.descriptor == descriptor {
+        if field.IsStatic() == isStatic &&
+                field.name == name &&
+                field.descriptor == descriptor {
+
             return field
         }
     }
@@ -122,10 +130,10 @@ func (self *Class) NewArray(count int) (*Obj) {
 
 // reflection
 func (self *Class) GetStaticValue(fieldName, fieldDescriptor string) Any {
-    field := self.GetField(fieldName, fieldDescriptor)
+    field := self.GetStaticField(fieldName, fieldDescriptor)
     return field.GetStaticValue()
 }
 func (self *Class) SetStaticValue(fieldName, fieldDescriptor string, value Any) {
-    field := self.GetField(fieldName, fieldDescriptor)
+    field := self.GetStaticField(fieldName, fieldDescriptor)
     field.PutStaticValue(value)
 }

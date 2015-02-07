@@ -28,8 +28,8 @@ func fos_initIDs(frame *rtda.Frame) {
 func writeBytes(frame *rtda.Frame) {
     stack := frame.OperandStack()
     stack.PopBoolean() // append
-    stack.PopInt() // len
-    stack.PopInt() // off
+    length := stack.PopInt() // len
+    offset := stack.PopInt() // off
     byteArrObj := stack.PopRef() // b
     fosObj := stack.PopRef() // this
 
@@ -45,6 +45,7 @@ func writeBytes(frame *rtda.Frame) {
     goFile := fdObj.Extra().(*os.File)
 
     jBytes := byteArrObj.Fields().([]int8)
+    jBytes = jBytes[offset: offset+length]
     goBytes := util.Int8ToUint8(jBytes)
     goFile.Write(goBytes)
 }

@@ -15,6 +15,7 @@ func NewBootstrapMethod(code []byte, classLoader Any) (*Method) {
     method := &Method{}
     method.class = &Class{name:"~jvmgo", classLoader:classLoader.(*ClassLoader)}
     method.name = "<bootstrap>"
+    method.accessFlags = ACC_STATIC
     method.maxStack = 8
     method.maxLocals = 8
     method.code = code

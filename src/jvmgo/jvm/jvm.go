@@ -45,6 +45,7 @@ func createMainThread(classLoader Any, className string, args []string) (*rtda.T
     stack.Push(args)
     stack.Push(className)
     stack.Push(classLoader)
+    //stack.PushInt(0)
 
     return mainThread
 }

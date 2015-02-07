@@ -46,6 +46,6 @@ func writeBytes(frame *rtda.Frame) {
 
     jBytes := byteArrObj.Fields().([]int8)
     jBytes = jBytes[offset: offset+length]
-    goBytes := util.Int8ToUint8(jBytes)
+    goBytes := util.CastInt8sToUint8s(jBytes)
     goFile.Write(goBytes)
 }

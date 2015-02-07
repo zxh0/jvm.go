@@ -46,10 +46,6 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
         return
     }
 
-    // outField := sysClass.GetStaticField("out", "Ljava/io/PrintStream;")
-    // stdout := _classLoader.LoadClass("jvmgo/SystemOut").NewObj()
-    // outField.PutStaticValue(stdout)
-
     // exec main()
     mainClass := _classLoader.LoadClass(_mainClassName)
     mainMethod := mainClass.GetMainMethod()
@@ -74,7 +70,6 @@ func initVars(stack *rtda.OperandStack) {
         "java/lang/Thread",
         "java/lang/ThreadGroup",
         "java/io/PrintStream",
-        "jvmgo/SystemOut",
         _mainClassName}
 }
 

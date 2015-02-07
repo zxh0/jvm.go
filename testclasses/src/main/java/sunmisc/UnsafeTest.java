@@ -1,3 +1,5 @@
+package sunmisc;
+
 import java.lang.reflect.Field;
 import sun.misc.Unsafe;
 
@@ -27,7 +29,6 @@ public class UnsafeTest {
     }
     
     private static void memory(Unsafe unsafe) {
-        System.out.println("memory");
         long address = unsafe.allocateMemory(8);
         unsafe.putLong(address, 0x0102030405060708L);
         System.out.println(unsafe.getByte(address));
@@ -35,6 +36,7 @@ public class UnsafeTest {
         
         //unsafe.putLong(address + 16, 0);
         //unsafe.freeMemory(address + 2);
+        System.out.println("memory testing ok!");
     }
     
 }

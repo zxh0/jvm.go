@@ -16,6 +16,7 @@ func init() {
     _system(initProperties,     "initProperties",       "(Ljava/util/Properties;)Ljava/util/Properties;")
     _system(nanoTime,           "nanoTime",             "()J")
     _system(setIn0,             "setIn0",               "(Ljava/io/InputStream;)V")
+    _system(setOut0,            "setOut0",              "(Ljava/io/PrintStream;)V")
 }
 
 func _system(method Any, name, desc string) {
@@ -91,6 +92,8 @@ func initProperties(frame *rtda.Frame) {
 func _props() map[string]string {
     return map[string]string{
         "file.encoding": "UTF-8",
+        "sun.stdout.encoding": "UTF-8",
+        "sun.stderr.encoding": "UTF-8",
     }
 }
 
@@ -114,3 +117,10 @@ func setIn0(frame *rtda.Frame) {
 }
 
 // private static native void setOut0(PrintStream out);
+// (Ljava/io/PrintStream;)V
+func setOut0(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    out := stack.PopRef()
+    sysClass := frame.Method().Class()
+    sysClass.SetStaticValue("out", "Ljava/io/PrintStream;", out)
+}

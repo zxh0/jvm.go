@@ -31,3 +31,11 @@ func NewGarbageMethod() *Method {
     method.code = []byte{0xb1} // return
     return method
 }
+
+// todo
+func hackClass(class *Class) {
+    if class.name == "java/lang/ClassLoader" {
+        loadLibrary := class.GetStaticMethod("loadLibrary", "(Ljava/lang/Class;Ljava/lang/String;Z)V")
+        loadLibrary.code = []byte{0xb1} // return void
+    }
+}

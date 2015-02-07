@@ -121,6 +121,7 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
 func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     //log.Printf("load: %v", name)
     class := self.parseClassFile(name)
+    hackClass(class)
     self.resolveSuperClass(class)
     self.resolveInterfaces(class)
     calcStaticFieldSlots(class)

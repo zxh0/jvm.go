@@ -46,9 +46,9 @@ func (self *exec_main) Execute(frame *rtda.Frame) {
         return
     }
 
-    outField := sysClass.GetStaticField("out", "Ljava/io/PrintStream;")
-    stdout := _classLoader.LoadClass("jvmgo/SystemOut").NewObj()
-    outField.PutStaticValue(stdout)
+    // outField := sysClass.GetStaticField("out", "Ljava/io/PrintStream;")
+    // stdout := _classLoader.LoadClass("jvmgo/SystemOut").NewObj()
+    // outField.PutStaticValue(stdout)
 
     // exec main()
     mainClass := _classLoader.LoadClass(_mainClassName)

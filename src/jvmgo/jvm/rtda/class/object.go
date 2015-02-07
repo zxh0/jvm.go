@@ -17,7 +17,7 @@ func (self *Obj) String() string {
             self, self.class, self.extra)
 }
 
-// getters
+// getters & setters
 func (self *Obj) Class() (*Class) {
     return self.class
 }
@@ -26,6 +26,9 @@ func (self *Obj) Fields() (Any) {
 }
 func (self *Obj) Extra() (Any) {
     return self.extra
+}
+func (self *Obj) SetExtra(extra Any) {
+    self.extra = extra
 }
 
 func (self *Obj) IsInstanceOf(class *Class) (bool) {

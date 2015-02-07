@@ -95,8 +95,8 @@ func _props() map[string]string {
         "file.encoding": "UTF-8",
         "sun.stdout.encoding": "UTF-8",
         "sun.stderr.encoding": "UTF-8",
-        "file.separator": "/",
-        "path.separator": ":",
+        "file.separator": "/", // todo os.PathSeparator
+        "path.separator": ":", // todo os.PathListSeparator
         "line.separator": "\n",
     }
 }

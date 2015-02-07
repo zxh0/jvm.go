@@ -17,8 +17,8 @@ var (
 )
 
 // Fake instruction to load and execute main class
-type exec_main struct {NoOperandsInstruction}
-func (self *exec_main) Execute(frame *rtda.Frame) {
+type bootstrap struct {NoOperandsInstruction}
+func (self *bootstrap) Execute(frame *rtda.Frame) {
     thread := frame.Thread()
     stack := frame.OperandStack()
 

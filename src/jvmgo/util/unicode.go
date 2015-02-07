@@ -6,6 +6,7 @@ import (
 )
 
 // utf8 -> utf16
+// todo bytes: func Runes(s []byte) []rune
 func StringToUtf16(str string) ([]uint16) {
     runeCount := utf8.RuneCountInString(str)
     runes := make([]rune, runeCount)

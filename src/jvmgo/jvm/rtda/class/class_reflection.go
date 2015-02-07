@@ -52,3 +52,7 @@ func (self *Class) GetConstructor(descriptor string) (*Method) {
         return nil
     }
 }
+
+func (self *Class) GetDefaultConstructor() (*Method) {
+    return self.GetConstructor("()V")
+}

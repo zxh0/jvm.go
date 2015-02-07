@@ -17,6 +17,20 @@ func _fs(method Any, name, desc string) {
 // public static native FileSystem getFileSystem()
 // ()Ljava/io/FileSystem;
 func getFileSystem(frame *rtda.Frame) {
-    // todo
-    panic("getFileSystem!!")
+    thread := frame.Thread()
+    unixFsClass := frame.Method().Class().ClassLoader().LoadClass("java/io/UnixFileSystem")
+    if unixFsClass.InitializationNotStarted() {
+        frame.SetNextPC(thread.PC()) // undo getFileSystem
+        rtda.InitClass(unixFsClass, thread)
+        return
+    }
+
+    stack := frame.OperandStack()
+    unixFsObj := unixFsClass.NewObj()
+    stack.PushRef(unixFsObj)
+
+    // call <init>
+    stack.PushRef(unixFsObj) // this
+    constructor := unixFsClass.GetDefaultConstructor()
+    thread.InvokeMethod(constructor)
 }

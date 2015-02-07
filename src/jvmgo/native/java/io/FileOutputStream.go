@@ -24,5 +24,11 @@ func fos_initIDs(frame *rtda.Frame) {
 // private native void writeBytes(byte b[], int off, int len, boolean append) throws IOException;
 // ([BIIZ)V
 func writeBytes(frame *rtda.Frame) {
-    panic("writeBytes!!")
+    stack := frame.OperandStack()
+    stack.PopBoolean() // append
+    stack.PopInt() // len
+    stack.PopInt() // off
+    stack.PopRef() // b
+    stack.PopRef() // this
+    println("writeBytes!!!")
 }

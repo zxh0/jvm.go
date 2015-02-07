@@ -7,7 +7,8 @@ public class SysProps {
             "sun.stderr.encoding",
             "file.separator",
             "path.separator",
-            "java.home"
+            "java.home",
+            "line.separator",
         };
         
         for (String key : keys) {

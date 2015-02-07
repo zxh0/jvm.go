@@ -97,6 +97,7 @@ func _props() map[string]string {
         "sun.stderr.encoding": "UTF-8",
         "file.separator": "/",
         "path.separator": ":",
+        "line.separator": "\n",
     }
 }
 

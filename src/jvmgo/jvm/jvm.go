@@ -36,12 +36,12 @@ func Startup(cmd *cmdline.Command) {
 }
 
 func createMainThread(classLoader Any, className string, args []string) (*rtda.Thread) {
-    fakeMethod := rtc.NewStartupMethod([]byte{0xff, 0xb1}, classLoader)
     mainThread := rtda.NewThread(128, nil)
-    mainFrame := mainThread.NewFrame(fakeMethod)
-    mainThread.PushFrame(mainFrame)
+    bootMethod := rtc.NewBootstrapMethod([]byte{0xff, 0xb1}, classLoader)
+    bootFrame := mainThread.NewFrame(bootMethod)
+    mainThread.PushFrame(bootFrame)
     
-    stack := mainFrame.OperandStack()
+    stack := bootFrame.OperandStack()
     stack.Push(args)
     stack.Push(className)
     stack.Push(classLoader)

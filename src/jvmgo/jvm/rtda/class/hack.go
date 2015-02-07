@@ -11,10 +11,10 @@ func NewIntArray(ints []int32) (*Obj) {
 }
 
 // only used by jvm.go
-func NewStartupMethod(code []byte, classLoader Any) (*Method) {
+func NewBootstrapMethod(code []byte, classLoader Any) (*Method) {
     method := &Method{}
     method.class = &Class{name:"~jvmgo", classLoader:classLoader.(*ClassLoader)}
-    method.name = "<jvmgo>"
+    method.name = "<bootstrap>"
     method.maxStack = 8
     method.maxLocals = 8
     method.code = code
@@ -23,7 +23,7 @@ func NewStartupMethod(code []byte, classLoader Any) (*Method) {
 
 func NewGarbageMethod() *Method {
     method := &Method{}
-    method.class = &Class{name:"~garbage"}
+    method.class = &Class{name:"~jvmgo"}
     method.name = "<garbage>"
     method.accessFlags = ACC_STATIC
     method.maxStack = 8

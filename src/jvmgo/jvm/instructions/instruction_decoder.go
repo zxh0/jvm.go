@@ -1,6 +1,8 @@
 package instructions
 
-// NoOperandsInstructions
+// todo rename to instruction_factory.go
+
+// NoOperandsInstruction singletons
 var (
     _nop = &nop{}
     _aconst_null = &aconst_null{}

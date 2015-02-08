@@ -17,7 +17,7 @@ JVM
         OperandStack
 */
 type Thread struct {
-    pc      int
+    pc      int // the address of the instruction currently being executed
     stack   *Stack
     jThread *rtc.Obj // java.lang.Thread
     // todo

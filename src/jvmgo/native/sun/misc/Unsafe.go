@@ -70,6 +70,23 @@ func compareAndSwapInt(frame *rtda.Frame) {
     }
 }
 
+// public native void ensureClassInitialized(Class<?> c);
+// (Ljava/lang/Class;)V
+func ensureClassInitialized(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    classObj := stack.PopRef()
+    this := stack.PopRef()
+
+    goClass := classObj.Extra().(*rtc.Class)
+    if goClass.InitializationNotStarted() {
+        thread := frame.Thread()
+        // undo ensureClassInitialized()
+        stack.PushRef(this)
+        stack.PushRef(classObj)
+        frame.SetNextPC(thread.PC())
+    }
+}
+
 // public native long objectFieldOffset(Field field);
 // (Ljava/lang/reflect/Field;)J
 func objectFieldOffset(frame *rtda.Frame) {

@@ -9,7 +9,7 @@ type Frame struct {
     method          *rtc.Method
     localVars       *LocalVars
     operandStack    *OperandStack
-    nextPC          int
+    nextPC          int // the next instruction after the call
     onPopAction     func()
 }
 

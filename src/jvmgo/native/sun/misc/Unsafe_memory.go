@@ -53,6 +53,6 @@ func getByte(frame *rtda.Frame) {
     stack.PopRef() // this
 
     mem := memoryAt(address)
-    b := mem[address]
+    b := mem[0]
     stack.PushInt(int32(b))
 }

@@ -1,7 +1,5 @@
 package instructions
 
-// todo rename to instruction_factory.go
-
 // NoOperandsInstruction singletons
 var (
     _nop = &nop{}
@@ -152,13 +150,6 @@ var (
     _monitorenter = &monitorenter{}
     _monitorexit = &monitorexit{}
 )
-
-func Decode(bcr *BytecodeReader) (uint8, Instruction) {
-    opcode := bcr.readUint8()
-    instruction := newInstruction(opcode)
-    instruction.fetchOperands(bcr)
-    return opcode, instruction
-}
 
 func newInstruction(opcode byte) (Instruction) {
     switch opcode {

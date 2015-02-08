@@ -11,7 +11,7 @@ public class UnsafeTest {
         f.setAccessible(true);
         Unsafe unsafe = (Unsafe) f.get(null);
 
-        array(unsafe);
+        //array(unsafe);
         memory(unsafe);
     }
     
@@ -29,13 +29,47 @@ public class UnsafeTest {
     }
     
     private static void memory(Unsafe unsafe) {
-        long address = unsafe.allocateMemory(8);
-        unsafe.putLong(address, 0x0102030405060708L);
-        System.out.println(unsafe.getByte(address));
-        System.out.println(unsafe.getByte(address + 1));
+        final long _address = unsafe.allocateMemory(100);
         
-        //unsafe.putLong(address + 16, 0);
-        //unsafe.freeMemory(address + 2);
+        long address = _address;
+        unsafe.putByte(address, (byte)7);   address++;
+        unsafe.putShort(address, (short)8); address+=2;
+        unsafe.putChar(address, 'c');       address+=2;
+        unsafe.putInt(address, 29);         address+=4;
+        unsafe.putLong(address, 79L);       address+=8;
+        unsafe.putFloat(address, 3.14f);    address+=4;
+        unsafe.putDouble(address, 2.71828); address+=8;
+        
+        address = _address;
+        if (unsafe.getByte(address) != 7) {
+            System.out.println("getByte() failed!");
+        }
+        address++;
+        if (unsafe.getShort(address) != 8) {
+            System.out.println("getShort() failed!");
+        }
+        address+=2;
+        if (unsafe.getChar(address) != 'c') {
+            System.out.println("getChar() failed!");
+        }
+        address+=2;
+        if (unsafe.getInt(address) != 29) {
+            System.out.println("getInt() failed!");
+        }
+        address+=4;
+        if (unsafe.getLong(address) != 79L) {
+            System.out.println("getLong() failed!");
+        }
+        address+=8;
+        if (unsafe.getFloat(address) != 3.14f) {
+            System.out.println("getFloat() failed!");
+        }
+        address+=4;
+        if (unsafe.getDouble(address) != 2.71828) {
+            System.out.println("getDouble() failed");
+        }
+        
+        unsafe.freeMemory(_address);
         System.out.println("memory testing ok!");
     }
     

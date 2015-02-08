@@ -3,7 +3,7 @@ package misc
 import "jvmgo/util"
 
 var _allocated = map[int64][]byte{}
-var _nextAddress = int64(0)
+var _nextAddress = int64(64) // not zero!
 
 func allocate(size int64) (address int64) {
     mem := make([]byte, size)

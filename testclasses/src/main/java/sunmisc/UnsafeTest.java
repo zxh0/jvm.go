@@ -63,14 +63,19 @@ public class UnsafeTest {
             System.out.println("getInt() failed!");
         }
         
+        unsafe.putLong(address, 79L);
+        if (unsafe.getLong(address) != 79L) {
+            System.out.println("getLong() failed!");
+        }
+        unsafe.putLong(address, -79L);
+        if (unsafe.getLong(address) != -79L) {
+            System.out.println("getLong() failed!");
+        }
         
-//        unsafe.putLong(address, 79L);       address+=8;
 //        unsafe.putFloat(address, 3.14f);    address+=4;
 //        unsafe.putDouble(address, 2.71828); address+=8;
 //        address+=4;
-//        if (unsafe.getLong(address) != 79L) {
-//            System.out.println("getLong() failed!");
-//        }
+//        
 //        address+=8;
 //        if (unsafe.getFloat(address) != 3.14f) {
 //            System.out.println("getFloat() failed!");

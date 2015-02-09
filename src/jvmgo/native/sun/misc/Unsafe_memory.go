@@ -1,7 +1,6 @@
 package misc
 
 import (
-    "encoding/binary"
     . "jvmgo/any"
     "jvmgo/jvm/rtda"
     "jvmgo/util/bigendian"
@@ -10,7 +9,6 @@ import (
 func init() {
     _unsafe(allocateMemory, "allocateMemory",   "(J)J")
     _unsafe(freeMemory,     "freeMemory",       "(J)V")
-    _unsafe(putLong,        "putLong",          "(JJ)V")
     _unsafe(putByte,        "putByte",          "(JB)V")
     _unsafe(getByte,        "getByte",          "(J)B")
     _unsafe(putShort,       "putShort",         "(JS)V")
@@ -19,6 +17,8 @@ func init() {
     _unsafe(getChar,        "getChar",          "(J)C")
     _unsafe(putInt,         "putInt",           "(JI)V")
     _unsafe(getInt,         "getInt",           "(J)I")
+    _unsafe(putLong,        "putLong",          "(JJ)V")
+    _unsafe(getLong,        "getLong",          "(J)J")
 }
 
 // public native long allocateMemory(long bytes);
@@ -100,13 +100,15 @@ func getInt(frame *rtda.Frame) {
 // public native void putLong(long address, long x);
 // (JJ)V
 func putLong(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    value := stack.PopLong()
-    address := stack.PopLong()
-    stack.PopRef() // this
+    mem, value := _put(frame)
+    bigendian.PutInt64(mem, value.(int64))
+}
 
-    mem := memoryAt(address)
-    binary.BigEndian.PutUint64(mem, uint64(value))
+// public native long getLong(long address);
+// (J)J
+func getLong(frame *rtda.Frame) {
+    stack, mem := _get(frame)
+    stack.PushLong(bigendian.Int64(mem))
 }
 
 func _put(frame *rtda.Frame) ([]byte, Any) {

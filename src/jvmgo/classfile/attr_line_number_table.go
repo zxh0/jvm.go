@@ -22,7 +22,7 @@ type LineNumberTableEntry struct {
 func (self *LineNumberTableAttribute) readInfo(reader *ClassReader) {
     lineNumberTableLength := reader.readUint16()
     self.lineNumberTable = make([]*LineNumberTableEntry, lineNumberTableLength)
-    for i := uint16(0); i < lineNumberTableLength; i++ {
+    for i := range self.lineNumberTable {
         entry := &LineNumberTableEntry{}
         entry.startPc = reader.readUint16()
         entry.lineNumber = reader.readUint16()

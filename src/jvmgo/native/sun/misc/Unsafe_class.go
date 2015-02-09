@@ -34,9 +34,9 @@ func ensureClassInitialized(frame *rtda.Frame) {
 // (Ljava/lang/reflect/Field;)J
 func staticFieldOffset(frame *rtda.Frame) {
     stack := frame.OperandStack()
-    jField := stack.PopRef()
+    fieldObj := stack.PopRef()
     stack.PopRef() // this
 
-    offset := jField.GetFieldValue("slot", "I").(int32)
+    offset := fieldObj.GetFieldValue("slot", "I").(int32)
     stack.PushLong(int64(offset))
 }

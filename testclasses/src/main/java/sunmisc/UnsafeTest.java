@@ -35,9 +35,17 @@ public class UnsafeTest {
         if (unsafe.getByte(address) != 7) {
             System.out.println("getByte() failed!");
         }
+        unsafe.putByte(address, (byte)-7);
+        if (unsafe.getByte(address) != -7) {
+            System.out.println("getByte() failed!");
+        }
         
         unsafe.putShort(address, (short)500);
         if (unsafe.getShort(address) != 500) {
+            System.out.println("getShort() failed!");
+        }
+        unsafe.putShort(address, (short)-500);
+        if (unsafe.getShort(address) != -500) {
             System.out.println("getShort() failed!");
         }
         
@@ -46,19 +54,19 @@ public class UnsafeTest {
             System.out.println("getChar() failed!");
         }
         
-//        unsafe.putInt(address, 29);         address+=4;
+        unsafe.putInt(address, 65536);
+        if (unsafe.getInt(address) != 65536) {
+            System.out.println("getInt() failed!");
+        }
+        unsafe.putInt(address, -65536);
+        if (unsafe.getInt(address) != -65536) {
+            System.out.println("getInt() failed!");
+        }
+        
+        
 //        unsafe.putLong(address, 79L);       address+=8;
 //        unsafe.putFloat(address, 3.14f);    address+=4;
 //        unsafe.putDouble(address, 2.71828); address+=8;
-        
-        
-        
-//        address+=2;
-//        
-//        address+=2;
-//        if (unsafe.getInt(address) != 29) {
-//            System.out.println("getInt() failed!");
-//        }
 //        address+=4;
 //        if (unsafe.getLong(address) != 79L) {
 //            System.out.println("getLong() failed!");

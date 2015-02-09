@@ -1,8 +1,8 @@
 package classfile
 
 import (
-    "log"
     . "jvmgo/any"
+    "jvmgo/util"
 )
 
 /*
@@ -104,7 +104,7 @@ func readElementValue(reader *ClassReader) (*ElementValue) {
         case 'e': value = readEnumConstValue(reader)
         case '@': value = readAnnotation(reader)
         case '[': value = readArrayValue(reader)
-        default: log.Panicf("BAD element_value tag: %v", tag)
+        default: util.Panicf("BAD element_value tag: %v", tag)
     }
     return &ElementValue{tag, value}
 }

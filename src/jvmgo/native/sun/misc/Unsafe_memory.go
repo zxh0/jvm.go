@@ -41,31 +41,12 @@ func putByte(frame *rtda.Frame) {
     mem[0] = uint8(value.(int32))
 }
 
-func _put(frame *rtda.Frame) ([]byte, Any) {
-    stack := frame.OperandStack()
-    value := stack.Pop()
-    address := stack.PopLong()
-    stack.PopRef() // this
-
-    mem := memoryAt(address)
-    return mem, value
-}
-
 // public native byte getByte(long address);
 // (J)B
 func getByte(frame *rtda.Frame) {
     stack, mem := _get(frame)
     value := mem[0]
     stack.PushInt(int32(value))
-}
-
-func _get(frame *rtda.Frame) (*rtda.OperandStack, []byte) {
-    stack := frame.OperandStack()
-    address := stack.PopLong()
-    stack.PopRef() // this
-
-    mem := memoryAt(address)
-    return stack, mem
 }
 
 // public native void putLong(long address, long x);
@@ -78,4 +59,23 @@ func putLong(frame *rtda.Frame) {
 
     mem := memoryAt(address)
     binary.BigEndian.PutUint64(mem, uint64(value))
+}
+
+func _put(frame *rtda.Frame) ([]byte, Any) {
+    stack := frame.OperandStack()
+    value := stack.Pop()
+    address := stack.PopLong()
+    stack.PopRef() // this
+
+    mem := memoryAt(address)
+    return mem, value
+}
+
+func _get(frame *rtda.Frame) (*rtda.OperandStack, []byte) {
+    stack := frame.OperandStack()
+    address := stack.PopLong()
+    stack.PopRef() // this
+
+    mem := memoryAt(address)
+    return stack, mem
 }

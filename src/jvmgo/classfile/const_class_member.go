@@ -59,11 +59,26 @@ func (self *ConstantMemberrefInfo) Descriptor() (string) {
 type ConstantFieldrefInfo struct {
     ConstantMemberrefInfo
 }
+func newConstantFieldrefInfo(cp *ConstantPool) (*ConstantFieldrefInfo) {
+    c := &ConstantFieldrefInfo{}
+    c.cp = cp
+    return c
+}
 
 type ConstantMethodrefInfo struct {
     ConstantMemberrefInfo
 }
+func newConstantMethodrefInfo(cp *ConstantPool) (*ConstantMethodrefInfo) {
+    c := &ConstantMethodrefInfo{}
+    c.cp = cp
+    return c
+}
 
 type ConstantInterfaceMethodrefInfo struct {
     ConstantMemberrefInfo
+}
+func newConstantInterfaceMethodrefInfo(cp *ConstantPool) (*ConstantInterfaceMethodrefInfo) {
+    c := &ConstantInterfaceMethodrefInfo{}
+    c.cp = cp
+    return c
 }

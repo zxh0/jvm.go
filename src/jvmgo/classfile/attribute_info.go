@@ -16,7 +16,7 @@ type AttributeInfo interface {
 func readAttributes(reader *ClassReader, cp *ConstantPool) ([]AttributeInfo) {
     attributesCount := reader.readUint16()
     attributes := make([]AttributeInfo, attributesCount)
-    for i := uint16(0); i < attributesCount; i++ {
+    for i := range attributes {
         attributes[i] = readAttribute(reader, cp)
     }
     return attributes

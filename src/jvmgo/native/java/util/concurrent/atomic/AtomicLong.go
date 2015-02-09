@@ -18,5 +18,5 @@ func _al(method Any, name, desc string) {
 // ()Z
 func VMSupportsCS8(frame *rtda.Frame) {
     stack := frame.OperandStack()
-    stack.PushBoolean(false) // todo
+    stack.PushBoolean(false) // todo sync/atomic
 }

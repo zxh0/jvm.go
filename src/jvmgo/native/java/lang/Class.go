@@ -19,6 +19,7 @@ func init() {
     _class(getName0,                    "getName0",                 "()Ljava/lang/String;")
     _class(getPrimitiveClass,           "getPrimitiveClass",        "(Ljava/lang/String;)Ljava/lang/Class;")
     _class(getSuperclass,               "getSuperclass",            "()Ljava/lang/Class;")
+    _class(isArray,                     "isArray",                  "()Z")
     _class(isInterface,                 "isInterface",              "()Z")
     _class(isPrimitive,                 "isPrimitive",              "()Z")
 }
@@ -159,6 +160,15 @@ func getSuperclass(frame *rtda.Frame) {
     } else {
         stack.PushNull()
     }
+}
+
+// public native boolean isArray();
+// ()Z
+func isArray(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    jClass := stack.PopRef() // this
+    goClass := jClass.Extra().(*rtc.Class)
+    stack.PushBoolean(goClass.IsArray())
 }
 
 // public native boolean isInterface();

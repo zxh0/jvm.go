@@ -1,7 +1,7 @@
 package class
 
 import (
-    //"fmt"
+    // "fmt"
     cf "jvmgo/classfile"
 )
 
@@ -45,7 +45,10 @@ func newExceptionHandler(entry *cf.ExceptionTableEntry, rtCp *ConstantPool) (*Ex
 func (self *ExceptionTable) FindExceptionHandler(exClass *Class, pc int) (*ExceptionHandler) {
     for _, handler := range self.handlers {
         if handler.startPc <= pc && handler.endPc >= pc {
-            if handler.catchType == nil || handler.catchType.Class() == exClass {
+            if handler.catchType == nil || // catch all
+                    handler.catchType.Class() == exClass ||
+                    handler.catchType.Class().isSuperClassOf(exClass) {
+
                 return handler
             }
         }

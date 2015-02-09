@@ -13,6 +13,7 @@ func init() {
     _unsafe(arrayIndexScale,        "arrayIndexScale",          "(Ljava/lang/Class;)I")
     _unsafe(ensureClassInitialized, "ensureClassInitialized",   "(Ljava/lang/Class;)V")
     _unsafe(objectFieldOffset,      "objectFieldOffset",        "(Ljava/lang/reflect/Field;)J")
+    _unsafe(staticFieldOffset,      "staticFieldOffset",        "(Ljava/lang/reflect/Field;)J")
 }
 
 func _unsafe(method Any, name, desc string) {
@@ -67,6 +68,17 @@ func ensureClassInitialized(frame *rtda.Frame) {
 // public native long objectFieldOffset(Field field);
 // (Ljava/lang/reflect/Field;)J
 func objectFieldOffset(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    jField := stack.PopRef()
+    stack.PopRef() // this
+
+    offset := jField.GetFieldValue("slot", "I").(int32)
+    stack.PushLong(int64(offset))
+}
+
+// public native long staticFieldOffset(Field field);
+// (Ljava/lang/reflect/Field;)J
+func staticFieldOffset(frame *rtda.Frame) {
     stack := frame.OperandStack()
     jField := stack.PopRef()
     stack.PopRef() // this

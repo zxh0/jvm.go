@@ -29,47 +29,48 @@ public class UnsafeTest {
     }
     
     private static void memory(Unsafe unsafe) {
-        final long _address = unsafe.allocateMemory(100);
+        final long address = unsafe.allocateMemory(8);
         
-        long address = _address;
-        unsafe.putByte(address, (byte)7);   address++;
-        unsafe.putShort(address, (short)8); address+=2;
-        unsafe.putChar(address, 'c');       address+=2;
-        unsafe.putInt(address, 29);         address+=4;
-        unsafe.putLong(address, 79L);       address+=8;
-        unsafe.putFloat(address, 3.14f);    address+=4;
-        unsafe.putDouble(address, 2.71828); address+=8;
-        
-        address = _address;
+        unsafe.putByte(address, (byte)7);
         if (unsafe.getByte(address) != 7) {
             System.out.println("getByte() failed!");
         }
-        address++;
-        if (unsafe.getShort(address) != 8) {
+        
+        unsafe.putShort(address, (short)500);
+        if (unsafe.getShort(address) != 500) {
             System.out.println("getShort() failed!");
         }
-        address+=2;
-        if (unsafe.getChar(address) != 'c') {
-            System.out.println("getChar() failed!");
-        }
-        address+=2;
-        if (unsafe.getInt(address) != 29) {
-            System.out.println("getInt() failed!");
-        }
-        address+=4;
-        if (unsafe.getLong(address) != 79L) {
-            System.out.println("getLong() failed!");
-        }
-        address+=8;
-        if (unsafe.getFloat(address) != 3.14f) {
-            System.out.println("getFloat() failed!");
-        }
-        address+=4;
-        if (unsafe.getDouble(address) != 2.71828) {
-            System.out.println("getDouble() failed");
-        }
         
-        unsafe.freeMemory(_address);
+//        unsafe.putChar(address, 'c');       address+=2;
+//        unsafe.putInt(address, 29);         address+=4;
+//        unsafe.putLong(address, 79L);       address+=8;
+//        unsafe.putFloat(address, 3.14f);    address+=4;
+//        unsafe.putDouble(address, 2.71828); address+=8;
+        
+        
+        
+//        address+=2;
+//        if (unsafe.getChar(address) != 'c') {
+//            System.out.println("getChar() failed!");
+//        }
+//        address+=2;
+//        if (unsafe.getInt(address) != 29) {
+//            System.out.println("getInt() failed!");
+//        }
+//        address+=4;
+//        if (unsafe.getLong(address) != 79L) {
+//            System.out.println("getLong() failed!");
+//        }
+//        address+=8;
+//        if (unsafe.getFloat(address) != 3.14f) {
+//            System.out.println("getFloat() failed!");
+//        }
+//        address+=4;
+//        if (unsafe.getDouble(address) != 2.71828) {
+//            System.out.println("getDouble() failed");
+//        }
+        
+        unsafe.freeMemory(address);
         System.out.println("memory testing ok!");
     }
     

@@ -1,8 +1,8 @@
 package misc
 
 import (
-    //"unsafe"
     "encoding/binary"
+    . "jvmgo/any"
     "jvmgo/jvm/rtda"
 )
 
@@ -37,25 +37,35 @@ func freeMemory(frame *rtda.Frame) {
 // public native void putByte(long address, byte b);
 // (JB)V
 func putByte(frame *rtda.Frame) {
+    mem, value := _put(frame)
+    mem[0] = uint8(value.(int32))
+}
+
+func _put(frame *rtda.Frame) ([]byte, Any) {
     stack := frame.OperandStack()
-    b := stack.PopInt()
+    value := stack.Pop()
     address := stack.PopLong()
     stack.PopRef() // this
 
     mem := memoryAt(address)
-    mem[0] = uint8(b)
+    return mem, value
 }
 
 // public native byte getByte(long address);
 // (J)B
 func getByte(frame *rtda.Frame) {
+    stack, mem := _get(frame)
+    value := mem[0]
+    stack.PushInt(int32(value))
+}
+
+func _get(frame *rtda.Frame) (*rtda.OperandStack, []byte) {
     stack := frame.OperandStack()
     address := stack.PopLong()
     stack.PopRef() // this
 
     mem := memoryAt(address)
-    b := mem[0]
-    stack.PushInt(int32(b))
+    return stack, mem
 }
 
 // public native void putLong(long address, long x);

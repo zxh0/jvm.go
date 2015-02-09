@@ -99,9 +99,9 @@ func readElementValue(reader *ClassReader) (*ElementValue) {
         case 'J': fallthrough
         case 'S': fallthrough
         case 'Z': fallthrough
-        case 's': value = reader.readUint16()
-        case 'e': value = readEnumConstValue(reader)
+        case 's': fallthrough
         case 'c': value = reader.readUint16()
+        case 'e': value = readEnumConstValue(reader)
         case '@': value = readAnnotation(reader)
         case '[': value = readArrayValue(reader)
         default: log.Panicf("BAD element_value tag: %v", tag)

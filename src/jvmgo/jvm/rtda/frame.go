@@ -26,11 +26,8 @@ func newFrame(thread *Thread, method *rtc.Method) (*Frame) {
 func (self *Frame) Thread() (*Thread) {
     return self.thread
 }
-func (self *Frame) NextPC() (int) {
-    return self.nextPC
-}
-func (self *Frame) SetNextPC(nextPC int) {
-    self.nextPC = nextPC
+func (self *Frame) Method() (*rtc.Method) {
+    return self.method
 }
 func (self *Frame) LocalVars() (*LocalVars) {
     return self.localVars
@@ -38,8 +35,11 @@ func (self *Frame) LocalVars() (*LocalVars) {
 func (self *Frame) OperandStack() (*OperandStack) {
     return self.operandStack
 }
-func (self *Frame) Method() (*rtc.Method) {
-    return self.method
+func (self *Frame) NextPC() (int) {
+    return self.nextPC
+}
+func (self *Frame) SetNextPC(nextPC int) {
+    self.nextPC = nextPC
 }
 func (self *Frame) SetOnPopAction(f func()) {
     self.onPopAction = f

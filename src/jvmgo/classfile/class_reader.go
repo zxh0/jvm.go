@@ -1,77 +1,67 @@
 package classfile
 
 import (
-    "bytes"
-    "encoding/binary"
+    "jvmgo/util/bigendian"
 )
 
 type ClassReader struct {
-    //data    []byte
-    //index   uint
-    reader  *bytes.Reader
+    data []byte
 }
 
-// todo
-func (self *ClassReader) readUint8() (x uint8) {
-    readVal(self, &x)
-    return
+func newClassReader(data []byte) *ClassReader {
+    return &ClassReader{data}
 }
 
-func (self *ClassReader) readUint16() (x uint16) {
-    readVal(self, &x)
-    return
+func (self *ClassReader) readUint8() uint8 {
+    val := self.data[0]
+    self.data = self.data[1:]
+    return val
 }
 
-func (self *ClassReader) readUint32() (x uint32) {
-    readVal(self, &x)
-    return
-}
-func (self *ClassReader) readInt32() (x int32) {
-    readVal(self, &x)
-    return
+func (self *ClassReader) readUint16() uint16 {
+    val := bigendian.Uint16(self.data)
+    self.data = self.data[2:]
+    return val
 }
 
-func (self *ClassReader) readInt64() (x int64) {
-    readVal(self, &x)
-    return
+func (self *ClassReader) readUint32() uint32 {
+    val := bigendian.Int32(self.data)
+    self.data = self.data[4:]
+    return uint32(val)
+}
+func (self *ClassReader) readInt32() int32 {
+    val := bigendian.Int32(self.data)
+    self.data = self.data[4:]
+    return val
 }
 
-func (self *ClassReader) readFloat32() (x float32) {
-    readVal(self, &x)
-    return
-}
-func (self *ClassReader) readFloat64() (x float64) {
-    readVal(self, &x)
-    return
+func (self *ClassReader) readInt64() int64 {
+    val := bigendian.Int64(self.data)
+    self.data = self.data[8:]
+    return val
 }
 
-func readVal(self *ClassReader, data interface{}) {
-    err := binary.Read(self.reader, binary.BigEndian, data)
-    if err != nil {
-        panic(err.Error())
-    }
+func (self *ClassReader) readFloat32() float32 {
+    val := bigendian.Float32(self.data)
+    self.data = self.data[4:]
+    return val
+}
+
+func (self *ClassReader) readFloat64() float64 {
+    val := bigendian.Float64(self.data)
+    self.data = self.data[8:]
+    return val
 }
 
 func (self *ClassReader) readBytes(length uint32) ([]byte) {
-    bytes := make([]byte, length)
-    n, err := self.reader.Read(bytes)
-    if err != nil {
-        panic(err.Error())
-    }
-    if n != int(length) {
-        // todo
-        panic("data not enough!")
-    }
+    bytes := self.data[:length]
+    self.data = self.data[length:]
     return bytes
 }
 
+// todo
 func (self *ClassReader) readString() (string) {
     length := uint32(self.readUint16())
     bytes := self.readBytes(length)
     return string(bytes[:])
-}
-
-// factory
-func newClassReader(data []byte) *ClassReader {
-    return &ClassReader{bytes.NewReader(data)}
 }

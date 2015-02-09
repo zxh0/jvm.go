@@ -53,7 +53,7 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) (Attrib
     // case "RuntimeInvisibleTypeAnnotations": 
     case "Signature":                               return &SignatureAttribute{}
     case "SourceFile":                              return &SourceFileAttribute{}
-    // case "SourceDebugExtension": 
+    case "SourceDebugExtension":                    return &UndefinedAttribute{attrLen} // todo
     case "StackMapTable":                           return &UndefinedAttribute{attrLen} // todo
     case "Synthetic":                               return &SyntheticAttribute{}
     default:                                        return &UndefinedAttribute{attrLen}

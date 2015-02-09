@@ -34,6 +34,7 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) (AttributeInfo) {
 func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) (AttributeInfo) {
     switch attrName {
     case "AnnotationDefault":                       return &AnnotationDefaultAttribute{}
+    // case "BootstrapMethods": 
     case "Code":                                    return &CodeAttribute{cp: cp}
     case "ConstantValue":                           return &ConstantValueAttribute{}
     case "Deprecated":                              return &DeprecatedAttribute{}
@@ -43,14 +44,18 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) (Attrib
     case "LineNumberTable":                         return &LineNumberTableAttribute{}
     case "LocalVariableTable":                      return &LocalVariableTableAttribute{}
     case "LocalVariableTypeTable":                  return &LocalVariableTypeTableAttribute{}
+    // case "MethodParameters": 
     case "RuntimeInvisibleAnnotations":             return &AnnotationsAttribute{}
     case "RuntimeInvisibleParameterAnnotations":    return &ParameterAnnotationsAttribute{}
+    // case "RuntimeVisibleTypeAnnotations": 
     case "RuntimeVisibleAnnotations":               return &AnnotationsAttribute{}
     case "RuntimeVisibleParameterAnnotations":      return &ParameterAnnotationsAttribute{}
+    // case "RuntimeInvisibleTypeAnnotations": 
     case "Signature":                               return &SignatureAttribute{}
     case "SourceFile":                              return &SourceFileAttribute{}
+    // case "SourceDebugExtension": 
     case "StackMapTable":                           return &UndefinedAttribute{attrLen} // todo
     case "Synthetic":                               return &SyntheticAttribute{}
-    default: panic("BAD attr name:" + attrName) // todo
+    default:                                        return &UndefinedAttribute{attrLen}
     }
 }

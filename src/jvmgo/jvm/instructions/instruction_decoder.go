@@ -10,22 +10,17 @@ func NewInstructionDecoder() (*InstructionDecoder) {
 }
 
 // todo
-func (self *InstructionDecoder) Decode() (uint8, Instruction) {
+func (self *InstructionDecoder) Decode(code []byte, pc int) (uint8, Instruction, int) {
+    
+    self.code = code
+    self.pc = pc
+
     opcode := self.readUint8()
     instruction := newInstruction(opcode)
     instruction.fetchOperands(self)
-    return opcode, instruction
-}
+    nextPC := self.pc
 
-// getters & setters
-func (self *InstructionDecoder) PC() (int) {
-    return self.pc
-}
-func (self *InstructionDecoder) SetPC(pc int) {
-    self.pc = pc
-}
-func (self *InstructionDecoder) SetCode(code []byte) {
-    self.code = code
+    return opcode, instruction, nextPC
 }
 
 func (self *InstructionDecoder) readInt8() (int8) {

@@ -13,10 +13,10 @@ func loop(thread *rtda.Thread) {
         frame := thread.CurrentFrame() 
 
         // decode
-        decoder.SetPC(thread.PC())
-        decoder.SetCode(frame.Method().Code())
-        _, inst := decoder.Decode()
-        frame.SetNextPC(decoder.PC())
+        code := frame.Method().Code()
+        pc := thread.PC()
+        _, inst, nextPC := decoder.Decode(code, pc)
+        frame.SetNextPC(nextPC)
 
         // execute
         //_logInstruction(frame, thread.PC(), opcode, inst)

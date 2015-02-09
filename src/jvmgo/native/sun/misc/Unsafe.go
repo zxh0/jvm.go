@@ -8,23 +8,13 @@ import (
 )
 
 func init() {
-    _unsafe(addressSize,            "addressSize",              "()I")
-    _unsafe(arrayBaseOffset,        "arrayBaseOffset",          "(Ljava/lang/Class;)I")
-    _unsafe(arrayIndexScale,        "arrayIndexScale",          "(Ljava/lang/Class;)I")
-    _unsafe(objectFieldOffset,      "objectFieldOffset",        "(Ljava/lang/reflect/Field;)J")
+    _unsafe(arrayBaseOffset,    "arrayBaseOffset",      "(Ljava/lang/Class;)I")
+    _unsafe(arrayIndexScale,    "arrayIndexScale",      "(Ljava/lang/Class;)I")
+    _unsafe(objectFieldOffset,  "objectFieldOffset",    "(Ljava/lang/reflect/Field;)J")
 }
 
 func _unsafe(method Any, name, desc string) {
     rtc.RegisterNativeMethod("sun/misc/Unsafe", name, desc, method)
-}
-
-// public native int addressSize();
-// ()I
-func addressSize(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    stack.PopRef() // this
-    //size := unsafe.Sizeof(int)
-    stack.PushInt(0)
 }
 
 // public native int arrayBaseOffset(Class<?> type);

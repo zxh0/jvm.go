@@ -10,6 +10,7 @@ func init() {
     _unsafe(allocateMemory,     "allocateMemory",   "(J)J")
     _unsafe(reallocateMemory,   "reallocateMemory", "(JJ)J")
     _unsafe(freeMemory,         "freeMemory",       "(J)V")
+    _unsafe(addressSize,        "addressSize",      "()I")
     _unsafe(putByte,            "putByte",          "(JB)V")
     _unsafe(getByte,            "getByte",          "(J)B")
     _unsafe(putShort,           "putShort",         "(JS)V")
@@ -57,6 +58,19 @@ func freeMemory(frame *rtda.Frame) {
     stack.PopRef() // this
     free(address)
 }
+
+// public native int addressSize();
+// ()I
+func addressSize(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    stack.PopRef() // this
+    //size := unsafe.Sizeof(int)
+    stack.PushInt(0)
+}
+
+// public native void putAddress(long address, long x);
+// public native long getAddress(long address);
+
 
 // public native void putByte(long address, byte x);
 // (JB)V

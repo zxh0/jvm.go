@@ -1,5 +1,12 @@
 package class
 
+func (self *Class) IsPrimitive() bool {
+    return isPrimitiveType(self.name)
+}
+func (self *Class) IsArray() bool {
+    return self.name[0] == '['
+}
+
 func (self *Class) GetFields(publicOnly bool) ([]*Field) {
     if publicOnly {
         publicFields := make([]*Field, 0, len(self.fields))

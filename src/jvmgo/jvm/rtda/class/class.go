@@ -53,13 +53,6 @@ func (self *Class) ClassLoader() (*ClassLoader) {
     return self.classLoader
 }
 
-func (self *Class) IsPrimitive() (bool) {
-    return isPrimitiveType(self.name)
-}
-func (self *Class) IsArray() (bool) {
-    return self.name[0] == 'L'
-}
-
 func (self *Class) InitializationNotStarted() (bool) {
     return self.state < _initializing // todo
 }

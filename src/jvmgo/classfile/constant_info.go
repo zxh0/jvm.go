@@ -1,6 +1,6 @@
 package classfile
 
-import "log"
+import "jvmgo/util"
 
 // Constant pool tags
 const (
@@ -48,7 +48,7 @@ func newConstantInfo(tag uint8, cp *ConstantPool) (ConstantInfo) {
     case CONSTANT_MethodHandle:         return &ConstantMethodHandleInfo{}
     case CONSTANT_InvokeDynamic:        return &ConstantInvokeDynamicInfo{}
     default: // todo
-        log.Panicf("Invalid constant pool tag: %v", tag)
+        util.Panicf("BAD constant pool tag: %v", tag)
         return nil
     }
 }

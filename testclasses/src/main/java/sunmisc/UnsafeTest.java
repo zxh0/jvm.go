@@ -31,6 +31,11 @@ public class UnsafeTest {
     private static void memory(Unsafe unsafe) {
         final long address = unsafe.allocateMemory(8);
         
+        unsafe.putAddress(address, address);
+        if (unsafe.getAddress(address) != address) {
+            System.out.println("getAddress() failed!");
+        }
+        
         unsafe.putByte(address, (byte)7);
         if (unsafe.getByte(address) != 7) {
             System.out.println("getByte() failed!");

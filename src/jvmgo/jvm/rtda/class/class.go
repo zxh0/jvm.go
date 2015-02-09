@@ -138,3 +138,7 @@ func (self *Class) SetStaticValue(fieldName, fieldDescriptor string, value Any) 
     field := self.GetStaticField(fieldName, fieldDescriptor)
     field.PutStaticValue(value)
 }
+
+func (self *Class) AsObj() (*Obj) {
+    return &Obj{fields: self.staticFieldValues}
+}

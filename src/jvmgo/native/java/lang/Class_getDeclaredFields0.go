@@ -34,7 +34,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
         jFields := fieldArr.Fields().([]*rtc.Obj)
         thread := frame.Thread()
         for i, goField := range goFields {
-            jField := fieldClass.NewObj()
+            jField := fieldClass.NewObjWithExtra(goField)
             jFields[i] = jField
 
             jName := rtda.NewJString(goField.Name(), frame)

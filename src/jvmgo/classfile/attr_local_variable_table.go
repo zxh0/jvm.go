@@ -14,7 +14,7 @@ LocalVariableTable_attribute {
 }
 */
 type LocalVariableTableAttribute struct {
-    LocalVariableTable []*LocalVariableTableEntry
+    localVariableTable []*LocalVariableTableEntry
 }
 
 type LocalVariableTableEntry struct {
@@ -26,15 +26,15 @@ type LocalVariableTableEntry struct {
 }
 
 func (self *LocalVariableTableAttribute) readInfo(reader *ClassReader) {
-    LocalVariableTableLength := reader.readUint16()
-    self.LocalVariableTable = make([]*LocalVariableTableEntry, LocalVariableTableLength)
-    for i := uint16(0); i < LocalVariableTableLength; i++ {
+    localVariableTableLength := reader.readUint16()
+    self.localVariableTable = make([]*LocalVariableTableEntry, localVariableTableLength)
+    for i := range self.localVariableTable {
         entry := &LocalVariableTableEntry{}
         entry.startPc = reader.readUint16()
         entry.length = reader.readUint16()
         entry.nameIndex = reader.readUint16()
         entry.descriptorIndex = reader.readUint16()
         entry.index = reader.readUint16()
-        self.LocalVariableTable[i] = entry
+        self.localVariableTable[i] = entry
     }
 }

@@ -77,10 +77,10 @@ public class UnsafeTest {
             System.out.println("getFloat() failed!");
         }
         
-//        unsafe.putDouble(address, 2.71828);
-//        if (unsafe.getDouble(address) != 2.71828) {
-//            System.out.println("getDouble() failed");
-//        }
+        unsafe.putDouble(address, 2.71828);
+        if (unsafe.getDouble(address) != 2.71828) {
+            System.out.println("getDouble() failed");
+        }
         
         unsafe.freeMemory(address);
         System.out.println("memory testing ok!");

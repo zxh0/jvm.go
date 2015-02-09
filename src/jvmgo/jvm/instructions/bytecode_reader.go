@@ -5,6 +5,18 @@ type BytecodeReader struct {
     code    []byte // bytecodes
 }
 
+func NewBytecodeReader() (*BytecodeReader) {
+    return &BytecodeReader{}
+}
+
+// todo
+func (self *BytecodeReader) Decode() (uint8, Instruction) {
+    opcode := self.readUint8()
+    instruction := newInstruction(opcode)
+    instruction.fetchOperands(self)
+    return opcode, instruction
+}
+
 // getters & setters
 func (self *BytecodeReader) PC() (int) {
     return self.pc
@@ -51,8 +63,4 @@ func (self *BytecodeReader) readInt32s(count int32) ([]int32) {
         ints[i] = self.readInt32()
     }
     return ints
-}
-
-func NewBytecodeReader() (*BytecodeReader) {
-    return &BytecodeReader{}
 }

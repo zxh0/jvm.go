@@ -24,14 +24,6 @@ type MemberInfo struct {
     AttributeTable
 }
 
-type FieldInfo struct {
-    MemberInfo
-}
-
-type MethodInfo struct {
-    MemberInfo
-}
-
 func (self *MemberInfo) read(reader *ClassReader) {
     self.accessFlags = reader.readUint16()
     self.nameIndex = reader.readUint16()
@@ -47,4 +39,13 @@ func (self *MemberInfo) Name() (string) {
 }
 func (self *MemberInfo) Descriptor() (string) {
     return self.cp.getUtf8(self.descriptorIndex)
+}
+
+
+type FieldInfo struct {
+    MemberInfo
+}
+
+type MethodInfo struct {
+    MemberInfo
 }

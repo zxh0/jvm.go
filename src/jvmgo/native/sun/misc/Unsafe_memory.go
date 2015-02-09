@@ -10,6 +10,7 @@ func init() {
     _unsafe(allocateMemory, "allocateMemory",   "(J)J")
     _unsafe(freeMemory,     "freeMemory",       "(J)V")
     _unsafe(putLong,        "putLong",          "(JJ)V")
+    _unsafe(putByte,        "putByte",          "(JB)V")
     _unsafe(getByte,        "getByte",          "(J)B")
 }
 
@@ -33,9 +34,19 @@ func freeMemory(frame *rtda.Frame) {
     free(address)
 }
 
-// public native void putByte(long offset, byte b);
+// public native void putByte(long address, byte b);
+// (JB)V
+func putByte(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    b := stack.PopInt()
+    address := stack.PopLong()
+    stack.PopRef() // this
 
-// public native byte getByte(long offset);
+    mem := memoryAt(address)
+    mem[0] = uint8(b)
+}
+
+// public native byte getByte(long address);
 // (J)B
 func getByte(frame *rtda.Frame) {
     stack := frame.OperandStack()
@@ -47,7 +58,7 @@ func getByte(frame *rtda.Frame) {
     stack.PushInt(int32(b))
 }
 
-// public native void putLong(long offset, long x);
+// public native void putLong(long address, long x);
 // (JJ)V
 func putLong(frame *rtda.Frame) {
     stack := frame.OperandStack()

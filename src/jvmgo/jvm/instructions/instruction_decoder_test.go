@@ -4,7 +4,7 @@ import "testing"
 
 func TestReadInt8(t *testing.T) {
     bytecodes := []byte{0xf1, 0x17}
-    decoder := newInstructionDecoder(bytecodes)
+    decoder := &InstructionDecoder{0, bytecodes}
     if b1 := decoder.readInt8(); b1 != -15 {
         t.Errorf("%v", b1)
     }
@@ -15,7 +15,7 @@ func TestReadInt8(t *testing.T) {
 
 func TestReadUint8(t *testing.T) {
     bytecodes := []byte{0xf1, 0x17}
-    decoder := newInstructionDecoder(bytecodes)
+    decoder := &InstructionDecoder{0, bytecodes}
     if b1 := decoder.readUint8(); b1 != 241 {
         t.Errorf("%v", b1)
     }
@@ -26,7 +26,7 @@ func TestReadUint8(t *testing.T) {
 
 func TestReadInt16(t *testing.T) {
     bytecodes := []byte{0xf1, 0x17}
-    decoder := newInstructionDecoder(bytecodes)
+    decoder := &InstructionDecoder{0, bytecodes}
     if x := decoder.readInt16(); x != -3817 {
         t.Errorf("%v", x)
     }
@@ -34,7 +34,7 @@ func TestReadInt16(t *testing.T) {
 
 func TestReadUint16(t *testing.T) {
     bytecodes := []byte{0xf1, 0x17}
-    decoder := newInstructionDecoder(bytecodes)
+    decoder := &InstructionDecoder{0, bytecodes}
     if x := decoder.readUint16(); x != 61719 {
         t.Errorf("%v", x)
     }

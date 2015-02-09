@@ -9,9 +9,7 @@ func NewInstructionDecoder() (*InstructionDecoder) {
     return &InstructionDecoder{}
 }
 
-// todo
 func (self *InstructionDecoder) Decode(code []byte, pc int) (uint8, Instruction, int) {
-    
     self.code = code
     self.pc = pc
 

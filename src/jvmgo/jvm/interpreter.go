@@ -8,15 +8,15 @@ import (
 
 // todo
 func loop(thread *rtda.Thread) {
-    bcr := instructions.NewBytecodeReader()
+    decoder := instructions.NewInstructionDecoder()
     for {
         frame := thread.CurrentFrame() 
 
         // decode
-        bcr.SetPC(thread.PC())
-        bcr.SetCode(frame.Method().Code())
-        _, inst := bcr.Decode()
-        frame.SetNextPC(bcr.PC())
+        decoder.SetPC(thread.PC())
+        decoder.SetCode(frame.Method().Code())
+        _, inst := decoder.Decode()
+        frame.SetNextPC(decoder.PC())
 
         // execute
         //_logInstruction(frame, thread.PC(), opcode, inst)

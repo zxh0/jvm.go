@@ -8,9 +8,9 @@ type iinc struct {
     _const  int8
 }
 
-func (self *iinc) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readUint8()
-    self._const = bcr.readInt8()
+func (self *iinc) fetchOperands(decoder *InstructionDecoder) {
+    self.index = decoder.readUint8()
+    self._const = decoder.readInt8()
 }
 
 func (self *iinc) Execute(frame *rtda.Frame) {

@@ -14,10 +14,10 @@ type invokedynamic struct {
     // 0
     // 0
 }
-func (self *invokedynamic) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readUint16()
-    bcr.readUint8() // must be 0
-    bcr.readUint8() // must be 0
+func (self *invokedynamic) fetchOperands(decoder *InstructionDecoder) {
+    self.index = decoder.readUint16()
+    decoder.readUint8() // must be 0
+    decoder.readUint8() // must be 0
 }
 func (self *invokedynamic) Execute(frame *rtda.Frame) {
     // todo

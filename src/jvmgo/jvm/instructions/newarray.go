@@ -9,8 +9,8 @@ import (
 type newarray struct {
     atype uint8
 }
-func (self *newarray) fetchOperands(bcr *BytecodeReader) {
-    self.atype = bcr.readUint8()
+func (self *newarray) fetchOperands(decoder *InstructionDecoder) {
+    self.atype = decoder.readUint8()
 }
 func (self *newarray) Execute(frame *rtda.Frame) {
     stack := frame.OperandStack()
@@ -45,9 +45,9 @@ type multianewarray struct {
     index       uint16
     dimensions  uint8
 }
-func (self *multianewarray) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readUint16()
-    self.dimensions = bcr.readUint8()
+func (self *multianewarray) fetchOperands(decoder *InstructionDecoder) {
+    self.index = decoder.readUint16()
+    self.dimensions = decoder.readUint8()
 }
 func (self *multianewarray) Execute(frame *rtda.Frame) {
     // todo

@@ -13,10 +13,10 @@ type invokeinterface struct {
     // 0
 }
 
-func (self *invokeinterface) fetchOperands(bcr *BytecodeReader) {
-    self.index = bcr.readUint16()
-    self.count = bcr.readUint8()
-    bcr.readUint8() // must be 0
+func (self *invokeinterface) fetchOperands(decoder *InstructionDecoder) {
+    self.index = decoder.readUint16()
+    self.count = decoder.readUint8()
+    decoder.readUint8() // must be 0
 }
 
 func (self *invokeinterface) Execute(frame *rtda.Frame) {

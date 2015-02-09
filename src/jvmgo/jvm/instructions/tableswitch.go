@@ -30,16 +30,16 @@ type tableswitch struct {
     jumpOffsets     []int32
 }
 
-func (self *tableswitch) fetchOperands(bcr *BytecodeReader) {
-    for bcr.pc % 4 != 0 {
+func (self *tableswitch) fetchOperands(decoder *InstructionDecoder) {
+    for decoder.pc % 4 != 0 {
         // skip padding
-        bcr.readUint8()
+        decoder.readUint8()
     }
-    self.defaultOffset = bcr.readInt32()
-    self.low = bcr.readInt32()
-    self.high = bcr.readInt32()
+    self.defaultOffset = decoder.readInt32()
+    self.low = decoder.readInt32()
+    self.high = decoder.readInt32()
     jumpOffsetsCount := self.high - self.low + 1
-    self.jumpOffsets = bcr.readInt32s(jumpOffsetsCount)
+    self.jumpOffsets = decoder.readInt32s(jumpOffsetsCount)
 }
 
 func (self *tableswitch) Execute(frame *rtda.Frame) {

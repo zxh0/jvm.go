@@ -22,14 +22,14 @@ type lookupswitch struct {
     matchOffsets    []int32
 }
 
-func (self *lookupswitch) fetchOperands(bcr *BytecodeReader) {
-    for bcr.pc % 4 != 0 {
+func (self *lookupswitch) fetchOperands(decoder *InstructionDecoder) {
+    for decoder.pc % 4 != 0 {
         // skip padding
-        bcr.readUint8()
+        decoder.readUint8()
     }
-    self.defaultOffset = bcr.readInt32()
-    self.npairs = bcr.readInt32()
-    self.matchOffsets = bcr.readInt32s(self.npairs * 2)
+    self.defaultOffset = decoder.readInt32()
+    self.npairs = decoder.readInt32()
+    self.matchOffsets = decoder.readInt32s(self.npairs * 2)
 }
 
 func (self *lookupswitch) Execute(frame *rtda.Frame) {

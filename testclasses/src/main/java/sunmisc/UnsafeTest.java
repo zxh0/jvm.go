@@ -41,7 +41,11 @@ public class UnsafeTest {
             System.out.println("getShort() failed!");
         }
         
-//        unsafe.putChar(address, 'c');       address+=2;
+        unsafe.putChar(address, 'c');
+        if (unsafe.getChar(address) != 'c') {
+            System.out.println("getChar() failed!");
+        }
+        
 //        unsafe.putInt(address, 29);         address+=4;
 //        unsafe.putLong(address, 79L);       address+=8;
 //        unsafe.putFloat(address, 3.14f);    address+=4;
@@ -50,9 +54,7 @@ public class UnsafeTest {
         
         
 //        address+=2;
-//        if (unsafe.getChar(address) != 'c') {
-//            System.out.println("getChar() failed!");
-//        }
+//        
 //        address+=2;
 //        if (unsafe.getInt(address) != 29) {
 //            System.out.println("getInt() failed!");

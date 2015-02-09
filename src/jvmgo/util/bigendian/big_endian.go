@@ -14,6 +14,13 @@ func Int8(s []byte) int8 {
     return int8(s[0])
 }
 
+func PutUint16(s []byte, val uint16) {
+    _bigEndian.PutUint16(s, val)
+}
+func Uint16(s []byte) uint16 {
+    return _bigEndian.Uint16(s)
+}
+
 func PutInt16(s []byte, val int16) {
     _bigEndian.PutUint16(s, uint16(val))
 }

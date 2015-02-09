@@ -7,13 +7,10 @@ import (
     rtc "jvmgo/jvm/rtda/class"
 )
 
-var _allocatedMemories = map[int64][]byte{}
-
 func init() {
     _unsafe(addressSize,            "addressSize",              "()I")
     _unsafe(arrayBaseOffset,        "arrayBaseOffset",          "(Ljava/lang/Class;)I")
     _unsafe(arrayIndexScale,        "arrayIndexScale",          "(Ljava/lang/Class;)I")
-    _unsafe(compareAndSwapInt,      "compareAndSwapInt",        "(Ljava/lang/Object;JII)Z")
     _unsafe(ensureClassInitialized, "ensureClassInitialized",   "(Ljava/lang/Class;)V")
     _unsafe(objectFieldOffset,      "objectFieldOffset",        "(Ljava/lang/reflect/Field;)J")
 }
@@ -47,28 +44,6 @@ func arrayIndexScale(frame *rtda.Frame) {
     stack.PopRef() // type
     stack.PopRef() // this
     stack.PushInt(1) // todo
-}
-
-// public final native boolean compareAndSwapInt(Object o, long l, int i, int i1);
-// (Ljava/lang/Object;JII)Z
-func compareAndSwapInt(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    i1 := stack.PopInt()
-    i := stack.PopInt()
-    l := stack.PopLong()
-    o := stack.PopRef()
-    stack.PopRef() // this
-
-    // todo
-    fields := o.Fields().([]Any)
-    slot := int(l)
-    val := fields[slot].(int32)
-    if val == i {
-        fields[slot] = i1
-        stack.PushBoolean(true)
-    } else {
-        stack.PushBoolean(false)
-    }
 }
 
 // public native void ensureClassInitialized(Class<?> c);

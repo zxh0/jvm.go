@@ -19,6 +19,8 @@ func init() {
     _unsafe(getInt,         "getInt",           "(J)I")
     _unsafe(putLong,        "putLong",          "(JJ)V")
     _unsafe(getLong,        "getLong",          "(J)J")
+    _unsafe(putFloat,       "putFloat",         "(JF)V")
+    _unsafe(getFloat,       "getFloat",         "(J)F")
 }
 
 // public native long allocateMemory(long bytes);
@@ -109,6 +111,20 @@ func putLong(frame *rtda.Frame) {
 func getLong(frame *rtda.Frame) {
     stack, mem := _get(frame)
     stack.PushLong(bigendian.Int64(mem))
+}
+
+// public native void putFloat(long address, float x);
+// (JJ)V
+func putFloat(frame *rtda.Frame) {
+    mem, value := _put(frame)
+    bigendian.PutFloat32(mem, value.(float32))
+}
+
+// public native float getFloat(long address);
+// (J)J
+func getFloat(frame *rtda.Frame) {
+    stack, mem := _get(frame)
+    stack.PushFloat(bigendian.Float32(mem))
 }
 
 func _put(frame *rtda.Frame) ([]byte, Any) {

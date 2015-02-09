@@ -72,15 +72,12 @@ public class UnsafeTest {
             System.out.println("getLong() failed!");
         }
         
-//        unsafe.putFloat(address, 3.14f);    address+=4;
-//        unsafe.putDouble(address, 2.71828); address+=8;
-//        address+=4;
-//        
-//        address+=8;
-//        if (unsafe.getFloat(address) != 3.14f) {
-//            System.out.println("getFloat() failed!");
-//        }
-//        address+=4;
+        unsafe.putFloat(address, 3.14f);
+        if (unsafe.getFloat(address) != 3.14f) {
+            System.out.println("getFloat() failed!");
+        }
+        
+//        unsafe.putDouble(address, 2.71828);
 //        if (unsafe.getDouble(address) != 2.71828) {
 //            System.out.println("getDouble() failed");
 //        }

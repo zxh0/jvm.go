@@ -22,3 +22,15 @@ func TestMalloc(t *testing.T) {
     free(address1)
     free(address2)
 }
+
+func TestReallocate(t *testing.T) {
+    address := allocate(100)
+    mem := memoryAt(address)
+    mem[0] = 7
+
+    AssertEquals(0, reallocate(address, 0))
+    AssertTrue(address != reallocate(0, 100))
+    AssertEquals(address, reallocate(address, 100))
+    newAddress := reallocate(address, 200)
+    AssertEquals(7, memoryAt(newAddress)[0])
+}

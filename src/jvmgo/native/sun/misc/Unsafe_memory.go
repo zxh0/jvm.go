@@ -7,22 +7,23 @@ import (
 )
 
 func init() {
-    _unsafe(allocateMemory, "allocateMemory",   "(J)J")
-    _unsafe(freeMemory,     "freeMemory",       "(J)V")
-    _unsafe(putByte,        "putByte",          "(JB)V")
-    _unsafe(getByte,        "getByte",          "(J)B")
-    _unsafe(putShort,       "putShort",         "(JS)V")
-    _unsafe(getShort,       "getShort",         "(J)S")
-    _unsafe(putChar,        "putChar",          "(JC)V")
-    _unsafe(getChar,        "getChar",          "(J)C")
-    _unsafe(putInt,         "putInt",           "(JI)V")
-    _unsafe(getInt,         "getInt",           "(J)I")
-    _unsafe(putLong,        "putLong",          "(JJ)V")
-    _unsafe(getLong,        "getLong",          "(J)J")
-    _unsafe(putFloat,       "putFloat",         "(JF)V")
-    _unsafe(getFloat,       "getFloat",         "(J)F")
-    _unsafe(putDouble,      "putDouble",        "(JD)V")
-    _unsafe(getDouble,      "getDouble",        "(J)D")
+    _unsafe(allocateMemory,     "allocateMemory",   "(J)J")
+    _unsafe(reallocateMemory,   "reallocateMemory", "(JJ)J")
+    _unsafe(freeMemory,         "freeMemory",       "(J)V")
+    _unsafe(putByte,            "putByte",          "(JB)V")
+    _unsafe(getByte,            "getByte",          "(J)B")
+    _unsafe(putShort,           "putShort",         "(JS)V")
+    _unsafe(getShort,           "getShort",         "(J)S")
+    _unsafe(putChar,            "putChar",          "(JC)V")
+    _unsafe(getChar,            "getChar",          "(J)C")
+    _unsafe(putInt,             "putInt",           "(JI)V")
+    _unsafe(getInt,             "getInt",           "(J)I")
+    _unsafe(putLong,            "putLong",          "(JJ)V")
+    _unsafe(getLong,            "getLong",          "(J)J")
+    _unsafe(putFloat,           "putFloat",         "(JF)V")
+    _unsafe(getFloat,           "getFloat",         "(J)F")
+    _unsafe(putDouble,          "putDouble",        "(JD)V")
+    _unsafe(getDouble,          "getDouble",        "(J)D")
 }
 
 // public native long allocateMemory(long bytes);
@@ -34,6 +35,18 @@ func allocateMemory(frame *rtda.Frame) {
 
     address := allocate(bytes)
     stack.PushLong(address)
+}
+
+// public native long reallocateMemory(long address, long bytes);
+// (JJ)J
+func reallocateMemory(frame *rtda.Frame) {
+    stack := frame.OperandStack()
+    bytes := stack.PopLong()
+    address := stack.PopLong()
+    stack.PopRef() // this
+
+    newAddress := reallocate(address, bytes)
+    stack.PushLong(newAddress)
 }
 
 // public native void freeMemory(long address);

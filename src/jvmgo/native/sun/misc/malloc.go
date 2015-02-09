@@ -13,6 +13,25 @@ func allocate(size int64) (address int64) {
     return 
 }
 
+func reallocate(address, size int64) int64 {
+    if size == 0 {
+        return 0
+    } else if address == 0 {
+        return allocate(size)
+    } else {
+        mem := memoryAt(address)
+        if len(mem) >= int(size) {
+            return address
+        } else {
+            delete(_allocated, address)
+            newAddress := allocate(size)
+            newMem := memoryAt(newAddress)
+            copy(newMem, mem)
+            return newAddress
+        }
+    }
+}
+
 func free(address int64) {
     if _, ok := _allocated[address]; ok {
         delete(_allocated, address)

@@ -82,7 +82,8 @@ public class UnsafeTest {
             System.out.println("getDouble() failed");
         }
         
-        unsafe.freeMemory(address);
+        long newAddress = unsafe.reallocateMemory(address, 100);
+        unsafe.freeMemory(newAddress);
         System.out.println("memory testing ok!");
     }
     

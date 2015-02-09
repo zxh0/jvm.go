@@ -1,18 +1,15 @@
 package classfile
 
-//import "fmt"
-
 type ConstantPool struct {
-    //cpCount uint
     cpInfos []ConstantInfo
 }
 
 func (self *ConstantPool) read(reader *ClassReader) {
-    cpCount := reader.readUint16()
+    cpCount := int(reader.readUint16())
     self.cpInfos = make([]ConstantInfo, cpCount)
 
     // The constant_pool table is indexed from 1 to constant_pool_count - 1. 
-    for i := uint16(1); i < cpCount; i++ {
+    for i := 1; i < cpCount; i++ {
         tag := reader.readUint8()
         c := newConstantInfo(tag, self)
         c.readInfo(reader)

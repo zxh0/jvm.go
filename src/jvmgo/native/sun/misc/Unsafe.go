@@ -10,11 +10,12 @@ import (
 var _allocatedMemories = map[int64][]byte{}
 
 func init() {
-    _unsafe(addressSize,        "addressSize",          "()I")
-    _unsafe(arrayBaseOffset,    "arrayBaseOffset",      "(Ljava/lang/Class;)I")
-    _unsafe(arrayIndexScale,    "arrayIndexScale",      "(Ljava/lang/Class;)I")
-    _unsafe(compareAndSwapInt,  "compareAndSwapInt",    "(Ljava/lang/Object;JII)Z")
-    _unsafe(objectFieldOffset,  "objectFieldOffset",    "(Ljava/lang/reflect/Field;)J")
+    _unsafe(addressSize,            "addressSize",              "()I")
+    _unsafe(arrayBaseOffset,        "arrayBaseOffset",          "(Ljava/lang/Class;)I")
+    _unsafe(arrayIndexScale,        "arrayIndexScale",          "(Ljava/lang/Class;)I")
+    _unsafe(compareAndSwapInt,      "compareAndSwapInt",        "(Ljava/lang/Object;JII)Z")
+    _unsafe(ensureClassInitialized, "ensureClassInitialized",   "(Ljava/lang/Class;)V")
+    _unsafe(objectFieldOffset,      "objectFieldOffset",        "(Ljava/lang/reflect/Field;)J")
 }
 
 func _unsafe(method Any, name, desc string) {
@@ -79,11 +80,12 @@ func ensureClassInitialized(frame *rtda.Frame) {
 
     goClass := classObj.Extra().(*rtc.Class)
     if goClass.InitializationNotStarted() {
-        thread := frame.Thread()
         // undo ensureClassInitialized()
+        frame.RevertNextPC()
         stack.PushRef(this)
         stack.PushRef(classObj)
-        frame.SetNextPC(thread.PC())
+        // init
+        rtda.InitClass(goClass, frame.Thread())
     }
 }
 

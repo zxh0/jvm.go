@@ -37,6 +37,7 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
     }
 
     // exec main()
+    thread.PopFrame()
     mainClass := _classLoader.LoadClass(_mainClassName)
     mainMethod := mainClass.GetMainMethod()
     if mainMethod != nil {

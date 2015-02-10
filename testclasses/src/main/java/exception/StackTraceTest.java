@@ -15,6 +15,10 @@ public class StackTraceTest {
     }
     
     private static void bar() {
+        bad();
+    }
+    
+    private static void bad() {
         throw new RuntimeException("BAD!");
     }
     

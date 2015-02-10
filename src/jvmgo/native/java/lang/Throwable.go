@@ -17,6 +17,13 @@ func _throwable(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
 }
 
+type StackTraceElement struct {
+    declaringClass  string
+    methodName      string
+    fileName        string
+    lineNumber      int32
+}
+
 // private native Throwable fillInStackTrace(int dummy);
 // (I)Ljava/lang/Throwable;
 func fillInStackTrace(frame *rtda.Frame) {

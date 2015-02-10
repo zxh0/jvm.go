@@ -25,61 +25,74 @@ func fillInStackTrace(frame *rtda.Frame) {
     this := stack.PopRef() // this
     stack.PushRef(this)
 
-//     thread := frame.Thread()
-//     depth := thread.StackDepth()
+    thread := frame.Thread()
+    depth := thread.StackDepth()
+
+    stes := make([]*StackTraceElement, depth)
+    for i := uint(0); i < depth; i++ {
+        frameN := thread.TopFrameN(i)
+        methodN := frameN.Method()
+        classN := methodN.Class()
+
+        stes[i] = &StackTraceElement{
+            declaringClass: classN.Name(),
+            methodName:     methodN.Name(),
+            fileName:       classN.SourceFile(),
+            lineNumber:     int32(-1), // todo
+        }
+    }
+    this.SetExtra(stes)
+    
 //     
 //     steArrObj := steClass.NewArray(depth)
 //     this.SetFieldValue("stackTrace", "[Ljava/lang/StackTraceElement;", steArrObj)
 // st:= this.GetFieldValue("stackTrace", "[Ljava/lang/StackTraceElement;").(*rtc.Obj)
 // fmt.Printf("#@@@@@:%v\n", st)
 //     stes := steArrObj.Fields().([]*rtc.Obj)
-//     for i := uint(0); i < depth; i++ {
-//         frameN := thread.TopFrameN(i)
-//         stes[i] = createStackTraceElement(frameN, steClass)
-//     }
 }
 
 // native int getStackTraceDepth();
 // ()I
 func getStackTraceDepth(frame *rtda.Frame) {
     stack := frame.OperandStack()
-    stack.PopRef() // this
+    this := stack.PopRef()
 
-    depth := frame.Thread().StackDepth()
-    stack.PushInt(int32(depth))
+    stes := this.Extra().([]*StackTraceElement)
+    depth := int32(len(stes))
+    stack.PushInt(depth)
 }
 
 // native StackTraceElement getStackTraceElement(int index);
 // (I)Ljava/lang/StackTraceElement;
 func getStackTraceElement(frame *rtda.Frame) {
     stack := frame.OperandStack()
-    index := uint(stack.PopInt())
-    stack.PopRef() // this
+    index := stack.PopInt()
+    this := stack.PopRef()
 
-    frameN := frame.Thread().TopFrameN(index)
-    steObj := createStackTraceElement(frameN)
+    stes := this.Extra().([]*StackTraceElement)
+    ste := stes[index]
+
+    steObj := createStackTraceElementObj(ste, frame)
     stack.PushRef(steObj)
 }
 
-func createStackTraceElement(frame *rtda.Frame) (*rtc.Obj) {
-    method := frame.Method()
-    class := method.Class()
-
-    declaringClass := rtda.NewJString(class.Name(), frame)
-    methodName := rtda.NewJString(method.Name(), frame)
-    fileName := rtda.NewJString(class.SourceFile(), frame)
-    lineNumber := int32(-1) // todo
+func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) (*rtc.Obj) {
+    declaringClass := rtda.NewJString(ste.declaringClass, frame)
+    methodName := rtda.NewJString(ste.methodName, frame)
+    fileName := rtda.NewJString(ste.fileName, frame)
+    lineNumber := ste.lineNumber
 
     /*
     public StackTraceElement(String declaringClass, String methodName,
             String fileName, int lineNumber)
     */
     steClass := frame.GetClassLoader().LoadClass("java/lang/StackTraceElement")
-    ste := steClass.NewObj()
-    ste.SetFieldValue("declaringClass", "Ljava/lang/String;",   declaringClass)
-    ste.SetFieldValue("methodName",     "Ljava/lang/String;",   methodName)
-    ste.SetFieldValue("fileName",       "Ljava/lang/String;",   fileName)
-    ste.SetFieldValue("lineNumber",     "I",                    lineNumber)
+    steObj := steClass.NewObj()
+    // todo: call <init>
+    steObj.SetFieldValue("declaringClass",  "Ljava/lang/String;",   declaringClass)
+    steObj.SetFieldValue("methodName",      "Ljava/lang/String;",   methodName)
+    steObj.SetFieldValue("fileName",        "Ljava/lang/String;",   fileName)
+    steObj.SetFieldValue("lineNumber",      "I",                    lineNumber)
 
-    return ste
+    return steObj
 }

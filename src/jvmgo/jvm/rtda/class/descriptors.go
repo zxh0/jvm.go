@@ -5,11 +5,6 @@ type MethodDescriptor struct {
     returnType      *FieldType
 }
 
-func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
-    parser := newMemberDescriptorParser(descriptor)
-    return parser.parse()
-}
-
 func (self *MethodDescriptor) ParameterTypes() ([]*FieldType) {
     return self.parameterTypes
 }

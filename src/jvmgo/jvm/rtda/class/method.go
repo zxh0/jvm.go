@@ -2,6 +2,7 @@ package class
 
 import (
     "fmt"
+    "strings"
     . "jvmgo/any"
     cf "jvmgo/classfile"
 )
@@ -83,7 +84,7 @@ func (self *Method) ActualArgCount() (uint) {
 }
 
 func (self *Method) IsVoidReturnType() bool {
-    return isVoidReturnType(self.descriptor)
+    return strings.HasSuffix(self.descriptor, ")V")
 }
 
 func (self *Method) isConstructor() (bool) {

@@ -10,8 +10,13 @@ type MemberDescriptorParser struct {
     md          *MethodDescriptor
 }
 
-func newMemberDescriptorParser(descriptor string) (*MemberDescriptorParser) {
-    return &MemberDescriptorParser{descriptor: descriptor}
+func calcArgCount(descriptor string) (uint) {
+    return parseMethodDescriptor(descriptor).argCount()
+}
+
+func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
+    parser := &MemberDescriptorParser{descriptor: descriptor}
+    return parser.parse()
 }
 
 func (self *MemberDescriptorParser) parse() (*MethodDescriptor) {

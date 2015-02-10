@@ -16,7 +16,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
 
     classLoader := goClass.ClassLoader()
     fieldClass := classLoader.LoadClass("java/lang/reflect/Field")
-    count := len(goFields)
+    count := uint(len(goFields))
     fieldArr := rtc.NewRefArray(fieldClass, count)
     stack.PushRef(fieldArr)
 

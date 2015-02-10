@@ -14,7 +14,7 @@ const (
     AT_NOT_ARRAY = 101 // not jvm spec
 )
 
-func NewPrimitiveArray(atype uint8, count int32, classLoader *ClassLoader) (*Obj) {
+func NewPrimitiveArray(atype uint8, count uint, classLoader *ClassLoader) (*Obj) {
     switch atype {
     case AT_BOOLEAN: return &Obj{classLoader.getClass("[Z"), make([]int8, count),      nil}
     case AT_BYTE:    return &Obj{classLoader.getClass("[B"), make([]int8, count),      nil}
@@ -32,7 +32,7 @@ func NewCharArray(chars []uint16, classLoader *ClassLoader) (*Obj) {
     return &Obj{classLoader.getClass("[C"), chars, nil}
 }
 
-func NewRefArray(componentClass *Class, count int) (*Obj) {
+func NewRefArray(componentClass *Class, count uint) (*Obj) {
     arrClass := componentClass.getArrayClass()
     components := make([]*Obj, count)
     return &Obj{arrClass, components, nil}

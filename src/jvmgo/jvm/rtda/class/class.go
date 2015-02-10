@@ -125,7 +125,7 @@ func (self *Class) NewObj() (*Obj) {
         return &Obj{self, nil, nil}
     }
 }
-func (self *Class) NewArray(count int) (*Obj) {
+func (self *Class) NewArray(count uint) (*Obj) {
     return NewRefArray(self, count)
 }
 

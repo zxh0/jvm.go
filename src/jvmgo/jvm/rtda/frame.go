@@ -23,6 +23,9 @@ func newFrame(thread *Thread, method *rtc.Method) (*Frame) {
 }
 
 // getters & setters
+func (self *Frame) Lower() (*Frame) {
+    return self.lower
+}
 func (self *Frame) Thread() (*Thread) {
     return self.thread
 }
@@ -47,4 +50,8 @@ func (self *Frame) SetOnPopAction(f func()) {
 
 func (self*Frame) RevertNextPC() {
     self.nextPC = self.thread.pc
+}
+
+func (self *Frame) GetClassLoader() (*rtc.ClassLoader) {
+    return self.method.Class().ClassLoader()
 }

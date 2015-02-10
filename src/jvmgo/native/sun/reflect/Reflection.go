@@ -21,7 +21,7 @@ func _reflection(method Any, name, desc string) {
 func getCallerClass(frame *rtda.Frame) {
     stack := frame.OperandStack()
     i := uint(stack.PopInt())
-    callerClass := frame.Thread().TopNFrame(i).Method().Class().JClass()
+    callerClass := frame.Thread().TopFrameN(i).Method().Class().JClass()
     stack.PushRef(callerClass)
 }
 

@@ -45,6 +45,9 @@ func (self *Thread) SetJThread(jThread *rtc.Obj) {
 func (self *Thread) IsStackEmpty() (bool) {
     return self.stack.isEmpty()
 }
+func (self *Thread) StackDepth() uint {
+    return self.stack.size
+}
 
 func (self *Thread) CurrentFrame() (*Frame) {
     return self.stack.top()
@@ -52,7 +55,7 @@ func (self *Thread) CurrentFrame() (*Frame) {
 func (self *Thread) TopFrame() (*Frame) {
     return self.stack.top()
 }
-func (self *Thread) TopNFrame(n uint) (*Frame) {
+func (self *Thread) TopFrameN(n uint) (*Frame) {
     return self.stack.topN(n)
 }
 

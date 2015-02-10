@@ -1,5 +1,7 @@
 package instructions
 
+import "jvmgo/util"
+
 // NoOperandsInstruction singletons
 var (
     _nop = &nop{}
@@ -149,6 +151,7 @@ var (
     _athrow = &athrow{}
     _monitorenter = &monitorenter{}
     _monitorexit = &monitorexit{}
+    _invoke_native = &invoke_native{}
 )
 
 func newInstruction(opcode byte) (Instruction) {
@@ -355,9 +358,10 @@ func newInstruction(opcode byte) (Instruction) {
     case 0xc8: return &goto_w{}
   //case 0xc9: return &jsr_w{}
   //case 0xca: return &breakpoint{}
-  //case 0xfe: return &impdep1{}
+    case 0xfe: return _invoke_native // impdep1
     case 0xff: return &bootstrap{} // impdep2
-    // todo
-    default: panic("BAD opcode!")
+    default: 
+        util.Panicf("BAD opcode: %v!", opcode)
+        return nil
     }
 }

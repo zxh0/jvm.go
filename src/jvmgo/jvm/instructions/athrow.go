@@ -34,6 +34,5 @@ func (self *athrow) Execute(frame *rtda.Frame) {
         }
     }
 
-    // todo
-    panic("todo athrow!" + ex.Class().Name())
+    thread.HandleUncaughtException(ex)
 }

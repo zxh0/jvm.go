@@ -125,3 +125,17 @@ func (self *Thread) InvokeMethod2(method * rtc.Method) (*LocalVars) {
 //     self.PushFrame(frame)
 //     return frame
 // }
+
+func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
+    self.stack.clear()
+    sysClass := ex.Class().ClassLoader().LoadClass("java/lang/System")
+    sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").(*rtc.Obj)
+    printStackTrace := ex.Class().GetMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
+
+    // call ex.printStackTrace(System.err)
+    newFrame := self.NewFrame(printStackTrace)
+    vars := newFrame.localVars
+    vars.SetRef(0, ex)
+    vars.SetRef(1, sysErr)
+    self.PushFrame(newFrame)
+}

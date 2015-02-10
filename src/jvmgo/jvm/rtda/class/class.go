@@ -82,9 +82,11 @@ func (self *Class) getField(name, descriptor string, isStatic bool) (*Field) {
     return nil
 }
 func (self *Class) GetMethod(name, descriptor string) (*Method) {
-    for _, method := range self.methods {
-        if method.name == name && method.descriptor == descriptor {
-            return method
+    for k := self; k != nil; k = k.superClass {
+        for _, method := range k.methods {
+            if method.name == name && method.descriptor == descriptor {
+                return method
+            }
         }
     }
     // todo

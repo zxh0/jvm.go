@@ -14,6 +14,7 @@ const (
 type Class struct {
     constantPool        *ConstantPool
     AccessFlags
+    sourceFile          string
     name                string // thisClassName
     superClassName      string
     interfaceNames      []string

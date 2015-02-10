@@ -23,9 +23,6 @@ func newFrame(thread *Thread, method *rtc.Method) (*Frame) {
 }
 
 // getters & setters
-func (self *Frame) Lower() (*Frame) {
-    return self.lower
-}
 func (self *Frame) Thread() (*Thread) {
     return self.thread
 }

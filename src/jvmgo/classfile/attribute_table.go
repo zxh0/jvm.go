@@ -13,3 +13,13 @@ func (self *AttributeTable) CodeAttribute() (*CodeAttribute) {
     // todo
     return nil
 }
+
+func (self *AttributeTable) SourceFileAttribute() (*SourceFileAttribute) {
+    for _, attrInfo := range self.attributes {
+        switch attrInfo.(type) {
+            case *SourceFileAttribute: return attrInfo.(*SourceFileAttribute)
+        }
+    }
+    // todo
+    return nil
+}

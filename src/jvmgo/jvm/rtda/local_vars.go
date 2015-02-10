@@ -30,6 +30,10 @@ func (self *LocalVars) SetRef(index uint, ref *rtc.Obj) {
     self.slots[index] = ref
 }
 
+func (self *LocalVars) GetBoolean(index uint) bool {
+    return self.GetInt(index) == 1
+}
+
 func (self *LocalVars) GetInt(index uint) (int32) {
     return self.slots[index].(int32)
 }
@@ -58,6 +62,9 @@ func (self *LocalVars) SetDouble(index uint, val float64) {
     self.slots[index] = val
 }
 
+func (self *LocalVars) Get(index uint) Any {
+    return self.slots[index]
+}
 func (self *LocalVars) Set(index uint, any Any) {
     self.slots[index] = any
 }

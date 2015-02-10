@@ -19,12 +19,14 @@ func _ac(method Any, name, desc string) {
 
 // public static native <T> T doPrivileged(PrivilegedAction<T> action);
 // (Ljava/security/PrivilegedAction;)Ljava/lang/Object;
-func doPrivileged(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    action := stack.PopRef()
+func doPrivileged(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    action := vars.GetRef(0)
+
     methodref := action.Class().ConstantPool().GetMethodref("run") // todo
     method := methodref.VirtualMethod(action)
 
+    stack := frame.OperandStack()
     stack.PushRef(action)
     frame.Thread().InvokeMethod(method)
 }

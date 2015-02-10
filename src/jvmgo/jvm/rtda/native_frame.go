@@ -18,16 +18,13 @@ func newNativeFrame(thread *Thread, method *rtc.Method) (*Frame) {
     frame := &Frame{}
     frame.thread = thread
     frame.method = method
-    frame.localVars = newLocalVars(method.ActualArgCount())
+    frame.localVars = newLocalVars(method.ActualArgCount() * 2) // todo
+    frame.operandStack = newOperandStack(4) // todo
 
     code := method.Code()
     if code == nil {
         code = getHackCode(method.Descriptor())
         method.SetCode(code)
-    }
-
-    if code[1] != 0xb1 { // return type is not void
-        frame.operandStack = newOperandStack(1)
     }
 
     return frame

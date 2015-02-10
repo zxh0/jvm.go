@@ -15,17 +15,15 @@ func init() {
 
 // public native void ensureClassInitialized(Class<?> c);
 // (Ljava/lang/Class;)V
-func ensureClassInitialized(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    classObj := stack.PopRef()
-    this := stack.PopRef()
+func ensureClassInitialized(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    // this := vars.GetRef(0)
+    classObj := vars.GetRef(1)
 
     goClass := classObj.Extra().(*rtc.Class)
     if goClass.InitializationNotStarted() {
         // undo ensureClassInitialized()
         frame.RevertNextPC()
-        stack.PushRef(this)
-        stack.PushRef(classObj)
         // init
         rtda.InitClass(goClass, frame.Thread())
     }
@@ -33,25 +31,28 @@ func ensureClassInitialized(frame *rtda.Frame) {
 
 // public native long staticFieldOffset(Field f);
 // (Ljava/lang/reflect/Field;)J
-func staticFieldOffset(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    fieldObj := stack.PopRef()
-    stack.PopRef() // this
+func staticFieldOffset(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    // vars.GetRef(0) // this
+    fieldObj := vars.GetRef(1)
 
     offset := fieldObj.GetFieldValue("slot", "I").(int32)
+    stack := frame.OperandStack()
     stack.PushLong(int64(offset))
 }
 
 // public native Object staticFieldBase(Field f);
 // (Ljava/lang/reflect/Field;)Ljava/lang/Object;
-func staticFieldBase(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    fieldObj := stack.PopRef()
-    stack.PopRef() // this
+func staticFieldBase(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    // vars.GetRef(0) // this
+    fieldObj := vars.GetRef(1)
 
     goField := getExtra(fieldObj)
     goClass := goField.Class()
     obj := goClass.AsObj()
+
+    stack := frame.OperandStack()
     stack.PushRef(obj)
 }
 

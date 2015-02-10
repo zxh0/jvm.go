@@ -18,19 +18,20 @@ func _ncai(method Any, name, desc string) {
 // private static native Object newInstance0(Constructor<?> c, Object[] os)
 // throws InstantiationException, IllegalArgumentException, InvocationTargetException;
 // (Ljava/lang/reflect/Constructor;[Ljava/lang/Object;)Ljava/lang/Object;
-func newInstance0(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    argArrObj := stack.PopRef()
-    constructorObj := stack.PopRef()
+func newInstance0(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    constructorObj := vars.GetRef(0)
+    argArrObj := vars.GetRef(1)
 
     goConstructor := getExtra(constructorObj)
     goClass := goConstructor.Class()
     obj := goClass.NewObj()
+    stack := frame.OperandStack()
     stack.PushRef(obj)
 
     // call <init>
-    vars := frame.Thread().InvokeMethod2(goConstructor)
-    vars.SetRef(0, obj) // this
+    vars2 := frame.Thread().InvokeMethod2(goConstructor)
+    vars2.SetRef(0, obj) // this
     if goConstructor.ArgCount() > 0 {
         paramTypes := goConstructor.MethodDescriptor().ParameterTypes()
         argObjs := argArrObj.Fields().([]*rtc.Obj)
@@ -41,12 +42,12 @@ func newInstance0(frame *rtda.Frame) {
             if paramType.IsBaseType() {
                 // todo
                 unboxed := unbox(argObj, paramType.Descriptor())
-                vars.Set(slot, unboxed)
+                vars2.Set(slot, unboxed)
                 if IsLongOrDouble(unboxed) {
                     j++
                 }
             } else {
-                vars.Set(slot, argObj)
+                vars2.Set(slot, argObj)
             }
         }
     }

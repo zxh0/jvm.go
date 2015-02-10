@@ -10,10 +10,10 @@ import (
 
 // private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Constructor;
-func getDeclaredConstructors0(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    publicOnly := stack.PopBoolean()
-    jClass := stack.PopRef() // this
+func getDeclaredConstructors0(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    jClass := vars.GetRef(0) // this
+    publicOnly := vars.GetBoolean(1)
 
     goClass := jClass.Extra().(*rtc.Class)
     goConstructors := goClass.GetConstructors(publicOnly)
@@ -22,6 +22,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
     constructorClass := goClass.ClassLoader().LoadClass("java/lang/reflect/Constructor")
     constructorInitMethod := constructorClass.GetConstructor("(Ljava/lang/Class;[Ljava/lang/Class;[Ljava/lang/Class;IILjava/lang/String;[B[B)V")
     constructorArr := constructorClass.NewArray(constructorCount)
+    stack := frame.OperandStack()
     stack.PushRef(constructorArr)
 
     if constructorCount > 0 {

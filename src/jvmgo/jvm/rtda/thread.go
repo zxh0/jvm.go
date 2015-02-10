@@ -72,7 +72,11 @@ func (self *Thread) PopFrame() (*Frame) {
 }
 
 func (self *Thread) NewFrame(method *rtc.Method) (*Frame) {
-    return newFrame(self, method)
+    if method.IsNative() {
+        return newNativeFrame(self, method)
+    } else {
+        return newFrame(self, method)
+    }
 }
 
 

@@ -16,9 +16,11 @@ func (self *invokespecial) Execute(frame *rtda.Frame) {
 
     if method.IsNative() {
         // exec native method
-        nativeMethod := method.NativeMethod().(func(*rtda.Frame))
-        nativeMethod(frame)
-        return
+        nativeMethod, ok := method.NativeMethod().(func(*rtda.Frame))
+        if ok {
+            nativeMethod(frame)
+            return
+        }
     }
 
     thread.InvokeMethod(method)

@@ -19,27 +19,32 @@ func _object(method Any, name, desc string) {
 
 // protected native Object clone() throws CloneNotSupportedException;
 // ()Ljava/lang/Object;
-func clone(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    this := stack.PopRef()
+func clone(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    this := vars.GetRef(0)
     // todo
+    stack := frame.OperandStack()
     stack.PushRef(this)
 }
 
 // public final native Class<?> getClass();
 // ()Ljava/lang/Class;
-func getClass(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    this := stack.PopRef()
+func getClass(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    this := vars.GetRef(0)
+
     class := this.Class().JClass()
+    stack := frame.OperandStack()
     stack.PushRef(class)
 }
 
 // public native int hashCode();
 // ()I
-func hashCode(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    this := stack.PopRef()
+func hashCode(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    this := vars.GetRef(0)
+
     hash := int32(uintptr(unsafe.Pointer(this)))
+    stack := frame.OperandStack()
     stack.PushInt(hash)
 }

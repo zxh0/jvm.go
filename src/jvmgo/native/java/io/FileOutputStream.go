@@ -25,13 +25,13 @@ func fos_initIDs(frame *rtda.Frame) {
 
 // private native void writeBytes(byte b[], int off, int len, boolean append) throws IOException;
 // ([BIIZ)V
-func writeBytes(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    stack.PopBoolean() // append
-    length := stack.PopInt() // len
-    offset := stack.PopInt() // off
-    byteArrObj := stack.PopRef() // b
-    fosObj := stack.PopRef() // this
+func writeBytes(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    fosObj := vars.GetRef(0) // this
+    byteArrObj := vars.GetRef(1) // b
+    offset := vars.GetInt(2) // off
+    length := vars.GetInt(3) // len
+    //vars.GetBoolean(4) // append
 
     fdObj := fosObj.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Obj)
     if fdObj.Extra() == nil {

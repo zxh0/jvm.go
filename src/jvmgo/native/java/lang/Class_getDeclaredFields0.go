@@ -7,10 +7,11 @@ import (
 
 // private native Field[] getDeclaredFields0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Field;
-func getDeclaredFields0(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    publicOnly := stack.PopBoolean()
-    jClass := stack.PopRef() // this
+func getDeclaredFields0(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    jClass := vars.GetRef(0) // this
+    publicOnly := vars.GetBoolean(1)
+    
     goClass := jClass.Extra().(*rtc.Class)
     goFields := goClass.GetFields(publicOnly)
 
@@ -18,6 +19,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
     fieldClass := classLoader.LoadClass("java/lang/reflect/Field")
     count := uint(len(goFields))
     fieldArr := rtc.NewRefArray(fieldClass, count)
+    stack := frame.OperandStack()
     stack.PushRef(fieldArr)
 
     if count > 0 {

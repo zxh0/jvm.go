@@ -22,9 +22,11 @@ func (self *invokevirtual) Execute(frame *rtda.Frame) {
 
     method := cMethodRef.VirtualMethod(ref.(*rtc.Obj))
     if method.IsNative() {
-        nativeMethod := method.NativeMethod().(func(*rtda.Frame))
-        nativeMethod(frame)
-    } else {
-        thread.InvokeMethod(method)
+        nativeMethod, ok := method.NativeMethod().(func(*rtda.Frame))
+        if ok {
+            nativeMethod(frame)
+            return
+        }
     }
+    thread.InvokeMethod(method)
 }

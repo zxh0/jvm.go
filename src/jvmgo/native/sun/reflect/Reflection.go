@@ -18,19 +18,24 @@ func _reflection(method Any, name, desc string) {
 
 // public static native Class<?> getCallerClass(int i);
 // (I)Ljava/lang/Class;
-func getCallerClass(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    i := uint(stack.PopInt())
+func getCallerClass(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    i := uint(vars.GetInt(0))
+
     callerClass := frame.Thread().TopFrameN(i).Method().Class().JClass()
+    stack := frame.OperandStack()
     stack.PushRef(callerClass)
 }
 
 // public static native int getClassAccessFlags(Class<?> type);
 // (Ljava/lang/Class;)I
-func getClassAccessFlags(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    _type := stack.PopRef()
+func getClassAccessFlags(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    _type := vars.GetRef(0)
+
     goClass := _type.Extra().(*rtc.Class)
     flags := goClass.GetAccessFlags()
+
+    stack := frame.OperandStack()
     stack.PushInt(int32(flags))
 }

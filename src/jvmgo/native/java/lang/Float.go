@@ -17,9 +17,11 @@ func _float(method Any, name, desc string) {
 
 // public static native int floatToRawIntBits(float value);
 // (F)I
-func floatToRawIntBits(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    value := stack.PopFloat()
+func floatToRawIntBits(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    value := vars.GetFloat(0)
     bits := math.Float32bits(value)
+
+    stack := frame.OperandStack()
     stack.PushInt(int32(bits)) // todo
 }

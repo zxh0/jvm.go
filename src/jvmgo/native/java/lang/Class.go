@@ -30,20 +30,20 @@ func _class(method Any, name, desc string) {
 
 // private static native boolean desiredAssertionStatus0(Class<?> clazz);
 // (Ljava/lang/Class;)Z
-func desiredAssertionStatus0(frame *rtda.Frame) {
+func desiredAssertionStatus0(frame *rtda.Frame, x int) {
     // todo
     stack := frame.OperandStack()
-    _ = stack.PopRef() // this
+    //stack.PopRef() // this
     stack.PushBoolean(false)
 }
 
 // private static native Class<?> forName0(String name, boolean initialize, ClassLoader loader) throws ClassNotFoundException;
 // (Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;
-func forName0(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    jLoader := stack.PopRef()
-    initialize := stack.PopBoolean()
-    jName := stack.PopRef()
+func forName0(frame *rtda.Frame, x int) {
+    vars := frame.LocalVars()
+    jName := vars.GetRef(0)
+    initialize := vars.GetBoolean(1)
+    //jLoader := vars.GetRef(2)
 
     goName := rtda.GoString(jName)
     goName = strings.Replace(goName, ".", "/", -1)
@@ -54,12 +54,10 @@ func forName0(frame *rtda.Frame) {
         // undo forName0
         thread := frame.Thread()
         frame.SetNextPC(thread.PC())
-        stack.PushRef(jName)
-        stack.PushBoolean(initialize)
-        stack.PushRef(jLoader)
         // init class
         rtda.InitClass(goClass, thread)
     } else {
+        stack := frame.OperandStack()
         stack.PushRef(jClass)
     }
 }

@@ -81,10 +81,13 @@ func (self *Class) getField(name, descriptor string, isStatic bool) (*Field) {
     // todo
     return nil
 }
-func (self *Class) GetMethod(name, descriptor string) (*Method) {
+func (self *Class) getMethod(name, descriptor string, isStatic bool) (*Method) {
     for k := self; k != nil; k = k.superClass {
         for _, method := range k.methods {
-            if method.name == name && method.descriptor == descriptor {
+            if method.IsStatic() == isStatic &&
+                    method.name == name &&
+                    method.descriptor == descriptor {
+
                 return method
             }
         }
@@ -107,12 +110,10 @@ func (self *Class) GetClinitMethod() (*Method) {
     return self.GetStaticMethod(clinitMethodName, clinitMethodDesc)
 }
 func (self *Class) GetStaticMethod(name, descriptor string) (*Method) {
-    method := self.GetMethod(name, descriptor)
-    if method != nil && method.IsStatic() {
-        return method
-    } else {
-        return nil
-    }
+    return self.getMethod(name, descriptor, true)
+}
+func (self *Class) GetInstanceMethod(name, descriptor string) (*Method) {
+    return self.getMethod(name, descriptor, false)
 }
 
 func (self *Class) getArrayClass() (*Class) {

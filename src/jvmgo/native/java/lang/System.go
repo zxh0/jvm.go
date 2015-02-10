@@ -78,7 +78,7 @@ func initProperties(frame *rtda.Frame) {
     props := stack.PopRef()
     stack.PushRef(props)
     // public synchronized Object setProperty(String key, String value)
-    setPropMethod := props.Class().GetMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
+    setPropMethod := props.Class().GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
     thread := frame.Thread()
     for key, val := range _props() {
         jKey := rtda.NewJString(key, frame)

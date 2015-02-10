@@ -82,7 +82,7 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         undoExec(thread)
         threadGroupClass := _classLoader.LoadClass("java/lang/ThreadGroup")
         _mainThreadGroup = threadGroupClass.NewObj()
-        initMethod := threadGroupClass.GetMethod("<init>", "()V")
+        initMethod := threadGroupClass.GetConstructor("()V")
         stack.PushRef(_mainThreadGroup) // this
         thread.InvokeMethod(initMethod)
         return false
@@ -99,7 +99,7 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         threadClass.GetInstanceField("priority", "I").PutValue(mainThread, int32(1))
         thread.SetJThread(mainThread)
 
-        initMethod := threadClass.GetMethod("<init>", "(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
+        initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
         stack.PushRef(mainThread) // this
         stack.PushRef(_mainThreadGroup) // group
         stack.PushRef(_mainThreadName) // name

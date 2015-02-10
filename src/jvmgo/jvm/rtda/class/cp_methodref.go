@@ -35,8 +35,8 @@ func (self *ConstantMethodref) StaticMethod() (*Method) {
     return self.method
 }
 func (self *ConstantMethodref) resolveStaticMethod() {
-    method := self.findMethod(self.className)
-    if method != nil && method.IsStatic() {
+    method := self.findMethod(self.className, true)
+    if method != nil {
         if method.IsNative() && method.nativeMethod == nil {
             method.nativeMethod = findNativeMethod(method)
         }
@@ -54,8 +54,8 @@ func (self *ConstantMethodref) SpecialMethod() (*Method) {
     return self.method
 }
 func (self *ConstantMethodref) resolveSpecialMethod() {
-    method := self.findMethod(self.className)
-    if method != nil && !method.IsStatic() {
+    method := self.findMethod(self.className, false)
+    if method != nil {
         if method.IsNative() && method.nativeMethod == nil {
             method.nativeMethod = findNativeMethod(method)
         }
@@ -66,9 +66,9 @@ func (self *ConstantMethodref) resolveSpecialMethod() {
     }
 }
 
-func (self *ConstantMethodref) findMethod(className string) (*Method) {
+func (self *ConstantMethodref) findMethod(className string, isStatic bool) (*Method) {
     class := self.cp.class.classLoader.LoadClass(className)
-    return class.GetMethod(self.name, self.descriptor)
+    return class.getMethod(self.name, self.descriptor, isStatic)
 }
 
 // todo
@@ -77,7 +77,7 @@ func (self *ConstantMethodref) VirtualMethod(ref *Obj) (*Method) {
 }
 func (self *ConstantMethodref) findVirtualMethod(ref *Obj) (*Method) {
     for class := ref.class; class != nil; class = class.superClass {
-        method := class.GetMethod(self.name, self.descriptor)
+        method := class.getMethod(self.name, self.descriptor, false)
         if method != nil && !method.IsStatic() {
             if method.IsNative() && method.nativeMethod == nil {
                 method.nativeMethod = findNativeMethod(method)

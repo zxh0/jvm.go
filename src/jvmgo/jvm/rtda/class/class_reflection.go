@@ -52,12 +52,7 @@ func (self *Class) GetConstructors(publicOnly bool) ([]*Method) {
 }
 
 func (self *Class) GetConstructor(descriptor string) (*Method) {
-    method := self.GetMethod(constructorName, descriptor)
-    if method != nil && !method.IsStatic() {
-        return method
-    } else {
-        return nil
-    }
+    return self.GetInstanceMethod(constructorName, descriptor)
 }
 
 func (self *Class) GetDefaultConstructor() (*Method) {

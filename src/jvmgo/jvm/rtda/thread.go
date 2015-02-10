@@ -130,7 +130,7 @@ func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
     self.stack.clear()
     sysClass := ex.Class().ClassLoader().LoadClass("java/lang/System")
     sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").(*rtc.Obj)
-    printStackTrace := ex.Class().GetMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
+    printStackTrace := ex.Class().GetInstanceMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
 
     // call ex.printStackTrace(System.err)
     newFrame := self.NewFrame(printStackTrace)
@@ -138,4 +138,7 @@ func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
     vars.SetRef(0, ex)
     vars.SetRef(1, sysErr)
     self.PushFrame(newFrame)
+
+    //
+    // printString := sysErr.Class().GetInstanceMethod()
 }

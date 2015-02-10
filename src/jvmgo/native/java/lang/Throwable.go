@@ -25,6 +25,11 @@ func fillInStackTrace(frame *rtda.Frame) {
     this := stack.PopRef() // this
     stack.PushRef(this)
 
+    stes := createStackTraceElements(frame)
+    this.SetExtra(stes)
+}
+
+func createStackTraceElements(frame *rtda.Frame) ([]*StackTraceElement) {
     thread := frame.Thread()
     depth := thread.StackDepth()
 
@@ -41,14 +46,7 @@ func fillInStackTrace(frame *rtda.Frame) {
             lineNumber:     int32(-1), // todo
         }
     }
-    this.SetExtra(stes)
-    
-//     
-//     steArrObj := steClass.NewArray(depth)
-//     this.SetFieldValue("stackTrace", "[Ljava/lang/StackTraceElement;", steArrObj)
-// st:= this.GetFieldValue("stackTrace", "[Ljava/lang/StackTraceElement;").(*rtc.Obj)
-// fmt.Printf("#@@@@@:%v\n", st)
-//     stes := steArrObj.Fields().([]*rtc.Obj)
+    return stes
 }
 
 // native int getStackTraceDepth();

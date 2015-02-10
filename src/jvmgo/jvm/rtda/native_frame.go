@@ -7,6 +7,8 @@ func newNativeFrame(thread *Thread, method *rtc.Method) (*Frame) {
     frame.thread = thread
     frame.method = method
     frame.localVars = newLocalVars(method.ActualArgCount())
-    frame.operandStack = newOperandStack(method.MaxStack())
+    if !method.IsVoidReturnType() {
+        frame.operandStack = newOperandStack(1)
+    }
     return frame
 }

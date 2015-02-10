@@ -32,17 +32,7 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
     if !isMainThreadReady(thread) {
         return
     }
-    
-    // todo create PrintStream
-
-    // System.out
-    sysClass := _classLoader.LoadClass("java/lang/System")
-    propsField := sysClass.GetStaticField("props", "Ljava/util/Properties;")
-    props := propsField.GetStaticValue()
-    if props == nil {
-        undoExec(thread)
-        initSys := sysClass.GetStaticMethod("initializeSystemClass", "()V")
-        thread.InvokeMethod(initSys)
+    if !isSysClassInitialized(thread) {
         return
     }
 
@@ -113,6 +103,19 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         stack.PushRef(_mainThreadGroup) // group
         stack.PushRef(_mainThreadName) // name
         thread.InvokeMethod(initMethod)
+        return false
+    }
+    return true
+}
+
+func isSysClassInitialized(thread *rtda.Thread) bool {
+    sysClass := _classLoader.LoadClass("java/lang/System")
+    propsField := sysClass.GetStaticField("props", "Ljava/util/Properties;")
+    props := propsField.GetStaticValue()
+    if props == nil {
+        undoExec(thread)
+        initSys := sysClass.GetStaticMethod("initializeSystemClass", "()V")
+        thread.InvokeMethod(initSys)
         return false
     }
     return true

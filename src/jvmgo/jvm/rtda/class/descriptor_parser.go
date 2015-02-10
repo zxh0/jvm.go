@@ -10,15 +10,6 @@ type MemberDescriptorParser struct {
     md          *MethodDescriptor
 }
 
-func calcArgCount(descriptor string) (uint) {
-    return parseMethodDescriptor(descriptor).argCount()
-}
-
-func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
-    parser := &MemberDescriptorParser{descriptor: descriptor}
-    return parser.parse()
-}
-
 func (self *MemberDescriptorParser) parse() (*MethodDescriptor) {
     self.md = &MethodDescriptor{}
     self.startParams()
@@ -115,4 +106,14 @@ func (self *MemberDescriptorParser) parseArrayType() (*FieldType) {
     arrEnd := self.offset
     descriptor := self.descriptor[arrStart: arrEnd]
     return &FieldType{descriptor}
+}
+
+
+func calcArgCount(descriptor string) (uint) {
+    return parseMethodDescriptor(descriptor).argCount()
+}
+
+func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
+    parser := &MemberDescriptorParser{descriptor: descriptor}
+    return parser.parse()
 }

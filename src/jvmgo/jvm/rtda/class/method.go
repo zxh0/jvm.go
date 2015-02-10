@@ -53,7 +53,7 @@ func (self *Method) String() string {
     return fmt.Sprintf("{Method name:%v descriptor:%v}", self.name, self.descriptor)
 }
 
-// getters
+// getters & setters
 func (self *Method) MaxStack() (uint) {
     return self.maxStack
 }
@@ -65,6 +65,9 @@ func (self *Method) ArgCount() (uint) {
 }
 func (self *Method) Code() ([]byte) {
     return self.code
+}
+func (self *Method) SetCode(code []byte) {
+    self.code = code
 }
 func (self *Method) NativeMethod() (Any) {
     return self.nativeMethod

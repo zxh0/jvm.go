@@ -11,7 +11,3 @@ func TestCalcArgCount(t *testing.T) {
     AssertEquals(4, calcArgCount("([BIII)V"))
     AssertEquals(3, calcArgCount("(IDLjava/lang/Thread;)Ljava/lang/Object;"))
 }
-
-func TestGetReturnDescriptor(t *testing.T) {
-    AssertEquals("F", getReturnDescriptor("(I)F"))
-}

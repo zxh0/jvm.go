@@ -11,8 +11,12 @@ type OperandStack struct {
 }
 
 func newOperandStack(size uint) (*OperandStack) {
-    slots := make([]Any, size)
-    return &OperandStack{0, slots}
+    if size > 0 {
+        slots := make([]Any, size)
+        return &OperandStack{0, slots}
+    } else {
+        return nil
+    }
 }
 
 func (self *OperandStack) PushNull() {
@@ -41,13 +45,6 @@ func (self *OperandStack) PushBoolean(val bool) {
 func (self *OperandStack) PopBoolean() (bool) {
     return self.PopInt() == 1
 }
-
-// func (self *OperandStack) PushByte(val int8) {
-//     self.PushInt(int32(val))
-// }
-// func (self *OperandStack) PopByte() (int8) {
-//     return int8(self.PopInt())
-// }
 
 func (self *OperandStack) PushInt(val int32) {
     self.Push(val)

@@ -10,8 +10,12 @@ type LocalVars struct {
 }
 
 func newLocalVars(size uint) (*LocalVars) {
-    slots := make([]Any, size)
-    return &LocalVars{slots}
+    if size > 0 {
+        slots := make([]Any, size)
+        return &LocalVars{slots}
+    } else {
+        return nil
+    }
 }
 
 func (self *LocalVars) GetRef(index uint) (*rtc.Obj) {

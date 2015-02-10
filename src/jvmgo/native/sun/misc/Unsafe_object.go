@@ -14,7 +14,7 @@ func init() {
 
 // public native Object getObject(Object o, long offset);
 // (Ljava/lang/Object;J)Ljava/lang/Object;
-func getObject(frame *rtda.Frame, x int) {
+func getObject(frame *rtda.Frame) {
     vars := frame.LocalVars()
     // vars.GetRef(0) // this
     obj := vars.GetRef(1)
@@ -29,6 +29,6 @@ func getObject(frame *rtda.Frame, x int) {
 
 // public native Object getObjectVolatile(Object o, long offset);
 //(Ljava/lang/Object;J)Ljava/lang/Object;
-func getObjectVolatile(frame *rtda.Frame, x int) {
-    getObject(frame, x) // todo    
+func getObjectVolatile(frame *rtda.Frame) {
+    getObject(frame) // todo    
 }

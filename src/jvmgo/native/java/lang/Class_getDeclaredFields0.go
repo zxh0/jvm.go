@@ -7,7 +7,7 @@ import (
 
 // private native Field[] getDeclaredFields0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Field;
-func getDeclaredFields0(frame *rtda.Frame, x int) {
+func getDeclaredFields0(frame *rtda.Frame) {
     vars := frame.LocalVars()
     jClass := vars.GetRef(0) // this
     publicOnly := vars.GetBoolean(1)

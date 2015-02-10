@@ -26,7 +26,7 @@ type StackTraceElement struct {
 
 // private native Throwable fillInStackTrace(int dummy);
 // (I)Ljava/lang/Throwable;
-func fillInStackTrace(frame *rtda.Frame, x int) {
+func fillInStackTrace(frame *rtda.Frame) {
     vars := frame.LocalVars()
     this := vars.GetRef(0)
 
@@ -67,7 +67,7 @@ func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) ([]*StackTraceEl
 
 // native int getStackTraceDepth();
 // ()I
-func getStackTraceDepth(frame *rtda.Frame, x int) {
+func getStackTraceDepth(frame *rtda.Frame) {
     vars := frame.LocalVars()
     this := vars.GetRef(0)
 
@@ -80,7 +80,7 @@ func getStackTraceDepth(frame *rtda.Frame, x int) {
 
 // native StackTraceElement getStackTraceElement(int index);
 // (I)Ljava/lang/StackTraceElement;
-func getStackTraceElement(frame *rtda.Frame, x int) {
+func getStackTraceElement(frame *rtda.Frame) {
     vars := frame.LocalVars()
     this := vars.GetRef(0)
     index := vars.GetInt(1)

@@ -26,7 +26,7 @@ func currentThread(frame *rtda.Frame) {
 
 // public final native boolean isAlive();
 // ()Z
-func isAlive(frame *rtda.Frame, x int) {
+func isAlive(frame *rtda.Frame) {
     // todo
     stack := frame.OperandStack()
     stack.PushBoolean(false)
@@ -34,7 +34,7 @@ func isAlive(frame *rtda.Frame, x int) {
 
 // private native void setPriority0(int newPriority);
 // (I)V
-func setPriority0(frame *rtda.Frame, x int) {
+func setPriority0(frame *rtda.Frame) {
     // stack := frame.OperandStack()
     // /*newPriority := */stack.PopInt()
     // /*this := */stack.PopRef()
@@ -43,7 +43,7 @@ func setPriority0(frame *rtda.Frame, x int) {
 
 // private native void start0();
 // ()V
-func start0(frame *rtda.Frame, x int) {
+func start0(frame *rtda.Frame) {
     // stack := frame.OperandStack()
     // stack.PopRef() // this
     // todo

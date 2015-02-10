@@ -17,7 +17,7 @@ func _double(method Any, name, desc string) {
 
 // public static native long doubleToRawLongBits(double value);
 // (D)J
-func doubleToRawLongBits(frame *rtda.Frame, x int) {
+func doubleToRawLongBits(frame *rtda.Frame) {
     vars := frame.LocalVars()
     value := vars.GetDouble(0)
     bits := math.Float64bits(value)

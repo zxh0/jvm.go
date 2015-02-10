@@ -19,7 +19,7 @@ func _object(method Any, name, desc string) {
 
 // protected native Object clone() throws CloneNotSupportedException;
 // ()Ljava/lang/Object;
-func clone(frame *rtda.Frame, x int) {
+func clone(frame *rtda.Frame) {
     vars := frame.LocalVars()
     this := vars.GetRef(0)
     // todo
@@ -29,7 +29,7 @@ func clone(frame *rtda.Frame, x int) {
 
 // public final native Class<?> getClass();
 // ()Ljava/lang/Class;
-func getClass(frame *rtda.Frame, x int) {
+func getClass(frame *rtda.Frame) {
     vars := frame.LocalVars()
     this := vars.GetRef(0)
 
@@ -40,7 +40,7 @@ func getClass(frame *rtda.Frame, x int) {
 
 // public native int hashCode();
 // ()I
-func hashCode(frame *rtda.Frame, x int) {
+func hashCode(frame *rtda.Frame) {
     vars := frame.LocalVars()
     this := vars.GetRef(0)
 

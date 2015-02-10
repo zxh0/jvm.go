@@ -26,7 +26,7 @@ func _system(method Any, name, desc string) {
 
 // public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
 // (Ljava/lang/Object;ILjava/lang/Object;II)V
-func arraycopy(frame *rtda.Frame, x int) {
+func arraycopy(frame *rtda.Frame) {
     vars := frame.LocalVars()
     src := vars.GetRef(0)
     srcPos := vars.GetInt(1)
@@ -55,7 +55,7 @@ func arraycopy(frame *rtda.Frame, x int) {
 
 // public static native long currentTimeMillis();
 // ()J
-func currentTimeMillis(frame *rtda.Frame, x int) {
+func currentTimeMillis(frame *rtda.Frame) {
     millis := time.Now().UnixNano() / 1000
     stack := frame.OperandStack()
     stack.PushLong(millis)
@@ -63,7 +63,7 @@ func currentTimeMillis(frame *rtda.Frame, x int) {
 
 // public static native int identityHashCode(Object x);
 // (Ljava/lang/Object;)I
-func identityHashCode(frame *rtda.Frame, x int) {
+func identityHashCode(frame *rtda.Frame) {
     vars := frame.LocalVars()
     ref := vars.GetRef(0)
 
@@ -75,7 +75,7 @@ func identityHashCode(frame *rtda.Frame, x int) {
 
 // private static native Properties initProperties(Properties props);
 // (Ljava/util/Properties;)Ljava/util/Properties;
-func initProperties(frame *rtda.Frame, x int) {
+func initProperties(frame *rtda.Frame) {
     vars := frame.LocalVars()
     props := vars.GetRef(0)
 
@@ -115,7 +115,7 @@ func nanoTime(frame *rtda.Frame) {
 
 // private static native void setErr0(PrintStream err);
 // (Ljava/io/PrintStream;)V
-func setErr0(frame *rtda.Frame, x int) {
+func setErr0(frame *rtda.Frame) {
     vars := frame.LocalVars()
     err := vars.GetRef(0)
 
@@ -125,7 +125,7 @@ func setErr0(frame *rtda.Frame, x int) {
 
 // private static native void setIn0(InputStream in);
 // (Ljava/io/InputStream;)V
-func setIn0(frame *rtda.Frame, x int) {
+func setIn0(frame *rtda.Frame) {
     vars := frame.LocalVars()
     in := vars.GetRef(0)
 
@@ -135,7 +135,7 @@ func setIn0(frame *rtda.Frame, x int) {
 
 // private static native void setOut0(PrintStream out);
 // (Ljava/io/PrintStream;)V
-func setOut0(frame *rtda.Frame, x int) {
+func setOut0(frame *rtda.Frame) {
     vars := frame.LocalVars()
     out := vars.GetRef(0)
 

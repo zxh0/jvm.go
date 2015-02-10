@@ -25,7 +25,7 @@ func fos_initIDs(frame *rtda.Frame) {
 
 // private native void writeBytes(byte b[], int off, int len, boolean append) throws IOException;
 // ([BIIZ)V
-func writeBytes(frame *rtda.Frame, x int) {
+func writeBytes(frame *rtda.Frame) {
     vars := frame.LocalVars()
     fosObj := vars.GetRef(0) // this
     byteArrObj := vars.GetRef(1) // b

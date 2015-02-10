@@ -19,7 +19,7 @@ func _unsafe(method Any, name, desc string) {
 
 // public native int arrayBaseOffset(Class<?> type);
 // (Ljava/lang/Class;)I
-func arrayBaseOffset(frame *rtda.Frame, x int) {
+func arrayBaseOffset(frame *rtda.Frame) {
     vars := frame.LocalVars()
     vars.GetRef(0) // this
     vars.GetRef(1) // type
@@ -30,7 +30,7 @@ func arrayBaseOffset(frame *rtda.Frame, x int) {
 
 // public native int arrayIndexScale(Class<?> type);
 // (Ljava/lang/Class;)I
-func arrayIndexScale(frame *rtda.Frame, x int) {
+func arrayIndexScale(frame *rtda.Frame) {
     //stack.PopRef() // type
     //stack.PopRef() // this
 
@@ -40,7 +40,7 @@ func arrayIndexScale(frame *rtda.Frame, x int) {
 
 // public native long objectFieldOffset(Field field);
 // (Ljava/lang/reflect/Field;)J
-func objectFieldOffset(frame *rtda.Frame, x int) {
+func objectFieldOffset(frame *rtda.Frame) {
     vars := frame.LocalVars()
     // this := vars.GetRef(0)
     jField := vars.GetRef(1)

@@ -15,7 +15,7 @@ func init() {
 
 // public native void ensureClassInitialized(Class<?> c);
 // (Ljava/lang/Class;)V
-func ensureClassInitialized(frame *rtda.Frame, x int) {
+func ensureClassInitialized(frame *rtda.Frame) {
     vars := frame.LocalVars()
     // this := vars.GetRef(0)
     classObj := vars.GetRef(1)
@@ -31,7 +31,7 @@ func ensureClassInitialized(frame *rtda.Frame, x int) {
 
 // public native long staticFieldOffset(Field f);
 // (Ljava/lang/reflect/Field;)J
-func staticFieldOffset(frame *rtda.Frame, x int) {
+func staticFieldOffset(frame *rtda.Frame) {
     vars := frame.LocalVars()
     // vars.GetRef(0) // this
     fieldObj := vars.GetRef(1)
@@ -43,7 +43,7 @@ func staticFieldOffset(frame *rtda.Frame, x int) {
 
 // public native Object staticFieldBase(Field f);
 // (Ljava/lang/reflect/Field;)Ljava/lang/Object;
-func staticFieldBase(frame *rtda.Frame, x int) {
+func staticFieldBase(frame *rtda.Frame) {
     vars := frame.LocalVars()
     // vars.GetRef(0) // this
     fieldObj := vars.GetRef(1)

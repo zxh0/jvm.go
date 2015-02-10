@@ -18,7 +18,7 @@ func _ncai(method Any, name, desc string) {
 // private static native Object newInstance0(Constructor<?> c, Object[] os)
 // throws InstantiationException, IllegalArgumentException, InvocationTargetException;
 // (Ljava/lang/reflect/Constructor;[Ljava/lang/Object;)Ljava/lang/Object;
-func newInstance0(frame *rtda.Frame, x int) {
+func newInstance0(frame *rtda.Frame) {
     vars := frame.LocalVars()
     constructorObj := vars.GetRef(0)
     argArrObj := vars.GetRef(1)

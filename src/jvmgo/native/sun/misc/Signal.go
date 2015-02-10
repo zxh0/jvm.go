@@ -17,7 +17,7 @@ func _signal(method Any, name, desc string) {
 
 // private static native int findSignal(String string);
 // (Ljava/lang/String;)I
-func findSignal(frame *rtda.Frame, x int) {
+func findSignal(frame *rtda.Frame) {
     vars := frame.LocalVars()
     vars.GetRef(0) // name
 
@@ -27,7 +27,7 @@ func findSignal(frame *rtda.Frame, x int) {
 
 // private static native long handle0(int i, long l);
 // (IJ)J
-func handle0(frame *rtda.Frame, x int) {
+func handle0(frame *rtda.Frame) {
     // todo
     vars := frame.LocalVars()
     vars.GetInt(0)

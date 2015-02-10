@@ -16,7 +16,7 @@ func _string(method Any, name, desc string) {
 
 // public native String intern();
 // ()Ljava/lang/String;
-func intern(frame *rtda.Frame, x int) {
+func intern(frame *rtda.Frame) {
     vars := frame.LocalVars()
     str := vars.GetRef(0) // this
 

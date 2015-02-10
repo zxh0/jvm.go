@@ -18,7 +18,7 @@ func _reflection(method Any, name, desc string) {
 
 // public static native Class<?> getCallerClass(int i);
 // (I)Ljava/lang/Class;
-func getCallerClass(frame *rtda.Frame, x int) {
+func getCallerClass(frame *rtda.Frame) {
     vars := frame.LocalVars()
     i := uint(vars.GetInt(0))
 
@@ -29,7 +29,7 @@ func getCallerClass(frame *rtda.Frame, x int) {
 
 // public static native int getClassAccessFlags(Class<?> type);
 // (Ljava/lang/Class;)I
-func getClassAccessFlags(frame *rtda.Frame, x int) {
+func getClassAccessFlags(frame *rtda.Frame) {
     vars := frame.LocalVars()
     _type := vars.GetRef(0)
 

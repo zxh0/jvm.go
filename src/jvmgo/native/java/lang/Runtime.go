@@ -17,7 +17,7 @@ func _runtime(method Any, name, desc string) {
 
 // public native long freeMemory();
 // ()J
-func freeMemory(frame *rtda.Frame, x int) {
+func freeMemory(frame *rtda.Frame) {
     //vars := frame.LocalVars()
     //vars.GetRef(0) // this
     stack := frame.OperandStack()

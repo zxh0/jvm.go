@@ -10,7 +10,7 @@ import (
 
 // private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Constructor;
-func getDeclaredConstructors0(frame *rtda.Frame, x int) {
+func getDeclaredConstructors0(frame *rtda.Frame) {
     vars := frame.LocalVars()
     jClass := vars.GetRef(0) // this
     publicOnly := vars.GetBoolean(1)

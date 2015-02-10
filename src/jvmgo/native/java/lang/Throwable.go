@@ -25,27 +25,35 @@ func fillInStackTrace(frame *rtda.Frame) {
     this := stack.PopRef() // this
     stack.PushRef(this)
 
-    stes := createStackTraceElements(frame)
+    stes := createStackTraceElements(this, frame)
     this.SetExtra(stes)
 }
 
-func createStackTraceElements(frame *rtda.Frame) ([]*StackTraceElement) {
+func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) ([]*StackTraceElement) {
     thread := frame.Thread()
     depth := thread.StackDepth()
 
-    stes := make([]*StackTraceElement, depth)
-    for i := uint(0); i < depth; i++ {
+    // skip unrelated frames
+    i := uint(0)
+    for k := tObj.Class(); k != nil; k = k.SuperClass() {
+        i++
+    }
+
+    stes := make([]*StackTraceElement, 0, depth)
+    for ; i < depth; i++ {
         frameN := thread.TopFrameN(i)
         methodN := frameN.Method()
         classN := methodN.Class()
 
-        stes[i] = &StackTraceElement{
+        ste := &StackTraceElement{
             declaringClass: classN.Name(),
             methodName:     methodN.Name(),
             fileName:       classN.SourceFile(),
             lineNumber:     int32(-1), // todo
         }
+        stes = append(stes, ste)
     }
+
     return stes
 }
 

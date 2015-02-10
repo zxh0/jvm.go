@@ -12,8 +12,8 @@ const (
 )
 
 type Class struct {
-    constantPool        *ConstantPool
     AccessFlags
+    constantPool        *ConstantPool
     sourceFile          string
     name                string // thisClassName
     superClassName      string
@@ -38,7 +38,10 @@ func (self *Class) String() string {
 func (self *Class) ConstantPool() (*ConstantPool) {
     return self.constantPool
 }
-func (self *Class) Name() (string) {
+func (self *Class) SourceFile() string {
+    return self.sourceFile
+}
+func (self *Class) Name() string {
     return self.name
 }
 func (self *Class) JClass() (*Obj) {
@@ -64,19 +67,15 @@ func (self *Class) MarkInitialized() {
     self.state = _initialized
 }
 
-func (self *Class) GetStaticField(name, descriptor string) (*Field) {
-    return self.getField(name, descriptor, true)
-}
-func (self *Class) GetInstanceField(name, descriptor string) (*Field) {
-    return self.getField(name, descriptor, false)
-}
 func (self *Class) getField(name, descriptor string, isStatic bool) (*Field) {
-    for _, field := range self.fields {
-        if field.IsStatic() == isStatic &&
-                field.name == name &&
-                field.descriptor == descriptor {
+    for k := self; k != nil; k = k.superClass {
+        for _, field := range k.fields {
+            if field.IsStatic() == isStatic &&
+                    field.name == name &&
+                    field.descriptor == descriptor {
 
-            return field
+                return field
+            }
         }
     }
     // todo
@@ -90,6 +89,13 @@ func (self *Class) GetMethod(name, descriptor string) (*Method) {
     }
     // todo
     return nil
+}
+
+func (self *Class) GetStaticField(name, descriptor string) (*Field) {
+    return self.getField(name, descriptor, true)
+}
+func (self *Class) GetInstanceField(name, descriptor string) (*Field) {
+    return self.getField(name, descriptor, false)
 }
 
 func (self *Class) GetMainMethod() (*Method) {

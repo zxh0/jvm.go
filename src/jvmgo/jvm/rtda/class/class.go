@@ -140,6 +140,10 @@ func (self *Class) NewArray(count uint) (*Obj) {
     return NewRefArray(self, count)
 }
 
+func (self *Class) isObject() bool {
+    return self.name == jlObjectName
+}
+
 func (self *Class) isSubClassOf(c *Class) bool {
     for k := self.superClass; k != nil; k = k.superClass {
         if k == c {

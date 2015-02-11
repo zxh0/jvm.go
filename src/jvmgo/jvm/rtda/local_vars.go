@@ -18,6 +18,10 @@ func newLocalVars(size uint) (*LocalVars) {
     }
 }
 
+func (self *LocalVars) GetThis() (*rtc.Obj) {
+    return self.GetRef(0)
+}
+
 func (self *LocalVars) GetRef(index uint) (*rtc.Obj) {
     ref := self.slots[index]
     if ref == nil {

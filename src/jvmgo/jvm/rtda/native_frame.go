@@ -1,7 +1,6 @@
 package rtda
 
 import (
-    "strings"
     rtc "jvmgo/jvm/rtda/class"
 )
 
@@ -31,7 +30,7 @@ func newNativeFrame(thread *Thread, method *rtc.Method) (*Frame) {
 }
 
 func getHackCode(methodDescriptor string) ([]byte) {
-    rd := getReturnDescriptor(methodDescriptor)
+    rd := rtc.GetReturnDescriptor(methodDescriptor)
     switch rd[0] {
     case 'V':       return _native_hack_return
     case 'L', '[':  return _native_hack_areturn
@@ -40,9 +39,4 @@ func getHackCode(methodDescriptor string) ([]byte) {
     case 'J':       return _native_hack_lreturn
     default:        return _native_hack_ireturn
     }
-}
-
-func getReturnDescriptor(methodDescriptor string) string {
-    start := strings.Index(methodDescriptor, ")") + 1
-    return methodDescriptor[start:]
 }

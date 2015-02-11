@@ -117,3 +117,8 @@ func parseMethodDescriptor(descriptor string) (*MethodDescriptor) {
     parser := &MemberDescriptorParser{descriptor: descriptor}
     return parser.parse()
 }
+
+func GetReturnDescriptor(methodDescriptor string) string {
+    start := strings.Index(methodDescriptor, ")") + 1
+    return methodDescriptor[start:]
+}

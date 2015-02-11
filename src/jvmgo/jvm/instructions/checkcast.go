@@ -28,6 +28,6 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
     // todo
     if !ref.IsInstanceOf(class) {
         // todo ClassCastException
-        util.Panicf("ClassCastException! ref%v class%v", ref, class)
+        util.Panicf("ClassCastException! ref:%v class:%v", ref, class)
     }
 }

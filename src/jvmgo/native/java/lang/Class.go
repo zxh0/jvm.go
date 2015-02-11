@@ -78,12 +78,13 @@ func getClassLoader0(frame *rtda.Frame) {
 func getComponentType(frame *rtda.Frame) {
     vars := frame.LocalVars()
     classObj := vars.GetThis()
-    class := classObj.Extra().(*rtc.Class)
-    println("@@@@@getComponentType:::"+class.String())
 
-    // todo
+    class := classObj.Extra().(*rtc.Class)
+    componentClass := class.GetComponentClass()
+    componentClassObj := componentClass.JClass()
+    
     stack := frame.OperandStack()
-    stack.PushRef(nil)
+    stack.PushRef(componentClassObj)
 }
 
 // private native Class<?>[]   getDeclaredClasses0();

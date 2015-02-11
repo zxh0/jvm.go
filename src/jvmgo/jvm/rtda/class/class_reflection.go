@@ -1,10 +1,25 @@
 package class
 
+import "jvmgo/util"
+
 func (self *Class) IsPrimitive() bool {
     return isPrimitiveType(self.name)
 }
 func (self *Class) IsArray() bool {
     return self.name[0] == '['
+}
+
+func (self *Class) GetComponentClass() (*Class) {
+    if self.name[0] != '[' {
+        util.Panicf("Not array: %v", self)
+        return nil
+    }
+    // todo
+    if self.name[1] == 'L' {
+        return self.classLoader.getClass(self.name[2: len(self.name) - 1])
+    } else {
+        return self.classLoader.getClass(self.name[1:])
+    }
 }
 
 func (self *Class) GetFields(publicOnly bool) ([]*Field) {

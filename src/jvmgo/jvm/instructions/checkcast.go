@@ -1,6 +1,7 @@
 package instructions
 
 import (
+    "jvmgo/util"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
 )
@@ -27,6 +28,6 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
     // todo
     if !ref.IsInstanceOf(class) {
         // todo ClassCastException
-        panic("ClassCastException")
+        util.Panicf("ClassCastException! ref%v class%v", ref, class)
     }
 }

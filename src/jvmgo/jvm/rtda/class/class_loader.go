@@ -54,6 +54,7 @@ func (self *ClassLoader) loadPrimitiveClasses() {
 func (self *ClassLoader) loadPrimitiveClass(className string) {
     jlClassClass := self.classMap[jlClassName]
     class := &Class{name: className}
+    class.classLoader = self
     class.jClass = jlClassClass.NewObj()
     class.jClass.extra = class
     class.MarkInitialized()
@@ -72,6 +73,7 @@ func (self *ClassLoader) loadArrayClass(className string) {
     jlObjecClass := self.classMap[jlObjectName]
 
     class := &Class{name: className}
+    class.classLoader = self
     class.superClass = jlObjecClass
     class.jClass = jlClassClass.NewObj()
     class.jClass.extra = class

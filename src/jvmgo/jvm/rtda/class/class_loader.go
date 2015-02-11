@@ -153,7 +153,7 @@ func (self *ClassLoader) parseClassFile(name string) (class *Class) {
         panic("failed to parse class file: " + name + "!" + err.Error())
     }
 
-    return cf2class(cf)
+    return newClass(cf)
 }
 
 // todo

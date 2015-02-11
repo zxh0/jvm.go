@@ -5,7 +5,7 @@ import (
     "jvmgo/classfile"
 )
 
-func cf2class(cf *classfile.ClassFile) (*Class) {
+func newClass(cf *classfile.ClassFile) (*Class) {
     class := &Class{}
     class.sourceFile = cf.FileName()
     class.accessFlags = cf.AccessFlags()

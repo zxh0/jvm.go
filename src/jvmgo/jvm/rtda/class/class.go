@@ -143,6 +143,13 @@ func (self *Class) NewArray(count uint) (*Obj) {
 func (self *Class) isObject() bool {
     return self == _jlObjectClass
 }
+func (self *Class) IsCloneable() bool {
+    return self == _jlCloneableClass
+}
+func (self *Class) IsSerializable() bool {
+    return self == _ioSerializableClass
+}
+
 
 // reflection
 func (self *Class) GetStaticValue(fieldName, fieldDescriptor string) Any {

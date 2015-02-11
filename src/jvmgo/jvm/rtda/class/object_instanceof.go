@@ -23,14 +23,14 @@ func (self *Obj) IsInstanceOf(class *Class) (bool) {
                 return t.isSuperInterfaceOf(t)
             }
         }
-    } else {
+    } else { // s is array
         if !t.IsArray() {
             if !t.IsInterface() {
                 return t.isObject()
             } else {
-                // todo
+                return t.IsCloneable() || t.IsSerializable()
             }
-        } else {
+        } else { // t is array
             // todo
         }
     }

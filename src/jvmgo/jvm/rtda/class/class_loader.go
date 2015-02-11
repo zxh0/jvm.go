@@ -81,7 +81,7 @@ func (self *ClassLoader) loadArrayClass(className string) {
     class := &Class{name: className}
     class.classLoader = self
     class.superClass = _jlObjectClass
-    class.interfaces = []*Class{}
+    class.interfaces = []*Class{_jlClassClass, _ioSerializableClass}
     class.jClass = _jlClassClass.NewObj()
     class.jClass.extra = class
     class.MarkInitialized()

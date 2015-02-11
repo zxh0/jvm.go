@@ -7,19 +7,19 @@ import (
 )
 
 const (
-    objectClassName         = "java/lang/Object"
-    classClassName          = "java/lang/Class"
-    threadClassName         = "java/lang/Thread"
-    stringClassName         = "java/lang/String"
-    cloneableClassName      = "java/lang/Cloneable"
-    serializableClassName   = "java/io/Serializable"
+    jlObjectClassName       = "java/lang/Object"
+    jlClassClassName        = "java/lang/Class"
+    jlCloneableClassName    = "java/lang/Cloneable"
+    ioSerializableClassName = "java/io/Serializable"
+    jlThreadClassName       = "java/lang/Thread"
+    jlStringClassName       = "java/lang/String"
 )
 
 var (
-    _objectClass        *Class
-    _classClass         *Class
-    _cloneableClass     *Class
-    _serializableClass  *Class
+    _jlObjectClass          *Class
+    _jlClassClass           *Class
+    _jlCloneableClass       *Class
+    _ioSerializableClass    *Class
 )
 
 /*
@@ -42,16 +42,16 @@ func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {
 }
 
 func (self *ClassLoader) Init() {
-    _objectClass = self.LoadClass(objectClassName)
-    _classClass = self.LoadClass(classClassName)
+    _jlObjectClass = self.LoadClass(jlObjectClassName)
+    _jlClassClass = self.LoadClass(jlClassClassName)
     for _, class := range self.classMap {
         if class.jClass == nil {
-            class.jClass = _classClass.NewObj()
+            class.jClass = _jlClassClass.NewObj()
             class.jClass.extra = class
         }
     }
-    _cloneableClass = self.LoadClass(cloneableClassName)
-    _serializableClass = self.LoadClass(serializableClassName)
+    _jlCloneableClass = self.LoadClass(jlCloneableClassName)
+    _ioSerializableClass = self.LoadClass(ioSerializableClassName)
     self.loadPrimitiveClasses()
     self.loadPrimitiveArrayClasses()
 }
@@ -64,7 +64,7 @@ func (self *ClassLoader) loadPrimitiveClasses() {
 func (self *ClassLoader) loadPrimitiveClass(className string) {
     class := &Class{name: className}
     class.classLoader = self
-    class.jClass = _classClass.NewObj()
+    class.jClass = _jlClassClass.NewObj()
     class.jClass.extra = class
     class.MarkInitialized()
     self.classMap[className] = class
@@ -80,9 +80,9 @@ func (self *ClassLoader) loadPrimitiveArrayClasses() {
 func (self *ClassLoader) loadArrayClass(className string) {
     class := &Class{name: className}
     class.classLoader = self
-    class.superClass = _objectClass
+    class.superClass = _jlObjectClass
     class.interfaces = []*Class{}
-    class.jClass = _classClass.NewObj()
+    class.jClass = _jlClassClass.NewObj()
     class.jClass.extra = class
     class.MarkInitialized()
     self.classMap[className] = class
@@ -106,10 +106,10 @@ func (self *ClassLoader) GetPrimitiveClass(name string) (*Class) {
 }
 
 func (self *ClassLoader) StringClass() (*Class) {
-    return self.getClass(stringClassName)
+    return self.getClass(jlStringClassName)
 }
 func (self *ClassLoader) ThreadClass() (*Class) {
-    return self.getClass(threadClassName)
+    return self.getClass(jlThreadClassName)
 }
 
 // todo dangerous
@@ -147,8 +147,8 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     class.classLoader = self
     self.classMap[name] = class
 
-    if _classClass != nil {
-        class.jClass = _classClass.NewObj()
+    if _jlClassClass != nil {
+        class.jClass = _jlClassClass.NewObj()
         class.jClass.extra = class
     }
 

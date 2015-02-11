@@ -35,16 +35,12 @@ public class ClassTest implements Runnable {
         for (Field f : c.getDeclaredFields()) {
             System.out.println("declaredFields:" + f.getName());
         }
-        
-        //Object x = new Reflection();
-        //new Properties();
-        
-//        for (Method m : c.getMethods()) {
-//            System.out.println("method: " + m.getName());
-//        }
-//        for (Method m : c.getDeclaredMethods()) {
-//            System.out.println("declaredMethods: " + m.getName());
-//        }
+        for (Method m : c.getMethods()) {
+            System.out.println("method: " + m.getName());
+        }
+        for (Method m : c.getDeclaredMethods()) {
+            System.out.println("declaredMethods: " + m.getName());
+        }
     }
 
     @Override

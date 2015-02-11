@@ -14,6 +14,7 @@ func init() {
     _class(getClassLoader0,             "getClassLoader0",          "()Ljava/lang/ClassLoader;")
     _class(getDeclaredConstructors0,    "getDeclaredConstructors0", "(Z)[Ljava/lang/reflect/Constructor;")
     _class(getDeclaredFields0,          "getDeclaredFields0",       "(Z)[Ljava/lang/reflect/Field;")
+    _class(getDeclaredMethods0,         "getDeclaredMethods0",      "(Z)[Ljava/lang/reflect/Method;")
     _class(getInterfaces,               "getInterfaces",            "()[Ljava/lang/Class;")
     _class(getModifiers,                "getModifiers",             "()I")
     _class(getName0,                    "getName0",                 "()Ljava/lang/String;")
@@ -71,7 +72,6 @@ func getClassLoader0(frame *rtda.Frame) {
     stack.PushRef(nil)
 }
 
-// private native Method[]      getDeclaredMethods0(boolean publicOnly);
 // private native Class<?>[]   getDeclaredClasses0();
 
 // public native int getModifiers();

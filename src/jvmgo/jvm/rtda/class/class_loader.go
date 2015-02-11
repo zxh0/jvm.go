@@ -85,16 +85,16 @@ func (self *ClassLoader) _getRefArrayClass(arrClassName string) (*Class) {
     return self.classMap[arrClassName]
 }
 
+// todo
+func (self *ClassLoader) GetPrimitiveClass(name string) (*Class) {
+    return self.getClass(name)
+}
+
 func (self *ClassLoader) StringClass() (*Class) {
     return self.getClass(jlStringName)
 }
 func (self *ClassLoader) ThreadClass() (*Class) {
     return self.getClass(jlThreadName)
-}
-
-// todo
-func (self *ClassLoader) GetPrimitiveClass(name string) (*Class) {
-    return self.getClass(name)
 }
 
 // todo dangerous

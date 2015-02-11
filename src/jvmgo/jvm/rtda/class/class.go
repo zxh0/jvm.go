@@ -141,7 +141,7 @@ func (self *Class) NewArray(count uint) (*Obj) {
 }
 
 func (self *Class) isObject() bool {
-    return self.name == jlObjectName
+    return self.name == objectClassName
 }
 
 // reflection

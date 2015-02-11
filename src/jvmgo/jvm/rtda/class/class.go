@@ -11,6 +11,7 @@ const (
     _initialized  = 2
 )
 
+// name, superClassName and interfaceNames are all binary names(jvms8-4.2.1)
 type Class struct {
     AccessFlags
     constantPool        *ConstantPool
@@ -23,11 +24,11 @@ type Class struct {
     staticFieldCount    uint
     instanceFieldCount  uint
     staticFieldValues   []Any
-    state               int
     jClass              *Obj // java.lang.Class instance
     superClass          *Class
     interfaces          []*Class
     classLoader         *ClassLoader // defining class loader
+    state               int
 }
 
 func (self *Class) String() string {

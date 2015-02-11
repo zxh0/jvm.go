@@ -6,6 +6,7 @@ import (
     rtc "jvmgo/jvm/rtda/class"
     _ "jvmgo/native/java/io"
     _ "jvmgo/native/java/lang"
+    _ "jvmgo/native/java/lang/reflect"
     _ "jvmgo/native/java/security"
     _ "jvmgo/native/java/util/concurrent/atomic"
     _ "jvmgo/native/sun/misc"

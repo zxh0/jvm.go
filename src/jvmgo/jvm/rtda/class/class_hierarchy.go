@@ -26,6 +26,10 @@ func (self *Class) isSubInterfaceOf(iface *Class) bool {
     return false
 }
 
+// c extends self
+func (self *Class) isSuperClassOf(c *Class) bool {
+    return c.isSubClassOf(self)
+}
 // self extends c
 func (self *Class) isSubClassOf(c *Class) bool {
     for k := self.superClass; k != nil; k = k.superClass {
@@ -34,8 +38,4 @@ func (self *Class) isSubClassOf(c *Class) bool {
         }
     }
     return false
-}
-// c extends self
-func (self *Class) isSuperClassOf(c *Class) bool {
-    return c.isSubClassOf(self)
 }

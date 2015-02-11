@@ -22,9 +22,11 @@ public class CheckCast {
     }
     
     public static void main(String[] args) {
+        System.out.println("testing checkcast..");
         sClass();
         sInterface();
         sArray();
+        sArray_tArray();
         System.out.println("OK!");
     }
     
@@ -38,11 +40,25 @@ public class CheckCast {
     }
     
     private static void sInterface() {
-        
+        // todo
     }
     
     private static void sArray() {
+        Object s = new String[0];
+        Cloneable t1 = (Cloneable) s;
+        Serializable t2 = (Serializable) s;
+    }
+    
+    private static void sArray_tArray() {
+        Object s = new Sub[0];
+        Sup[] t1 = (Sup[]) s;
+        Object[] t2 = (Object[]) s;
+        Serializable[] t3 = (Serializable[]) s;
+        Closeable[] t4 = (Closeable[]) s;
+        AutoCloseable[] t5 = (AutoCloseable[]) s;
         
+        Object s1 = new int[0];
+        int[] t6 = (int[]) s1;
     }
     
 }

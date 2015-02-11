@@ -9,17 +9,29 @@ func (self *Class) IsArray() bool {
     return self.name[0] == '['
 }
 
-func (self *Class) GetComponentClass() (*Class) {
+func (self *Class) ComponentClass() (*Class) {
     if self.name[0] != '[' {
         util.Panicf("Not array: %v", self)
         return nil
     }
-    // todo
-    if self.name[1] == 'L' {
-        return self.classLoader.getClass(self.name[2: len(self.name) - 1])
-    } else {
-        return self.classLoader.getClass(self.name[1:])
+
+    switch self.name[1] {
+    case 'L': // reference array: [LcomponentClassName;
+        componentClassName := self.name[2: len(self.name) - 1]
+        return self.classLoader.getClass(componentClassName)
+    case '[': // multidimensional array: [[...
+        componentClassName := self.name[1:]
+        return self.classLoader.getClass(componentClassName)
+    default: // primitive array
+        for primitiveType, arrayType := range primitiveTypes {
+            if arrayType == self.name {
+                return self.classLoader.getClass(primitiveType)
+            }
+        }
     }
+
+    util.Panicf("Not array: %v", self)
+    return nil
 }
 
 func (self *Class) GetFields(publicOnly bool) ([]*Field) {

@@ -1,10 +1,13 @@
 package class
 
-// jvms8-6.5.instanceof
-func (self *Obj) IsInstanceOf(class *Class) (bool) {
-    s := self.class
-    t := class
+func (self *Obj) IsInstanceOf(class *Class) bool {
+    s, t := self.class, class
+    return _checkcast(s, t)
+}
 
+// jvms8-6.5.checkcast
+// jvms8-6.5.instanceof
+func _checkcast(s, t *Class) bool {
     if s == t {
         return true
     }
@@ -31,7 +34,9 @@ func (self *Obj) IsInstanceOf(class *Class) (bool) {
                 return t.IsCloneable() || t.IsSerializable()
             }
         } else { // t is array
-            // todo
+            sc := s.ComponentClass()
+            tc := t.ComponentClass()
+            return sc == tc || _checkcast(sc, tc)
         }
     }
 

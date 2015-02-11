@@ -80,7 +80,7 @@ func getComponentType(frame *rtda.Frame) {
     classObj := vars.GetThis()
 
     class := classObj.Extra().(*rtc.Class)
-    componentClass := class.GetComponentClass()
+    componentClass := class.ComponentClass()
     componentClassObj := componentClass.JClass()
     
     stack := frame.OperandStack()

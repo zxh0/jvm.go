@@ -1,9 +1,9 @@
 package reflection;
 
-public class GetClass {
+public class ClassNameTest {
     
     public static void main(String[] args) {
-        System.out.println(new GetClass().getClass().getName());        
+        System.out.println(new ClassNameTest().getClass().getName());        
         // primivive types
         System.out.println(void.class.getName());
         System.out.println(boolean.class.getName());

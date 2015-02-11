@@ -3,7 +3,9 @@ package reflection;
 public class ClassNameTest {
     
     public static void main(String[] args) {
-        System.out.println(new ClassNameTest().getClass().getName());        
+        // normal classes
+        System.out.println(Object.class.getName());
+        System.out.println(ClassNameTest.class.getName());        
         // primivive types
         System.out.println(void.class.getName());
         System.out.println(boolean.class.getName());
@@ -25,6 +27,8 @@ public class ClassNameTest {
         System.out.println(new double[0].getClass().getName());
         System.out.println(new Object[0].getClass().getName());
         System.out.println(args.getClass().getName());
+        System.out.println(new int[0][0].getClass().getName());
+        System.out.println(new Object[0][0].getClass().getName());
     }
     
 }

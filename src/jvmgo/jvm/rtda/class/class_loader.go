@@ -11,7 +11,15 @@ const (
     classClassName          = "java/lang/Class"
     threadClassName         = "java/lang/Thread"
     stringClassName         = "java/lang/String"
-    serializableClassName   = "java/lang/Serializable"
+    cloneableClassName      = "java/lang/Cloneable"
+    serializableClassName   = "java/io/Serializable"
+)
+
+var (
+    _objectClass        *Class
+    _classClass         *Class
+    _cloneableClass     *Class
+    _serializableClass  *Class
 )
 
 /*
@@ -34,15 +42,16 @@ func NewClassLoader(cp *classpath.ClassPath) (*ClassLoader) {
 }
 
 func (self *ClassLoader) Init() {
-    self.LoadClass(objectClassName)
-    self.LoadClass(classClassName)
-    jlClassClass := self.classMap[classClassName]
+    _objectClass = self.LoadClass(objectClassName)
+    _classClass = self.LoadClass(classClassName)
     for _, class := range self.classMap {
         if class.jClass == nil {
-            class.jClass = jlClassClass.NewObj()
+            class.jClass = _classClass.NewObj()
             class.jClass.extra = class
         }
     }
+    _cloneableClass = self.LoadClass(cloneableClassName)
+    _serializableClass = self.LoadClass(serializableClassName)
     self.loadPrimitiveClasses()
     self.loadPrimitiveArrayClasses()
 }
@@ -53,10 +62,9 @@ func (self *ClassLoader) loadPrimitiveClasses() {
     }
 }
 func (self *ClassLoader) loadPrimitiveClass(className string) {
-    jlClassClass := self.classMap[classClassName]
     class := &Class{name: className}
     class.classLoader = self
-    class.jClass = jlClassClass.NewObj()
+    class.jClass = _classClass.NewObj()
     class.jClass.extra = class
     class.MarkInitialized()
     self.classMap[className] = class
@@ -70,14 +78,11 @@ func (self *ClassLoader) loadPrimitiveArrayClasses() {
     }
 }
 func (self *ClassLoader) loadArrayClass(className string) {
-    jlClassClass := self.classMap[classClassName]
-    jlObjecClass := self.classMap[objectClassName]
-
     class := &Class{name: className}
     class.classLoader = self
-    class.superClass = jlObjecClass
+    class.superClass = _objectClass
     class.interfaces = []*Class{}
-    class.jClass = jlClassClass.NewObj()
+    class.jClass = _classClass.NewObj()
     class.jClass.extra = class
     class.MarkInitialized()
     self.classMap[className] = class
@@ -142,9 +147,8 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     class.classLoader = self
     self.classMap[name] = class
 
-    jlClassClass := self.classMap[classClassName]
-    if jlClassClass != nil {
-        class.jClass = jlClassClass.NewObj()
+    if _classClass != nil {
+        class.jClass = _classClass.NewObj()
         class.jClass.extra = class
     }
 

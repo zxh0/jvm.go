@@ -27,14 +27,5 @@ func (self *invokestatic) Execute(frame *rtda.Frame) {
         }
     }
 
-    // if method.IsNative() {
-    //     // exec native method
-    //     nativeMethod, ok := method.NativeMethod().(func(*rtda.Frame))
-    //     if ok {
-    //         nativeMethod(currentFrame)
-    //         return
-    //     }
-    // }
-
     thread.InvokeMethod(method)
 }

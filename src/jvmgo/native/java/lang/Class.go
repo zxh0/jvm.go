@@ -12,6 +12,7 @@ func init() {
     _class(desiredAssertionStatus0,     "desiredAssertionStatus0",  "(Ljava/lang/Class;)Z")
     _class(forName0,                    "forName0",                 "(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;")
     _class(getClassLoader0,             "getClassLoader0",          "()Ljava/lang/ClassLoader;")
+    _class(getComponentType,            "getComponentType",         "()Ljava/lang/Class;")
     _class(getDeclaredConstructors0,    "getDeclaredConstructors0", "(Z)[Ljava/lang/reflect/Constructor;")
     _class(getDeclaredFields0,          "getDeclaredFields0",       "(Z)[Ljava/lang/reflect/Field;")
     _class(getDeclaredMethods0,         "getDeclaredMethods0",      "(Z)[Ljava/lang/reflect/Method;")
@@ -68,6 +69,14 @@ func forName0(frame *rtda.Frame) {
 func getClassLoader0(frame *rtda.Frame) {
     // todo
     // _ = stack.PopRef() // this
+    stack := frame.OperandStack()
+    stack.PushRef(nil)
+}
+
+// public native Class<?> getComponentType();
+// ()Ljava/lang/Class;
+func getComponentType(frame *rtda.Frame) {
+    // todo
     stack := frame.OperandStack()
     stack.PushRef(nil)
 }

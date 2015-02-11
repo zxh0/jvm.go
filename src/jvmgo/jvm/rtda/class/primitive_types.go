@@ -1,15 +1,19 @@
 package class
 
 // java primitive types
-var primitiveTypes = []string{
-    "void", "boolean", "byte", "char", "short", "int", "long", "float", "double",
+var primitiveTypes = map[string]string{
+    "void":     "", 
+    "boolean":  "[Z",
+    "byte":     "[B", 
+    "char":     "[C", 
+    "short":    "[S", 
+    "int":      "[I", 
+    "long":     "[J", 
+    "float":    "[F", 
+    "double":   "[D",
 }
 
 func isPrimitiveType(name string) (bool) {
-    for _, primitiveType := range primitiveTypes {
-        if primitiveType == name {
-            return true
-        }
-    }
-    return false
+    _, ok := primitiveTypes[name]
+    return ok
 }

@@ -41,7 +41,7 @@ func (self *ClassLoader) Init() {
 }
 
 func (self *ClassLoader) loadPrimitiveClasses() {
-    for _, primitiveType := range primitiveTypes {
+    for primitiveType, _ := range primitiveTypes {
         self.loadPrimitiveClass(primitiveType)
     }
 }

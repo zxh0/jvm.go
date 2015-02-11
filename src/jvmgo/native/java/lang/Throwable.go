@@ -42,7 +42,7 @@ func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) ([]*StackTraceEl
     depth := thread.StackDepth()
 
     // skip unrelated frames
-    i := uint(0)
+    i := uint(1)
     for k := tObj.Class(); k != nil; k = k.SuperClass() {
         i++
     }

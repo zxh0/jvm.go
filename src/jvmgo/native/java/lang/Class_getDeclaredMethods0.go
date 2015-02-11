@@ -1,9 +1,6 @@
 package lang
 
 import (
-    //"fmt"
-    //"strings"
-    //. "jvmgo/any"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
 )

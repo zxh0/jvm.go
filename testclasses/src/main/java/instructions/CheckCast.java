@@ -15,7 +15,9 @@ public class CheckCast {
 
     }
 
-    static class Sub extends Sup {
+    static class Sub extends Sup implements Serializable {
+        
+        private static final long serialVersionUID = 1L;
 
     }
     
@@ -30,7 +32,9 @@ public class CheckCast {
         Object s = new Sub();
         Sub t1 = (Sub) s;
         Sup t2 = (Sup) s;
-        
+        Serializable t3 = (Serializable) s;
+        Closeable t4 = (Closeable) s;
+        AutoCloseable t5 = (AutoCloseable) s;
     }
     
     private static void sInterface() {

@@ -76,6 +76,11 @@ func getClassLoader0(frame *rtda.Frame) {
 // public native Class<?> getComponentType();
 // ()Ljava/lang/Class;
 func getComponentType(frame *rtda.Frame) {
+    vars := frame.LocalVars()
+    classObj := vars.GetThis()
+    class := classObj.Extra().(*rtc.Class)
+    println("@@@@@getComponentType:::"+class.String())
+
     // todo
     stack := frame.OperandStack()
     stack.PushRef(nil)
@@ -114,32 +119,15 @@ func getName0(frame *rtda.Frame) {
 // (Ljava/lang/String;)Ljava/lang/Class;
 func getPrimitiveClass(frame *rtda.Frame) {
     vars := frame.LocalVars()
-    jName := vars.GetRef(0)
+    nameObj := vars.GetRef(0)
 
-    chars := rtda.JStringChars(jName)
-    classLoader := frame.Method().Class().ClassLoader()
-    jClass := _getPrimitiveClass(chars, classLoader).JClass()
+    name := rtda.GoString(nameObj)
+    classLoader := frame.GetClassLoader()
+    class := classLoader.GetPrimitiveClass(name)
+    classObj := class.JClass()
 
     stack := frame.OperandStack()
-    stack.PushRef(jClass)
-}
-
-func _getPrimitiveClass(name []uint16, classLoader *rtc.ClassLoader) (*rtc.Class) {
-    switch name[0] {
-    case 'b':
-        switch name[1] {
-            case 'o': return classLoader.GetPrimitiveClass("boolean")
-            case 'y': return classLoader.GetPrimitiveClass("byte")
-        }
-    case 'c': return classLoader.GetPrimitiveClass("char")
-    case 'd': return classLoader.GetPrimitiveClass("double")
-    case 'f': return classLoader.GetPrimitiveClass("float")
-    case 'i': return classLoader.GetPrimitiveClass("int")
-    case 'l': return classLoader.GetPrimitiveClass("long")
-    case 's': return classLoader.GetPrimitiveClass("short")
-    case 'v': return classLoader.GetPrimitiveClass("void")
-    }
-    panic("BAD primitive type!") // todo
+    stack.PushRef(classObj)
 }
 
 // private native Class<?>[] getInterfaces();

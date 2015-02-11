@@ -1,8 +1,6 @@
 package class
 
 import (
-    //"fmt"
-    //"log"
     . "jvmgo/any"
     "jvmgo/classfile"
     "jvmgo/classpath"
@@ -14,6 +12,14 @@ const (
     jlThreadName = "java/lang/Thread"
     jlStringName = "java/lang/String"
 )
+
+/*
+class names:
+    - primitive types: boolean, byte, int ...
+    - primitive arrays: [Z, [B, [I ...
+    - non-array classes: java/lang/Object ...
+    - array classes: [Ljava/lang/Object; ...
+*/
 
 // the bootstrap class loader
 type ClassLoader struct {

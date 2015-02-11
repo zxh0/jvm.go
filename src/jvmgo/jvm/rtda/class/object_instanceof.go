@@ -35,21 +35,5 @@ func (self *Obj) IsInstanceOf(class *Class) (bool) {
         }
     }
 
-
-    // if class.IsInterface() {
-    //     for k := self.class; k != nil; k = k.superClass {
-    //         for _, i := range k.interfaces {
-    //             if i.isSubInterfaceOf(class) {
-    //                 return true
-    //             }
-    //         }
-    //     }
-    // } else {
-    //     for k := self.class; k != nil; k = k.superClass {
-    //         if k == class {
-    //             return true
-    //         }
-    //     }
-    // }
     return false
 }

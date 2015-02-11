@@ -5,40 +5,40 @@ import java.io.IOException;
 import java.io.Serializable;
 
 public class CheckCast {
+
+    static class Sup implements Closeable {
+
+        @Override
+        public void close() throws IOException {
+            System.out.println("close!");
+        }
+
+    }
+
+    static class Sub extends Sup {
+
+    }
     
     public static void main(String[] args) {
-        Object x = "string";
-        String y = (String) x;
-        System.out.println("OK1!");
-        
-        Object a = args;
-        String[] b = (String[]) a;
-        System.out.println("OK2!");
-        
-        CharSequence cs = (CharSequence) x;
-        Serializable s = (Serializable) x;
-        System.out.println("OK3!");
-        
-        Object sub = new Sub();
-        Sup sup = (Sup) sub;
-        Closeable c = (Closeable) sub;
-        
-        AutoCloseable ac = (AutoCloseable) sub;
-        System.out.println("OK4!");
+        sClass();
+        sInterface();
+        sArray();
+        System.out.println("OK!");
+    }
+    
+    private static void sClass() {
+        Object s = new Sub();
+        Sub t1 = (Sub) s;
+        Sup t2 = (Sup) s;
         
     }
     
-}
-
-class Sup implements Closeable {
-
-    @Override
-    public void close() throws IOException {
-        System.out.println("close!");
+    private static void sInterface() {
+        
     }
     
-}
-
-class Sub extends Sup {
+    private static void sArray() {
+        
+    }
     
 }

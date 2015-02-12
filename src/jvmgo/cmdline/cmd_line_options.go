@@ -21,12 +21,18 @@ func parseOptions(args *CmdLineArgs) (*Options) {
 
     for !args.empty() && args.first()[0] == '-' {
         optionName := args.removeFirst()
-        if optionName == "-classpath" || optionName == "-cp" {
-            optionVal := args.removeFirst()
-            options.classpath = classpath.ParseClassPath(optionVal)
-        }
+        options.parseClassPathOption(optionName, args)
         // todo
     }
 
     return options
+}
+
+func (self *Options) parseClassPathOption(optionName string, args *CmdLineArgs) bool {
+    if optionName == "-classpath" || optionName == "-cp" {
+        optionVal := args.removeFirst()
+        self.classpath = classpath.ParseClassPath(optionVal)
+        return true
+    }
+    return false
 }

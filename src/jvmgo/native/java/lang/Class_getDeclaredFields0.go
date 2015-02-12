@@ -5,6 +5,23 @@ import (
     rtc "jvmgo/jvm/rtda/class"
 )
 
+/*
+Field(Class<?> declaringClass,
+      String name,
+      Class<?> type,
+      int modifiers,
+      int slot,
+      String signature,
+      byte[] annotations)
+*/
+const _fieldConstructorDescriptor = 
+        "(Ljava/lang/Class;" +
+        "Ljava/lang/String;" +
+        "Ljava/lang/Class;" +
+        "II" +
+        "Ljava/lang/String;" +
+        "[B)V"
+
 // private native Field[] getDeclaredFields0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Field;
 func getDeclaredFields0(frame *rtda.Frame) {
@@ -23,16 +40,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
     stack.PushRef(fieldArr)
 
     if count > 0 {
-        /*
-        Field(Class<?> declaringClass,
-              String name,
-              Class<?> type,
-              int modifiers,
-              int slot,
-              String signature,
-              byte[] annotations)
-        */
-        constructor := fieldClass.GetConstructor("(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/Class;IILjava/lang/String;[B)V")
+        constructor := fieldClass.GetConstructor(_fieldConstructorDescriptor)
         jFields := fieldArr.Fields().([]*rtc.Obj)
         thread := frame.Thread()
         for i, goField := range goFields {
@@ -54,7 +62,5 @@ func getDeclaredFields0(frame *rtda.Frame) {
             vars.SetRef(7, nil) // todo annotations
             thread.PushFrame(newFrame)
         }
-
-        //panic("todo getDeclaredFields0")
     }
 }

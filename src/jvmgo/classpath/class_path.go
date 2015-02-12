@@ -3,6 +3,7 @@ package classpath
 import (
     "errors"
     "os"
+    "path/filepath"
     "strings"
 )
 
@@ -21,8 +22,13 @@ func ParseClassPath(cpOption string) (*ClassPath) {
     cpOptionSplitted := strings.Split(cpOption, pathListSeparator)
     cpEntries := make([]ClassPathEntry, len(cpOptionSplitted))
 
-    for i, str := range cpOptionSplitted {
-        cpEntries[i] = parseClassPathEntry(str)
+    for i, p := range cpOptionSplitted {
+        absPath, err := filepath.Abs(p)
+        if err == nil {
+            cpEntries[i] = parseClassPathEntry(absPath)
+        } else {
+            // todo
+        }
     }
 
     return &ClassPath{cpEntries}

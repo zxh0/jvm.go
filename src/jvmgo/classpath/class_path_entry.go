@@ -12,7 +12,7 @@ type ClassPathEntry interface {
 
 func parseClassPathEntry(str string) (ClassPathEntry) {
     if strings.HasSuffix(str, ".jar") {
-        return &ClassPathJarEntry{str}
+        return newClassPathJarEntry(str)
     } else {
         if !strings.HasSuffix(str, "/") {
             str = str + "/"

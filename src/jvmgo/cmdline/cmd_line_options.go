@@ -21,7 +21,8 @@ func parseOptions(args *CmdLineArgs) (*Options) {
 
     for !args.empty() && args.first()[0] == '-' {
         optionName := args.removeFirst()
-        options.parseClassPathOption(optionName, args)
+        _ = options.parseClassPathOption(optionName, args) ||
+            options.parseVerboseOption(optionName, args)
         // todo
     }
 
@@ -32,6 +33,14 @@ func (self *Options) parseClassPathOption(optionName string, args *CmdLineArgs) 
     if optionName == "-classpath" || optionName == "-cp" {
         optionVal := args.removeFirst()
         self.classpath = classpath.ParseClassPath(optionVal)
+        return true
+    }
+    return false
+}
+
+func (self *Options) parseVerboseOption(optionName string, args *CmdLineArgs) bool {
+    if optionName == "-verbose" || optionName == "-verbose:class" {
+        self.verboseClass = true
         return true
     }
     return false

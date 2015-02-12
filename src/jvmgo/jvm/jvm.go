@@ -4,9 +4,9 @@ import (
     "fmt"
     . "jvmgo/any"
     "jvmgo/cmdline"
-    _ "jvmgo/native"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
+    _ "jvmgo/native"
 )
 
 func Startup(cmd *cmdline.Command) {

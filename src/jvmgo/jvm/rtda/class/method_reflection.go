@@ -16,3 +16,10 @@ func (self *Method) ParameterTypes() ([]*Class) {
 
     return paramClasses
 }
+
+func (self *Method) ReturnType() (*Class) {
+    returnDescriptor := self.MethodDescriptor().returnType.descriptor
+    returnClassName := getClassName(returnDescriptor)
+    returnClass := self.class.classLoader.LoadClass(returnClassName)
+    return returnClass
+}

@@ -103,6 +103,9 @@ func (self *ClassLoader) GetPrimitiveClass(name string) (*Class) {
     return self.getClass(name)
 }
 
+func (self *ClassLoader) JLClassClass() (*Class) {
+    return _jlClassClass
+}
 func (self *ClassLoader) StringClass() (*Class) {
     return self.getClass(jlStringClassName)
 }

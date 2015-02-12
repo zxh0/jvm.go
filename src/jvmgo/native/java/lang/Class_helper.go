@@ -8,7 +8,7 @@ func getParameterTypeArr(method *rtc.Method) (*rtc.Obj) {
     goParamTypes := method.ParameterTypes()
     paramCount := uint(len(goParamTypes))
 
-    classClass := method.Class().ClassLoader().LoadClass("java/lang/Class")
+    classClass := method.Class().ClassLoader().JLClassClass()
     classArr := classClass.NewArray(paramCount)
 
     if paramCount > 0 {
@@ -19,4 +19,9 @@ func getParameterTypeArr(method *rtc.Method) (*rtc.Obj) {
     }
 
     return classArr
+}
+
+func getReturnType(method *rtc.Method) (*rtc.Obj) {
+    goReturnType := method.ReturnType()
+    return goReturnType.JClass()
 }

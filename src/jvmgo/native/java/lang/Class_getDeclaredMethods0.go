@@ -59,7 +59,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
             vars.SetRef(1, classObj) // declaringClass
             vars.SetRef(2, rtda.NewJString(method.Name(), frame)) // name
             vars.SetRef(3, getParameterTypeArr(method)) // parameterTypes
-            vars.SetRef(4, nil) // todo returnType
+            vars.SetRef(4, getReturnType(method)) // returnType
             vars.SetRef(5, nil) // todo checkedExceptions
             vars.SetInt(6, int32(method.GetAccessFlags())) // modifiers
             vars.SetInt(7, int32(0)) // todo slot

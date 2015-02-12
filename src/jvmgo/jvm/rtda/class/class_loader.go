@@ -1,9 +1,11 @@
 package class
 
 import (
+    "fmt"
     . "jvmgo/any"
     "jvmgo/classfile"
     "jvmgo/classpath"
+    "jvmgo/jvm/options"
 )
 
 const (
@@ -136,7 +138,6 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
 }
 
 func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
-    //log.Printf("load: %v", name)
     class := self.parseClassFile(name)
     hackClass(class)
     self.resolveSuperClass(class)
@@ -153,6 +154,9 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
         class.jClass.extra = class
     }
 
+    if options.VerboseClass {
+        fmt.Printf("[Loaded %s]\n", name)
+    }
     return class
 }
 

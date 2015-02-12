@@ -9,11 +9,15 @@ type Options struct {
     verboseClass    bool
 }
 
+// getters
 func (self *Options) Classpath() (*classpath.ClassPath) {
     if self.classpath == nil {
         self.classpath = classpath.ParseClassPath(".")
     }
     return self.classpath
+}
+func (self *Options) VerboseClass() bool {
+    return self.verboseClass
 }
 
 func parseOptions(args *CmdLineArgs) (*Options) {

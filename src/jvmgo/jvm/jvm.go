@@ -4,12 +4,14 @@ import (
     "fmt"
     . "jvmgo/any"
     "jvmgo/cmdline"
+    "jvmgo/jvm/options"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
     _ "jvmgo/native"
 )
 
 func Startup(cmd *cmdline.Command) {
+    options.Init(cmd.Options())
     classPath := cmd.Options().Classpath()
     classLoader := rtc.NewClassLoader(classPath)
     mainThread := createMainThread(classLoader, cmd.Class(), cmd.Args())

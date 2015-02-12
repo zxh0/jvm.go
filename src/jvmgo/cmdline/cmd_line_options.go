@@ -1,12 +1,12 @@
 package cmdline
 
 import (
-    "strings"
     "jvmgo/classpath"
 )
 
 type Options struct {
-    classpath *classpath.ClassPath
+    classpath       *classpath.ClassPath
+    verboseClass    bool
 }
 
 func (self *Options) Classpath() (*classpath.ClassPath) {
@@ -19,13 +19,7 @@ func (self *Options) Classpath() (*classpath.ClassPath) {
 func parseOptions(args *CmdLineArgs) (*Options) {
     options := &Options{}
 
-    for {
-        if args.empty() {
-            break
-        }
-        if !strings.HasPrefix(args.first(), "-") {
-            break
-        }
+    for !args.empty() && args.first()[0] == '-' {
         optionName := args.removeFirst()
         if optionName == "-classpath" || optionName == "-cp" {
             optionVal := args.removeFirst()

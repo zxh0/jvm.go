@@ -5,6 +5,25 @@ import (
     rtc "jvmgo/jvm/rtda/class"
 )
 
+/*
+Constructor(Class<T> declaringClass,
+            Class<?>[] parameterTypes,
+            Class<?>[] checkedExceptions,
+            int modifiers,
+            int slot,
+            String signature,
+            byte[] annotations,
+            byte[] parameterAnnotations)
+}
+*/
+const _constructorConstructorDescriptor = 
+        "(Ljava/lang/Class;" +
+        "[Ljava/lang/Class;" +
+        "[Ljava/lang/Class;" +
+        "II" +
+        "Ljava/lang/String;" +
+        "[B[B)V"
+
 // private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Constructor;
 func getDeclaredConstructors0(frame *rtda.Frame) {
@@ -17,7 +36,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
     constructorCount := uint(len(goConstructors))
     
     constructorClass := goClass.ClassLoader().LoadClass("java/lang/reflect/Constructor")
-    constructorInitMethod := constructorClass.GetConstructor("(Ljava/lang/Class;[Ljava/lang/Class;[Ljava/lang/Class;IILjava/lang/String;[B[B)V")
+    constructorInitMethod := constructorClass.GetConstructor(_constructorConstructorDescriptor)
     constructorArr := constructorClass.NewArray(constructorCount)
     stack := frame.OperandStack()
     stack.PushRef(constructorArr)
@@ -29,17 +48,6 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
             constructorObj := constructorClass.NewObjWithExtra(goConstructor)
             constructorObjs[i] = constructorObj
             // call <init>
-            /*
-            Constructor(Class<T> declaringClass,
-                        Class<?>[] parameterTypes,
-                        Class<?>[] checkedExceptions,
-                        int modifiers,
-                        int slot,
-                        String signature,
-                        byte[] annotations,
-                        byte[] parameterAnnotations)
-            }
-            */
             newFrame := thread.NewFrame(constructorInitMethod)
             vars := newFrame.LocalVars()
             vars.SetRef(0, constructorObj) // this

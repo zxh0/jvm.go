@@ -7,16 +7,16 @@ import (
 
 /*
 Method(Class<?> declaringClass,
-        String name,
-        Class<?>[] parameterTypes,
-        Class<?> returnType,
-        Class<?>[] checkedExceptions,
-        int modifiers,
-        int slot,
-        String signature,
-        byte[] annotations,
-        byte[] parameterAnnotations,
-        byte[] annotationDefault)
+       String name,
+       Class<?>[] parameterTypes,
+       Class<?> returnType,
+       Class<?>[] checkedExceptions,
+       int modifiers,
+       int slot,
+       String signature,
+       byte[] annotations,
+       byte[] parameterAnnotations,
+       byte[] annotationDefault)
 */
 const _methodConstructorDescriptor = 
         "(Ljava/lang/Class;" +

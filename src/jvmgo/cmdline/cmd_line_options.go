@@ -23,7 +23,7 @@ func (self *Options) VerboseClass() bool {
 func parseOptions(args *CmdLineArgs) (*Options) {
     options := &Options{}
 
-    for !args.empty() && args.first()[0] == '-' {
+    for !args.isEmpty() && args.first()[0] == '-' {
         optionName := args.removeFirst()
         _ = options.parseClassPathOption(optionName, args) ||
             options.parseVerboseOption(optionName, args)

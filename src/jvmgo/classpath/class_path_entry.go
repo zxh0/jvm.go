@@ -1,7 +1,6 @@
 package classpath
 
 import (
-    //"io/ioutil"
     "strings"
 )
 

@@ -4,7 +4,7 @@ type CmdLineArgs struct {
     args []string
 }
 
-func (self *CmdLineArgs) empty() (bool) {
+func (self *CmdLineArgs) isEmpty() (bool) {
     return len(self.args) == 0
 }
 

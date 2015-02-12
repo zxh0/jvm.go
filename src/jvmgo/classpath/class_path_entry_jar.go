@@ -17,6 +17,10 @@ func newClassPathJarEntry(jar string) (*ClassPathJarEntry) {
     return &ClassPathJarEntry{jar, nil}
 }
 
+func (self *ClassPathJarEntry) String() string {
+    return self.jar
+}
+
 func (self *ClassPathJarEntry) readClassData(className string) ([]byte, error) {
     if self.zipRC == nil {
         err := self.openJar()

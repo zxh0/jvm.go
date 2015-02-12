@@ -15,3 +15,7 @@ func (self *ClassPathDirEntry) readClassData(className string) ([]byte, error) {
 
     return data, nil
 }
+
+func (self *ClassPathDirEntry) String() string {
+    return self.dir
+}

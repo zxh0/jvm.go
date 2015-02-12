@@ -138,7 +138,7 @@ func (self *ClassLoader) LoadClass(name string) (*Class) {
 }
 
 func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
-    class := self.parseClassFile(name)
+    cpEntry, class := self.parseClassFile(name)
     hackClass(class)
     self.resolveSuperClass(class)
     self.resolveInterfaces(class)
@@ -155,13 +155,13 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     }
 
     if options.VerboseClass {
-        fmt.Printf("[Loaded %s from %s]\n", name)
+        fmt.Printf("[Loaded %s from %s]\n", name, cpEntry)
     }
     return class
 }
 
-func (self *ClassLoader) parseClassFile(name string) (class *Class) {
-    classData, err := self.classPath.ReadClassData(name)
+func (self *ClassLoader) parseClassFile(name string) (classpath.ClassPathEntry, *Class) {
+    cpEntry, classData, err := self.classPath.ReadClassData(name)
     if err != nil {
         // todo
         panic("class not found: " + name + "!")
@@ -173,7 +173,7 @@ func (self *ClassLoader) parseClassFile(name string) (class *Class) {
         panic("failed to parse class file: " + name + "!" + err.Error())
     }
 
-    return newClass(cf)
+    return cpEntry, newClass(cf)
 }
 
 // todo

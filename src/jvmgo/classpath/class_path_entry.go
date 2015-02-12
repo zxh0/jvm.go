@@ -8,6 +8,7 @@ import (
 type ClassPathEntry interface {
     // className: fully/qualified/ClassName.class
     readClassData(className string) ([]byte, error)
+    String() string
 }
 
 func parseClassPathEntry(absPath string) (ClassPathEntry) {

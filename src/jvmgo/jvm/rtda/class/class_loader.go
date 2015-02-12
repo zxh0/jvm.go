@@ -155,7 +155,7 @@ func (self *ClassLoader) reallyLoadClass(name string) (*Class) {
     }
 
     if options.VerboseClass {
-        fmt.Printf("[Loaded %s]\n", name)
+        fmt.Printf("[Loaded %s from %s]\n", name)
     }
     return class
 }

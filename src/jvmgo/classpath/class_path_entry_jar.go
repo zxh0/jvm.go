@@ -3,7 +3,9 @@ package classpath
 import (
     "archive/zip"
     "errors"
+    "fmt"
     "io/ioutil"
+    "jvmgo/jvm/options"
 )
 
 type ClassPathJarEntry struct {
@@ -36,6 +38,9 @@ func (self *ClassPathJarEntry) openJar() error {
     r, err := zip.OpenReader(self.jar) // func OpenReader(name string) (*ReadCloser, error)
     if err == nil {
         self.zipRC = r
+        if options.VerboseClass {
+            fmt.Printf("[Opened %v]\n", self.jar)
+        }
     }
     return err
 }

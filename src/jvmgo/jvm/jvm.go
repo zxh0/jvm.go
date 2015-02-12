@@ -11,7 +11,7 @@ import (
 )
 
 func Startup(cmd *cmdline.Command) {
-    options.Init(cmd.Options())
+    initOptions(cmd.Options())
     classPath := cmd.Options().Classpath()
     classLoader := rtc.NewClassLoader(classPath)
     mainThread := createMainThread(classLoader, cmd.Class(), cmd.Args())
@@ -35,6 +35,10 @@ func Startup(cmd *cmdline.Command) {
     }()
 
     loop(mainThread)
+}
+
+func initOptions(_options *cmdline.Options) {
+    options.VerboseClass = _options.VerboseClass()
 }
 
 func createMainThread(classLoader Any, className string, args []string) (*rtda.Thread) {

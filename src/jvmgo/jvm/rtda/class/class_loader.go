@@ -71,10 +71,8 @@ func (self *ClassLoader) loadPrimitiveClass(className string) {
 }
 
 func (self *ClassLoader) loadPrimitiveArrayClasses() {
-    for _, arrayType := range primitiveTypes {
-        if arrayType != "" {
-            self.loadArrayClass(arrayType)
-        }
+    for _, descriptor := range primitiveTypes {
+        self.loadArrayClass("[" + descriptor)
     }
 }
 func (self *ClassLoader) loadArrayClass(className string) {

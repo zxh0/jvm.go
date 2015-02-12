@@ -1,7 +1,5 @@
 package class
 
-import "jvmgo/util"
-
 func (self *Class) IsPrimitive() bool {
     return isPrimitiveType(self.name)
 }
@@ -10,28 +8,9 @@ func (self *Class) IsArray() bool {
 }
 
 func (self *Class) ComponentClass() (*Class) {
-    if self.name[0] != '[' {
-        util.Panicf("Not array: %v", self)
-        return nil
-    }
-
-    switch self.name[1] {
-    case 'L': // reference array: [LcomponentClassName;
-        componentClassName := self.name[2: len(self.name) - 1]
-        return self.classLoader.getClass(componentClassName)
-    case '[': // multidimensional array: [[...
-        componentClassName := self.name[1:]
-        return self.classLoader.getClass(componentClassName)
-    default: // primitive array
-        for primitiveType, arrayType := range primitiveTypes {
-            if arrayType == self.name {
-                return self.classLoader.getClass(primitiveType)
-            }
-        }
-    }
-
-    util.Panicf("Not array: %v", self)
-    return nil
+    componentDescriptor := getComponentDescriptor(self.name)
+    componentClassName := getClassName(componentDescriptor)
+    return self.classLoader.getClass(componentClassName)
 }
 
 func (self *Class) GetFields(publicOnly bool) ([]*Field) {

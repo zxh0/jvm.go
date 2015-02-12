@@ -7,12 +7,12 @@ func (self *Method) ParameterTypes() ([]*Class) {
         return _emptyParameterTypes
     }
 
-    md := self.MethodDescriptor()
     classLoader := self.class.classLoader
-    parameterTypes := make([]*Class, self.argCount)
-    for i, paramType := range md.parameterTypes {
-        parameterTypes[i] = classLoader.LoadClass(paramType.descriptor) // todo
+    paramClasses := make([]*Class, self.argCount)
+    for i, paramType := range self.MethodDescriptor().parameterTypes {
+        paramClassName := getClassName(paramType.descriptor)
+        paramClasses[i] = classLoader.LoadClass(paramClassName)
     }
 
-    return parameterTypes
+    return paramClasses
 }

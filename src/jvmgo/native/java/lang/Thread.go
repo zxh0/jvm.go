@@ -17,6 +17,18 @@ func _thread(method Any, name, desc string) {
     rtc.RegisterNativeMethod("java/lang/Thread", name, desc, method)
 }
 
+// @Deprecated public native int countStackFrames();
+// private native boolean isInterrupted(boolean ClearInterrupted);
+// public static native boolean holdsLock(Object obj);
+// private native static StackTraceElement[][] dumpThreads(Thread[] threads);
+// private native static Thread[] getThreads();
+// private native void setPriority0(int newPriority);
+// private native void stop0(Object o);
+// private native void suspend0();
+// private native void resume0();
+// private native void interrupt0();
+// private native void setNativeName(String name);
+
 // public static native Thread currentThread();
 // ()Ljava/lang/Thread;
 func currentThread(frame *rtda.Frame) {

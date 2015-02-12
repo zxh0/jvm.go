@@ -13,6 +13,21 @@ type ClassPath struct {
     entries []ClassPathEntry
 }
 
+func ParseClassPath(cpOption string) (*ClassPath) {
+    if cpOption == "" {
+        return &ClassPath{}
+    }
+
+    cpOptionSplitted := strings.Split(cpOption, pathListSeparator)
+    cpEntries := make([]ClassPathEntry, len(cpOptionSplitted))
+
+    for i, str := range cpOptionSplitted {
+        cpEntries[i] = parseClassPathEntry(str)
+    }
+
+    return &ClassPath{cpEntries}
+}
+
 // className: fully/qualified/ClassName
 func (self *ClassPath) ReadClassData(className string) ([]byte, error) {
     className = className + ".class"
@@ -26,19 +41,4 @@ func (self *ClassPath) ReadClassData(className string) ([]byte, error) {
     // todo
     err := errors.New("class not found!")
     return nil, err
-}
-
-func ParseClassPath(cpOption string) (*ClassPath) {
-    if cpOption == "" {
-        return &ClassPath{}
-    }
-
-    cpOptionSplitted := strings.Split(cpOption, pathListSeparator)
-    cpEntries := make([]ClassPathEntry, len(cpOptionSplitted))
-
-    for idx, str := range cpOptionSplitted {
-        cpEntries[idx] = parseClassPathEntry(str)
-    }
-
-    return &ClassPath{cpEntries}
 }

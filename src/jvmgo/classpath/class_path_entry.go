@@ -10,14 +10,14 @@ type ClassPathEntry interface {
     readClassData(className string) ([]byte, error)
 }
 
-func parseClassPathEntry(str string) (ClassPathEntry) {
-    if strings.HasSuffix(str, ".jar") {
-        return newClassPathJarEntry(str)
+func parseClassPathEntry(absPath string) (ClassPathEntry) {
+    if strings.HasSuffix(absPath, ".jar") {
+        return newClassPathJarEntry(absPath)
     } else {
-        if !strings.HasSuffix(str, "/") {
-            str = str + "/"
+        if !strings.HasSuffix(absPath, "/") {
+            absPath = absPath + "/"
         }
 
-        return &ClassPathDirEntry{str}
+        return &ClassPathDirEntry{absPath}
     }
 }

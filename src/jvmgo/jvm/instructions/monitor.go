@@ -6,20 +6,24 @@ import "jvmgo/jvm/rtda"
 type monitorenter struct {NoOperandsInstruction}
 func (self *monitorenter) Execute(frame *rtda.Frame) {
     ref := frame.OperandStack().PopRef()
-    if ref != nil {
-        
+    if ref == nil {
+        // todo
+        panic("NPE")
     }
-    // todo
-    //panic("monitorenter")
+
+    thread := frame.Thread()
+    ref.Monitor().Enter(thread)
 }
 
 // Exit monitor for object
 type monitorexit struct {NoOperandsInstruction}
 func (self *monitorexit) Execute(frame *rtda.Frame) {
     ref := frame.OperandStack().PopRef()
-    if ref != nil {
-        
+    if ref == nil {
+        // todo
+        panic("NPE")
     }
-    // todo
-    //panic("monitorexit")
+
+    thread := frame.Thread()
+    ref.Monitor().Exit(thread)
 }

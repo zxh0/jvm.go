@@ -14,7 +14,7 @@ type Obj struct {
 }
 
 func newObj(class *Class, fields, extra Any) (*Obj) {
-    return &Obj{&Monitor{}, class, fields, extra}
+    return &Obj{newMonitor(), class, fields, extra}
 }
 
 func (self *Obj) String() string {

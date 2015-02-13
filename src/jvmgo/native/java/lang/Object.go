@@ -21,7 +21,7 @@ func _object(method Any, name, desc string) {
 // ()Ljava/lang/Object;
 func clone(frame *rtda.Frame) {
     vars := frame.LocalVars()
-    this := vars.GetRef(0)
+    this := vars.GetThis()
     // todo
     stack := frame.OperandStack()
     stack.PushRef(this)
@@ -31,7 +31,7 @@ func clone(frame *rtda.Frame) {
 // ()Ljava/lang/Class;
 func getClass(frame *rtda.Frame) {
     vars := frame.LocalVars()
-    this := vars.GetRef(0)
+    this := vars.GetThis()
 
     class := this.Class().JClass()
     stack := frame.OperandStack()
@@ -42,9 +42,31 @@ func getClass(frame *rtda.Frame) {
 // ()I
 func hashCode(frame *rtda.Frame) {
     vars := frame.LocalVars()
-    this := vars.GetRef(0)
+    this := vars.GetThis()
 
     hash := int32(uintptr(unsafe.Pointer(this)))
     stack := frame.OperandStack()
     stack.PushInt(hash)
+}
+
+// public final native void notify();
+// public final native void notifyAll();
+
+// public final native void wait(long timeout) throws InterruptedException;
+// (J)V
+func wait(frame *rtda.Frame) {
+    vars := frame.LocalVars()
+    this := vars.GetThis()
+    // timeout := vars.GetLong(1)
+
+    thread := frame.Thread()
+    monitor := this.Monitor()
+    if !monitor.HasOwner(thread) {
+        // todo
+        panic("IllegalMonitorStateException")
+    }
+    
+    monitor.Wait()
+
+    // todo
 }

@@ -2,7 +2,7 @@ package lang
 
 import (
     . "jvmgo/any"
-    // "jvmgo/jvm/interpreter"
+    "jvmgo/jvm/interpreter"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
 )
@@ -57,13 +57,12 @@ func setPriority0(frame *rtda.Frame) {
 // private native void start0();
 // ()V
 func start0(frame *rtda.Frame) {
-    // vars := frame.LocalVars()
-    // this := vars.GetThis()
+    vars := frame.LocalVars()
+    this := vars.GetThis()
 
-    // runMethod := this.Class().GetInstanceMethod("run", "()V")
-    // thread := rtda.NewThread(this)
-    // interpreter.Loop(thread)
-
-    // panic(runMethod.Name())
-    // todo
+    runMethod := this.Class().GetInstanceMethod("run", "()V")
+    newThread := rtda.NewThread(this)
+    newFrame := newThread.NewFrame(runMethod)
+    newThread.PushFrame(newFrame)
+    interpreter.Loop(newThread)
 }

@@ -7,9 +7,22 @@ import (
 
 type Monitor struct {
     owner       Any // *rtda.Thread
-    ownerLock   sync.Mutex
-    lock        sync.Mutex
+    ownerLock   sync.Locker
+    lock        sync.Locker
     entryCount  int
+    cond        *sync.Cond
+}
+
+func newMonitor() (*Monitor) {
+    m := &Monitor{}
+    m.ownerLock = &sync.Mutex{}
+    m.lock = &sync.Mutex{}
+    m.cond = sync.NewCond(m.lock)
+    return m
+}
+
+func (self *Monitor) Cond() (*sync.Cond) {
+    return self.cond
 }
 
 func (self *Monitor) Enter(thread Any) {
@@ -23,18 +36,50 @@ func (self *Monitor) Enter(thread Any) {
     }
 
     self.lock.Lock()
+
+    self.ownerLock.Lock()
     self.owner = thread
     self.entryCount = 1
+    self.ownerLock.Unlock()
 }
 
 func (self *Monitor) Exit(thread Any) {
     self.ownerLock.Lock()
+    var _unlock bool
     if self.owner == thread {
         self.entryCount--
         if self.entryCount == 0 {
             self.owner = nil
-            self.lock.Unlock()
+            _unlock = true
         }
     }
+    self.ownerLock.Unlock()
+
+    if _unlock {
+        self.lock.Unlock()
+    }
+}
+
+func (self *Monitor) HasOwner(thread Any) bool {
+    self.ownerLock.Lock()
+    ok := self.owner == thread
+    self.ownerLock.Unlock()
+
+    return ok
+}
+
+func (self *Monitor) Wait() {
+    self.ownerLock.Lock()
+    oldEntryCount := self.entryCount
+    oldOwner := self.owner
+    self.entryCount = 0
+    self.owner = nil
+    self.ownerLock.Unlock()
+
+    self.cond.Wait()
+
+    self.ownerLock.Lock()
+    self.entryCount = oldEntryCount
+    self.owner = oldOwner
     self.ownerLock.Unlock()
 }

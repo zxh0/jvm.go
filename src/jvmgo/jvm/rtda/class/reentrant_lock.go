@@ -32,6 +32,7 @@ func (self *ReentrantLock) Unlock(thread Any) {
     if self.holder == thread {
         self.lockCount--
         if self.lockCount == 0 {
+            self.holder = nil
             self.lock.Unlock()
         }
     }

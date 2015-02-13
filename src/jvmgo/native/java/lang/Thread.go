@@ -47,16 +47,22 @@ func isAlive(frame *rtda.Frame) {
 // private native void setPriority0(int newPriority);
 // (I)V
 func setPriority0(frame *rtda.Frame) {
-    // stack := frame.OperandStack()
-    // /*newPriority := */stack.PopInt()
-    // /*this := */stack.PopRef()
-    // // todo
+    // vars := frame.LocalVars()
+    // this := vars.GetThis()
+    // newPriority := vars.GetInt(1))
+    // todo
 }
 
 // private native void start0();
 // ()V
 func start0(frame *rtda.Frame) {
-    // stack := frame.OperandStack()
-    // stack.PopRef() // this
+    // vars := frame.LocalVars()
+    // this := vars.GetThis()
+
+    // // var thread := 
+
+    // class := this.Class()
+    // runMethod := class.GetInstanceMethod("run", "()V")
+    // panic(runMethod.Name())
     // todo
 }

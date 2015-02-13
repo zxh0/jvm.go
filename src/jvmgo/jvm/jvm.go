@@ -4,6 +4,7 @@ import (
     "fmt"
     . "jvmgo/any"
     "jvmgo/cmdline"
+    "jvmgo/jvm/interpreter"
     "jvmgo/jvm/options"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
@@ -34,7 +35,7 @@ func Startup(cmd *cmdline.Command) {
         }
     }()
 
-    loop(mainThread)
+    interpreter.Loop(mainThread)
 }
 
 func initOptions(_options *cmdline.Options) {

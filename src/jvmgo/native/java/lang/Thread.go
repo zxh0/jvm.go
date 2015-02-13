@@ -2,6 +2,7 @@ package lang
 
 import (
     . "jvmgo/any"
+    // "jvmgo/jvm/interpreter"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
 )
@@ -59,10 +60,10 @@ func start0(frame *rtda.Frame) {
     // vars := frame.LocalVars()
     // this := vars.GetThis()
 
-    // // var thread := 
+    // runMethod := this.Class().GetInstanceMethod("run", "()V")
+    // thread := rtda.NewThread(this)
+    // interpreter.Loop(thread)
 
-    // class := this.Class()
-    // runMethod := class.GetInstanceMethod("run", "()V")
     // panic(runMethod.Name())
     // todo
 }

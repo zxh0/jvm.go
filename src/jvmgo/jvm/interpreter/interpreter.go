@@ -1,4 +1,4 @@
-package jvm
+package interpreter
 
 import (
     "log"
@@ -7,7 +7,7 @@ import (
 )
 
 // todo
-func loop(thread *rtda.Thread) {
+func Loop(thread *rtda.Thread) {
     decoder := instructions.NewInstructionDecoder()
     for {
         frame := thread.CurrentFrame() 

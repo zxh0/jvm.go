@@ -4,6 +4,7 @@ import (
     "log"
     "strings"
     "jvmgo/any"
+    "jvmgo/jvm/options"
     rtc "jvmgo/jvm/rtda/class"
 )
 
@@ -23,8 +24,8 @@ type Thread struct {
     // todo
 }
 
-func NewThread(maxStackSize uint, jThread *rtc.Obj) (*Thread) {
-    stack := newStack(maxStackSize)
+func NewThread(jThread *rtc.Obj) (*Thread) {
+    stack := newStack(options.ThreadStackSize)
     return &Thread{0, stack, jThread}
 }
 

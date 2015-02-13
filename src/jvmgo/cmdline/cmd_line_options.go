@@ -18,6 +18,12 @@ type Options struct {
     xss             int
 }
 
+func newOptions() (*Options) {
+    options := &Options{}
+    options.xss = 16 * _1k
+    return options
+}
+
 // getters
 func (self *Options) Classpath() (*classpath.ClassPath) {
     if self.classpath == nil {
@@ -33,7 +39,7 @@ func (self *Options) Xss() int {
 }
 
 func parseOptions(args *CmdLineArgs) (*Options) {
-    options := &Options{}
+    options := newOptions()
 
     for !args.isEmpty() && args.first()[0] == '-' {
         optionName := args.removeFirst()

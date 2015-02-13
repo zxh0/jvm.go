@@ -39,10 +39,11 @@ func Startup(cmd *cmdline.Command) {
 
 func initOptions(_options *cmdline.Options) {
     options.VerboseClass = _options.VerboseClass()
+    options.ThreadStackSize = uint(_options.Xss())
 }
 
 func createMainThread(classLoader Any, className string, args []string) (*rtda.Thread) {
-    mainThread := rtda.NewThread(128, nil)
+    mainThread := rtda.NewThread(nil)
     bootMethod := rtc.NewBootstrapMethod([]byte{0xff, 0xb1}, classLoader)
     bootFrame := mainThread.NewFrame(bootMethod)
     mainThread.PushFrame(bootFrame)

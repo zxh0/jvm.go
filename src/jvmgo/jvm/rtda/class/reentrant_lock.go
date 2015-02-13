@@ -3,7 +3,6 @@ package class
 import (
     "sync"
     . "jvmgo/any"
-    "jvmgo/util"
 )
 
 type ReentrantLock struct {
@@ -13,33 +12,28 @@ type ReentrantLock struct {
     lockCount   int
 }
 
-// thread: *rtda.Thread
 func (self *ReentrantLock) Lock(thread Any) {
     self.holderLock.Lock()
-    defer self.holderLock.Unlock()
-
     if self.holder == thread {
         self.lockCount++
-    } else if self.holder == nil {
-        self.holder = thread
-        self.lockCount++
-        self.lock.Lock()
+        self.holderLock.Unlock()
+        return
+    } else {
+        self.holderLock.Unlock()
     }
+
+    self.lock.Lock()
+    self.holder = thread
+    self.lockCount = 1
 }
 
 func (self *ReentrantLock) Unlock(thread Any) {
     self.holderLock.Lock()
-    defer self.holderLock.Unlock()
-
-    if self.holder == thread && self.lockCount > 0 {
+    if self.holder == thread {
         self.lockCount--
         if self.lockCount == 0 {
-            self.holder = nil
             self.lock.Unlock()
         }
-    } else {
-        // todo
-        util.Panicf("BAD ReentrantLock state! holder:%v lockCount:%v",
-            self.holder, self.lockCount)
     }
+    self.holderLock.Unlock()
 }

@@ -86,18 +86,19 @@ func (self *Thread) InvokeMethod(method * rtc.Method) {
     currentFrame := self.CurrentFrame()
     newFrame := self.NewFrame(method)
     self.PushFrame(newFrame)
-    _passArgs(currentFrame.operandStack, newFrame.localVars, method.ActualArgCount())
+    actualArgCount := method.ActualArgCount()
+    if actualArgCount > 0 {
+        _passArgs(currentFrame.operandStack, newFrame.localVars, actualArgCount)
+    }
 }
 func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
-    if argCount > 0 {
-        args := stack.popTops(argCount)
-        for i, j := uint(0), uint(0); i < argCount; i++ {
-            arg := args[i]
-            args[i] = nil
-            vars.Set(i + j, arg)
-            if any.IsLongOrDouble(arg) {
-                j++
-            }
+    args := stack.popTops(argCount)
+    for i, j := uint(0), uint(0); i < argCount; i++ {
+        arg := args[i]
+        args[i] = nil
+        vars.Set(i + j, arg)
+        if any.IsLongOrDouble(arg) {
+            j++
         }
     }
 }

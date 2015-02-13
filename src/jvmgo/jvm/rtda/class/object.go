@@ -7,9 +7,14 @@ import (
 
 // object
 type Obj struct {
+    monitor *Monitor
     class   *Class
     fields  Any // []Any for Object, []int32 for int[] ...
     extra   Any // todo
+}
+
+func newObj(class *Class, fields, extra Any) (*Obj) {
+    return &Obj{&Monitor{}, class, fields, extra}
 }
 
 func (self *Obj) String() string {
@@ -20,6 +25,9 @@ func (self *Obj) String() string {
 // getters & setters
 func (self *Obj) Class() (*Class) {
     return self.class
+}
+func (self *Obj) Monitor() (*Monitor) {
+    return self.monitor
 }
 func (self *Obj) Fields() (Any) {
     return self.fields

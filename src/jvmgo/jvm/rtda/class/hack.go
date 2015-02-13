@@ -2,13 +2,7 @@ package class
 
 import (
     . "jvmgo/any"
-    //cf "jvmgo/classfile"
 )
-
-// only used by string_helper.go
-func NewIntArray(ints []int32) (*Obj) {
-    return &Obj{nil, ints, nil}
-}
 
 // only used by jvm.go
 func NewBootstrapMethod(code []byte, classLoader Any) (*Method) {

@@ -16,32 +16,32 @@ const (
 
 func NewPrimitiveArray(atype uint8, count uint, classLoader *ClassLoader) (*Obj) {
     switch atype {
-    case AT_BOOLEAN: return &Obj{classLoader.getClass("[Z"), make([]int8, count),      nil}
-    case AT_BYTE:    return &Obj{classLoader.getClass("[B"), make([]int8, count),      nil}
-    case AT_CHAR:    return &Obj{classLoader.getClass("[C"), make([]uint16, count),    nil}
-    case AT_SHORT:   return &Obj{classLoader.getClass("[S"), make([]int16, count),     nil}
-    case AT_INT:     return &Obj{classLoader.getClass("[I"), make([]int32, count),     nil}
-    case AT_LONG:    return &Obj{classLoader.getClass("[J"), make([]int64, count),     nil}
-    case AT_FLOAT:   return &Obj{classLoader.getClass("[F"), make([]float32, count),   nil}
-    case AT_DOUBLE:  return &Obj{classLoader.getClass("[D"), make([]float64, count),   nil}
+    case AT_BOOLEAN: return newObj(classLoader.getClass("[Z"), make([]int8, count),      nil)
+    case AT_BYTE:    return newObj(classLoader.getClass("[B"), make([]int8, count),      nil)
+    case AT_CHAR:    return newObj(classLoader.getClass("[C"), make([]uint16, count),    nil)
+    case AT_SHORT:   return newObj(classLoader.getClass("[S"), make([]int16, count),     nil)
+    case AT_INT:     return newObj(classLoader.getClass("[I"), make([]int32, count),     nil)
+    case AT_LONG:    return newObj(classLoader.getClass("[J"), make([]int64, count),     nil)
+    case AT_FLOAT:   return newObj(classLoader.getClass("[F"), make([]float32, count),   nil)
+    case AT_DOUBLE:  return newObj(classLoader.getClass("[D"), make([]float64, count),   nil)
     default: panic("BAD atype!") // todo
     }
 }
 
 func NewCharArray(chars []uint16, classLoader *ClassLoader) (*Obj) {
-    return &Obj{classLoader.getClass("[C"), chars, nil}
+    return newObj(classLoader.getClass("[C"), chars, nil)
 }
 
 func NewRefArray(componentClass *Class, count uint) (*Obj) {
     arrClass := componentClass.getArrayClass()
     components := make([]*Obj, count)
-    return &Obj{arrClass, components, nil}
+    return newObj(arrClass, components, nil)
 }
 
 // todo rename
 func NewRefArray2(componentClass *Class, components []*Obj) (*Obj) {
     arrClass := componentClass.getArrayClass()
-    return &Obj{arrClass, components, nil}
+    return newObj(arrClass, components, nil)
 }
 
 // todo

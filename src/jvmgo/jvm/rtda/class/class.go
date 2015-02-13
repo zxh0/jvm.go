@@ -129,11 +129,11 @@ func (self *Class) NewObjWithExtra(extra Any) (*Obj) {
 func (self *Class) NewObj() (*Obj) {
     if self.instanceFieldCount > 0 {
         fields := make([]Any, self.instanceFieldCount)
-        obj := &Obj{self, fields, nil}
+        obj := newObj(self, fields, nil)
         obj.initFields()
         return obj
     } else {
-        return &Obj{self, nil, nil}
+        return newObj(self, nil, nil)
     }
 }
 func (self *Class) NewArray(count uint) (*Obj) {

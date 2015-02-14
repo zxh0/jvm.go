@@ -64,5 +64,5 @@ func start0(frame *rtda.Frame) {
     newThread := rtda.NewThread(this)
     newFrame := newThread.NewFrame(runMethod)
     newThread.PushFrame(newFrame)
-    interpreter.Loop(newThread)
+    go interpreter.Loop(newThread)
 }

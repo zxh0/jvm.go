@@ -11,6 +11,7 @@ func init() {
     _object(clone,      "clone",    "()Ljava/lang/Object;")
     _object(getClass,   "getClass", "()Ljava/lang/Class;")
     _object(hashCode,   "hashCode", "()I")
+    _object(wait,       "wait",     "(J)V")
 }
 
 func _object(method Any, name, desc string) {

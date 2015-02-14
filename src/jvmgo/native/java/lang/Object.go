@@ -58,7 +58,7 @@ func hashCode(frame *rtda.Frame) {
 func wait(frame *rtda.Frame) {
     vars := frame.LocalVars()
     this := vars.GetThis()
-    // timeout := vars.GetLong(1)
+    // timeout := vars.GetLong(1) // todo
 
     thread := frame.Thread()
     monitor := this.Monitor()
@@ -68,6 +68,4 @@ func wait(frame *rtda.Frame) {
     }
     
     monitor.Wait()
-
-    // todo
 }

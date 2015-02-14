@@ -21,10 +21,6 @@ func newMonitor() (*Monitor) {
     return m
 }
 
-func (self *Monitor) Cond() (*sync.Cond) {
-    return self.cond
-}
-
 func (self *Monitor) Enter(thread Any) {
     self.ownerLock.Lock()
     if self.owner == thread {
@@ -62,10 +58,10 @@ func (self *Monitor) Exit(thread Any) {
 
 func (self *Monitor) HasOwner(thread Any) bool {
     self.ownerLock.Lock()
-    ok := self.owner == thread
+    isOwner := self.owner == thread
     self.ownerLock.Unlock()
 
-    return ok
+    return isOwner
 }
 
 func (self *Monitor) Wait() {

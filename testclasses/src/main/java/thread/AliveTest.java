@@ -18,17 +18,20 @@ public class AliveTest {
         
         if (t.isAlive() != false) {
             System.out.println("t is alive!");
+            return;
         }
         
         t.start();
         Thread.sleep(1000);
         if (t.isAlive() != true) {
             System.out.println("t is not alive!");
+            return;
         }
         
         t.join();
         if (t.isAlive() != false) {
             System.out.println("t is not dead!");
+            return;
         }
         
         System.out.println("OK!");

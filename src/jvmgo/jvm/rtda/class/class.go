@@ -140,16 +140,16 @@ func (self *Class) NewArray(count uint) (*Obj) {
     return NewRefArray(self, count)
 }
 
-func (self *Class) isObject() bool {
+func (self *Class) isJlObject() bool {
     return self == _jlObjectClass
 }
-func (self *Class) IsCloneable() bool {
+func (self *Class) isJlCloneable() bool {
     return self == _jlCloneableClass
 }
-func (self *Class) IsSerializable() bool {
+func (self *Class) isJioSerializable() bool {
     return self == _ioSerializableClass
 }
-func (self *Class) IsThread() bool {
+func (self *Class) IsJlThread() bool {
     return self == _jlThreadClass
 }
 

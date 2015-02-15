@@ -21,7 +21,7 @@ func _checkcast(s, t *Class) bool {
             }
         } else {
             if !t.IsInterface() {
-                return t.isObject()
+                return t.isJlObject()
             } else {
                 return t.isSuperInterfaceOf(t)
             }
@@ -29,9 +29,9 @@ func _checkcast(s, t *Class) bool {
     } else { // s is array
         if !t.IsArray() {
             if !t.IsInterface() {
-                return t.isObject()
+                return t.isJlObject()
             } else {
-                return t.IsCloneable() || t.IsSerializable()
+                return t.isJlCloneable() || t.isJioSerializable()
             }
         } else { // t is array
             sc := s.ComponentClass()

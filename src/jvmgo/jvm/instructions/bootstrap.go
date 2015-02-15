@@ -8,7 +8,7 @@ import (
 
 // todo
 var (
-    _basicClasses       []string
+    _bootClasses        []string
     _classLoader        *rtc.ClassLoader
     _mainClassName      string
     _args               []string
@@ -20,10 +20,9 @@ var (
 type bootstrap struct {NoOperandsInstruction}
 func (self *bootstrap) Execute(frame *rtda.Frame) {
     thread := frame.Thread()
-    stack := frame.OperandStack()
 
     if _classLoader == nil {
-        initVars(stack)
+        initVars(frame)
         _classLoader.Init()
     }
     if bootClassesNotReady(thread) {
@@ -36,25 +35,15 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
         return
     }
 
-    // exec main()
-    thread.PopFrame()
-    mainClass := _classLoader.LoadClass(_mainClassName)
-    mainMethod := mainClass.GetMainMethod()
-    if mainMethod != nil {
-        newFrame := thread.NewFrame(mainMethod)
-        thread.PushFrame(newFrame)
-        args := createArgs(newFrame)
-        newFrame.LocalVars().SetRef(0, args)
-    } else {
-        panic("no main method!") // todo
-    }
+    execMain(thread)    
 }
 
-func initVars(stack *rtda.OperandStack) {
+func initVars(frame *rtda.Frame) {
+    stack := frame.OperandStack()
     _classLoader = stack.Pop().(*rtc.ClassLoader)
     _mainClassName = stack.Pop().(string)
     _args = stack.Pop().([]string)
-    _basicClasses = []string{
+    _bootClasses = []string{
         "java/lang/Class",
         "java/lang/String",
         "java/lang/System",
@@ -65,7 +54,7 @@ func initVars(stack *rtda.OperandStack) {
 }
 
 func bootClassesNotReady(thread *rtda.Thread) (bool) {
-    for _, className := range _basicClasses {
+    for _, className := range _bootClasses {
         class := _classLoader.LoadClass(className)
         if class.InitializationNotStarted() {
             undoExec(thread)
@@ -120,6 +109,20 @@ func jlSystemNotReady(thread *rtda.Thread) bool {
         return true
     }
     return false
+}
+
+func execMain(thread *rtda.Thread) {
+    thread.PopFrame()
+    mainClass := _classLoader.LoadClass(_mainClassName)
+    mainMethod := mainClass.GetMainMethod()
+    if mainMethod != nil {
+        newFrame := thread.NewFrame(mainMethod)
+        thread.PushFrame(newFrame)
+        args := createArgs(newFrame)
+        newFrame.LocalVars().SetRef(0, args)
+    } else {
+        panic("no main method!") // todo
+    }
 }
 
 // prepare to reexec this instruction

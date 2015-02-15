@@ -87,6 +87,22 @@ func (self *Thread) InvokeMethod(method * rtc.Method) {
     if actualArgCount > 0 {
         _passArgs(currentFrame.operandStack, newFrame.localVars, actualArgCount)
     }
+
+    if method.IsSynchronized() {
+        var monitor *rtc.Monitor
+        if method.IsStatic() {
+            classObj := method.Class().JClass()
+            monitor = classObj.Monitor()
+        } else {
+            thisObj := newFrame.LocalVars().GetThis()
+            monitor = thisObj.Monitor()
+        }
+
+        monitor.Enter(self)
+        newFrame.SetOnPopAction(func() {
+            monitor.Exit(self)
+        })
+    }
 }
 func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
     args := stack.popTops(argCount)

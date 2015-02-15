@@ -3,6 +3,12 @@ package thread;
 public class SynchronizedTest {
     
     public static void main(String[] args) {
+        synchronized (SynchronizedTest.class) {
+            test();
+        }
+    }
+    
+    private static synchronized void test() {
         new SynchronizedTest().foo();
     }
     

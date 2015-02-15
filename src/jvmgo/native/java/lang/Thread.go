@@ -93,6 +93,7 @@ func start0(frame *rtda.Frame) {
     newThread := rtda.NewThread(this)
     runMethod := this.Class().GetInstanceMethod("run", "()V")
     newFrame := newThread.NewFrame(runMethod)
+    newFrame.LocalVars().SetRef(0, this)
     newThread.PushFrame(newFrame)
 
     this.LockState()

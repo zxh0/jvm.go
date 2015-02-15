@@ -1,13 +1,9 @@
 package class
 
-import (
-    . "jvmgo/any"
-)
-
 // only used by jvm.go
-func NewBootstrapMethod(code []byte, classLoader Any) (*Method) {
+func NewBootstrapMethod(code []byte, cl *ClassLoader) (*Method) {
     method := &Method{}
-    method.class = &Class{name:"~jvmgo", classLoader:classLoader.(*ClassLoader)}
+    method.class = &Class{name:"~jvmgo", classLoader:cl}
     method.name = "<bootstrap>"
     method.accessFlags = ACC_STATIC
     method.maxStack = 8

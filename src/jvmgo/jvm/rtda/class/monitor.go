@@ -79,3 +79,7 @@ func (self *Monitor) Wait() {
     self.owner = oldOwner
     self.ownerLock.Unlock()
 }
+
+func (self *Monitor) NotifyAll() {
+    self.cond.Broadcast()
+}

@@ -28,6 +28,10 @@ func Loop(thread *rtda.Thread) {
             break;
         }
     }
+
+    // terminate thread
+    threadObj := thread.JThread()
+    threadObj.Monitor().NotifyAll()
 }
 
 func _logInstruction(frame *rtda.Frame, pc int, opcode uint8, inst instructions.Instruction) {

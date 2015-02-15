@@ -22,6 +22,8 @@ var (
     _jlClassClass           *Class
     _jlCloneableClass       *Class
     _ioSerializableClass    *Class
+    _jlThreadClass          *Class
+    _jlStringClass          *Class
 )
 
 /*
@@ -54,6 +56,8 @@ func (self *ClassLoader) Init() {
     }
     _jlCloneableClass = self.LoadClass(jlCloneableClassName)
     _ioSerializableClass = self.LoadClass(ioSerializableClassName)
+    _jlThreadClass = self.LoadClass(jlThreadClassName)
+    _jlStringClass = self.LoadClass(jlStringClassName)
     self.loadPrimitiveClasses()
     self.loadPrimitiveArrayClasses()
 }
@@ -109,10 +113,10 @@ func (self *ClassLoader) JLClassClass() (*Class) {
     return _jlClassClass
 }
 func (self *ClassLoader) StringClass() (*Class) {
-    return self.getClass(jlStringClassName)
+    return _jlStringClass
 }
 func (self *ClassLoader) ThreadClass() (*Class) {
-    return self.getClass(jlThreadClassName)
+    return _jlThreadClass
 }
 
 // todo dangerous

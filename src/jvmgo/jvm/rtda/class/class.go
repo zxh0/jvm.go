@@ -149,6 +149,9 @@ func (self *Class) IsCloneable() bool {
 func (self *Class) IsSerializable() bool {
     return self == _ioSerializableClass
 }
+func (self *Class) IsThread() bool {
+    return self == _jlThreadClass
+}
 
 
 // reflection

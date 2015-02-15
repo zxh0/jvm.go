@@ -97,7 +97,7 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         threadClass := _classLoader.LoadClass("java/lang/Thread")
         mainThread := threadClass.NewObj()
         threadClass.GetInstanceField("priority", "I").PutValue(mainThread, int32(1))
-        thread.SetJThread(mainThread)
+        thread.HackSetJThread(mainThread)
 
         initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
         stack.PushRef(mainThread) // this

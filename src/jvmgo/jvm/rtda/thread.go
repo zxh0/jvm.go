@@ -39,9 +39,6 @@ func (self *Thread) SetPC(pc int) {
 func (self *Thread) JThread() (*rtc.Obj) {
     return self.jThread
 }
-func (self *Thread) SetJThread(jThread *rtc.Obj) {
-    self.jThread = jThread
-}
 
 func (self *Thread) IsStackEmpty() (bool) {
     return self.stack.isEmpty()
@@ -152,4 +149,9 @@ func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
     // vars.SetRef(0, sysErr)
     // vars.SetRef(1, NewJString("Exception in thread \"main\" ", newFrame))
     // self.PushFrame(newFrame)
+}
+
+// hack
+func (self *Thread) HackSetJThread(jThread *rtc.Obj) {
+    self.jThread = jThread
 }

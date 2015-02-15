@@ -2,14 +2,32 @@ package interpreter
 
 import (
     "fmt"
-    "jvmgo/jvm/rtda"
     "jvmgo/jvm/instructions"
+    "jvmgo/jvm/keepalive"
+    "jvmgo/jvm/rtda"
 )
 
 // todo
 func Loop(thread *rtda.Thread) {
     defer _debug(thread) // todo
 
+    threadObj := thread.JThread()
+    isDaemon := threadObj != nil && threadObj.GetFieldValue("daemon", "Z").(int32) == 1
+    if !isDaemon {
+        keepalive.NonDaemonThreadStart()
+    }
+
+    _loop(thread)
+
+    // terminate thread
+    threadObj = thread.JThread()
+    threadObj.Monitor().NotifyAll()
+    if !isDaemon {
+        keepalive.NonDaemonThreadStop()
+    }
+}
+
+func _loop(thread *rtda.Thread) {
     decoder := instructions.NewInstructionDecoder()
     for {
         frame := thread.CurrentFrame() 
@@ -30,10 +48,6 @@ func Loop(thread *rtda.Thread) {
             break;
         }
     }
-
-    // terminate thread
-    threadObj := thread.JThread()
-    threadObj.Monitor().NotifyAll()
 }
 
 // todo

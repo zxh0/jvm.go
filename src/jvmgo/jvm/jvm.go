@@ -3,6 +3,7 @@ package jvm
 import (
     "jvmgo/cmdline"
     "jvmgo/jvm/interpreter"
+    "jvmgo/jvm/keepalive"
     "jvmgo/jvm/options"
     "jvmgo/jvm/rtda"
     rtc "jvmgo/jvm/rtda/class"
@@ -15,6 +16,7 @@ func Startup(cmd *cmdline.Command) {
     classLoader := rtc.NewClassLoader(classPath)
     mainThread := createMainThread(classLoader, cmd.Class(), cmd.Args())
     interpreter.Loop(mainThread)
+    keepalive.KeepAlive()
 }
 
 func initOptions(_options *cmdline.Options) {

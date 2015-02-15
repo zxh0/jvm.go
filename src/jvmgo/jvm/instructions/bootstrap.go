@@ -25,13 +25,10 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
         initVars(frame)
         _classLoader.Init()
     }
-    if bootClassesNotReady(thread) {
-        return
-    }
-    if mainThreadNotReady(thread) {
-        return
-    }
-    if jlSystemNotReady(thread) {
+    if bootClassesNotReady(thread) ||
+            mainThreadNotReady(thread) ||
+            jlSystemNotReady(thread) {
+
         return
     }
 
@@ -127,7 +124,7 @@ func execMain(thread *rtda.Thread) {
 
 // prepare to reexec this instruction
 func undoExec(thread *rtda.Thread) {
-    thread.CurrentFrame().SetNextPC(thread.PC())
+    thread.CurrentFrame().RevertNextPC()
 }
 
 func createArgs(frame *rtda.Frame) (*rtc.Obj) {

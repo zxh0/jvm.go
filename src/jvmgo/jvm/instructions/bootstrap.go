@@ -26,13 +26,13 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
         initVars(stack)
         _classLoader.Init()
     }
-    if !isBasicClassesReady(thread) {
+    if bootClassesNotReady(thread) {
         return
     }
-    if !isMainThreadReady(thread) {
+    if mainThreadNotReady(thread) {
         return
     }
-    if !isSysClassInitialized(thread) {
+    if jlSystemNotReady(thread) {
         return
     }
 
@@ -64,19 +64,19 @@ func initVars(stack *rtda.OperandStack) {
         _mainClassName}
 }
 
-func isBasicClassesReady(thread *rtda.Thread) (bool) {
+func bootClassesNotReady(thread *rtda.Thread) (bool) {
     for _, className := range _basicClasses {
         class := _classLoader.LoadClass(className)
         if class.InitializationNotStarted() {
             undoExec(thread)
             rtda.InitClass(class, thread)
-            return false
+            return true
         }
     }
-    return true
+    return false
 }
 
-func isMainThreadReady(thread *rtda.Thread) (bool) {
+func mainThreadNotReady(thread *rtda.Thread) (bool) {
     stack := thread.CurrentFrame().OperandStack()
     if _mainThreadGroup == nil {
         undoExec(thread)
@@ -85,12 +85,12 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         initMethod := threadGroupClass.GetConstructor("()V")
         stack.PushRef(_mainThreadGroup) // this
         thread.InvokeMethod(initMethod)
-        return false
+        return true
     }
     if _mainThreadName == nil {
         undoExec(thread)
         _mainThreadName = rtda.NewJString("main", thread.CurrentFrame())
-        return false
+        return true
     }
     if thread.JThread() == nil {
         undoExec(thread)
@@ -104,12 +104,12 @@ func isMainThreadReady(thread *rtda.Thread) (bool) {
         stack.PushRef(_mainThreadGroup) // group
         stack.PushRef(_mainThreadName) // name
         thread.InvokeMethod(initMethod)
-        return false
+        return true
     }
-    return true
+    return false
 }
 
-func isSysClassInitialized(thread *rtda.Thread) bool {
+func jlSystemNotReady(thread *rtda.Thread) bool {
     sysClass := _classLoader.LoadClass("java/lang/System")
     propsField := sysClass.GetStaticField("props", "Ljava/util/Properties;")
     props := propsField.GetStaticValue()
@@ -117,9 +117,9 @@ func isSysClassInitialized(thread *rtda.Thread) bool {
         undoExec(thread)
         initSys := sysClass.GetStaticMethod("initializeSystemClass", "()V")
         thread.InvokeMethod(initSys)
-        return false
+        return true
     }
-    return true
+    return false
 }
 
 // prepare to reexec this instruction

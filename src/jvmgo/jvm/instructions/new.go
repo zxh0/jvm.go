@@ -9,15 +9,19 @@ import (
 type new_ struct {Index16Instruction}
 func (self *new_) Execute(frame *rtda.Frame) {
     cp := frame.Method().Class().ConstantPool()
-    cClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
-    class := cClass.Class()
+    kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
+    class := kClass.Class()
 
     if class.InitializationNotStarted() {
-        thread := frame.Thread()
-        frame.SetNextPC(thread.PC()) // undo new
-        rtda.InitClass(class, thread)
+        frame.RevertNextPC() // undo new
+        rtda.InitClass(class, frame.Thread())
     } else {
-        ref := class.NewObj()
-        frame.OperandStack().PushRef(ref)
+        if class.IsJlThread() {
+            ref := class.NewObjWithExtra(frame.Thread())
+            frame.OperandStack().PushRef(ref)
+        } else {
+            ref := class.NewObj()
+            frame.OperandStack().PushRef(ref)
+        }
     }
 }

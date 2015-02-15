@@ -1,7 +1,6 @@
 package jvm
 
 import (
-    "fmt"
     "jvmgo/cmdline"
     "jvmgo/jvm/interpreter"
     "jvmgo/jvm/options"
@@ -15,25 +14,6 @@ func Startup(cmd *cmdline.Command) {
     classPath := cmd.Options().Classpath()
     classLoader := rtc.NewClassLoader(classPath)
     mainThread := createMainThread(classLoader, cmd.Class(), cmd.Args())
-
-    // todo
-    defer func() {
-        if r := recover(); r != nil {
-            for !mainThread.IsStackEmpty() {
-                frame := mainThread.PopFrame()
-                fmt.Printf("%v %v\n", frame.Method().Class(), frame.Method())
-            }
-
-            err, ok := r.(error)
-            if !ok {
-                err = fmt.Errorf("%v", r)
-                panic(err.Error())
-            } else {
-                panic(err.Error())
-            }
-        }
-    }()
-
     interpreter.Loop(mainThread)
 }
 

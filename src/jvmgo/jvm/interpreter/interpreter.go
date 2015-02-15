@@ -1,13 +1,15 @@
 package interpreter
 
 import (
-    "log"
+    "fmt"
     "jvmgo/jvm/rtda"
     "jvmgo/jvm/instructions"
 )
 
 // todo
 func Loop(thread *rtda.Thread) {
+    defer _debug(thread) // todo
+
     decoder := instructions.NewInstructionDecoder()
     for {
         frame := thread.CurrentFrame() 
@@ -34,13 +36,31 @@ func Loop(thread *rtda.Thread) {
     threadObj.Monitor().NotifyAll()
 }
 
+// todo
+func _debug(thread *rtda.Thread) {
+    if r := recover(); r != nil {
+        for !thread.IsStackEmpty() {
+            frame := thread.PopFrame()
+            fmt.Printf("%v %v\n", frame.Method().Class(), frame.Method())
+        }
+
+        err, ok := r.(error)
+        if !ok {
+            err = fmt.Errorf("%v", r)
+            panic(err.Error())
+        } else {
+            panic(err.Error())
+        }
+    }
+}
+
 func _logInstruction(frame *rtda.Frame, pc int, opcode uint8, inst instructions.Instruction) {
     method := frame.Method()
     methodName := method.Name()
     className := method.Class().Name()
     if method.IsStatic() {
-        log.Printf("exec: %v.%v() #%v 0x%x %v", className, methodName, pc, opcode, inst)
+        fmt.Printf("exec: %v.%v() #%v 0x%x %v\n", className, methodName, pc, opcode, inst)
     } else {
-        log.Printf("exec: %v#%v() #%v 0x%x %v", className, methodName, pc, opcode, inst)
+        fmt.Printf("exec: %v#%v() #%v 0x%x %v\n", className, methodName, pc, opcode, inst)
     }
 }

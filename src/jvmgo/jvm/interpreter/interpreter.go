@@ -21,7 +21,7 @@ func Loop(thread *rtda.Thread) {
         frame.SetNextPC(nextPC)
 
         // execute
-        //_logInstruction(frame, thread.PC(), opcode, inst)
+        //_logInstruction(frame, opcode, inst)
         inst.Execute(frame)
         if !thread.IsStackEmpty() {
             topFrame := thread.TopFrame()
@@ -54,10 +54,12 @@ func _debug(thread *rtda.Thread) {
     }
 }
 
-func _logInstruction(frame *rtda.Frame, pc int, opcode uint8, inst instructions.Instruction) {
+func _logInstruction(frame *rtda.Frame, opcode uint8, inst instructions.Instruction) {
+    thread := frame.Thread()
     method := frame.Method()
     methodName := method.Name()
     className := method.Class().Name()
+    pc := thread.PC()
     if method.IsStatic() {
         fmt.Printf("exec: %v.%v() #%v 0x%x %v\n", className, methodName, pc, opcode, inst)
     } else {

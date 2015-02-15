@@ -79,7 +79,7 @@ func (self *Thread) NewFrame(method *rtc.Method) (*Frame) {
 
 
 func (self *Thread) InvokeMethod(method * rtc.Method) {
-    //_logInvoke(self.stack.size, method)
+    //self._logInvoke(self.stack.size, method)
     currentFrame := self.CurrentFrame()
     newFrame := self.NewFrame(method)
     self.PushFrame(newFrame)
@@ -121,15 +121,15 @@ func (self *Thread) _logInvoke(stackSize uint, method * rtc.Method) {
     methodName := method.Name()
 
     if method.IsStatic() {
-        log.Printf("[method]%v thread:%v %v.%v()", space, self, className, methodName)
+        log.Printf("[method]%v thread:%p %v.%v()", space, self, className, methodName)
     } else {
-        log.Printf("[method]%v thread:%v %v#%v()", space, self, className, methodName)
+        log.Printf("[method]%v thread:%p %v#%v()", space, self, className, methodName)
     }
 }
 
 // args not passed!
 func (self *Thread) InvokeMethod2(method * rtc.Method) (*LocalVars) {
-    //_logInvoke(self.stack.size, method)
+    //self._logInvoke(self.stack.size, method)
     if !method.IsVoidReturnType() {
         // insert a garbage frame
         garbageMethod := rtc.NewGarbageMethod()

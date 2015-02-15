@@ -108,6 +108,11 @@ func jlSystemNotReady(thread *rtda.Thread) bool {
     return false
 }
 
+// prepare to reexec this instruction
+func undoExec(thread *rtda.Thread) {
+    thread.CurrentFrame().RevertNextPC()
+}
+
 func execMain(thread *rtda.Thread) {
     thread.PopFrame()
     mainClass := _classLoader.LoadClass(_mainClassName)
@@ -120,11 +125,6 @@ func execMain(thread *rtda.Thread) {
     } else {
         panic("no main method!") // todo
     }
-}
-
-// prepare to reexec this instruction
-func undoExec(thread *rtda.Thread) {
-    thread.CurrentFrame().RevertNextPC()
 }
 
 func createArgs(frame *rtda.Frame) (*rtc.Obj) {

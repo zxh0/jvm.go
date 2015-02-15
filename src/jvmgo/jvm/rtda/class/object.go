@@ -2,19 +2,21 @@ package class
 
 import (
     "fmt"
+    "sync"
     . "jvmgo/any"
 )
 
 // object
 type Obj struct {
-    monitor *Monitor
     class   *Class
     fields  Any // []Any for Object, []int32 for int[] ...
     extra   Any // todo
+    monitor *Monitor
+    lock    *sync.RWMutex // state lock
 }
 
 func newObj(class *Class, fields, extra Any) (*Obj) {
-    return &Obj{newMonitor(), class, fields, extra}
+    return &Obj{class, fields, extra, newMonitor(), &sync.RWMutex{}}
 }
 
 func (self *Obj) String() string {
@@ -49,6 +51,20 @@ func (self *Obj) initFields() {
             }
         }
     }
+}
+
+// state lock
+func (self *Obj) LockState() {
+    self.lock.Lock()
+}
+func (self *Obj) UnlockState() {
+    self.lock.Unlock()
+}
+func (self *Obj) RLockState() {
+    self.lock.RLock()
+}
+func (self *Obj) RUnlockState() {
+    self.lock.RUnlock()
 }
 
 // reflection

@@ -30,6 +30,7 @@ func _thread(method Any, name, desc string) {
 // private native void resume0();
 // private native void interrupt0();
 // private native void setNativeName(String name);
+// public static native void yield();
 
 // public static native Thread currentThread();
 // ()Ljava/lang/Thread;
@@ -41,9 +42,26 @@ func currentThread(frame *rtda.Frame) {
 // public final native boolean isAlive();
 // ()Z
 func isAlive(frame *rtda.Frame) {
-    // todo
+    vars := frame.LocalVars()
+    this := vars.GetThis()
+
+    thread := _extraThread(this)
+    alive := thread != nil && !thread.IsStackEmpty()
+
     stack := frame.OperandStack()
-    stack.PushBoolean(false)
+    stack.PushBoolean(alive)
+}
+
+func _extraThread(threadObj *rtc.Obj) (*rtda.Thread) {
+    threadObj.RLockState()
+    defer threadObj.RUnlockState()
+
+    extra := threadObj.Extra()
+    if extra == nil {
+        return nil
+    } else {
+        return extra.(*rtda.Thread)
+    }
 }
 
 // private native void setPriority0(int newPriority);
@@ -72,9 +90,14 @@ func start0(frame *rtda.Frame) {
     vars := frame.LocalVars()
     this := vars.GetThis()
 
-    runMethod := this.Class().GetInstanceMethod("run", "()V")
     newThread := rtda.NewThread(this)
+    runMethod := this.Class().GetInstanceMethod("run", "()V")
     newFrame := newThread.NewFrame(runMethod)
     newThread.PushFrame(newFrame)
+
+    this.LockState()
+    this.SetExtra(newThread)
+    this.UnlockState()
+
     go interpreter.Loop(newThread)
 }

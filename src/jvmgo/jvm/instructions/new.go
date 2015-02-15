@@ -18,10 +18,5 @@ func (self *new_) Execute(frame *rtda.Frame) {
     } else {
         ref := class.NewObj()
         frame.OperandStack().PushRef(ref)
-
-        if class.IsJlThreadOrSubClass() {
-            newThread := rtda.NewThread(ref)
-            ref.SetExtra(newThread)
-        }
     }
 }

@@ -150,15 +150,15 @@ func (self *Class) isJioSerializable() bool {
     return self == _ioSerializableClass
 }
 
-// todo: optimize
-func (self *Class) IsJlThreadOrSubClass() bool {
-    for k := self; k != nil; k = k.superClass {
-        if k == _jlThreadClass {
-            return true
-        }
-    }
-    return false
-}
+// // todo: optimize
+// func (self *Class) IsJlThreadOrSubClass() bool {
+//     for k := self; k != nil; k = k.superClass {
+//         if k == _jlThreadClass {
+//             return true
+//         }
+//     }
+//     return false
+// }
 
 
 // reflection

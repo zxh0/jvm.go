@@ -62,8 +62,8 @@ func _logInstruction(frame *rtda.Frame, opcode uint8, inst instructions.Instruct
     pc := thread.PC()
 
     if method.IsStatic() {
-        fmt.Printf("exec: thread:%p %v.%v() #%v 0x%x %v\n", thread, className, methodName, pc, opcode, inst)
+        fmt.Printf("[instruction] thread:%p %v.%v() #%v 0x%x %v\n", thread, className, methodName, pc, opcode, inst)
     } else {
-        fmt.Printf("exec: thread:%p %v#%v() #%v 0x%x %v\n", thread, className, methodName, pc, opcode, inst)
+        fmt.Printf("[instruction] thread:%p %v#%v() #%v 0x%x %v\n", thread, className, methodName, pc, opcode, inst)
     }
 }

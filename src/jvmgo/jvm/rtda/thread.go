@@ -115,12 +115,15 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
         }
     }
 }
-func _logInvoke(stackSize uint, method * rtc.Method) {
+func (self *Thread) _logInvoke(stackSize uint, method * rtc.Method) {
     space := strings.Repeat(" ", int(stackSize))
+    className := method.Class().Name()
+    methodName := method.Name()
+
     if method.IsStatic() {
-        log.Printf("invoke method:%v %v.%v()", space, method.Class().Name(), method.Name())
+        log.Printf("[method]%v thread:%v %v.%v()", space, self, className, methodName)
     } else {
-        log.Printf("invoke method:%v %v#%v()", space, method.Class().Name(), method.Name())
+        log.Printf("[method]%v thread:%v %v#%v()", space, self, className, methodName)
     }
 }
 

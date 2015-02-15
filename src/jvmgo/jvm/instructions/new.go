@@ -16,12 +16,12 @@ func (self *new_) Execute(frame *rtda.Frame) {
         frame.RevertNextPC() // undo new
         rtda.InitClass(class, frame.Thread())
     } else {
-        if class.IsJlThread() {
-            ref := class.NewObjWithExtra(frame.Thread())
-            frame.OperandStack().PushRef(ref)
-        } else {
-            ref := class.NewObj()
-            frame.OperandStack().PushRef(ref)
+        ref := class.NewObj()
+        frame.OperandStack().PushRef(ref)
+
+        if class.IsJlThreadOrSubClass() {
+            newThread := rtda.NewThread(ref)
+            ref.SetExtra(newThread)
         }
     }
 }

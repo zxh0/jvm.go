@@ -149,8 +149,15 @@ func (self *Class) isJlCloneable() bool {
 func (self *Class) isJioSerializable() bool {
     return self == _ioSerializableClass
 }
-func (self *Class) IsJlThread() bool {
-    return self == _jlThreadClass
+
+// todo: optimize
+func (self *Class) IsJlThreadOrSubClass() bool {
+    for k := self; k != nil; k = k.superClass {
+        if k == _jlThreadClass {
+            return true
+        }
+    }
+    return false
 }
 
 

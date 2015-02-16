@@ -1,18 +1,18 @@
 package class
 
 type ClassMember struct {
-    AccessFlags
-    name        string
-    descriptor  string
-    class       *Class
+	AccessFlags
+	name       string
+	descriptor string
+	class      *Class
 }
 
 func (self *ClassMember) Name() string {
-    return self.name
+	return self.name
 }
 func (self *ClassMember) Descriptor() string {
-    return self.descriptor
+	return self.descriptor
 }
-func (self *ClassMember) Class() (*Class) {
-    return self.class
+func (self *ClassMember) Class() *Class {
+	return self.class
 }

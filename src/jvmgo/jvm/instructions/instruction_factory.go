@@ -493,9 +493,9 @@ func newInstruction(opcode byte) Instruction {
 	case 0xa7:
 		return &goto_{}
 	case 0xa8:
-	 	return &jsr{}
+		return &jsr{}
 	case 0xa9:
-	 	return &ret{}
+		return &ret{}
 	case 0xaa:
 		return &tableswitch{}
 	case 0xab:

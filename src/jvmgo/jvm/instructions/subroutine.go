@@ -22,7 +22,7 @@ func (self *jsr_w) Execute(frame *rtda.Frame) {
 }
 
 // Return from subroutine
-type ret struct { Index8Instruction }
+type ret struct{ Index8Instruction }
 
 func (self *ret) Execute(frame *rtda.Frame) {
 	panic("todo")

@@ -39,6 +39,7 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) (*Method) {
         method.code = codeAttr.Code()
         method.maxStack = codeAttr.MaxStack()
         method.maxLocals = codeAttr.MaxLocals()
+        method.lineNumberTable = codeAttr.LineNumberTableAttribute()
         rtCp := method.class.constantPool
         if len(codeAttr.ExceptionTable()) > 0 {
             method.copyExceptionTable(codeAttr.ExceptionTable(), rtCp)

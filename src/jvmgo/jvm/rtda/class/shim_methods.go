@@ -1,17 +1,19 @@
 package class
 
-var _shimClass = &Class{name: "~shim"}
-var _returnCode = []byte{0xb1} // return
-var _athrowCode = []byte{0xbf} // athrow
+var (
+	_shimClass  = &Class{name: "~shim"}
+	_returnCode = []byte{0xb1} // return
+	_athrowCode = []byte{0xbf} // athrow
 
-var _shimMethod = &Method{
-	ClassMember: ClassMember{
-		AccessFlags: AccessFlags{ACC_STATIC},
-		name:        "<return>",
-		class:       _shimClass,
-	},
-	code: _returnCode,
-}
+	_shimMethod = &Method{
+		ClassMember: ClassMember{
+			AccessFlags: AccessFlags{ACC_STATIC},
+			name:        "<return>",
+			class:       _shimClass,
+		},
+		code: _returnCode,
+	}
+)
 
 func ShimMethod() *Method {
 	return _shimMethod

@@ -133,26 +133,6 @@ func (self *Thread) InvokeMethodWithShim(method *rtc.Method, args []Any) {
     self.InvokeMethod(method)
 }
 
-// args not passed!
-func (self *Thread) InvokeMethod2(method *rtc.Method) (*LocalVars) {
-    //self._logInvoke(self.stack.size, method)
-    if !method.IsVoidReturnType() {
-        // insert a garbage frame
-        garbageMethod := rtc.NewGarbageMethod()
-        garbageFrame := self.NewFrame(garbageMethod)
-        self.PushFrame(garbageFrame)
-    }
-
-    newFrame := self.NewFrame(method)
-    self.PushFrame(newFrame)
-    return newFrame.localVars
-}
-
-// func (self *Thread) PushMethod(method *rtc.Method) (*Frame) {
-//     frame := newFrame(self, method)
-//     self.PushFrame(frame)
-//     return frame
-// }
 
 func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
     self.stack.clear()

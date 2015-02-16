@@ -558,7 +558,7 @@ func newInstruction(opcode byte) Instruction {
 		return &goto_w{}
 	case 0xc9:
 		return &jsr_w{}
-	//case 0xca: return &breakpoint{}
+	//case 0xca: todo breakpoint
 	case 0xfe:
 		return _invoke_native // impdep1
 	case 0xff:

@@ -20,3 +20,10 @@ func (self *jsr_w) fetchOperands(decoder *InstructionDecoder) {
 func (self *jsr_w) Execute(frame *rtda.Frame) {
 	panic("todo")
 }
+
+// Return from subroutine
+type ret struct { Index8Instruction }
+
+func (self *ret) Execute(frame *rtda.Frame) {
+	panic("todo")
+}

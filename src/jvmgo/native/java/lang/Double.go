@@ -1,27 +1,27 @@
 package lang
 
 import (
-    "math"
-    . "jvmgo/any"
-    "jvmgo/jvm/rtda"
-    rtc "jvmgo/jvm/rtda/class"
+	. "jvmgo/any"
+	"jvmgo/jvm/rtda"
+	rtc "jvmgo/jvm/rtda/class"
+	"math"
 )
 
 func init() {
-    _double(doubleToRawLongBits, "doubleToRawLongBits", "(D)J")
+	_double(doubleToRawLongBits, "doubleToRawLongBits", "(D)J")
 }
 
 func _double(method Any, name, desc string) {
-    rtc.RegisterNativeMethod("java/lang/Double", name, desc, method)
+	rtc.RegisterNativeMethod("java/lang/Double", name, desc, method)
 }
 
 // public static native long doubleToRawLongBits(double value);
 // (D)J
 func doubleToRawLongBits(frame *rtda.Frame) {
-    vars := frame.LocalVars()
-    value := vars.GetDouble(0)
-    bits := math.Float64bits(value)
+	vars := frame.LocalVars()
+	value := vars.GetDouble(0)
+	bits := math.Float64bits(value)
 
-    stack := frame.OperandStack()
-    stack.PushLong(int64(bits)) // todo
+	stack := frame.OperandStack()
+	stack.PushLong(int64(bits)) // todo
 }

@@ -52,12 +52,13 @@ func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) ([]*StackTraceEl
         frameN := thread.TopFrameN(i)
         methodN := frameN.Method()
         classN := methodN.Class()
+        lineNumber := methodN.GetLineNumber(frameN.NextPC())
 
         ste := &StackTraceElement{
             declaringClass: classN.Name(),
             methodName:     methodN.Name(),
             fileName:       classN.SourceFile(),
-            lineNumber:     int32(-1), // todo
+            lineNumber:     lineNumber,
         }
         stes = append(stes, ste)
     }

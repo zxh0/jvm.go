@@ -102,5 +102,12 @@ func (self *Method) IsRegisterNatives() (bool) {
     return self.IsStatic() &&
             self.name == registerNativesMethodName &&
             self.descriptor == registerNativesMethodDesc
+}
 
+func (self *Method) GetLineNumber(nextPC int) int32 {
+    if self.IsNative() {
+        return -2
+    }
+    // todo
+    return -1
 }

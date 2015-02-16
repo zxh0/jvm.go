@@ -12,17 +12,6 @@ func NewBootstrapMethod(code []byte, cl *ClassLoader) *Method {
 	return method
 }
 
-func NewGarbageMethod() *Method {
-	method := &Method{}
-	method.class = &Class{name: "~jvmgo"}
-	method.name = "<garbage>"
-	method.accessFlags = ACC_STATIC
-	method.maxStack = 8
-	method.maxLocals = 8
-	method.code = []byte{0xb1} // return
-	return method
-}
-
 // todo
 func hackClass(class *Class) {
 	if class.name == "java/lang/ClassLoader" {

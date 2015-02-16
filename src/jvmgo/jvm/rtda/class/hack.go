@@ -8,7 +8,7 @@ func NewBootstrapMethod(cl *ClassLoader) *Method {
 	method.accessFlags = ACC_STATIC
 	method.maxStack = 8
 	method.maxLocals = 8
-	method.code = []byte{0xff, 0xb1}
+	method.code = []byte{0xff, 0xb1} // bootstrap, return
 	return method
 }
 

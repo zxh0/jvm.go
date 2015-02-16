@@ -492,8 +492,8 @@ func newInstruction(opcode byte) Instruction {
 		return &if_acmpne{}
 	case 0xa7:
 		return &goto_{}
-		//case 0xa8: return &jsr{}
-		//case 0xa9: return &ret{}
+	//case 0xa8: return &jsr{}
+	//case 0xa9: return &ret{}
 	case 0xaa:
 		return &tableswitch{}
 	case 0xab:
@@ -554,8 +554,8 @@ func newInstruction(opcode byte) Instruction {
 		return &ifnonnull{}
 	case 0xc8:
 		return &goto_w{}
-		//case 0xc9: return &jsr_w{}
-		//case 0xca: return &breakpoint{}
+	//case 0xc9: return &jsr_w{}
+	//case 0xca: return &breakpoint{}
 	case 0xfe:
 		return _invoke_native // impdep1
 	case 0xff:

@@ -8,7 +8,7 @@ import (
 func newShimFrame(thread *Thread, args []Any) *Frame {
 	frame := &Frame{}
 	frame.thread = thread
-	frame.method = rtc.ShimMethod()
+	frame.method = rtc.ReturnMethod()
 	frame.operandStack = &OperandStack{
 		size:  uint(len(args)),
 		slots: args,

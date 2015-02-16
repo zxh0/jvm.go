@@ -24,10 +24,10 @@ var (
 	}
 )
 
-func ShimMethod() *Method {
+func ReturnMethod() *Method {
 	return _shimMethod
 }
 
-func NewAthrowMethod(maxStack, maxLocals uint) *Method {
+func AthrowMethod() *Method {
 	return _athrowMethod
 }

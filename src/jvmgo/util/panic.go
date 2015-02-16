@@ -1,9 +1,9 @@
 package util
 
 import (
-    "fmt"
+	"fmt"
 )
 
 func Panicf(format string, a ...interface{}) {
-    panic(fmt.Sprintf(format, a ...))
+	panic(fmt.Sprintf(format, a...))
 }

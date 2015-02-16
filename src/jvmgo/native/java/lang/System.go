@@ -87,10 +87,8 @@ func initProperties(frame *rtda.Frame) {
     for key, val := range _props() {
         jKey := rtda.NewJString(key, frame)
         jVal := rtda.NewJString(val, frame)
-        vars := thread.InvokeMethod2(setPropMethod)
-        vars.SetRef(0, props) // this
-        vars.SetRef(1, jKey)
-        vars.SetRef(2, jVal)
+        args := []Any{props, jKey, jVal}
+        thread.InvokeMethodWithShim(setPropMethod, args)
     }
 }
 

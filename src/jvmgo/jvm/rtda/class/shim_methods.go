@@ -5,7 +5,7 @@ var (
 	_returnCode = []byte{0xb1} // return
 	_athrowCode = []byte{0xbf} // athrow
 
-	_shimMethod = &Method{
+	_returnMethod = &Method{
 		ClassMember: ClassMember{
 			AccessFlags: AccessFlags{ACC_STATIC},
 			name:        "<return>",
@@ -25,7 +25,7 @@ var (
 )
 
 func ReturnMethod() *Method {
-	return _shimMethod
+	return _returnMethod
 }
 
 func AthrowMethod() *Method {

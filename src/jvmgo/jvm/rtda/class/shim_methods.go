@@ -4,7 +4,7 @@ var _shimClass = &Class{name: "~shim"}
 var _returnCode = []byte{0xb1} // return
 var _athrowCode = []byte{0xbf} // athrow
 
-var _returnMethod = &Method{
+var _shimMethod = &Method{
 	ClassMember: ClassMember{
 		AccessFlags: AccessFlags{ACC_STATIC},
 		name:        "<return>",
@@ -13,8 +13,8 @@ var _returnMethod = &Method{
 	code: _returnCode,
 }
 
-func ReturnShimMethod() *Method {
-	return _returnMethod
+func ShimMethod() *Method {
+	return _shimMethod
 }
 
 func NewAthrowMethod(maxStack, maxLocals uint) *Method {

@@ -127,7 +127,7 @@ func (self *Thread) _logInvoke(stackSize uint, method *rtc.Method) {
 }
 
 func (self *Thread) InvokeMethodWithShim(method *rtc.Method, args []Any) {
-	shimFrame := newReturnShimFrame(self, args)
+	shimFrame := newShimFrame(self, args)
 	self.PushFrame(shimFrame)
 	self.InvokeMethod(method)
 }

@@ -13,6 +13,15 @@ var (
 		},
 		code: _returnCode,
 	}
+
+	_athrowMethod = &Method{
+		ClassMember: ClassMember{
+			AccessFlags: AccessFlags{ACC_STATIC},
+			name:        "<athrow>",
+			class:       _shimClass,
+		},
+		code: _athrowCode,
+	}
 )
 
 func ShimMethod() *Method {
@@ -20,12 +29,5 @@ func ShimMethod() *Method {
 }
 
 func NewAthrowMethod(maxStack, maxLocals uint) *Method {
-	method := &Method{}
-	method.class = _shimClass
-	method.name = "<athrow>"
-	method.accessFlags = ACC_STATIC
-	method.maxStack = maxStack
-	method.maxLocals = maxLocals
-	method.code = _athrowCode
-	return method
+	return _athrowMethod
 }

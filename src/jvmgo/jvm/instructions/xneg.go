@@ -3,33 +3,37 @@ package instructions
 import "jvmgo/jvm/rtda"
 
 // Negate double
-type dneg struct {NoOperandsInstruction}
+type dneg struct{ NoOperandsInstruction }
+
 func (self *dneg) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    val := stack.PopDouble()
-    stack.PushDouble(-val)
+	stack := frame.OperandStack()
+	val := stack.PopDouble()
+	stack.PushDouble(-val)
 }
 
 // Negate float
-type fneg struct {NoOperandsInstruction}
+type fneg struct{ NoOperandsInstruction }
+
 func (self *fneg) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    val := stack.PopFloat()
-    stack.PushFloat(-val)
+	stack := frame.OperandStack()
+	val := stack.PopFloat()
+	stack.PushFloat(-val)
 }
 
 // Negate int
-type ineg struct {NoOperandsInstruction}
+type ineg struct{ NoOperandsInstruction }
+
 func (self *ineg) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    val := stack.PopInt()
-    stack.PushInt(-val)
+	stack := frame.OperandStack()
+	val := stack.PopInt()
+	stack.PushInt(-val)
 }
 
 // Negate long
-type lneg struct {NoOperandsInstruction}
+type lneg struct{ NoOperandsInstruction }
+
 func (self *lneg) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    val := stack.PopLong()
-    stack.PushLong(-val)
+	stack := frame.OperandStack()
+	val := stack.PopLong()
+	stack.PushLong(-val)
 }

@@ -3,41 +3,45 @@ package instructions
 import "jvmgo/jvm/rtda"
 
 // Divide double
-type ddiv struct {NoOperandsInstruction}
+type ddiv struct{ NoOperandsInstruction }
+
 func (self *ddiv) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    v2 := stack.PopDouble()
-    v1 := stack.PopDouble()
-    result := v1 / v2
-    stack.PushDouble(result)
+	stack := frame.OperandStack()
+	v2 := stack.PopDouble()
+	v1 := stack.PopDouble()
+	result := v1 / v2
+	stack.PushDouble(result)
 }
 
 // Divide float
-type fdiv struct {NoOperandsInstruction}
+type fdiv struct{ NoOperandsInstruction }
+
 func (self *fdiv) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    v2 := stack.PopFloat()
-    v1 := stack.PopFloat()
-    result := v1 / v2
-    stack.PushFloat(result)
+	stack := frame.OperandStack()
+	v2 := stack.PopFloat()
+	v1 := stack.PopFloat()
+	result := v1 / v2
+	stack.PushFloat(result)
 }
 
 // Divide int
-type idiv struct {NoOperandsInstruction}
+type idiv struct{ NoOperandsInstruction }
+
 func (self *idiv) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    v2 := stack.PopInt()
-    v1 := stack.PopInt()
-    result := v1 / v2
-    stack.PushInt(result)
+	stack := frame.OperandStack()
+	v2 := stack.PopInt()
+	v1 := stack.PopInt()
+	result := v1 / v2
+	stack.PushInt(result)
 }
 
 // Divide long
-type ldiv struct {NoOperandsInstruction}
+type ldiv struct{ NoOperandsInstruction }
+
 func (self *ldiv) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    v2 := stack.PopLong()
-    v1 := stack.PopLong()
-    result := v1 / v2
-    stack.PushLong(result)
+	stack := frame.OperandStack()
+	v2 := stack.PopLong()
+	v1 := stack.PopLong()
+	result := v1 / v2
+	stack.PushLong(result)
 }

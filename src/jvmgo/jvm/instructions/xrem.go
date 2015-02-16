@@ -1,46 +1,50 @@
 package instructions
 
 import (
-    "math"
-    "jvmgo/jvm/rtda"
+	"jvmgo/jvm/rtda"
+	"math"
 )
 
 // Remainder double
-type drem struct {NoOperandsInstruction}
+type drem struct{ NoOperandsInstruction }
+
 func (self *drem) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    v2 := stack.PopDouble()
-    v1 := stack.PopDouble()
-    result := math.Mod(v1, v2) // todo
-    stack.PushDouble(result)
+	stack := frame.OperandStack()
+	v2 := stack.PopDouble()
+	v1 := stack.PopDouble()
+	result := math.Mod(v1, v2) // todo
+	stack.PushDouble(result)
 }
 
 // Remainder float
-type frem struct {NoOperandsInstruction}
+type frem struct{ NoOperandsInstruction }
+
 func (self *frem) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    v2 := stack.PopFloat()
-    v1 := stack.PopFloat()
-    result := float32(math.Mod(float64(v1), float64(v2))) // todo
-    stack.PushFloat(result)
+	stack := frame.OperandStack()
+	v2 := stack.PopFloat()
+	v1 := stack.PopFloat()
+	result := float32(math.Mod(float64(v1), float64(v2))) // todo
+	stack.PushFloat(result)
 }
 
 // Remainder int
-type irem struct {NoOperandsInstruction}
+type irem struct{ NoOperandsInstruction }
+
 func (self *irem) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    v2 := stack.PopInt()
-    v1 := stack.PopInt()
-    result := v1 % v2
-    stack.PushInt(result)
+	stack := frame.OperandStack()
+	v2 := stack.PopInt()
+	v1 := stack.PopInt()
+	result := v1 % v2
+	stack.PushInt(result)
 }
 
 // Remainder long
-type lrem struct {NoOperandsInstruction}
+type lrem struct{ NoOperandsInstruction }
+
 func (self *lrem) Execute(frame *rtda.Frame) {
-    stack := frame.OperandStack()
-    v2 := stack.PopLong()
-    v1 := stack.PopLong()
-    result := v1 % v2
-    stack.PushLong(result)
+	stack := frame.OperandStack()
+	v2 := stack.PopLong()
+	v1 := stack.PopLong()
+	result := v1 % v2
+	stack.PushLong(result)
 }

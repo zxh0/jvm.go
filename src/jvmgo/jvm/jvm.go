@@ -26,7 +26,7 @@ func initOptions(_options *cmdline.Options) {
 
 func createMainThread(classLoader *rtc.ClassLoader, className string, args []string) *rtda.Thread {
 	mainThread := rtda.NewThread(nil)
-	bootMethod := rtc.NewBootstrapMethod([]byte{0xff, 0xb1}, classLoader)
+	bootMethod := rtc.NewBootstrapMethod(classLoader)
 	bootFrame := mainThread.NewFrame(bootMethod)
 	mainThread.PushFrame(bootFrame)
 

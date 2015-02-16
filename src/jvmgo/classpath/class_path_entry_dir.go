@@ -3,19 +3,19 @@ package classpath
 import "io/ioutil"
 
 type ClassPathDirEntry struct {
-    dir string
+	dir string
 }
 
 func (self *ClassPathDirEntry) readClassData(className string) ([]byte, error) {
-    fullPath := self.dir + className
-    data, err := ioutil.ReadFile(fullPath) 
-    if err != nil {
-        return nil, err
-    }
+	fullPath := self.dir + className
+	data, err := ioutil.ReadFile(fullPath)
+	if err != nil {
+		return nil, err
+	}
 
-    return data, nil
+	return data, nil
 }
 
 func (self *ClassPathDirEntry) String() string {
-    return self.dir
+	return self.dir
 }

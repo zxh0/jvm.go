@@ -1,50 +1,50 @@
 package classpath
 
 import (
-    "errors"
-    "os"
-    "path/filepath"
-    "strings"
+	"errors"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
 // :(linux/unix) or ;(windows)
 const pathListSeparator = string(os.PathListSeparator)
 
 type ClassPath struct {
-    entries []ClassPathEntry
+	entries []ClassPathEntry
 }
 
-func ParseClassPath(cpOption string) (*ClassPath) {
-    if cpOption == "" {
-        return &ClassPath{}
-    }
+func ParseClassPath(cpOption string) *ClassPath {
+	if cpOption == "" {
+		return &ClassPath{}
+	}
 
-    cpOptionSplitted := strings.Split(cpOption, pathListSeparator)
-    cpEntries := make([]ClassPathEntry, len(cpOptionSplitted))
+	cpOptionSplitted := strings.Split(cpOption, pathListSeparator)
+	cpEntries := make([]ClassPathEntry, len(cpOptionSplitted))
 
-    for i, p := range cpOptionSplitted {
-        absPath, err := filepath.Abs(p)
-        if err == nil {
-            cpEntries[i] = parseClassPathEntry(absPath)
-        } else {
-            // todo
-        }
-    }
+	for i, p := range cpOptionSplitted {
+		absPath, err := filepath.Abs(p)
+		if err == nil {
+			cpEntries[i] = parseClassPathEntry(absPath)
+		} else {
+			// todo
+		}
+	}
 
-    return &ClassPath{cpEntries}
+	return &ClassPath{cpEntries}
 }
 
 // className: fully/qualified/ClassName
 func (self *ClassPath) ReadClassData(className string) (ClassPathEntry, []byte, error) {
-    className = className + ".class"
-    for _, entry := range self.entries {
-        data, err := entry.readClassData(className)
-        if err == nil {
-            return entry, data, nil
-        }
-    }
+	className = className + ".class"
+	for _, entry := range self.entries {
+		data, err := entry.readClassData(className)
+		if err == nil {
+			return entry, data, nil
+		}
+	}
 
-    // todo
-    err := errors.New("class not found!")
-    return nil, nil, err
+	// todo
+	err := errors.New("class not found!")
+	return nil, nil, err
 }

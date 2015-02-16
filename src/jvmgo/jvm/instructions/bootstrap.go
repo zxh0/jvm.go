@@ -48,7 +48,8 @@ func initVars(frame *rtda.Frame) {
 		"java/lang/Thread",
 		"java/lang/ThreadGroup",
 		"java/io/PrintStream",
-		_mainClassName}
+		_mainClassName,
+	}
 }
 
 func bootClassesNotReady(thread *rtda.Thread) bool {

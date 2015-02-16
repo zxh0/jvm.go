@@ -1,9 +1,9 @@
 package rtda
 
 import (
-    "log"
+    "fmt"
     "strings"
-    "jvmgo/any"
+    . "jvmgo/any"
     "jvmgo/jvm/options"
     rtc "jvmgo/jvm/rtda/class"
 )
@@ -78,7 +78,7 @@ func (self *Thread) NewFrame(method *rtc.Method) (*Frame) {
 }
 
 
-func (self *Thread) InvokeMethod(method * rtc.Method) {
+func (self *Thread) InvokeMethod(method *rtc.Method) {
     //self._logInvoke(self.stack.size, method)
     currentFrame := self.CurrentFrame()
     newFrame := self.NewFrame(method)
@@ -110,25 +110,31 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
         arg := args[i]
         args[i] = nil
         vars.Set(i + j, arg)
-        if any.IsLongOrDouble(arg) {
+        if IsLongOrDouble(arg) {
             j++
         }
     }
 }
-func (self *Thread) _logInvoke(stackSize uint, method * rtc.Method) {
+func (self *Thread) _logInvoke(stackSize uint, method *rtc.Method) {
     space := strings.Repeat(" ", int(stackSize))
     className := method.Class().Name()
     methodName := method.Name()
 
     if method.IsStatic() {
-        log.Printf("[method]%v thread:%p %v.%v()", space, self, className, methodName)
+        fmt.Printf("[method]%v thread:%p %v.%v()\n", space, self, className, methodName)
     } else {
-        log.Printf("[method]%v thread:%p %v#%v()", space, self, className, methodName)
+        fmt.Printf("[method]%v thread:%p %v#%v()\n", space, self, className, methodName)
     }
 }
 
+func (self *Thread) InvokeMethodWithShim(method *rtc.Method, args []Any) {
+    shimFrame := newReturnShimFrame(self, args)
+    self.PushFrame(shimFrame)
+    self.InvokeMethod(method)
+}
+
 // args not passed!
-func (self *Thread) InvokeMethod2(method * rtc.Method) (*LocalVars) {
+func (self *Thread) InvokeMethod2(method *rtc.Method) (*LocalVars) {
     //self._logInvoke(self.stack.size, method)
     if !method.IsVoidReturnType() {
         // insert a garbage frame

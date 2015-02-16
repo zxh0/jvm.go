@@ -24,6 +24,7 @@ type Method struct {
     maxLocals       uint
     argCount        uint
     code            []byte
+    lineNumberTable *cf.LineNumberTableAttribute
     nativeMethod    Any // cannot use package 'native' because of cycle import!
     md              *MethodDescriptor
 }
@@ -104,10 +105,12 @@ func (self *Method) IsRegisterNatives() (bool) {
             self.descriptor == registerNativesMethodDesc
 }
 
-func (self *Method) GetLineNumber(nextPC int) int32 {
+func (self *Method) GetLineNumber(pc int) int {
     if self.IsNative() {
         return -2
     }
-    // todo
+    if self.lineNumberTable != nil {
+        return self.lineNumberTable.GetLineNumber(pc)
+    }
     return -1
 }

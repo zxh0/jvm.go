@@ -21,7 +21,7 @@ type StackTraceElement struct {
     declaringClass  string
     methodName      string
     fileName        string
-    lineNumber      int32
+    lineNumber      int
 }
 
 // private native Throwable fillInStackTrace(int dummy);
@@ -52,7 +52,7 @@ func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) ([]*StackTraceEl
         frameN := thread.TopFrameN(i)
         methodN := frameN.Method()
         classN := methodN.Class()
-        lineNumber := methodN.GetLineNumber(frameN.NextPC())
+        lineNumber := methodN.GetLineNumber(frameN.NextPC() - 1)
 
         ste := &StackTraceElement{
             declaringClass: classN.Name(),
@@ -98,7 +98,7 @@ func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) (*rtc
     declaringClass := rtda.NewJString(ste.declaringClass, frame)
     methodName := rtda.NewJString(ste.methodName, frame)
     fileName := rtda.NewJString(ste.fileName, frame)
-    lineNumber := ste.lineNumber
+    lineNumber := int32(ste.lineNumber)
 
     /*
     public StackTraceElement(String declaringClass, String methodName,

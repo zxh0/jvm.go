@@ -20,19 +20,19 @@ RuntimeInvisibleParameterAnnotations_attribute {
 */
 
 type ParameterAnnotationsAttribute struct {
-    parameterAnnotations [][]*Annotation
+	parameterAnnotations [][]*Annotation
 }
 
 func (self *ParameterAnnotationsAttribute) readInfo(reader *ClassReader) {
-    numParameters := reader.readUint8()
-    self.parameterAnnotations = make([][]*Annotation, numParameters)
+	numParameters := reader.readUint8()
+	self.parameterAnnotations = make([][]*Annotation, numParameters)
 
-    for i := range self.parameterAnnotations {
-        numAnnotations := reader.readUint16()
-        self.parameterAnnotations[i] = make([]*Annotation, numAnnotations)
-        
-        for j := range self.parameterAnnotations[i] {
-            self.parameterAnnotations[i][j] = readAnnotation(reader)
-        }
-    }
+	for i := range self.parameterAnnotations {
+		numAnnotations := reader.readUint16()
+		self.parameterAnnotations[i] = make([]*Annotation, numAnnotations)
+
+		for j := range self.parameterAnnotations[i] {
+			self.parameterAnnotations[i][j] = readAnnotation(reader)
+		}
+	}
 }

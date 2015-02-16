@@ -1,8 +1,8 @@
 package classfile
 
 import (
-    . "jvmgo/any"
-    "jvmgo/util"
+	. "jvmgo/any"
+	"jvmgo/util"
 )
 
 /*
@@ -20,14 +20,15 @@ RuntimeInvisibleAnnotations_attribute {
 }
 */
 type AnnotationsAttribute struct {
-    annotations []*Annotation
+	annotations []*Annotation
 }
+
 func (self *AnnotationsAttribute) readInfo(reader *ClassReader) {
-    numAnnotations := reader.readUint16()
-    self.annotations = make([]*Annotation, numAnnotations)
-    for i := range self.annotations {
-        self.annotations[i] = readAnnotation(reader)
-    }
+	numAnnotations := reader.readUint16()
+	self.annotations = make([]*Annotation, numAnnotations)
+	for i := range self.annotations {
+		self.annotations[i] = readAnnotation(reader)
+	}
 }
 
 /*
@@ -40,27 +41,29 @@ annotation {
 }
 */
 type Annotation struct {
-    typeIndex           uint16
-    elementValuePairs   []*ElementValuePair
+	typeIndex         uint16
+	elementValuePairs []*ElementValuePair
 }
-func readAnnotation(reader *ClassReader) (*Annotation) {
-    typeIndex := reader.readUint16()
-    numElementValuePairs := reader.readUint16()
-    elementValuePairs := make([]*ElementValuePair, numElementValuePairs)
-    for i := range elementValuePairs {
-        elementValuePairs[i] = readElementValuePair(reader)
-    }
-    return &Annotation{typeIndex, elementValuePairs}
+
+func readAnnotation(reader *ClassReader) *Annotation {
+	typeIndex := reader.readUint16()
+	numElementValuePairs := reader.readUint16()
+	elementValuePairs := make([]*ElementValuePair, numElementValuePairs)
+	for i := range elementValuePairs {
+		elementValuePairs[i] = readElementValuePair(reader)
+	}
+	return &Annotation{typeIndex, elementValuePairs}
 }
 
 type ElementValuePair struct {
-    elementNameIndex    uint16
-    value               *ElementValue
+	elementNameIndex uint16
+	value            *ElementValue
 }
-func readElementValuePair(reader *ClassReader) (*ElementValuePair) {
-    elementNameIndex := reader.readUint16()
-    value := readElementValue(reader)
-    return &ElementValuePair{elementNameIndex, value}
+
+func readElementValuePair(reader *ClassReader) *ElementValuePair {
+	elementNameIndex := reader.readUint16()
+	value := readElementValue(reader)
+	return &ElementValuePair{elementNameIndex, value}
 }
 
 /*
@@ -84,46 +87,62 @@ element_value {
 }
 */
 type ElementValue struct {
-    tag     uint8
-    value   Any
+	tag   uint8
+	value Any
 }
-func readElementValue(reader *ClassReader) (*ElementValue) {
-    var value Any
-    tag := reader.readUint8();
-    switch tag {
-        case 'B': fallthrough
-        case 'C': fallthrough
-        case 'D': fallthrough
-        case 'F': fallthrough
-        case 'I': fallthrough
-        case 'J': fallthrough
-        case 'S': fallthrough
-        case 'Z': fallthrough
-        case 's': fallthrough
-        case 'c': value = reader.readUint16()
-        case 'e': value = readEnumConstValue(reader)
-        case '@': value = readAnnotation(reader)
-        case '[': value = readArrayValue(reader)
-        default: util.Panicf("BAD element_value tag: %v", tag)
-    }
-    return &ElementValue{tag, value}
+
+func readElementValue(reader *ClassReader) *ElementValue {
+	var value Any
+	tag := reader.readUint8()
+	switch tag {
+	case 'B':
+		fallthrough
+	case 'C':
+		fallthrough
+	case 'D':
+		fallthrough
+	case 'F':
+		fallthrough
+	case 'I':
+		fallthrough
+	case 'J':
+		fallthrough
+	case 'S':
+		fallthrough
+	case 'Z':
+		fallthrough
+	case 's':
+		fallthrough
+	case 'c':
+		value = reader.readUint16()
+	case 'e':
+		value = readEnumConstValue(reader)
+	case '@':
+		value = readAnnotation(reader)
+	case '[':
+		value = readArrayValue(reader)
+	default:
+		util.Panicf("BAD element_value tag: %v", tag)
+	}
+	return &ElementValue{tag, value}
 }
 
 type EnumConstValue struct {
-    typeNameIndex   uint16
-    constNameIndex  uint16
-}
-func readEnumConstValue(reader *ClassReader) (*EnumConstValue) {
-    typeNameIndex := reader.readUint16()
-    constNameIndex := reader.readUint16()
-    return &EnumConstValue{typeNameIndex, constNameIndex}
+	typeNameIndex  uint16
+	constNameIndex uint16
 }
 
-func readArrayValue(reader *ClassReader) ([]*ElementValue) {
-    numValues := reader.readUint16()
-    values := make([]*ElementValue, numValues)
-    for i := range values {
-        values[i] = readElementValue(reader)
-    }
-    return values
+func readEnumConstValue(reader *ClassReader) *EnumConstValue {
+	typeNameIndex := reader.readUint16()
+	constNameIndex := reader.readUint16()
+	return &EnumConstValue{typeNameIndex, constNameIndex}
+}
+
+func readArrayValue(reader *ClassReader) []*ElementValue {
+	numValues := reader.readUint16()
+	values := make([]*ElementValue, numValues)
+	for i := range values {
+		values[i] = readElementValue(reader)
+	}
+	return values
 }

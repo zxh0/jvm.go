@@ -8,10 +8,11 @@ CONSTANT_NameAndType_info {
 }
 */
 type ConstantNameAndTypeInfo struct {
-    nameIndex       uint16
-    descriptorIndex uint16
+	nameIndex       uint16
+	descriptorIndex uint16
 }
+
 func (self *ConstantNameAndTypeInfo) readInfo(reader *ClassReader) {
-    self.nameIndex = reader.readUint16()
-    self.descriptorIndex = reader.readUint16()
+	self.nameIndex = reader.readUint16()
+	self.descriptorIndex = reader.readUint16()
 }

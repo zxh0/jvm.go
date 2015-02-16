@@ -8,11 +8,11 @@ attribute_info {
 }
 */
 type UndefinedAttribute struct {
-    attributeLength uint32
+	attributeLength uint32
 }
 
 func (self *UndefinedAttribute) readInfo(reader *ClassReader) {
-    for i := uint32(0); i < self.attributeLength; i++ {
-        reader.readUint8()
-    }
+	for i := uint32(0); i < self.attributeLength; i++ {
+		reader.readUint8()
+	}
 }

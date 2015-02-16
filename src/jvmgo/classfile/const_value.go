@@ -7,13 +7,14 @@ CONSTANT_Integer_info {
 }
 */
 type ConstantIntegerInfo struct {
-    val int32
+	val int32
 }
+
 func (self *ConstantIntegerInfo) readInfo(reader *ClassReader) {
-    self.val = reader.readInt32()
+	self.val = reader.readInt32()
 }
-func (self *ConstantIntegerInfo) Value() (int32) {
-    return self.val
+func (self *ConstantIntegerInfo) Value() int32 {
+	return self.val
 }
 
 /*
@@ -23,13 +24,14 @@ CONSTANT_Float_info {
 }
 */
 type ConstantFloatInfo struct {
-    val float32
+	val float32
 }
+
 func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
-    self.val = reader.readFloat32()
+	self.val = reader.readFloat32()
 }
-func (self *ConstantFloatInfo) Value() (float32) {
-    return self.val
+func (self *ConstantFloatInfo) Value() float32 {
+	return self.val
 }
 
 /*
@@ -40,13 +42,14 @@ CONSTANT_Long_info {
 }
 */
 type ConstantLongInfo struct {
-    val int64
+	val int64
 }
+
 func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
-    self.val = reader.readInt64()
+	self.val = reader.readInt64()
 }
-func (self *ConstantLongInfo) Value() (int64) {
-    return self.val
+func (self *ConstantLongInfo) Value() int64 {
+	return self.val
 }
 
 /*
@@ -57,11 +60,12 @@ CONSTANT_Double_info {
 }
 */
 type ConstantDoubleInfo struct {
-    val float64
+	val float64
 }
+
 func (self *ConstantDoubleInfo) readInfo(reader *ClassReader) {
-    self.val = reader.readFloat64()
+	self.val = reader.readFloat64()
 }
-func (self *ConstantDoubleInfo) Value() (float64) {
-    return self.val
+func (self *ConstantDoubleInfo) Value() float64 {
+	return self.val
 }

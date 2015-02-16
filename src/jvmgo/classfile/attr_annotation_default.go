@@ -8,9 +8,9 @@ AnnotationDefault_attribute {
 }
 */
 type AnnotationDefaultAttribute struct {
-    elementValue *ElementValue
+	elementValue *ElementValue
 }
 
 func (self *AnnotationDefaultAttribute) readInfo(reader *ClassReader) {
-    self.elementValue = readElementValue(reader)
+	self.elementValue = readElementValue(reader)
 }

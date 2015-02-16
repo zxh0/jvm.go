@@ -8,9 +8,9 @@ ConstantValue_attribute {
 }
 */
 type ConstantValueAttribute struct {
-    constantValueIdex uint16
+	constantValueIdex uint16
 }
 
 func (self *ConstantValueAttribute) readInfo(reader *ClassReader) {
-    self.constantValueIdex = reader.readUint16()
+	self.constantValueIdex = reader.readUint16()
 }

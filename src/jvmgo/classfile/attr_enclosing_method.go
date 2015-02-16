@@ -9,11 +9,11 @@ EnclosingMethod_attribute {
 }
 */
 type EnclosingMethodAttribute struct {
-    classIndex  uint16
-    methodIndex uint16
+	classIndex  uint16
+	methodIndex uint16
 }
 
 func (self *EnclosingMethodAttribute) readInfo(reader *ClassReader) {
-    self.classIndex = reader.readUint16()
-    self.methodIndex = reader.readUint16()
+	self.classIndex = reader.readUint16()
+	self.methodIndex = reader.readUint16()
 }

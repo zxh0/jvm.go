@@ -23,7 +23,7 @@ func (self *invokestatic) Execute(frame *rtda.Frame) {
 	if classOfMethod.InitializationNotStarted() {
 		if classOfMethod != currentClass || !currentMethod.IsClinit() {
 			currentFrame.SetNextPC(thread.PC())
-			rtda.InitClass(classOfMethod, thread)
+			thread.InitClass(classOfMethod)
 			return
 		}
 	}

@@ -2,7 +2,7 @@ package rtda
 
 import rtc "jvmgo/jvm/rtda/class"
 
-func InitClass(class *rtc.Class, thread *Thread) {
+func (self *Thread) InitClass(class *rtc.Class) {
 	uninitedClass := getUpmostUninitializedClassOrInterface(class)
 	if uninitedClass != nil {
 		//log.Printf("init: %v", uninitedClass.Name())
@@ -10,11 +10,11 @@ func InitClass(class *rtc.Class, thread *Thread) {
 		if clinit != nil {
 			// exec <clinit>
 			uninitedClass.MarkInitializing()
-			newFrame := thread.NewFrame(clinit)
+			newFrame := self.NewFrame(clinit)
 			newFrame.SetOnPopAction(func() {
 				uninitedClass.MarkInitialized()
 			})
-			thread.PushFrame(newFrame)
+			self.PushFrame(newFrame)
 		} else {
 			// no <clinit> method
 			//log.Printf("%v has no <clinit>", uninitedClass.Name())

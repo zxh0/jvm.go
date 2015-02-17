@@ -32,7 +32,7 @@ func (self *anewarray) Execute(frame *rtda.Frame) {
 	if componentClass.InitializationNotStarted() {
 		thread := frame.Thread()
 		frame.SetNextPC(thread.PC()) // undo anewarray
-		rtda.InitClass(componentClass, thread)
+		thread.InitClass(componentClass)
 		return
 	}
 

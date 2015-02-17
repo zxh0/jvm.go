@@ -59,7 +59,7 @@ func forName0(frame *rtda.Frame) {
 		thread := frame.Thread()
 		frame.SetNextPC(thread.PC())
 		// init class
-		rtda.InitClass(goClass, thread)
+		thread.InitClass(goClass)
 	} else {
 		stack := frame.OperandStack()
 		stack.PushRef(jClass)

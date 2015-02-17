@@ -35,7 +35,7 @@ func (self *getstatic) Execute(frame *rtda.Frame) {
 
 	if field.Class().InitializationNotStarted() {
 		frame.RevertNextPC() // undo getstatic
-		rtda.InitClass(field.Class(), frame.Thread())
+		frame.Thread().InitClass(field.Class())
 		return
 	}
 

@@ -41,7 +41,7 @@ func (self *putstatic) Execute(frame *rtda.Frame) {
 		if classOfField != currentClass || !currentMethod.IsClinit() {
 			thread := frame.Thread()
 			frame.SetNextPC(thread.PC()) // undo putstatic
-			rtda.InitClass(classOfField, thread)
+			thread.InitClass(classOfField)
 			return
 		}
 	}

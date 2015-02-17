@@ -15,7 +15,7 @@ func (self *new_) Execute(frame *rtda.Frame) {
 
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC() // undo new
-		rtda.InitClass(class, frame.Thread())
+		frame.Thread().InitClass(class)
 	} else {
 		ref := class.NewObj()
 		frame.OperandStack().PushRef(ref)

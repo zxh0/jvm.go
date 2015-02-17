@@ -57,7 +57,7 @@ func bootClassesNotReady(thread *rtda.Thread) bool {
 		class := _classLoader.LoadClass(className)
 		if class.InitializationNotStarted() {
 			undoExec(thread)
-			rtda.InitClass(class, thread)
+			thread.InitClass(class)
 			return true
 		}
 	}

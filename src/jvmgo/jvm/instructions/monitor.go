@@ -8,13 +8,13 @@ type monitorenter struct{ NoOperandsInstruction }
 func (self *monitorenter) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	ref := frame.OperandStack().PopRef()
-	if ref == nil {
+	if ref != nil {
+		ref.Monitor().Enter(thread)
+	} else {
 		frame.RevertNextPC()
 		classLoader := frame.GetClassLoader()
 		npeClass := classLoader.LoadClass("java/lang/NullPointerException")
 		thread.ThrowException(npeClass, "()V", nil)
-	} else {
-		ref.Monitor().Enter(thread)
 	}
 }
 
@@ -22,12 +22,12 @@ func (self *monitorenter) Execute(frame *rtda.Frame) {
 type monitorexit struct{ NoOperandsInstruction }
 
 func (self *monitorexit) Execute(frame *rtda.Frame) {
+	thread := frame.Thread()
 	ref := frame.OperandStack().PopRef()
-	if ref == nil {
+	if ref != nil {
+		ref.Monitor().Exit(thread)
+	} else {
 		// todo
 		panic("NPE")
 	}
-
-	thread := frame.Thread()
-	ref.Monitor().Exit(thread)
 }

@@ -1,6 +1,6 @@
-package exception.jvm;
+package exception;
 
-public class NPETest {
+public class JvmExTest {
     
     public static void main(String[] args) {
         try {

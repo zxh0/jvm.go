@@ -10,8 +10,8 @@ func ReplaceAll(s, old, _new string) string {
 }
 
 // utf8 -> utf16
-func StringToUtf16(str string) []uint16 {
-	runes := []rune(str)
+func StringToUtf16(s string) []uint16 {
+	runes := []rune(s)
 	return utf16.Encode(runes) // func Encode(s []rune) []uint16
 }
 

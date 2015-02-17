@@ -6,14 +6,16 @@ import "jvmgo/jvm/rtda"
 type monitorenter struct{ NoOperandsInstruction }
 
 func (self *monitorenter) Execute(frame *rtda.Frame) {
+	thread := frame.Thread()
 	ref := frame.OperandStack().PopRef()
 	if ref == nil {
-		// todo
-		panic("NPE")
+		frame.RevertNextPC()
+		classLoader := frame.GetClassLoader()
+		npeClass := classLoader.LoadClass("java/lang/NullPointerException")
+		thread.ThrowException(npeClass, "()V", nil)
+	} else {
+		ref.Monitor().Enter(thread)
 	}
-
-	thread := frame.Thread()
-	ref.Monitor().Enter(thread)
 }
 
 // Exit monitor for object

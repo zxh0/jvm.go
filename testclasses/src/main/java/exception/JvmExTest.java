@@ -2,14 +2,17 @@ package exception;
 
 public class JvmExTest {
     
+    int i;
+    
     public static void main(String[] args) {
         try {
             // NPE
             //arraylength(null);
             //athrow(null);
+            getfield(null);
             
             // ClassCastException
-            checkcast();
+            //checkcast();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -21,6 +24,10 @@ public class JvmExTest {
     
     static void athrow(Exception ex) throws Exception {
         throw ex;
+    }
+    
+    static void getfield(JvmExTest x) {
+        int y = x.i;
     }
     
     static void checkcast() {

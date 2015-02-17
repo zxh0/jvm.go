@@ -1,7 +1,7 @@
 package misc
 
 import (
-	. "jvmgo/test"
+	. "jvmgo/testing"
 	"testing"
 )
 

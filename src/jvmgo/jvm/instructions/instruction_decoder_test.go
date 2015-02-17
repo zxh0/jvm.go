@@ -1,7 +1,7 @@
 package instructions
 
 import (
-	. "jvmgo/test"
+	. "jvmgo/testing"
 	"testing"
 )
 

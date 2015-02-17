@@ -2,7 +2,7 @@ package rtda
 
 import (
 	rtc "jvmgo/jvm/rtda/class"
-	. "jvmgo/test"
+	. "jvmgo/testing"
 	"testing"
 )
 

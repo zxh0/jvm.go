@@ -1,7 +1,7 @@
 package util
 
 import (
-	. "jvmgo/test"
+	. "jvmgo/testing"
 	"testing"
 )
 

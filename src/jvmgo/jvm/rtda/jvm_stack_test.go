@@ -1,7 +1,7 @@
 package rtda
 
 import (
-	. "jvmgo/test"
+	. "jvmgo/testing"
 	"testing"
 )
 

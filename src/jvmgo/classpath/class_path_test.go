@@ -1,7 +1,7 @@
 package classpath
 
 import (
-	. "jvmgo/test"
+	. "jvmgo/testing"
 	"strings"
 	"testing"
 )

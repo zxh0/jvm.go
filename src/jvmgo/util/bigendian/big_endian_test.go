@@ -1,7 +1,7 @@
 package bigendian
 
 import (
-	. "jvmgo/test"
+	. "jvmgo/testing"
 	"testing"
 )
 

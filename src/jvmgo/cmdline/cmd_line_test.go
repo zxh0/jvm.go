@@ -1,7 +1,7 @@
 package cmdline
 
 import (
-	. "jvmgo/test"
+	. "jvmgo/testing"
 	"testing"
 )
 

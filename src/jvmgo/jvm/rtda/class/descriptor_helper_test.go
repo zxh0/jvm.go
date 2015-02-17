@@ -1,7 +1,7 @@
 package class
 
 import (
-	. "jvmgo/test"
+	. "jvmgo/testing"
 	"testing"
 )
 

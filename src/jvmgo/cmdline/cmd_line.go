@@ -2,7 +2,7 @@ package cmdline
 
 import (
 	"fmt"
-	"strings"
+	"jvmgo/util"
 )
 
 // java [ options ] class [ arguments ]
@@ -37,7 +37,7 @@ func ParseCommand(osArgs []string) (cmd *Command, err error) {
 	args := &CmdLineArgs{osArgs[1:]}
 	cmd = &Command{}
 	cmd.options = parseOptions(args)
-	cmd.class = strings.Replace(args.removeFirst(), ".", "/", -1)
+	cmd.class = util.ReplaceAll(args.removeFirst(), ".", "/")
 	cmd.args = args.args
 	return
 }

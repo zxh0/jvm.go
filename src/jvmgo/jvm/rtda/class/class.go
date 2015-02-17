@@ -1,9 +1,8 @@
 package class
 
 import (
-	//"fmt"
 	. "jvmgo/any"
-	//cf "jvmgo/classfile"
+	"jvmgo/util"
 )
 
 const (
@@ -56,6 +55,11 @@ func (self *Class) Interfaces() []*Class {
 }
 func (self *Class) ClassLoader() *ClassLoader {
 	return self.classLoader
+}
+
+// todo
+func (self *Class) JlsName() string {
+	return util.ReplaceAll(self.name, "/", ".")
 }
 
 func (self *Class) InitializationNotStarted() bool {

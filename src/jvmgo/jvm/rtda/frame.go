@@ -49,6 +49,6 @@ func (self *Frame) RevertNextPC() {
 	self.nextPC = self.thread.pc
 }
 
-func (self *Frame) GetClassLoader() *rtc.ClassLoader {
+func (self *Frame) ClassLoader() *rtc.ClassLoader {
 	return self.method.Class().ClassLoader()
 }

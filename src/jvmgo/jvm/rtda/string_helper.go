@@ -19,7 +19,7 @@ func NewJString(goStr string, frame *Frame) *rtc.Obj {
 		return internedStr
 	}
 
-	classLoader := frame.GetClassLoader()
+	classLoader := frame.ClassLoader()
 	stringClass := classLoader.StringClass()
 	jCharArr := rtc.NewCharArray(chars, classLoader)
 	jStr := stringClass.NewObj()

@@ -123,7 +123,7 @@ func getPrimitiveClass(frame *rtda.Frame) {
 	nameObj := vars.GetRef(0)
 
 	name := rtda.GoString(nameObj)
-	classLoader := frame.GetClassLoader()
+	classLoader := frame.ClassLoader()
 	class := classLoader.GetPrimitiveClass(name)
 	classObj := class.JClass()
 

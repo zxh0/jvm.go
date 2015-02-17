@@ -41,7 +41,7 @@ func (self *Thread) JThread() *rtc.Obj {
 }
 
 func (self *Thread) ClassLoader() *rtc.ClassLoader {
-	return self.TopFrame().GetClassLoader()
+	return self.TopFrame().ClassLoader()
 }
 
 func (self *Thread) IsStackEmpty() bool {

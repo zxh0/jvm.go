@@ -40,6 +40,10 @@ func (self *Thread) JThread() *rtc.Obj {
 	return self.jThread
 }
 
+func (self *Thread) ClassLoader() *rtc.ClassLoader {
+	return self.TopFrame().GetClassLoader()
+}
+
 func (self *Thread) IsStackEmpty() bool {
 	return self.stack.isEmpty()
 }

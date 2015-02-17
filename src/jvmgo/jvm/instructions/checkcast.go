@@ -21,7 +21,7 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
 	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
 	class := kClass.Class()
 	if class.InitializationNotStarted() {
-		// todo init class
+		// todo: init class
 		panic("class not initialized!")
 	}
 

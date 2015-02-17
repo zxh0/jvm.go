@@ -20,3 +20,6 @@ func (self *ClassMember) Class() *Class {
 func (self *ClassMember) ClassLoader() *ClassLoader {
 	return self.class.classLoader
 }
+func (self *ClassMember) ConstantPool() *ConstantPool {
+	return self.class.constantPool
+}

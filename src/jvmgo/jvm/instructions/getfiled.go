@@ -13,13 +13,13 @@ func (self *getfield) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	ref := stack.PopRef()
 	if ref == nil {
-		// todo NullPointerException
-		panic("NPE")
+		frame.Thread().ThrowNPE()
+		return
 	}
 
-	cp := frame.Method().Class().ConstantPool()
-	cFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
-	field := cFieldRef.InstanceField()
+	cp := frame.Method().ConstantPool()
+	kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
+	field := kFieldRef.InstanceField()
 	val := field.GetValue(ref)
 
 	stack.Push(val)
@@ -33,8 +33,8 @@ func (self *getstatic) Execute(frame *rtda.Frame) {
 	currentClass := currentMethod.Class()
 
 	cp := currentClass.ConstantPool()
-	cFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
-	field := cFieldRef.StaticField()
+	kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
+	field := kFieldRef.StaticField()
 
 	classOfField := field.Class()
 	if classOfField.InitializationNotStarted() {

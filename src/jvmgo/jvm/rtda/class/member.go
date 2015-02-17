@@ -16,3 +16,7 @@ func (self *ClassMember) Descriptor() string {
 func (self *ClassMember) Class() *Class {
 	return self.class
 }
+
+func (self *ClassMember) ClassLoader() *ClassLoader {
+	return self.class.classLoader
+}

@@ -50,5 +50,5 @@ func (self *Frame) RevertNextPC() {
 }
 
 func (self *Frame) ClassLoader() *rtc.ClassLoader {
-	return self.method.Class().ClassLoader()
+	return self.method.ClassLoader()
 }

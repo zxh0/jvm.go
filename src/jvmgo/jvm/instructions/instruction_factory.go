@@ -548,6 +548,8 @@ func newInstruction(opcode byte) Instruction {
 		return _monitorenter
 	case 0xc3:
 		return _monitorexit
+	case 0xc4:
+		return &wide{}
 	case 0xc5:
 		return &multianewarray{}
 	case 0xc6:

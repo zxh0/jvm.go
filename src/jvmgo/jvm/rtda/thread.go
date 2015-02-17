@@ -136,7 +136,8 @@ func (self *Thread) InvokeMethodWithShim(method *rtc.Method, args []Any) {
 	self.InvokeMethod(method)
 }
 
-func (self *Thread) ThrowException(class *rtc.Class, initDesc string, initArgs []Any) {
+func (self *Thread) ThrowException(className, initDesc string, initArgs []Any) {
+	class := self.ClassLoader().LoadClass(className)
 	ex := class.NewObj()
 	athrowFrame := newAthrowFrame(self, ex, initArgs)
 	self.PushFrame(athrowFrame)

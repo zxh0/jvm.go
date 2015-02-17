@@ -12,9 +12,7 @@ func (self *monitorenter) Execute(frame *rtda.Frame) {
 		ref.Monitor().Enter(thread)
 	} else {
 		frame.RevertNextPC()
-		classLoader := frame.ClassLoader()
-		npeClass := classLoader.LoadClass("java/lang/NullPointerException")
-		thread.ThrowException(npeClass, "()V", nil)
+		thread.ThrowException("java/lang/NullPointerException", "()V", nil)
 	}
 }
 

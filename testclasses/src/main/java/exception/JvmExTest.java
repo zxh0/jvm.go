@@ -4,19 +4,28 @@ public class JvmExTest {
     
     public static void main(String[] args) {
         try {
+            // NPE
             //arraylength(null);
-            athrow(null);
+            //athrow(null);
+            
+            // ClassCastException
+            checkcast();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
     }
     
     static void arraylength(int[] x) {
-        if (x.length > 0) {}
+        int y = x.length;
     }
     
     static void athrow(Exception ex) throws Exception {
         throw ex;
+    }
+    
+    static void checkcast() {
+        Object x = "String";
+        Integer y = (Integer) x;
     }
     
 //    private static void test() {

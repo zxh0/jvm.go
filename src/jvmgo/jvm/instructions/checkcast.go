@@ -3,7 +3,6 @@ package instructions
 import (
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
-	"jvmgo/util"
 )
 
 // Check whether object is of given type
@@ -26,9 +25,7 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
 		panic("class not initialized!")
 	}
 
-	// todo
 	if !ref.IsInstanceOf(class) {
-		// todo ClassCastException
-		util.Panicf("ClassCastException! ref:%v class:%v", ref, class)
+		frame.Thread().ThrowClassCastException(ref.Class(), class)
 	}
 }

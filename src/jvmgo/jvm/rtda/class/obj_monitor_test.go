@@ -8,7 +8,7 @@ import (
 func TestMonitor(t *testing.T) {
 	thread := "not thread!"
 
-	monitor := &Monitor{}
+	monitor := newMonitor()
 	AssertEquals(0, monitor.entryCount)
 	monitor.Enter(thread)
 	AssertEquals(1, monitor.entryCount)

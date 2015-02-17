@@ -24,7 +24,7 @@ func TestPushAndPop(t *testing.T) {
 	AssertNil(stack.PopRef())
 }
 
-func TestPopN(t *testing.T) {
+func TestPopTops(t *testing.T) {
 	stack := newOperandStack(6)
 	stack.PushInt(4)
 	stack.PushInt(5)
@@ -32,7 +32,7 @@ func TestPopN(t *testing.T) {
 	stack.PushInt(8)
 	stack.PushInt(9)
 
-	top3 := stack.popN(3)
+	top3 := stack.popTops(3)
 	AssertEquals([]int32{6, 8, 9}, top3)
 	AssertEquals(5, stack.PopInt())
 }

@@ -76,9 +76,9 @@ func getClassLoader0(frame *rtda.Frame) {
 // ()Ljava/lang/Class;
 func getComponentType(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	classObj := vars.GetThis()
+	this := vars.GetThis()
 
-	class := classObj.Extra().(*rtc.Class)
+	class := this.Extra().(*rtc.Class)
 	componentClass := class.ComponentClass()
 	componentClassObj := componentClass.JClass()
 
@@ -92,10 +92,10 @@ func getComponentType(frame *rtda.Frame) {
 // ()I
 func getModifiers(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	jClass := vars.GetRef(0) // this
+	this := vars.GetThis()
 
-	goClass := jClass.Extra().(*rtc.Class)
-	modifiers := goClass.GetAccessFlags()
+	class := this.Extra().(*rtc.Class)
+	modifiers := class.GetAccessFlags()
 
 	stack := frame.OperandStack()
 	stack.PushInt(int32(modifiers))
@@ -105,14 +105,14 @@ func getModifiers(frame *rtda.Frame) {
 // ()Ljava/lang/String;
 func getName0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	jClass := vars.GetRef(0) // this
+	this := vars.GetThis()
 
-	goClass := jClass.Extra().(*rtc.Class)
-	goName := goClass.Name()
-	jName := rtda.NewJString(goName, frame)
+	class := this.Extra().(*rtc.Class)
+	name := class.JlsName()
+	nameObj := rtda.NewJString(name, frame)
 
 	stack := frame.OperandStack()
-	stack.PushRef(jName)
+	stack.PushRef(nameObj)
 }
 
 // static native Class<?> getPrimitiveClass(String name);
@@ -134,20 +134,18 @@ func getPrimitiveClass(frame *rtda.Frame) {
 // ()[Ljava/lang/Class;
 func getInterfaces(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	jClass := vars.GetRef(0) // this
+	this := vars.GetThis()
 
-	goClass := jClass.Extra().(*rtc.Class)
-	goInterfaces := goClass.Interfaces()
-	jInterfaces := make([]*rtc.Obj, len(goInterfaces))
-
-	for i, goInterface := range goInterfaces {
-		jInterfaces[i] = goInterface.JClass()
+	class := this.Extra().(*rtc.Class)
+	interfaces := class.Interfaces()
+	interfaceObjs := make([]*rtc.Obj, len(interfaces))
+	for i, iface := range interfaces {
+		interfaceObjs[i] = iface.JClass()
 	}
 
-	classLoader := goClass.ClassLoader()
-	classClass := classLoader.LoadClass("java/lang/Class")
+	jlClassClass := class.ClassLoader().JLClassClass()
+	interfaceArr := rtc.NewRefArray2(jlClassClass, interfaceObjs)
 
-	interfaceArr := rtc.NewRefArray2(classClass, jInterfaces)
 	stack := frame.OperandStack()
 	stack.PushRef(interfaceArr)
 }
@@ -156,14 +154,14 @@ func getInterfaces(frame *rtda.Frame) {
 // ()Ljava/lang/Class;
 func getSuperclass(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	jClass := vars.GetRef(0) // this
+	this := vars.GetThis()
 
-	goClass := jClass.Extra().(*rtc.Class)
-	goSuperClass := goClass.SuperClass()
+	class := this.Extra().(*rtc.Class)
+	superClass := class.SuperClass()
 
 	stack := frame.OperandStack()
-	if goSuperClass != nil {
-		stack.PushRef(goSuperClass.JClass())
+	if superClass != nil {
+		stack.PushRef(superClass.JClass())
 	} else {
 		stack.PushNull()
 	}
@@ -173,31 +171,31 @@ func getSuperclass(frame *rtda.Frame) {
 // ()Z
 func isArray(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	jClass := vars.GetRef(0) // this
+	this := vars.GetThis()
 
-	goClass := jClass.Extra().(*rtc.Class)
+	class := this.Extra().(*rtc.Class)
 	stack := frame.OperandStack()
-	stack.PushBoolean(goClass.IsArray())
+	stack.PushBoolean(class.IsArray())
 }
 
 // public native boolean isInterface();
 // ()Z
 func isInterface(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	jClass := vars.GetRef(0) // this
+	this := vars.GetThis()
 
-	goClass := jClass.Extra().(*rtc.Class)
+	class := this.Extra().(*rtc.Class)
 	stack := frame.OperandStack()
-	stack.PushBoolean(goClass.IsInterface())
+	stack.PushBoolean(class.IsInterface())
 }
 
 // public native boolean isPrimitive();
 // ()Z
 func isPrimitive(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	jClass := vars.GetRef(0) // this
+	this := vars.GetThis()
 
-	goClass := jClass.Extra().(*rtc.Class)
+	class := this.Extra().(*rtc.Class)
 	stack := frame.OperandStack()
-	stack.PushBoolean(goClass.IsPrimitive())
+	stack.PushBoolean(class.IsPrimitive())
 }

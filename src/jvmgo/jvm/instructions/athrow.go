@@ -1,7 +1,6 @@
 package instructions
 
 import (
-	//"fmt"
 	"jvmgo/jvm/rtda"
 )
 
@@ -11,8 +10,8 @@ type athrow struct{ NoOperandsInstruction }
 func (self *athrow) Execute(frame *rtda.Frame) {
 	ex := frame.OperandStack().PopRef()
 	if ex == nil {
-		// todo NPE
-		panic("athrow NPE")
+		frame.Thread().ThrowNPE()
+		return
 	}
 
 	thread := frame.Thread()

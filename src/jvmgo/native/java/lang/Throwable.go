@@ -46,6 +46,9 @@ func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) []*StackTraceEle
 	for k := tObj.Class(); k != nil; k = k.SuperClass() {
 		i++
 	}
+	if thread.TopFrameN(i).Method().Name() == "<athrow>" {
+		i++
+	}
 
 	stes := make([]*StackTraceElement, 0, depth)
 	for ; i < depth; i++ {

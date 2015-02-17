@@ -4,19 +4,18 @@ import "jvmgo/jvm/rtda"
 
 // Increment local variable by constant
 type iinc struct {
-	index  uint8
-	_const int8
+	index  uint
+	_const int32
 }
 
 func (self *iinc) fetchOperands(decoder *InstructionDecoder) {
-	self.index = decoder.readUint8()
-	self._const = decoder.readInt8()
+	self.index = uint(decoder.readUint8())
+	self._const = int32(decoder.readInt8())
 }
 
 func (self *iinc) Execute(frame *rtda.Frame) {
 	localVars := frame.LocalVars()
-	index := uint(self.index)
-	val := localVars.GetInt(index)
-	val += int32(self._const)
-	localVars.SetInt(index, val)
+	val := localVars.GetInt(self.index)
+	val += self._const
+	localVars.SetInt(self.index, val)
 }

@@ -20,6 +20,7 @@ type Class struct {
 	interfaceNames     []string
 	fields             []*Field
 	methods            []*Method
+	vtable             []*Method // virtual method table
 	staticFieldCount   uint
 	instanceFieldCount uint
 	staticFieldValues  []Any

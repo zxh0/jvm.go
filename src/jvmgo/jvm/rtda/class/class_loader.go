@@ -148,6 +148,7 @@ func (self *ClassLoader) reallyLoadClass(name string) *Class {
 	self.resolveInterfaces(class)
 	calcStaticFieldSlots(class)
 	calcInstanceFieldSlots(class)
+	createVTable(class)
 	prepare(class)
 	// todo
 	class.classLoader = self

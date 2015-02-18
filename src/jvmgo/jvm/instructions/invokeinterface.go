@@ -20,17 +20,15 @@ func (self *invokeinterface) fetchOperands(decoder *InstructionDecoder) {
 }
 
 func (self *invokeinterface) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
-	stack := frame.OperandStack()
-	cp := frame.Method().Class().ConstantPool()
-	c := cp.GetConstant(uint(self.index))
-	cMethodRef := c.(*rtc.ConstantInterfaceMethodref)
-	ref := stack.Top(cMethodRef.ArgCount()).(*rtc.Obj)
+	cp := frame.Method().ConstantPool()
+	kMethodRef := cp.GetConstant(uint(self.index)).(*rtc.ConstantInterfaceMethodref)
 
+	stack := frame.OperandStack()
+	ref := stack.Top(kMethodRef.ArgCount()).(*rtc.Obj)
 	if ref == nil {
 		panic("NPE") // todo
 	}
 
-	method := cMethodRef.VirtualMethod(ref)
-	thread.InvokeMethod(method)
+	method := kMethodRef.VirtualMethod(ref)
+	frame.Thread().InvokeMethod(method)
 }

@@ -23,10 +23,10 @@ func (self *LineNumberTableAttribute) readInfo(reader *ClassReader) {
 	lineNumberTableLength := reader.readUint16()
 	self.lineNumberTable = make([]*LineNumberTableEntry, lineNumberTableLength)
 	for i := range self.lineNumberTable {
-		entry := &LineNumberTableEntry{}
-		entry.startPc = reader.readUint16()
-		entry.lineNumber = reader.readUint16()
-		self.lineNumberTable[i] = entry
+		self.lineNumberTable[i] = &LineNumberTableEntry{
+			startPc:    reader.readUint16(),
+			lineNumber: reader.readUint16(),
+		}
 	}
 }
 

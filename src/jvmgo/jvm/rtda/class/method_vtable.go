@@ -4,7 +4,8 @@ func createVtable(class *Class) {
 	superVtable := getSuperVtable(class)
 	newVirtualMethodCount := countNewVirtualMethod(class)
 
-	newVtable := make([]*Method, len(superVtable), len(superVtable) + newVirtualMethodCount)
+	newCap := len(superVtable) + newVirtualMethodCount
+	newVtable := make([]*Method, len(superVtable), newCap)
 	copy(newVtable, superVtable)
 
 	for _, m := range class.methods {

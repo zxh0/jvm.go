@@ -32,10 +32,10 @@ type InnerClassInfo struct {
 }
 
 func readInnerClassInfo(reader *ClassReader) *InnerClassInfo {
-	info := &InnerClassInfo{}
-	info.innerClassInfoIndex = reader.readUint16()
-	info.outerClassInfoIndex = reader.readUint16()
-	info.innerNameIndex = reader.readUint16()
-	info.innerClassAccessFlags = reader.readUint16()
-	return info
+	return &InnerClassInfo{
+		innerClassInfoIndex:   reader.readUint16(),
+		outerClassInfoIndex:   reader.readUint16(),
+		innerNameIndex:        reader.readUint16(),
+		innerClassAccessFlags: reader.readUint16(),
+	}
 }

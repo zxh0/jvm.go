@@ -10,9 +10,8 @@ import (
 type invokespecial struct{ Index16Instruction }
 
 func (self *invokespecial) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
-	cp := frame.Method().Class().ConstantPool()
-	cMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-	method := cMethodRef.SpecialMethod()
-	thread.InvokeMethod(method)
+	cp := frame.ConstantPool()
+	kMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
+	method := kMethodRef.SpecialMethod()
+	frame.Thread().InvokeMethod(method)
 }

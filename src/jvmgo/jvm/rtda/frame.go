@@ -52,3 +52,6 @@ func (self *Frame) RevertNextPC() {
 func (self *Frame) ClassLoader() *rtc.ClassLoader {
 	return self.method.ClassLoader()
 }
+func (self *Frame) ConstantPool() *rtc.ConstantPool {
+	return self.method.ConstantPool()
+}

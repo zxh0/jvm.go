@@ -1,7 +1,6 @@
 package instructions
 
 import (
-	//"fmt"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )
@@ -24,11 +23,11 @@ func (self *invokeinterface) Execute(frame *rtda.Frame) {
 	kMethodRef := cp.GetConstant(uint(self.index)).(*rtc.ConstantInterfaceMethodref)
 
 	stack := frame.OperandStack()
-	ref := stack.Top(kMethodRef.ArgCount()).(*rtc.Obj)
+	ref := stack.Top(kMethodRef.ArgCount())
 	if ref == nil {
 		panic("NPE") // todo
 	}
 
-	method := kMethodRef.VirtualMethod(ref)
+	method := kMethodRef.VirtualMethod(ref.(*rtc.Obj))
 	frame.Thread().InvokeMethod(method)
 }

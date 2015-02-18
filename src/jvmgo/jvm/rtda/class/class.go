@@ -108,17 +108,18 @@ func (self *Class) GetInstanceField(name, descriptor string) *Field {
 	return self.getField(name, descriptor, false)
 }
 
-func (self *Class) GetMainMethod() *Method {
-	return self.GetStaticMethod(mainMethodName, mainMethodDesc)
-}
-func (self *Class) GetClinitMethod() *Method {
-	return self.GetStaticMethod(clinitMethodName, clinitMethodDesc)
-}
 func (self *Class) GetStaticMethod(name, descriptor string) *Method {
 	return self.getMethod(name, descriptor, true)
 }
 func (self *Class) GetInstanceMethod(name, descriptor string) *Method {
 	return self.getMethod(name, descriptor, false)
+}
+
+func (self *Class) GetMainMethod() *Method {
+	return self.GetStaticMethod(mainMethodName, mainMethodDesc)
+}
+func (self *Class) GetClinitMethod() *Method {
+	return self.GetStaticMethod(clinitMethodName, clinitMethodDesc)
 }
 
 func (self *Class) getArrayClass() *Class {
@@ -153,16 +154,6 @@ func (self *Class) isJlCloneable() bool {
 func (self *Class) isJioSerializable() bool {
 	return self == _ioSerializableClass
 }
-
-// // todo: optimize
-// func (self *Class) IsJlThreadOrSubClass() bool {
-//     for k := self; k != nil; k = k.superClass {
-//         if k == _jlThreadClass {
-//             return true
-//         }
-//     }
-//     return false
-// }
 
 // reflection
 func (self *Class) GetStaticValue(fieldName, fieldDescriptor string) Any {

@@ -1,7 +1,6 @@
 package instructions
 
 import (
-	//"fmt"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )
@@ -14,11 +13,11 @@ func (self *instanceof) Execute(frame *rtda.Frame) {
 	ref := stack.PopRef()
 
 	cp := frame.Method().Class().ConstantPool()
-	cClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
-	class := cClass.Class()
+	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
+	class := kClass.Class()
 
 	if class.InitializationNotStarted() {
-		// todo init class
+		// todo: init class
 		panic("class not initialized!" + class.Name())
 	}
 

@@ -15,13 +15,13 @@ type ConstantMethodref struct {
 }
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
-	methodref := &ConstantMethodref{}
-	methodref.className = methodrefInfo.ClassName()
-	methodref.name = methodrefInfo.Name()
-	methodref.descriptor = methodrefInfo.Descriptor()
-	methodref.argCount = calcArgCount(methodref.descriptor)
-	methodref.cp = cp
-	return methodref
+	return &ConstantMethodref{
+		className:  methodrefInfo.ClassName(),
+		name:       methodrefInfo.Name(),
+		descriptor: methodrefInfo.Descriptor(),
+		argCount:   calcArgCount(methodrefInfo.Descriptor()),
+		cp:         cp,
+	}
 }
 
 func (self *ConstantMethodref) ArgCount() uint {

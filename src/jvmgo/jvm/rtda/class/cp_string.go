@@ -8,8 +8,9 @@ type ConstantString struct {
 }
 
 func newConstantString(stringInfo *cf.ConstantStringInfo) *ConstantString {
-	goStr := stringInfo.String()
-	return &ConstantString{goStr, nil}
+	return &ConstantString{
+		goStr: stringInfo.String(),
+	}
 }
 
 // getters & setters

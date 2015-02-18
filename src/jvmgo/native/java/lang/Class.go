@@ -31,7 +31,6 @@ func _class(method Any, name, desc string) {
 
 // private native Class<?>[]   getDeclaredClasses0();
 
-
 // private static native boolean desiredAssertionStatus0(Class<?> clazz);
 // (Ljava/lang/Class;)Z
 func desiredAssertionStatus0(frame *rtda.Frame) {

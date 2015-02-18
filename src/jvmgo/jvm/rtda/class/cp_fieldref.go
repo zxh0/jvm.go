@@ -15,12 +15,12 @@ type ConstantFieldref struct {
 }
 
 func newConstantFieldref(cp *ConstantPool, fieldrefInfo *cf.ConstantFieldrefInfo) *ConstantFieldref {
-	fieldref := &ConstantFieldref{}
-	fieldref.className = fieldrefInfo.ClassName()
-	fieldref.name = fieldrefInfo.Name()
-	fieldref.descriptor = fieldrefInfo.Descriptor()
-	fieldref.cp = cp
-	return fieldref
+	return &ConstantFieldref{
+		className:  fieldrefInfo.ClassName(),
+		name:       fieldrefInfo.Name(),
+		descriptor: fieldrefInfo.Descriptor(),
+		cp:         cp,
+	}
 }
 
 func (self *ConstantFieldref) String() string {

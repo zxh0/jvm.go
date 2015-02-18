@@ -9,10 +9,10 @@ type ConstantClass struct {
 }
 
 func newConstantClass(cp *ConstantPool, classInfo *cf.ConstantClassInfo) *ConstantClass {
-	cClass := &ConstantClass{}
-	cClass.name = classInfo.Name()
-	cClass.cp = cp
-	return cClass
+	return &ConstantClass{
+		name: classInfo.Name(),
+		cp:   cp,
+	}
 }
 
 func (self *ConstantClass) Class() *Class {

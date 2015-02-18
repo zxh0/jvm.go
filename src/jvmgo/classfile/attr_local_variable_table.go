@@ -29,12 +29,12 @@ func (self *LocalVariableTableAttribute) readInfo(reader *ClassReader) {
 	localVariableTableLength := reader.readUint16()
 	self.localVariableTable = make([]*LocalVariableTableEntry, localVariableTableLength)
 	for i := range self.localVariableTable {
-		entry := &LocalVariableTableEntry{}
-		entry.startPc = reader.readUint16()
-		entry.length = reader.readUint16()
-		entry.nameIndex = reader.readUint16()
-		entry.descriptorIndex = reader.readUint16()
-		entry.index = reader.readUint16()
-		self.localVariableTable[i] = entry
+		self.localVariableTable[i] = &LocalVariableTableEntry{
+			startPc:         reader.readUint16(),
+			length:          reader.readUint16(),
+			nameIndex:       reader.readUint16(),
+			descriptorIndex: reader.readUint16(),
+			index:           reader.readUint16(),
+		}
 	}
 }

@@ -95,25 +95,7 @@ func readElementValue(reader *ClassReader) *ElementValue {
 	var value Any
 	tag := reader.readUint8()
 	switch tag {
-	case 'B':
-		fallthrough
-	case 'C':
-		fallthrough
-	case 'D':
-		fallthrough
-	case 'F':
-		fallthrough
-	case 'I':
-		fallthrough
-	case 'J':
-		fallthrough
-	case 'S':
-		fallthrough
-	case 'Z':
-		fallthrough
-	case 's':
-		fallthrough
-	case 'c':
+	case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z', 's', 'c':
 		value = reader.readUint16()
 	case 'e':
 		value = readEnumConstValue(reader)

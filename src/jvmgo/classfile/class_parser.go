@@ -1,6 +1,5 @@
 package classfile
 
-//import "errors"
 import "fmt"
 
 func ParseClassFile(classData []byte) (cf *ClassFile, err error) {

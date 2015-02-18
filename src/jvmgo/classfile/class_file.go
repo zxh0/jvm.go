@@ -1,7 +1,5 @@
 package classfile
 
-//import "errors"
-
 /*
 ClassFile {
     u4             magic;

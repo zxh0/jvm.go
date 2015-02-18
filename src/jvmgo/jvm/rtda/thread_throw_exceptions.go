@@ -2,8 +2,20 @@ package rtda
 
 import (
 	"fmt"
+	. "jvmgo/any"
 	rtc "jvmgo/jvm/rtda/class"
 )
+
+func (self *Thread) ThrowException(className, initDesc string, initArgs ...Any) {
+	class := self.ClassLoader().LoadClass(className)
+	ex := class.NewObj()
+	athrowFrame := newAthrowFrame(self, ex, initArgs)
+	self.PushFrame(athrowFrame)
+
+	// init ex
+	constructor := class.GetConstructor(initDesc)
+	self.InvokeMethod(constructor)
+}
 
 func (self *Thread) ThrowNPE() {
 	self.ThrowException("java/lang/NullPointerException", "()V")

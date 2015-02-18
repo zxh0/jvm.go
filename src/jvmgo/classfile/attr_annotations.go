@@ -61,9 +61,10 @@ type ElementValuePair struct {
 }
 
 func readElementValuePair(reader *ClassReader) *ElementValuePair {
-	elementNameIndex := reader.readUint16()
-	value := readElementValue(reader)
-	return &ElementValuePair{elementNameIndex, value}
+	return &ElementValuePair{
+		elementNameIndex: reader.readUint16(),
+		value:            readElementValue(reader),
+	}
 }
 
 /*
@@ -115,9 +116,10 @@ type EnumConstValue struct {
 }
 
 func readEnumConstValue(reader *ClassReader) *EnumConstValue {
-	typeNameIndex := reader.readUint16()
-	constNameIndex := reader.readUint16()
-	return &EnumConstValue{typeNameIndex, constNameIndex}
+	return &EnumConstValue{
+		typeNameIndex:  reader.readUint16(),
+		constNameIndex: reader.readUint16(),
+	}
 }
 
 func readArrayValue(reader *ClassReader) []*ElementValue {

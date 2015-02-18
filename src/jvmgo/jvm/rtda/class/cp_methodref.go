@@ -1,7 +1,6 @@
 package class
 
 import (
-	//"fmt"
 	cf "jvmgo/classfile"
 )
 

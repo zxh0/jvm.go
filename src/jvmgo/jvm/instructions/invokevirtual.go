@@ -1,9 +1,6 @@
 package instructions
 
 import (
-	//"log"
-	//. "jvmgo/any"
-	//"jvmgo/native"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )
@@ -12,15 +9,15 @@ import (
 type invokevirtual struct{ Index16Instruction }
 
 func (self *invokevirtual) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	cp := frame.Method().ConstantPool()
+	kMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
+
 	stack := frame.OperandStack()
-	cp := frame.Method().Class().ConstantPool()
-	cMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-	ref := stack.Top(cMethodRef.ArgCount())
+	ref := stack.Top(kMethodRef.ArgCount())
 	if ref == nil {
 		panic("NPE")
 	}
 
-	method := cMethodRef.VirtualMethod(ref.(*rtc.Obj))
-	thread.InvokeMethod(method)
+	method := kMethodRef.VirtualMethod(ref.(*rtc.Obj))
+	frame.Thread().InvokeMethod(method)
 }

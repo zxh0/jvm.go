@@ -16,14 +16,6 @@ type InnerClassesAttribute struct {
 	classes []*InnerClassInfo
 }
 
-func (self *InnerClassesAttribute) readInfo(reader *ClassReader) {
-	numberOfClasses := reader.readUint16()
-	self.classes = make([]*InnerClassInfo, numberOfClasses)
-	for i := range self.classes {
-		self.classes[i] = readInnerClassInfo(reader)
-	}
-}
-
 type InnerClassInfo struct {
 	innerClassInfoIndex   uint16
 	outerClassInfoIndex   uint16
@@ -31,11 +23,15 @@ type InnerClassInfo struct {
 	innerClassAccessFlags uint16
 }
 
-func readInnerClassInfo(reader *ClassReader) *InnerClassInfo {
-	return &InnerClassInfo{
-		innerClassInfoIndex:   reader.readUint16(),
-		outerClassInfoIndex:   reader.readUint16(),
-		innerNameIndex:        reader.readUint16(),
-		innerClassAccessFlags: reader.readUint16(),
+func (self *InnerClassesAttribute) readInfo(reader *ClassReader) {
+	numberOfClasses := reader.readUint16()
+	self.classes = make([]*InnerClassInfo, numberOfClasses)
+	for i := range self.classes {
+		self.classes[i] = &InnerClassInfo{
+			innerClassInfoIndex:   reader.readUint16(),
+			outerClassInfoIndex:   reader.readUint16(),
+			innerNameIndex:        reader.readUint16(),
+			innerClassAccessFlags: reader.readUint16(),
+		}
 	}
 }

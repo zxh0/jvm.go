@@ -9,12 +9,10 @@ func createVtable(class *Class) {
 	copy(newVtable, superVtable)
 
 	for _, m := range class.methods {
-		if isVirtualMethod(m) {
-			if i := search(superVtable, m); i > -1 {
-				newVtable[i] = m // override
-			} else {
-				newVtable = append(newVtable, m)
-			}
+		if i := search(superVtable, m); i > -1 {
+			newVtable[i] = m // override
+		} else {
+			newVtable = append(newVtable, m)
 		}
 	}
 }

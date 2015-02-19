@@ -1,5 +1,15 @@
 package class
 
+func getVslot(class *Class, name, descriptor string) int {
+	for i, m := range class.vtable {
+		if m.name == name && m.descriptor == descriptor {
+			return i
+		}
+	}
+	// todo
+	return -1
+}
+
 func createVtable(class *Class) {
 	superVtable := getSuperVtable(class)
 	newVirtualMethodCount := countNewVirtualMethod(class)
@@ -15,6 +25,8 @@ func createVtable(class *Class) {
 			newVtable = append(newVtable, m)
 		}
 	}
+
+	class.vtable = newVtable
 }
 
 func getSuperVtable(class *Class) []*Method {

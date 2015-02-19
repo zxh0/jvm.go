@@ -11,7 +11,7 @@ type ConstantMethodref struct {
 	argCount   uint
 	cp         *ConstantPool
 	method     *Method
-	vslot	   int
+	vslot      int
 }
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
@@ -66,14 +66,12 @@ func (self *ConstantMethodref) findMethod(className string, isStatic bool) *Meth
 	return class.getMethod(self.name, self.descriptor, isStatic)
 }
 
-
 func (self *ConstantMethodref) GetVirtualMethod(ref *Obj) *Method {
 	if self.vslot < 0 {
 		self.vslot = getVslot(ref.class, self.name, self.descriptor)
 	}
 	return ref.class.vtable[self.vslot]
 }
-
 
 // todo
 func (self *ConstantMethodref) FindInterfaceMethod(ref *Obj) *Method {

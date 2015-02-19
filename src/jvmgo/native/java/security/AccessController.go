@@ -24,7 +24,7 @@ func doPrivileged(frame *rtda.Frame) {
 	action := vars.GetRef(0)
 
 	methodref := action.Class().ConstantPool().GetMethodref("run") // todo
-	method := methodref.VirtualMethod(action)
+	method := methodref.FindInterfaceMethod(action)
 
 	stack := frame.OperandStack()
 	stack.PushRef(action)

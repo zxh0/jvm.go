@@ -55,7 +55,9 @@ func _debug(thread *rtda.Thread) {
 	if r := recover(); r != nil {
 		for !thread.IsStackEmpty() {
 			frame := thread.PopFrame()
-			fmt.Printf("%v %v\n", frame.Method().Class(), frame.Method())
+			method := frame.Method()
+			//lineNum := method.GetLineNumber(frame.NextPC())
+			fmt.Printf(">> %v.%v%v \n", method.Class().Name(), method.Name(), method.Descriptor())
 		}
 
 		err, ok := r.(error)

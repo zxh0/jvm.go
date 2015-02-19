@@ -76,10 +76,7 @@ func (self *ConstantMethodref) GetVirtualMethod(ref *Obj) *Method {
 
 
 // todo
-func (self *ConstantMethodref) VirtualMethod(ref *Obj) *Method {
-	return self.findVirtualMethod(ref)
-}
-func (self *ConstantMethodref) findVirtualMethod(ref *Obj) *Method {
+func (self *ConstantMethodref) FindInterfaceMethod(ref *Obj) *Method {
 	for class := ref.class; class != nil; class = class.superClass {
 		method := class.getMethod(self.name, self.descriptor, false)
 		if method != nil {

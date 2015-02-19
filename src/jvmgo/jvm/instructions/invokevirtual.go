@@ -18,6 +18,6 @@ func (self *invokevirtual) Execute(frame *rtda.Frame) {
 		panic("NPE")
 	}
 
-	method := kMethodRef.VirtualMethod(ref.(*rtc.Obj))
+	method := kMethodRef.GetVirtualMethod(ref.(*rtc.Obj))
 	frame.Thread().InvokeMethod(method)
 }

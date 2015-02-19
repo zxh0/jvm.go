@@ -28,6 +28,6 @@ func (self *invokeinterface) Execute(frame *rtda.Frame) {
 		panic("NPE") // todo
 	}
 
-	method := kMethodRef.VirtualMethod(ref.(*rtc.Obj))
+	method := kMethodRef.FindInterfaceMethod(ref.(*rtc.Obj))
 	frame.Thread().InvokeMethod(method)
 }

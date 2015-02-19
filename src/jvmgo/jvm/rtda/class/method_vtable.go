@@ -19,10 +19,12 @@ func createVtable(class *Class) {
 	copy(newVtable, superVtable)
 
 	for _, m := range class.methods {
-		if i := search(superVtable, m); i > -1 {
-			newVtable[i] = m // override
-		} else {
-			newVtable = append(newVtable, m)
+		if !m.IsStatic() {
+			if i := search(superVtable, m); i > -1 {
+				newVtable[i] = m // override
+			} else {
+				newVtable = append(newVtable, m)
+			}
 		}
 	}
 

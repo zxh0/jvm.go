@@ -88,6 +88,7 @@ func (self *ClassLoader) loadArrayClass(className string) {
 	class.interfaces = []*Class{_jlClassClass, _ioSerializableClass}
 	class.jClass = _jlClassClass.NewObj()
 	class.jClass.extra = class
+	createVtable(class)
 	class.MarkInitialized()
 	self.classMap[className] = class
 }

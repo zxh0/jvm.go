@@ -71,11 +71,15 @@ func (self *Method) Code() []byte {
 func (self *Method) SetCode(code []byte) {
 	self.code = code
 }
-func (self *Method) NativeMethod() Any {
-	return self.nativeMethod
-}
 func (self *Method) MethodDescriptor() *MethodDescriptor {
 	return self.md
+}
+
+func (self *Method) NativeMethod() Any {
+	if self.nativeMethod == nil {
+		self.nativeMethod = findNativeMethod(self)
+	}
+	return self.nativeMethod
 }
 
 // argCount for static method

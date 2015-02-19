@@ -11,6 +11,7 @@ type ConstantMethodref struct {
 	argCount   uint
 	cp         *ConstantPool
 	method     *Method
+	vslot	   int
 }
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
@@ -20,6 +21,7 @@ func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefI
 		descriptor: methodrefInfo.Descriptor(),
 		argCount:   calcArgCount(methodrefInfo.Descriptor()),
 		cp:         cp,
+		vslot:      -1,
 	}
 }
 
@@ -36,9 +38,6 @@ func (self *ConstantMethodref) StaticMethod() *Method {
 func (self *ConstantMethodref) resolveStaticMethod() {
 	method := self.findMethod(self.className, true)
 	if method != nil {
-		if method.IsNative() && method.nativeMethod == nil {
-			method.nativeMethod = findNativeMethod(method)
-		}
 		self.method = method
 	} else {
 		// todo
@@ -55,9 +54,6 @@ func (self *ConstantMethodref) SpecialMethod() *Method {
 func (self *ConstantMethodref) resolveSpecialMethod() {
 	method := self.findMethod(self.className, false)
 	if method != nil {
-		if method.IsNative() && method.nativeMethod == nil {
-			method.nativeMethod = findNativeMethod(method)
-		}
 		self.method = method
 	} else {
 		// todo
@@ -70,6 +66,15 @@ func (self *ConstantMethodref) findMethod(className string, isStatic bool) *Meth
 	return class.getMethod(self.name, self.descriptor, isStatic)
 }
 
+
+func (self *ConstantMethodref) GetVirtualMethod(ref *Obj) *Method {
+	if self.vslot < 0 {
+		self.vslot = getVslot(ref.class, self.name, self.descriptor)
+	}
+	return ref.class.vtable[self.vslot]
+}
+
+
 // todo
 func (self *ConstantMethodref) VirtualMethod(ref *Obj) *Method {
 	return self.findVirtualMethod(ref)
@@ -78,9 +83,6 @@ func (self *ConstantMethodref) findVirtualMethod(ref *Obj) *Method {
 	for class := ref.class; class != nil; class = class.superClass {
 		method := class.getMethod(self.name, self.descriptor, false)
 		if method != nil {
-			if method.IsNative() && method.nativeMethod == nil {
-				method.nativeMethod = findNativeMethod(method)
-			}
 			return method
 		}
 	}

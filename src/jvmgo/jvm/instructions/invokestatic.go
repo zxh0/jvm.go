@@ -15,8 +15,8 @@ func (self *invokestatic) Execute(frame *rtda.Frame) {
 	currentMethod := currentFrame.Method()
 	currentClass := currentMethod.Class()
 	cp := currentClass.ConstantPool()
-	cMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-	method := cMethodRef.StaticMethod()
+	kMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
+	method := kMethodRef.StaticMethod()
 
 	// init class
 	classOfMethod := method.Class()

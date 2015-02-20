@@ -37,14 +37,14 @@ func _ldc(frame *rtda.Frame, index uint) {
 			kString.SetJStr(strObj)
 		}
 		stack.PushRef(kString.JStr())
-	case *rtc.ConstantClass: // todo
+	case *rtc.ConstantClass:
 		kClass := c.(*rtc.ConstantClass)
 		classObj := kClass.Class().JClass()
 		stack.PushRef(classObj)
 	default:
 		// todo
 		// ref to MethodType or MethodHandle
-		util.Panicf("todo: ldc! %v\n", c)
+		util.Panicf("todo: ldc! %v", c)
 	}
 }
 
@@ -61,6 +61,7 @@ func (self *ldc2_w) Execute(frame *rtda.Frame) {
 		stack.PushLong(c.(int64))
 	case float64:
 		stack.PushDouble(c.(float64))
-		// todo
+	default:
+		util.Panicf("ldc2_w! %v", c)
 	}
 }

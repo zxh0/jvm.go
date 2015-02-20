@@ -17,8 +17,8 @@ func (self *newarray) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	count := stack.PopInt()
 	if count < 0 {
-		// todo
-		panic("NegativeArraySizeException")
+		frame.Thread().ThrowNegativeArraySizeException()
+		return
 	}
 
 	arr := rtc.NewPrimitiveArray(self.atype, uint(count), frame.ClassLoader())

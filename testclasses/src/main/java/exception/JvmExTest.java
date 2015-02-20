@@ -9,10 +9,13 @@ public class JvmExTest {
             // NPE
             //arraylength(null);
             //athrow(null);
-            getfield(null);
+            //getfield(null);
             
             // ClassCastException
             //checkcast();
+            
+            // NegativeArraySizeException
+            newarray();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -33,6 +36,10 @@ public class JvmExTest {
     static void checkcast() {
         Object x = "String";
         Integer y = (Integer) x;
+    }
+    
+    static void newarray() {
+        int[] a = new int[-3];
     }
     
 //    private static void test() {

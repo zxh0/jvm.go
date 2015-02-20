@@ -21,6 +21,10 @@ func (self *Thread) ThrowNPE() {
 	self.ThrowException("java/lang/NullPointerException", "()V")
 }
 
+func (self *Thread) ThrowNegativeArraySizeException() {
+	self.ThrowException("java/lang/NegativeArraySizeException", "()V")
+}
+
 func (self *Thread) ThrowClassCastException(from, to *rtc.Class) {
 	msg := fmt.Sprintf("%v cannot be cast to %v", from.JlsName(), to.JlsName())
 	msgObj := NewJString(msg, from)

@@ -16,8 +16,7 @@ func (self *newarray) fetchOperands(decoder *InstructionDecoder) {
 func (self *newarray) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	count := uint(stack.PopInt())
-	classLoader := frame.ClassLoader()
-	arr := rtc.NewPrimitiveArray(self.atype, count, classLoader)
+	arr := rtc.NewPrimitiveArray(self.atype, count, frame.ClassLoader())
 	stack.PushRef(arr)
 }
 
@@ -25,9 +24,9 @@ func (self *newarray) Execute(frame *rtda.Frame) {
 type anewarray struct{ Index16Instruction }
 
 func (self *anewarray) Execute(frame *rtda.Frame) {
-	cp := frame.Method().Class().ConstantPool()
-	cClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
-	componentClass := cClass.Class()
+	cp := frame.ConstantPool()
+	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
+	componentClass := kClass.Class()
 
 	if componentClass.InitializationNotStarted() {
 		thread := frame.Thread()

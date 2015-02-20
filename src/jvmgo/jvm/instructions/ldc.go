@@ -22,7 +22,7 @@ func (self *ldc_w) Execute(frame *rtda.Frame) {
 
 func _ldc(frame *rtda.Frame, index uint) {
 	stack := frame.OperandStack()
-	cp := frame.Method().Class().ConstantPool()
+	cp := frame.ConstantPool()
 	c := cp.GetConstant(index)
 
 	switch c.(type) {
@@ -53,7 +53,7 @@ type ldc2_w struct{ Index16Instruction }
 
 func (self *ldc2_w) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
-	cp := frame.Method().Class().ConstantPool()
+	cp := frame.ConstantPool()
 	c := cp.GetConstant(self.index)
 
 	switch c.(type) {

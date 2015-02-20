@@ -9,7 +9,7 @@ import (
 type new_ struct{ Index16Instruction }
 
 func (self *new_) Execute(frame *rtda.Frame) {
-	cp := frame.Method().Class().ConstantPool()
+	cp := frame.ConstantPool()
 	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
 	class := kClass.Class()
 

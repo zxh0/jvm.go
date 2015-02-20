@@ -18,9 +18,9 @@ func (self *putfield) Execute(frame *rtda.Frame) {
 		panic("NPE")
 	}
 
-	cp := frame.Method().Class().ConstantPool()
-	cFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
-	field := cFieldRef.InstanceField()
+	cp := frame.ConstantPool()
+	kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
+	field := kFieldRef.InstanceField()
 
 	field.PutValue(ref, val)
 }
@@ -33,8 +33,8 @@ func (self *putstatic) Execute(frame *rtda.Frame) {
 	currentClass := currentMethod.Class()
 
 	cp := currentClass.ConstantPool()
-	cFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
-	field := cFieldRef.StaticField()
+	kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
+	field := kFieldRef.StaticField()
 
 	classOfField := field.Class()
 	if classOfField.InitializationNotStarted() {

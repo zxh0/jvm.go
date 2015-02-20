@@ -12,7 +12,7 @@ func (self *instanceof) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	ref := stack.PopRef()
 
-	cp := frame.Method().Class().ConstantPool()
+	cp := frame.ConstantPool()
 	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
 	class := kClass.Class()
 

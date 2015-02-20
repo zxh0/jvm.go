@@ -1,9 +1,9 @@
 package instructions
 
 import (
-	"fmt"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
+	"jvmgo/util"
 )
 
 // Push item from run-time constant pool
@@ -31,22 +31,20 @@ func _ldc(frame *rtda.Frame, index uint) {
 	case float32:
 		stack.PushFloat(c.(float32))
 	case *rtc.ConstantString:
-		constStr := c.(*rtc.ConstantString)
-		if constStr.JStr() == nil {
-			jStr := rtda.NewJString(constStr.GoStr(), frame) // already interned
-			constStr.SetJStr(jStr)
+		kString := c.(*rtc.ConstantString)
+		if kString.JStr() == nil {
+			strObj := rtda.NewJString(kString.GoStr(), frame) // already interned
+			kString.SetJStr(strObj)
 		}
-		stack.PushRef(constStr.JStr())
+		stack.PushRef(kString.JStr())
 	case *rtc.ConstantClass: // todo
-		class := c.(*rtc.ConstantClass).Class()
-		stack.PushRef(class.JClass())
+		kClass := c.(*rtc.ConstantClass)
+		classObj := kClass.Class().JClass()
+		stack.PushRef(classObj)
 	default:
-		fmt.Printf("CCC:::%v\n", c)
-		panic("todo ldc!!!")
 		// todo
-		// ref to String
-		// ref to Class
 		// ref to MethodType or MethodHandle
+		util.Panicf("todo: ldc! %v\n", c)
 	}
 }
 

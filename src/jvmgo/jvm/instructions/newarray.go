@@ -15,8 +15,13 @@ func (self *newarray) fetchOperands(decoder *InstructionDecoder) {
 }
 func (self *newarray) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
-	count := uint(stack.PopInt())
-	arr := rtc.NewPrimitiveArray(self.atype, count, frame.ClassLoader())
+	count := stack.PopInt()
+	if count < 0 {
+		// todo
+		panic("NegativeArraySizeException")
+	}
+
+	arr := rtc.NewPrimitiveArray(self.atype, uint(count), frame.ClassLoader())
 	stack.PushRef(arr)
 }
 

@@ -41,8 +41,13 @@ func (self *anewarray) Execute(frame *rtda.Frame) {
 	}
 
 	stack := frame.OperandStack()
-	count := uint(stack.PopInt())
-	arr := rtc.NewRefArray(componentClass, count)
+	count := stack.PopInt()
+	if count < 0 {
+		frame.Thread().ThrowNegativeArraySizeException()
+		return
+	}
+
+	arr := rtc.NewRefArray(componentClass, uint(count))
 	stack.PushRef(arr)
 }
 

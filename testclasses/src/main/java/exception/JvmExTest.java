@@ -15,7 +15,8 @@ public class JvmExTest {
             //checkcast();
             
             // NegativeArraySizeException
-            newarray();
+            //newarray();
+            anewarray();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -40,6 +41,10 @@ public class JvmExTest {
     
     static void newarray() {
         int[] a = new int[-3];
+    }
+    
+    static void anewarray() {
+        Object[] a = new Object[-1];
     }
     
 //    private static void test() {

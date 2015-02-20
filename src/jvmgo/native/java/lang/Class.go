@@ -50,7 +50,7 @@ func forName0(frame *rtda.Frame) {
 
 	goName := rtda.GoString(jName)
 	goName = util.ReplaceAll(goName, ".", "/")
-	goClass := frame.Method().Class().ClassLoader().LoadClass(goName)
+	goClass := frame.ClassLoader().LoadClass(goName)
 	jClass := goClass.JClass()
 
 	if initialize && goClass.InitializationNotStarted() {

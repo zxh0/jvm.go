@@ -16,7 +16,7 @@ func (self *newarray) fetchOperands(decoder *InstructionDecoder) {
 func (self *newarray) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	count := uint(stack.PopInt())
-	classLoader := frame.Method().Class().ClassLoader()
+	classLoader := frame.ClassLoader()
 	arr := rtc.NewPrimitiveArray(self.atype, count, classLoader)
 	stack.PushRef(arr)
 }

@@ -19,7 +19,8 @@ public class JvmExTest {
             //anewarray();
             
             // ArrayIndexOutOfBoundsException
-            aload();
+            //aload();
+            astore();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -53,6 +54,12 @@ public class JvmExTest {
     static void aload() {
         int[] a = {1};
         int x = a[2];
+    }
+    
+    static void astore() {
+        int[] a = {};
+        a[1] = 2;
+        int x = a[1];
     }
     
 //    private static void test() {

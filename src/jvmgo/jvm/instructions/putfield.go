@@ -14,8 +14,8 @@ func (self *putfield) Execute(frame *rtda.Frame) {
 	val := stack.Pop()
 	ref := stack.PopRef()
 	if ref == nil {
-		// todo NullPointerException
-		panic("NPE")
+		frame.Thread().ThrowNPE()
+		return
 	}
 
 	cp := frame.ConstantPool()

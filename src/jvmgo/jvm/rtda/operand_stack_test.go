@@ -32,7 +32,7 @@ func TestPopTops(t *testing.T) {
 	stack.PushInt(8)
 	stack.PushInt(9)
 
-	top3 := stack.popTops(3)
+	top3 := stack.PopTops(3)
 	AssertEquals([]int32{6, 8, 9}, top3)
 	AssertEquals(5, stack.PopInt())
 }

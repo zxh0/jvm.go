@@ -5,8 +5,7 @@ func (self *Class) IsArray() bool {
 }
 
 func (self *Class) ComponentClass() *Class {
-	componentDescriptor := getComponentDescriptor(self.name)
-	componentClassName := getClassName(componentDescriptor)
+	componentClassName := getComponentClassName(self.name)
 	return self.classLoader.LoadClass(componentClassName)
 }
 

@@ -9,6 +9,10 @@ func calcArgCount(descriptor string) uint {
 	return parseMethodDescriptor(descriptor).argCount()
 }
 
+func getArrayClassName() {
+	
+}
+
 // [[XXX -> [XXX
 // [LXXX; -> XXX
 // [I -> int

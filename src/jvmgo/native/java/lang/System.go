@@ -1,7 +1,6 @@
 package lang
 
 import (
-	//"fmt"
 	. "jvmgo/any"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
@@ -39,7 +38,7 @@ func arraycopy(frame *rtda.Frame) {
 		panic("NPE") // todo
 	}
 	// ArrayStoreException
-	if !rtc.HaveSameArrayType(src, dest) {
+	if !checkArrayCopy(src, dest) {
 		panic("ArrayStoreException")
 	}
 	// IndexOutOfBoundsException
@@ -51,6 +50,19 @@ func arraycopy(frame *rtda.Frame) {
 	}
 
 	rtc.ArrayCopy(src, dest, srcPos, destPos, length)
+}
+
+func checkArrayCopy(src, dest *rtc.Obj) bool {
+	srcClass := src.Class()
+	destClass := dest.Class()
+
+	if !srcClass.IsArray() || !destClass.IsArray() {
+		return false
+	}
+	if srcClass.IsPrimitiveArray() || destClass.IsPrimitiveArray() {
+		return srcClass == destClass
+	}
+	return true
 }
 
 // public static native long currentTimeMillis();

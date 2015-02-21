@@ -91,44 +91,6 @@ func NewRefArray2(componentClass *Class, components []*Obj) *Obj {
 	return newObj(arrClass, components, nil)
 }
 
-// todo
-func HaveSameArrayType(obj1, obj2 *Obj) bool {
-	at1 := _arrayType(obj1)
-	if at1 == AT_NOT_ARRAY {
-		return false
-	}
-
-	at2 := _arrayType(obj2)
-	if at2 == AT_NOT_ARRAY {
-		return false
-	}
-
-	return at1 == at2
-}
-
-func _arrayType(arr *Obj) int {
-	switch arr.fields.(type) {
-	case []int8:
-		return AT_BYTE
-	case []int16:
-		return AT_SHORT
-	case []int32:
-		return AT_INT
-	case []int64:
-		return AT_LONG
-	case []uint16:
-		return AT_CHAR
-	case []float32:
-		return AT_FLOAT
-	case []float64:
-		return AT_DOUBLE
-	case []*Obj:
-		return AT_OBJEC
-	default:
-		return AT_NOT_ARRAY
-	}
-}
-
 func ArrayLength(arr *Obj) int32 {
 	switch arr.fields.(type) {
 	case []int8:
@@ -151,8 +113,6 @@ func ArrayLength(arr *Obj) int32 {
 		panic("Not array!") // todo
 	}
 }
-
-// CanArrayCopy
 
 func ArrayCopy(src, dst *Obj, srcPos, dstPos, length int32) {
 	switch src.fields.(type) {

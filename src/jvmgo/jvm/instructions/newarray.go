@@ -62,6 +62,20 @@ func (self *multianewarray) fetchOperands(decoder *InstructionDecoder) {
 	self.dimensions = decoder.readUint8()
 }
 func (self *multianewarray) Execute(frame *rtda.Frame) {
+	cp := frame.ConstantPool()
+	kClass := cp.GetConstant(uint(self.index)).(*rtc.ConstantClass)
+	componentClass := kClass.Class()
+
+	if componentClass.InitializationNotStarted() {
+		thread := frame.Thread()
+		frame.SetNextPC(thread.PC()) // undo anewarray
+		thread.InitClass(componentClass)
+		return
+	}
+
+	stack := frame.OperandStack()
+	counts := stack.PopTops(uint(self.dimensions))
 	// todo
+	println(counts)
 	panic("todo multianewarray")
 }

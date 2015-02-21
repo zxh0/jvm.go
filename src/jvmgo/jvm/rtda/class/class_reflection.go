@@ -7,12 +7,6 @@ func (self *Class) IsArray() bool {
 	return self.name[0] == '['
 }
 
-func (self *Class) ComponentClass() *Class {
-	componentDescriptor := getComponentDescriptor(self.name)
-	componentClassName := getClassName(componentDescriptor)
-	return self.classLoader.LoadClass(componentClassName)
-}
-
 func (self *Class) GetFields(publicOnly bool) []*Field {
 	if publicOnly {
 		publicFields := make([]*Field, 0, len(self.fields))

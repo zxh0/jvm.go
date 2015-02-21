@@ -1,10 +1,8 @@
 package class
 
 func (self *Class) IsPrimitive() bool {
+	// todo
 	return isPrimitiveType(self.name)
-}
-func (self *Class) IsArray() bool {
-	return self.name[0] == '['
 }
 
 func (self *Class) GetFields(publicOnly bool) []*Field {

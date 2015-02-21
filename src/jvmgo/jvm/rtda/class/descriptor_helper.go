@@ -9,8 +9,19 @@ func calcArgCount(descriptor string) uint {
 	return parseMethodDescriptor(descriptor).argCount()
 }
 
-func getArrayClassName() {
-	
+// [XXX -> [[XXX
+func getArrayClassName(className string) string {
+	if className[0] == '[' {
+		// array
+		return "[" + className
+	}
+	descriptor, isPrimitive := primitiveTypes[className]
+	if isPrimitive {
+		// primitive
+		return "[" + descriptor
+	}
+	// object
+	return "[L" + className + ";"
 }
 
 // [[XXX -> [XXX

@@ -12,17 +12,12 @@ func TestCalcArgCount(t *testing.T) {
 	AssertEquals(3, calcArgCount("(IDLjava/lang/Thread;)Ljava/lang/Object;"))
 }
 
-func TestGetComponentDescriptor(t *testing.T) {
-	AssertEquals("I", getComponentDescriptor("[I"))
-	AssertEquals("[J", getComponentDescriptor("[[J"))
-	AssertEquals("Ljava/lang/Object;", getComponentDescriptor("[Ljava/lang/Object;"))
-}
-
-func TestGetClassName(t *testing.T) {
-	AssertEquals("double", getClassName("D"))
-	AssertEquals("java/lang/Object", getClassName("Ljava/lang/Object;"))
-	AssertEquals("[F", getClassName("[F"))
-	AssertEquals("[[B", getClassName("[[B"))
+func TestGetComponentClassName(t *testing.T) {
+	AssertEquals("int", getComponentClassName("[I"))
+	AssertEquals("[J", getComponentClassName("[[J"))
+	AssertEquals("[[D", getComponentClassName("[[[D"))
+	AssertEquals("java/lang/Object", getComponentClassName("[Ljava/lang/Object;"))
+	AssertEquals("[Ljava/lang/Object;", getComponentClassName("[[Ljava/lang/Object;"))
 }
 
 func TestGetReturnDescriptor(t *testing.T) {

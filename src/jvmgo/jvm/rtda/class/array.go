@@ -1,5 +1,9 @@
 package class
 
+import (
+	"jvmgo/util"
+)
+
 const (
 	//Array Type  atype
 	AT_BOOLEAN   = 4
@@ -13,6 +17,39 @@ const (
 	AT_OBJEC     = 100 // not jvm spec
 	AT_NOT_ARRAY = 101 // not jvm spec
 )
+
+func NewArray(arrClass *Class, count uint) *Obj {
+	componentClass := arrClass.ComponentClass()
+	if componentClass.IsPrimitive() {
+		return _newPrimitiveArray(componentClass, count)
+	} else {
+		return NewRefArray(componentClass, count)
+	}
+}
+
+func _newPrimitiveArray(primitiveClass *Class, count uint) *Obj {
+	switch primitiveClass.Name() {
+	case "boolean":
+		return newObj(primitiveClass.classLoader.getClass("[Z"), make([]int8, count), nil)
+	case "byte":
+		return newObj(primitiveClass.classLoader.getClass("[B"), make([]int8, count), nil)
+	case "char":
+		return newObj(primitiveClass.classLoader.getClass("[C"), make([]uint16, count), nil)
+	case "short":
+		return newObj(primitiveClass.classLoader.getClass("[S"), make([]int16, count), nil)
+	case "int":
+		return newObj(primitiveClass.classLoader.getClass("[I"), make([]int32, count), nil)
+	case "long":
+		return newObj(primitiveClass.classLoader.getClass("[J"), make([]int64, count), nil)
+	case "float":
+		return newObj(primitiveClass.classLoader.getClass("[F"), make([]float32, count), nil)
+	case "double":
+		return newObj(primitiveClass.classLoader.getClass("[D"), make([]float64, count), nil)
+	default: 
+		util.Panicf("Not primitive type: %v", primitiveClass)
+		return nil
+	}
+}
 
 func NewPrimitiveArray(atype uint8, count uint, classLoader *ClassLoader) *Obj {
 	switch atype {
@@ -113,6 +150,8 @@ func ArrayLength(arr *Obj) int32 {
 		panic("Not array!") // todo
 	}
 }
+
+// CanArrayCopy
 
 func ArrayCopy(src, dst *Obj, srcPos, dstPos, length int32) {
 	switch src.fields.(type) {

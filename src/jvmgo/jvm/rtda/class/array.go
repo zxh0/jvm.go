@@ -14,15 +14,13 @@ const (
 	AT_SHORT     = 9
 	AT_INT       = 10
 	AT_LONG      = 11
-	AT_OBJEC     = 100 // not jvm spec
-	AT_NOT_ARRAY = 101 // not jvm spec
 )
 
 func NewArray(arrClass *Class, count uint) *Obj {
-	componentClass := arrClass.ComponentClass()
-	if componentClass.IsPrimitive() {
+	if arrClass.IsPrimitiveArray() {
 		return _newPrimitiveArray(arrClass, count)
 	} else {
+		componentClass := arrClass.ComponentClass()
 		return NewRefArray(componentClass, count)
 	}
 }

@@ -108,7 +108,8 @@ func ArrayLength(arr *Obj) int32 {
 	case []*Obj:
 		return int32(len(arr.fields.([]*Obj)))
 	default:
-		panic("Not array!") // todo
+		util.Panicf("Not array: %v!", arr)
+		return -1
 	}
 }
 
@@ -147,6 +148,6 @@ func ArrayCopy(src, dst *Obj, srcPos, dstPos, length int32) {
 		_dst := dst.fields.([]*Obj)[dstPos : dstPos+length]
 		copy(_dst, _src)
 	default:
-		panic("Not array!") // todo
+		util.Panicf("Not array: %v!", src)
 	}
 }

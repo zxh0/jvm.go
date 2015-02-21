@@ -25,6 +25,12 @@ func (self *Thread) ThrowNegativeArraySizeException() {
 	self.ThrowException("java/lang/NegativeArraySizeException", "()V")
 }
 
+func (self *Thread) ThrowArrayIndexOutOfBoundsException(index int32) {
+	msg := fmt.Sprintf("%v", index)
+	msgObj := NewJString(msg, self)
+	self.ThrowException("java/lang/ArrayIndexOutOfBoundsException", "(Ljava/lang/String;)V", msgObj)
+}
+
 func (self *Thread) ThrowClassCastException(from, to *rtc.Class) {
 	msg := fmt.Sprintf("%v cannot be cast to %v", from.JlsName(), to.JlsName())
 	msgObj := NewJString(msg, from)

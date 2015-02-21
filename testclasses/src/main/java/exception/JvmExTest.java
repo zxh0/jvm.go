@@ -16,7 +16,10 @@ public class JvmExTest {
             
             // NegativeArraySizeException
             //newarray();
-            anewarray();
+            //anewarray();
+            
+            // ArrayIndexOutOfBoundsException
+            aload();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -45,6 +48,11 @@ public class JvmExTest {
     
     static void anewarray() {
         Object[] a = new Object[-1];
+    }
+    
+    static void aload() {
+        int[] a = {1};
+        int x = a[2];
     }
     
 //    private static void test() {

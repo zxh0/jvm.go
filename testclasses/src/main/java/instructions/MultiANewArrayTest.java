@@ -7,6 +7,9 @@ public class MultiANewArrayTest {
         System.out.println(x.length);
         System.out.println(x[0].length);
         System.out.println(x[1][2].length);
+        
+        x[1][2][3] = 7;
+        System.out.println(x[1][2][3]);
     }
     
 }

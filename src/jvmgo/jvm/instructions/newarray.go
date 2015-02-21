@@ -64,18 +64,16 @@ func (self *multianewarray) fetchOperands(decoder *InstructionDecoder) {
 func (self *multianewarray) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()
 	kClass := cp.GetConstant(uint(self.index)).(*rtc.ConstantClass)
-	componentClass := kClass.Class()
-
-	if componentClass.InitializationNotStarted() {
-		thread := frame.Thread()
-		frame.SetNextPC(thread.PC()) // undo anewarray
-		thread.InitClass(componentClass)
-		return
-	}
+	arrClass := kClass.Class()
 
 	stack := frame.OperandStack()
 	counts := stack.PopTops(uint(self.dimensions))
+	count1 := counts[0].(int32)
+
+	arr := rtc.NewRefArray(arrClass.ComponentClass(), uint(count1))
+	stack.PushRef(arr)
 	// todo
-	println(counts)
-	panic("todo multianewarray")
+	// fmt.Printf("%v \n", arrClass)
+	// fmt.Printf("%v \n", counts)
+	// panic("todo multianewarray")
 }

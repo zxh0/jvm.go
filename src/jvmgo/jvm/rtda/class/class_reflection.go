@@ -10,7 +10,7 @@ func (self *Class) IsArray() bool {
 func (self *Class) ComponentClass() *Class {
 	componentDescriptor := getComponentDescriptor(self.name)
 	componentClassName := getClassName(componentDescriptor)
-	return self.classLoader.getClass(componentClassName)
+	return self.classLoader.LoadClass(componentClassName)
 }
 
 func (self *Class) GetFields(publicOnly bool) []*Field {

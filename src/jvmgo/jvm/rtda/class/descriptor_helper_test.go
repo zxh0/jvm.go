@@ -12,6 +12,14 @@ func TestCalcArgCount(t *testing.T) {
 	AssertEquals(3, calcArgCount("(IDLjava/lang/Thread;)Ljava/lang/Object;"))
 }
 
+func TestGetArrayClassName(t *testing.T) {
+	AssertEquals("[I", getArrayClassName("int"))
+	AssertEquals("[D", getArrayClassName("double"))
+	AssertEquals("[[F", getArrayClassName("[F"))
+	AssertEquals("[Ljava/lang/Object;", getArrayClassName("java/lang/Object"))
+	AssertEquals("[[Ljava/lang/Object;", getArrayClassName("[Ljava/lang/Object;"))
+}
+
 func TestGetComponentClassName(t *testing.T) {
 	AssertEquals("int", getComponentClassName("[I"))
 	AssertEquals("[J", getComponentClassName("[[J"))

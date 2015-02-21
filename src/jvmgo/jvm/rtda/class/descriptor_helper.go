@@ -10,6 +10,8 @@ func calcArgCount(descriptor string) uint {
 }
 
 // [XXX -> [[XXX
+// int -> [I
+// XXX -> [LXXX;
 func getArrayClassName(className string) string {
 	if className[0] == '[' {
 		// array

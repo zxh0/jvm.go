@@ -10,13 +10,6 @@ func (self *Class) ComponentClass() *Class {
 }
 
 func (self *Class) ArrayClass() *Class {
-	if self.IsArray() {
-		arrayClassName := "[" + self.name
-		return self.classLoader.LoadClass(arrayClassName)
-	} else if self.IsPrimitive() {
-		return nil // todo
-	} else {
-		arrayClassName := "[L" + self.name + ";"
-		return self.classLoader.LoadClass(arrayClassName)
-	}
+	arrayClassName := getArrayClassName(self.name)
+	return self.classLoader.LoadClass(arrayClassName)
 }

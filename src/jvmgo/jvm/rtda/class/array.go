@@ -21,32 +21,32 @@ const (
 func NewArray(arrClass *Class, count uint) *Obj {
 	componentClass := arrClass.ComponentClass()
 	if componentClass.IsPrimitive() {
-		return _newPrimitiveArray(componentClass, count)
+		return _newPrimitiveArray(arrClass, count)
 	} else {
 		return NewRefArray(componentClass, count)
 	}
 }
 
-func _newPrimitiveArray(primitiveClass *Class, count uint) *Obj {
-	switch primitiveClass.Name() {
-	case "boolean":
-		return newObj(primitiveClass.classLoader.getClass("[Z"), make([]int8, count), nil)
-	case "byte":
-		return newObj(primitiveClass.classLoader.getClass("[B"), make([]int8, count), nil)
-	case "char":
-		return newObj(primitiveClass.classLoader.getClass("[C"), make([]uint16, count), nil)
-	case "short":
-		return newObj(primitiveClass.classLoader.getClass("[S"), make([]int16, count), nil)
-	case "int":
-		return newObj(primitiveClass.classLoader.getClass("[I"), make([]int32, count), nil)
-	case "long":
-		return newObj(primitiveClass.classLoader.getClass("[J"), make([]int64, count), nil)
-	case "float":
-		return newObj(primitiveClass.classLoader.getClass("[F"), make([]float32, count), nil)
-	case "double":
-		return newObj(primitiveClass.classLoader.getClass("[D"), make([]float64, count), nil)
+func _newPrimitiveArray(arrClass *Class, count uint) *Obj {
+	switch arrClass.Name() {
+	case "[Z":
+		return newObj(arrClass, make([]int8, count), nil)
+	case "[B":
+		return newObj(arrClass, make([]int8, count), nil)
+	case "[C":
+		return newObj(arrClass, make([]uint16, count), nil)
+	case "[S":
+		return newObj(arrClass, make([]int16, count), nil)
+	case "[I":
+		return newObj(arrClass, make([]int32, count), nil)
+	case "[L":
+		return newObj(arrClass, make([]int64, count), nil)
+	case "[F":
+		return newObj(arrClass, make([]float32, count), nil)
+	case "[D":
+		return newObj(arrClass, make([]float64, count), nil)
 	default: 
-		util.Panicf("Not primitive type: %v", primitiveClass)
+		util.Panicf("Not primitive array: %v!", arrClass)
 		return nil
 	}
 }
@@ -70,7 +70,8 @@ func NewPrimitiveArray(atype uint8, count uint, classLoader *ClassLoader) *Obj {
 	case AT_DOUBLE:
 		return newObj(classLoader.getClass("[D"), make([]float64, count), nil)
 	default:
-		panic("BAD atype!") // todo
+		util.Panicf("BAD atype: %v!", atype)
+		return nil
 	}
 }
 

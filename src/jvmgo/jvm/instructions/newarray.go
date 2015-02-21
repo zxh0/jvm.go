@@ -1,6 +1,7 @@
 package instructions
 
 import (
+	. "jvmgo/any"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )
@@ -68,12 +69,34 @@ func (self *multianewarray) Execute(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	counts := stack.PopTops(uint(self.dimensions))
-	count1 := counts[0].(int32)
+	if !_checkCounts(counts) {
+		frame.Thread().ThrowNegativeArraySizeException()
+		return
+	}
 
-	arr := rtc.NewRefArray(arrClass.ComponentClass(), uint(count1))
+	arr := _newMultiArray(counts, arrClass)
 	stack.PushRef(arr)
-	// todo
-	// fmt.Printf("%v \n", arrClass)
-	// fmt.Printf("%v \n", counts)
-	// panic("todo multianewarray")
+}
+
+func _checkCounts(counts []Any) bool {
+	for _, c := range counts {
+		if c.(int32) < 0 {
+			return false
+		}
+	}
+	return true
+}
+
+func _newMultiArray(counts []Any, arrClass *rtc.Class) *rtc.Obj {
+	count := uint(counts[0].(int32))
+	arr := rtc.NewArray(arrClass, count)
+
+	if len(counts) > 1 {
+		objs := arr.Fields().([]*rtc.Obj)
+		for i := range objs {
+			objs[i] = _newMultiArray(counts[1:], arrClass.ComponentClass())
+		}
+	}
+
+	return arr
 }

@@ -25,6 +25,11 @@ func (self *Thread) ThrowNegativeArraySizeException() {
 	self.ThrowException("java/lang/NegativeArraySizeException", "()V")
 }
 
+func (self *Thread) ThrowDivByZero() {
+	msgObj := NewJString("/ by zero", self)
+	self.ThrowException("java/lang/ArithmeticException", "(Ljava/lang/String;)V", msgObj)
+}
+
 func (self *Thread) ThrowArrayIndexOutOfBoundsException(index int32) {
 	msg := fmt.Sprintf("%v", index)
 	msgObj := NewJString(msg, self)

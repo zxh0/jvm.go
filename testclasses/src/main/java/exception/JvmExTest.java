@@ -20,7 +20,10 @@ public class JvmExTest {
             
             // ArrayIndexOutOfBoundsException
             //aload();
-            astore();
+            //astore();
+            
+            // ArithmeticException
+            idiv();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -60,6 +63,11 @@ public class JvmExTest {
         int[] a = {};
         a[1] = 2;
         int x = a[1];
+    }
+    
+    static void idiv() {
+        int x = 0;
+        int y = 1 / x;
     }
     
 //    private static void test() {

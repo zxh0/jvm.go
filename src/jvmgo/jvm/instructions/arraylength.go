@@ -14,9 +14,8 @@ func (self *arraylength) Execute(frame *rtda.Frame) {
 
 	if arrRef == nil {
 		frame.Thread().ThrowNPE()
-		return
+	} else {
+		arrLen := rtc.ArrayLength(arrRef)
+		stack.PushInt(arrLen)
 	}
-
-	arrLen := rtc.ArrayLength(arrRef)
-	stack.PushInt(arrLen)
 }

@@ -10,11 +10,10 @@ func (self *monitorenter) Execute(frame *rtda.Frame) {
 	ref := frame.OperandStack().PopRef()
 	if ref == nil {
 		frame.RevertNextPC()
-		thread.ThrowException("java/lang/NullPointerException", "()V", nil)
-		return
+		thread.ThrowNPE()
+	} else {
+		ref.Monitor().Enter(thread)
 	}
-
-	ref.Monitor().Enter(thread)
 }
 
 // Exit monitor for object
@@ -25,9 +24,8 @@ func (self *monitorexit) Execute(frame *rtda.Frame) {
 	ref := frame.OperandStack().PopRef()
 	if ref == nil {
 		frame.RevertNextPC()
-		thread.ThrowException("java/lang/NullPointerException", "()V", nil)
-		return
+		thread.ThrowNPE()
+	} else {
+		ref.Monitor().Exit(thread)
 	}
-
-	ref.Monitor().Exit(thread)
 }

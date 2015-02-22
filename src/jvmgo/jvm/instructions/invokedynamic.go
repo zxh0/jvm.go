@@ -1,11 +1,7 @@
 package instructions
 
 import (
-	//"log"
-	//. "jvmgo/any"
-	//"jvmgo/native"
 	"jvmgo/jvm/rtda"
-	//"jvmgo/jvm/rtda/class"
 )
 
 // Invoke dynamic method

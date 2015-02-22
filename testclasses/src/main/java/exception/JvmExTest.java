@@ -10,6 +10,7 @@ public class JvmExTest {
             //arraylength(null);
             //athrow(null);
             //getfield(null);
+            monitorenter();
             
             // ClassCastException
             //checkcast();
@@ -24,7 +25,7 @@ public class JvmExTest {
             
             // ArithmeticException
             //idiv();
-            irem();
+            //irem();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -76,19 +77,11 @@ public class JvmExTest {
         int y = 1 % x;
     }
     
-//    private static void test() {
-//        new NPETest().foo();
-//    }
-//    
-//    private void foo() {
-//        bar();
-//    }
-//    
-//    private void bar() {
-//        Object x = null;
-//        synchronized(x) {
-//            System.out.println("BAD!");
-//        }
-//    }
+    static void monitorenter() {
+        Object x = null;
+        synchronized(x) {
+            System.out.println("BAD!");
+        }
+    }
     
 }

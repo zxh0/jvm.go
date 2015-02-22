@@ -6,14 +6,14 @@ import (
 
 const (
 	//Array Type  atype
-	AT_BOOLEAN   = 4
-	AT_CHAR      = 5
-	AT_FLOAT     = 6
-	AT_DOUBLE    = 7
-	AT_BYTE      = 8
-	AT_SHORT     = 9
-	AT_INT       = 10
-	AT_LONG      = 11
+	AT_BOOLEAN = 4
+	AT_CHAR    = 5
+	AT_FLOAT   = 6
+	AT_DOUBLE  = 7
+	AT_BYTE    = 8
+	AT_SHORT   = 9
+	AT_INT     = 10
+	AT_LONG    = 11
 )
 
 func NewArray(arrClass *Class, count uint) *Obj {
@@ -43,7 +43,7 @@ func _newPrimitiveArray(arrClass *Class, count uint) *Obj {
 		return newObj(arrClass, make([]float32, count), nil)
 	case "[D":
 		return newObj(arrClass, make([]float64, count), nil)
-	default: 
+	default:
 		util.Panicf("Not primitive array: %v!", arrClass)
 		return nil
 	}

@@ -6,7 +6,7 @@ import "jvmgo/jvm/rtda"
 type if_icmpeq struct{ BranchInstruction }
 
 func (self *if_icmpeq) Execute(frame *rtda.Frame) {
-	if val1, val2 := pop2Ints(frame); val1 == val2 {
+	if val1, val2 := _icmpPop(frame); val1 == val2 {
 		branch(frame, self.offset)
 	}
 }
@@ -14,7 +14,7 @@ func (self *if_icmpeq) Execute(frame *rtda.Frame) {
 type if_icmpne struct{ BranchInstruction }
 
 func (self *if_icmpne) Execute(frame *rtda.Frame) {
-	if val1, val2 := pop2Ints(frame); val1 != val2 {
+	if val1, val2 := _icmpPop(frame); val1 != val2 {
 		branch(frame, self.offset)
 	}
 }
@@ -22,7 +22,7 @@ func (self *if_icmpne) Execute(frame *rtda.Frame) {
 type if_icmplt struct{ BranchInstruction }
 
 func (self *if_icmplt) Execute(frame *rtda.Frame) {
-	if val1, val2 := pop2Ints(frame); val1 < val2 {
+	if val1, val2 := _icmpPop(frame); val1 < val2 {
 		branch(frame, self.offset)
 	}
 }
@@ -30,7 +30,7 @@ func (self *if_icmplt) Execute(frame *rtda.Frame) {
 type if_icmple struct{ BranchInstruction }
 
 func (self *if_icmple) Execute(frame *rtda.Frame) {
-	if val1, val2 := pop2Ints(frame); val1 <= val2 {
+	if val1, val2 := _icmpPop(frame); val1 <= val2 {
 		branch(frame, self.offset)
 	}
 }
@@ -38,7 +38,7 @@ func (self *if_icmple) Execute(frame *rtda.Frame) {
 type if_icmpgt struct{ BranchInstruction }
 
 func (self *if_icmpgt) Execute(frame *rtda.Frame) {
-	if val1, val2 := pop2Ints(frame); val1 > val2 {
+	if val1, val2 := _icmpPop(frame); val1 > val2 {
 		branch(frame, self.offset)
 	}
 }
@@ -46,12 +46,12 @@ func (self *if_icmpgt) Execute(frame *rtda.Frame) {
 type if_icmpge struct{ BranchInstruction }
 
 func (self *if_icmpge) Execute(frame *rtda.Frame) {
-	if val1, val2 := pop2Ints(frame); val1 >= val2 {
+	if val1, val2 := _icmpPop(frame); val1 >= val2 {
 		branch(frame, self.offset)
 	}
 }
 
-func pop2Ints(frame *rtda.Frame) (val1, val2 int32) {
+func _icmpPop(frame *rtda.Frame) (val1, val2 int32) {
 	stack := frame.OperandStack()
 	val2 = stack.PopInt()
 	val1 = stack.PopInt()

@@ -1,7 +1,6 @@
 package instructions
 
 import (
-	//"fmt"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )

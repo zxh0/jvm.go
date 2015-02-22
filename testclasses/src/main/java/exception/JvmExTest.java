@@ -23,7 +23,8 @@ public class JvmExTest {
             //astore();
             
             // ArithmeticException
-            idiv();
+            //idiv();
+            irem();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -68,6 +69,11 @@ public class JvmExTest {
     static void idiv() {
         int x = 0;
         int y = 1 / x;
+    }
+    
+    static void irem() {
+        int x = 0;
+        int y = 1 % x;
     }
     
 //    private static void test() {

@@ -19,11 +19,10 @@ func (self *newarray) Execute(frame *rtda.Frame) {
 	count := stack.PopInt()
 	if count < 0 {
 		frame.Thread().ThrowNegativeArraySizeException()
-		return
+	} else {
+		arr := rtc.NewPrimitiveArray(self.atype, uint(count), frame.ClassLoader())
+		stack.PushRef(arr)
 	}
-
-	arr := rtc.NewPrimitiveArray(self.atype, uint(count), frame.ClassLoader())
-	stack.PushRef(arr)
 }
 
 // Create new array of reference
@@ -45,11 +44,11 @@ func (self *anewarray) Execute(frame *rtda.Frame) {
 	count := stack.PopInt()
 	if count < 0 {
 		frame.Thread().ThrowNegativeArraySizeException()
-		return
+	} else {
+		arr := rtc.NewRefArray(componentClass, uint(count))
+		stack.PushRef(arr)
 	}
 
-	arr := rtc.NewRefArray(componentClass, uint(count))
-	stack.PushRef(arr)
 }
 
 // Create new multidimensional array
@@ -71,11 +70,10 @@ func (self *multianewarray) Execute(frame *rtda.Frame) {
 	counts := stack.PopTops(uint(self.dimensions))
 	if !_checkCounts(counts) {
 		frame.Thread().ThrowNegativeArraySizeException()
-		return
+	} else {
+		arr := _newMultiArray(counts, arrClass)
+		stack.PushRef(arr)
 	}
-
-	arr := _newMultiArray(counts, arrClass)
-	stack.PushRef(arr)
 }
 
 func _checkCounts(counts []Any) bool {

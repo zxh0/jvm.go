@@ -81,7 +81,7 @@ func (self *ClassLoader) loadPrimitiveArrayClasses() {
 		self.loadArrayClass("[" + descriptor)
 	}
 }
-func (self *ClassLoader) loadArrayClass(className string) {
+func (self *ClassLoader) loadArrayClass(className string) *Class {
 	class := &Class{name: className}
 	class.classLoader = self
 	class.superClass = _jlObjectClass
@@ -91,6 +91,7 @@ func (self *ClassLoader) loadArrayClass(className string) {
 	createVtable(class)
 	class.MarkInitialized()
 	self.classMap[className] = class
+	return class
 }
 
 func (self *ClassLoader) getRefArrayClass(componentClass *Class) *Class {
@@ -98,11 +99,10 @@ func (self *ClassLoader) getRefArrayClass(componentClass *Class) *Class {
 	return self._getRefArrayClass(arrClassName)
 }
 func (self *ClassLoader) _getRefArrayClass(arrClassName string) *Class {
-	arrClass := self.classMap[arrClassName]
-	if arrClass == nil {
-		self.loadArrayClass(arrClassName)
+	if arrClass, ok := self.classMap[arrClassName]; ok {
+		return arrClass
 	}
-	return self.classMap[arrClassName]
+	return self.loadArrayClass(arrClassName)
 }
 
 // todo
@@ -122,16 +122,14 @@ func (self *ClassLoader) ThreadClass() *Class {
 
 // todo dangerous
 func (self *ClassLoader) getClass(name string) *Class {
-	class := self.classMap[name]
-	if class == nil {
-		panic("class not loaded! " + name)
+	if class, ok := self.classMap[name]; ok {
+		return class
 	}
-	return class
+	panic("class not loaded! " + name)
 }
 
 func (self *ClassLoader) LoadClass(name string) *Class {
-	class := self.classMap[name]
-	if class != nil {
+	if class, ok := self.classMap[name]; ok {
 		// already loaded
 		return class
 	} else if name[0] == '[' {

@@ -22,7 +22,7 @@ func findNativeMethod(method *Method) Any {
 	}
 
 	key := method.class.name + "~" + method.name + "~" + method.descriptor
-	if method, found := registry[key]; found {
+	if method, ok := registry[key]; ok {
 		return method
 	} else {
 		panic("native method not found: " + key)

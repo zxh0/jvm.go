@@ -28,8 +28,10 @@ func availableProcessors(frame *rtda.Frame) {
 // public native long freeMemory();
 // ()J
 func freeMemory(frame *rtda.Frame) {
-	//vars := frame.LocalVars()
-	//vars.GetRef(0) // this
+	var memStats runtime.MemStats
+	runtime.ReadMemStats(&memStats)
+	frees := memStats.Frees
+
 	stack := frame.OperandStack()
-	stack.PushLong(int64(1000000)) // todo
+	stack.PushLong(int64(frees))
 }

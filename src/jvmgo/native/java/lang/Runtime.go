@@ -35,3 +35,10 @@ func freeMemory(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	stack.PushLong(int64(frees))
 }
+
+// public native long totalMemory();
+// public native long maxMemory();
+// public native void gc();
+// private static native void runFinalization0();
+// public native void traceInstructions(boolean on);
+// public native void traceMethodCalls(boolean on);

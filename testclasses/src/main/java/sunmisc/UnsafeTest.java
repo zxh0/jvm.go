@@ -12,7 +12,10 @@ public class UnsafeTest {
         Unsafe unsafe = (Unsafe) f.get(null);
 
         //array(unsafe);
-        memory(unsafe);
+        //objArr(unsafe);
+        cmpInt(unsafe);
+        //memory(unsafe);
+        System.out.println("OK!");
     }
     
     private static void array(Unsafe unsafe) {
@@ -26,6 +29,24 @@ public class UnsafeTest {
         System.out.println(unsafe.arrayIndexScale(new long[0].getClass()));
         System.out.println(unsafe.arrayIndexScale(new Object[0].getClass()));
         System.out.println(unsafe.arrayIndexScale(new Class<?>[0].getClass()));
+    }
+    
+    private static void objArr(Unsafe unsafe) {
+        String[] arr = {"one", "two"};
+        long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());
+        long arrayIndexScale = unsafe.arrayIndexScale(arr.getClass());
+        System.out.println(unsafe.getObject(arr, arrayBaseOffset));
+        System.out.println(unsafe.getObject(arr, arrayBaseOffset + arrayIndexScale));
+    }
+    
+    private static void cmpInt(Unsafe unsafe) {
+        int[] arr = {1, 3, 7};
+        long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());
+        long arrayIndexScale = unsafe.arrayIndexScale(arr.getClass());
+        unsafe.compareAndSwapInt(arr, arrayBaseOffset, 1, 8);
+        if (arr[0] != 8) {
+            System.out.println("cmpInt() failed!");
+        }
     }
     
     private static void memory(Unsafe unsafe) {

@@ -96,13 +96,7 @@ func _casObj(obj *rtc.Obj, fields []Any, offset int64, expected, newVal *rtc.Obj
 	obj.LockState()
 	defer obj.UnlockState()
 
-	var current *rtc.Obj
-	if f := fields[offset]; f != nil {
-	 	current = f.(*rtc.Obj)
-	} else {
-		current = nil
-	}
-
+	current := _getObj(fields, offset)
 	if current == expected {
 		fields[offset] = newVal
 		return true
@@ -148,7 +142,7 @@ func getObject(frame *rtda.Frame) {
 
 	if anys, ok := fields.([]Any); ok {
 		// object
-		x := anys[offset].(*rtc.Obj)
+		x := _getObj(anys, offset)
 		frame.OperandStack().PushRef(x)
 	} else if objs, ok := fields.([]*rtc.Obj); ok {
 		// ref[]
@@ -156,6 +150,14 @@ func getObject(frame *rtda.Frame) {
 		frame.OperandStack().PushRef(x)
 	} else {
 		panic("getObject!")
+	}
+}
+func _getObj(fields []Any, offset int64) *rtc.Obj {
+	f := fields[offset]
+	if f != nil {
+		return f.(*rtc.Obj)
+	} else {
+		return nil
 	}
 }
 

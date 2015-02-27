@@ -6,6 +6,7 @@ import sun.misc.Unsafe;
 public class UnsafeTest {
     
     public int x;
+    public long y;
     
     public static void main(String[] args) throws Exception {
         //Unsafe unsafe = Unsafe.getUnsafe();
@@ -16,7 +17,8 @@ public class UnsafeTest {
         //memory(unsafe);
         //array(unsafe);
         //objArr(unsafe);
-        cmpInt(unsafe);
+        casInt(unsafe);
+        casLong(unsafe);
         
         System.out.println("OK!");
     }
@@ -42,20 +44,37 @@ public class UnsafeTest {
         System.out.println(unsafe.getObject(arr, arrayBaseOffset + arrayIndexScale));
     }
     
-    private static void cmpInt(Unsafe unsafe) throws Exception {
+    private static void casInt(Unsafe unsafe) throws Exception {
         int[] arr = {1, 3, 7};
         long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());
         long arrayIndexScale = unsafe.arrayIndexScale(arr.getClass());
         unsafe.compareAndSwapInt(arr, arrayBaseOffset, 1, 8);
         if (arr[0] != 8) {
-            System.out.println("cmpInt(arr) failed!");
+            System.out.println("casInt(arr) failed!");
         }
         
         UnsafeTest obj = new UnsafeTest();
         long xOffset = unsafe.objectFieldOffset(UnsafeTest.class.getField("x"));
         unsafe.compareAndSwapInt(obj, xOffset, 0, 7);
         if (obj.x != 7) {
-            System.out.println("cmpInt(obj) failed!");
+            System.out.println("casInt(obj) failed!");
+        }
+    }
+    
+    private static void casLong(Unsafe unsafe) throws Exception {
+        long[] arr = {1, 3, 7};
+        long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());
+        long arrayIndexScale = unsafe.arrayIndexScale(arr.getClass());
+        unsafe.compareAndSwapLong(arr, arrayBaseOffset, 1, 8);
+        if (arr[0] != 8) {
+            System.out.println("casLong(arr) failed!");
+        }
+        
+        UnsafeTest obj = new UnsafeTest();
+        long yOffset = unsafe.objectFieldOffset(UnsafeTest.class.getField("y"));
+        unsafe.compareAndSwapLong(obj, yOffset, 0, 7);
+        if (obj.y != 7) {
+            System.out.println("casLong(obj) failed!");
         }
     }
     

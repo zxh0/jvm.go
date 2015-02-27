@@ -17,3 +17,9 @@ func CasInt32(any Any, old, _new int32) bool {
 	addr := (*int32)(ifws.data)
 	return atomic.CompareAndSwapInt32(addr, old, _new)
 }
+
+func CasInt64(any Any, old, _new int64) bool {
+	ifws := ((*ifaceWords)(unsafe.Pointer(&any)))
+	addr := (*int64)(ifws.data)
+	return atomic.CompareAndSwapInt64(addr, old, _new)
+}

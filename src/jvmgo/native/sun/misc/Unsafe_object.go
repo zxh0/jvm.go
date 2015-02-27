@@ -46,21 +46,22 @@ func compareAndSwapInt(frame *rtda.Frame) {
 // (Ljava/lang/Object;JJJ)Z
 func compareAndSwapLong(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	// vars.GetRef(0) // this
-	o := vars.GetRef(1)
+	fields := vars.GetRef(1).Fields()
 	offset := vars.GetLong(2)
 	expected := vars.GetLong(4)
-	x := vars.GetLong(6)
+	newVal := vars.GetLong(6)
 
-	// todo
-	fields := o.Fields().([]Any)
-	actual := fields[offset].(int64)
-	stack := frame.OperandStack()
-	if actual == expected {
-		fields[offset] = x
-		stack.PushBoolean(true)
+	if anys, ok := fields.([]Any); ok {
+		// object
+		swapped := util.CasInt64(anys[offset], expected, newVal)
+		frame.OperandStack().PushBoolean(swapped)
+	} else if ints, ok := fields.([]int64); ok {
+		// int[]
+		swapped := atomic.CompareAndSwapInt64(&ints[offset], expected, newVal)
+		frame.OperandStack().PushBoolean(swapped)
 	} else {
-		stack.PushBoolean(false)
+		// todo
+		panic("todo: compareAndSwapLong!")
 	}
 }
 

@@ -128,11 +128,14 @@ func putObject(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetRef(4)
 
-	switch fields.(type) {
-	case []Any: // object
-		fields.([]Any)[offset] = x
-	case []*rtc.Obj: // array of ref
-		fields.([]*rtc.Obj)[offset] = x
+	if anys, ok := fields.([]Any); ok {
+		// object
+		anys[offset] = x
+	} else if objs, ok := fields.([]*rtc.Obj); ok {
+		// ref[]
+		objs[offset] = x
+	} else {
+		panic("putObject!")
 	}
 }
 

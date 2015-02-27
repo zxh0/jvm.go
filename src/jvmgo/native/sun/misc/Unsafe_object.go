@@ -124,11 +124,10 @@ func _casArr(objs []*rtc.Obj, offset int64, expected, newVal *rtc.Obj) bool {
 // (Ljava/lang/Object;JLjava/lang/Object;)V
 func putObject(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	obj := vars.GetRef(1)
+	fields := vars.GetRef(1).Fields()
 	offset := vars.GetLong(2)
 	x := vars.GetRef(4)
 
-	fields := obj.Fields()
 	switch fields.(type) {
 	case []Any: // object
 		fields.([]Any)[offset] = x
@@ -141,11 +140,10 @@ func putObject(frame *rtda.Frame) {
 // (Ljava/lang/Object;J)Ljava/lang/Object;
 func getObject(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	obj := vars.GetRef(1)
+	fields := vars.GetRef(1).Fields()
 	offset := vars.GetLong(2)
 
 	var x *rtc.Obj
-	fields := obj.Fields()
 	switch fields.(type) {
 	case []Any: // object
 		x = fields.([]Any)[offset].(*rtc.Obj)

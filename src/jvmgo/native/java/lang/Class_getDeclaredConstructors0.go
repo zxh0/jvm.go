@@ -16,12 +16,17 @@ Constructor(Class<T> declaringClass,
             byte[] parameterAnnotations)
 }
 */
-const _constructorConstructorDescriptor = "(Ljava/lang/Class;" +
+const _constructorConstructorDescriptor = "" +
+	"(Ljava/lang/Class;" +
 	"[Ljava/lang/Class;" +
 	"[Ljava/lang/Class;" +
 	"II" +
 	"Ljava/lang/String;" +
 	"[B[B)V"
+
+func init() {
+	_class(getDeclaredConstructors0, "getDeclaredConstructors0", "(Z)[Ljava/lang/reflect/Constructor;")
+}
 
 // private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Constructor;

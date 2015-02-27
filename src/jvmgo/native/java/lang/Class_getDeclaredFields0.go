@@ -14,12 +14,17 @@ Field(Class<?> declaringClass,
       String signature,
       byte[] annotations)
 */
-const _fieldConstructorDescriptor = "(Ljava/lang/Class;" +
+const _fieldConstructorDescriptor = "" +
+	"(Ljava/lang/Class;" +
 	"Ljava/lang/String;" +
 	"Ljava/lang/Class;" +
 	"II" +
 	"Ljava/lang/String;" +
 	"[B)V"
+
+func init() {
+	_class(getDeclaredFields0, "getDeclaredFields0", "(Z)[Ljava/lang/reflect/Field;")
+}
 
 // private native Field[] getDeclaredFields0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Field;

@@ -18,7 +18,8 @@ Method(Class<?> declaringClass,
        byte[] parameterAnnotations,
        byte[] annotationDefault)
 */
-const _methodConstructorDescriptor = "(Ljava/lang/Class;" +
+const _methodConstructorDescriptor = "" +
+	"(Ljava/lang/Class;" +
 	"Ljava/lang/String;" +
 	"[Ljava/lang/Class;" +
 	"Ljava/lang/Class;" +
@@ -26,6 +27,10 @@ const _methodConstructorDescriptor = "(Ljava/lang/Class;" +
 	"II" +
 	"Ljava/lang/String;" +
 	"[B[B[B)V"
+
+func init() {
+	_class(getDeclaredMethods0, "getDeclaredMethods0", "(Z)[Ljava/lang/reflect/Method;")
+}
 
 // private native Method[] getDeclaredMethods0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Method;

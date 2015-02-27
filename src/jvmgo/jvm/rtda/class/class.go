@@ -101,6 +101,7 @@ func (self *Class) getMethod(name, descriptor string, isStatic bool) *Method {
 	// todo
 	return nil
 }
+
 // todo
 func (self *Class) _getMethod(name, descriptor string, isStatic bool) *Method {
 	for _, method := range self.methods {

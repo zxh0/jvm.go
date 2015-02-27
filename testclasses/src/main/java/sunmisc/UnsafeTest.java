@@ -11,10 +11,11 @@ public class UnsafeTest {
         f.setAccessible(true);
         Unsafe unsafe = (Unsafe) f.get(null);
 
+        //memory(unsafe);
         //array(unsafe);
         //objArr(unsafe);
-        //cmpInt(unsafe);
-        memory(unsafe);
+        cmpInt(unsafe);
+        
         System.out.println("OK!");
     }
     

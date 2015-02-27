@@ -5,6 +5,7 @@ import (
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 	"jvmgo/util"
+	"sync/atomic"
 )
 
 func init() {
@@ -22,36 +23,22 @@ func init() {
 // (Ljava/lang/Object;JII)Z
 func compareAndSwapInt(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	// vars.GetRef(0) // this
-	o := vars.GetRef(1)
-	offset := vars.GetLong(2)
-	expected := vars.GetInt(4)
-	x := vars.GetInt(5)
-
-	// todo
-	fields := o.Fields().([]Any)
-	actual := fields[offset].(int32)
-	stack := frame.OperandStack()
-	if actual == expected {
-		fields[offset] = x
-		stack.PushBoolean(true)
-	} else {
-		stack.PushBoolean(false)
-	}
-}
-
-func compareAndSwapInt2(frame *rtda.Frame) {
-	vars := frame.LocalVars()
 	fields := vars.GetRef(1).Fields()
 	offset := vars.GetLong(2)
 	expected := vars.GetInt(4)
-	_new := vars.GetInt(5)
+	newVal := vars.GetInt(5)
 
 	if anys, ok := fields.([]Any); ok {
-		swapped := util.CasInt32(anys[offset], expected, _new)
+		// object
+		swapped := util.CasInt32(anys[offset], expected, newVal)
+		frame.OperandStack().PushBoolean(swapped)
+	} else if ints, ok := fields.([]int32); ok {
+		// int[]
+		swapped := atomic.CompareAndSwapInt32(&ints[offset], expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
 	} else {
-		panic("123")
+		// todo
+		panic("todo: compareAndSwapInt!")
 	}
 }
 

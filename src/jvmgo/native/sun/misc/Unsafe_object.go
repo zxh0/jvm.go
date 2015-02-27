@@ -7,7 +7,6 @@ import (
 	"jvmgo/util"
 	"sync/atomic"
 	"unsafe"
-	"fmt"
 )
 
 func init() {
@@ -77,31 +76,35 @@ func compareAndSwapObject(frame *rtda.Frame) {
 	expected := vars.GetRef(4)
 	newVal := vars.GetRef(5)
 
+	// todo
 	if anys, ok := fields.([]Any); ok {
 		// object
-		old := unsafe.Pointer(expected)
-		_new := unsafe.Pointer(newVal)
-fmt.Printf("aaaa:%v\n", anys[offset])
-		swapped := util.CasPointer(&anys[offset], old, _new)
+		var current *rtc.Obj
+		if any := anys[offset]; any != nil {
+		 	current = any.(*rtc.Obj)
+		} else {
+			current = nil
+		}
 
-fmt.Printf("ss old:%v new:%v swapped:%v  any:%v \n", old, _new, swapped, anys[offset])
-
-		frame.OperandStack().PushBoolean(swapped)
+		if current == expected {
+			anys[offset] = newVal
+			frame.OperandStack().PushBoolean(true)
+		} else {
+			frame.OperandStack().PushBoolean(false)
+		}
 	} else if objs, ok := fields.([]*rtc.Obj); ok {
-		ps := *((*[]unsafe.Pointer)(unsafe.Pointer(&objs))) // []unsafe.Pointer
-
 		// ref[]
+		ps := *((*[]unsafe.Pointer)(unsafe.Pointer(&objs))) // cast to []unsafe.Pointer
+
 		addr := &ps[offset]
 		old := unsafe.Pointer(expected)
 		_new := unsafe.Pointer(newVal)
 		swapped := atomic.CompareAndSwapPointer(addr, old, _new)
 
-fmt.Printf("ss old:%v new:%v swapped:%v \n", old, _new, swapped)
-
 		frame.OperandStack().PushBoolean(swapped)
 	} else {
 		// todo
-		panic("todo: compareAndSwapLong!")
+		panic("todo: compareAndSwapObject!")
 	}
 }
 

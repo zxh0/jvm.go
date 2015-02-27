@@ -83,14 +83,14 @@ public class UnsafeTest {
     private static void casObj(Unsafe unsafe) throws Exception {
         String one = "1";
         String two = "2";
-//        
-//        Object[] arr = {one, two};
-//        long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());
-//        long arrayIndexScale = unsafe.arrayIndexScale(arr.getClass());
-//        unsafe.compareAndSwapObject(arr, arrayBaseOffset, one, two);
-//        if (arr[0] != two) {
-//            System.out.println("casObj(arr) failed!");
-//        }
+        
+        Object[] arr = {one, two};
+        long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());
+        long arrayIndexScale = unsafe.arrayIndexScale(arr.getClass());
+        unsafe.compareAndSwapObject(arr, arrayBaseOffset, one, two);
+        if (arr[0] != two) {
+            System.out.println("casObj(arr) failed!");
+        }
         
         UnsafeTest obj = new UnsafeTest();
         long zOffset = unsafe.objectFieldOffset(UnsafeTest.class.getField("z"));

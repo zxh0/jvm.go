@@ -84,20 +84,14 @@ func compareAndSwapObject(frame *rtda.Frame) {
 		frame.OperandStack().PushBoolean(swapped)
 	} else if objs, ok := fields.([]*rtc.Obj); ok {
 		// ref[]
-		ps := *((*[]unsafe.Pointer)(unsafe.Pointer(&objs))) // cast to []unsafe.Pointer
-
-		addr := &ps[offset]
-		old := unsafe.Pointer(expected)
-		_new := unsafe.Pointer(newVal)
-		swapped := atomic.CompareAndSwapPointer(addr, old, _new)
-
+		swapped := _casArr(objs, offset, expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
 	} else {
 		// todo
 		panic("todo: compareAndSwapObject!")
 	}
 }
-func _casObj(obj *rtc.Obj, fields []Any, offset int64, old, _new *rtc.Obj) bool {
+func _casObj(obj *rtc.Obj, fields []Any, offset int64, expected, newVal *rtc.Obj) bool {
 	// todo
 	obj.LockState()
 	defer obj.UnlockState()
@@ -109,12 +103,21 @@ func _casObj(obj *rtc.Obj, fields []Any, offset int64, old, _new *rtc.Obj) bool 
 		current = nil
 	}
 
-	if current == old {
-		fields[offset] = _new
+	if current == expected {
+		fields[offset] = newVal
 		return true
 	} else {
 		return false
 	}
+}
+func _casArr(objs []*rtc.Obj, offset int64, expected, newVal *rtc.Obj) bool {
+	// cast to []unsafe.Pointer
+	ps := *((*[]unsafe.Pointer)(unsafe.Pointer(&objs)))
+
+	addr := &ps[offset]
+	old := unsafe.Pointer(expected)
+	_new := unsafe.Pointer(newVal)
+	return atomic.CompareAndSwapPointer(addr, old, _new)
 }
 
 // public native void putObject(Object o, long offset, Object x);

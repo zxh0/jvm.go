@@ -13,8 +13,8 @@ public class UnsafeTest {
 
         //array(unsafe);
         //objArr(unsafe);
-        cmpInt(unsafe);
-        //memory(unsafe);
+        //cmpInt(unsafe);
+        memory(unsafe);
         System.out.println("OK!");
     }
     

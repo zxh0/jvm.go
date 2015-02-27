@@ -101,6 +101,18 @@ func (self *Class) getMethod(name, descriptor string, isStatic bool) *Method {
 	// todo
 	return nil
 }
+// todo
+func (self *Class) _getMethod(name, descriptor string, isStatic bool) *Method {
+	for _, method := range self.methods {
+		if method.IsStatic() == isStatic &&
+			method.name == name &&
+			method.descriptor == descriptor {
+
+			return method
+		}
+	}
+	return nil
+}
 
 func (self *Class) GetStaticField(name, descriptor string) *Field {
 	return self.getField(name, descriptor, true)
@@ -120,7 +132,7 @@ func (self *Class) GetMainMethod() *Method {
 	return self.GetStaticMethod(mainMethodName, mainMethodDesc)
 }
 func (self *Class) GetClinitMethod() *Method {
-	return self.GetStaticMethod(clinitMethodName, clinitMethodDesc)
+	return self._getMethod(clinitMethodName, clinitMethodDesc, true)
 }
 
 func (self *Class) getArrayClass() *Class {

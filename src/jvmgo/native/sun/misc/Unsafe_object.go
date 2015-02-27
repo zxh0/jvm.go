@@ -157,17 +157,6 @@ func getObject(frame *rtda.Frame) {
 	} else {
 		panic("getObject!")
 	}
-
-	// var x *rtc.Obj
-	// switch fields.(type) {
-	// case []Any: // object
-	// 	x = fields.([]Any)[offset].(*rtc.Obj)
-	// case []*rtc.Obj: // array of ref
-	// 	x = fields.([]*rtc.Obj)[offset]
-	// }
-
-	// stack := frame.OperandStack()
-	// stack.PushRef(x)
 }
 
 // public native void putObjectVolatile(Object o, long offset, Object x);

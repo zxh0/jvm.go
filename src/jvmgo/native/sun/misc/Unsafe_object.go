@@ -71,7 +71,8 @@ func compareAndSwapLong(frame *rtda.Frame) {
 // (Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z
 func compareAndSwapObject(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	fields := vars.GetRef(1).Fields()
+	obj := vars.GetRef(1)
+	fields := obj.Fields()
 	offset := vars.GetLong(2)
 	expected := vars.GetRef(4)
 	newVal := vars.GetRef(5)
@@ -79,19 +80,8 @@ func compareAndSwapObject(frame *rtda.Frame) {
 	// todo
 	if anys, ok := fields.([]Any); ok {
 		// object
-		var current *rtc.Obj
-		if any := anys[offset]; any != nil {
-		 	current = any.(*rtc.Obj)
-		} else {
-			current = nil
-		}
-
-		if current == expected {
-			anys[offset] = newVal
-			frame.OperandStack().PushBoolean(true)
-		} else {
-			frame.OperandStack().PushBoolean(false)
-		}
+		swapped := _casObj(obj, anys, offset, expected, newVal)
+		frame.OperandStack().PushBoolean(swapped)
 	} else if objs, ok := fields.([]*rtc.Obj); ok {
 		// ref[]
 		ps := *((*[]unsafe.Pointer)(unsafe.Pointer(&objs))) // cast to []unsafe.Pointer
@@ -105,6 +95,25 @@ func compareAndSwapObject(frame *rtda.Frame) {
 	} else {
 		// todo
 		panic("todo: compareAndSwapObject!")
+	}
+}
+func _casObj(obj *rtc.Obj, fields []Any, offset int64, old, _new *rtc.Obj) bool {
+	// todo
+	obj.LockState()
+	defer obj.UnlockState()
+
+	var current *rtc.Obj
+	if f := fields[offset]; f != nil {
+	 	current = f.(*rtc.Obj)
+	} else {
+		current = nil
+	}
+
+	if current == old {
+		fields[offset] = _new
+		return true
+	} else {
+		return false
 	}
 }
 

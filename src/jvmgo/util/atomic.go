@@ -13,13 +13,19 @@ type ifaceWords struct {
 }
 
 func CasInt32(any Any, old, _new int32) bool {
-	ifws := ((*ifaceWords)(unsafe.Pointer(&any)))
+	ifws := (*ifaceWords)(unsafe.Pointer(&any))
 	addr := (*int32)(ifws.data)
 	return atomic.CompareAndSwapInt32(addr, old, _new)
 }
 
 func CasInt64(any Any, old, _new int64) bool {
-	ifws := ((*ifaceWords)(unsafe.Pointer(&any)))
+	ifws := (*ifaceWords)(unsafe.Pointer(&any))
 	addr := (*int64)(ifws.data)
 	return atomic.CompareAndSwapInt64(addr, old, _new)
+}
+
+func CasPointer(any *Any, old, _new unsafe.Pointer) bool {
+	ifws := (*ifaceWords)(unsafe.Pointer(any))
+	addr := &(ifws.data)
+	return atomic.CompareAndSwapPointer(addr, old, _new)
 }

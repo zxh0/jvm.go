@@ -7,6 +7,7 @@ public class UnsafeTest {
     
     public int x;
     public long y;
+    public String z;
     
     public static void main(String[] args) throws Exception {
         //Unsafe unsafe = Unsafe.getUnsafe();
@@ -19,6 +20,7 @@ public class UnsafeTest {
         //objArr(unsafe);
         casInt(unsafe);
         casLong(unsafe);
+        casObj(unsafe);
         
         System.out.println("OK!");
     }
@@ -75,6 +77,26 @@ public class UnsafeTest {
         unsafe.compareAndSwapLong(obj, yOffset, 0, 7);
         if (obj.y != 7) {
             System.out.println("casLong(obj) failed!");
+        }
+    }
+    
+    private static void casObj(Unsafe unsafe) throws Exception {
+        String one = "1";
+        String two = "2";
+//        
+//        Object[] arr = {one, two};
+//        long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());
+//        long arrayIndexScale = unsafe.arrayIndexScale(arr.getClass());
+//        unsafe.compareAndSwapObject(arr, arrayBaseOffset, one, two);
+//        if (arr[0] != two) {
+//            System.out.println("casObj(arr) failed!");
+//        }
+        
+        UnsafeTest obj = new UnsafeTest();
+        long zOffset = unsafe.objectFieldOffset(UnsafeTest.class.getField("z"));
+        unsafe.compareAndSwapObject(obj, zOffset, null, "two");
+        if (obj.z != "two") {
+            System.out.println("casObj(obj) failed!" + obj.z);
         }
     }
     

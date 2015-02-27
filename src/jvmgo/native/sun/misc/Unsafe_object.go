@@ -6,11 +6,14 @@ import (
 	rtc "jvmgo/jvm/rtda/class"
 	"jvmgo/util"
 	"sync/atomic"
+	"unsafe"
+	"fmt"
 )
 
 func init() {
 	_unsafe(compareAndSwapInt, "compareAndSwapInt", "(Ljava/lang/Object;JII)Z")
 	_unsafe(compareAndSwapLong, "compareAndSwapLong", "(Ljava/lang/Object;JJJ)Z")
+	_unsafe(compareAndSwapObject, "compareAndSwapObject", "(Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z")
 	_unsafe(putObject, "putObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getObject, "getObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
 	_unsafe(putObjectVolatile, "putObjectVolatile", "(Ljava/lang/Object;JLjava/lang/Object;)V")
@@ -56,8 +59,45 @@ func compareAndSwapLong(frame *rtda.Frame) {
 		swapped := util.CasInt64(anys[offset], expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
 	} else if ints, ok := fields.([]int64); ok {
-		// int[]
+		// long[]
 		swapped := atomic.CompareAndSwapInt64(&ints[offset], expected, newVal)
+		frame.OperandStack().PushBoolean(swapped)
+	} else {
+		// todo
+		panic("todo: compareAndSwapLong!")
+	}
+}
+
+// public final native boolean compareAndSwapObject(Object o, long offset, Object expected, Object x)
+// (Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z
+func compareAndSwapObject(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fields := vars.GetRef(1).Fields()
+	offset := vars.GetLong(2)
+	expected := vars.GetRef(4)
+	newVal := vars.GetRef(5)
+
+	if anys, ok := fields.([]Any); ok {
+		// object
+		old := unsafe.Pointer(expected)
+		_new := unsafe.Pointer(newVal)
+fmt.Printf("aaaa:%v\n", anys[offset])
+		swapped := util.CasPointer(&anys[offset], old, _new)
+
+fmt.Printf("ss old:%v new:%v swapped:%v  any:%v \n", old, _new, swapped, anys[offset])
+
+		frame.OperandStack().PushBoolean(swapped)
+	} else if objs, ok := fields.([]*rtc.Obj); ok {
+		ps := *((*[]unsafe.Pointer)(unsafe.Pointer(&objs))) // []unsafe.Pointer
+
+		// ref[]
+		addr := &ps[offset]
+		old := unsafe.Pointer(expected)
+		_new := unsafe.Pointer(newVal)
+		swapped := atomic.CompareAndSwapPointer(addr, old, _new)
+
+fmt.Printf("ss old:%v new:%v swapped:%v \n", old, _new, swapped)
+
 		frame.OperandStack().PushBoolean(swapped)
 	} else {
 		// todo

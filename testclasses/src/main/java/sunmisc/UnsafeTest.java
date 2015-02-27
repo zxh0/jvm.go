@@ -5,6 +5,8 @@ import sun.misc.Unsafe;
 
 public class UnsafeTest {
     
+    public int x;
+    
     public static void main(String[] args) throws Exception {
         //Unsafe unsafe = Unsafe.getUnsafe();
         Field f = Unsafe.class.getDeclaredField("theUnsafe");
@@ -40,13 +42,20 @@ public class UnsafeTest {
         System.out.println(unsafe.getObject(arr, arrayBaseOffset + arrayIndexScale));
     }
     
-    private static void cmpInt(Unsafe unsafe) {
+    private static void cmpInt(Unsafe unsafe) throws Exception {
         int[] arr = {1, 3, 7};
         long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());
         long arrayIndexScale = unsafe.arrayIndexScale(arr.getClass());
         unsafe.compareAndSwapInt(arr, arrayBaseOffset, 1, 8);
         if (arr[0] != 8) {
-            System.out.println("cmpInt() failed!");
+            System.out.println("cmpInt(arr) failed!");
+        }
+        
+        UnsafeTest obj = new UnsafeTest();
+        long xOffset = unsafe.objectFieldOffset(UnsafeTest.class.getField("x"));
+        unsafe.compareAndSwapInt(obj, xOffset, 0, 7);
+        if (obj.x != 7) {
+            System.out.println("cmpInt(obj) failed!");
         }
     }
     

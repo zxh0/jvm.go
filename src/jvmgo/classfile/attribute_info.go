@@ -13,7 +13,7 @@ attribute_info {
 }
 */
 type AttributeInfo interface {
-	readInfo(reader *ClassReader)
+	readInfo(reader *ClassReader, attrLen uint32)
 }
 
 func readAttributes(reader *ClassReader, cp *ConstantPool) []AttributeInfo {
@@ -30,7 +30,7 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) AttributeInfo {
 	attrLen := reader.readUint32()
 	attrName := cp.getUtf8(attrNameIndex)
 	attrInfo := newAttributeInfo(attrName, attrLen, cp)
-	attrInfo.readInfo(reader)
+	attrInfo.readInfo(reader, attrLen)
 	return attrInfo
 }
 
@@ -59,11 +59,11 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 		return &LocalVariableTypeTableAttribute{}
 	// case "MethodParameters":
 	case "RuntimeInvisibleAnnotations":
-		return &UndefinedAttribute{attrLen}
+		return &UndefinedAttribute{}
 	case "RuntimeInvisibleParameterAnnotations":
-		return &UndefinedAttribute{attrLen}
+		return &UndefinedAttribute{}
 	case "RuntimeInvisibleTypeAnnotations":
-		return &UndefinedAttribute{attrLen}
+		return &UndefinedAttribute{}
 	case "RuntimeVisibleAnnotations":
 		return &AnnotationsAttribute{}
 	case "RuntimeVisibleParameterAnnotations":
@@ -74,12 +74,12 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	case "SourceFile":
 		return &SourceFileAttribute{}
 	case "SourceDebugExtension":
-		return &UndefinedAttribute{attrLen} // todo
+		return &UndefinedAttribute{} // todo
 	case "StackMapTable":
-		return &UndefinedAttribute{attrLen} // todo
+		return &UndefinedAttribute{} // todo
 	case "Synthetic":
 		return _attrSynthetic
 	default:
-		return &UndefinedAttribute{attrLen}
+		return &UndefinedAttribute{}
 	}
 }

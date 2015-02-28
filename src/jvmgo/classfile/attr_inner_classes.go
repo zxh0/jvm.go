@@ -23,7 +23,7 @@ type InnerClassInfo struct {
 	innerClassAccessFlags uint16
 }
 
-func (self *InnerClassesAttribute) readInfo(reader *ClassReader) {
+func (self *InnerClassesAttribute) readInfo(reader *ClassReader, attrLen uint32) {
 	numberOfClasses := reader.readUint16()
 	self.classes = make([]*InnerClassInfo, numberOfClasses)
 	for i := range self.classes {

@@ -23,7 +23,7 @@ type AnnotationsAttribute struct {
 	annotations []*Annotation
 }
 
-func (self *AnnotationsAttribute) readInfo(reader *ClassReader) {
+func (self *AnnotationsAttribute) readInfo(reader *ClassReader, attrLen uint32) {
 	numAnnotations := reader.readUint16()
 	self.annotations = make([]*Annotation, numAnnotations)
 	for i := range self.annotations {

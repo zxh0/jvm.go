@@ -11,6 +11,6 @@ type SourceFileAttribute struct {
 	sourceFileIndex uint16
 }
 
-func (self *SourceFileAttribute) readInfo(reader *ClassReader) {
+func (self *SourceFileAttribute) readInfo(reader *ClassReader, attrLen uint32) {
 	self.sourceFileIndex = reader.readUint16()
 }

@@ -8,11 +8,11 @@ attribute_info {
 }
 */
 type UndefinedAttribute struct {
-	attributeLength uint32
+	
 }
 
-func (self *UndefinedAttribute) readInfo(reader *ClassReader) {
-	for i := uint32(0); i < self.attributeLength; i++ {
+func (self *UndefinedAttribute) readInfo(reader *ClassReader, attrLen uint32) {
+	for i := uint32(0); i < attrLen; i++ {
 		reader.readUint8()
 	}
 }

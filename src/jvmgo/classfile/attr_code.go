@@ -27,7 +27,7 @@ type CodeAttribute struct {
 	AttributeTable
 }
 
-func (self *CodeAttribute) readInfo(reader *ClassReader) {
+func (self *CodeAttribute) readInfo(reader *ClassReader, attrLen uint32) {
 	self.maxStack = reader.readUint16()
 	self.maxLocals = reader.readUint16()
 	codeLength := reader.readUint32()

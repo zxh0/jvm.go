@@ -66,7 +66,7 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	case "RuntimeInvisibleTypeAnnotations":
 		return _attrUndefined
 	case "RuntimeVisibleAnnotations":
-		return &AnnotationsAttribute{}
+		return &RuntimeVisibleAnnotationsAttribute{}
 	case "RuntimeVisibleParameterAnnotations":
 		return &ParameterAnnotationsAttribute{}
 	// case "RuntimeVisibleTypeAnnotations":

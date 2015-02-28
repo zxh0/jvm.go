@@ -2,6 +2,7 @@ package lang
 
 import (
 	"jvmgo/jvm/rtda"
+	rtc "jvmgo/jvm/rtda/class"
 )
 
 func init() {
@@ -11,8 +12,19 @@ func init() {
 // native byte[] getRawAnnotations();
 // ()[B
 func getRawAnnotations(frame *rtda.Frame) {
-	// todo
-	panic("getRawAnnotations")
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+
+	class := this.Class()
+	bytes := class.AnnotationData()
+
+	stack := frame.OperandStack()
+	if bytes != nil {
+		byteArr := rtc.NewByteArray(bytes, frame.ClassLoader())
+		stack.PushRef(byteArr)
+	} else {
+		stack.PushRef(nil)
+	}
 }
 
 // native byte[] getRawTypeAnnotations();

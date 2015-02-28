@@ -20,7 +20,7 @@ type Class struct {
 	interfaceNames     []string
 	fields             []*Field
 	methods            []*Method
-	annotationData     []byte // RuntimeVisibleAnnotations_attribute
+	annotationData     []int8 // RuntimeVisibleAnnotations_attribute
 	staticFieldCount   uint
 	instanceFieldCount uint
 	staticFieldValues  []Any
@@ -45,6 +45,9 @@ func (self *Class) SourceFile() string {
 }
 func (self *Class) Name() string {
 	return self.name
+}
+func (self *Class) AnnotationData() []int8 {
+	return self.annotationData
 }
 func (self *Class) JClass() *Obj {
 	return self.jClass

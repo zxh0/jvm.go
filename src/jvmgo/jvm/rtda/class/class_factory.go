@@ -2,6 +2,7 @@ package class
 
 import (
 	"jvmgo/classfile"
+	"jvmgo/util"
 )
 
 func newClass(cf *classfile.ClassFile) *Class {
@@ -43,6 +44,6 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
 func (self *Class) copyAnnotationData(cf *classfile.ClassFile) {
 	rvaAttr := cf.RuntimeVisibleAnnotationsAttribute()
 	if rvaAttr != nil {
-		self.annotationData = rvaAttr.Info()
+		self.annotationData = util.CastUint8sToInt8s(rvaAttr.Info())
 	}
 }

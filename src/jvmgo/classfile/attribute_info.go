@@ -59,15 +59,16 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 		return &LocalVariableTypeTableAttribute{}
 	// case "MethodParameters":
 	case "RuntimeInvisibleAnnotations":
-		return &AnnotationsAttribute{}
+		return &UndefinedAttribute{attrLen}
 	case "RuntimeInvisibleParameterAnnotations":
-		return &ParameterAnnotationsAttribute{}
-	// case "RuntimeVisibleTypeAnnotations":
+		return &UndefinedAttribute{attrLen}
+	case "RuntimeInvisibleTypeAnnotations":
+		return &UndefinedAttribute{attrLen}
 	case "RuntimeVisibleAnnotations":
 		return &AnnotationsAttribute{}
 	case "RuntimeVisibleParameterAnnotations":
 		return &ParameterAnnotationsAttribute{}
-	// case "RuntimeInvisibleTypeAnnotations":
+	// case "RuntimeVisibleTypeAnnotations":
 	case "Signature":
 		return &SignatureAttribute{}
 	case "SourceFile":

@@ -1,5 +1,11 @@
 package class
 
+func (self *Class) IsAssignableFrom(cls *Class) bool {
+	return self == cls ||
+		self.isSuperClassOf(cls) ||
+		self.isSuperInterfaceOf(cls)
+}
+
 // self implements iface
 func (self *Class) isImplements(iface *Class) bool {
 	for k := self; k != nil; k = k.superClass {

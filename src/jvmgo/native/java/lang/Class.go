@@ -18,6 +18,7 @@ func init() {
 	_class(getName0, "getName0", "()Ljava/lang/String;")
 	_class(getPrimitiveClass, "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;")
 	_class(getSuperclass, "getSuperclass", "()Ljava/lang/Class;")
+	_class(isAssignableFrom, "isAssignableFrom", "(Ljava/lang/Class;)Z")
 	_class(isArray, "isArray", "()Z")
 	_class(isInterface, "isInterface", "()Z")
 	_class(isPrimitive, "isPrimitive", "()Z")
@@ -101,7 +102,7 @@ func getConstantPool(frame *rtda.Frame) {
 	}
 
 	cp := class.ConstantPool()
-	cpObj := cpClass.NewObjWithExtra(cp)
+	cpObj := cpClass.NewObjWithExtra(cp) // todo init cpObj
 	frame.OperandStack().PushRef(cpObj)
 }
 
@@ -182,6 +183,19 @@ func getSuperclass(frame *rtda.Frame) {
 	} else {
 		stack.PushNull()
 	}
+}
+
+// public native boolean isAssignableFrom(Class<?> cls);
+// (Ljava/lang/Class;)Z
+func isAssignableFrom(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	cls := vars.GetRef(1)
+
+	thisClass := this.Extra().(*rtc.Class)
+	clsClass := cls.Extra().(*rtc.Class)
+	ok := thisClass.IsAssignableFrom(clsClass)
+	frame.OperandStack().PushBoolean(ok)
 }
 
 // public native boolean isArray();

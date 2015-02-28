@@ -20,10 +20,11 @@ type Class struct {
 	interfaceNames     []string
 	fields             []*Field
 	methods            []*Method
-	vtable             []*Method // virtual method table
+	annotationData     []byte // RuntimeVisibleAnnotations_attribute
 	staticFieldCount   uint
 	instanceFieldCount uint
 	staticFieldValues  []Any
+	vtable             []*Method // virtual method table
 	jClass             *Obj // java.lang.Class instance
 	superClass         *Class
 	interfaces         []*Class

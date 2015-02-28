@@ -15,3 +15,7 @@ type RuntimeVisibleAnnotationsAttribute struct {
 func (self *RuntimeVisibleAnnotationsAttribute) readInfo(reader *ClassReader, attrLen uint32) {
 	self.info = reader.readBytes(attrLen)
 } 
+
+func (self *RuntimeVisibleAnnotationsAttribute) Info() []byte {
+	return self.info
+}

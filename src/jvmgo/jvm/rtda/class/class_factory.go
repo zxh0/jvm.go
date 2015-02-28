@@ -12,6 +12,7 @@ func newClass(cf *classfile.ClassFile) *Class {
 	class.copyClassNames(cf)
 	class.copyFields(cf)
 	class.copyMethods(cf)
+	class.copyAnnotationData(cf)
 	return class
 }
 
@@ -36,5 +37,12 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
 	self.methods = make([]*Method, len(cf.Methods()))
 	for i, methodInfo := range cf.Methods() {
 		self.methods[i] = newMethod(self, methodInfo)
+	}
+}
+
+func (self *Class) copyAnnotationData(cf *classfile.ClassFile) {
+	rvaAttr := cf.RuntimeVisibleAnnotationsAttribute()
+	if rvaAttr != nil {
+		self.annotationData = rvaAttr.Info()
 	}
 }

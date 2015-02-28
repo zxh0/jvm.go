@@ -36,3 +36,14 @@ func (self *AttributeTable) SourceFileAttribute() *SourceFileAttribute {
 	// todo
 	return nil
 }
+
+func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *RuntimeVisibleAnnotationsAttribute {
+	for _, attrInfo := range self.attributes {
+		switch attrInfo.(type) {
+		case *RuntimeVisibleAnnotationsAttribute:
+			return attrInfo.(*RuntimeVisibleAnnotationsAttribute)
+		}
+	}
+	// todo
+	return nil
+}

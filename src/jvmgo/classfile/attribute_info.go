@@ -3,6 +3,7 @@ package classfile
 var (
 	_attrDeprecated = &DeprecatedAttribute{}
 	_attrSynthetic = &SyntheticAttribute{}
+	_attrUndefined = &UndefinedAttribute{}
 )
 
 /*
@@ -59,11 +60,11 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 		return &LocalVariableTypeTableAttribute{}
 	// case "MethodParameters":
 	case "RuntimeInvisibleAnnotations":
-		return &UndefinedAttribute{}
+		return _attrUndefined
 	case "RuntimeInvisibleParameterAnnotations":
-		return &UndefinedAttribute{}
+		return _attrUndefined
 	case "RuntimeInvisibleTypeAnnotations":
-		return &UndefinedAttribute{}
+		return _attrUndefined
 	case "RuntimeVisibleAnnotations":
 		return &AnnotationsAttribute{}
 	case "RuntimeVisibleParameterAnnotations":
@@ -74,12 +75,12 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	case "SourceFile":
 		return &SourceFileAttribute{}
 	case "SourceDebugExtension":
-		return &UndefinedAttribute{} // todo
+		return _attrUndefined // todo
 	case "StackMapTable":
-		return &UndefinedAttribute{} // todo
+		return _attrUndefined // todo
 	case "Synthetic":
 		return _attrSynthetic
 	default:
-		return &UndefinedAttribute{}
+		return _attrUndefined
 	}
 }

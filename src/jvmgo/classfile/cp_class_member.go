@@ -50,12 +50,12 @@ func (self *ConstantMemberrefInfo) ClassName() string {
 	return self.cp.getClassName(self.classIndex)
 }
 func (self *ConstantMemberrefInfo) Name() string {
-	ntInfo := self.cp.getNameAndType(self.nameAndTypeIndex)
-	return self.cp.getUtf8(ntInfo.nameIndex)
+	name, _ := self.cp.getNameAndType(self.nameAndTypeIndex)
+	return name
 }
 func (self *ConstantMemberrefInfo) Descriptor() string {
-	ntInfo := self.cp.getNameAndType(self.nameAndTypeIndex)
-	return self.cp.getUtf8(ntInfo.descriptorIndex)
+	_, _type := self.cp.getNameAndType(self.nameAndTypeIndex)
+	return _type
 }
 
 type ConstantFieldrefInfo struct {

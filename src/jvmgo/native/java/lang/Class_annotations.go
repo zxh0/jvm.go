@@ -16,15 +16,15 @@ func getRawAnnotations(frame *rtda.Frame) {
 	this := vars.GetThis()
 
 	class := this.Extra().(*rtc.Class)
-	data := class.AnnotationData()
-
-	stack := frame.OperandStack()
-	if data != nil {
-		byteArr := rtc.NewByteArray(data, frame.ClassLoader())
-		stack.PushRef(byteArr)
-	} else {
-		stack.PushRef(nil)
+	if attrs := class.Attributes(); attrs != nil {
+		if data := attrs.AnnotationData(); data != nil {
+			byteArr := rtc.NewByteArray(data, frame.ClassLoader())
+			frame.OperandStack().PushRef(byteArr)
+			return
+		}
 	}
+
+	frame.OperandStack().PushRef(nil)
 }
 
 // native byte[] getRawTypeAnnotations();

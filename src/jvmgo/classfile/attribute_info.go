@@ -47,7 +47,7 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	case "Deprecated":
 		return _attrDeprecated
 	case "EnclosingMethod":
-		return &EnclosingMethodAttribute{}
+		return &EnclosingMethodAttribute{cp: cp}
 	case "Exceptions":
 		return &ExceptionsAttribute{}
 	case "InnerClasses":

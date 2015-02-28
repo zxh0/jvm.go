@@ -13,7 +13,7 @@ func newClass(cf *classfile.ClassFile) *Class {
 	class.copyClassNames(cf)
 	class.copyFields(cf)
 	class.copyMethods(cf)
-	class.copyAnnotationData(cf)
+	class.copyAttributes(cf)
 	return class
 }
 
@@ -41,9 +41,11 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
 	}
 }
 
-func (self *Class) copyAnnotationData(cf *classfile.ClassFile) {
+func (self *Class) copyAttributes(cf *classfile.ClassFile) {
 	rvaAttr := cf.RuntimeVisibleAnnotationsAttribute()
 	if rvaAttr != nil {
-		self.annotationData = util.CastUint8sToInt8s(rvaAttr.Info())
+		self.attributes = &Attributes{
+			annotationData: util.CastUint8sToInt8s(rvaAttr.Info()),
+		}
 	}
 }

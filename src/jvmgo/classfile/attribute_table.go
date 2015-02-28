@@ -11,7 +11,16 @@ func (self *AttributeTable) CodeAttribute() *CodeAttribute {
 			return attrInfo.(*CodeAttribute)
 		}
 	}
-	// todo
+	return nil
+}
+
+func (self *AttributeTable) EnclosingMethodAttribute() *EnclosingMethodAttribute {
+	for _, attrInfo := range self.attributes {
+		switch attrInfo.(type) {
+		case *EnclosingMethodAttribute:
+			return attrInfo.(*EnclosingMethodAttribute)
+		}
+	}
 	return nil
 }
 
@@ -22,18 +31,6 @@ func (self *AttributeTable) LineNumberTableAttribute() *LineNumberTableAttribute
 			return attrInfo.(*LineNumberTableAttribute)
 		}
 	}
-	// todo
-	return nil
-}
-
-func (self *AttributeTable) SourceFileAttribute() *SourceFileAttribute {
-	for _, attrInfo := range self.attributes {
-		switch attrInfo.(type) {
-		case *SourceFileAttribute:
-			return attrInfo.(*SourceFileAttribute)
-		}
-	}
-	// todo
 	return nil
 }
 
@@ -44,6 +41,15 @@ func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *RuntimeVisible
 			return attrInfo.(*RuntimeVisibleAnnotationsAttribute)
 		}
 	}
-	// todo
+	return nil
+}
+
+func (self *AttributeTable) SourceFileAttribute() *SourceFileAttribute {
+	for _, attrInfo := range self.attributes {
+		switch attrInfo.(type) {
+		case *SourceFileAttribute:
+			return attrInfo.(*SourceFileAttribute)
+		}
+	}
 	return nil
 }

@@ -8,7 +8,6 @@ attribute_info {
 }
 */
 type UndefinedAttribute struct {
-	
 }
 
 func (self *UndefinedAttribute) readInfo(reader *ClassReader, attrLen uint32) {

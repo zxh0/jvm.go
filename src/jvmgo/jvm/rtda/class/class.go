@@ -25,7 +25,7 @@ type Class struct {
 	instanceFieldCount uint
 	staticFieldValues  []Any
 	vtable             []*Method // virtual method table
-	jClass             *Obj // java.lang.Class instance
+	jClass             *Obj      // java.lang.Class instance
 	superClass         *Class
 	interfaces         []*Class
 	classLoader        *ClassLoader // defining class loader

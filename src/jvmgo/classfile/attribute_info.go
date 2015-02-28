@@ -2,8 +2,8 @@ package classfile
 
 var (
 	_attrDeprecated = &DeprecatedAttribute{}
-	_attrSynthetic = &SyntheticAttribute{}
-	_attrUndefined = &UndefinedAttribute{}
+	_attrSynthetic  = &SyntheticAttribute{}
+	_attrUndefined  = &UndefinedAttribute{}
 )
 
 /*

@@ -13,6 +13,7 @@ func init() {
 	_class(getClassLoader0, "getClassLoader0", "()Ljava/lang/ClassLoader;")
 	_class(getComponentType, "getComponentType", "()Ljava/lang/Class;")
 	_class(getConstantPool, "getConstantPool", "()Lsun/reflect/ConstantPool;")
+	_class(getEnclosingMethod0, "getEnclosingMethod0", "()[Ljava/lang/Object;")
 	_class(getInterfaces, "getInterfaces", "()[Ljava/lang/Class;")
 	_class(getModifiers, "getModifiers", "()I")
 	_class(getName0, "getName0", "()Ljava/lang/String;")
@@ -104,6 +105,13 @@ func getConstantPool(frame *rtda.Frame) {
 	cp := class.ConstantPool()
 	cpObj := cpClass.NewObjWithExtra(cp) // todo init cpObj
 	frame.OperandStack().PushRef(cpObj)
+}
+
+// private native Object[] getEnclosingMethod0();
+// ()[Ljava/lang/Object;
+func getEnclosingMethod0(frame *rtda.Frame) {
+	// todo
+	panic("getEnclosingMethod0")
 }
 
 // private native Class<?>[] getInterfaces();

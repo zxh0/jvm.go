@@ -14,7 +14,6 @@ const (
 type Class struct {
 	AccessFlags
 	constantPool       *ConstantPool
-	sourceFile         string
 	name               string // thisClassName
 	superClassName     string
 	interfaceNames     []string
@@ -39,9 +38,6 @@ func (self *Class) String() string {
 // getters
 func (self *Class) ConstantPool() *ConstantPool {
 	return self.constantPool
-}
-func (self *Class) SourceFile() string {
-	return self.sourceFile
 }
 func (self *Class) Name() string {
 	return self.name

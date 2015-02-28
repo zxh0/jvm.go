@@ -126,12 +126,3 @@ func (self *ClassFile) InterfaceNames() []string {
 	}
 	return interfaceNames
 }
-
-func (self *ClassFile) FileName() string {
-	sfAttr := self.SourceFileAttribute()
-	if sfAttr != nil {
-		return self.constantPool.getUtf8(sfAttr.sourceFileIndex)
-	} else {
-		return "Unknown" // todo
-	}
-}

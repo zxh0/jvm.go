@@ -60,7 +60,7 @@ func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) []*StackTraceEle
 		ste := &StackTraceElement{
 			declaringClass: classN.JlsName(),
 			methodName:     methodN.Name(),
-			fileName:       classN.SourceFile(),
+			fileName:       classN.Attributes().SourceFile(),
 			lineNumber:     lineNumber,
 		}
 		stes = append(stes, ste)

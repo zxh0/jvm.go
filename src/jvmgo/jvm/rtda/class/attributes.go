@@ -1,10 +1,14 @@
 package class
 
 type Attributes struct {
-	annotationData []int8 // RuntimeVisibleAnnotations_attribute
+	sourceFile      string
+	annotationData  []int8 // RuntimeVisibleAnnotations_attribute
 	enclosingMethod *EnclosingMethod
 }
 
+func (self *Attributes) SourceFile() string {
+	return self.sourceFile
+}
 func (self *Attributes) AnnotationData() []int8 {
 	return self.annotationData
 }

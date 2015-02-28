@@ -7,7 +7,6 @@ import (
 
 func newClass(cf *classfile.ClassFile) *Class {
 	class := &Class{}
-	class.sourceFile = cf.FileName()
 	class.accessFlags = cf.AccessFlags()
 	class.copyConstantPool(cf)
 	class.copyClassNames(cf)
@@ -42,10 +41,15 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
 }
 
 func (self *Class) copyAttributes(cf *classfile.ClassFile) {
-	rvaAttr := cf.RuntimeVisibleAnnotationsAttribute()
-	if rvaAttr != nil {
-		self.attributes = &Attributes{
-			annotationData: util.CastUint8sToInt8s(rvaAttr.Info()),
-		}
+	self.attributes = &Attributes{}
+
+	if sfAttr := cf.SourceFileAttribute(); sfAttr != nil {
+		self.attributes.sourceFile = sfAttr.FileName()
+	} else {
+		self.attributes.sourceFile = "Unknown" // todo
+	}
+	
+	if rvaAttr := cf.RuntimeVisibleAnnotationsAttribute(); rvaAttr != nil {
+		self.attributes.annotationData = util.CastUint8sToInt8s(rvaAttr.Info())
 	}
 }

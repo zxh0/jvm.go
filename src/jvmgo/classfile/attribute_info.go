@@ -73,7 +73,7 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	case "Signature":
 		return &SignatureAttribute{}
 	case "SourceFile":
-		return &SourceFileAttribute{}
+		return &SourceFileAttribute{cp: cp}
 	case "SourceDebugExtension":
 		return _attrUndefined // todo
 	case "StackMapTable":

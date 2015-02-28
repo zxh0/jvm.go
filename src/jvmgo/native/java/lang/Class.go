@@ -12,6 +12,7 @@ func init() {
 	_class(forName0, "forName0", "(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;")
 	_class(getClassLoader0, "getClassLoader0", "()Ljava/lang/ClassLoader;")
 	_class(getComponentType, "getComponentType", "()Ljava/lang/Class;")
+	_class(getConstantPool, "getConstantPool", "()Lsun/reflect/ConstantPool;")
 	_class(getInterfaces, "getInterfaces", "()[Ljava/lang/Class;")
 	_class(getModifiers, "getModifiers", "()I")
 	_class(getName0, "getName0", "()Ljava/lang/String;")
@@ -83,6 +84,25 @@ func getComponentType(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushRef(componentClassObj)
+}
+
+// native ConstantPool getConstantPool();
+// ()Lsun/reflect/ConstantPool;
+func getConstantPool(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+
+	class := this.Extra().(*rtc.Class)
+	cpClass := class.ClassLoader().LoadClass("sun/reflect/ConstantPool")
+	if cpClass.InitializationNotStarted() {
+		frame.RevertNextPC()
+		frame.Thread().InitClass(cpClass)
+		return
+	}
+
+	cp := class.ConstantPool()
+	cpObj := cpClass.NewObjWithExtra(cp)
+	frame.OperandStack().PushRef(cpObj)
 }
 
 // private native Class<?>[] getInterfaces();

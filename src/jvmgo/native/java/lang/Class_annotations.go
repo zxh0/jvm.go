@@ -15,12 +15,12 @@ func getRawAnnotations(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
 
-	class := this.Class()
-	bytes := class.AnnotationData()
+	class := this.Extra().(*rtc.Class)
+	data := class.AnnotationData()
 
 	stack := frame.OperandStack()
-	if bytes != nil {
-		byteArr := rtc.NewByteArray(bytes, frame.ClassLoader())
+	if data != nil {
+		byteArr := rtc.NewByteArray(data, frame.ClassLoader())
 		stack.PushRef(byteArr)
 	} else {
 		stack.PushRef(nil)

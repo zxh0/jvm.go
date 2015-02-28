@@ -12,7 +12,5 @@ type UndefinedAttribute struct {
 }
 
 func (self *UndefinedAttribute) readInfo(reader *ClassReader, attrLen uint32) {
-	for i := uint32(0); i < attrLen; i++ {
-		reader.readUint8()
-	}
+	reader.readBytes(attrLen)
 }

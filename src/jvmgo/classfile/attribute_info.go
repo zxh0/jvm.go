@@ -1,6 +1,9 @@
 package classfile
 
-//import "fmt"
+var (
+	_attrDeprecated = &DeprecatedAttribute{}
+	_attrSynthetic = &SyntheticAttribute{}
+)
 
 /*
 attribute_info {
@@ -41,7 +44,7 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	case "ConstantValue":
 		return &ConstantValueAttribute{}
 	case "Deprecated":
-		return &DeprecatedAttribute{}
+		return _attrDeprecated
 	case "EnclosingMethod":
 		return &EnclosingMethodAttribute{}
 	case "Exceptions":
@@ -74,7 +77,7 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	case "StackMapTable":
 		return &UndefinedAttribute{attrLen} // todo
 	case "Synthetic":
-		return &SyntheticAttribute{}
+		return _attrSynthetic
 	default:
 		return &UndefinedAttribute{attrLen}
 	}

@@ -48,7 +48,7 @@ func (self *Class) copyAttributes(cf *classfile.ClassFile) {
 	} else {
 		self.attributes.sourceFile = "Unknown" // todo
 	}
-	
+
 	if rvaAttr := cf.RuntimeVisibleAnnotationsAttribute(); rvaAttr != nil {
 		self.attributes.annotationData = util.CastUint8sToInt8s(rvaAttr.Info())
 	}

@@ -19,7 +19,7 @@ func (self *Attributes) EnclosingMethodInfo() (string, string, string) {
 }
 
 type EnclosingMethod struct {
-	className string
-	methodName string
+	className        string
+	methodName       string
 	methodDescriptor string
 }

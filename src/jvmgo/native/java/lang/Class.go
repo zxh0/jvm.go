@@ -14,7 +14,7 @@ func init() {
 	_class(getClassLoader0, "getClassLoader0", "()Ljava/lang/ClassLoader;")
 	_class(getComponentType, "getComponentType", "()Ljava/lang/Class;")
 	_class(getConstantPool, "getConstantPool", "()Lsun/reflect/ConstantPool;")
-	_class(getDeclaringClass, "getDeclaringClass", "()Ljava/lang/Class;")
+	_class(getDeclaringClass0, "getDeclaringClass0", "()Ljava/lang/Class;")
 	_class(getEnclosingMethod0, "getEnclosingMethod0", "()[Ljava/lang/Object;")
 	_class(getInterfaces0, "getInterfaces0", "()[Ljava/lang/Class;")
 	_class(getModifiers, "getModifiers", "()I")
@@ -107,9 +107,9 @@ func getConstantPool(frame *rtda.Frame) {
 	frame.OperandStack().PushRef(cpObj)
 }
 
-// private native Class<?> getDeclaringClass();
+// private native Class<?> getDeclaringClass0();
 // ()Ljava/lang/Class;
-func getDeclaringClass(frame *rtda.Frame) {
+func getDeclaringClass0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
 

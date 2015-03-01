@@ -16,7 +16,7 @@ func init() {
 	_class(getConstantPool, "getConstantPool", "()Lsun/reflect/ConstantPool;")
 	_class(getDeclaringClass, "getDeclaringClass", "()Ljava/lang/Class;")
 	_class(getEnclosingMethod0, "getEnclosingMethod0", "()[Ljava/lang/Object;")
-	_class(getInterfaces, "getInterfaces", "()[Ljava/lang/Class;")
+	_class(getInterfaces0, "getInterfaces0", "()[Ljava/lang/Class;")
 	_class(getModifiers, "getModifiers", "()I")
 	_class(getName0, "getName0", "()Ljava/lang/String;")
 	_class(getPrimitiveClass, "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;")
@@ -162,9 +162,9 @@ func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.Enclos
 	return rtc.NewRefArray2(classLoader.JLObjectClass(), objs) // Object[]
 }
 
-// private native Class<?>[] getInterfaces();
+// private native Class<?>[] getInterfaces0();
 // ()[Ljava/lang/Class;
-func getInterfaces(frame *rtda.Frame) {
+func getInterfaces0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
 

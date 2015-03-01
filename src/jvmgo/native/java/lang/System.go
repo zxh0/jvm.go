@@ -112,6 +112,7 @@ func _props() map[string]string {
 		"file.separator":      "/", // todo os.PathSeparator
 		"path.separator":      ":", // todo os.PathListSeparator
 		"line.separator":      "\n",
+		"java.home":           ".", // todo
 	}
 }
 

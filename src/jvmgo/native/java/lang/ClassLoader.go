@@ -21,6 +21,7 @@ func findLoadedClass0(frame *rtda.Frame) {
 	//this := vars.GetThis()
 	name := vars.GetRef(1)
 
+	// todo
 	className := rtc.NameCfFormat(rtda.GoString(name))
 	class := frame.ClassLoader().LoadClass(className)
 	if class != nil {

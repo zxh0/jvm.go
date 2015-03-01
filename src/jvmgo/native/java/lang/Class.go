@@ -5,6 +5,7 @@ import (
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 	"jvmgo/util"
+	"strings"
 )
 
 func init() {
@@ -109,7 +110,25 @@ func getConstantPool(frame *rtda.Frame) {
 // private native Class<?> getDeclaringClass();
 // ()Ljava/lang/Class;
 func getDeclaringClass(frame *rtda.Frame) {
-	panic("getDeclaringClass")
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+
+	class := this.Extra().(*rtc.Class)
+	if class.IsArray() || class.IsPrimitive() {
+		frame.OperandStack().PushRef(nil)
+		return
+	}
+
+	lastDollerIndex := strings.LastIndex(class.Name(), "$")
+	if lastDollerIndex < 0 {
+		frame.OperandStack().PushRef(nil)
+		return
+	}
+
+	// todo
+	declaringClassName := class.Name()[:lastDollerIndex]
+	declaringClass := frame.ClassLoader().LoadClass(declaringClassName)
+	frame.OperandStack().PushRef(declaringClass.JClass())
 }
 
 // private native Object[] getEnclosingMethod0();

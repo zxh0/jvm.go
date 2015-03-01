@@ -114,15 +114,28 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 	this := vars.GetThis()
 
 	class := this.Extra().(*rtc.Class)
-	emInfo := class.Attributes().EnclosingMethodInfo()
+	emInfo := class.Attributes().EnclosingMethod()
+	emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
+	frame.OperandStack().PushRef(emInfoObj)
+}
+
+func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.EnclosingMethod) *rtc.Obj {
 	if emInfo == nil {
-		frame.OperandStack().PushRef(nil)
-		return
+		return nil
 	}
 
-	
-	// todo
-	panic("getEnclosingMethod0")
+	enclosingClass := classLoader.LoadClass(emInfo.ClassName())
+	enclosingClassObj := enclosingClass.JClass()
+	var methodNameObj, methodDescriptorObj *rtc.Obj
+	if emInfo.MethodName() != "" {
+		methodNameObj = rtda.NewJString(emInfo.MethodName(), classLoader)
+		methodDescriptorObj = rtda.NewJString(emInfo.MethodDescriptor(), classLoader)
+	} else {
+		methodNameObj, methodDescriptorObj = nil, nil
+	}
+
+	objs := []*rtc.Obj{enclosingClassObj, methodNameObj, methodDescriptorObj}
+	return rtc.NewRefArray2(classLoader.JLObjectClass(), objs) // Object[]
 }
 
 // private native Class<?>[] getInterfaces();

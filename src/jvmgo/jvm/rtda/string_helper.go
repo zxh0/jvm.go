@@ -14,7 +14,7 @@ func NewJString(goStr string, clg rtc.ClassLoaderGetter) *rtc.Obj {
 	}
 
 	classLoader := clg.ClassLoader()
-	stringClass := classLoader.StringClass()
+	stringClass := classLoader.JLStringClass()
 	jCharArr := rtc.NewCharArray(chars, classLoader)
 	jStr := stringClass.NewObj()
 	jStr.SetFieldValue("value", "[C", jCharArr)

@@ -134,5 +134,5 @@ func createArgs(frame *rtda.Frame) *rtc.Obj {
 		jArgs[i] = rtda.NewJString(arg, frame)
 	}
 
-	return rtc.NewRefArray2(_classLoader.StringClass(), jArgs)
+	return rtc.NewRefArray2(_classLoader.JLStringClass(), jArgs)
 }

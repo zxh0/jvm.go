@@ -45,6 +45,11 @@ func NewClassLoader(cp *classpath.ClassPath) *ClassLoader {
 	return &ClassLoader{cp, classMap}
 }
 
+// ClassLoaderGetter
+func (self *ClassLoader) ClassLoader() *ClassLoader {
+	return self
+}
+
 func (self *ClassLoader) Init() {
 	_jlObjectClass = self.LoadClass(jlObjectClassName)
 	_jlClassClass = self.LoadClass(jlClassClassName)
@@ -110,13 +115,16 @@ func (self *ClassLoader) GetPrimitiveClass(name string) *Class {
 	return self.getClass(name)
 }
 
+func (self *ClassLoader) JLObjectClass() *Class {
+	return _jlObjectClass
+}
 func (self *ClassLoader) JLClassClass() *Class {
 	return _jlClassClass
 }
-func (self *ClassLoader) StringClass() *Class {
+func (self *ClassLoader) JLStringClass() *Class {
 	return _jlStringClass
 }
-func (self *ClassLoader) ThreadClass() *Class {
+func (self *ClassLoader) JLThreadClass() *Class {
 	return _jlThreadClass
 }
 

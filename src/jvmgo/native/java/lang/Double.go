@@ -9,6 +9,7 @@ import (
 
 func init() {
 	_double(doubleToRawLongBits, "doubleToRawLongBits", "(D)J")
+	_double(longBitsToDouble, "longBitsToDouble", "(J)D")
 }
 
 func _double(method Any, name, desc string) {
@@ -20,8 +21,21 @@ func _double(method Any, name, desc string) {
 func doubleToRawLongBits(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	value := vars.GetDouble(0)
-	bits := math.Float64bits(value)
 
+	// todo
+	bits := math.Float64bits(value)
 	stack := frame.OperandStack()
-	stack.PushLong(int64(bits)) // todo
+	stack.PushLong(int64(bits)) 
+}
+
+// public static native double longBitsToDouble(long bits);
+// (J)D
+func longBitsToDouble(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	bits := vars.GetLong(0)
+
+	// todo
+	value := math.Float64frombits(uint64(bits))
+	stack := frame.OperandStack()
+	stack.PushDouble(value) 
 }

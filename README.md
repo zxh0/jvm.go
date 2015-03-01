@@ -10,9 +10,13 @@ My dev environment:
 Where to find rt.jar: /Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/jre/lib/rt.jar
 
 # Build jvm.go
+```
 export GOPATH=path/to/jvm.go/
 go install jvmgo
+```
 
 # Run jvm.go
+```
 cd path/to/jvm.go/bin
 ./jvmgo -cp path/to/rt.jar:path/to/classes HelloWorld
+```

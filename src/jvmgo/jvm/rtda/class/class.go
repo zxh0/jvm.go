@@ -59,8 +59,11 @@ func (self *Class) ClassLoader() *ClassLoader {
 }
 
 // todo
-func (self *Class) JlsName() string {
+func (self *Class) NameJlsFormat() string {
 	return util.ReplaceAll(self.name, "/", ".")
+}
+func NameCfFormat(jlsName string) string {
+	return util.ReplaceAll(jlsName, ".", "/")
 }
 
 func (self *Class) InitializationNotStarted() bool {

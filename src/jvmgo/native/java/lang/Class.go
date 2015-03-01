@@ -189,7 +189,7 @@ func getName0(frame *rtda.Frame) {
 	this := vars.GetThis()
 
 	class := this.Extra().(*rtc.Class)
-	name := class.JlsName()
+	name := class.NameJlsFormat()
 	nameObj := rtda.NewJString(name, frame)
 
 	stack := frame.OperandStack()

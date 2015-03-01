@@ -57,7 +57,7 @@ func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) []*StackTraceEle
 		lineNumber := methodN.GetLineNumber(frameN.NextPC() - 1)
 
 		ste := &StackTraceElement{
-			declaringClass: classN.JlsName(),
+			declaringClass: classN.NameJlsFormat(),
 			methodName:     methodN.Name(),
 			fileName:       classN.Attributes().SourceFile(),
 			lineNumber:     lineNumber,

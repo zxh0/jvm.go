@@ -42,8 +42,8 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
 
 func (self *Class) copyAttributes(cf *classfile.ClassFile) {
 	self.attributes = &Attributes{
-		sourceFile: getSourceFile(cf),
-		annotationData: getAnnotationData(cf),
+		sourceFile:      getSourceFile(cf),
+		annotationData:  getAnnotationData(cf),
 		enclosingMethod: getEnclosingMethod(cf),
 	}
 }
@@ -66,8 +66,8 @@ func getEnclosingMethod(cf *classfile.ClassFile) *EnclosingMethod {
 	if emAttr := cf.EnclosingMethodAttribute(); emAttr != nil {
 		methodName, methodDescriptor := emAttr.MethodNameAndDescriptor()
 		return &EnclosingMethod{
-			className: emAttr.ClassName(),
-			methodName: methodName,
+			className:        emAttr.ClassName(),
+			methodName:       methodName,
 			methodDescriptor: methodDescriptor,
 		}
 	}

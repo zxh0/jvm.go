@@ -110,7 +110,17 @@ func getConstantPool(frame *rtda.Frame) {
 // private native Object[] getEnclosingMethod0();
 // ()[Ljava/lang/Object;
 func getEnclosingMethod0(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
 
+	class := this.Extra().(*rtc.Class)
+	emInfo := class.Attributes().EnclosingMethodInfo()
+	if emInfo == nil {
+		frame.OperandStack().PushRef(nil)
+		return
+	}
+
+	
 	// todo
 	panic("getEnclosingMethod0")
 }

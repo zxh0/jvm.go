@@ -10,6 +10,7 @@ import (
 
 func init() {
 	_fis(fis_initIDs, "initIDs", "()V")
+	_fis(close0, "close0", "()V")
 	_fis(readBytes, "readBytes", "([BII)I")
 	_fis(open, "open", "(Ljava/lang/String;)V")
 }
@@ -22,6 +23,20 @@ func _fis(method Any, name, desc string) {
 // ()V
 func fis_initIDs(frame *rtda.Frame) {
 	// todo
+}
+
+// private native void close0() throws IOException;
+// ()V
+func close0(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+
+	goFile := this.Extra().(*os.File)
+	err := goFile.Close()
+	if err != nil {
+		// todo
+		panic("IOException")
+	}
 }
 
 // private native void open(String name) throws FileNotFoundException;
@@ -60,6 +75,6 @@ func readBytes(frame *rtda.Frame) {
 		frame.OperandStack().PushInt(int32(n))
 	} else {
 		// todo
-		panic("IOException!")
+		panic("IOException")
 	}
 }

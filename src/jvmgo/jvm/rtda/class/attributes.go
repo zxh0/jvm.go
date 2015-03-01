@@ -1,5 +1,11 @@
 package class
 
+type EnclosingMethod struct {
+	className        string
+	methodName       string
+	methodDescriptor string
+}
+
 type Attributes struct {
 	sourceFile      string
 	annotationData  []int8 // RuntimeVisibleAnnotations_attribute
@@ -16,10 +22,4 @@ func (self *Attributes) EnclosingMethodInfo() (string, string, string) {
 	return self.enclosingMethod.className,
 		self.enclosingMethod.methodName,
 		self.enclosingMethod.methodDescriptor
-}
-
-type EnclosingMethod struct {
-	className        string
-	methodName       string
-	methodDescriptor string
 }

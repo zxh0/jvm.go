@@ -41,15 +41,35 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
 }
 
 func (self *Class) copyAttributes(cf *classfile.ClassFile) {
-	self.attributes = &Attributes{}
+	self.attributes = &Attributes{
+		sourceFile: getSourceFile(cf),
+		annotationData: getAnnotationData(cf),
+		enclosingMethod: getEnclosingMethod(cf),
+	}
+}
 
+func getSourceFile(cf *classfile.ClassFile) string {
 	if sfAttr := cf.SourceFileAttribute(); sfAttr != nil {
-		self.attributes.sourceFile = sfAttr.FileName()
-	} else {
-		self.attributes.sourceFile = "Unknown" // todo
+		return sfAttr.FileName()
 	}
+	return "Unknown" // todo
+}
 
+func getAnnotationData(cf *classfile.ClassFile) []int8 {
 	if rvaAttr := cf.RuntimeVisibleAnnotationsAttribute(); rvaAttr != nil {
-		self.attributes.annotationData = util.CastUint8sToInt8s(rvaAttr.Info())
+		return util.CastUint8sToInt8s(rvaAttr.Info())
 	}
+	return nil
+}
+
+func getEnclosingMethod(cf *classfile.ClassFile) *EnclosingMethod {
+	if emAttr := cf.EnclosingMethodAttribute(); emAttr != nil {
+		methodName, methodDescriptor := emAttr.MethodNameAndDescriptor()
+		return &EnclosingMethod{
+			className: emAttr.ClassName(),
+			methodName: methodName,
+			methodDescriptor: methodDescriptor,
+		}
+	}
+	return nil
 }

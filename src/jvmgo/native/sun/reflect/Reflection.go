@@ -1,14 +1,13 @@
 package reflect
 
 import (
-	//"unsafe"
 	. "jvmgo/any"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )
 
 func init() {
-	_reflection(getCallerClass, "getCallerClass", "(I)Ljava/lang/Class;")
+	_reflection(getCallerClass, "getCallerClass", "()Ljava/lang/Class;")
 	_reflection(getClassAccessFlags, "getClassAccessFlags", "(Ljava/lang/Class;)I")
 }
 
@@ -19,12 +18,12 @@ func _reflection(method Any, name, desc string) {
 // public static native Class<?> getCallerClass(int i);
 // (I)Ljava/lang/Class;
 func getCallerClass(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	i := uint(vars.GetInt(0))
-
-	callerClass := frame.Thread().TopFrameN(i).Method().Class().JClass()
-	stack := frame.OperandStack()
-	stack.PushRef(callerClass)
+	// top0 is sun/reflect/Reflection
+	// top1 is the caller of getCallerClass()
+	// top2 is the caller of method
+	callerFrame := frame.Thread().TopFrameN(2)
+	callerClass := callerFrame.Method().Class().JClass()
+	frame.OperandStack().PushRef(callerClass)
 }
 
 // public static native int getClassAccessFlags(Class<?> type);

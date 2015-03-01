@@ -7,4 +7,4 @@ My dev environment:
   * Java 1.8.0_31
   * Go 1.4
 
-Where to fine rt.jar: /Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/jre/lib/rt.jar
+Where to find rt.jar: /Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/jre/lib/rt.jar

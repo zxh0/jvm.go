@@ -11,6 +11,7 @@ func init() {
 	_object(clone, "clone", "()Ljava/lang/Object;")
 	_object(getClass, "getClass", "()Ljava/lang/Class;")
 	_object(hashCode, "hashCode", "()I")
+	_object(notifyAll, "notifyAll", "()V")
 	_object(wait, "wait", "(J)V")
 }
 
@@ -51,7 +52,22 @@ func hashCode(frame *rtda.Frame) {
 }
 
 // public final native void notify();
+
 // public final native void notifyAll();
+// ()V
+func notifyAll(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+
+	thread := frame.Thread()
+	monitor := this.Monitor()
+	if !monitor.HasOwner(thread) {
+		// todo
+		panic("IllegalMonitorStateException")
+	}
+
+	monitor.NotifyAll()
+}
 
 // public final native void wait(long timeout) throws InterruptedException;
 // (J)V

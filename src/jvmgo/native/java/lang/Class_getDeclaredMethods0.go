@@ -1,6 +1,7 @@
 package lang
 
 import (
+	. "jvmgo/any"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )
@@ -36,7 +37,7 @@ func init() {
 // (Z)[Ljava/lang/reflect/Method;
 func getDeclaredMethods0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	classObj := vars.GetRef(0) // this
+	classObj := vars.GetThis()
 	publicOnly := vars.GetBoolean(1)
 
 	class := classObj.Extra().(*rtc.Class)
@@ -57,25 +58,29 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 			methodObj := methodClass.NewObjWithExtra(method)
 			methodObjs[i] = methodObj
 
-			nameStr := rtda.NewJString(method.Name(), frame)
-			annotationData := rtc.NewByteArray(method.AnnotationData(), frame.ClassLoader())
-
-			// call <init>
-			newFrame := thread.NewFrame(methodConstructor)
-			vars := newFrame.LocalVars()
-			vars.SetRef(0, methodObj)                             // this
-			vars.SetRef(1, classObj)                              // declaringClass
-			vars.SetRef(2, nameStr)                               // name
-			vars.SetRef(3, getParameterTypeArr(method))           // parameterTypes
-			vars.SetRef(4, getReturnType(method))                 // returnType
-			vars.SetRef(5, nil)                                   // todo checkedExceptions
-			vars.SetInt(6, int32(method.GetAccessFlags()))        // modifiers
-			vars.SetInt(7, int32(0))                              // todo slot
-			vars.SetRef(8, nil)                                   // todo signature
-			vars.SetRef(9, annotationData)                        // annotations
-			vars.SetRef(10, nil)                                  // todo parameterAnnotations
-			vars.SetRef(11, nil)                                  // todo annotationDefault
-			thread.PushFrame(newFrame)
+			// init method obj
+			args := _methodConstructorArgs(classObj, methodObj, method)
+			thread.InvokeMethodWithShim(methodConstructor, args)
 		}
+	}
+}
+
+func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []Any {
+	nameObj := rtda.NewJString(method.Name(), method)
+	annotationData := rtc.NewByteArray(method.AnnotationData(), method.ClassLoader())
+
+	return []Any{
+		methodObj,                   // this
+		classObj,                    // declaringClass
+		nameObj,                     // name
+		getParameterTypeArr(method), // parameterTypes
+		getReturnType(method),       // returnType
+		nil, // todo checkedExceptions
+		int32(method.GetAccessFlags()), // modifiers
+		int32(0),                       // todo slot
+		nil,                            // todo signature
+		annotationData,                 // annotations
+		nil,                            // todo parameterAnnotations
+		nil,                            // todo annotationDefault
 	}
 }

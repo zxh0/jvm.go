@@ -29,7 +29,7 @@ func newInstance0(frame *rtda.Frame) {
 	stack.PushRef(obj)
 
 	// call <init>
-	args := actualConstructorArgs(obj, argArrObj, goConstructor)
+	args := convertArgs(obj, argArrObj, goConstructor)
 	frame.Thread().InvokeMethodWithShim(goConstructor, args)
 }
 
@@ -41,34 +41,4 @@ func getExtra(constructorObj *rtc.Obj) *rtc.Method {
 
 	root := constructorObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").(*rtc.Obj)
 	return root.Extra().(*rtc.Method)
-}
-
-func actualConstructorArgs(this, argArr *rtc.Obj, constructor *rtc.Method) []Any {
-	if constructor.ArgCount() == 0 {
-		return []Any{this}
-	}
-
-	argObjs := argArr.Fields().([]*rtc.Obj)
-	argTypes := constructor.MethodDescriptor().ParameterTypes()
-
-	argsPlusThis := make([]Any, len(argObjs)+1)
-	argsPlusThis[0] = this
-	for i, argType := range argTypes {
-		argObj := argObjs[i]
-
-		if argType.IsBaseType() {
-			// todo
-			unboxed := unbox(argObj, argType.Descriptor())
-			argsPlusThis[i+1] = unboxed
-		} else {
-			argsPlusThis[i+1] = argObj
-		}
-	}
-
-	return argsPlusThis
-}
-
-func unbox(obj *rtc.Obj, descriptor string) Any {
-	// todo
-	return obj.GetFieldValue("value", descriptor)
 }

@@ -81,7 +81,7 @@ func (self *Method) Code() []byte {
 func (self *Method) SetCode(code []byte) {
 	self.code = code
 }
-func (self *Method) MethodDescriptor() *MethodDescriptor {
+func (self *Method) ParsedDescriptor() *MethodDescriptor {
 	return self.md
 }
 

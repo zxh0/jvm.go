@@ -9,7 +9,7 @@ func (self *Method) ParameterTypes() []*Class {
 
 	classLoader := self.class.classLoader
 	paramClasses := make([]*Class, self.argCount)
-	for i, paramType := range self.MethodDescriptor().parameterTypes {
+	for i, paramType := range self.md.parameterTypes {
 		paramClassName := getClassName(paramType.descriptor)
 		paramClasses[i] = classLoader.LoadClass(paramClassName)
 	}
@@ -18,7 +18,7 @@ func (self *Method) ParameterTypes() []*Class {
 }
 
 func (self *Method) ReturnType() *Class {
-	returnDescriptor := self.MethodDescriptor().returnType.descriptor
+	returnDescriptor := self.md.returnType.descriptor
 	returnClassName := getClassName(returnDescriptor)
 	returnClass := self.class.classLoader.LoadClass(returnClassName)
 	return returnClass

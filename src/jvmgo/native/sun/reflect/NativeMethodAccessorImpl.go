@@ -17,5 +17,52 @@ func _nmai(method Any, name, desc string) {
 // private static native Object invoke0(Method method, Object o, Object[] os);
 // (Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
 func invoke0(frame *rtda.Frame) {
-	panic("invoke0")
+	stack := frame.OperandStack()
+	if stack.IsEmpty() {
+		frame.RevertNextPC()
+		_invoke(frame)
+		return
+	}
+
+	// catch return value
+	if stack.IsEmpty() {
+		stack.PushNull()
+		return
+	}
+	retVal := stack.Pop()
+	if retVal == nil {
+		stack.PushNull()
+		return
+	}
+	switch retVal.(type) {
+		default: panic("asdfadsfadsfdsf")
+	}
+}
+
+func _invoke(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	methodObj := vars.GetRef(0)
+	obj := vars.GetRef(1)
+	argArrObj := vars.GetRef(2)
+	
+	goMethod := getExtra2(methodObj)
+	args := convertArgs(obj, argArrObj, goMethod)
+
+	stack := frame.OperandStack()
+	stack.HackSetSlots(args)
+	if stack.IsEmpty() {
+		stack.HackSetSlots([]Any{nil}) // make room for return value
+	}
+
+	frame.Thread().InvokeMethod(goMethod)
+}
+
+func getExtra2(constructorObj *rtc.Obj) *rtc.Method {
+	extra := constructorObj.Extra()
+	if extra != nil {
+		return extra.(*rtc.Method)
+	}
+
+	root := constructorObj.GetFieldValue("root", "Ljava/lang/reflect/Method;").(*rtc.Obj)
+	return root.Extra().(*rtc.Method)
 }

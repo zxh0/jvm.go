@@ -19,6 +19,10 @@ func newOperandStack(size uint) *OperandStack {
 	}
 }
 
+func (self *OperandStack) IsEmpty() bool {
+	return self.size == 0
+}
+
 func (self *OperandStack) PushNull() {
 	self.Push(nil)
 }
@@ -94,4 +98,9 @@ func (self *OperandStack) PopTops(n uint) []Any {
 }
 func (self *OperandStack) Top(n uint) Any {
 	return self.slots[self.size-1-n]
+}
+
+// only used by native methods
+func (self *OperandStack) HackSetSlots(slots []Any) {
+	self.slots = slots
 }

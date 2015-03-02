@@ -4,6 +4,7 @@ import (
 	"fmt"
 	. "jvmgo/any"
 	cf "jvmgo/classfile"
+	"jvmgo/util"
 	"strings"
 )
 
@@ -51,6 +52,9 @@ func (self *Method) copyAttributes(methodInfo *cf.MethodInfo) {
 		if len(codeAttr.ExceptionTable()) > 0 {
 			self.copyExceptionTable(codeAttr.ExceptionTable(), rtCp)
 		}
+	}
+	if rvaAttr := methodInfo.RuntimeVisibleAnnotationsAttribute(); rvaAttr != nil {
+		self.annotationData = util.CastUint8sToInt8s(rvaAttr.Info())
 	}
 }
 

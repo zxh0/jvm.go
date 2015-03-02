@@ -49,6 +49,9 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 		case *cf.ConstantInterfaceMethodrefInfo:
 			methodrefInfo := cpInfo.(*cf.ConstantInterfaceMethodrefInfo)
 			consts[i] = newConstantInterfaceMethodref(rtCp, methodrefInfo)
+		case *cf.ConstantUtf8Info:
+			utf8Info := cpInfo.(*cf.ConstantUtf8Info)
+			consts[i] = newConstantUtf8(utf8Info)
 		default:
 			// todo
 			//fmt.Printf("%v \n", cpInfo)

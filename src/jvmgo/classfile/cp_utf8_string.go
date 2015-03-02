@@ -14,6 +14,9 @@ type ConstantUtf8Info struct {
 func (self *ConstantUtf8Info) readInfo(reader *ClassReader) {
 	self.str = reader.readString()
 }
+func (self *ConstantUtf8Info) Str() string {
+	return self.str
+}
 
 /*
 CONSTANT_String_info {

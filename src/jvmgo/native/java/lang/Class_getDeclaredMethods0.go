@@ -56,19 +56,23 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 		for i, method := range methods {
 			methodObj := methodClass.NewObjWithExtra(method)
 			methodObjs[i] = methodObj
+
+			nameStr := rtda.NewJString(method.Name(), frame)
+			annotationData := rtc.NewByteArray(method.AnnotationData(), frame.ClassLoader())
+
 			// call <init>
 			newFrame := thread.NewFrame(methodConstructor)
 			vars := newFrame.LocalVars()
 			vars.SetRef(0, methodObj)                             // this
 			vars.SetRef(1, classObj)                              // declaringClass
-			vars.SetRef(2, rtda.NewJString(method.Name(), frame)) // name
+			vars.SetRef(2, nameStr)                               // name
 			vars.SetRef(3, getParameterTypeArr(method))           // parameterTypes
 			vars.SetRef(4, getReturnType(method))                 // returnType
 			vars.SetRef(5, nil)                                   // todo checkedExceptions
 			vars.SetInt(6, int32(method.GetAccessFlags()))        // modifiers
 			vars.SetInt(7, int32(0))                              // todo slot
 			vars.SetRef(8, nil)                                   // todo signature
-			vars.SetRef(9, nil)                                   // todo annotations
+			vars.SetRef(9, annotationData)                        // annotations
 			vars.SetRef(10, nil)                                  // todo parameterAnnotations
 			vars.SetRef(11, nil)                                  // todo annotationDefault
 			thread.PushFrame(newFrame)

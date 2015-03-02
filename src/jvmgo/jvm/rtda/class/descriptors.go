@@ -8,6 +8,9 @@ type MethodDescriptor struct {
 func (self *MethodDescriptor) ParameterTypes() []*FieldType {
 	return self.parameterTypes
 }
+func (self *MethodDescriptor) ReturnType() *FieldType {
+	return self.returnType
+}
 
 // parameterCount()
 func (self *MethodDescriptor) argCount() uint {

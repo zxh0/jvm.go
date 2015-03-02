@@ -22,7 +22,10 @@ func invoke0(frame *rtda.Frame) {
 		frame.RevertNextPC()
 		_invokeMethod(frame)
 	} else {
-		_convertReturnValue(stack)
+		returnType := frame.LocalVars().Get(0).(*rtc.FieldType)
+		if returnType.IsBaseType() && !returnType.IsVoidType() {
+			_boxReturnValue(frame, returnType)
+		}
 	}
 }
 
@@ -34,6 +37,9 @@ func _invokeMethod(frame *rtda.Frame) {
 	
 	goMethod := getGoMethod(methodObj)
 	args := convertArgs(obj, argArrObj, goMethod)
+	// remember boolean return type
+	returnType := goMethod.ParsedDescriptor().ReturnType()
+	vars.Set(0, returnType)
 
 	stack := frame.OperandStack()
 	if len(args) > 0 {
@@ -44,29 +50,36 @@ func _invokeMethod(frame *rtda.Frame) {
 	}
 
 	frame.Thread().InvokeMethod(goMethod)
+	if returnType.IsVoidType() {
+		stack.PushNull()
+	}
 }
 
-func _convertReturnValue(stack *rtda.OperandStack) {
-	if stack.IsEmpty() {
-		stack.PushNull()
-		return
+func _boxReturnValue(frame *rtda.Frame, returnType *rtc.FieldType) {
+	stack := frame.OperandStack()
+
+	switch returnType.Descriptor()[0] {
+		case 'B': _boxBoolean(stack.PopBoolean(), frame)
+		case 'I': _boxInt(stack.PopInt(), frame)
+	}
+}
+
+func _boxBoolean(val bool, frame *rtda.Frame) {
+	// todo init boolean class?
+	booleanClass := frame.ClassLoader().LoadClass("java/lang/Boolean")
+	if booleanClass.InitializationNotStarted() {
+		panic("todo: init java/lang/Boolean")
 	}
 
-	retVal := stack.Pop()
-	if retVal == nil {
-		stack.PushNull()
-		return
-	}
-
-	if ref, ok := retVal.(*rtc.Obj); ok {
-		stack.PushRef(ref)
+	if val {
+		boxed := booleanClass.GetStaticValue("TRUE", "Ljava/lang/Boolean;").(*rtc.Obj)
+		frame.OperandStack().PushRef(boxed)
 	} else {
-		boxed := _box(retVal)
-		stack.PushRef(boxed)
+		boxed := booleanClass.GetStaticValue("FALSE", "Ljava/lang/Boolean;").(*rtc.Obj)
+		frame.OperandStack().PushRef(boxed)
 	}
 }
 
-func _box(val Any) *rtc.Obj {
+func _boxInt(val int32, frame *rtda.Frame) {
 	// todo
-	return nil
 }

@@ -23,6 +23,9 @@ func (self *FieldType) Descriptor() string {
 func (self *FieldType) IsBaseType() bool {
 	return len(self.descriptor) == 1
 }
+func (self *FieldType) IsVoidType() bool {
+	return self.descriptor == "V"
+}
 func (self *FieldType) IsObjectType() bool {
 	return self.descriptor[0] == 'L'
 }

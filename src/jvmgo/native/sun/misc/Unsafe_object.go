@@ -20,6 +20,7 @@ func init() {
 	_unsafe(putOrderedObject, "putOrderedObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getOrderedObject, "getOrderedObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
 	_unsafe(getIntVolatile, "getIntVolatile", "(Ljava/lang/Object;J)I")
+	_unsafe(getLongVolatile, "getLongVolatile", "(Ljava/lang/Object;J)J")
 }
 
 // public final native boolean compareAndSwapInt(Object o, long offset, int expected, int x);
@@ -196,4 +197,16 @@ func getIntVolatile(frame *rtda.Frame) {
 	// todo
 	value := obj.Fields().([]Any)[offset].(int32)
 	frame.OperandStack().PushInt(value)
+}
+
+// public native long getLongVolatile(Object o, long offset);
+// (Ljava/lang/Object;J)J
+func getLongVolatile(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	obj := vars.GetRef(1)
+	offset := vars.GetLong(2)
+
+	// todo
+	value := obj.Fields().([]Any)[offset].(int64)
+	frame.OperandStack().PushLong(value)
 }

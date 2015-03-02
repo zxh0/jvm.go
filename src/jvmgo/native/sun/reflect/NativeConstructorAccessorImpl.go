@@ -22,7 +22,7 @@ func newInstance0(frame *rtda.Frame) {
 	constructorObj := vars.GetRef(0)
 	argArrObj := vars.GetRef(1)
 
-	goConstructor := getExtra(constructorObj)
+	goConstructor := getGoConstructor(constructorObj)
 	goClass := goConstructor.Class()
 	obj := goClass.NewObj()
 	stack := frame.OperandStack()
@@ -31,14 +31,4 @@ func newInstance0(frame *rtda.Frame) {
 	// call <init>
 	args := convertArgs(obj, argArrObj, goConstructor)
 	frame.Thread().InvokeMethodWithShim(goConstructor, args)
-}
-
-func getExtra(constructorObj *rtc.Obj) *rtc.Method {
-	extra := constructorObj.Extra()
-	if extra != nil {
-		return extra.(*rtc.Method)
-	}
-
-	root := constructorObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").(*rtc.Obj)
-	return root.Extra().(*rtc.Method)
 }

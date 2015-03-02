@@ -45,7 +45,7 @@ func _invoke(frame *rtda.Frame) {
 	obj := vars.GetRef(1)
 	argArrObj := vars.GetRef(2)
 	
-	goMethod := getExtra2(methodObj)
+	goMethod := getGoMethod(methodObj)
 	args := convertArgs(obj, argArrObj, goMethod)
 
 	stack := frame.OperandStack()
@@ -55,14 +55,4 @@ func _invoke(frame *rtda.Frame) {
 	}
 
 	frame.Thread().InvokeMethod(goMethod)
-}
-
-func getExtra2(constructorObj *rtc.Obj) *rtc.Method {
-	extra := constructorObj.Extra()
-	if extra != nil {
-		return extra.(*rtc.Method)
-	}
-
-	root := constructorObj.GetFieldValue("root", "Ljava/lang/reflect/Method;").(*rtc.Obj)
-	return root.Extra().(*rtc.Method)
 }

@@ -20,26 +20,13 @@ func invoke0(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	if stack.IsEmpty() {
 		frame.RevertNextPC()
-		_invoke(frame)
-		return
-	}
-
-	// catch return value
-	if stack.IsEmpty() {
-		stack.PushNull()
-		return
-	}
-	retVal := stack.Pop()
-	if retVal == nil {
-		stack.PushNull()
-		return
-	}
-	switch retVal.(type) {
-		default: panic("asdfadsfadsfdsf")
+		_invokeMethod(frame)
+	} else {
+		_convertReturnValue(stack)
 	}
 }
 
-func _invoke(frame *rtda.Frame) {
+func _invokeMethod(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	methodObj := vars.GetRef(0)
 	obj := vars.GetRef(1)
@@ -49,10 +36,37 @@ func _invoke(frame *rtda.Frame) {
 	args := convertArgs(obj, argArrObj, goMethod)
 
 	stack := frame.OperandStack()
-	stack.HackSetSlots(args)
-	if stack.IsEmpty() {
-		stack.HackSetSlots([]Any{nil}) // make room for return value
+	if len(args) > 0 {
+		stack.HackSetSlots(args)
+	} else {
+		// make room for return value
+		stack.HackSetSlots([]Any{nil})
 	}
 
 	frame.Thread().InvokeMethod(goMethod)
+}
+
+func _convertReturnValue(stack *rtda.OperandStack) {
+	if stack.IsEmpty() {
+		stack.PushNull()
+		return
+	}
+
+	retVal := stack.Pop()
+	if retVal == nil {
+		stack.PushNull()
+		return
+	}
+
+	if ref, ok := retVal.(*rtc.Obj); ok {
+		stack.PushRef(ref)
+	} else {
+		boxed := _box(retVal)
+		stack.PushRef(boxed)
+	}
+}
+
+func _box(val Any) *rtc.Obj {
+	// todo
+	return nil
 }

@@ -33,6 +33,16 @@ func newInstance0(frame *rtda.Frame) {
 	frame.Thread().InvokeMethodWithShim(goConstructor, args)
 }
 
+func getExtra(constructorObj *rtc.Obj) *rtc.Method {
+	extra := constructorObj.Extra()
+	if extra != nil {
+		return extra.(*rtc.Method)
+	}
+
+	root := constructorObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").(*rtc.Obj)
+	return root.Extra().(*rtc.Method)
+}
+
 func actualConstructorArgs(this, argArr *rtc.Obj, constructor *rtc.Method) []Any {
 	if constructor.ArgCount() == 0 {
 		return []Any{this}
@@ -56,16 +66,6 @@ func actualConstructorArgs(this, argArr *rtc.Obj, constructor *rtc.Method) []Any
 	}
 
 	return argsPlusThis
-}
-
-func getExtra(constructorObj *rtc.Obj) *rtc.Method {
-	extra := constructorObj.Extra()
-	if extra != nil {
-		return extra.(*rtc.Method)
-	}
-
-	root := constructorObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").(*rtc.Obj)
-	return root.Extra().(*rtc.Method)
 }
 
 func unbox(obj *rtc.Obj, descriptor string) Any {

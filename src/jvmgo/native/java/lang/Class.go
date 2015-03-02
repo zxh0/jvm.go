@@ -10,7 +10,7 @@ import (
 
 func init() {
 	_class(desiredAssertionStatus0, "desiredAssertionStatus0", "(Ljava/lang/Class;)Z")
-	_class(forName0, "forName0", "(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;")
+	_class(forName0, "forName0", "(Ljava/lang/String;ZLjava/lang/ClassLoader;Ljava/lang/Class;)Ljava/lang/Class;")
 	_class(getClassLoader0, "getClassLoader0", "()Ljava/lang/ClassLoader;")
 	_class(getComponentType, "getComponentType", "()Ljava/lang/Class;")
 	_class(getConstantPool, "getConstantPool", "()Lsun/reflect/ConstantPool;")
@@ -40,8 +40,11 @@ func desiredAssertionStatus0(frame *rtda.Frame) {
 	stack.PushBoolean(false)
 }
 
-// private static native Class<?> forName0(String name, boolean initialize, ClassLoader loader) throws ClassNotFoundException;
-// (Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;
+// private static native Class<?> forName0(String name, boolean initialize,
+//                                         ClassLoader loader,
+//                                         Class<?> caller)
+//     throws ClassNotFoundException;
+// (Ljava/lang/String;ZLjava/lang/ClassLoader;Ljava/lang/Class;)Ljava/lang/Class;
 func forName0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	jName := vars.GetRef(0)

@@ -56,30 +56,30 @@ func _invokeMethod(frame *rtda.Frame) {
 }
 
 func _boxReturnValue(frame *rtda.Frame, returnType *rtc.FieldType) {
-	stack := frame.OperandStack()
+	val := frame.OperandStack().Pop()
+	frame.LocalVars().Set(0, val) // parameter of valueOf()
 
 	switch returnType.Descriptor()[0] {
-		case 'B': _boxBoolean(stack.PopBoolean(), frame)
-		case 'I': _boxInt(stack.PopInt(), frame)
+		case 'Z': _callValueOf(frame, "Z", "java/lang/Boolean")
+		case 'B': _callValueOf(frame, "B", "java/lang/Byte")
+		case 'C': _callValueOf(frame, "C", "java/lang/Character")
+		case 'S': _callValueOf(frame, "S", "java/lang/Short")
+		case 'I': _callValueOf(frame, "I", "java/lang/Integer")
+		case 'L': _callValueOf(frame, "L", "java/lang/Long")
+		case 'F': _callValueOf(frame, "F", "java/lang/Float")
+		case 'D': _callValueOf(frame, "D", "java/lang/Double")
+		default: panic("Not primitive type: " + returnType.Descriptor())
 	}
 }
 
-func _boxBoolean(val bool, frame *rtda.Frame) {
-	// todo init boolean class?
-	booleanClass := frame.ClassLoader().LoadClass("java/lang/Boolean")
-	if booleanClass.InitializationNotStarted() {
-		panic("todo: init java/lang/Boolean")
+func _callValueOf(frame *rtda.Frame, primitiveDescriptor, wrapperClassName string) {
+	// todo: init wrapper class?
+	wrapperClass := frame.ClassLoader().LoadClass(wrapperClassName)
+	if wrapperClass.InitializationNotStarted() {
+		panic("todo: init " + wrapperClassName)
 	}
 
-	if val {
-		boxed := booleanClass.GetStaticValue("TRUE", "Ljava/lang/Boolean;").(*rtc.Obj)
-		frame.OperandStack().PushRef(boxed)
-	} else {
-		boxed := booleanClass.GetStaticValue("FALSE", "Ljava/lang/Boolean;").(*rtc.Obj)
-		frame.OperandStack().PushRef(boxed)
-	}
-}
-
-func _boxInt(val int32, frame *rtda.Frame) {
-	// todo
+	d := "(" + primitiveDescriptor + ")L" + wrapperClassName + ";"
+	valueOfMethod := wrapperClass.GetStaticMethod("valueOf", d)
+	frame.Thread().InvokeMethod(valueOfMethod)
 }

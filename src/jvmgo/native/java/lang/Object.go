@@ -24,9 +24,10 @@ func _object(method Any, name, desc string) {
 func clone(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
+
 	// todo
 	stack := frame.OperandStack()
-	stack.PushRef(this)
+	stack.PushRef(this.Clone())
 }
 
 // public final native Class<?> getClass();

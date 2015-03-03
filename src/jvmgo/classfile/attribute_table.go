@@ -24,6 +24,16 @@ func (self *AttributeTable) EnclosingMethodAttribute() *EnclosingMethodAttribute
 	return nil
 }
 
+func (self *AttributeTable) ExceptionsAttribute() *ExceptionsAttribute {
+	for _, attrInfo := range self.attributes {
+		switch attrInfo.(type) {
+		case *ExceptionsAttribute:
+			return attrInfo.(*ExceptionsAttribute)
+		}
+	}
+	return nil
+}
+
 func (self *AttributeTable) LineNumberTableAttribute() *LineNumberTableAttribute {
 	for _, attrInfo := range self.attributes {
 		switch attrInfo.(type) {

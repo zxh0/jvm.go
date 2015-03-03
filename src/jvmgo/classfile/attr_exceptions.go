@@ -19,3 +19,7 @@ func (self *ExceptionsAttribute) readInfo(reader *ClassReader, attrLen uint32) {
 		self.exceptionIndexTable[i] = reader.readUint16()
 	}
 }
+
+func (self *ExceptionsAttribute) ExceptionIndexTable() []uint16 {
+	return self.exceptionIndexTable
+}

@@ -24,11 +24,12 @@ type Method struct {
 	maxStack        uint
 	maxLocals       uint
 	argCount        uint
+	md              *MethodDescriptor
 	annotationData  []int8 // RuntimeVisibleAnnotations_attribute
 	code            []byte
 	lineNumberTable *cf.LineNumberTableAttribute
+	exceptions      *cf.ExceptionsAttribute
 	nativeMethod    Any // cannot use package 'native' because of cycle import!
-	md              *MethodDescriptor
 }
 
 func newMethod(class *Class, methodInfo *cf.MethodInfo) *Method {
@@ -48,6 +49,7 @@ func (self *Method) copyAttributes(methodInfo *cf.MethodInfo) {
 		self.maxStack = codeAttr.MaxStack()
 		self.maxLocals = codeAttr.MaxLocals()
 		self.lineNumberTable = codeAttr.LineNumberTableAttribute()
+		self.exceptions = methodInfo.ExceptionsAttribute()
 		rtCp := self.class.constantPool
 		if len(codeAttr.ExceptionTable()) > 0 {
 			self.copyExceptionTable(codeAttr.ExceptionTable(), rtCp)
@@ -72,6 +74,9 @@ func (self *Method) MaxLocals() uint {
 func (self *Method) ArgCount() uint {
 	return self.argCount
 }
+func (self *Method) ParsedDescriptor() *MethodDescriptor {
+	return self.md
+}
 func (self *Method) AnnotationData() []int8 {
 	return self.annotationData
 }
@@ -80,9 +85,6 @@ func (self *Method) Code() []byte {
 }
 func (self *Method) SetCode(code []byte) {
 	self.code = code
-}
-func (self *Method) ParsedDescriptor() *MethodDescriptor {
-	return self.md
 }
 
 func (self *Method) NativeMethod() Any {

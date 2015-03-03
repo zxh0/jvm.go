@@ -70,12 +70,12 @@ func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []
 	annotationData := rtc.NewByteArray(method.AnnotationData(), method.ClassLoader())
 
 	return []Any{
-		methodObj,                   // this
-		classObj,                    // declaringClass
-		nameObj,                     // name
-		getParameterTypeArr(method), // parameterTypes
-		getReturnType(method),       // returnType
-		nil, // todo checkedExceptions
+		methodObj,                      // this
+		classObj,                       // declaringClass
+		nameObj,                        // name
+		getParameterTypeArr(method),    // parameterTypes
+		getReturnType(method),          // returnType
+		getExceptionTypeArr(method),    // checkedExceptions
 		int32(method.GetAccessFlags()), // modifiers
 		int32(0),                       // todo slot
 		nil,                            // todo signature

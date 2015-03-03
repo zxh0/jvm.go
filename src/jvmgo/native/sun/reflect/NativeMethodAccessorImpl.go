@@ -34,7 +34,7 @@ func _invokeMethod(frame *rtda.Frame) {
 	methodObj := vars.GetRef(0)
 	obj := vars.GetRef(1)
 	argArrObj := vars.GetRef(2)
-	
+
 	goMethod := getGoMethod(methodObj)
 	args := convertArgs(obj, argArrObj, goMethod)
 	// remember boolean return type
@@ -60,15 +60,24 @@ func _boxReturnValue(frame *rtda.Frame, returnType *rtc.FieldType) {
 	frame.LocalVars().Set(0, val) // parameter of valueOf()
 
 	switch returnType.Descriptor()[0] {
-		case 'Z': _callValueOf(frame, "Z", "java/lang/Boolean")
-		case 'B': _callValueOf(frame, "B", "java/lang/Byte")
-		case 'C': _callValueOf(frame, "C", "java/lang/Character")
-		case 'S': _callValueOf(frame, "S", "java/lang/Short")
-		case 'I': _callValueOf(frame, "I", "java/lang/Integer")
-		case 'L': _callValueOf(frame, "L", "java/lang/Long")
-		case 'F': _callValueOf(frame, "F", "java/lang/Float")
-		case 'D': _callValueOf(frame, "D", "java/lang/Double")
-		default: panic("Not primitive type: " + returnType.Descriptor())
+	case 'Z':
+		_callValueOf(frame, "Z", "java/lang/Boolean")
+	case 'B':
+		_callValueOf(frame, "B", "java/lang/Byte")
+	case 'C':
+		_callValueOf(frame, "C", "java/lang/Character")
+	case 'S':
+		_callValueOf(frame, "S", "java/lang/Short")
+	case 'I':
+		_callValueOf(frame, "I", "java/lang/Integer")
+	case 'L':
+		_callValueOf(frame, "L", "java/lang/Long")
+	case 'F':
+		_callValueOf(frame, "F", "java/lang/Float")
+	case 'D':
+		_callValueOf(frame, "D", "java/lang/Double")
+	default:
+		panic("Not primitive type: " + returnType.Descriptor())
 	}
 }
 

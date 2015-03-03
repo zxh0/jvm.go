@@ -48,6 +48,11 @@ func (self *Obj) _cloneFields() Any {
 		fields2 := make([]float64, len(fields))
 		copy(fields2, fields)
 		return fields2
+	case []*Obj:
+		fields := self.fields.([]*Obj)
+		fields2 := make([]*Obj, len(fields))
+		copy(fields2, fields)
+		return fields2
 	default: // []Any
 		fields := self.fields.([]Any)
 		fields2 := make([]Any, len(fields))

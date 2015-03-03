@@ -149,7 +149,18 @@ func (self *ClassLoader) LoadClass(name string) *Class {
 }
 
 func (self *ClassLoader) reallyLoadClass(name string) *Class {
-	cpEntry, class := self.parseClassFile(name)
+	cpEntry, data := self.readClassData(name)
+	class := self._loadClass(name, data)
+
+	if options.VerboseClass {
+		fmt.Printf("[Loaded %s from %s]\n", name, cpEntry)
+	}
+
+	return class
+}
+
+func (self *ClassLoader) _loadClass(name string, data []byte) *Class {
+	class := self.parseClassData(name, data)
 	hackClass(class)
 	self.resolveSuperClass(class)
 	self.resolveInterfaces(class)
@@ -166,26 +177,27 @@ func (self *ClassLoader) reallyLoadClass(name string) *Class {
 		class.jClass.extra = class
 	}
 
-	if options.VerboseClass {
-		fmt.Printf("[Loaded %s from %s]\n", name, cpEntry)
-	}
 	return class
 }
 
-func (self *ClassLoader) parseClassFile(name string) (classpath.ClassPathEntry, *Class) {
+func (self *ClassLoader) readClassData(name string) (classpath.ClassPathEntry, []byte) {
 	cpEntry, classData, err := self.classPath.ReadClassData(name)
 	if err != nil {
 		// todo
 		panic("class not found: " + name + "!")
 	}
 
-	cf, err := classfile.ParseClassFile(classData)
+	return cpEntry, classData
+}
+
+func (self *ClassLoader) parseClassData(name string, data []byte) *Class {
+	cf, err := classfile.ParseClassFile(data)
 	if err != nil {
 		// todo
 		panic("failed to parse class file: " + name + "!" + err.Error())
 	}
 
-	return cpEntry, newClass(cf)
+	return newClass(cf)
 }
 
 // todo
@@ -236,4 +248,8 @@ func prepare(class *Class) {
 			class.staticFieldValues[field.slot] = field.defaultValue()
 		}
 	}
+}
+
+func DefineClass(classData []byte) {
+
 }

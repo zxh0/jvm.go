@@ -3,6 +3,7 @@ package reflection;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import org.junit.Test;
 
 public class ClassTest implements Runnable {
 
@@ -15,6 +16,7 @@ public class ClassTest implements Runnable {
     }
     
     @Override
+    @Test
     public void run() throws RuntimeException {
         System.out.println("run!");
     }
@@ -52,6 +54,11 @@ public class ClassTest implements Runnable {
         Method run = ClassTest.class.getMethod("run");
         System.out.println(Arrays.toString(run.getExceptionTypes()));
         System.out.println(run.getParameterTypes().length);
+        System.out.println(Arrays.toString(run.getDeclaredAnnotations()));
+        
+        Method main = ClassTest.class.getMethod("main", String[].class);
+        //System.out.println(main.getAnnotationBytes());
+        System.out.println(Arrays.toString(main.getDeclaredAnnotations()));
     }
     
 }

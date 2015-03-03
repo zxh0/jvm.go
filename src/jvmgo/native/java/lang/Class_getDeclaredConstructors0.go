@@ -51,6 +51,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 		for i, goConstructor := range goConstructors {
 			constructorObj := constructorClass.NewObjWithExtra(goConstructor)
 			constructorObjs[i] = constructorObj
+
 			// call <init>
 			newFrame := thread.NewFrame(constructorInitMethod)
 			vars := newFrame.LocalVars()
@@ -61,7 +62,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 			vars.SetInt(4, int32(goConstructor.GetAccessFlags())) // modifiers
 			vars.SetInt(5, int32(0))                              // todo slot
 			vars.SetRef(6, nil)                                   // todo signature
-			vars.SetRef(7, nil)                                   // todo annotations
+			vars.SetRef(7, getAnnotationByteArr(goConstructor))   // annotations
 			vars.SetRef(8, nil)                                   // todo parameterAnnotations
 			thread.PushFrame(newFrame)
 		}

@@ -42,3 +42,10 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 
 	return classArr
 }
+
+func getAnnotationByteArr(method *rtc.Method) *rtc.Obj {
+	if bytes := method.AnnotationData(); bytes != nil {
+		return rtc.NewByteArray(bytes, method.ClassLoader())
+	}
+	return nil
+}

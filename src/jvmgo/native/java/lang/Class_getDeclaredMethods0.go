@@ -67,7 +67,6 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 
 func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []Any {
 	nameObj := rtda.NewJString(method.Name(), method)
-	annotationData := rtc.NewByteArray(method.AnnotationData(), method.ClassLoader())
 
 	return []Any{
 		methodObj,                      // this
@@ -79,7 +78,7 @@ func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []
 		int32(method.GetAccessFlags()), // modifiers
 		int32(0),                       // todo slot
 		nil,                            // todo signature
-		annotationData,                 // annotations
+		getAnnotationByteArr(method),   // annotations
 		nil,                            // todo parameterAnnotations
 		nil,                            // todo annotationDefault
 	}

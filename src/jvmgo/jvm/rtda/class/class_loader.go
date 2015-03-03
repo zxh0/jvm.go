@@ -159,6 +159,26 @@ func (self *ClassLoader) reallyLoadClass(name string) *Class {
 	return class
 }
 
+func (self *ClassLoader) readClassData(name string) (classpath.ClassPathEntry, []byte) {
+	cpEntry, classData, err := self.classPath.ReadClassData(name)
+	if err != nil {
+		// todo
+		panic("class not found: " + name + "!")
+	}
+
+	return cpEntry, classData
+}
+
+func (self *ClassLoader) parseClassData(name string, data []byte) *Class {
+	cf, err := classfile.ParseClassFile(data)
+	if err != nil {
+		// todo
+		panic("failed to parse class file: " + name + "!" + err.Error())
+	}
+
+	return newClass(cf)
+}
+
 func (self *ClassLoader) _loadClass(name string, data []byte) *Class {
 	class := self.parseClassData(name, data)
 	hackClass(class)
@@ -178,26 +198,6 @@ func (self *ClassLoader) _loadClass(name string, data []byte) *Class {
 	}
 
 	return class
-}
-
-func (self *ClassLoader) readClassData(name string) (classpath.ClassPathEntry, []byte) {
-	cpEntry, classData, err := self.classPath.ReadClassData(name)
-	if err != nil {
-		// todo
-		panic("class not found: " + name + "!")
-	}
-
-	return cpEntry, classData
-}
-
-func (self *ClassLoader) parseClassData(name string, data []byte) *Class {
-	cf, err := classfile.ParseClassFile(data)
-	if err != nil {
-		// todo
-		panic("failed to parse class file: " + name + "!" + err.Error())
-	}
-
-	return newClass(cf)
 }
 
 // todo

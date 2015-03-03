@@ -6,7 +6,7 @@ import (
 
 func (self *Obj) Clone() *Obj {
 	fields2 := self._cloneFields()
-	var extra2 Any = nil // todo 
+	var extra2 Any = nil // todo
 
 	return newObj(self.class, fields2, extra2)
 }

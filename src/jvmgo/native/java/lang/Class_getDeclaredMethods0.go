@@ -78,8 +78,8 @@ func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []
 		int32(method.GetAccessFlags()), // modifiers
 		int32(0),                       // todo slot
 		nil,                            // todo signature
-		getAnnotationByteArr(method),   // annotations
-		nil,                            // todo parameterAnnotations
-		nil,                            // todo annotationDefault
+		getAnnotationByteArr(method), // annotations
+		nil, // todo parameterAnnotations
+		nil, // todo annotationDefault
 	}
 }

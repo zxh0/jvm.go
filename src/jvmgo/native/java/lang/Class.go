@@ -22,6 +22,7 @@ func init() {
 	_class(getPrimitiveClass, "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;")
 	_class(getSuperclass, "getSuperclass", "()Ljava/lang/Class;")
 	_class(isAssignableFrom, "isAssignableFrom", "(Ljava/lang/Class;)Z")
+	_class(isInstance, "isInstance", "(Ljava/lang/Object;)Z")
 	_class(isArray, "isArray", "()Z")
 	_class(isInterface, "isInterface", "()Z")
 	_class(isPrimitive, "isPrimitive", "()Z")
@@ -254,7 +255,23 @@ func isAssignableFrom(frame *rtda.Frame) {
 	thisClass := this.Extra().(*rtc.Class)
 	clsClass := cls.Extra().(*rtc.Class)
 	ok := thisClass.IsAssignableFrom(clsClass)
-	frame.OperandStack().PushBoolean(ok)
+
+	stack := frame.OperandStack()
+	stack.PushBoolean(ok)
+}
+
+// public native boolean isInstance(Object obj);
+// (Ljava/lang/Object;)Z
+func isInstance(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	obj := vars.GetRef(1)
+
+	class := this.Extra().(*rtc.Class)
+	ok := obj.IsInstanceOf(class)
+
+	stack := frame.OperandStack()
+	stack.PushBoolean(ok)
 }
 
 // public native boolean isArray();

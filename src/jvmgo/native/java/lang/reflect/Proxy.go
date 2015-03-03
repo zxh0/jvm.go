@@ -30,7 +30,7 @@ func defineClass0(frame *rtda.Frame) {
 	name = rtc.NameCfFormat(name)
 	int8s := byteArr.Fields().([]int8)
 	data := util.CastInt8sToUint8s(int8s)
-	data = data[off: off+_len]
+	data = data[off : off+_len]
 
 	// todo
 	class := frame.ClassLoader().DefineClass(name, data)

@@ -250,6 +250,7 @@ func prepare(class *Class) {
 	}
 }
 
-func DefineClass(classData []byte) {
-
+// todo
+func (self *ClassLoader) DefineClass(name string, data []byte) *Class {
+	return self._loadClass(name, data)
 }

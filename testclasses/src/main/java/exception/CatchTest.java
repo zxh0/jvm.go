@@ -12,6 +12,9 @@ public class CatchTest {
         if (f2() != 2) {
             System.out.println("f2() failed!");
         }
+        if (f3() != 3) {
+            System.out.println("f3() failed!");
+        }
         System.out.println("OK!");
     }
     
@@ -42,8 +45,25 @@ public class CatchTest {
         }
     }
     
+    private static int f3() {
+        try {
+            bad2();
+            return -1;
+        } catch (RuntimeException e) {
+            return 3;
+        }
+    }
+    
     private static void bad() {
         throw new RuntimeException("BAD!");
+    }
+    
+    private static void bad2() {
+        try {
+            bad();
+        } catch (RuntimeException e) {
+            throw e;
+        }
     }
     
 }

@@ -43,7 +43,8 @@ func newExceptionHandler(entry *cf.ExceptionTableEntry, rtCp *ConstantPool) *Exc
 
 func (self *ExceptionTable) FindExceptionHandler(exClass *Class, pc int) *ExceptionHandler {
 	for _, handler := range self.handlers {
-		if handler.startPc <= pc && handler.endPc >= pc {
+		// jvms: The start_pc is inclusive and end_pc is exclusive
+		if pc >= handler.startPc && pc < handler.endPc {
 			if handler.catchType == nil || // catch all
 				handler.catchType.Class() == exClass ||
 				handler.catchType.Class().isSuperClassOf(exClass) {

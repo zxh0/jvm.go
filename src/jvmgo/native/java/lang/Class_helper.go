@@ -44,22 +44,16 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 	return classArr
 }
 
-func getAnnotationByteArr(method *rtc.Method) *rtc.Obj {
-	if bytes := method.AnnotationData(); bytes != nil {
-		return rtc.NewByteArray(bytes, method.ClassLoader())
+func getAnnotationByteArr(member *rtc.ClassMember) *rtc.Obj {
+	if bytes := member.AnnotationData(); bytes != nil {
+		return rtc.NewByteArray(bytes, member.ClassLoader())
 	}
 	return nil
 }
 
-func getMethodSignature(method *rtc.Method) *rtc.Obj {
-	if signature := method.Signature(); signature != "" {
-		return rtda.NewJString(signature, method)
-	}
-	return nil
-}
-func getFieldSignature(field *rtc.Field) *rtc.Obj {
-	if signature := field.Signature(); signature != "" {
-		return rtda.NewJString(signature, field)
+func getSignature(member *rtc.ClassMember) *rtc.Obj {
+	if signature := member.Signature(); signature != "" {
+		return rtda.NewJString(signature, member)
 	}
 	return nil
 }

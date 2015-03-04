@@ -55,15 +55,15 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 			// call <init>
 			newFrame := thread.NewFrame(constructorInitMethod)
 			vars := newFrame.LocalVars()
-			vars.SetRef(0, constructorObj)                        // this
-			vars.SetRef(1, jClass)                                // declaringClass
-			vars.SetRef(2, getParameterTypeArr(goConstructor))    // parameterTypes
-			vars.SetRef(3, getExceptionTypeArr(goConstructor))    // checkedExceptions
-			vars.SetInt(4, int32(goConstructor.GetAccessFlags())) // modifiers
-			vars.SetInt(5, int32(0))                              // todo slot
-			vars.SetRef(6, getMethodSignature(goConstructor))     // signature
-			vars.SetRef(7, getAnnotationByteArr(goConstructor))   // annotations
-			vars.SetRef(8, nil)                                   // todo parameterAnnotations
+			vars.SetRef(0, constructorObj)                                   // this
+			vars.SetRef(1, jClass)                                           // declaringClass
+			vars.SetRef(2, getParameterTypeArr(goConstructor))               // parameterTypes
+			vars.SetRef(3, getExceptionTypeArr(goConstructor))               // checkedExceptions
+			vars.SetInt(4, int32(goConstructor.GetAccessFlags()))            // modifiers
+			vars.SetInt(5, int32(0))                                         // todo slot
+			vars.SetRef(6, getSignature(&goConstructor.ClassMember))         // signature
+			vars.SetRef(7, getAnnotationByteArr(&goConstructor.ClassMember)) // annotations
+			vars.SetRef(8, nil)                                              // todo parameterAnnotations
 			thread.PushFrame(newFrame)
 		}
 	}

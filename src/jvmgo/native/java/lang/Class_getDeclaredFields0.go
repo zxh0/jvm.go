@@ -56,14 +56,14 @@ func getDeclaredFields0(frame *rtda.Frame) {
 
 			newFrame := thread.NewFrame(constructor)
 			vars := newFrame.LocalVars()
-			vars.SetRef(0, jField)                          // this
-			vars.SetRef(1, jClass)                          // declaringClass
-			vars.SetRef(2, jName)                           // name
-			vars.SetRef(3, jType)                           // type
-			vars.SetInt(4, int32(goField.GetAccessFlags())) // modifiers
-			vars.SetInt(5, int32(goField.Slot()))           // slot
-			vars.SetRef(6, getFieldSignature(goField))      // signature
-			vars.SetRef(7, nil)                             // todo annotations
+			vars.SetRef(0, jField)                                     // this
+			vars.SetRef(1, jClass)                                     // declaringClass
+			vars.SetRef(2, jName)                                      // name
+			vars.SetRef(3, jType)                                      // type
+			vars.SetInt(4, int32(goField.GetAccessFlags()))            // modifiers
+			vars.SetInt(5, int32(goField.Slot()))                      // slot
+			vars.SetRef(6, getSignature(&goField.ClassMember))         // signature
+			vars.SetRef(7, getAnnotationByteArr(&goField.ClassMember)) // annotations
 			thread.PushFrame(newFrame)
 		}
 	}

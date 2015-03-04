@@ -2,11 +2,11 @@ package class
 
 type ClassMember struct {
 	AccessFlags
-	name       string
-	descriptor string
-	signature  string
-	annotationData  []int8 // RuntimeVisibleAnnotations_attribute
-	class      *Class
+	name           string
+	descriptor     string
+	signature      string
+	annotationData []int8 // RuntimeVisibleAnnotations_attribute
+	class          *Class
 }
 
 func (self *ClassMember) Name() string {

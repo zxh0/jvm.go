@@ -57,7 +57,7 @@ func _debug(thread *rtda.Thread) {
 			frame := thread.PopFrame()
 			method := frame.Method()
 			//lineNum := method.GetLineNumber(frame.NextPC())
-			fmt.Printf(">> %v.%v%v \n", method.Class().Name(), method.Name(), method.Descriptor())
+			fmt.Printf(">> %v.%v%v#%v \n", method.Class().Name(), method.Name(), method.Descriptor(), frame.NextPC())
 		}
 
 		err, ok := r.(error)

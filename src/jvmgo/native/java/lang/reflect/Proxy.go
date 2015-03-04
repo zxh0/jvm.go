@@ -19,6 +19,20 @@ func _proxy(method Any, name, desc string) {
 //                                             byte[] b, int off, int len);
 // (Ljava/lang/ClassLoader;Ljava/lang/String;[BII)Ljava/lang/Class;
 func defineClass0(frame *rtda.Frame) {
+	stack := frame.OperandStack()
+	if stack.IsEmpty() {
+		_loadClass(frame)	
+	}
+
+	// init class
+	class := stack.Top(0).(*rtc.Obj).Extra().(*rtc.Class)
+	if class.InitializationNotStarted() {
+		frame.RevertNextPC()
+		frame.Thread().InitClass(class)
+	}
+}
+
+func _loadClass(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	//loader := vars.GetRef(0)
 	nameObj := vars.GetRef(1)

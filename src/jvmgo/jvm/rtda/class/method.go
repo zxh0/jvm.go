@@ -25,7 +25,6 @@ type Method struct {
 	maxLocals       uint
 	argCount        uint
 	md              *MethodDescriptor
-	annotationData  []int8 // RuntimeVisibleAnnotations_attribute
 	code            []byte
 	lineNumberTable *cf.LineNumberTableAttribute
 	exceptions      *cf.ExceptionsAttribute
@@ -77,9 +76,6 @@ func (self *Method) ArgCount() uint {
 }
 func (self *Method) ParsedDescriptor() *MethodDescriptor {
 	return self.md
-}
-func (self *Method) AnnotationData() []int8 {
-	return self.annotationData
 }
 func (self *Method) Code() []byte {
 	return self.code

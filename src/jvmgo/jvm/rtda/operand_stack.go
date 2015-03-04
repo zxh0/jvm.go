@@ -103,4 +103,5 @@ func (self *OperandStack) Top(n uint) Any {
 // only used by native methods
 func (self *OperandStack) HackSetSlots(slots []Any) {
 	self.slots = slots
+	self.size = uint(len(slots))
 }

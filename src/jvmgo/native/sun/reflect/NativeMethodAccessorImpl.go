@@ -37,7 +37,7 @@ func _invokeMethod(frame *rtda.Frame) {
 
 	goMethod := getGoMethod(methodObj)
 	args := convertArgs(obj, argArrObj, goMethod)
-	// remember boolean return type
+	// remember return type
 	returnType := goMethod.ParsedDescriptor().ReturnType()
 	vars.Set(0, returnType)
 

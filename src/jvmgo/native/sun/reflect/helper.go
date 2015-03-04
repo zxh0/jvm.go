@@ -29,9 +29,6 @@ func _getGoMethod(methodObj *rtc.Obj, isConstructor bool) *rtc.Method {
 // Object[] -> []Any
 func convertArgs(this, argArr *rtc.Obj, method *rtc.Method) []Any {
 	if method.ArgCount() == 0 {
-		if method.IsStatic() {
-			return nil
-		}
 		return []Any{this}
 	}
 

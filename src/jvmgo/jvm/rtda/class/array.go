@@ -81,14 +81,14 @@ func NewCharArray(chars []uint16, classLoader *ClassLoader) *Obj {
 }
 
 func NewRefArray(componentClass *Class, count uint) *Obj {
-	arrClass := componentClass.getArrayClass()
+	arrClass := componentClass.arrayClass()
 	components := make([]*Obj, count)
 	return newObj(arrClass, components, nil)
 }
 
 // todo rename
 func NewRefArray2(componentClass *Class, components []*Obj) *Obj {
-	arrClass := componentClass.getArrayClass()
+	arrClass := componentClass.arrayClass()
 	return newObj(arrClass, components, nil)
 }
 

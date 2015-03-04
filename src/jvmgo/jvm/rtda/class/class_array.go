@@ -13,7 +13,7 @@ func (self *Class) ComponentClass() *Class {
 	return self.classLoader.LoadClass(componentClassName)
 }
 
-func (self *Class) ArrayClass() *Class {
+func (self *Class) arrayClass() *Class {
 	arrayClassName := getArrayClassName(self.name)
 	return self.classLoader.LoadClass(arrayClassName)
 }

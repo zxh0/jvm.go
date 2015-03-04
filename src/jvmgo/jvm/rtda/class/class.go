@@ -139,10 +139,6 @@ func (self *Class) GetClinitMethod() *Method {
 	return self._getMethod(clinitMethodName, clinitMethodDesc, true)
 }
 
-func (self *Class) getArrayClass() *Class {
-	return self.classLoader.getRefArrayClass(self)
-}
-
 func (self *Class) NewObjWithExtra(extra Any) *Obj {
 	obj := self.NewObj()
 	obj.extra = extra

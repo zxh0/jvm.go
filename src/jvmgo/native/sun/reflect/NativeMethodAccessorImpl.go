@@ -47,6 +47,7 @@ func _invokeMethod(frame *rtda.Frame) {
 	} else {
 		// make room for return value
 		stack.HackSetSlots([]Any{nil})
+		stack.Pop()
 	}
 
 	frame.Thread().InvokeMethod(goMethod)

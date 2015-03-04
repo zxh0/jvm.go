@@ -44,16 +44,6 @@ func (self *AttributeTable) LineNumberTableAttribute() *LineNumberTableAttribute
 	return nil
 }
 
-func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *RuntimeVisibleAnnotationsAttribute {
-	for _, attrInfo := range self.attributes {
-		switch attrInfo.(type) {
-		case *RuntimeVisibleAnnotationsAttribute:
-			return attrInfo.(*RuntimeVisibleAnnotationsAttribute)
-		}
-	}
-	return nil
-}
-
 func (self *AttributeTable) SignatureAttribute() *SignatureAttribute {
 	for _, attrInfo := range self.attributes {
 		switch attrInfo.(type) {
@@ -72,4 +62,18 @@ func (self *AttributeTable) SourceFileAttribute() *SourceFileAttribute {
 		}
 	}
 	return nil
+}
+
+func (self *AttributeTable) UndefinedAttribute(name string) *UndefinedAttribute {
+	for _, attrInfo := range self.attributes {
+		switch attrInfo.(type) {
+		case *UndefinedAttribute:
+			return attrInfo.(*UndefinedAttribute)
+		}
+	}
+	return nil
+}
+
+func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *UndefinedAttribute {
+	return self.UndefinedAttribute("RuntimeVisibleAnnotations")
 }

@@ -8,6 +8,7 @@ attribute_info {
 }
 */
 type UndefinedAttribute struct {
+	name string
 	info []byte
 }
 

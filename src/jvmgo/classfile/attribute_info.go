@@ -38,7 +38,7 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) AttributeInfo {
 func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) AttributeInfo {
 	switch attrName {
 	case "AnnotationDefault":
-		return &AnnotationDefaultAttribute{}
+		return &UndefinedAttribute{name: "AnnotationDefault"}
 	// case "BootstrapMethods":
 	case "Code":
 		return &CodeAttribute{cp: cp}
@@ -66,9 +66,9 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	case "RuntimeInvisibleTypeAnnotations":
 		return _attrUndefined
 	case "RuntimeVisibleAnnotations":
-		return &RuntimeVisibleAnnotationsAttribute{}
+		return &UndefinedAttribute{name: "RuntimeVisibleAnnotations"}
 	case "RuntimeVisibleParameterAnnotations":
-		return &RuntimeVisibleParameterAnnotations_attribute{}
+		return &UndefinedAttribute{name: "RuntimeVisibleParameterAnnotations"}
 	// case "RuntimeVisibleTypeAnnotations":
 	case "Signature":
 		return &SignatureAttribute{}

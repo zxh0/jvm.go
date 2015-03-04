@@ -62,7 +62,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
 			vars.SetRef(3, jType)                           // type
 			vars.SetInt(4, int32(goField.GetAccessFlags())) // modifiers
 			vars.SetInt(5, int32(goField.Slot()))           // slot
-			vars.SetRef(6, nil)                             // todo signature
+			vars.SetRef(6, getFieldSignature(goField))      // signature
 			vars.SetRef(7, nil)                             // todo annotations
 			thread.PushFrame(newFrame)
 		}

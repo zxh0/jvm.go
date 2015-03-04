@@ -4,6 +4,7 @@ type ClassMember struct {
 	AccessFlags
 	name       string
 	descriptor string
+	signature  string
 	class      *Class
 }
 
@@ -12,6 +13,9 @@ func (self *ClassMember) Name() string {
 }
 func (self *ClassMember) Descriptor() string {
 	return self.descriptor
+}
+func (self *ClassMember) Signature() string {
+	return self.signature
 }
 func (self *ClassMember) Class() *Class {
 	return self.class

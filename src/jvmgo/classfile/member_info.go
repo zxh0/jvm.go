@@ -40,6 +40,13 @@ func (self *MemberInfo) Name() string {
 func (self *MemberInfo) Descriptor() string {
 	return self.cp.getUtf8(self.descriptorIndex)
 }
+func (self *MemberInfo) Signature() string {
+	signatureAttr := self.SignatureAttribute()
+	if signatureAttr != nil {
+		return self.cp.getUtf8(signatureAttr.signatureIndex)
+	}
+	return ""
+}
 
 type FieldInfo struct {
 	MemberInfo

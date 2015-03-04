@@ -17,6 +17,7 @@ func newField(class *Class, fieldInfo *cf.FieldInfo) *Field {
 	field.accessFlags = fieldInfo.AccessFlags()
 	field.name = fieldInfo.Name()
 	field.descriptor = fieldInfo.Descriptor()
+	field.signature = fieldInfo.Signature()
 	return field
 }
 

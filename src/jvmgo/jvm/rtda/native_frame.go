@@ -23,7 +23,7 @@ func newNativeFrame(thread *Thread, method *rtc.Method) *Frame {
 	code := method.Code()
 	if code == nil {
 		code = getHackCode(method.Descriptor())
-		method.SetCode(code)
+		method.HackSetCode(code)
 	}
 
 	return frame

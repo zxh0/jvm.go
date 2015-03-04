@@ -54,6 +54,16 @@ func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *RuntimeVisible
 	return nil
 }
 
+func (self *AttributeTable) SignatureAttribute() *SignatureAttribute {
+	for _, attrInfo := range self.attributes {
+		switch attrInfo.(type) {
+		case *SignatureAttribute:
+			return attrInfo.(*SignatureAttribute)
+		}
+	}
+	return nil
+}
+
 func (self *AttributeTable) SourceFileAttribute() *SourceFileAttribute {
 	for _, attrInfo := range self.attributes {
 		switch attrInfo.(type) {

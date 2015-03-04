@@ -50,8 +50,9 @@ func (self *Method) copyAttributes(methodInfo *cf.MethodInfo) {
 		self.maxLocals = codeAttr.MaxLocals()
 		self.lineNumberTable = codeAttr.LineNumberTableAttribute()
 		self.exceptions = methodInfo.ExceptionsAttribute()
-		rtCp := self.class.constantPool
+		self.signature = methodInfo.Signature()
 		if len(codeAttr.ExceptionTable()) > 0 {
+			rtCp := self.class.constantPool
 			self.copyExceptionTable(codeAttr.ExceptionTable(), rtCp)
 		}
 	}
@@ -83,7 +84,8 @@ func (self *Method) AnnotationData() []int8 {
 func (self *Method) Code() []byte {
 	return self.code
 }
-func (self *Method) SetCode(code []byte) {
+
+func (self *Method) HackSetCode(code []byte) {
 	self.code = code
 }
 

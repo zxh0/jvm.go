@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )
 
@@ -46,6 +47,19 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 func getAnnotationByteArr(method *rtc.Method) *rtc.Obj {
 	if bytes := method.AnnotationData(); bytes != nil {
 		return rtc.NewByteArray(bytes, method.ClassLoader())
+	}
+	return nil
+}
+
+func getMethodSignature(method *rtc.Method) *rtc.Obj {
+	if signature := method.Signature(); signature != "" {
+		return rtda.NewJString(signature, method)
+	}
+	return nil
+}
+func getFieldSignature(field *rtc.Field) *rtc.Obj {
+	if signature := field.Signature(); signature != "" {
+		return rtda.NewJString(signature, field)
 	}
 	return nil
 }

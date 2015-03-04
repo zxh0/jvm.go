@@ -80,3 +80,6 @@ func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *UndefinedAttri
 func (self *AttributeTable) RuntimeVisibleParameterAnnotationsAttribute() *UndefinedAttribute {
 	return self.UndefinedAttribute("RuntimeVisibleParameterAnnotationsAttribute")
 }
+func (self *AttributeTable) AnnotationDefaultAttribute() *UndefinedAttribute {
+	return self.UndefinedAttribute("AnnotationDefault")
+}

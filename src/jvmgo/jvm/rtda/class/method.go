@@ -20,15 +20,16 @@ const (
 type Method struct {
 	ClassMember
 	ExceptionTable
-	maxStack            uint
-	maxLocals           uint
-	argCount            uint
-	md                  *MethodDescriptor
-	code                []byte
-	paramAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
-	lineNumberTable     *cf.LineNumberTableAttribute
-	exceptions          *cf.ExceptionsAttribute
-	nativeMethod        Any // cannot use package 'native' because of cycle import!
+	maxStack                uint
+	maxLocals               uint
+	argCount                uint
+	md                      *MethodDescriptor
+	code                    []byte
+	parameterAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
+	annotationDefaultData   []byte // AnnotationDefault_attribute
+	lineNumberTable         *cf.LineNumberTableAttribute
+	exceptions              *cf.ExceptionsAttribute
+	nativeMethod            Any // cannot use package 'native' because of cycle import!
 }
 
 func newMethod(class *Class, methodInfo *cf.MethodInfo) *Method {
@@ -59,7 +60,10 @@ func (self *Method) copyAttributes(methodInfo *cf.MethodInfo) {
 		self.annotationData = rvaAttr.Info()
 	}
 	if rvpaAttr := methodInfo.RuntimeVisibleParameterAnnotationsAttribute(); rvpaAttr != nil {
-		self.paramAnnotationData = rvpaAttr.Info()
+		self.parameterAnnotationData = rvpaAttr.Info()
+	}
+	if adAttr := methodInfo.AnnotationDefaultAttribute(); adAttr != nil {
+		self.annotationDefaultData = adAttr.Info()
 	}
 }
 
@@ -80,11 +84,14 @@ func (self *Method) ArgCount() uint {
 func (self *Method) Code() []byte {
 	return self.code
 }
+func (self *Method) ParameterAnnotationData() []byte {
+	return self.parameterAnnotationData
+}
+func (self *Method) AnnotationDefaultData() []byte {
+	return self.annotationDefaultData
+}
 func (self *Method) ParsedDescriptor() *MethodDescriptor {
 	return self.md
-}
-func (self *Method) ParameterAnnotationData() []byte {
-	return self.paramAnnotationData
 }
 
 func (self *Method) HackSetCode(code []byte) {

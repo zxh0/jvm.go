@@ -21,7 +21,7 @@ func _proxy(method Any, name, desc string) {
 func defineClass0(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	if stack.IsEmpty() {
-		_loadClass(frame)	
+		_loadClass(frame)
 	}
 
 	// init class

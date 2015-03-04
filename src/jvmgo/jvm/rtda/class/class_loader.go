@@ -199,6 +199,7 @@ func (self *ClassLoader) _loadClass(name string, data []byte) *Class {
 
 	return class
 }
+
 // todo
 func hackClass(class *Class) {
 	if class.name == "java/lang/ClassLoader" {

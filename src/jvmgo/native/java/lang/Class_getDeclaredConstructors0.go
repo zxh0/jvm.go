@@ -63,7 +63,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 			vars.SetInt(5, int32(0))                                         // todo slot
 			vars.SetRef(6, getSignature(&goConstructor.ClassMember))         // signature
 			vars.SetRef(7, getAnnotationByteArr(&goConstructor.ClassMember)) // annotations
-			vars.SetRef(8, nil)                                              // todo parameterAnnotations
+			vars.SetRef(8, getParameterAnnotationDyteArr(goConstructor))     // parameterAnnotations
 			thread.PushFrame(newFrame)
 		}
 	}

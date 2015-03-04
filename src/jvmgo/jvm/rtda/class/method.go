@@ -20,15 +20,15 @@ const (
 type Method struct {
 	ClassMember
 	ExceptionTable
-	maxStack        uint
-	maxLocals       uint
-	argCount        uint
-	md              *MethodDescriptor
-	code            []byte
-	paramAnnotationData  []byte // RuntimeVisibleParameterAnnotations_attribute
-	lineNumberTable *cf.LineNumberTableAttribute
-	exceptions      *cf.ExceptionsAttribute
-	nativeMethod    Any // cannot use package 'native' because of cycle import!
+	maxStack            uint
+	maxLocals           uint
+	argCount            uint
+	md                  *MethodDescriptor
+	code                []byte
+	paramAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
+	lineNumberTable     *cf.LineNumberTableAttribute
+	exceptions          *cf.ExceptionsAttribute
+	nativeMethod        Any // cannot use package 'native' because of cycle import!
 }
 
 func newMethod(class *Class, methodInfo *cf.MethodInfo) *Method {

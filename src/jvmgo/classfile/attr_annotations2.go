@@ -9,13 +9,5 @@ RuntimeVisibleAnnotations_attribute {
 }
 */
 type RuntimeVisibleAnnotationsAttribute struct {
-	info []byte
-}
-
-func (self *RuntimeVisibleAnnotationsAttribute) readInfo(reader *ClassReader, attrLen uint32) {
-	self.info = reader.readBytes(attrLen)
-}
-
-func (self *RuntimeVisibleAnnotationsAttribute) Info() []byte {
-	return self.info
+	UndefinedAttribute
 }

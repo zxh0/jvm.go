@@ -3,6 +3,7 @@ package lang
 import (
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
+	"jvmgo/util"
 )
 
 func getParameterTypeArr(method *rtc.Method) *rtc.Obj {
@@ -44,8 +45,17 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 	return classArr
 }
 
+func getParameterAnnotationDyteArr(method *rtc.Method) *rtc.Obj {
+	if data := method.ParameterAnnotationData(); data != nil {
+		bytes := util.CastUint8sToInt8s(data)
+		return rtc.NewByteArray(bytes, method.ClassLoader())
+	}
+	return nil
+}
+
 func getAnnotationByteArr(member *rtc.ClassMember) *rtc.Obj {
-	if bytes := member.AnnotationData(); bytes != nil {
+	if data := member.AnnotationData(); data != nil {
+		bytes := util.CastUint8sToInt8s(data)
 		return rtc.NewByteArray(bytes, member.ClassLoader())
 	}
 	return nil

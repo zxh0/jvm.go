@@ -4,7 +4,6 @@ import (
 	"fmt"
 	. "jvmgo/any"
 	cf "jvmgo/classfile"
-	"jvmgo/util"
 	"strings"
 )
 
@@ -26,6 +25,7 @@ type Method struct {
 	argCount        uint
 	md              *MethodDescriptor
 	code            []byte
+	paramAnnotationData  []byte // RuntimeVisibleParameterAnnotations_attribute
 	lineNumberTable *cf.LineNumberTableAttribute
 	exceptions      *cf.ExceptionsAttribute
 	nativeMethod    Any // cannot use package 'native' because of cycle import!
@@ -44,19 +44,22 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) *Method {
 }
 func (self *Method) copyAttributes(methodInfo *cf.MethodInfo) {
 	if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
+		self.exceptions = methodInfo.ExceptionsAttribute()
+		self.signature = methodInfo.Signature()
 		self.code = codeAttr.Code()
 		self.maxStack = codeAttr.MaxStack()
 		self.maxLocals = codeAttr.MaxLocals()
 		self.lineNumberTable = codeAttr.LineNumberTableAttribute()
-		self.exceptions = methodInfo.ExceptionsAttribute()
-		self.signature = methodInfo.Signature()
 		if len(codeAttr.ExceptionTable()) > 0 {
 			rtCp := self.class.constantPool
 			self.copyExceptionTable(codeAttr.ExceptionTable(), rtCp)
 		}
 	}
 	if rvaAttr := methodInfo.RuntimeVisibleAnnotationsAttribute(); rvaAttr != nil {
-		self.annotationData = util.CastUint8sToInt8s(rvaAttr.Info())
+		self.annotationData = rvaAttr.Info()
+	}
+	if rvpaAttr := methodInfo.RuntimeVisibleParameterAnnotationsAttribute(); rvpaAttr != nil {
+		self.paramAnnotationData = rvpaAttr.Info()
 	}
 }
 
@@ -74,11 +77,14 @@ func (self *Method) MaxLocals() uint {
 func (self *Method) ArgCount() uint {
 	return self.argCount
 }
+func (self *Method) Code() []byte {
+	return self.code
+}
 func (self *Method) ParsedDescriptor() *MethodDescriptor {
 	return self.md
 }
-func (self *Method) Code() []byte {
-	return self.code
+func (self *Method) ParameterAnnotationData() []byte {
+	return self.paramAnnotationData
 }
 
 func (self *Method) HackSetCode(code []byte) {

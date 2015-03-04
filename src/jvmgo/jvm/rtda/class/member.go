@@ -5,7 +5,7 @@ type ClassMember struct {
 	name           string
 	descriptor     string
 	signature      string
-	annotationData []int8 // RuntimeVisibleAnnotations_attribute
+	annotationData []byte // RuntimeVisibleAnnotations_attribute
 	class          *Class
 }
 
@@ -18,7 +18,7 @@ func (self *ClassMember) Descriptor() string {
 func (self *ClassMember) Signature() string {
 	return self.signature
 }
-func (self *ClassMember) AnnotationData() []int8 {
+func (self *ClassMember) AnnotationData() []byte {
 	return self.annotationData
 }
 func (self *ClassMember) Class() *Class {

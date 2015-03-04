@@ -77,3 +77,6 @@ func (self *AttributeTable) UndefinedAttribute(name string) *UndefinedAttribute 
 func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *UndefinedAttribute {
 	return self.UndefinedAttribute("RuntimeVisibleAnnotations")
 }
+func (self *AttributeTable) RuntimeVisibleParameterAnnotationsAttribute() *UndefinedAttribute {
+	return self.UndefinedAttribute("RuntimeVisibleParameterAnnotationsAttribute")
+}

@@ -1,10 +1,12 @@
 package reflection;
 
 import java.util.Arrays;
+import org.junit.Test;
 
 public class ArrayClassTest {
     
-    public static void main(String[] args) {
+    @Test
+    public void primitiveArray() {
         Class<?> c = new boolean[0].getClass();
         System.out.println(c.getName());
         System.out.println("superclass:" + c.getSuperclass());

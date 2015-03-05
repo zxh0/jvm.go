@@ -6,3 +6,7 @@ func (self *Obj) IsArray() bool {
 func (self *Obj) IsPrimitiveArray() bool {
 	return self.class.IsPrimitiveArray()
 }
+
+func (self *Obj) Refs() []*Obj {
+	return self.Fields().([]*Obj)
+}

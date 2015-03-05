@@ -90,7 +90,7 @@ func _newMultiArray(counts []Any, arrClass *rtc.Class) *rtc.Obj {
 	arr := rtc.NewArray(arrClass, count)
 
 	if len(counts) > 1 {
-		objs := arr.Fields().([]*rtc.Obj)
+		objs := arr.Refs()
 		for i := range objs {
 			objs[i] = _newMultiArray(counts[1:], arrClass.ComponentClass())
 		}

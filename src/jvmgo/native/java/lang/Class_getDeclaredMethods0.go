@@ -53,7 +53,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 	// create method objs
 	if methodCount > 0 {
 		thread := frame.Thread()
-		methodObjs := methodArrObj.Fields().([]*rtc.Obj)
+		methodObjs := methodArrObj.Refs()
 		for i, method := range methods {
 			methodObj := methodClass.NewObjWithExtra(method)
 			methodObjs[i] = methodObj

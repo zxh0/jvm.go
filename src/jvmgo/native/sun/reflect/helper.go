@@ -36,7 +36,7 @@ func convertArgs(this, argArr *rtc.Obj, method *rtc.Method) []Any {
 		}
 	}
 
-	argObjs := argArr.Fields().([]*rtc.Obj)
+	argObjs := argArr.Refs()
 	argTypes := method.ParsedDescriptor().ParameterTypes()
 
 	args := make([]Any, len(argObjs)+1)

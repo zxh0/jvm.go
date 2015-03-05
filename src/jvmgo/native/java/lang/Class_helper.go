@@ -14,7 +14,7 @@ func getParameterTypeArr(method *rtc.Method) *rtc.Obj {
 	classArr := classClass.NewArray(uint(paramCount))
 
 	if paramCount > 0 {
-		classObjs := classArr.Fields().([]*rtc.Obj)
+		classObjs := classArr.Refs()
 		for i, paramType := range paramTypes {
 			classObjs[i] = paramType.JClass()
 		}
@@ -36,7 +36,7 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 	classArr := classClass.NewArray(uint(exCount))
 
 	if exCount > 0 {
-		classObjs := classArr.Fields().([]*rtc.Obj)
+		classObjs := classArr.Refs()
 		for i, exType := range exTypes {
 			classObjs[i] = exType.JClass()
 		}

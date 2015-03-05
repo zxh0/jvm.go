@@ -38,7 +38,7 @@ func ParseClassPath(cpOption string) *ClassPath {
 func (self *ClassPath) ReadClassData(className string) (ClassPathEntry, []byte, error) {
 	className = className + ".class"
 	for _, entry := range self.entries {
-		data, err := entry.readClassData(className)
+		entry, data, err := entry.readClassData(className)
 		if err == nil {
 			return entry, data, nil
 		}

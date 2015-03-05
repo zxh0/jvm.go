@@ -21,20 +21,21 @@ func (self *JarClassPathEntry) String() string {
 	return self.jar
 }
 
-func (self *JarClassPathEntry) readClassData(className string) ([]byte, error) {
+func (self *JarClassPathEntry) readClassData(className string) (ClassPathEntry, []byte, error) {
 	if self.zipRC == nil {
 		err := self.openJar()
 		if err != nil {
-			return nil, err
+			return self, nil, err
 		}
 	}
 
 	classFile := self.findClass(className)
 	if classFile == nil {
-		return nil, errors.New("class not found!")
+		return self, nil, errors.New("class not found!")
 	}
 
-	return readClass(classFile)
+	data, err := readClass(classFile)
+	return self, data, err
 }
 
 // todo: close jar

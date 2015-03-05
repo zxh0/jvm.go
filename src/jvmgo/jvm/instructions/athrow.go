@@ -17,19 +17,17 @@ func (self *athrow) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	for {
 		frame := thread.CurrentFrame()
-		stack := frame.OperandStack()
+		pc := frame.NextPC() - 1
 
-		handler := frame.Method().FindExceptionHandler(ex.Class(), thread.PC())
+		handler := frame.Method().FindExceptionHandler(ex.Class(), pc)
 		if handler != nil {
-			stack.PushRef(ex)
+			frame.OperandStack().PushRef(ex)
 			frame.SetNextPC(handler.HandlerPc())
 			return
 		}
 
 		thread.PopFrame()
-		if !thread.IsStackEmpty() {
-			thread.SetPC(thread.TopFrame().NextPC())
-		} else {
+		if thread.IsStackEmpty() {
 			break
 		}
 	}

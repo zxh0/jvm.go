@@ -31,20 +31,18 @@ func _loop(thread *rtda.Thread) {
 	decoder := instructions.NewInstructionDecoder()
 	for {
 		frame := thread.CurrentFrame()
+		pc := frame.NextPC()
+		thread.SetPC(pc)
 
 		// decode
 		code := frame.Method().Code()
-		pc := thread.PC()
 		_, inst, nextPC := decoder.Decode(code, pc)
 		frame.SetNextPC(nextPC)
 
 		// execute
 		//_logInstruction(frame, opcode, inst)
 		inst.Execute(frame)
-		if !thread.IsStackEmpty() {
-			topFrame := thread.TopFrame()
-			thread.SetPC(topFrame.NextPC())
-		} else {
+		if thread.IsStackEmpty() {
 			break
 		}
 	}

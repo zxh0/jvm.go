@@ -13,7 +13,14 @@ public class ArrayClassTest {
     
     @Test
     public void primitiveArray() {
-        testArrayClass(int[].class, "[I");
+        testArrayClass(boolean[].class, "[Z");
+        testArrayClass(byte[].class,    "[B");
+        testArrayClass(char[].class,    "[C");
+        testArrayClass(short[].class,   "[S");
+        testArrayClass(int[].class,     "[I");
+        testArrayClass(long[].class,    "[J");
+        testArrayClass(float[].class,   "[F");
+        testArrayClass(double[].class,  "[D");
     }
     
     private void testArrayClass(Class<?> c, String name) {

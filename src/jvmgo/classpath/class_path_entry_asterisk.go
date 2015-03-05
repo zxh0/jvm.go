@@ -11,16 +11,18 @@ type AsteriskClassPathEntry struct {
 }
 
 func newAsteriskClassPathEntry(path string) *AsteriskClassPathEntry {
-	dir := path[:len(path)-1]
 	compoundEntry := CompoundClassPathEntry{}
-	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+	walkFn := func(path string, info os.FileInfo, err error) error {
 		if strings.HasSuffix(path, ".jar") || strings.HasSuffix(path, ".JAR") {
 			jarEntry := newJarClassPathEntry(path)
 			compoundEntry.addEntry(jarEntry)
 		}
 
 		return nil
-	})
+	}
+
+	dir := path[:len(path)-1]
+	filepath.Walk(dir, walkFn)
 
 	return &AsteriskClassPathEntry{compoundEntry}
 }

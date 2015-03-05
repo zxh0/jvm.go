@@ -96,7 +96,7 @@ func initProperties(frame *rtda.Frame) {
 	// public synchronized Object setProperty(String key, String value)
 	setPropMethod := props.Class().GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
 	thread := frame.Thread()
-	for key, val := range _props() {
+	for key, val := range _sysProps() {
 		jKey := rtda.NewJString(key, frame)
 		jVal := rtda.NewJString(val, frame)
 		args := []Any{props, jKey, jVal}
@@ -104,7 +104,7 @@ func initProperties(frame *rtda.Frame) {
 	}
 }
 
-func _props() map[string]string {
+func _sysProps() map[string]string {
 	return map[string]string{
 		"file.encoding":       "UTF-8",
 		"sun.stdout.encoding": "UTF-8",
@@ -113,6 +113,7 @@ func _props() map[string]string {
 		"path.separator":      ":", // todo os.PathListSeparator
 		"line.separator":      "\n",
 		"java.home":           ".", // todo
+		"user.dir":            ".", // todo
 	}
 }
 

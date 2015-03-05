@@ -9,6 +9,7 @@ public class SysProps {
             "path.separator",
             "line.separator",
             "java.home",
+            "user.dir",
         };
         
         for (String key : keys) {

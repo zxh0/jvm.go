@@ -26,7 +26,9 @@ func get(frame *rtda.Frame) {
 
 	if arr.IsArray() {
 		if !arr.IsPrimitiveArray() {
-			_ = arr.Refs()[index]
+			obj := arr.Refs()[index]
+			frame.OperandStack().PushRef(obj)
+			return
 		}
 	}
 

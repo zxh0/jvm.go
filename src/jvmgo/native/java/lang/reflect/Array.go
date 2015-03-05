@@ -7,12 +7,31 @@ import (
 )
 
 func init() {
+	_array(get, "get", "(Ljava/lang/Object;I)Ljava/lang/Object;")
 	_array(getLength, "getLength", "(Ljava/lang/Object;)I")
 	_array(newArray, "newArray", "(Ljava/lang/Class;I)Ljava/lang/Object;")
 }
 
 func _array(method Any, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/reflect/Array", name, desc, method)
+}
+
+// public static native Object get(Object array, int index)
+//         throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+// (Ljava/lang/Object;I)Ljava/lang/Object;
+func get(frame *rtda.Frame) {
+	// vars := frame.LocalVars()
+	// arr := vars.GetRef(0)
+	// index := vars.GetInt(1)
+
+	// if arr.Class().IsArray() {
+	// 	if !arr.Class().IsPrimitiveArray() {
+	// 		arr.Fields().(*rtc.Obj)
+	// 	}
+	// }
+
+	// todo
+	panic("get!!!")
 }
 
 // public static native int getLength(Object array) throws IllegalArgumentException;

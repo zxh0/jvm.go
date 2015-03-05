@@ -90,7 +90,7 @@ func (self *ClassLoader) loadArrayClass(className string) *Class {
 	class := &Class{name: className}
 	class.classLoader = self
 	class.superClass = _jlObjectClass
-	class.interfaces = []*Class{_jlClassClass, _ioSerializableClass}
+	class.interfaces = []*Class{_jlCloneableClass, _ioSerializableClass}
 	class.jClass = _jlClassClass.NewObj()
 	class.jClass.extra = class
 	createVtable(class)

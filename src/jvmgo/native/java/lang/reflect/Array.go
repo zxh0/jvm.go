@@ -20,15 +20,15 @@ func _array(method Any, name, desc string) {
 //         throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
 // (Ljava/lang/Object;I)Ljava/lang/Object;
 func get(frame *rtda.Frame) {
-	// vars := frame.LocalVars()
-	// arr := vars.GetRef(0)
-	// index := vars.GetInt(1)
+	vars := frame.LocalVars()
+	arr := vars.GetRef(0)
+	index := vars.GetInt(1)
 
-	// if arr.Class().IsArray() {
-	// 	if !arr.Class().IsPrimitiveArray() {
-	// 		arr.Fields().(*rtc.Obj)
-	// 	}
-	// }
+	if arr.IsArray() {
+		if !arr.IsPrimitiveArray() {
+			_ = arr.Fields().([]*rtc.Obj)[index]
+		}
+	}
 
 	// todo
 	panic("get!!!")

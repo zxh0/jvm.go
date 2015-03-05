@@ -2,7 +2,6 @@ package classpath
 
 import (
 	"archive/zip"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"jvmgo/jvm/options"
@@ -31,7 +30,7 @@ func (self *JarClassPathEntry) readClassData(className string) (ClassPathEntry, 
 
 	classFile := self.findClass(className)
 	if classFile == nil {
-		return self, nil, errors.New("class not found!")
+		return self, nil, classNotFoundErr
 	}
 
 	data, err := readClass(classFile)

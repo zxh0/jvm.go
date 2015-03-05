@@ -10,6 +10,8 @@ import (
 // :(linux/unix) or ;(windows)
 const pathListSeparator = string(os.PathListSeparator)
 
+var classNotFoundErr = errors.New("class not found!")
+
 type ClassPath struct {
 	entries []ClassPathEntry
 }
@@ -45,6 +47,5 @@ func (self *ClassPath) ReadClassData(className string) (ClassPathEntry, []byte, 
 	}
 
 	// todo
-	err := errors.New("class not found!")
-	return nil, nil, err
+	return nil, nil, classNotFoundErr
 }

@@ -13,9 +13,12 @@ public class ArrayClassTest {
     
     @Test
     public void primitiveArray() {
-        Class<?> c = new int[0].getClass();
-        assertEquals("[I", c.getName());
+        testArrayClass(int[].class, "[I");
+    }
+    
+    private void testArrayClass(Class<?> c, String name) {
         assertEquals(Object.class, c.getSuperclass());
+        assertEquals(name, c.getName());
         assertArrayEquals(new Class<?>[]{Cloneable.class, Serializable.class}, c.getInterfaces());
         assertEquals(0, c.getFields().length);
         assertEquals(0, c.getDeclaredFields().length);

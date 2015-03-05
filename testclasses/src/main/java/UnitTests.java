@@ -1,9 +1,7 @@
 import junit.framework.Assert;
 import org.junit.Test;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
 import reflection.ArrayClassTest;
+import unit.UnitTestRunner;
 
 public class UnitTests {
     
@@ -13,21 +11,10 @@ public class UnitTests {
     }
     
     public static void main(String[] args) {
-        Result result = JUnitCore.runClasses(tests());
-        if (result.getFailureCount() > 0) {
-            for (Failure f : result.getFailures()) {
-                System.out.println(f);
-            }
-        } else {
-            System.out.println("OK!");
-        }
-    }
-    
-    private static Class<?>[] tests() {
-        return new Class<?>[] {
+        UnitTestRunner.run(new Class<?>[] {
             UnitTests.class,
             ArrayClassTest.class,
-        };
+        });
     }
     
 }

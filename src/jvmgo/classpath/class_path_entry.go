@@ -11,13 +11,16 @@ type ClassPathEntry interface {
 }
 
 func parseClassPathEntry(absPath string) ClassPathEntry {
+	if strings.HasSuffix(absPath, "*") {
+		return newAsteriskClassPathEntry(absPath)
+	}
+
 	if strings.HasSuffix(absPath, ".jar") {
 		return newJarClassPathEntry(absPath)
-	} else {
-		if !strings.HasSuffix(absPath, "/") {
-			absPath = absPath + "/"
-		}
-
-		return &DirClassPathEntry{absPath}
 	}
+
+	if !strings.HasSuffix(absPath, "/") {
+		absPath = absPath + "/"
+	}
+	return &DirClassPathEntry{absPath}
 }

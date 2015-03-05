@@ -36,7 +36,7 @@ func canonicalize0(frame *rtda.Frame) {
 	if path2 != path {
 		pathStr = rtda.NewJString(path2, frame)
 	}
-	
+
 	stack := frame.OperandStack()
 	stack.PushRef(pathStr)
 }

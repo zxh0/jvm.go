@@ -1,8 +1,9 @@
 package reflection;
 
-import java.util.Arrays;
+import java.io.Serializable;
 import org.junit.Test;
 import unit.UnitTestRunner;
+import static org.junit.Assert.*;
 
 public class ArrayClassTest {
     
@@ -13,12 +14,13 @@ public class ArrayClassTest {
     @Test
     public void primitiveArray() {
         Class<?> c = new int[0].getClass();
-        System.out.println(c.getName());
-        System.out.println("superclass:" + c.getSuperclass());
-        System.out.println(Arrays.toString(c.getInterfaces()));
-        System.out.println("fields:" + c.getFields().length);
-        System.out.println("methods:" + c.getMethods().length);
-        System.out.println("declaredMethods:" + c.getDeclaredMethods().length);
+        assertEquals("[I", c.getName());
+        assertEquals(Object.class, c.getSuperclass());
+        assertArrayEquals(new Class<?>[]{Cloneable.class, Serializable.class}, c.getInterfaces());
+        assertEquals(0, c.getFields().length);
+        assertEquals(0, c.getDeclaredFields().length);
+        assertEquals(9, c.getMethods().length);
+        assertEquals(0, c.getDeclaredMethods().length);
     }
     
 }

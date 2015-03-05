@@ -18,6 +18,6 @@ func parseClassPathEntry(absPath string) ClassPathEntry {
 			absPath = absPath + "/"
 		}
 
-		return &ClassPathDirEntry{absPath}
+		return &DirClassPathEntry{absPath}
 	}
 }

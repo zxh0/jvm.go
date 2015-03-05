@@ -8,20 +8,20 @@ import (
 	"jvmgo/jvm/options"
 )
 
-type ClassPathJarEntry struct {
+type JarClassPathEntry struct {
 	jar   string
 	zipRC *zip.ReadCloser
 }
 
-func newClassPathJarEntry(jar string) *ClassPathJarEntry {
-	return &ClassPathJarEntry{jar, nil}
+func newJarClassPathEntry(jar string) *JarClassPathEntry {
+	return &JarClassPathEntry{jar, nil}
 }
 
-func (self *ClassPathJarEntry) String() string {
+func (self *JarClassPathEntry) String() string {
 	return self.jar
 }
 
-func (self *ClassPathJarEntry) readClassData(className string) ([]byte, error) {
+func (self *JarClassPathEntry) readClassData(className string) ([]byte, error) {
 	if self.zipRC == nil {
 		err := self.openJar()
 		if err != nil {
@@ -38,7 +38,7 @@ func (self *ClassPathJarEntry) readClassData(className string) ([]byte, error) {
 }
 
 // todo: close jar
-func (self *ClassPathJarEntry) openJar() error {
+func (self *JarClassPathEntry) openJar() error {
 	r, err := zip.OpenReader(self.jar) // func OpenReader(name string) (*ReadCloser, error)
 	if err == nil {
 		self.zipRC = r
@@ -49,7 +49,7 @@ func (self *ClassPathJarEntry) openJar() error {
 	return err
 }
 
-func (self *ClassPathJarEntry) findClass(className string) *zip.File {
+func (self *JarClassPathEntry) findClass(className string) *zip.File {
 	for _, f := range self.zipRC.File {
 		if f.Name == className {
 			return f

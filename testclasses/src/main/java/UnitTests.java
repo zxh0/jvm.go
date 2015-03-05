@@ -2,7 +2,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import reflection.ArrayClassTest;
 import reflection.PrimitiveClassTest;
-import unit.UnitTestRunner;
+import junit.UnitTestRunner;
 
 public class UnitTests {
     

@@ -2,7 +2,7 @@ package reflection;
 
 import java.util.Arrays;
 
-public class ArrayClass {
+public class ArrayClassTest {
     
     public static void main(String[] args) {
         Class<?> c = new boolean[0].getClass();

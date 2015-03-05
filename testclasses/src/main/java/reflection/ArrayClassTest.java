@@ -12,7 +12,7 @@ public class ArrayClassTest {
     }
     
     @Test
-    public void primitiveArray() {
+    public void test() {
         testArrayClass(boolean[].class, "[Z");
         testArrayClass(byte[].class,    "[B");
         testArrayClass(char[].class,    "[C");

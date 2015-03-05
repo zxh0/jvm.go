@@ -1,6 +1,7 @@
 import junit.framework.Assert;
 import org.junit.Test;
 import reflection.ArrayClassTest;
+import reflection.PrimitiveClassTest;
 import unit.UnitTestRunner;
 
 public class UnitTests {
@@ -13,6 +14,7 @@ public class UnitTests {
     public static void main(String[] args) {
         UnitTestRunner.run(new Class<?>[] {
             UnitTests.class,
+            PrimitiveClassTest.class,
             ArrayClassTest.class,
         });
     }

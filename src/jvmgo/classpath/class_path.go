@@ -13,7 +13,7 @@ const pathListSeparator = string(os.PathListSeparator)
 var classNotFoundErr = errors.New("class not found!")
 
 type ClassPath struct {
-	entries []ClassPathEntry
+	ccpe CompoundClassPathEntry
 }
 
 func ParseClassPath(cpOption string) *ClassPath {
@@ -33,19 +33,12 @@ func ParseClassPath(cpOption string) *ClassPath {
 		}
 	}
 
-	return &ClassPath{cpEntries}
+	ccpe := CompoundClassPathEntry{cpEntries}
+	return &ClassPath{ccpe}
 }
 
 // className: fully/qualified/ClassName
 func (self *ClassPath) ReadClassData(className string) (ClassPathEntry, []byte, error) {
 	className = className + ".class"
-	for _, entry := range self.entries {
-		entry, data, err := entry.readClassData(className)
-		if err == nil {
-			return entry, data, nil
-		}
-	}
-
-	// todo
-	return nil, nil, classNotFoundErr
+	return self.ccpe.readClassData(className)
 }

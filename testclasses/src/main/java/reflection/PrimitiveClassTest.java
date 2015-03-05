@@ -1,6 +1,6 @@
 package reflection;
 
-public class PrimitiveClass {
+public class PrimitiveClassTest {
     
     public static void main(String[] args) {
         Class<?> c = int.class;

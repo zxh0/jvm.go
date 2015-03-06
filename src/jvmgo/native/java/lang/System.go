@@ -112,7 +112,7 @@ func _sysProps() map[string]string {
 		"file.separator":      "/", // todo os.PathSeparator
 		"path.separator":      ":", // todo os.PathListSeparator
 		"line.separator":      "\n",
-		"java.home":           ".", // todo
+		"java.home":           "./jre", // todo
 		"user.dir":            ".", // todo
 	}
 }

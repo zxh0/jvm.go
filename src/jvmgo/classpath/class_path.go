@@ -12,11 +12,17 @@ type ClassPath struct {
 
 func ParseClassPath(cpOption string) *ClassPath {
 	if cpOption == "" {
-		return &ClassPath{}
+		cpOption = "."
 	}
 
-	compoundEntry := parseCompoundClassPathEntry(cpOption)
-	return &ClassPath{compoundEntry}
+	return &ClassPath{
+		CompoundClassPathEntry{
+			[]ClassPathEntry{
+				parseCompoundClassPathEntry("./jre/lib/*"),
+				parseCompoundClassPathEntry(cpOption),
+			},
+		},
+	}
 }
 
 // className: fully/qualified/ClassName

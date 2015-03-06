@@ -13,8 +13,8 @@ type CompoundClassPathEntry struct {
 	entries []ClassPathEntry
 }
 
-func parseCompoundClassPathEntry(pathList string) CompoundClassPathEntry {
-	compoundEntry := CompoundClassPathEntry{}
+func parseCompoundClassPathEntry(pathList string) *CompoundClassPathEntry {
+	compoundEntry := &CompoundClassPathEntry{}
 
 	for _, path := range strings.Split(pathList, _pathListSeparator) {
 		if absPath, err := filepath.Abs(path); err == nil {
@@ -49,4 +49,9 @@ func (self *CompoundClassPathEntry) addEntry(entry ClassPathEntry) {
 	}
 
 	self.entries = append(self.entries, entry)
+}
+
+// todo
+func (self *CompoundClassPathEntry) String() string {
+	return "CompoundClassPathEntry"
 }

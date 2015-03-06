@@ -16,10 +16,6 @@ func newJarClassPathEntry(jar string) *JarClassPathEntry {
 	return &JarClassPathEntry{jar, nil}
 }
 
-func (self *JarClassPathEntry) String() string {
-	return self.jar
-}
-
 func (self *JarClassPathEntry) readClassData(className string) (ClassPathEntry, []byte, error) {
 	if self.zipRC == nil {
 		err := self.openJar()
@@ -70,4 +66,8 @@ func readClass(classFile *zip.File) ([]byte, error) {
 		return nil, err
 	}
 	return data, nil
+}
+
+func (self *JarClassPathEntry) String() string {
+	return self.jar
 }

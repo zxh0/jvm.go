@@ -16,7 +16,15 @@ go install jvmgo
 ```
 
 # Run jvm.go
+make folder structures like this:
+path/to/jvm.go/bin
+  jre/
+    lib/
+      rt.jar
+      currency.data
+      net.properties
 ```
 cd path/to/jvm.go/bin
-./jvmgo -cp path/to/rt.jar:path/to/classes HelloWorld
+./jvmgo -cp path/to/3rd.jars:path/to/classes HelloWorld
 ```
+

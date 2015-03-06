@@ -1,7 +1,31 @@
 package classpath
 
+import (
+	"os"
+	"path/filepath"
+	"strings"
+)
+
+// :(linux/unix) or ;(windows)
+const _pathListSeparator = string(os.PathListSeparator)
+
 type CompoundClassPathEntry struct {
 	entries []ClassPathEntry
+}
+
+func parseCompoundClassPathEntry(pathList string) CompoundClassPathEntry {
+	compoundEntry := CompoundClassPathEntry{}
+
+	for _, path := range strings.Split(pathList, _pathListSeparator) {
+		if absPath, err := filepath.Abs(path); err == nil {
+			entry := parseClassPathEntry(absPath)
+			compoundEntry.addEntry(entry)
+		} else {
+			// todo
+		}
+	}
+
+	return compoundEntry
 }
 
 func (self *CompoundClassPathEntry) readClassData(className string) (ClassPathEntry, []byte, error) {

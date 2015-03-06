@@ -17,6 +17,7 @@ go install jvmgo
 make folder structures like this:
 ```
 path/to/jvm.go/bin
+  jvmgo
   jre/
     lib/
       rt.jar

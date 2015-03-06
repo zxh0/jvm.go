@@ -21,19 +21,16 @@ func ParseClassPath(cpOption string) *ClassPath {
 		return &ClassPath{}
 	}
 
-	cpOptionSplitted := strings.Split(cpOption, pathListSeparator)
-	cpEntries := make([]ClassPathEntry, len(cpOptionSplitted))
-
-	for i, p := range cpOptionSplitted {
-		absPath, err := filepath.Abs(p)
-		if err == nil {
-			cpEntries[i] = parseClassPathEntry(absPath)
+	compoundEntry := CompoundClassPathEntry{}
+	for _, path := range strings.Split(cpOption, pathListSeparator) {
+		if absPath, err := filepath.Abs(path); err == nil {
+			entry := parseClassPathEntry(absPath)
+			compoundEntry.addEntry(entry)
 		} else {
 			// todo
 		}
 	}
 
-	compoundEntry := CompoundClassPathEntry{cpEntries}
 	return &ClassPath{compoundEntry}
 }
 

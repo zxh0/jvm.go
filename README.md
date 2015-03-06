@@ -7,8 +7,6 @@ A JVM writing in GO...
   * Java 1.8.0_31
   * Go 1.4
 
-Where to find rt.jar: /Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/jre/lib/rt.jar
-
 # Build jvm.go
 ```
 export GOPATH=path/to/jvm.go/
@@ -30,3 +28,7 @@ cd path/to/jvm.go/bin
 ./jvmgo -cp path/to/3rd.jars:path/to/classes HelloWorld
 ```
 
+# Where to find rt.jar: 
+```
+/Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/jre/lib/rt.jar
+```

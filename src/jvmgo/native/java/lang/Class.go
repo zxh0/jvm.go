@@ -44,11 +44,6 @@ func getClassLoader0(frame *rtda.Frame) {
 	clClass := class.ClassLoader().LoadClass("java/lang/ClassLoader")
 	getSysCl := clClass.GetStaticMethod("getSystemClassLoader", "()Ljava/lang/ClassLoader;")
 	frame.Thread().InvokeMethod(getSysCl)
-	// return
-	// todo
-
-	// todo
-	// stack.PushRef(nil)
 }
 
 // public native Class<?> getComponentType();

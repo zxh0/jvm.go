@@ -26,7 +26,7 @@ path/to/jvm.go/bin
 ```
 ```
 cd path/to/jvm.go/bin
-./jvmgo -cp path/to/3rd.jars:path/to/classes HelloWorld
+./jvmgo -cp path/to/jars:path/to/classes HelloWorld
 ```
 
 # Where to find rt.jar: 

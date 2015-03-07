@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class JvmExTest {
     
-    int i;
+    private int i;
     
     public static void main(String[] args) {
         UnitTestRunner.run(JvmExTest.class);

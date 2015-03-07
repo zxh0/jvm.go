@@ -2,7 +2,7 @@ package lang
 
 import (
 	. "jvmgo/any"
-	"jvmgo/jvm/options"
+	cp "jvmgo/classpath"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 	"strings"
@@ -36,22 +36,19 @@ func getClassLoader0(frame *rtda.Frame) {
 	from := class.LoadedFrom()
 
 	stack := frame.OperandStack()
-	if from == nil {
-		// todo
+	if cp.IsBootClassPath(from) {
 		stack.PushRef(nil)
 		return
 	}
 
-	if strings.HasPrefix(from.String(), options.AbsJavaHome) {
-		// clClass := class.ClassLoader().LoadClass("java/lang/ClassLoader")
-		// getSysCl := clClass.GetStaticMethod("getSystemClassLoader", "()Ljava/lang/ClassLoader;")
-		// frame.Thread().InvokeMethod(getSysCl)
-		// return
-		// todo
-	}
+	clClass := class.ClassLoader().LoadClass("java/lang/ClassLoader")
+	getSysCl := clClass.GetStaticMethod("getSystemClassLoader", "()Ljava/lang/ClassLoader;")
+	frame.Thread().InvokeMethod(getSysCl)
+	// return
+	// todo
 
 	// todo
-	stack.PushRef(nil)
+	// stack.PushRef(nil)
 }
 
 // public native Class<?> getComponentType();

@@ -50,13 +50,8 @@ func _loop(thread *rtda.Thread) {
 // todo
 func _catchErr(thread *rtda.Thread) {
 	if r := recover(); r != nil {
-		for !thread.IsStackEmpty() {
-			frame := thread.PopFrame()
-			method := frame.Method()
-			//lineNum := method.GetLineNumber(frame.NextPC())
-			fmt.Printf(">> %v.%v%v#%v \n", method.Class().Name(), method.Name(), method.Descriptor(), frame.NextPC())
-		}
-
+		_logFrames(thread)
+		
 		err, ok := r.(error)
 		if !ok {
 			err = fmt.Errorf("%v", r)
@@ -64,6 +59,15 @@ func _catchErr(thread *rtda.Thread) {
 		} else {
 			panic(err.Error())
 		}
+	}
+}
+
+func _logFrames(thread *rtda.Thread) {
+	for !thread.IsStackEmpty() {
+		frame := thread.PopFrame()
+		method := frame.Method()
+		//lineNum := method.GetLineNumber(frame.NextPC())
+		fmt.Printf(">> %v.%v%v#%v \n", method.Class().Name(), method.Name(), method.Descriptor(), frame.NextPC())
 	}
 }
 

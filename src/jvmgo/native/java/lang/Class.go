@@ -2,6 +2,7 @@ package lang
 
 import (
 	. "jvmgo/any"
+	"jvmgo/jvm/options"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 	"strings"
@@ -41,12 +42,12 @@ func getClassLoader0(frame *rtda.Frame) {
 		return
 	}
 
-	// if strings.HasSuffix(from.String(), "") {
-
-	// }
+	if strings.HasPrefix(from.String(), options.AbsJavaHome) {
+		//println(from.String())
+		// todo
+	}
 
 	// todo
-	// _ = stack.PopRef() // this
 	stack.PushRef(nil)
 }
 

@@ -5,6 +5,7 @@ import (
 	. "jvmgo/any"
 	"jvmgo/classfile"
 	"jvmgo/classpath"
+	"jvmgo/jvm/jerrors"
 	"jvmgo/jvm/options"
 )
 
@@ -163,8 +164,7 @@ func (self *ClassLoader) reallyLoadClass(name string) *Class {
 func (self *ClassLoader) readClassData(name string) (classpath.ClassPathEntry, []byte) {
 	cpEntry, classData, err := self.classPath.ReadClassData(name)
 	if err != nil {
-		// todo
-		panic("class not found: " + name + "!")
+		panic(jerrors.NewClassNotFoundError(SlashToDot(name)))
 	}
 
 	return cpEntry, classData

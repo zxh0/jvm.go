@@ -41,7 +41,7 @@ func _loadClass(frame *rtda.Frame) {
 	_len := vars.GetInt(4)
 
 	name := rtda.GoString(nameObj)
-	name = rtc.NameCfFormat(name)
+	name = rtc.DotToSlash(name)
 	int8s := byteArr.Fields().([]int8)
 	data := util.CastInt8sToUint8s(int8s)
 	data = data[off : off+_len]

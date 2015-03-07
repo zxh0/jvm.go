@@ -151,6 +151,7 @@ func (self *ClassLoader) LoadClass(name string) *Class {
 func (self *ClassLoader) reallyLoadClass(name string) *Class {
 	cpEntry, data := self.readClassData(name)
 	class := self._loadClass(name, data)
+	class.loadedFrom = cpEntry
 
 	if options.VerboseClass {
 		fmt.Printf("[Loaded %s from %s]\n", name, cpEntry)

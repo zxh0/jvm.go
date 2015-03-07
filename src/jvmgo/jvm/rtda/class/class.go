@@ -2,6 +2,7 @@ package class
 
 import (
 	. "jvmgo/any"
+	cp "jvmgo/classpath"
 	"jvmgo/util"
 )
 
@@ -28,6 +29,7 @@ type Class struct {
 	superClass         *Class
 	interfaces         []*Class
 	classLoader        *ClassLoader // defining class loader
+	loadedFrom         cp.ClassPathEntry // todo
 	state              int
 }
 

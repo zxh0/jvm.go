@@ -72,6 +72,9 @@ func forName0(frame *rtda.Frame) {
 // native ClassLoader getClassLoader0();
 // ()Ljava/lang/ClassLoader;
 func getClassLoader0(frame *rtda.Frame) {
+	// vars := frame.LocalVars()
+	// this := vars.GetThis
+
 	// todo
 	// _ = stack.PopRef() // this
 	stack := frame.OperandStack()
@@ -81,10 +84,7 @@ func getClassLoader0(frame *rtda.Frame) {
 // public native Class<?> getComponentType();
 // ()Ljava/lang/Class;
 func getComponentType(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	componentClass := class.ComponentClass()
 	componentClassObj := componentClass.JClass()
 
@@ -95,10 +95,7 @@ func getComponentType(frame *rtda.Frame) {
 // native ConstantPool getConstantPool();
 // ()Lsun/reflect/ConstantPool;
 func getConstantPool(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	cpClass := class.ClassLoader().LoadClass("sun/reflect/ConstantPool")
 	if cpClass.InitializationNotStarted() {
 		frame.RevertNextPC()
@@ -114,10 +111,7 @@ func getConstantPool(frame *rtda.Frame) {
 // private native Class<?> getDeclaringClass0();
 // ()Ljava/lang/Class;
 func getDeclaringClass0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	if class.IsArray() || class.IsPrimitive() {
 		frame.OperandStack().PushRef(nil)
 		return
@@ -138,10 +132,7 @@ func getDeclaringClass0(frame *rtda.Frame) {
 // private native Object[] getEnclosingMethod0();
 // ()[Ljava/lang/Object;
 func getEnclosingMethod0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	emInfo := class.Attributes().EnclosingMethod()
 	emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
 	frame.OperandStack().PushRef(emInfoObj)
@@ -169,10 +160,7 @@ func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.Enclos
 // private native Class<?>[] getInterfaces0();
 // ()[Ljava/lang/Class;
 func getInterfaces0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	interfaces := class.Interfaces()
 	interfaceObjs := make([]*rtc.Obj, len(interfaces))
 	for i, iface := range interfaces {
@@ -189,10 +177,7 @@ func getInterfaces0(frame *rtda.Frame) {
 // private native String getName0();
 // ()Ljava/lang/String;
 func getName0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	name := class.NameJlsFormat()
 	nameObj := rtda.NewJString(name, frame)
 
@@ -203,10 +188,7 @@ func getName0(frame *rtda.Frame) {
 // public native int getModifiers();
 // ()I
 func getModifiers(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	modifiers := class.GetAccessFlags()
 
 	stack := frame.OperandStack()
@@ -231,10 +213,7 @@ func getPrimitiveClass(frame *rtda.Frame) {
 // public native Class<? super T> getSuperclass();
 // ()Ljava/lang/Class;
 func getSuperclass(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	superClass := class.SuperClass()
 
 	stack := frame.OperandStack()
@@ -277,10 +256,7 @@ func isInstance(frame *rtda.Frame) {
 // public native boolean isArray();
 // ()Z
 func isArray(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	stack := frame.OperandStack()
 	stack.PushBoolean(class.IsArray())
 }
@@ -288,10 +264,7 @@ func isArray(frame *rtda.Frame) {
 // public native boolean isInterface();
 // ()Z
 func isInterface(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	stack := frame.OperandStack()
 	stack.PushBoolean(class.IsInterface())
 }
@@ -299,10 +272,13 @@ func isInterface(frame *rtda.Frame) {
 // public native boolean isPrimitive();
 // ()Z
 func isPrimitive(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-
-	class := this.Extra().(*rtc.Class)
+	class := _popClass(frame)
 	stack := frame.OperandStack()
 	stack.PushBoolean(class.IsPrimitive())
+}
+
+func _popClass(frame *rtda.Frame) *rtc.Class {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	return this.Extra().(*rtc.Class)
 }

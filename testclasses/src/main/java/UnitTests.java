@@ -3,6 +3,7 @@ import reflection.ArrayClassTest;
 import reflection.PrimitiveClassTest;
 import junit.UnitTestRunner;
 import static org.junit.Assert.*;
+import reflection.ClassLoaderTest;
 
 public class UnitTests {
     
@@ -17,6 +18,7 @@ public class UnitTests {
             PrimitiveClassTest.class,
             ArrayClassTest.class,
             StringTest.class,
+            ClassLoaderTest.class,
         });
     }
     

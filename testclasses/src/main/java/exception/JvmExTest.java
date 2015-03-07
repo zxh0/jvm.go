@@ -37,43 +37,43 @@ public class JvmExTest {
         }
     }
     
-    // ClassCastException
-    static void checkcast() {
+    @Test(expected = ClassCastException.class)
+    public void checkcast() {
         Object x = "String";
         Integer y = (Integer) x;
     }
     
-    // NegativeArraySizeException
-    static void newarray() {
+    //@Test(expected = NegativeArraySizeException.class)
+    public void newarray() {
         int[] a = new int[-3];
     }
     
-    // NegativeArraySizeException
-    static void anewarray() {
+    //@Test(expected = NegativeArraySizeException.class)
+    public void anewarray() {
         Object[] a = new Object[-1];
     }
     
-    // ArrayIndexOutOfBoundsException
-    static void aload() {
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void aload() {
         int[] a = {1};
         int x = a[2];
     }
     
-    // ArrayIndexOutOfBoundsException
-    static void astore() {
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void astore() {
         int[] a = {};
         a[1] = 2;
         int x = a[1];
     }
     
-    // ArithmeticException
-    static void idiv() {
+    @Test(expected = ArithmeticException.class)
+    public void idiv() {
         int x = 0;
         int y = 1 / x;
     }
     
-    // ArithmeticException
-    static void irem() {
+    @Test(expected = ArithmeticException.class)
+    public void irem() {
         int x = 0;
         int y = 1 % x;
     }

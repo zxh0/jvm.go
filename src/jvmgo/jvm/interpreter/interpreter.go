@@ -3,6 +3,7 @@ package interpreter
 import (
 	"fmt"
 	"jvmgo/jvm/instructions"
+	"jvmgo/jvm/jerrors"
 	"jvmgo/jvm/keepalive"
 	"jvmgo/jvm/rtda"
 )
@@ -15,7 +16,6 @@ func Loop(thread *rtda.Thread) {
 		keepalive.NonDaemonThreadStart()
 	}
 
-	defer _catchErr(thread) // todo
 	_loop(thread)
 
 	// terminate thread
@@ -27,6 +27,8 @@ func Loop(thread *rtda.Thread) {
 }
 
 func _loop(thread *rtda.Thread) {
+	defer _catchErr(thread) // todo
+
 	decoder := instructions.NewInstructionDecoder()
 	for {
 		frame := thread.CurrentFrame()
@@ -50,8 +52,14 @@ func _loop(thread *rtda.Thread) {
 // todo
 func _catchErr(thread *rtda.Thread) {
 	if r := recover(); r != nil {
+		if err, ok := r.(jerrors.ClassNotFoundError); ok {
+			thread.ThrowClassNotFoundException(err.Error())
+			_loop(thread)
+			return
+		}
+
 		_logFrames(thread)
-		
+
 		err, ok := r.(error)
 		if !ok {
 			err = fmt.Errorf("%v", r)

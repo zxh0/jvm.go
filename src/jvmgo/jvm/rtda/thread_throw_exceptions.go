@@ -41,3 +41,8 @@ func (self *Thread) ThrowClassCastException(from, to *rtc.Class) {
 	msgObj := NewJString(msg, from)
 	self.ThrowException("java/lang/ClassCastException", "(Ljava/lang/String;)V", msgObj)
 }
+
+func (self *Thread) ThrowClassNotFoundException(name string) {
+	msgObj := NewJString(name, self)
+	self.ThrowException("java/lang/ClassNotFoundException", "(Ljava/lang/String;)V", msgObj)
+}

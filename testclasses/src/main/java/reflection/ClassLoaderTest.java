@@ -39,4 +39,15 @@ public class ClassLoaderTest {
         assertSame(ClassLoaderTest.class, sysCl.loadClass("reflection.ClassLoaderTest"));
     }
     
+    @Test
+    public void classNotFound() throws Exception {
+        try {
+            ClassLoader sysCl = ClassLoader.getSystemClassLoader();
+            sysCl.loadClass("foo.bar.XXX");
+            fail();
+        } catch (ClassNotFoundException e) {
+            assertEquals("foo.bar.XXX", e.getMessage());
+        }
+    }
+    
 }

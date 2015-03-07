@@ -43,12 +43,12 @@ public class JvmExTest {
         Integer y = (Integer) x;
     }
     
-    //@Test(expected = NegativeArraySizeException.class)
+    @Test(expected = NegativeArraySizeException.class)
     public void newarray() {
         int[] a = new int[-3];
     }
     
-    //@Test(expected = NegativeArraySizeException.class)
+    @Test(expected = NegativeArraySizeException.class)
     public void anewarray() {
         Object[] a = new Object[-1];
     }

@@ -4,13 +4,10 @@ import (
 	. "jvmgo/any"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
-	"jvmgo/util"
 	"strings"
 )
 
 func init() {
-	_class(desiredAssertionStatus0, "desiredAssertionStatus0", "(Ljava/lang/Class;)Z")
-	_class(forName0, "forName0", "(Ljava/lang/String;ZLjava/lang/ClassLoader;Ljava/lang/Class;)Ljava/lang/Class;")
 	_class(getClassLoader0, "getClassLoader0", "()Ljava/lang/ClassLoader;")
 	_class(getComponentType, "getComponentType", "()Ljava/lang/Class;")
 	_class(getConstantPool, "getConstantPool", "()Lsun/reflect/ConstantPool;")
@@ -19,7 +16,6 @@ func init() {
 	_class(getInterfaces0, "getInterfaces0", "()[Ljava/lang/Class;")
 	_class(getModifiers, "getModifiers", "()I")
 	_class(getName0, "getName0", "()Ljava/lang/String;")
-	_class(getPrimitiveClass, "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;")
 	_class(getSuperclass, "getSuperclass", "()Ljava/lang/Class;")
 	_class(isAssignableFrom, "isAssignableFrom", "(Ljava/lang/Class;)Z")
 	_class(isInstance, "isInstance", "(Ljava/lang/Object;)Z")
@@ -30,43 +26,6 @@ func init() {
 
 func _class(method Any, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
-}
-
-// private static native boolean desiredAssertionStatus0(Class<?> clazz);
-// (Ljava/lang/Class;)Z
-func desiredAssertionStatus0(frame *rtda.Frame) {
-	// todo
-	stack := frame.OperandStack()
-	//stack.PopRef() // this
-	stack.PushBoolean(false)
-}
-
-// private static native Class<?> forName0(String name, boolean initialize,
-//                                         ClassLoader loader,
-//                                         Class<?> caller)
-//     throws ClassNotFoundException;
-// (Ljava/lang/String;ZLjava/lang/ClassLoader;Ljava/lang/Class;)Ljava/lang/Class;
-func forName0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jName := vars.GetRef(0)
-	initialize := vars.GetBoolean(1)
-	//jLoader := vars.GetRef(2)
-
-	goName := rtda.GoString(jName)
-	goName = util.ReplaceAll(goName, ".", "/")
-	goClass := frame.ClassLoader().LoadClass(goName)
-	jClass := goClass.JClass()
-
-	if initialize && goClass.InitializationNotStarted() {
-		// undo forName0
-		thread := frame.Thread()
-		frame.SetNextPC(thread.PC())
-		// init class
-		thread.InitClass(goClass)
-	} else {
-		stack := frame.OperandStack()
-		stack.PushRef(jClass)
-	}
 }
 
 // native ClassLoader getClassLoader0();
@@ -193,21 +152,6 @@ func getModifiers(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushInt(int32(modifiers))
-}
-
-// static native Class<?> getPrimitiveClass(String name);
-// (Ljava/lang/String;)Ljava/lang/Class;
-func getPrimitiveClass(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	nameObj := vars.GetRef(0)
-
-	name := rtda.GoString(nameObj)
-	classLoader := frame.ClassLoader()
-	class := classLoader.GetPrimitiveClass(name)
-	classObj := class.JClass()
-
-	stack := frame.OperandStack()
-	stack.PushRef(classObj)
 }
 
 // public native Class<? super T> getSuperclass();

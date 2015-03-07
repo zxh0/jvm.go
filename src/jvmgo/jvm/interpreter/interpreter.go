@@ -9,14 +9,13 @@ import (
 
 // todo
 func Loop(thread *rtda.Thread) {
-	defer _debug(thread) // todo
-
 	threadObj := thread.JThread()
 	isDaemon := threadObj != nil && threadObj.GetFieldValue("daemon", "Z").(int32) == 1
 	if !isDaemon {
 		keepalive.NonDaemonThreadStart()
 	}
 
+	defer _catchErr(thread) // todo
 	_loop(thread)
 
 	// terminate thread
@@ -49,7 +48,7 @@ func _loop(thread *rtda.Thread) {
 }
 
 // todo
-func _debug(thread *rtda.Thread) {
+func _catchErr(thread *rtda.Thread) {
 	if r := recover(); r != nil {
 		for !thread.IsStackEmpty() {
 			frame := thread.PopFrame()

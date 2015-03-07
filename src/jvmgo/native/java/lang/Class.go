@@ -17,9 +17,9 @@ func init() {
 	_class(getModifiers, "getModifiers", "()I")
 	_class(getName0, "getName0", "()Ljava/lang/String;")
 	_class(getSuperclass, "getSuperclass", "()Ljava/lang/Class;")
+	_class(isArray, "isArray", "()Z")
 	_class(isAssignableFrom, "isAssignableFrom", "(Ljava/lang/Class;)Z")
 	_class(isInstance, "isInstance", "(Ljava/lang/Object;)Z")
-	_class(isArray, "isArray", "()Z")
 	_class(isInterface, "isInterface", "()Z")
 	_class(isPrimitive, "isPrimitive", "()Z")
 }
@@ -31,12 +31,22 @@ func _class(method Any, name, desc string) {
 // native ClassLoader getClassLoader0();
 // ()Ljava/lang/ClassLoader;
 func getClassLoader0(frame *rtda.Frame) {
-	// vars := frame.LocalVars()
-	// this := vars.GetThis
+	class := _popClass(frame)
+	from := class.LoadedFrom()
+
+	stack := frame.OperandStack()
+	if from == nil {
+		// todo
+		stack.PushRef(nil)
+		return
+	}
+
+	// if strings.HasSuffix(from.String(), "") {
+
+	// }
 
 	// todo
 	// _ = stack.PopRef() // this
-	stack := frame.OperandStack()
 	stack.PushRef(nil)
 }
 

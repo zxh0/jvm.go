@@ -28,7 +28,7 @@ type Class struct {
 	jClass             *Obj      // java.lang.Class instance
 	superClass         *Class
 	interfaces         []*Class
-	classLoader        *ClassLoader // defining class loader
+	classLoader        *ClassLoader      // defining class loader
 	loadedFrom         cp.ClassPathEntry // todo
 	state              int
 }
@@ -58,6 +58,9 @@ func (self *Class) Interfaces() []*Class {
 }
 func (self *Class) ClassLoader() *ClassLoader {
 	return self.classLoader
+}
+func (self *Class) LoadedFrom() cp.ClassPathEntry {
+	return self.loadedFrom
 }
 
 // todo

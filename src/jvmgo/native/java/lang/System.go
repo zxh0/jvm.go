@@ -2,6 +2,7 @@ package lang
 
 import (
 	. "jvmgo/any"
+	"jvmgo/jvm/options"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 	"time"
@@ -112,8 +113,8 @@ func _sysProps() map[string]string {
 		"file.separator":      "/", // todo os.PathSeparator
 		"path.separator":      ":", // todo os.PathListSeparator
 		"line.separator":      "\n",
-		"java.home":           "./jre", // todo
-		"user.dir":            ".",     // todo
+		"java.home":           options.JavaHome, // todo
+		"user.dir":            ".",              // todo
 	}
 }
 

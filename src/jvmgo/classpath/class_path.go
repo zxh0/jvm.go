@@ -2,6 +2,7 @@ package classpath
 
 import (
 	"errors"
+	"jvmgo/jvm/options"
 )
 
 var classNotFoundErr = errors.New("class not found!")
@@ -18,7 +19,7 @@ func ParseClassPath(cpOption string) *ClassPath {
 	return &ClassPath{
 		CompoundClassPathEntry{
 			[]ClassPathEntry{
-				parseCompoundClassPathEntry("./jre/lib/*"),
+				parseCompoundClassPathEntry(options.JavaHome + "lib/*"),
 				parseCompoundClassPathEntry(cpOption),
 			},
 		},

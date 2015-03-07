@@ -1,4 +1,9 @@
 package options
 
-var VerboseClass bool
-var ThreadStackSize uint
+// todo
+const JavaHome = "./jre/"
+
+var (
+	VerboseClass    bool
+	ThreadStackSize uint
+)

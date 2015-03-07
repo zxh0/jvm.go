@@ -15,6 +15,7 @@ func (self *invokevirtual) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	ref := stack.Top(kMethodRef.ArgCount())
 	if ref == nil {
+		// frame.Thread().ThrowNPE()
 		panic("NPE")
 	}
 

@@ -1,37 +1,19 @@
 package exception;
 
+import junit.UnitTestRunner;
+import org.junit.Test;
+
 public class JvmExTest {
     
     int i;
     
     public static void main(String[] args) {
-        try {
-            // NPE
-            //arraylength(null);
-            //athrow(null);
-            //getfield(null);
-            monitorenter();
-            
-            // ClassCastException
-            //checkcast();
-            
-            // NegativeArraySizeException
-            //newarray();
-            //anewarray();
-            
-            // ArrayIndexOutOfBoundsException
-            //aload();
-            //astore();
-            
-            // ArithmeticException
-            //idiv();
-            //irem();
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
+        UnitTestRunner.run(JvmExTest.class);
     }
     
-    static void arraylength(int[] x) {
+    @Test(expected = NullPointerException.class)
+    public void arraylength() {
+        int[] x = null;
         int y = x.length;
     }
     

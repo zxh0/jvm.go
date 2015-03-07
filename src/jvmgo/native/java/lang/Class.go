@@ -43,7 +43,10 @@ func getClassLoader0(frame *rtda.Frame) {
 	}
 
 	if strings.HasPrefix(from.String(), options.AbsJavaHome) {
-		//println(from.String())
+		// clClass := class.ClassLoader().LoadClass("java/lang/ClassLoader")
+		// getSysCl := clClass.GetStaticMethod("getSystemClassLoader", "()Ljava/lang/ClassLoader;")
+		// frame.Thread().InvokeMethod(getSysCl)
+		// return
 		// todo
 	}
 

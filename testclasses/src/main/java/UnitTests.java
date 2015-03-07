@@ -1,3 +1,4 @@
+import exception.JvmExTest;
 import org.junit.Test;
 import reflection.ArrayClassTest;
 import reflection.PrimitiveClassTest;
@@ -19,6 +20,7 @@ public class UnitTests {
             ArrayClassTest.class,
             StringTest.class,
             ClassLoaderTest.class,
+            JvmExTest.class,
         });
     }
     

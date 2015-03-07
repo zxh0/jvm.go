@@ -32,4 +32,11 @@ public class ClassLoaderTest {
         assertSame(sysCl, appCl);
     }
     
+    @Test
+    public void loadClass() throws Exception {
+        ClassLoader sysCl = ClassLoader.getSystemClassLoader();
+        assertSame(Object.class, sysCl.loadClass("java.lang.Object"));
+        assertSame(ClassLoaderTest.class, sysCl.loadClass("reflection.ClassLoaderTest"));
+    }
+    
 }

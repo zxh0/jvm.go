@@ -34,23 +34,19 @@ func (self *Thread) ThrowNegativeArraySizeException() {
 }
 
 func (self *Thread) ThrowDivByZero() {
-	msgObj := NewJString("/ by zero", self)
-	self.throwException("java/lang/ArithmeticException", "(Ljava/lang/String;)V", msgObj)
+	self.throwExceptionS("java/lang/ArithmeticException", "/ by zero")
 }
 
 func (self *Thread) ThrowArrayIndexOutOfBoundsException(index int32) {
 	msg := fmt.Sprintf("%v", index)
-	msgObj := NewJString(msg, self)
-	self.throwException("java/lang/ArrayIndexOutOfBoundsException", "(Ljava/lang/String;)V", msgObj)
+	self.throwExceptionS("java/lang/ArrayIndexOutOfBoundsException", msg)
 }
 
 func (self *Thread) ThrowClassCastException(from, to *rtc.Class) {
 	msg := fmt.Sprintf("%v cannot be cast to %v", from.NameJlsFormat(), to.NameJlsFormat())
-	msgObj := NewJString(msg, from)
-	self.throwException("java/lang/ClassCastException", "(Ljava/lang/String;)V", msgObj)
+	self.throwExceptionS("java/lang/ClassCastException", msg)
 }
 
 func (self *Thread) ThrowClassNotFoundException(name string) {
-	msgObj := NewJString(name, self)
-	self.throwException("java/lang/ClassNotFoundException", "(Ljava/lang/String;)V", msgObj)
+	self.throwExceptionS("java/lang/ClassNotFoundException", name)
 }

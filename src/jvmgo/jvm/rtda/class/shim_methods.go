@@ -34,7 +34,7 @@ func AthrowMethod() *Method {
 
 func BootstrapMethod(cl *ClassLoader) *Method {
 	method := &Method{}
-	method.class = &Class{name: "~jvmgo", classLoader: cl}
+	method.class = &Class{name: "~shim", classLoader: cl}
 	method.name = "<bootstrap>"
 	method.accessFlags = ACC_STATIC
 	method.maxStack = 8

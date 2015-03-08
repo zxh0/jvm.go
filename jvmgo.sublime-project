@@ -9,5 +9,17 @@
     {
         "tab_size": 4,
         "translate_tabs_to_spaces": false
-    }
+    }/*,
+    "build_systems":
+    [
+        {
+            "name": "Go",
+            "cmd": [
+                "/usr/local/go/bin/go",
+                "build",
+                "$file"
+            ],
+            "selector": "source.go"
+        }
+    ]*/
 }

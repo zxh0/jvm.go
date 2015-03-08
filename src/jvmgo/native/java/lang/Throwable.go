@@ -54,15 +54,16 @@ func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) []*StackTraceEle
 		frameN := thread.TopFrameN(i)
 		methodN := frameN.Method()
 		classN := methodN.Class()
-		lineNumber := methodN.GetLineNumber(frameN.NextPC() - 1)
-
-		ste := &StackTraceElement{
-			declaringClass: classN.NameJlsFormat(),
-			methodName:     methodN.Name(),
-			fileName:       classN.Attributes().SourceFile(),
-			lineNumber:     lineNumber,
+		if classN.Name() != "~shim" { // skip shim frame
+			lineNumber := methodN.GetLineNumber(frameN.NextPC() - 1)
+			ste := &StackTraceElement{
+				declaringClass: classN.NameJlsFormat(),
+				methodName:     methodN.Name(),
+				fileName:       classN.Attributes().SourceFile(),
+				lineNumber:     lineNumber,
+			}
+			stes = append(stes, ste)
 		}
-		stes = append(stes, ste)
 	}
 
 	return stes

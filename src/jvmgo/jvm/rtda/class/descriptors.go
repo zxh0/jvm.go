@@ -1,8 +1,13 @@
 package class
 
 type MethodDescriptor struct {
+	d              string
 	parameterTypes []*FieldType
 	returnType     *FieldType
+}
+
+func (self *MethodDescriptor) String() string {
+	return self.d
 }
 
 func (self *MethodDescriptor) ParameterTypes() []*FieldType {
@@ -20,9 +25,10 @@ func (self *MethodDescriptor) argCount() uint {
 func (self *MethodDescriptor) addParameterType(t *FieldType) {
 	pLen := len(self.parameterTypes)
 	if pLen == cap(self.parameterTypes) {
-		self.parameterTypes = make([]*FieldType, pLen, pLen+4)
+		s := make([]*FieldType, pLen, pLen+4)
+		copy(s, self.parameterTypes)
+		self.parameterTypes = s
 	}
 
-	self.parameterTypes = self.parameterTypes[:pLen+1]
-	self.parameterTypes[pLen] = t
+	self.parameterTypes = append(self.parameterTypes, t)
 }

@@ -12,6 +12,7 @@ type MemberDescriptorParser struct {
 
 func (self *MemberDescriptorParser) parse() *MethodDescriptor {
 	self.md = &MethodDescriptor{}
+	self.md.d = self.descriptor
 	self.startParams()
 	self.parseParamTypes()
 	self.endParams()

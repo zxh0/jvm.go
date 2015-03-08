@@ -61,9 +61,6 @@ func _invokeMethod(frame *rtda.Frame) {
 }
 
 func _boxReturnValue(frame *rtda.Frame, returnType *rtc.FieldType) {
-	val := frame.OperandStack().Pop()
-	frame.LocalVars().Set(0, val) // parameter of valueOf()
-
 	switch returnType.Descriptor()[0] {
 	case 'Z':
 		_callValueOf(frame, "Z", "java/lang/Boolean")
@@ -87,13 +84,13 @@ func _boxReturnValue(frame *rtda.Frame, returnType *rtc.FieldType) {
 }
 
 func _callValueOf(frame *rtda.Frame, primitiveDescriptor, wrapperClassName string) {
-	// todo: init wrapper class?
 	wrapperClass := frame.ClassLoader().LoadClass(wrapperClassName)
-	if wrapperClass.InitializationNotStarted() {
-		panic("todo: init " + wrapperClassName)
-	}
-
 	d := "(" + primitiveDescriptor + ")L" + wrapperClassName + ";"
 	valueOfMethod := wrapperClass.GetStaticMethod("valueOf", d)
 	frame.Thread().InvokeMethod(valueOfMethod)
+
+	// init wrapper class
+	if wrapperClass.InitializationNotStarted() {
+		frame.Thread().InitClass(wrapperClass)
+	}
 }

@@ -7,6 +7,7 @@ import (
 )
 
 func init() {
+	_vmm(getUptime0, "getUptime0", "()J")
 	_vmm(getStartupTime, "getStartupTime", "()J")
 	_vmm(getVersion0, "getVersion0", "()Ljava/lang/String;")
 	_vmm(initOptionalSupportFields, "initOptionalSupportFields", "()V")
@@ -14,6 +15,16 @@ func init() {
 
 func _vmm(method Any, name, desc string) {
 	rtc.RegisterNativeMethod("sun/management/VMManagementImpl", name, desc, method)
+}
+
+// private native long getUptime0();
+// ()J
+func getUptime0(frame *rtda.Frame) {
+	// todo
+	uptime := int64(0)
+
+	stack := frame.OperandStack()
+	stack.PushLong(uptime)
 }
 
 // public native long getStartupTime();

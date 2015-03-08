@@ -75,8 +75,8 @@ func _boxReturnValue(frame *rtda.Frame, returnType *rtc.FieldType) {
 		_callValueOf(frame, "S", "java/lang/Short")
 	case 'I':
 		_callValueOf(frame, "I", "java/lang/Integer")
-	case 'L':
-		_callValueOf(frame, "L", "java/lang/Long")
+	case 'J':
+		_callValueOf(frame, "J", "java/lang/Long")
 	case 'F':
 		_callValueOf(frame, "F", "java/lang/Float")
 	case 'D':

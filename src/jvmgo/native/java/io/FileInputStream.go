@@ -49,8 +49,8 @@ func open(frame *rtda.Frame) {
 	goName := rtda.GoString(name)
 	goFile, err := os.Open(goName)
 	if err != nil {
-		// todo FileNotFoundException
-		panic(err.Error())
+		frame.Thread().ThrowFileNotFoundException(goName)
+		return
 	}
 
 	this.SetExtra(goFile)

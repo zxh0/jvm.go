@@ -41,6 +41,11 @@ func (self *Thread) ThrowClassNotFoundException(name string) {
 	self.throwExceptionS("java/lang/ClassNotFoundException", name)
 }
 
+func (self *Thread) ThrowFileNotFoundException(name string) {
+	msg := name + " (No such file or directory)"
+	self.throwExceptionS("java/io/FileNotFoundException", msg)
+}
+
 func (self *Thread) ThrowArrayIndexOutOfBoundsException(index int32) {
 	msg := fmt.Sprintf("%v", index)
 	self.throwExceptionS("java/lang/ArrayIndexOutOfBoundsException", msg)

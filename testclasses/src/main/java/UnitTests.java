@@ -1,4 +1,5 @@
 import exception.JvmExTest;
+import file.FileIoTest;
 import org.junit.Test;
 import reflection.ArrayClassTest;
 import reflection.PrimitiveClassTest;
@@ -21,6 +22,7 @@ public class UnitTests {
             StringTest.class,
             ClassLoaderTest.class,
             JvmExTest.class,
+            FileIoTest.class,
         });
     }
     

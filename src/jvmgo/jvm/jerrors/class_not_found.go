@@ -9,5 +9,5 @@ func NewClassNotFoundError(name string) ClassNotFoundError {
 }
 
 func (self ClassNotFoundError) Error() string {
-    return self.name
+	return self.name
 }

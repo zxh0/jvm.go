@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	absBootPath = filepath.Join(options.AbsJavaHome, "lib") // jre/lib
+	absBootPath      = filepath.Join(options.AbsJavaHome, "lib") // jre/lib
 	classNotFoundErr = errors.New("class not found!")
 )
 
@@ -20,7 +20,7 @@ func ParseClassPath(cpOption string) *ClassPath {
 	if cpOption == "" {
 		cpOption = "."
 	}
-	
+
 	return &ClassPath{
 		CompoundClassPathEntry{
 			[]ClassPathEntry{

@@ -37,6 +37,10 @@ func (self *Thread) ThrowDivByZero() {
 	self.throwExceptionS("java/lang/ArithmeticException", "/ by zero")
 }
 
+func (self *Thread) ThrowClassNotFoundException(name string) {
+	self.throwExceptionS("java/lang/ClassNotFoundException", name)
+}
+
 func (self *Thread) ThrowArrayIndexOutOfBoundsException(index int32) {
 	msg := fmt.Sprintf("%v", index)
 	self.throwExceptionS("java/lang/ArrayIndexOutOfBoundsException", msg)
@@ -45,8 +49,4 @@ func (self *Thread) ThrowArrayIndexOutOfBoundsException(index int32) {
 func (self *Thread) ThrowClassCastException(from, to *rtc.Class) {
 	msg := fmt.Sprintf("%v cannot be cast to %v", from.NameJlsFormat(), to.NameJlsFormat())
 	self.throwExceptionS("java/lang/ClassCastException", msg)
-}
-
-func (self *Thread) ThrowClassNotFoundException(name string) {
-	self.throwExceptionS("java/lang/ClassNotFoundException", name)
 }

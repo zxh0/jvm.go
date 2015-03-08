@@ -10,6 +10,7 @@ func init() {
 	_ac(doPrivileged, "doPrivileged", "(Ljava/security/PrivilegedAction;)Ljava/lang/Object;")
 	_ac(doPrivileged2, "doPrivileged", "(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;")
 	_ac(doPrivileged3, "doPrivileged", "(Ljava/security/PrivilegedExceptionAction;)Ljava/lang/Object;")
+	_ac(doPrivileged4, "doPrivileged", "(Ljava/security/PrivilegedExceptionAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;")
 	_ac(getStackAccessControlContext, "getStackAccessControlContext", "()Ljava/security/AccessControlContext;")
 }
 
@@ -55,7 +56,11 @@ func doPrivileged3(frame *rtda.Frame) {
 //     doPrivileged(PrivilegedExceptionAction<T> action,
 //                  AccessControlContext context)
 //     throws PrivilegedActionException;
-//
+// (Ljava/security/PrivilegedExceptionAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;
+func doPrivileged4(frame *rtda.Frame) {
+	// todo
+	doPrivileged(frame)
+}
 
 // private static native AccessControlContext getStackAccessControlContext();
 // ()Ljava/security/AccessControlContext;

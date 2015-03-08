@@ -13,15 +13,17 @@ public class ClassTest implements Runnable {
     
     public static void main(String[] args) throws Exception {
         UnitTestRunner.run(ClassTest.class);
-       // _class();
-        //method();
-        //System.out.println(ClassTest.class.getPackage());
     }
     
     @Override
     @Test
     public void run() throws RuntimeException {
         //System.out.println("run!");
+    }
+    
+    @Test
+    public void _package() {
+        assertEquals("reflection", getClass().getPackage().getName());
     }
     
     @Test
@@ -32,8 +34,8 @@ public class ClassTest implements Runnable {
         assertArrayEquals(new Class<?>[]{Runnable.class}, c.getInterfaces());
         assertEquals(1, c.getFields().length);
         assertEquals(3, c.getDeclaredFields().length);
-        assertEquals(13, c.getMethods().length);
-        assertEquals(4, c.getDeclaredMethods().length);
+        assertEquals(14, c.getMethods().length);
+        assertEquals(5, c.getDeclaredMethods().length);
     }
 
     @Test

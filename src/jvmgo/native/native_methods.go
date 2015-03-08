@@ -8,6 +8,7 @@ import (
 	_ "jvmgo/native/java/lang"
 	_ "jvmgo/native/java/lang/reflect"
 	_ "jvmgo/native/java/security"
+	_ "jvmgo/native/java/util"
 	_ "jvmgo/native/java/util/concurrent/atomic"
 	_ "jvmgo/native/sun/misc"
 	_ "jvmgo/native/sun/reflect"

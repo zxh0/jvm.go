@@ -17,12 +17,20 @@ func (self *Thread) throwException(className, initDesc string, initArgs ...Any) 
 	self.InvokeMethod(constructor)
 }
 
+func (self *Thread) throwExceptionV(className string) {
+	self.throwException(className, "()V")
+}
+func (self *Thread) throwExceptionS(className, msg string) {
+	msgObj := NewJString(msg, self)
+	self.throwException(className, "(Ljava/lang/String;)V", msgObj)
+}
+
 func (self *Thread) ThrowNPE() {
-	self.throwException("java/lang/NullPointerException", "()V")
+	self.throwExceptionV("java/lang/NullPointerException")
 }
 
 func (self *Thread) ThrowNegativeArraySizeException() {
-	self.throwException("java/lang/NegativeArraySizeException", "()V")
+	self.throwExceptionV("java/lang/NegativeArraySizeException")
 }
 
 func (self *Thread) ThrowDivByZero() {

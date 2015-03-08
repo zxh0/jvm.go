@@ -10,6 +10,7 @@ import (
 	_ "jvmgo/native/java/security"
 	_ "jvmgo/native/java/util"
 	_ "jvmgo/native/java/util/concurrent/atomic"
+	_ "jvmgo/native/java/util/zip"
 	_ "jvmgo/native/sun/misc"
 	_ "jvmgo/native/sun/reflect"
 )

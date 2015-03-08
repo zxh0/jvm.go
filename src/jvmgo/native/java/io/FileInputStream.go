@@ -4,7 +4,6 @@ import (
 	. "jvmgo/any"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
-	"jvmgo/util"
 	"os"
 )
 
@@ -75,7 +74,7 @@ func readBytes(frame *rtda.Frame) {
 	_len := vars.GetInt(3)
 
 	goFile := this.Extra().(*os.File)
-	goBuf := util.CastInt8sToUint8s(buf.Fields().([]int8))
+	goBuf := buf.GoBytes()
 	goBuf = goBuf[off : off+_len]
 
 	// func (f *File) Read(b []byte) (n int, err error)

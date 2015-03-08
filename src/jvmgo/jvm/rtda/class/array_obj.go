@@ -1,5 +1,9 @@
 package class
 
+import (
+	"jvmgo/util"
+)
+
 func (self *Obj) IsArray() bool {
 	return self.class.IsArray()
 }
@@ -8,5 +12,10 @@ func (self *Obj) IsPrimitiveArray() bool {
 }
 
 func (self *Obj) Refs() []*Obj {
-	return self.Fields().([]*Obj)
+	return self.fields.([]*Obj)
+}
+
+func (self *Obj) GoBytes() []byte {
+	s := self.fields.([]int8)
+	return util.CastInt8sToUint8s(s)
 }

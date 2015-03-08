@@ -8,8 +8,8 @@ import (
 
 func init() {
 	_ac(doPrivileged, "doPrivileged", "(Ljava/security/PrivilegedAction;)Ljava/lang/Object;")
-	_ac(doPrivileged2, "doPrivileged", "(Ljava/security/PrivilegedExceptionAction;)Ljava/lang/Object;")
-	_ac(doPrivileged3, "doPrivileged", "(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;")
+	_ac(doPrivileged2, "doPrivileged", "(Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;")
+	_ac(doPrivileged3, "doPrivileged", "(Ljava/security/PrivilegedExceptionAction;)Ljava/lang/Object;")
 	_ac(getStackAccessControlContext, "getStackAccessControlContext", "()Ljava/security/AccessControlContext;")
 }
 
@@ -17,6 +17,7 @@ func _ac(method Any, name, desc string) {
 	rtc.RegisterNativeMethod("java/security/AccessController", name, desc, method)
 }
 
+// @CallerSensitive
 // public static native <T> T doPrivileged(PrivilegedAction<T> action);
 // (Ljava/security/PrivilegedAction;)Ljava/lang/Object;
 func doPrivileged(frame *rtda.Frame) {
@@ -31,23 +32,30 @@ func doPrivileged(frame *rtda.Frame) {
 }
 
 // @CallerSensitive
-// public static native <T> T
-//     doPrivileged(PrivilegedExceptionAction<T> action)
-//     throws PrivilegedActionException;
-// (Ljava/security/PrivilegedExceptionAction;)Ljava/lang/Object;
+// public static native <T> T doPrivileged(PrivilegedAction<T> action,
+//                                         AccessControlContext context);
+// (Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;
 func doPrivileged2(frame *rtda.Frame) {
 	// todo
 	doPrivileged(frame)
 }
 
 // @CallerSensitive
-// public static native <T> T doPrivileged(PrivilegedAction<T> action,
-//                                         AccessControlContext context);
-// (Ljava/security/PrivilegedAction;Ljava/security/AccessControlContext;)Ljava/lang/Object;
+// public static native <T> T
+//     doPrivileged(PrivilegedExceptionAction<T> action)
+//     throws PrivilegedActionException;
+// (Ljava/security/PrivilegedExceptionAction;)Ljava/lang/Object;
 func doPrivileged3(frame *rtda.Frame) {
 	// todo
 	doPrivileged(frame)
 }
+
+// @CallerSensitive
+// public static native <T> T
+//     doPrivileged(PrivilegedExceptionAction<T> action,
+//                  AccessControlContext context)
+//     throws PrivilegedActionException;
+//
 
 // private static native AccessControlContext getStackAccessControlContext();
 // ()Ljava/security/AccessControlContext;

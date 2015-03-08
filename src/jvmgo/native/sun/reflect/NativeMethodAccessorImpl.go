@@ -36,6 +36,10 @@ func _invokeMethod(frame *rtda.Frame) {
 	argArrObj := vars.GetRef(2)
 
 	goMethod := getGoMethod(methodObj)
+	if goMethod.IsAbstract() {
+		goMethod = obj.Class().GetInstanceMethod(goMethod.Name(), goMethod.Descriptor())
+	}
+
 	args := convertArgs(obj, argArrObj, goMethod)
 	// remember return type
 	returnType := goMethod.ParsedDescriptor().ReturnType()

@@ -71,10 +71,10 @@ func readBytes(frame *rtda.Frame) {
 
 	// func (f *File) ReadAt(b []byte, off int64) (n int, err error)
 	n, err := goFile.ReadAt(goBuf, int64(off))
-	if err != nil {
+	if err == nil || n > 0 {
 		frame.OperandStack().PushInt(int32(n))
 	} else {
 		// todo
-		panic("IOException")
+		panic("IOException!" + err.Error())
 	}
 }

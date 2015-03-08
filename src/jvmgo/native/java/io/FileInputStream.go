@@ -10,6 +10,7 @@ import (
 
 func init() {
 	_fis(fis_initIDs, "initIDs", "()V")
+	_fis(available, "available", "()I")
 	_fis(close0, "close0", "()V")
 	_fis(readBytes, "readBytes", "([BII)I")
 	_fis(open, "open", "(Ljava/lang/String;)V")
@@ -23,6 +24,14 @@ func _fis(method Any, name, desc string) {
 // ()V
 func fis_initIDs(frame *rtda.Frame) {
 	// todo
+}
+
+// public native int available() throws IOException;
+// ()I
+func available(frame *rtda.Frame) {
+	// todo
+	stack := frame.OperandStack()
+	stack.PushInt(1)
 }
 
 // private native void close0() throws IOException;
@@ -67,10 +76,10 @@ func readBytes(frame *rtda.Frame) {
 
 	goFile := this.Extra().(*os.File)
 	goBuf := util.CastInt8sToUint8s(buf.Fields().([]int8))
-	goBuf = goBuf[:_len] // limit the maximum number of bytes read
+	goBuf = goBuf[off : off+_len]
 
-	// func (f *File) ReadAt(b []byte, off int64) (n int, err error)
-	n, err := goFile.ReadAt(goBuf, int64(off))
+	// func (f *File) Read(b []byte) (n int, err error)
+	n, err := goFile.Read(goBuf)
 	if err == nil || n > 0 {
 		frame.OperandStack().PushInt(int32(n))
 	} else {

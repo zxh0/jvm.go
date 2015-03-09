@@ -8,8 +8,8 @@ import (
 
 func init() {
 	_zf(initIDs, "initIDs", "()V")
-	_zf(open, "open", "(Ljava/lang/String;IJZ)J")
 	_zf(getTotal, "getTotal", "(J)I")
+	_zf(open, "open", "(Ljava/lang/String;IJZ)J")
 	_zf(startsWithLOC, "startsWithLOC", "(J)Z")
 }
 
@@ -41,6 +41,14 @@ func open(frame *rtda.Frame) {
 	stack.PushLong(jzfile)
 }
 
+// private static native boolean startsWithLOC(long jzfile);
+// (J)Z
+func startsWithLOC(frame *rtda.Frame) {
+	// todo
+	stack := frame.OperandStack()
+	stack.PushBoolean(true)
+}
+
 // private static native int getTotal(long jzfile);
 // (J)I
 func getTotal(frame *rtda.Frame) {
@@ -51,12 +59,4 @@ func getTotal(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushInt(total)
-}
-
-// private static native boolean startsWithLOC(long jzfile);
-// (J)Z
-func startsWithLOC(frame *rtda.Frame) {
-	// todo
-	stack := frame.OperandStack()
-	stack.PushBoolean(true)
 }

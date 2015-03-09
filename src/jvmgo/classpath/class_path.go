@@ -37,6 +37,11 @@ func (self *ClassPath) ReadClassData(className string) (ClassPathEntry, []byte, 
 	return self.compoundEntry.readClassData(className)
 }
 
+func (self *ClassPath) String() string {
+	// todo
+	return self.compoundEntry.entries[1].String()
+}
+
 func IsBootClassPath(entry ClassPathEntry) bool {
 	if entry == nil {
 		// todo

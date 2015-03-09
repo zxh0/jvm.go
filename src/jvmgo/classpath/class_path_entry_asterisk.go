@@ -32,5 +32,5 @@ func (self *AsteriskClassPathEntry) readClassData(className string) (ClassPathEn
 }
 
 func (self *AsteriskClassPathEntry) String() string {
-	return "*"
+	return self.compoundEntry.String()
 }

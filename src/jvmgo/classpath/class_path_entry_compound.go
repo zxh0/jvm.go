@@ -51,7 +51,12 @@ func (self *CompoundClassPathEntry) addEntry(entry ClassPathEntry) {
 	self.entries = append(self.entries, entry)
 }
 
-// todo
 func (self *CompoundClassPathEntry) String() string {
-	return "CompoundClassPathEntry"
+	strs := make([]string, len(self.entries))
+
+	for i, entry := range self.entries {
+		strs[i] = entry.String()
+	}
+
+	return strings.Join(strs, _pathListSeparator)
 }

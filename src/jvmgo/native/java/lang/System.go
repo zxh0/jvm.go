@@ -94,10 +94,12 @@ func initProperties(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushRef(props)
+
+	cp := frame.ClassLoader().ClassPath().String()
 	// public synchronized Object setProperty(String key, String value)
 	setPropMethod := props.Class().GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
 	thread := frame.Thread()
-	for key, val := range _sysProps() {
+	for key, val := range _sysProps(cp) {
 		jKey := rtda.NewJString(key, frame)
 		jVal := rtda.NewJString(val, frame)
 		args := []Any{props, jKey, jVal}
@@ -105,16 +107,22 @@ func initProperties(frame *rtda.Frame) {
 	}
 }
 
-func _sysProps() map[string]string {
+func _sysProps(classPath string) map[string]string {
+	javaHome := options.JavaHome // todo
 	return map[string]string{
+		"java.version":        "1.8.0",
+		"java.vendor":         "jvm.go",
+		"java.vendor.url":     "https://github.com/zxh0/jvm.go",
+		"java.home":           javaHome,
+		"java.class.version":  "52.0",
+		"java.class.path":     classPath,
 		"file.encoding":       "UTF-8",
 		"sun.stdout.encoding": "UTF-8",
 		"sun.stderr.encoding": "UTF-8",
 		"file.separator":      "/", // todo os.PathSeparator
 		"path.separator":      ":", // todo os.PathListSeparator
 		"line.separator":      "\n",
-		"java.home":           options.JavaHome, // todo
-		"user.dir":            ".",              // todo
+		"user.dir":            ".", // todo
 	}
 }
 

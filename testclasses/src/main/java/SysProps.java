@@ -24,7 +24,7 @@ public class SysProps {
         
         for (String key : keys) {
             String val = System.getProperty(key);
-            System.out.println(key + ":" + val);
+            System.out.println(key + ": " + val);
         }
     }
     

@@ -50,6 +50,9 @@ func NewClassLoader(cp *classpath.ClassPath) *ClassLoader {
 func (self *ClassLoader) ClassLoader() *ClassLoader {
 	return self
 }
+func (self *ClassLoader) ClassPath() *classpath.ClassPath {
+	return self.classPath
+}
 
 func (self *ClassLoader) Init() {
 	_jlObjectClass = self.LoadClass(jlObjectClassName)

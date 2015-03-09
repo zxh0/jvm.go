@@ -69,7 +69,7 @@ func getNextEntry(frame *rtda.Frame) {
 	jzfile := vars.GetLong(0)
 	i := vars.GetInt(2)
 
-	nextEntry := jzfile & (int64(i) << 4)
+	nextEntry := jzfile | (int64(i) << 32)
 
 	stack := frame.OperandStack()
 	stack.PushLong(nextEntry)

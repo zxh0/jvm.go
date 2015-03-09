@@ -11,7 +11,7 @@ func openZip(name string) (int64, error) {
 	if err == nil {
 		key := _nextKey()
 		_map[key] = rc
-		return key, err
+		return key, nil
 	}
 	return 0, err
 }

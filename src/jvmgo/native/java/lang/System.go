@@ -116,13 +116,18 @@ func _sysProps(classPath string) map[string]string {
 		"java.home":           javaHome,
 		"java.class.version":  "52.0",
 		"java.class.path":     classPath,
+		"os.name":             "",   // todo
+		"os.arch":             "",   // todo
+		"os.version":          "",   // todo
+		"file.separator":      "/",  // todo os.PathSeparator
+		"path.separator":      ":",  // todo os.PathListSeparator
+		"line.separator":      "\n", // todo
+		"user.name":           "",   // todo
+		"user.home":           "",   // todo
+		"user.dir":            ".",  // todo
 		"file.encoding":       "UTF-8",
 		"sun.stdout.encoding": "UTF-8",
 		"sun.stderr.encoding": "UTF-8",
-		"file.separator":      "/", // todo os.PathSeparator
-		"path.separator":      ":", // todo os.PathListSeparator
-		"line.separator":      "\n",
-		"user.dir":            ".", // todo
 	}
 }
 

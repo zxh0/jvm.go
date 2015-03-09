@@ -69,8 +69,18 @@ func getNextEntry(frame *rtda.Frame) {
 	jzfile := vars.GetLong(0)
 	i := vars.GetInt(2)
 
-	nextEntry := jzfile | (int64(i) << 32)
+	nextEntry := getJzentry(jzfile, i)
 
 	stack := frame.OperandStack()
 	stack.PushLong(nextEntry)
+}
+
+// private static native int getEntryFlag(long jzentry);
+// (J)I
+func getEntryFlag(frame *rtda.Frame) {
+	// vars := frame.LocalVars()
+	// jzentry := vars.GetLong(0)
+
+	// jzfile := jzentry & 0x0000FFFF
+	// index := jzfile >> 32
 }

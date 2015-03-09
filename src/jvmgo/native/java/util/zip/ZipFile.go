@@ -25,9 +25,16 @@ func initIDs(frame *rtda.Frame) {
 //                                 boolean usemmap) throws IOException;
 // (Ljava/lang/String;IJZ)J
 func open(frame *rtda.Frame) {
-	// vars := frame.LocalVars()
-	// nameObj := vars.GetRef(0)
+	vars := frame.LocalVars()
+	nameObj := vars.GetRef(0)
 
-	// name := rtda.GoString(nameObj)
-	panic("todo")
+	name := rtda.GoString(nameObj)
+	jzfile, err := openZip(name)
+	if err != nil {
+		// todo
+		panic("IOException")
+	}
+
+	stack := frame.OperandStack()
+	stack.PushLong(jzfile)
 }

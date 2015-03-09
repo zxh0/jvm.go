@@ -8,6 +8,7 @@ import (
 
 func init() {
 	_zf(initIDs, "initIDs", "()V")
+	_zf(open, "open", "(Ljava/lang/String;IJZ)J")
 }
 
 func _zf(method Any, name, desc string) {
@@ -18,4 +19,15 @@ func _zf(method Any, name, desc string) {
 // ()V
 func initIDs(frame *rtda.Frame) {
 	// todo
+}
+
+// private static native long open(String name, int mode, long lastModified,
+//                                 boolean usemmap) throws IOException;
+// (Ljava/lang/String;IJZ)J
+func open(frame *rtda.Frame) {
+	// vars := frame.LocalVars()
+	// nameObj := vars.GetRef(0)
+
+	// name := rtda.GoString(nameObj)
+	panic("todo")
 }

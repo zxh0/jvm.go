@@ -12,6 +12,7 @@ func init() {
 	_ufs(ufs_initIDs, "initIDs", "()V")
 	_ufs(canonicalize0, "canonicalize0", "(Ljava/lang/String;)Ljava/lang/String;")
 	_ufs(getBooleanAttributes0, "getBooleanAttributes0", "(Ljava/io/File;)I")
+	_ufs(getLastModifiedTime, "getLastModifiedTime", "(Ljava/io/File;)J")
 }
 
 func _ufs(method Any, name, desc string) {
@@ -90,8 +91,21 @@ func _isDir(path string) bool {
 
 // public native long getLastModifiedTime(File f);
 //
-// func getLastModifiedTime(frame *rtda.Frame) {
-// 	vars := frame.LocalVars()
-// 	fileObj := vars.GetRef(1)
-// 	path := _getPath(fileObj)
-// }
+func getLastModifiedTime(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fileObj := vars.GetRef(1)
+
+	path := _getPath(fileObj)
+	t := _getLastModifiedTime(path)
+
+	stack := frame.OperandStack()
+	stack.PushLong(t)
+}
+
+func _getLastModifiedTime(path string) int64 {
+	fileInfo, err := os.Stat(path)
+	if err == nil {
+		return fileInfo.ModTime().UnixNano() / 1000
+	}
+	return 0
+}

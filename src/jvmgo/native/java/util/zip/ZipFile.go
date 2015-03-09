@@ -10,6 +10,7 @@ func init() {
 	_zf(initIDs, "initIDs", "()V")
 	_zf(open, "open", "(Ljava/lang/String;IJZ)J")
 	_zf(getTotal, "getTotal", "(J)I")
+	_zf(startsWithLOC, "startsWithLOC", "(J)Z")
 }
 
 func _zf(method Any, name, desc string) {
@@ -50,4 +51,12 @@ func getTotal(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushInt(total)
+}
+
+// private static native boolean startsWithLOC(long jzfile);
+// (J)Z
+func startsWithLOC(frame *rtda.Frame) {
+	// todo
+	stack := frame.OperandStack()
+	stack.PushBoolean(true)
 }

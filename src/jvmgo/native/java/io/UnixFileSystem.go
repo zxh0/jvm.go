@@ -45,10 +45,8 @@ func canonicalize0(frame *rtda.Frame) {
 // (Ljava/io/File;)I
 func getBooleanAttributes0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	file := vars.GetRef(1)
-
-	pathStr := file.GetFieldValue("path", "Ljava/lang/String;").(*rtc.Obj)
-	path := rtda.GoString(pathStr)
+	fileObj := vars.GetRef(1)
+	path := _getPath(fileObj)
 
 	// todo
 	attributes0 := 0
@@ -59,7 +57,13 @@ func getBooleanAttributes0(frame *rtda.Frame) {
 		attributes0 |= 0x04
 	}
 
-	frame.OperandStack().PushInt(int32(attributes0))
+	stack := frame.OperandStack()
+	stack.PushInt(int32(attributes0))
+}
+
+func _getPath(fileObj *rtc.Obj) string {
+	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").(*rtc.Obj)
+	return rtda.GoString(pathStr)
 }
 
 // http://stackoverflow.com/questions/10510691/how-to-check-whether-a-file-or-directory-denoted-by-a-path-exists-in-golang
@@ -83,3 +87,11 @@ func _isDir(path string) bool {
 	}
 	return false
 }
+
+// public native long getLastModifiedTime(File f);
+//
+// func getLastModifiedTime(frame *rtda.Frame) {
+// 	vars := frame.LocalVars()
+// 	fileObj := vars.GetRef(1)
+// 	path := _getPath(fileObj)
+// }

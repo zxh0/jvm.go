@@ -8,6 +8,7 @@ import (
 
 func init() {
 	_zf(initIDs, "initIDs", "()V")
+	_zf(getEntryFlag, "getEntryFlag", "(J)I")
 	_zf(getNextEntry, "getNextEntry", "(JI)J")
 	_zf(getTotal, "getTotal", "(J)I")
 	_zf(open, "open", "(Ljava/lang/String;IJZ)J")
@@ -78,9 +79,12 @@ func getNextEntry(frame *rtda.Frame) {
 // private static native int getEntryFlag(long jzentry);
 // (J)I
 func getEntryFlag(frame *rtda.Frame) {
-	// vars := frame.LocalVars()
-	// jzentry := vars.GetLong(0)
+	vars := frame.LocalVars()
+	jzentry := vars.GetLong(0)
 
-	// jzfile := jzentry & 0x0000FFFF
-	// index := jzfile >> 32
+	entry := getEntry(jzentry)
+	flag := int32(entry.Flags)
+
+	stack := frame.OperandStack()
+	stack.PushInt(flag)
 }

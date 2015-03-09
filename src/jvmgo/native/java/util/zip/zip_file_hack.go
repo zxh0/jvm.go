@@ -27,8 +27,7 @@ func _nextJzfile() int64 {
 }
 
 func getEntryCount(jzfile int64) int32 {
-	rc, ok := _map[jzfile]
-	if ok {
+	if rc, ok := _map[jzfile]; ok {
 		return int32(len(rc.File))
 	}
 	// todo
@@ -39,4 +38,13 @@ func getJzentry(jzfile int64, entryIndex int32) int64 {
 	return jzfile | (int64(entryIndex) << 32)
 }
 
-// func getEntry(jzentry )
+func getEntry(jzentry int64) *gozip.File {
+	jzfile := jzentry & 0x0000FFFF
+	entryIndex := jzfile >> 32
+
+	if rc, ok := _map[jzfile]; ok {
+		return rc.File[entryIndex]
+	}
+	// todo
+	return nil
+}

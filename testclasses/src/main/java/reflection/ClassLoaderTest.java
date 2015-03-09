@@ -1,13 +1,21 @@
 package reflection;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import junit.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ClassLoaderTest {
     
-    public static void main(String[] args) {
-        UnitTestRunner.run(ClassLoaderTest.class);
+    public static void main(String[] args) throws Exception {
+        //UnitTestRunner.run(ClassLoaderTest.class);
+        
+        ClassLoader appCl = ClassLoaderTest.class.getClassLoader();
+        System.out.println(appCl.getClass());
+        
+        URL x = appCl.getResource("org/eclipse/jetty/http/mime.properties");
+        System.out.println(x);
     }
     
     @Test
@@ -20,6 +28,13 @@ public class ClassLoaderTest {
         
         ClassLoader bootCl = extCl.getParent();
         assertNull(bootCl);
+    }
+    
+    @Test
+    public void sysClassLoader2() {
+        ClassLoader sysCl = ClassLoader.getSystemClassLoader();
+        URLClassLoader urlCl = (URLClassLoader) sysCl;
+        assertTrue(urlCl.getURLs().length > 0);
     }
     
     @Test

@@ -9,6 +9,7 @@ import (
 func init() {
 	_zf(initIDs, "initIDs", "()V")
 	_zf(open, "open", "(Ljava/lang/String;IJZ)J")
+	_zf(getTotal, "getTotal", "(J)I")
 }
 
 func _zf(method Any, name, desc string) {
@@ -37,4 +38,16 @@ func open(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushLong(jzfile)
+}
+
+// private static native int getTotal(long jzfile);
+// (J)I
+func getTotal(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	jzfile := vars.GetLong(0)
+
+	total := getEntryCount(jzfile)
+
+	stack := frame.OperandStack()
+	stack.PushInt(total)
 }

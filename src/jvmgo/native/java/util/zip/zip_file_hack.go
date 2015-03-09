@@ -25,3 +25,12 @@ func _nextKey() int64 {
 	}
 	return maxKey + 1
 }
+
+func getEntryCount(key int64) int32 {
+	rc, ok := _map[key]
+	if ok {
+		return int32(len(rc.File))
+	}
+	// todo
+	return 0
+}

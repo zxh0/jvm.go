@@ -41,7 +41,10 @@ func getJzentry(jzfile int64, entryIndex int32) int64 {
 
 func getJzentry2(jzfile int64, name []byte) int64 {
 	entryIndex := _getEntryIndex(jzfile, name)
-	return getJzentry(jzfile, entryIndex)
+	if entryIndex >= 0 {
+		return getJzentry(jzfile, entryIndex)
+	}
+	return 0
 }
 func _getEntryIndex(jzfile int64, name []byte) int32 {
 	if rc, ok := _map[jzfile]; ok {
@@ -51,7 +54,7 @@ func _getEntryIndex(jzfile int64, name []byte) int32 {
 			}
 		}
 	}
-	return 0
+	return -1
 }
 
 func getEntryFile(jzentry int64) *gozip.File {

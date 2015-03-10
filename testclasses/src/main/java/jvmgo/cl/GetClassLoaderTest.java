@@ -11,19 +11,28 @@ public class GetClassLoaderTest {
     }
     
     @Test
-    public void array() {
-        assertNull(boolean[].class.getClassLoader());
-        assertNull(int[].class.getClassLoader());
+    public void primitiveTypes() {
+        assertNull(int.class.getClassLoader());
     }
     
     @Test
-    public void getClassLoader() {
-        ClassLoader bootCl = Object.class.getClassLoader();
-        assertNull(bootCl);
-        
-        ClassLoader appCl = GetClassLoaderTest.class.getClassLoader();
+    public void array() {
+        assertNull(float[].class.getClassLoader());
+        assertNull(new int[0].getClass().getClassLoader());
+        assertNull(new Object[0].getClass().getClassLoader());
+        assertNull(int[][].class.getClassLoader());
+    }
+    
+    @Test
+    public void bootCl() {
+        assertNull(Object.class.getClassLoader());
+        assertNull("".getClass().getClassLoader());
+    }
+    
+    @Test
+    public void sysCl() {
         ClassLoader sysCl = ClassLoader.getSystemClassLoader();
-        assertSame(sysCl, appCl);
+        assertSame(sysCl, GetClassLoaderTest.class.getClassLoader());
     }
     
 }

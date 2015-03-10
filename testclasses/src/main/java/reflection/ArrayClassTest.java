@@ -2,7 +2,7 @@ package reflection;
 
 import java.io.Serializable;
 import org.junit.Test;
-import junit.UnitTestRunner;
+import jvmgo.UnitTestRunner;
 import static org.junit.Assert.*;
 
 public class ArrayClassTest {

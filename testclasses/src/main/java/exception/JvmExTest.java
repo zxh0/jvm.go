@@ -1,6 +1,6 @@
 package exception;
 
-import junit.UnitTestRunner;
+import jvmgo.UnitTestRunner;
 import org.junit.Test;
 
 public class JvmExTest {

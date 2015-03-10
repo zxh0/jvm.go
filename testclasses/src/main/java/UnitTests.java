@@ -3,7 +3,7 @@ import file.FileIoTest;
 import org.junit.Test;
 import reflection.ArrayClassTest;
 import reflection.PrimitiveClassTest;
-import junit.UnitTestRunner;
+import jvmgo.UnitTestRunner;
 import static org.junit.Assert.*;
 import reflection.ClassLoaderTest;
 import reflection.MethodTest;

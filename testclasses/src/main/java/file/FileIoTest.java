@@ -2,7 +2,7 @@ package file;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import junit.UnitTestRunner;
+import jvmgo.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

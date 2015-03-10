@@ -1,6 +1,6 @@
 package thread;
 
-import junit.UnitTestRunner;
+import jvmgo.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

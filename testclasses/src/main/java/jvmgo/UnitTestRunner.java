@@ -1,4 +1,4 @@
-package junit;
+package jvmgo;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;

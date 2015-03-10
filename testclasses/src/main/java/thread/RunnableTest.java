@@ -1,9 +1,9 @@
 package thread;
 
-public class ThreadTest1 implements Runnable {
+public class RunnableTest implements Runnable {
     
     public static void main(String[] args) {
-        Thread t = new Thread(new ThreadTest1());
+        Thread t = new Thread(new RunnableTest());
         t.start();
         
         for (int i = 0; i < 100; i++) {

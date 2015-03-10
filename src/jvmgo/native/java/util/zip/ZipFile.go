@@ -16,6 +16,7 @@ const (
 
 func init() {
 	_zf(initIDs, "initIDs", "()V")
+	_zf(freeEntry, "freeEntry", "(JJ)V")
 	_zf(getEntryBytes, "getEntryBytes", "(JI)[B")
 	_zf(getEntryCrc, "getEntryCrc", "(J)J")
 	_zf(getEntryCSize, "getEntryCSize", "(J)J")
@@ -88,6 +89,12 @@ func getNextEntry(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushLong(jzentry)
+}
+
+// private static native void freeEntry(long jzfile, long jzentry);
+// (JJ)V
+func freeEntry(frame *rtda.Frame) {
+	// todo
 }
 
 // private static native byte[] getEntryBytes(long jzentry, int type);

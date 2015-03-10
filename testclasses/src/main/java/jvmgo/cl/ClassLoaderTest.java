@@ -33,16 +33,6 @@ public class ClassLoaderTest {
     }
     
     @Test
-    public void getClassLoader() {
-        ClassLoader bootCl = Object.class.getClassLoader();
-        assertNull(bootCl);
-        
-        ClassLoader appCl = ClassLoaderTest.class.getClassLoader();
-        ClassLoader sysCl = ClassLoader.getSystemClassLoader();
-        assertSame(sysCl, appCl);
-    }
-    
-    @Test
     public void loadClass() throws Exception {
         ClassLoader sysCl = ClassLoader.getSystemClassLoader();
         assertSame(Object.class, sysCl.loadClass("java.lang.Object"));

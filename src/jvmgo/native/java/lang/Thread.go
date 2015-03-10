@@ -46,7 +46,6 @@ func isAlive(frame *rtda.Frame) {
 	this := vars.GetThis()
 
 	thread := _extraThread(this)
-	println(thread)
 	alive := thread != nil && !thread.IsStackEmpty()
 
 	stack := frame.OperandStack()

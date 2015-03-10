@@ -1,0 +1,5 @@
+package jar
+
+func init() {
+
+}

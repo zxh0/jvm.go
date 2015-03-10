@@ -17,6 +17,7 @@ func init() {
 	_zf(initIDs, "initIDs", "()V")
 	_zf(getEntryBytes, "getEntryBytes", "(JI)[B")
 	_zf(getEntryFlag, "getEntryFlag", "(J)I")
+	_zf(getEntryTime, "getEntryTime", "(J)J")
 	_zf(getNextEntry, "getNextEntry", "(JI)J")
 	_zf(getTotal, "getTotal", "(J)I")
 	_zf(open, "open", "(Ljava/lang/String;IJZ)J")
@@ -78,10 +79,10 @@ func getNextEntry(frame *rtda.Frame) {
 	jzfile := vars.GetLong(0)
 	i := vars.GetInt(2)
 
-	nextEntry := getJzentry(jzfile, i)
+	jzentry := getJzentry(jzfile, i)
 
 	stack := frame.OperandStack()
-	stack.PushLong(nextEntry)
+	stack.PushLong(jzentry)
 }
 
 // private static native int getEntryFlag(long jzentry);
@@ -124,4 +125,19 @@ func _getEntryBytes(jzentry int64, _type int32) []byte {
 	}
 	util.Panicf("BAD type: %v", _type)
 	return nil
+}
+
+// private static native long getEntryTime(long jzentry);
+// (J)J
+func getEntryTime(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	jzentry := vars.GetLong(0)
+
+	entry := getEntry(jzentry)
+	modDate := entry.ModifiedDate
+	modTime := entry.ModifiedTime
+	time := int64(modDate)<<16 | int64(modTime)
+
+	stack := frame.OperandStack()
+	stack.PushLong(time)
 }

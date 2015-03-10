@@ -20,6 +20,7 @@ func init() {
 	_zf(getEntryCrc, "getEntryCrc", "(J)J")
 	_zf(getEntryCSize, "getEntryCSize", "(J)J")
 	_zf(getEntryFlag, "getEntryFlag", "(J)I")
+	_zf(getEntryMethod, "getEntryMethod", "(J)I")
 	_zf(getEntrySize, "getEntrySize", "(J)J")
 	_zf(getEntryTime, "getEntryTime", "(J)J")
 	_zf(getNextEntry, "getNextEntry", "(JI)J")
@@ -168,6 +169,16 @@ func getEntryCSize(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushLong(size)
+}
+
+// private static native int getEntryMethod(long jzentry);
+// (J)I
+func getEntryMethod(frame *rtda.Frame) {
+	entry := _getEntryPop(frame)
+	method := int32(entry.Method)
+
+	stack := frame.OperandStack()
+	stack.PushInt(method)
 }
 
 func _getEntryPop(frame *rtda.Frame) *gozip.File {

@@ -85,19 +85,6 @@ func getNextEntry(frame *rtda.Frame) {
 	stack.PushLong(jzentry)
 }
 
-// private static native int getEntryFlag(long jzentry);
-// (J)I
-func getEntryFlag(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jzentry := vars.GetLong(0)
-
-	entry := getEntry(jzentry)
-	flag := int32(entry.Flags)
-
-	stack := frame.OperandStack()
-	stack.PushInt(flag)
-}
-
 // private static native byte[] getEntryBytes(long jzentry, int type);
 // (JI)[B
 func getEntryBytes(frame *rtda.Frame) {
@@ -125,6 +112,19 @@ func _getEntryBytes(jzentry int64, _type int32) []byte {
 	}
 	util.Panicf("BAD type: %v", _type)
 	return nil
+}
+
+// private static native int getEntryFlag(long jzentry);
+// (J)I
+func getEntryFlag(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	jzentry := vars.GetLong(0)
+
+	entry := getEntry(jzentry)
+	flag := int32(entry.Flags)
+
+	stack := frame.OperandStack()
+	stack.PushInt(flag)
 }
 
 // private static native long getEntryTime(long jzentry);

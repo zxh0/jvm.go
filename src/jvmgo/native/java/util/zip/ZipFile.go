@@ -18,6 +18,7 @@ func init() {
 	_zf(initIDs, "initIDs", "()V")
 	_zf(getEntryBytes, "getEntryBytes", "(JI)[B")
 	_zf(getEntryCrc, "getEntryCrc", "(J)J")
+	_zf(getEntryCSize, "getEntryCSize", "(J)J")
 	_zf(getEntryFlag, "getEntryFlag", "(J)I")
 	_zf(getEntrySize, "getEntrySize", "(J)J")
 	_zf(getEntryTime, "getEntryTime", "(J)J")
@@ -154,6 +155,16 @@ func getEntryCrc(frame *rtda.Frame) {
 func getEntrySize(frame *rtda.Frame) {
 	entry := _getEntryPop(frame)
 	size := int64(entry.UncompressedSize64)
+
+	stack := frame.OperandStack()
+	stack.PushLong(size)
+}
+
+// private static native long getEntryCSize(long jzentry);
+// (J)J
+func getEntryCSize(frame *rtda.Frame) {
+	entry := _getEntryPop(frame)
+	size := int64(entry.CompressedSize64)
 
 	stack := frame.OperandStack()
 	stack.PushLong(size)

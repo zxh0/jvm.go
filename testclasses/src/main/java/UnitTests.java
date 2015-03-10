@@ -1,14 +1,14 @@
-import jvmgo.StringTest;
 import jvmgo.exception.JvmExTest;
 import jvmgo.file.FileIoTest;
-import org.junit.Test;
 import jvmgo.reflection.ArrayClassTest;
 import jvmgo.reflection.PrimitiveClassTest;
-import jvmgo.UnitTestRunner;
-import static org.junit.Assert.*;
 import jvmgo.reflection.ClassLoaderTest;
 import jvmgo.reflection.MethodTest;
 import jvmgo.thread.MainThreadTest;
+import jvmgo.StringTest;
+import jvmgo.UnitTestRunner;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class UnitTests {
     

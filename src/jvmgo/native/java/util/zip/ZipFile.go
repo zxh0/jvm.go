@@ -198,11 +198,12 @@ func getEntryCSize(frame *rtda.Frame) {
 // private static native int getEntryMethod(long jzentry);
 // (J)I
 func getEntryMethod(frame *rtda.Frame) {
-	entry := _getEntryPop(frame)
-	method := int32(entry.Method)
+	// entry := _getEntryPop(frame)
+	// method := int32(entry.Method)
 
+	// todo
 	stack := frame.OperandStack()
-	stack.PushInt(method)
+	stack.PushInt(0)
 }
 
 func _getEntryPop(frame *rtda.Frame) *gozip.File {

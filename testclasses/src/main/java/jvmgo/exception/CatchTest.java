@@ -1,4 +1,4 @@
-package exception;
+package jvmgo.exception;
 
 public class CatchTest {
     

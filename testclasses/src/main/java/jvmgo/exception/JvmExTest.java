@@ -1,4 +1,4 @@
-package exception;
+package jvmgo.exception;
 
 import jvmgo.UnitTestRunner;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-import exception.JvmExTest;
+import jvmgo.exception.JvmExTest;
 import file.FileIoTest;
 import org.junit.Test;
 import reflection.ArrayClassTest;

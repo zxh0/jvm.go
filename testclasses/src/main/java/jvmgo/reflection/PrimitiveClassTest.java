@@ -1,4 +1,4 @@
-package reflection;
+package jvmgo.reflection;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

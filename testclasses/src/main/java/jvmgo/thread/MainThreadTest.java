@@ -1,4 +1,4 @@
-package thread;
+package jvmgo.thread;
 
 import jvmgo.UnitTestRunner;
 import org.junit.Test;

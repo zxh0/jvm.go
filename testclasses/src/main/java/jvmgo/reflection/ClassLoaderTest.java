@@ -1,4 +1,4 @@
-package reflection;
+package jvmgo.reflection;
 
 import java.io.InputStream;
 import java.net.URL;

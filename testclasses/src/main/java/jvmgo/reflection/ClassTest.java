@@ -1,4 +1,4 @@
-package reflection;
+package jvmgo.reflection;
 
 import java.lang.reflect.Method;
 import jvmgo.UnitTestRunner;

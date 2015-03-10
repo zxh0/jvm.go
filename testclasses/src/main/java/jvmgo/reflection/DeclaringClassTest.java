@@ -1,4 +1,4 @@
-package reflection;
+package jvmgo.reflection;
 
 public class DeclaringClassTest {
     

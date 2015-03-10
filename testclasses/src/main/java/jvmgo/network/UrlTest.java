@@ -1,4 +1,4 @@
-package network;
+package jvmgo.network;
 
 import java.net.URL;
 

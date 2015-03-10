@@ -1,4 +1,4 @@
-package nio;
+package jvmgo.nio;
 
 import java.nio.ByteBuffer;
 

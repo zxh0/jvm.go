@@ -1,4 +1,4 @@
-package sunmisc;
+package jvmgo.sunmisc;
 
 import java.lang.reflect.Field;
 import sun.misc.Unsafe;

@@ -1,4 +1,4 @@
-package reflection;
+package jvmgo.reflection;
 
 import sun.reflect.Reflection;
 

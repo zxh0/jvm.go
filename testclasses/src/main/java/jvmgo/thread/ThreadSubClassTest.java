@@ -1,4 +1,4 @@
-package thread;
+package jvmgo.thread;
 
 public class ThreadSubClassTest extends Thread {
     

@@ -1,4 +1,4 @@
-package reflection;
+package jvmgo.reflection;
 
 import java.io.Serializable;
 import org.junit.Test;

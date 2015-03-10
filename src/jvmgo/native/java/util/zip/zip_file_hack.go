@@ -38,7 +38,7 @@ func getJzentry(jzfile int64, entryIndex int32) int64 {
 	return jzfile | (int64(entryIndex) << 32)
 }
 
-func getEntry(jzentry int64) *gozip.File {
+func getEntryFile(jzentry int64) *gozip.File {
 	jzfile := jzentry & 0x0000FFFF
 	entryIndex := jzentry >> 32
 

@@ -97,6 +97,12 @@ func freeEntry(frame *rtda.Frame) {
 	// todo
 }
 
+// private static native long getEntry(long jzfile, byte[] name, boolean addSlash);
+// (J[BZ)J
+// func getEntry(frame *rtda.Frame) {
+
+// }
+
 // private static native byte[] getEntryBytes(long jzentry, int type);
 // (JI)[B
 func getEntryBytes(frame *rtda.Frame) {
@@ -113,7 +119,7 @@ func getEntryBytes(frame *rtda.Frame) {
 }
 
 func _getEntryBytes(jzentry int64, _type int32) []byte {
-	entry := getEntry(jzentry)
+	entry := getEntryFile(jzentry)
 	switch _type {
 	case JZENTRY_NAME:
 		return []byte(entry.Name)
@@ -192,6 +198,6 @@ func _getEntryPop(frame *rtda.Frame) *gozip.File {
 	vars := frame.LocalVars()
 	jzentry := vars.GetLong(0)
 
-	entry := getEntry(jzentry)
+	entry := getEntryFile(jzentry)
 	return entry
 }

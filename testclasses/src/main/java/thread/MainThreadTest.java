@@ -14,6 +14,9 @@ public class MainThreadTest {
     public void mainThread() {
         Thread mainThread = Thread.currentThread();
         assertEquals("main", mainThread.getName());
+        assertTrue("isAlive", mainThread.isAlive());
+        assertFalse("isDaemon", mainThread.isDaemon());
+        //System.out.println(mainThread.getThreadGroup());
     }
     
 }

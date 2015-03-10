@@ -1,4 +1,4 @@
-package file;
+package jvmgo.file;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

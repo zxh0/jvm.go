@@ -1,4 +1,4 @@
-package instructions;
+package jvmgo.instructions;
 
 import java.io.Closeable;
 import java.io.IOException;

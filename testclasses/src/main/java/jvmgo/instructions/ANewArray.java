@@ -1,4 +1,4 @@
-package instructions;
+package jvmgo.instructions;
 
 public class ANewArray {
     

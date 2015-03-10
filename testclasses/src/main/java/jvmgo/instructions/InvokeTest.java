@@ -1,4 +1,4 @@
-package instructions;
+package jvmgo.instructions;
 
 import java.util.ArrayList;
 import java.util.List;

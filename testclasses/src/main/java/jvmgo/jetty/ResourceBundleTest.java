@@ -1,4 +1,4 @@
-package jetty;
+package jvmgo.jetty;
 
 import java.util.ResourceBundle;
 

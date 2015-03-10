@@ -1,5 +1,5 @@
 import jvmgo.exception.JvmExTest;
-import file.FileIoTest;
+import jvmgo.file.FileIoTest;
 import org.junit.Test;
 import reflection.ArrayClassTest;
 import reflection.PrimitiveClassTest;

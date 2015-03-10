@@ -1,6 +1,7 @@
 package zip
 
 import (
+	gozip "archive/zip"
 	. "jvmgo/any"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
@@ -117,10 +118,7 @@ func _getEntryBytes(jzentry int64, _type int32) []byte {
 // private static native int getEntryFlag(long jzentry);
 // (J)I
 func getEntryFlag(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jzentry := vars.GetLong(0)
-
-	entry := getEntry(jzentry)
+	entry := _getEntryPop(frame)
 	flag := int32(entry.Flags)
 
 	stack := frame.OperandStack()
@@ -130,14 +128,19 @@ func getEntryFlag(frame *rtda.Frame) {
 // private static native long getEntryTime(long jzentry);
 // (J)J
 func getEntryTime(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jzentry := vars.GetLong(0)
-
-	entry := getEntry(jzentry)
+	entry := _getEntryPop(frame)
 	modDate := entry.ModifiedDate
 	modTime := entry.ModifiedTime
 	time := int64(modDate)<<16 | int64(modTime)
 
 	stack := frame.OperandStack()
 	stack.PushLong(time)
+}
+
+func _getEntryPop(frame *rtda.Frame) *gozip.File {
+	vars := frame.LocalVars()
+	jzentry := vars.GetLong(0)
+
+	entry := getEntry(jzentry)
+	return entry
 }

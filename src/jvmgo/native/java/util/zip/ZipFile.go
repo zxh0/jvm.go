@@ -17,6 +17,7 @@ const (
 func init() {
 	_zf(initIDs, "initIDs", "()V")
 	_zf(getEntryBytes, "getEntryBytes", "(JI)[B")
+	_zf(getEntryCrc, "getEntryCrc", "(J)J")
 	_zf(getEntryFlag, "getEntryFlag", "(J)I")
 	_zf(getEntryTime, "getEntryTime", "(J)J")
 	_zf(getNextEntry, "getNextEntry", "(JI)J")
@@ -135,6 +136,16 @@ func getEntryTime(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushLong(time)
+}
+
+// private static native long getEntryCrc(long jzentry);
+// (J)J
+func getEntryCrc(frame *rtda.Frame) {
+	entry := _getEntryPop(frame)
+	crc := int64(entry.CRC32)
+
+	stack := frame.OperandStack()
+	stack.PushLong(crc)
 }
 
 func _getEntryPop(frame *rtda.Frame) *gozip.File {

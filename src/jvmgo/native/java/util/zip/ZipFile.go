@@ -4,10 +4,18 @@ import (
 	. "jvmgo/any"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
+	"jvmgo/util"
+)
+
+const (
+	JZENTRY_NAME    = 0
+	JZENTRY_EXTRA   = 1
+	JZENTRY_COMMENT = 2
 )
 
 func init() {
 	_zf(initIDs, "initIDs", "()V")
+	_zf(getEntryBytes, "getEntryBytes", "(JI)[B")
 	_zf(getEntryFlag, "getEntryFlag", "(J)I")
 	_zf(getNextEntry, "getNextEntry", "(JI)J")
 	_zf(getTotal, "getTotal", "(J)I")
@@ -87,4 +95,33 @@ func getEntryFlag(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushInt(flag)
+}
+
+// private static native byte[] getEntryBytes(long jzentry, int type);
+// (JI)[B
+func getEntryBytes(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	jzentry := vars.GetLong(0)
+	_type := vars.GetInt(2)
+
+	goBytes := _getEntryBytes(jzentry, _type)
+	jBytes := util.CastUint8sToInt8s(goBytes)
+	byteArr := rtc.NewByteArray(jBytes, frame.ClassLoader())
+
+	stack := frame.OperandStack()
+	stack.PushRef(byteArr)
+}
+
+func _getEntryBytes(jzentry int64, _type int32) []byte {
+	entry := getEntry(jzentry)
+	switch _type {
+	case JZENTRY_NAME:
+		return []byte(entry.Name)
+	case JZENTRY_EXTRA:
+		return entry.Extra
+	case JZENTRY_COMMENT:
+		return []byte(entry.Comment)
+	}
+	util.Panicf("BAD type: %v", _type)
+	return nil
 }

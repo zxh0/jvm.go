@@ -21,7 +21,9 @@ func (self *athrow) Execute(frame *rtda.Frame) {
 
 		handler := frame.Method().FindExceptionHandler(ex.Class(), pc)
 		if handler != nil {
-			frame.OperandStack().PushRef(ex)
+			stack := frame.OperandStack()
+			stack.Clear()
+			stack.PushRef(ex)
 			frame.SetNextPC(handler.HandlerPc())
 			return
 		}

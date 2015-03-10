@@ -100,6 +100,12 @@ func (self *OperandStack) Top(n uint) Any {
 	return self.slots[self.size-1-n]
 }
 
+func (self *OperandStack) Clear() {
+	for !self.IsEmpty() {
+		self.Pop()
+	}
+}
+
 // only used by native methods
 func (self *OperandStack) HackSetSlots(slots []Any) {
 	self.slots = slots

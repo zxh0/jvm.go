@@ -15,7 +15,7 @@ const (
 )
 
 func init() {
-	_zf(initIDs, "initIDs", "()V")
+	_zf(zf_initIDs, "initIDs", "()V")
 	_zf(freeEntry, "freeEntry", "(JJ)V")
 	_zf(getEntry, "getEntry", "(J[BZ)J")
 	_zf(getEntryBytes, "getEntryBytes", "(JI)[B")
@@ -37,7 +37,7 @@ func _zf(method Any, name, desc string) {
 
 // private static native void initIDs();
 // ()V
-func initIDs(frame *rtda.Frame) {
+func zf_initIDs(frame *rtda.Frame) {
 	// todo
 }
 

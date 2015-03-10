@@ -43,7 +43,9 @@ type ClassLoader struct {
 
 func NewClassLoader(cp *classpath.ClassPath) *ClassLoader {
 	classMap := map[string]*Class{}
-	return &ClassLoader{cp, classMap}
+	loader := &ClassLoader{cp, classMap}
+	loader._init()
+	return loader
 }
 
 // ClassLoaderGetter
@@ -54,7 +56,7 @@ func (self *ClassLoader) ClassPath() *classpath.ClassPath {
 	return self.classPath
 }
 
-func (self *ClassLoader) Init() {
+func (self *ClassLoader) _init() {
 	_jlObjectClass = self.LoadClass(jlObjectClassName)
 	_jlClassClass = self.LoadClass(jlClassClassName)
 	for _, class := range self.classMap {

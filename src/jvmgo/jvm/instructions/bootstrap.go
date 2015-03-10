@@ -23,7 +23,6 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
 
 	if _classLoader == nil {
 		initVars(frame)
-		_classLoader.Init()
 	}
 	if bootClassesNotReady(thread) ||
 		mainThreadNotReady(thread) ||

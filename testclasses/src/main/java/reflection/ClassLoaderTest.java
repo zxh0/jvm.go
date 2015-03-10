@@ -9,13 +9,7 @@ import static org.junit.Assert.*;
 public class ClassLoaderTest {
     
     public static void main(String[] args) throws Exception {
-        //UnitTestRunner.run(ClassLoaderTest.class);
-        
-        ClassLoader appCl = ClassLoaderTest.class.getClassLoader();
-        System.out.println(appCl.getClass());
-        
-        URL x = appCl.getResource("org/eclipse/jetty/http/mime.properties");
-        System.out.println(x);
+        UnitTestRunner.run(ClassLoaderTest.class);
     }
     
     @Test
@@ -63,6 +57,14 @@ public class ClassLoaderTest {
         } catch (ClassNotFoundException e) {
             assertEquals("foo.bar.XXX", e.getMessage());
         }
+    }
+    
+    @Test
+    public void getResource() {
+        ClassLoader appCl = ClassLoaderTest.class.getClassLoader();
+        //URL url = appCl.getResource("org/eclipse/jetty/http/mime.properties");
+        URL url = appCl.getResource("LICENSE.txt");
+        assertNotNull(url);
     }
     
 }

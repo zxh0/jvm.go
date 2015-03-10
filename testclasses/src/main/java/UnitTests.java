@@ -7,6 +7,7 @@ import junit.UnitTestRunner;
 import static org.junit.Assert.*;
 import reflection.ClassLoaderTest;
 import reflection.MethodTest;
+import thread.MainThreadTest;
 
 public class UnitTests {
     
@@ -25,6 +26,7 @@ public class UnitTests {
             JvmExTest.class,
             FileIoTest.class,
             MethodTest.class,
+            MainThreadTest.class,
         });
     }
     

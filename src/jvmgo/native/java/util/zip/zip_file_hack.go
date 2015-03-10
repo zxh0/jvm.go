@@ -2,6 +2,7 @@ package zip
 
 import (
 	gozip "archive/zip"
+	"bytes"
 )
 
 var _map = map[int64]*gozip.ReadCloser{}
@@ -36,6 +37,21 @@ func getEntryCount(jzfile int64) int32 {
 
 func getJzentry(jzfile int64, entryIndex int32) int64 {
 	return jzfile | (int64(entryIndex) << 32)
+}
+
+func getJzentry2(jzfile int64, name []byte) int64 {
+	entryIndex := _getEntryIndex(jzfile, name)
+	return getJzentry(jzfile, entryIndex)
+}
+func _getEntryIndex(jzfile int64, name []byte) int32 {
+	if rc, ok := _map[jzfile]; ok {
+		for i, f := range rc.File {
+			if bytes.Equal(name, []byte(f.Name)) {
+				return int32(i)
+			}
+		}
+	}
+	return 0
 }
 
 func getEntryFile(jzentry int64) *gozip.File {

@@ -17,6 +17,7 @@ const (
 func init() {
 	_zf(initIDs, "initIDs", "()V")
 	_zf(freeEntry, "freeEntry", "(JJ)V")
+	_zf(getEntry, "getEntry", "(J[BZ)J")
 	_zf(getEntryBytes, "getEntryBytes", "(JI)[B")
 	_zf(getEntryCrc, "getEntryCrc", "(J)J")
 	_zf(getEntryCSize, "getEntryCSize", "(J)J")
@@ -99,9 +100,19 @@ func freeEntry(frame *rtda.Frame) {
 
 // private static native long getEntry(long jzfile, byte[] name, boolean addSlash);
 // (J[BZ)J
-// func getEntry(frame *rtda.Frame) {
+func getEntry(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	jzfile := vars.GetLong(0)
+	nameObj := vars.GetRef(2)
+	//addSlash := vars.GetBoolean(3)
 
-// }
+	// todo
+	name := nameObj.GoBytes()
+	jzentry := getJzentry2(jzfile, name)
+
+	stack := frame.OperandStack()
+	stack.PushLong(jzentry)
+}
 
 // private static native byte[] getEntryBytes(long jzentry, int type);
 // (JI)[B

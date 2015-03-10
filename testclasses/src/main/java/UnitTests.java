@@ -2,7 +2,7 @@ import jvmgo.exception.JvmExTest;
 import jvmgo.file.FileIoTest;
 import jvmgo.reflection.ArrayClassTest;
 import jvmgo.reflection.PrimitiveClassTest;
-import jvmgo.reflection.ClassLoaderTest;
+import jvmgo.cl.ClassLoaderTest;
 import jvmgo.reflection.MethodTest;
 import jvmgo.thread.MainThreadTest;
 import jvmgo.StringTest;

@@ -67,3 +67,25 @@ func getEntryFile(jzentry int64) *gozip.File {
 	// todo
 	return nil
 }
+
+func readEntry(jzentry, pos int64, buf []byte) int {
+	f := getEntryFile(jzentry)
+	rc, err := f.Open()
+	if err == nil {
+		defer rc.Close()
+
+		// todo
+		if pos > 0 {
+			s := make([]byte, pos)
+			rc.Read(s)
+		}
+
+		n, err := rc.Read(buf)
+		if err == nil || n > 0 {
+			return n
+		}
+	}
+
+	// todo
+	return -1
+}

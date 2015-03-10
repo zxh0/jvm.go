@@ -1,4 +1,4 @@
-package util;
+package jvmgo.util;
 
 import java.util.Collections;
 import java.util.zip.ZipEntry;

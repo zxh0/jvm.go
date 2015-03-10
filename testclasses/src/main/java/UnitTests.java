@@ -1,3 +1,4 @@
+import jvmgo.StringTest;
 import jvmgo.exception.JvmExTest;
 import jvmgo.file.FileIoTest;
 import org.junit.Test;

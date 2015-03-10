@@ -1,3 +1,5 @@
+package jvmgo;
+
 import jvmgo.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;

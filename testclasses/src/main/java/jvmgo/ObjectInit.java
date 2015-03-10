@@ -1,3 +1,5 @@
+package jvmgo;
+
 
 public class ObjectInit {
 

@@ -1,3 +1,5 @@
+package jvmgo;
+
 public class SysProps {
     
     public static void main(String[] args) {

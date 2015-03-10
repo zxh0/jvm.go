@@ -1,3 +1,5 @@
+package jvmgo;
+
 public class RuntimeTest {
     
     public static void main(String[] args) {

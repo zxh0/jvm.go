@@ -74,8 +74,9 @@ func _logFrames(thread *rtda.Thread) {
 	for !thread.IsStackEmpty() {
 		frame := thread.PopFrame()
 		method := frame.Method()
+		className := method.Class().Name()
 		lineNum := method.GetLineNumber(frame.NextPC())
-		fmt.Printf(">> %v.%v%v#%v line:%v \n", method.Class().Name(), method.Name(), method.Descriptor(),
+		fmt.Printf(">> %v.%v%v bytecode:%v line:%v \n", className, method.Name(), method.Descriptor(),
 			frame.NextPC(), lineNum)
 	}
 }

@@ -22,7 +22,7 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
 	class := kClass.Class()
 	if class.InitializationNotStarted() {
 		// todo: init class
-		panic("class not initialized!")
+		panic("class not initialized!" + class.Name())
 	}
 
 	if !ref.IsInstanceOf(class) {

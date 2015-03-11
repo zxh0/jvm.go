@@ -24,6 +24,12 @@ func newInstance0(frame *rtda.Frame) {
 
 	goConstructor := getGoConstructor(constructorObj)
 	goClass := goConstructor.Class()
+	if goClass.InitializationNotStarted() {
+		frame.RevertNextPC()
+		frame.Thread().InitClass(goClass)
+		return
+	}
+
 	obj := goClass.NewObj()
 	stack := frame.OperandStack()
 	stack.PushRef(obj)

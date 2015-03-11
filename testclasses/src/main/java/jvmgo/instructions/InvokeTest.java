@@ -9,6 +9,10 @@ import static org.junit.Assert.*;
 @SuppressWarnings("serial")
 public class InvokeTest extends ArrayList<String> {
 
+    public static void main(String[] args) {
+        UnitTestRunner.run(InvokeTest.class);
+    }
+    
     @Override
     public String get(int index) {
         return "InvokeTest";
@@ -16,10 +20,6 @@ public class InvokeTest extends ArrayList<String> {
     
     public String getFromSuper(int index) {
         return super.get(index);
-    }
-    
-    public static void main(String[] args) {
-        UnitTestRunner.run(InvokeTest.class);
     }
     
     @Test

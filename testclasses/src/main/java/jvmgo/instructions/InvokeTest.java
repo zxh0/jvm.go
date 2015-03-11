@@ -17,8 +17,10 @@ public class InvokeTest extends ArrayList<String> {
     
     public int x;
 
-    public static void main(String[] args) {
-        UnitTestRunner.run(InvokeTest.class);
+    public static void main(String[] args) throws Exception {
+        //UnitTestRunner.run(InvokeTest.class);
+        new InvokeTest().invokeVirtual();
+        //new InvokeTest().invokeVirtual2();
     }
     
     @Override
@@ -47,7 +49,7 @@ public class InvokeTest extends ArrayList<String> {
         assertEquals("InvokeTest", list.get(0));
     }
     
-    @Test
+    //@Test
     public void invokeVirtual() throws Exception {
         Constructor<FrameworkField> c = FrameworkField.class.getDeclaredConstructor(Field.class);
         c.setAccessible(true);
@@ -60,8 +62,19 @@ public class InvokeTest extends ArrayList<String> {
         FrameworkMember<?> a = ff;
         FrameworkMember<?> b = fm;
         
-        a.getAnnotations();
         b.getAnnotations();
+        a.getAnnotations();
+    }
+    
+    @Test
+    public void invokeVirtual2() {
+        abstract class A implements Runnable {}
+        class C extends A {
+            @Override public void run(){}
+        }
+        
+        A a = new C();
+        a.run();
     }
     
 }

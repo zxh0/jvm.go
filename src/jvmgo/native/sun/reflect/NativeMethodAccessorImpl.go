@@ -36,6 +36,14 @@ func _invokeMethod(frame *rtda.Frame) {
 	argArrObj := vars.GetRef(2)
 
 	goMethod := getGoMethod(methodObj)
+	if goMethod.IsStatic() {
+		if goMethod.Class().InitializationNotStarted() {
+			frame.RevertNextPC()
+			frame.Thread().InitClass(goMethod.Class())
+			return
+		}
+	}
+
 	if goMethod.IsAbstract() {
 		goMethod = obj.Class().GetInstanceMethod(goMethod.Name(), goMethod.Descriptor())
 	}

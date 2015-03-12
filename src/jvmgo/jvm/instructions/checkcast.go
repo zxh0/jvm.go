@@ -20,10 +20,6 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()
 	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
 	class := kClass.Class()
-	if class.InitializationNotStarted() {
-		// todo: init class
-		panic("class not initialized!" + class.Name())
-	}
 
 	if !ref.IsInstanceOf(class) {
 		frame.Thread().ThrowClassCastException(ref.Class(), class)

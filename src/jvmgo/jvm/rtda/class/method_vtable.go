@@ -17,7 +17,7 @@ func createVtable(class *Class) {
 
 	// })
 	for _, m := range class.methods {
-		if !m.IsStatic() {
+		if isVirtualMethod(m) {
 			if i := search(class.vtable, m); i > -1 {
 				class.vtable[i] = m // override
 			} else {
@@ -49,22 +49,9 @@ func addVmethod(class *Class, m *Method) {
 	class.vtable = append(class.vtable, m)
 }
 
-// func countNewVirtualMethod(class *Class) int {
-// 	superVtable := getSuperVtable(class)
-
-// 	count := 0
-// 	class._eachMethod(func(m *Method) {
-// 		if isVirtualMethod(m) && search(superVtable, m) < 0 {
-// 			count++
-// 		}
-// 	})
-
-// 	return count
-// }
-
 func isVirtualMethod(method *Method) bool {
 	return !method.IsStatic() &&
-		!method.IsFinal() &&
+		//!method.IsFinal() &&
 		!method.IsPrivate() &&
 		method.Name() != constructorName
 }

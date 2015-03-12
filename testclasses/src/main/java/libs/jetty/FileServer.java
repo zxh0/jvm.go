@@ -1,4 +1,4 @@
-package java7.jetty;
+package libs.jetty;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;

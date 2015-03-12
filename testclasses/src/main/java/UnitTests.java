@@ -1,13 +1,13 @@
-import jvmgo.exception.JvmExTest;
-import jvmgo.file.FileIoTest;
-import jvmgo.reflection.ArrayClassTest;
-import jvmgo.reflection.PrimitiveClassTest;
-import jvmgo.cl.ClassLoaderTest;
-import jvmgo.reflection.MethodTest;
-import jvmgo.thread.MainThreadTest;
-import jvmgo.StringTest;
-import jvmgo.UnitTestRunner;
-import jvmgo.cl.GetClassLoaderTest;
+import java7.exception.JvmExTest;
+import java7.file.FileIoTest;
+import java7.reflection.ArrayClassTest;
+import java7.reflection.PrimitiveClassTest;
+import java7.cl.ClassLoaderTest;
+import java7.reflection.MethodTest;
+import java7.thread.MainThreadTest;
+import java7.StringTest;
+import java7.UnitTestRunner;
+import java7.cl.GetClassLoaderTest;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

@@ -38,17 +38,6 @@ func copySuperVtable(class *Class) []*Method {
 	}
 }
 
-func addVmethod(class *Class, m *Method) {
-	_len := len(class.vtable)
-	if _len == cap(class.vtable) {
-		newVtable := make([]*Method, _len, _len+8)
-		copy(newVtable, class.vtable)
-		class.vtable = newVtable
-	}
-
-	class.vtable = append(class.vtable, m)
-}
-
 func isVirtualMethod(method *Method) bool {
 	return !method.IsStatic() &&
 		//!method.IsFinal() &&
@@ -63,6 +52,17 @@ func search(vtable []*Method, m *Method) int {
 		}
 	}
 	return -1
+}
+
+func addVmethod(class *Class, m *Method) {
+	_len := len(class.vtable)
+	if _len == cap(class.vtable) {
+		newVtable := make([]*Method, _len, _len+8)
+		copy(newVtable, class.vtable)
+		class.vtable = newVtable
+	}
+
+	class.vtable = append(class.vtable, m)
 }
 
 // visit all class and interface methods

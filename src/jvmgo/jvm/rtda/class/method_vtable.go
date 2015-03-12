@@ -13,9 +13,6 @@ func getVslot(class *Class, name, descriptor string) int {
 func createVtable(class *Class) {
 	class.vtable = copySuperVtable(class)
 
-	// class._eachMethod(func(m *Method) {
-
-	// })
 	for _, m := range class.methods {
 		if isVirtualMethod(m) {
 			if i := indexOf(class.vtable, m); i > -1 {
@@ -25,6 +22,12 @@ func createVtable(class *Class) {
 			}
 		}
 	}
+
+	_eachInterfaceMethod(class, func(m *Method) {
+		if i := indexOf(class.vtable, m); i < 0 {
+			addVmethod(class, m)
+		}
+	})
 }
 
 func copySuperVtable(class *Class) []*Method {
@@ -65,12 +68,12 @@ func addVmethod(class *Class, m *Method) {
 	class.vtable = append(class.vtable, m)
 }
 
-// visit all class and interface methods
-func (self *Class) _eachMethod(f func(*Method)) {
-	for _, m := range self.methods {
-		f(m)
-	}
-	for _, iface := range self.interfaces {
-		iface._eachMethod(f)
+// visit all interface methods
+func _eachInterfaceMethod(class *Class, f func(*Method)) {
+	for _, iface := range class.interfaces {
+		_eachInterfaceMethod(iface, f)
+		for _, m := range iface.methods {
+			f(m)
+		}
 	}
 }

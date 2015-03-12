@@ -11,45 +11,56 @@ func getVslot(class *Class, name, descriptor string) int {
 }
 
 func createVtable(class *Class) {
-	superVtable := getSuperVtable(class)
-	newVirtualMethodCount := countNewVirtualMethod(class)
+	class.vtable = copySuperVtable(class)
 
-	newCap := len(superVtable) + newVirtualMethodCount
-	newVtable := make([]*Method, len(superVtable), newCap)
-	copy(newVtable, superVtable)
+	// class._eachMethod(func(m *Method) {
 
+	// })
 	for _, m := range class.methods {
 		if !m.IsStatic() {
-			if i := search(superVtable, m); i > -1 {
-				newVtable[i] = m // override
+			if i := search(class.vtable, m); i > -1 {
+				class.vtable[i] = m // override
 			} else {
-				newVtable = append(newVtable, m)
+				addVmethod(class, m)
 			}
 		}
 	}
-
-	class.vtable = newVtable
 }
 
-func getSuperVtable(class *Class) []*Method {
+func copySuperVtable(class *Class) []*Method {
 	if class.superClass != nil {
-		return class.superClass.vtable
+		superVtable := class.superClass.vtable
+		newVtable := make([]*Method, len(superVtable))
+		copy(newVtable, superVtable)
+		return newVtable
 	} else {
 		return nil
 	}
 }
 
-func countNewVirtualMethod(class *Class) int {
-	superVtable := getSuperVtable(class)
-
-	count := 0
-	for _, m := range class.methods {
-		if isVirtualMethod(m) && search(superVtable, m) < 0 {
-			count++
-		}
+func addVmethod(class *Class, m *Method) {
+	_len := len(class.vtable)
+	if _len == cap(class.vtable) {
+		newVtable := make([]*Method, _len, _len+8)
+		copy(newVtable, class.vtable)
+		class.vtable = newVtable
 	}
-	return count
+
+	class.vtable = append(class.vtable, m)
 }
+
+// func countNewVirtualMethod(class *Class) int {
+// 	superVtable := getSuperVtable(class)
+
+// 	count := 0
+// 	class._eachMethod(func(m *Method) {
+// 		if isVirtualMethod(m) && search(superVtable, m) < 0 {
+// 			count++
+// 		}
+// 	})
+
+// 	return count
+// }
 
 func isVirtualMethod(method *Method) bool {
 	return !method.IsStatic() &&
@@ -65,4 +76,14 @@ func search(vtable []*Method, m *Method) int {
 		}
 	}
 	return -1
+}
+
+// visit all class and interface methods
+func (self *Class) _eachMethod(f func(*Method)) {
+	for _, m := range self.methods {
+		f(m)
+	}
+	for _, iface := range self.interfaces {
+		iface._eachMethod(f)
+	}
 }

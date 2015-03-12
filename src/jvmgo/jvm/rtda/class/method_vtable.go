@@ -18,7 +18,7 @@ func createVtable(class *Class) {
 	// })
 	for _, m := range class.methods {
 		if isVirtualMethod(m) {
-			if i := search(class.vtable, m); i > -1 {
+			if i := indexOf(class.vtable, m); i > -1 {
 				class.vtable[i] = m // override
 			} else {
 				addVmethod(class, m)
@@ -45,7 +45,7 @@ func isVirtualMethod(method *Method) bool {
 		method.Name() != constructorName
 }
 
-func search(vtable []*Method, m *Method) int {
+func indexOf(vtable []*Method, m *Method) int {
 	for i, vm := range vtable {
 		if vm.name == m.name && vm.descriptor == m.descriptor {
 			return i

@@ -55,15 +55,46 @@ func (self *ConstantMethodref) resolveSpecialMethod() {
 	method := self.findMethod(false)
 	if method != nil {
 		self.method = method
-	} else {
-		// todo
-		panic("special method not found!")
+		return
 	}
+
+	// todo
+	// class := self.cp.class.classLoader.LoadClass(self.className)
+	// if class.IsInterface() {
+	// 	method = self.findMethodInInterfaces(class)
+	// 	if method != nil {
+	// 		self.method = method
+	// 		return
+	// 	}
+	// }
+
+	// todo
+	println("@@@::" + self.className + "::" + self.name + "::" + self.descriptor)
+	panic("special method not found!")
 }
 
 func (self *ConstantMethodref) findMethod(isStatic bool) *Method {
 	class := self.cp.class.classLoader.LoadClass(self.className)
 	return class.getMethod(self.name, self.descriptor, isStatic)
+}
+
+// todo
+func (self *ConstantMethodref) findMethodInInterfaces(iface *Class) *Method {
+	for _, m := range iface.methods {
+		if !m.IsAbstract() {
+			if m.name == self.name && m.descriptor == self.descriptor {
+				return m
+			}
+		}
+	}
+
+	for _, superIface := range iface.interfaces {
+		if m := self.findMethodInInterfaces(superIface); m != nil {
+			return m
+		}
+	}
+
+	return nil
 }
 
 func (self *ConstantMethodref) GetVirtualMethod(ref *Obj) *Method {

@@ -36,7 +36,7 @@ func (self *ConstantMethodref) StaticMethod() *Method {
 	return self.method
 }
 func (self *ConstantMethodref) resolveStaticMethod() {
-	method := self.findMethod(self.className, true)
+	method := self.findMethod(true)
 	if method != nil {
 		self.method = method
 	} else {
@@ -52,7 +52,7 @@ func (self *ConstantMethodref) SpecialMethod() *Method {
 	return self.method
 }
 func (self *ConstantMethodref) resolveSpecialMethod() {
-	method := self.findMethod(self.className, false)
+	method := self.findMethod(false)
 	if method != nil {
 		self.method = method
 	} else {
@@ -61,8 +61,8 @@ func (self *ConstantMethodref) resolveSpecialMethod() {
 	}
 }
 
-func (self *ConstantMethodref) findMethod(className string, isStatic bool) *Method {
-	class := self.cp.class.classLoader.LoadClass(className)
+func (self *ConstantMethodref) findMethod(isStatic bool) *Method {
+	class := self.cp.class.classLoader.LoadClass(self.className)
 	return class.getMethod(self.name, self.descriptor, isStatic)
 }
 

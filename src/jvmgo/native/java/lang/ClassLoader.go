@@ -22,7 +22,8 @@ func findLoadedClass0(frame *rtda.Frame) {
 	name := vars.GetRef(1)
 
 	// todo
-	className := rtc.DotToSlash(rtda.GoString(name))
+	className := rtda.GoString(name)
+	className = rtc.DotToSlash(className)
 	class := frame.ClassLoader().LoadClass(className)
 	if class != nil {
 		frame.OperandStack().PushRef(class.JClass())

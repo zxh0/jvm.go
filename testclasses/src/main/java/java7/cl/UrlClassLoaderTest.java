@@ -12,6 +12,7 @@ public class UrlClassLoaderTest {
         
         Class<?> c1 = loader1.loadClass("com.google.gson.Gson");
         Class<?> c2 = loader2.loadClass("com.google.gson.Gson");
+        System.out.println(c1 == c2);
     }
     
 }

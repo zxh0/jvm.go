@@ -1,6 +1,7 @@
 package java7.cl;
 
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java7.UnitTestRunner;
@@ -70,6 +71,21 @@ public class ClassLoaderTest {
         
         InputStream is = appCl.getResourceAsStream("LICENSE.txt");
         assertNotNull(is);
+    }
+    
+    @Test
+    public void findLoadedClass() throws Exception {
+        Method m = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
+        m.setAccessible(true);
+        
+        ClassLoader appCl = ClassLoaderTest.class.getClassLoader();
+        assertEquals(Object.class, m.invoke(appCl, "java.lang.Object"));
+        assertEquals(ClassLoaderTest.class, m.invoke(appCl, "java7.cl.ClassLoaderTest"));
+        
+        ClassLoader urlCl = new URLClassLoader(new URL[0]);
+        assertEquals(appCl, urlCl.getParent());
+        assertEquals(null, m.invoke(urlCl, "java.lang.Object"));
+        assertEquals(null, m.invoke(urlCl, "java7.cl.ClassLoaderTest"));
     }
     
 }

@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class InterfaceMethodTest {
     
-    public interface IF1 {
+    public interface If1 {
         static int x() {
             return 1;
         }
@@ -15,8 +15,22 @@ public class InterfaceMethodTest {
         }
     }
     
-    public class IMPL1 implements IF1 {
+    public static class Impl1 implements If1 {
         
+    }
+    
+    public static class Impl2 implements If1 {        
+        @Override
+        public int y() {
+            return 12;
+        }
+    }
+    
+    public static class Impl3 implements If1 {
+        @Override
+        public int y() {
+            return 100 + If1.super.y();
+        }
     }
     
     public static void main(String[] args) {
@@ -25,12 +39,14 @@ public class InterfaceMethodTest {
     
     @Test
     public void staticMethod() {
-        assertEquals(1, IF1.x());
+        assertEquals(1, If1.x());
     }
     
     @Test
     public void defaultMethod() {
-        assertEquals(2, new IMPL1().y());
+        assertEquals(2, new Impl1().y());
+        assertEquals(12, new Impl2().y());
+        assertEquals(102, new Impl3().y());
     }
     
 }

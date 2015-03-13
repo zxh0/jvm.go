@@ -5,6 +5,7 @@ import (
 )
 
 type ConstantMethodref struct {
+	isIface    bool
 	className  string
 	name       string
 	descriptor string
@@ -16,6 +17,7 @@ type ConstantMethodref struct {
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
 	return &ConstantMethodref{
+		isIface:    false,
 		className:  methodrefInfo.ClassName(),
 		name:       methodrefInfo.Name(),
 		descriptor: methodrefInfo.Descriptor(),
@@ -124,6 +126,7 @@ func (self *ConstantMethodref) FindInterfaceMethod(ref *Obj) *Method {
 // todo
 func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
 	return &ConstantMethodref{
+		isIface:    true,
 		className:  methodrefInfo.ClassName(),
 		name:       methodrefInfo.Name(),
 		descriptor: methodrefInfo.Descriptor(),

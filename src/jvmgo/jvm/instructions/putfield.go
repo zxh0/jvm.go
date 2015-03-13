@@ -35,7 +35,7 @@ func (self *putstatic) Execute(frame *rtda.Frame) {
 	class := field.Class()
 	if class.InitializationNotStarted() {
 		thread := frame.Thread()
-		frame.SetNextPC(thread.PC()) // undo putstatic
+		frame.RevertNextPC()
 		thread.InitClass(class)
 		return
 	}

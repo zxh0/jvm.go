@@ -32,9 +32,10 @@ func (self *getstatic) Execute(frame *rtda.Frame) {
 	kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
 	field := kFieldRef.StaticField()
 
-	if field.Class().InitializationNotStarted() {
+	class := field.Class()
+	if class.InitializationNotStarted() {
 		frame.RevertNextPC() // undo getstatic
-		frame.Thread().InitClass(field.Class())
+		frame.Thread().InitClass(class)
 		return
 	}
 

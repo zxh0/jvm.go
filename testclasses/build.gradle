@@ -25,6 +25,7 @@ dependencies {
     // TODO: Add dependencies here ...
     // You can read more about how to add dependency here:
     //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
+    compile 'com.google.code.gson:gson:2.3.1'
     compile 'junit:junit:4.10'
     compile 'org.eclipse.jetty.aggregate:jetty-all:9.2.9.v20150224'
     //testCompile group: 'junit', name: 'junit', version: '4.10'

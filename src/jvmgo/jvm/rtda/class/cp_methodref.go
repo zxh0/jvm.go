@@ -123,11 +123,14 @@ type ConstantInterfaceMethodref struct {
 
 // todo
 func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantInterfaceMethodref {
-	methodref := &ConstantInterfaceMethodref{}
-	methodref.cp = cp
-	methodref.className = methodrefInfo.ClassName()
-	methodref.name = methodrefInfo.Name()
-	methodref.descriptor = methodrefInfo.Descriptor()
-	methodref.argCount = calcArgCount(methodref.descriptor)
-	return methodref
+	return &ConstantInterfaceMethodref{
+		ConstantMethodref{
+			className:  methodrefInfo.ClassName(),
+			name:       methodrefInfo.Name(),
+			descriptor: methodrefInfo.Descriptor(),
+			argCount:   calcArgCount(methodrefInfo.Descriptor()),
+			cp:         cp,
+			vslot:      -1,
+		},
+	}
 }

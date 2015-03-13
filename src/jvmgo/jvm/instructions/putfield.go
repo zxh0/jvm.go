@@ -1,7 +1,6 @@
 package instructions
 
 import (
-	//"fmt"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )
@@ -29,21 +28,16 @@ func (self *putfield) Execute(frame *rtda.Frame) {
 type putstatic struct{ Index16Instruction }
 
 func (self *putstatic) Execute(frame *rtda.Frame) {
-	currentMethod := frame.Method()
-	currentClass := currentMethod.Class()
-
-	cp := currentClass.ConstantPool()
+	cp := frame.Method().Class().ConstantPool()
 	kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
 	field := kFieldRef.StaticField()
 
-	classOfField := field.Class()
-	if classOfField.InitializationNotStarted() {
-		if classOfField != currentClass || !currentMethod.IsClinit() {
-			thread := frame.Thread()
-			frame.SetNextPC(thread.PC()) // undo putstatic
-			thread.InitClass(classOfField)
-			return
-		}
+	class := field.Class()
+	if class.InitializationNotStarted() {
+		thread := frame.Thread()
+		frame.SetNextPC(thread.PC()) // undo putstatic
+		thread.InitClass(class)
+		return
 	}
 
 	val := frame.OperandStack().Pop()

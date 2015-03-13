@@ -1,5 +1,6 @@
 package java7.cl;
 
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -13,6 +14,10 @@ public class UrlClassLoaderTest {
         Class<?> c1 = loader1.loadClass("com.google.gson.Gson");
         Class<?> c2 = loader2.loadClass("com.google.gson.Gson");
         System.out.println(c1 == c2);
+        
+        Object gson1 = c1.newInstance();
+        Method toJson = c1.getMethod("toJson", Object.class);
+        System.out.println(toJson.invoke(gson1, "123"));
     }
     
 }

@@ -1,7 +1,6 @@
 package instructions
 
 import (
-	//"fmt"
 	"jvmgo/jvm/rtda"
 	rtc "jvmgo/jvm/rtda/class"
 )
@@ -29,7 +28,7 @@ func (self *getfield) Execute(frame *rtda.Frame) {
 type getstatic struct{ Index16Instruction }
 
 func (self *getstatic) Execute(frame *rtda.Frame) {
-	cp := frame.Method().ConstantPool()
+	cp := frame.Method().Class().ConstantPool()
 	kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
 	field := kFieldRef.StaticField()
 

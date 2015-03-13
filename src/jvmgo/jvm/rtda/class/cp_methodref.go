@@ -117,20 +117,18 @@ func (self *ConstantMethodref) FindInterfaceMethod(ref *Obj) *Method {
 	panic("virtual method not found!")
 }
 
-type ConstantInterfaceMethodref struct {
-	ConstantMethodref
-}
+// type ConstantInterfaceMethodref struct {
+// 	ConstantMethodref
+// }
 
 // todo
-func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantInterfaceMethodref {
-	return &ConstantInterfaceMethodref{
-		ConstantMethodref{
-			className:  methodrefInfo.ClassName(),
-			name:       methodrefInfo.Name(),
-			descriptor: methodrefInfo.Descriptor(),
-			argCount:   calcArgCount(methodrefInfo.Descriptor()),
-			cp:         cp,
-			vslot:      -1,
-		},
+func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
+	return &ConstantMethodref{
+		className:  methodrefInfo.ClassName(),
+		name:       methodrefInfo.Name(),
+		descriptor: methodrefInfo.Descriptor(),
+		argCount:   calcArgCount(methodrefInfo.Descriptor()),
+		cp:         cp,
+		vslot:      -1,
 	}
 }

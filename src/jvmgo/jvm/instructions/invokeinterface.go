@@ -20,7 +20,7 @@ func (self *invokeinterface) fetchOperands(decoder *InstructionDecoder) {
 
 func (self *invokeinterface) Execute(frame *rtda.Frame) {
 	cp := frame.Method().ConstantPool()
-	kMethodRef := cp.GetConstant(uint(self.index)).(*rtc.ConstantInterfaceMethodref)
+	kMethodRef := cp.GetConstant(uint(self.index)).(*rtc.ConstantMethodref)
 
 	stack := frame.OperandStack()
 	ref := stack.Top(kMethodRef.ArgCount())

@@ -13,6 +13,7 @@ import (
 func Startup(cmd *cmdline.Command) {
 	initOptions(cmd.Options())
 	rtc.InitBootLoader(cmd.Options().Classpath())
+
 	mainThread := createMainThread(cmd.Class(), cmd.Args())
 	interpreter.Loop(mainThread)
 	keepalive.KeepAlive()

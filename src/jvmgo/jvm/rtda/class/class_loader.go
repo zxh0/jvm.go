@@ -54,10 +54,6 @@ func InitBootLoader(cp *classpath.ClassPath) {
 	bootLoader._init()
 }
 
-// ClassLoaderGetter
-func (self *ClassLoader) ClassLoader() *ClassLoader {
-	return self
-}
 func (self *ClassLoader) ClassPath() *classpath.ClassPath {
 	return self.classPath
 }

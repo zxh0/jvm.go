@@ -136,6 +136,13 @@ func (self *ClassLoader) GetPrimitiveClass(name string) *Class {
 	return self.getClass(name)
 }
 
+func (self *ClassLoader) FindLoadedClass(name string) *Class {
+	if class, ok := self.classMap[name]; ok {
+		return class
+	}
+	return nil
+}
+
 // todo dangerous
 func (self *ClassLoader) getClass(name string) *Class {
 	if class, ok := self.classMap[name]; ok {

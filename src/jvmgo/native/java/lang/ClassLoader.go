@@ -18,16 +18,27 @@ func _cl(method Any, name, desc string) {
 // (Ljava/lang/String;)Ljava/lang/Class;
 func findLoadedClass0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	//this := vars.GetThis()
+	this := vars.GetThis()
 	name := vars.GetRef(1)
 
 	// todo
 	className := rtda.GoString(name)
 	className = rtc.DotToSlash(className)
-	class := frame.ClassLoader().LoadClass(className)
-	if class != nil {
-		frame.OperandStack().PushRef(class.JClass())
-	} else {
-		frame.OperandStack().PushRef(nil)
+
+	if isAppClassLoader(this) {
+		class := rtc.BootLoader().FindLoadedClass(className)
+		if class != nil {
+			frame.OperandStack().PushRef(class.JClass())
+		} else {
+			frame.OperandStack().PushRef(nil)
+		}
 	}
+
+	// todo
+	frame.OperandStack().PushRef(nil)
+}
+
+// todo
+func isAppClassLoader(loader *rtc.Obj) bool {
+	return loader.Class().Name() == "sun.misc.Launcher$AppClassLoader"
 }

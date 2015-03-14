@@ -81,6 +81,7 @@ public class ClassLoaderTest {
         ClassLoader appCl = ClassLoaderTest.class.getClassLoader();
         assertEquals(Object.class, m.invoke(appCl, "java.lang.Object"));
         assertEquals(ClassLoaderTest.class, m.invoke(appCl, "java7.cl.ClassLoaderTest"));
+        assertEquals(null, m.invoke(appCl, "foo.bar.XXX"));
         
         ClassLoader urlCl = new URLClassLoader(new URL[0]);
         assertEquals(appCl, urlCl.getParent());

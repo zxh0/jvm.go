@@ -25,6 +25,5 @@ func (self *ConstantClass) Class() *Class {
 // todo
 func (self *ConstantClass) resolve() {
 	// load class
-	loader := self.cp.class.classLoader
-	self.class = loader.LoadClass(self.name)
+	self.class = bootLoader.LoadClass(self.name)
 }

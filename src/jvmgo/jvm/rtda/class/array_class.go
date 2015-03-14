@@ -10,10 +10,10 @@ func (self *Class) IsPrimitiveArray() bool {
 
 func (self *Class) ComponentClass() *Class {
 	componentClassName := getComponentClassName(self.name)
-	return self.classLoader.LoadClass(componentClassName)
+	return bootLoader.LoadClass(componentClassName)
 }
 
 func (self *Class) arrayClass() *Class {
 	arrayClassName := getArrayClassName(self.name)
-	return self.classLoader.LoadClass(arrayClassName)
+	return bootLoader.LoadClass(arrayClassName)
 }

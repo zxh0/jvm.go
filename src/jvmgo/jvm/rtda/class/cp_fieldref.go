@@ -43,8 +43,7 @@ func (self *ConstantFieldref) StaticField() *Field {
 }
 
 func (self *ConstantFieldref) resolveField(isStatic bool) {
-	classLoader := self.cp.class.classLoader
-	fromClass := classLoader.LoadClass(self.className)
+	fromClass := bootLoader.LoadClass(self.className)
 
 	for class := fromClass; class != nil; class = class.superClass {
 		field := class.getField(self.name, self.descriptor, isStatic)

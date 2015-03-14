@@ -28,9 +28,9 @@ type Class struct {
 	jClass             *Obj      // java.lang.Class instance
 	superClass         *Class
 	interfaces         []*Class
-	classLoader        *ClassLoader      // defining class loader
-	loadedFrom         cp.ClassPathEntry // todo
-	state              int
+	//classLoader        *ClassLoader      // defining class loader
+	loadedFrom cp.ClassPathEntry // todo
+	state      int
 }
 
 func (self *Class) String() string {

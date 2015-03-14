@@ -76,7 +76,7 @@ func (self *ConstantMethodref) resolveSpecialMethod() {
 }
 
 func (self *ConstantMethodref) findMethod(isStatic bool) *Method {
-	class := self.cp.class.classLoader.LoadClass(self.className)
+	class := bootLoader.LoadClass(self.className)
 	return class.getMethod(self.name, self.descriptor, isStatic)
 }
 

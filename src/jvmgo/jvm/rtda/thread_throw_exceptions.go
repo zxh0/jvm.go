@@ -7,7 +7,7 @@ import (
 )
 
 func (self *Thread) throwException(className, initDesc string, initArgs ...Any) {
-	class := self.ClassLoader().LoadClass(className)
+	class := rtc.BootLoader().LoadClass(className)
 	ex := class.NewObj()
 	athrowFrame := newAthrowFrame(self, ex, initArgs)
 	self.PushFrame(athrowFrame)

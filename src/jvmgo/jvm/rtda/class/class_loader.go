@@ -92,7 +92,7 @@ func (self *ClassLoader) loadPrimitiveClasses() {
 }
 func (self *ClassLoader) loadPrimitiveClass(className string) {
 	class := &Class{name: className}
-	class.classLoader = self
+	//class.classLoader = self
 	class.jClass = _jlClassClass.NewObj()
 	class.jClass.extra = class
 	class.MarkInitialized()
@@ -106,7 +106,7 @@ func (self *ClassLoader) loadPrimitiveArrayClasses() {
 }
 func (self *ClassLoader) loadArrayClass(className string) *Class {
 	class := &Class{name: className}
-	class.classLoader = self
+	//class.classLoader = self
 	class.superClass = _jlObjectClass
 	class.interfaces = []*Class{_jlCloneableClass, _ioSerializableClass}
 	class.jClass = _jlClassClass.NewObj()
@@ -207,7 +207,7 @@ func (self *ClassLoader) _loadClass(name string, data []byte) *Class {
 	createVtable(class)
 	prepare(class)
 	// todo
-	class.classLoader = self
+	//class.classLoader = self
 	self.classMap[name] = class
 
 	if _jlClassClass != nil {

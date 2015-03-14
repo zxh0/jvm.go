@@ -49,8 +49,9 @@ func (self *Frame) RevertNextPC() {
 	self.nextPC = self.thread.pc
 }
 
+// todo
 func (self *Frame) ClassLoader() *rtc.ClassLoader {
-	return self.method.ClassLoader()
+	return rtc.BootLoader()
 }
 func (self *Frame) ConstantPool() *rtc.ConstantPool {
 	return self.method.ConstantPool()

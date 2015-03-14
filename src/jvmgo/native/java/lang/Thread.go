@@ -8,6 +8,7 @@ import (
 )
 
 func init() {
+	_thread(isInterrupted, "isInterrupted", "(Z)Z")
 	_thread(isAlive, "isAlive", "()Z")
 	_thread(setPriority0, "setPriority0", "(I)V")
 	_thread(start0, "start0", "()V")
@@ -18,7 +19,6 @@ func _thread(method Any, name, desc string) {
 }
 
 // @Deprecated public native int countStackFrames();
-// private native boolean isInterrupted(boolean ClearInterrupted);
 // private native void stop0(Object o);
 // private native void suspend0();
 // private native void resume0();
@@ -36,6 +36,13 @@ func isAlive(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushBoolean(alive)
+}
+
+// private native boolean isInterrupted(boolean ClearInterrupted);
+// (Z)Z
+func isInterrupted(frame *rtda.Frame) {
+	// todo
+	panic("todo")
 }
 
 func _extraThread(threadObj *rtc.Obj) *rtda.Thread {

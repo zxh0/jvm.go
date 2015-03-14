@@ -12,9 +12,8 @@ import (
 
 func Startup(cmd *cmdline.Command) {
 	initOptions(cmd.Options())
-	classPath := cmd.Options().Classpath()
-	classLoader := rtc.NewClassLoader(classPath)
-	mainThread := createMainThread(classLoader, cmd.Class(), cmd.Args())
+	rtc.InitBootLoader(cmd.Options().Classpath())
+	mainThread := createMainThread(cmd.Class(), cmd.Args())
 	interpreter.Loop(mainThread)
 	keepalive.KeepAlive()
 }
@@ -24,17 +23,15 @@ func initOptions(_options *cmdline.Options) {
 	options.ThreadStackSize = uint(_options.Xss())
 }
 
-func createMainThread(classLoader *rtc.ClassLoader, className string, args []string) *rtda.Thread {
+func createMainThread(className string, args []string) *rtda.Thread {
 	mainThread := rtda.NewThread(nil)
-	bootMethod := rtc.BootstrapMethod(classLoader)
+	bootMethod := rtc.BootstrapMethod()
 	bootFrame := mainThread.NewFrame(bootMethod)
 	mainThread.PushFrame(bootFrame)
 
 	stack := bootFrame.OperandStack()
 	stack.Push(args)
 	stack.Push(className)
-	stack.Push(classLoader)
-	//stack.PushInt(0)
 
 	return mainThread
 }

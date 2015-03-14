@@ -32,7 +32,7 @@ func AthrowMethod() *Method {
 	return _athrowMethod
 }
 
-func BootstrapMethod(cl *ClassLoader) *Method {
+func BootstrapMethod() *Method {
 	method := &Method{}
 	method.class = &Class{name: "~shim"}
 	method.name = "<bootstrap>"

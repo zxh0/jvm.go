@@ -54,12 +54,6 @@ func InitBootLoader(cp *classpath.ClassPath) {
 	bootLoader._init()
 }
 
-// todo
-func NewClassLoader(cp *classpath.ClassPath) *ClassLoader {
-	InitBootLoader(cp)
-	return BootLoader()
-}
-
 // ClassLoaderGetter
 func (self *ClassLoader) ClassLoader() *ClassLoader {
 	return self

@@ -8,7 +8,7 @@ import (
 // todo
 var (
 	_bootClasses     []string
-	_classLoader     *rtc.ClassLoader
+	_classLoader     *rtc.ClassLoader // todo
 	_mainClassName   string
 	_args            []string
 	_mainThreadGroup *rtc.Obj
@@ -36,7 +36,7 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
 
 func initVars(frame *rtda.Frame) {
 	stack := frame.OperandStack()
-	_classLoader = stack.Pop().(*rtc.ClassLoader)
+	_classLoader = rtc.BootLoader()
 	_mainClassName = stack.Pop().(string)
 	_args = stack.Pop().([]string)
 	_bootClasses = []string{

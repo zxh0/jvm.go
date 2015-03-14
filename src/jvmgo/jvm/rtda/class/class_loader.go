@@ -19,6 +19,7 @@ const (
 )
 
 var (
+	_bootLoader          *ClassLoader // bootstrap class loader
 	_jlObjectClass       *Class
 	_jlClassClass        *Class
 	_jlCloneableClass    *Class
@@ -41,11 +42,22 @@ type ClassLoader struct {
 	classMap  map[string]*Class
 }
 
+func BootLoader() *ClassLoader {
+	return _bootLoader
+}
+
+func InitBootLoader(cp *classpath.ClassPath) {
+	_bootLoader = &ClassLoader{
+		classPath: cp,
+		classMap:  map[string]*Class{},
+	}
+	_bootLoader._init()
+}
+
+// todo
 func NewClassLoader(cp *classpath.ClassPath) *ClassLoader {
-	classMap := map[string]*Class{}
-	loader := &ClassLoader{cp, classMap}
-	loader._init()
-	return loader
+	InitBootLoader(cp)
+	return BootLoader()
 }
 
 // ClassLoaderGetter

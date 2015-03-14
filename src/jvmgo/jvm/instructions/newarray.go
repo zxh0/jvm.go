@@ -19,10 +19,11 @@ func (self *newarray) Execute(frame *rtda.Frame) {
 	count := stack.PopInt()
 	if count < 0 {
 		frame.Thread().ThrowNegativeArraySizeException()
-	} else {
-		arr := rtc.NewPrimitiveArray(self.atype, uint(count), frame.ClassLoader())
-		stack.PushRef(arr)
+		return
 	}
+
+	arr := rtc.NewPrimitiveArray(self.atype, uint(count))
+	stack.PushRef(arr)
 }
 
 // Create new array of reference

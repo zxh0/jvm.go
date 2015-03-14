@@ -49,24 +49,24 @@ func _newPrimitiveArray(arrClass *Class, count uint) *Obj {
 	}
 }
 
-func NewPrimitiveArray(atype uint8, count uint, classLoader *ClassLoader) *Obj {
+func NewPrimitiveArray(atype uint8, count uint) *Obj {
 	switch atype {
 	case AT_BOOLEAN:
-		return newObj(classLoader.getClass("[Z"), make([]int8, count), nil)
+		return newObj(bootLoader.getClass("[Z"), make([]int8, count), nil)
 	case AT_BYTE:
-		return newObj(classLoader.getClass("[B"), make([]int8, count), nil)
+		return newObj(bootLoader.getClass("[B"), make([]int8, count), nil)
 	case AT_CHAR:
-		return newObj(classLoader.getClass("[C"), make([]uint16, count), nil)
+		return newObj(bootLoader.getClass("[C"), make([]uint16, count), nil)
 	case AT_SHORT:
-		return newObj(classLoader.getClass("[S"), make([]int16, count), nil)
+		return newObj(bootLoader.getClass("[S"), make([]int16, count), nil)
 	case AT_INT:
-		return newObj(classLoader.getClass("[I"), make([]int32, count), nil)
+		return newObj(bootLoader.getClass("[I"), make([]int32, count), nil)
 	case AT_LONG:
-		return newObj(classLoader.getClass("[J"), make([]int64, count), nil)
+		return newObj(bootLoader.getClass("[J"), make([]int64, count), nil)
 	case AT_FLOAT:
-		return newObj(classLoader.getClass("[F"), make([]float32, count), nil)
+		return newObj(bootLoader.getClass("[F"), make([]float32, count), nil)
 	case AT_DOUBLE:
-		return newObj(classLoader.getClass("[D"), make([]float64, count), nil)
+		return newObj(bootLoader.getClass("[D"), make([]float64, count), nil)
 	default:
 		util.Panicf("BAD atype: %v!", atype)
 		return nil

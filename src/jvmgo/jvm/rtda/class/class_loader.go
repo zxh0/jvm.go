@@ -19,7 +19,7 @@ const (
 )
 
 var (
-	_bootLoader          *ClassLoader // bootstrap class loader
+	bootLoader           *ClassLoader // bootstrap class loader
 	_jlObjectClass       *Class
 	_jlClassClass        *Class
 	_jlCloneableClass    *Class
@@ -43,15 +43,15 @@ type ClassLoader struct {
 }
 
 func BootLoader() *ClassLoader {
-	return _bootLoader
+	return bootLoader
 }
 
 func InitBootLoader(cp *classpath.ClassPath) {
-	_bootLoader = &ClassLoader{
+	bootLoader = &ClassLoader{
 		classPath: cp,
 		classMap:  map[string]*Class{},
 	}
-	_bootLoader._init()
+	bootLoader._init()
 }
 
 // todo

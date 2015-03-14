@@ -12,20 +12,20 @@ import (
 const (
 	jlObjectClassName       = "java/lang/Object"
 	jlClassClassName        = "java/lang/Class"
+	jlStringClassName       = "java/lang/String"
+	jlThreadClassName       = "java/lang/Thread"
 	jlCloneableClassName    = "java/lang/Cloneable"
 	ioSerializableClassName = "java/io/Serializable"
-	jlThreadClassName       = "java/lang/Thread"
-	jlStringClassName       = "java/lang/String"
 )
 
 var (
 	bootLoader           *ClassLoader // bootstrap class loader
 	_jlObjectClass       *Class
 	_jlClassClass        *Class
+	_jlStringClass       *Class
+	_jlThreadClass       *Class
 	_jlCloneableClass    *Class
 	_ioSerializableClass *Class
-	_jlThreadClass       *Class
-	_jlStringClass       *Class
 )
 
 /*
@@ -52,10 +52,6 @@ func InitBootLoader(cp *classpath.ClassPath) {
 		classMap:  map[string]*Class{},
 	}
 	bootLoader._init()
-}
-
-func (self *ClassLoader) ClassPath() *classpath.ClassPath {
-	return self.classPath
 }
 
 func (self *ClassLoader) _init() {
@@ -118,9 +114,8 @@ func (self *ClassLoader) _getRefArrayClass(arrClassName string) *Class {
 	return self.loadArrayClass(arrClassName)
 }
 
-// todo
-func (self *ClassLoader) GetPrimitiveClass(name string) *Class {
-	return self.getClass(name)
+func (self *ClassLoader) ClassPath() *classpath.ClassPath {
+	return self.classPath
 }
 
 func (self *ClassLoader) JLObjectClass() *Class {
@@ -134,6 +129,11 @@ func (self *ClassLoader) JLStringClass() *Class {
 }
 func (self *ClassLoader) JLThreadClass() *Class {
 	return _jlThreadClass
+}
+
+// todo
+func (self *ClassLoader) GetPrimitiveClass(name string) *Class {
+	return self.getClass(name)
 }
 
 // todo dangerous

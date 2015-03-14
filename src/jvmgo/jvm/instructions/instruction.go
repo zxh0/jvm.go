@@ -38,3 +38,8 @@ type Index16Instruction struct {
 func (self *Index16Instruction) fetchOperands(decoder *InstructionDecoder) {
 	self.index = uint(decoder.readUint16())
 }
+
+func branch(frame *rtda.Frame, offset int) {
+	nextPC := frame.Thread().PC() + offset
+	frame.SetNextPC(nextPC)
+}

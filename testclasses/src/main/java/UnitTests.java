@@ -6,7 +6,7 @@ import java7.cl.ClassLoaderTest;
 import java7.reflection.MethodTest;
 import java7.thread.MainThreadTest;
 import java7.StringTest;
-import java7.UnitTestRunner;
+import libs.junit.UnitTestRunner;
 import java7.cl.GetClassLoaderTest;
 import java8.InterfaceMethodTest;
 import org.junit.Test;

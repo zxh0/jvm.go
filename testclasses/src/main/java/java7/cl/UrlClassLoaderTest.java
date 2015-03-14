@@ -11,13 +11,13 @@ public class UrlClassLoaderTest {
         URLClassLoader loader1 = new URLClassLoader(new URL[]{gson});
         URLClassLoader loader2 = new URLClassLoader(new URL[]{gson});
         
-        Class<?> c1 = loader1.loadClass("com.google.gson.Gson");
-        Class<?> c2 = loader2.loadClass("com.google.gson.Gson");
+        Class<?> c1 = loader1.loadClass("com.google.gson.JsonArray");
+        Class<?> c2 = loader2.loadClass("com.google.gson.JsonArray");
         System.out.println(c1 == c2);
-        
-        Object gson1 = c1.newInstance();
-        Method toJson = c1.getMethod("toJson", Object.class);
-        System.out.println(toJson.invoke(gson1, "123"));
+//        
+//        Object gson1 = c1.newInstance();
+//        Method toJson = c1.getMethod("toJson", Object.class);
+//        System.out.println(toJson.invoke(gson1, "123"));
     }
     
 }

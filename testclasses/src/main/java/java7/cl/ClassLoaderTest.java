@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java7.UnitTestRunner;
+import libs.junit.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

@@ -2,7 +2,7 @@ package java7.instructions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java7.UnitTestRunner;
+import libs.junit.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

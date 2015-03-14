@@ -1,6 +1,6 @@
 package java8;
 
-import java7.UnitTestRunner;
+import libs.junit.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

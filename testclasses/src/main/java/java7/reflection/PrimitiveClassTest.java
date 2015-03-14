@@ -2,7 +2,7 @@ package java7.reflection;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import java7.UnitTestRunner;
+import libs.junit.UnitTestRunner;
 
 public class PrimitiveClassTest {
     

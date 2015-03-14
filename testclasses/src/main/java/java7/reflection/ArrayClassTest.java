@@ -2,7 +2,7 @@ package java7.reflection;
 
 import java.io.Serializable;
 import org.junit.Test;
-import java7.UnitTestRunner;
+import libs.junit.UnitTestRunner;
 import static org.junit.Assert.*;
 
 public class ArrayClassTest {

@@ -1,6 +1,6 @@
 package java7.exception;
 
-import java7.UnitTestRunner;
+import libs.junit.UnitTestRunner;
 import org.junit.Test;
 
 public class JvmExTest {

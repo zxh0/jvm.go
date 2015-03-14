@@ -2,7 +2,7 @@ package java7.reflection;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
-import java7.UnitTestRunner;
+import libs.junit.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

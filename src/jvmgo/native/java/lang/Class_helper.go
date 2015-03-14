@@ -48,14 +48,14 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 func getParameterAnnotationDyteArr(method *rtc.Method) *rtc.Obj {
 	if data := method.ParameterAnnotationData(); data != nil {
 		bytes := util.CastUint8sToInt8s(data)
-		return rtc.NewByteArray(bytes, method.ClassLoader())
+		return rtc.NewByteArray(bytes)
 	}
 	return nil
 }
 func getAnnotationDefaultData(method *rtc.Method) *rtc.Obj {
 	if data := method.AnnotationDefaultData(); data != nil {
 		bytes := util.CastUint8sToInt8s(data)
-		return rtc.NewByteArray(bytes, method.ClassLoader())
+		return rtc.NewByteArray(bytes)
 	}
 	return nil
 }
@@ -63,7 +63,7 @@ func getAnnotationDefaultData(method *rtc.Method) *rtc.Obj {
 func getAnnotationByteArr(member *rtc.ClassMember) *rtc.Obj {
 	if data := member.AnnotationData(); data != nil {
 		bytes := util.CastUint8sToInt8s(data)
-		return rtc.NewByteArray(bytes, member.ClassLoader())
+		return rtc.NewByteArray(bytes)
 	}
 	return nil
 }

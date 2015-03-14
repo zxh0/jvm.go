@@ -124,7 +124,7 @@ func getEntryBytes(frame *rtda.Frame) {
 
 	goBytes := _getEntryBytes(jzentry, _type)
 	jBytes := util.CastUint8sToInt8s(goBytes)
-	byteArr := rtc.NewByteArray(jBytes, frame.ClassLoader())
+	byteArr := rtc.NewByteArray(jBytes)
 
 	stack := frame.OperandStack()
 	stack.PushRef(byteArr)

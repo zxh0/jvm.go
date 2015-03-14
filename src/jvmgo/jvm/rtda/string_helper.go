@@ -13,9 +13,8 @@ func NewJString(goStr string, clg rtc.ClassLoaderGetter) *rtc.Obj {
 		return internedStr
 	}
 
-	classLoader := clg.ClassLoader()
-	stringClass := classLoader.JLStringClass()
-	jCharArr := rtc.NewCharArray(chars, classLoader)
+	jCharArr := rtc.NewCharArray(chars)
+	stringClass := clg.ClassLoader().JLStringClass()
 	jStr := stringClass.NewObj()
 	jStr.SetFieldValue("value", "[C", jCharArr)
 	return InternString(chars, jStr)

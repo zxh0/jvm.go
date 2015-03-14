@@ -73,11 +73,11 @@ func NewPrimitiveArray(atype uint8, count uint) *Obj {
 	}
 }
 
-func NewByteArray(bytes []int8, classLoader *ClassLoader) *Obj {
-	return newObj(classLoader.getClass("[B"), bytes, nil)
+func NewByteArray(bytes []int8) *Obj {
+	return newObj(bootLoader.getClass("[B"), bytes, nil)
 }
-func NewCharArray(chars []uint16, classLoader *ClassLoader) *Obj {
-	return newObj(classLoader.getClass("[C"), chars, nil)
+func NewCharArray(chars []uint16) *Obj {
+	return newObj(bootLoader.getClass("[C"), chars, nil)
 }
 
 func NewRefArray(componentClass *Class, count uint) *Obj {

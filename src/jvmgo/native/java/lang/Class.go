@@ -41,7 +41,7 @@ func getClassLoader0(frame *rtda.Frame) {
 		return
 	}
 
-	clClass := class.ClassLoader().LoadClass("java/lang/ClassLoader")
+	clClass := rtc.BootLoader().LoadClass("java/lang/ClassLoader")
 	getSysCl := clClass.GetStaticMethod("getSystemClassLoader", "()Ljava/lang/ClassLoader;")
 	frame.Thread().InvokeMethod(getSysCl)
 }
@@ -61,7 +61,7 @@ func getComponentType(frame *rtda.Frame) {
 // ()Lsun/reflect/ConstantPool;
 func getConstantPool(frame *rtda.Frame) {
 	class := _popClass(frame)
-	cpClass := class.ClassLoader().LoadClass("sun/reflect/ConstantPool")
+	cpClass := rtc.BootLoader().LoadClass("sun/reflect/ConstantPool")
 	if cpClass.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread().InitClass(cpClass)
@@ -132,7 +132,7 @@ func getInterfaces0(frame *rtda.Frame) {
 		interfaceObjs[i] = iface.JClass()
 	}
 
-	jlClassClass := class.ClassLoader().JLClassClass()
+	jlClassClass := rtc.BootLoader().JLClassClass()
 	interfaceArr := rtc.NewRefArray2(jlClassClass, interfaceObjs)
 
 	stack := frame.OperandStack()

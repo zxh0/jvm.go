@@ -138,7 +138,7 @@ func (self *Thread) InvokeMethodWithShim(method *rtc.Method, args []Any) {
 
 func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
 	self.stack.clear()
-	sysClass := ex.Class().ClassLoader().LoadClass("java/lang/System")
+	sysClass := rtc.BootLoader().LoadClass("java/lang/System")
 	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").(*rtc.Obj)
 	printStackTrace := ex.Class().GetInstanceMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
 

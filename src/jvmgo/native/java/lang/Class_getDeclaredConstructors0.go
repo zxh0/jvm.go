@@ -39,7 +39,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 	goConstructors := goClass.GetConstructors(publicOnly)
 	constructorCount := uint(len(goConstructors))
 
-	constructorClass := goClass.ClassLoader().LoadClass("java/lang/reflect/Constructor")
+	constructorClass := rtc.BootLoader().LoadClass("java/lang/reflect/Constructor")
 	constructorInitMethod := constructorClass.GetConstructor(_constructorConstructorDescriptor)
 	constructorArr := constructorClass.NewArray(constructorCount)
 	stack := frame.OperandStack()

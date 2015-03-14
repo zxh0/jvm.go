@@ -56,9 +56,10 @@ func (self *Class) SuperClass() *Class {
 func (self *Class) Interfaces() []*Class {
 	return self.interfaces
 }
-func (self *Class) ClassLoader() *ClassLoader {
-	return self.classLoader
-}
+
+// func (self *Class) ClassLoader() *ClassLoader {
+// 	return self.classLoader
+// }
 func (self *Class) LoadedFrom() cp.ClassPathEntry {
 	return self.loadedFrom
 }

@@ -10,7 +10,7 @@ func getParameterTypeArr(method *rtc.Method) *rtc.Obj {
 	paramTypes := method.ParameterTypes()
 	paramCount := len(paramTypes)
 
-	classClass := method.Class().ClassLoader().JLClassClass()
+	classClass := rtc.BootLoader().JLClassClass()
 	classArr := classClass.NewArray(uint(paramCount))
 
 	if paramCount > 0 {
@@ -32,7 +32,7 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 	exTypes := method.ExceptionTypes()
 	exCount := len(exTypes)
 
-	classClass := method.Class().ClassLoader().JLClassClass()
+	classClass := rtc.BootLoader().JLClassClass()
 	classArr := classClass.NewArray(uint(exCount))
 
 	if exCount > 0 {

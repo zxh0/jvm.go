@@ -43,7 +43,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 	class := classObj.Extra().(*rtc.Class)
 	methods := class.GetMethods(publicOnly)
 	methodCount := uint(len(methods))
-	methodClass := class.ClassLoader().LoadClass("java/lang/reflect/Method")
+	methodClass := rtc.BootLoader().LoadClass("java/lang/reflect/Method")
 	methodConstructor := methodClass.GetConstructor(_methodConstructorDescriptor)
 	methodArrObj := methodClass.NewArray(methodCount)
 

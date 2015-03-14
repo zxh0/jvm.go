@@ -75,7 +75,7 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 	}
 	if _mainThreadName == nil {
 		undoExec(thread)
-		_mainThreadName = rtda.NewJString("main", thread.CurrentFrame())
+		_mainThreadName = rtda.NewJString("main")
 		return true
 	}
 	if thread.JThread() == nil {
@@ -120,17 +120,17 @@ func execMain(thread *rtda.Thread) {
 	if mainMethod != nil {
 		newFrame := thread.NewFrame(mainMethod)
 		thread.PushFrame(newFrame)
-		args := createArgs(newFrame)
+		args := createArgs()
 		newFrame.LocalVars().SetRef(0, args)
 	} else {
 		panic("no main method!") // todo
 	}
 }
 
-func createArgs(frame *rtda.Frame) *rtc.Obj {
+func createArgs() *rtc.Obj {
 	jArgs := make([]*rtc.Obj, len(_args))
 	for i, arg := range _args {
-		jArgs[i] = rtda.NewJString(arg, frame)
+		jArgs[i] = rtda.NewJString(arg)
 	}
 
 	return rtc.NewRefArray2(_classLoader.JLStringClass(), jArgs)

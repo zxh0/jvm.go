@@ -24,7 +24,7 @@ func getSystemTimeZoneID(frame *rtda.Frame) {
 
 	// todo
 	name, _ := time.Now().Zone()
-	zoneID := rtda.NewJString(name, frame)
+	zoneID := rtda.NewJString(name)
 
 	stack := frame.OperandStack()
 	stack.PushRef(zoneID)

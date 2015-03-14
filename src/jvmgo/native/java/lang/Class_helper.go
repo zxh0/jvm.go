@@ -70,7 +70,7 @@ func getAnnotationByteArr(member *rtc.ClassMember) *rtc.Obj {
 
 func getSignature(member *rtc.ClassMember) *rtc.Obj {
 	if signature := member.Signature(); signature != "" {
-		return rtda.NewJString(signature, member)
+		return rtda.NewJString(signature)
 	}
 	return nil
 }

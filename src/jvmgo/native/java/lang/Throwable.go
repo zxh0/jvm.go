@@ -98,9 +98,9 @@ func getStackTraceElement(frame *rtda.Frame) {
 }
 
 func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) *rtc.Obj {
-	declaringClass := rtda.NewJString(ste.declaringClass, frame)
-	methodName := rtda.NewJString(ste.methodName, frame)
-	fileName := rtda.NewJString(ste.fileName, frame)
+	declaringClass := rtda.NewJString(ste.declaringClass)
+	methodName := rtda.NewJString(ste.methodName)
+	fileName := rtda.NewJString(ste.fileName)
 	lineNumber := int32(ste.lineNumber)
 
 	/*

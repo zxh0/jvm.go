@@ -112,8 +112,8 @@ func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.Enclos
 	enclosingClassObj := enclosingClass.JClass()
 	var methodNameObj, methodDescriptorObj *rtc.Obj
 	if emInfo.MethodName() != "" {
-		methodNameObj = rtda.NewJString(emInfo.MethodName(), classLoader)
-		methodDescriptorObj = rtda.NewJString(emInfo.MethodDescriptor(), classLoader)
+		methodNameObj = rtda.NewJString(emInfo.MethodName())
+		methodDescriptorObj = rtda.NewJString(emInfo.MethodDescriptor())
 	} else {
 		methodNameObj, methodDescriptorObj = nil, nil
 	}
@@ -144,7 +144,7 @@ func getInterfaces0(frame *rtda.Frame) {
 func getName0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	name := class.NameJlsFormat()
-	nameObj := rtda.NewJString(name, frame)
+	nameObj := rtda.NewJString(name)
 
 	stack := frame.OperandStack()
 	stack.PushRef(nameObj)

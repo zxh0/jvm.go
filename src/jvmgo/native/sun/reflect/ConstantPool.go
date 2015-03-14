@@ -29,7 +29,7 @@ func getUTF8At0(frame *rtda.Frame) {
 	cp, index := _getPop(frame)
 	kUtf8 := cp.GetConstant(index).(*rtc.ConstantUtf8)
 	goStr := kUtf8.Str()
-	jStr := rtda.NewJString(goStr, frame)
+	jStr := rtda.NewJString(goStr)
 	frame.OperandStack().PushRef(jStr)
 }
 

@@ -35,7 +35,7 @@ func canonicalize0(frame *rtda.Frame) {
 	path := rtda.GoString(pathStr)
 	path2 := filepath.Clean(path)
 	if path2 != path {
-		pathStr = rtda.NewJString(path2, frame)
+		pathStr = rtda.NewJString(path2)
 	}
 
 	stack := frame.OperandStack()

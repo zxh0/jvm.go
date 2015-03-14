@@ -6,7 +6,7 @@ import (
 )
 
 // todo: is there a better way to create String?
-func NewJString(goStr string, clg rtc.ClassLoaderGetter) *rtc.Obj {
+func NewJString(goStr string) *rtc.Obj {
 	chars := util.StringToUtf16(goStr)
 	internedStr := getInternedString(chars)
 	if internedStr != nil {
@@ -14,8 +14,7 @@ func NewJString(goStr string, clg rtc.ClassLoaderGetter) *rtc.Obj {
 	}
 
 	jCharArr := rtc.NewCharArray(chars)
-	stringClass := clg.ClassLoader().JLStringClass()
-	jStr := stringClass.NewObj()
+	jStr := rtc.BootLoader().JLStringClass().NewObj()
 	jStr.SetFieldValue("value", "[C", jCharArr)
 	return InternString(chars, jStr)
 }

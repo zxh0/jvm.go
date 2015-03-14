@@ -100,8 +100,8 @@ func initProperties(frame *rtda.Frame) {
 	setPropMethod := props.Class().GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
 	thread := frame.Thread()
 	for key, val := range _sysProps(cp) {
-		jKey := rtda.NewJString(key, frame)
-		jVal := rtda.NewJString(val, frame)
+		jKey := rtda.NewJString(key)
+		jVal := rtda.NewJString(val)
 		args := []Any{props, jKey, jVal}
 		thread.InvokeMethodWithShim(setPropMethod, args)
 	}

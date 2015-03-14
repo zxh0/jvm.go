@@ -51,6 +51,7 @@ func findLoadedClass0(frame *rtda.Frame) {
 		} else {
 			frame.OperandStack().PushRef(nil)
 		}
+		return
 	}
 
 	// todo
@@ -59,5 +60,5 @@ func findLoadedClass0(frame *rtda.Frame) {
 
 // todo
 func isAppClassLoader(loader *rtc.Obj) bool {
-	return loader.Class().Name() == "sun.misc.Launcher$AppClassLoader"
+	return loader.Class().Name() == "sun/misc/Launcher$AppClassLoader"
 }

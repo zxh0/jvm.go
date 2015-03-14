@@ -13,9 +13,9 @@ func NewJString(goStr string) *rtc.Obj {
 		return internedStr
 	}
 
-	jCharArr := rtc.NewCharArray(chars)
+	charArr := rtc.NewCharArray(chars)
 	jStr := rtc.BootLoader().JLStringClass().NewObj()
-	jStr.SetFieldValue("value", "[C", jCharArr)
+	jStr.SetFieldValue("value", "[C", charArr)
 	return InternString(chars, jStr)
 }
 

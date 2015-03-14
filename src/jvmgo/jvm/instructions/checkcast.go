@@ -17,7 +17,7 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	cp := frame.ConstantPool()
+	cp := frame.Method().Class().ConstantPool()
 	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
 	class := kClass.Class()
 

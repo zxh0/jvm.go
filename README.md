@@ -21,7 +21,7 @@ Create the following folder and file structure:
 path/to/jvm.go/bin
 ├── jvmgo
 └── jre/
-    ├── lib/
+    └── lib/
         ├── rt.jar
         ├── currency.data
         └── net.properties

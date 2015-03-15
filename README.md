@@ -22,9 +22,9 @@ path/to/jvm.go/bin
 ├── jvmgo
 └── jre/
     ├── lib/
-    ├── rt.jar
-    ├── currency.data
-    └── net.properties
+        ├── rt.jar
+        ├── currency.data
+        └── net.properties
 ```
 
 ```sh

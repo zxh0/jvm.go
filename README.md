@@ -13,15 +13,15 @@ jvm.go is a new JVM(which is far from complete) programmed in Go. The main purpo
 # Build `jvm.go`
 
 ```sh
-export GOPATH=path/to/jvm.go/
-go install jvmgo
+go get -d github.com/zxh0/jvm.go/
+go install github.com/zxh0/jvm.go/jvmgo
 ```
 
 # Run jvm.go
 Create the following folder and file structure:
 
 ```
-path/to/jvm.go/bin
+$GOPATH/bin
 ├── jvmgo
 └── jre/
     └── lib/
@@ -31,8 +31,7 @@ path/to/jvm.go/bin
 ```
 
 ```sh
-cd path/to/jvm.go/bin
-./jvmgo -cp path/to/jars:path/to/classes HelloWorld
+jvmgo -cp path/to/jars:path/to/classes HelloWorld
 ```
 
 # Where to find rt.jar: 

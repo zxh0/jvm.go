@@ -1,6 +1,6 @@
 package class
 
-import . "jvmgo/any"
+import . "github.com/zxh0/jvm.go/jvmgo/any"
 
 // todo
 // cannot use package 'native' because of cycle import!

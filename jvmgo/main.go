@@ -1,8 +1,8 @@
 package main
 
 import (
-	"jvmgo/cmdline"
-	"jvmgo/jvm"
+	"github.com/zxh0/jvm.go/jvmgo/cmdline"
+	"github.com/zxh0/jvm.go/jvmgo/jvm"
 	"os"
 )
 

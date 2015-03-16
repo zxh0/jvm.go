@@ -2,10 +2,10 @@ package interpreter
 
 import (
 	"fmt"
-	"jvmgo/jvm/instructions"
-	"jvmgo/jvm/jerrors"
-	"jvmgo/jvm/keepalive"
-	"jvmgo/jvm/rtda"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/instructions"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/jerrors"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/keepalive"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 )
 
 // todo

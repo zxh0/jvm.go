@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/jvm/rtda"
+import "github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 
 // Store reference into local variable
 type astore struct{ Index8Instruction }

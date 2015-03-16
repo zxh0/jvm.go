@@ -1,8 +1,8 @@
 package rtda
 
 import (
-	rtc "jvmgo/jvm/rtda/class"
-	"jvmgo/util"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 // todo: is there a better way to create String?

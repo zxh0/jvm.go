@@ -2,8 +2,8 @@ package rtda
 
 import (
 	"fmt"
-	. "jvmgo/any"
-	rtc "jvmgo/jvm/rtda/class"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
 func (self *Thread) throwException(className, initDesc string, initArgs ...Any) {

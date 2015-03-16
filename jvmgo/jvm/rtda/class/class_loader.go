@@ -2,11 +2,11 @@ package class
 
 import (
 	"fmt"
-	. "jvmgo/any"
-	"jvmgo/classfile"
-	"jvmgo/classpath"
-	"jvmgo/jvm/jerrors"
-	"jvmgo/jvm/options"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
+	"github.com/zxh0/jvm.go/jvmgo/classfile"
+	"github.com/zxh0/jvm.go/jvmgo/classpath"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/jerrors"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 )
 
 const (

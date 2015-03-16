@@ -1,7 +1,7 @@
 package cmdline
 
 import (
-	"jvmgo/classpath"
+	"github.com/zxh0/jvm.go/jvmgo/classpath"
 	"strconv"
 	"strings"
 )

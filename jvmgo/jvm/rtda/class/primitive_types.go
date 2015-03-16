@@ -1,6 +1,6 @@
 package class
 
-import "jvmgo/util"
+import "github.com/zxh0/jvm.go/jvmgo/util"
 
 // java primitive types
 var primitiveTypes = map[string]string{

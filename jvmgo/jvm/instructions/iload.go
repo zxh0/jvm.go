@@ -1,6 +1,6 @@
 package instructions
 
-import "jvmgo/jvm/rtda"
+import "github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 
 // Load int from local variable
 type iload struct{ Index8Instruction }

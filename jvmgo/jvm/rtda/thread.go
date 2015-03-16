@@ -2,9 +2,9 @@ package rtda
 
 import (
 	"fmt"
-	. "jvmgo/any"
-	"jvmgo/jvm/options"
-	rtc "jvmgo/jvm/rtda/class"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"strings"
 )
 

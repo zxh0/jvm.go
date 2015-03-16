@@ -2,7 +2,7 @@ package class
 
 import (
 	"fmt"
-	. "jvmgo/any"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"sync"
 )
 

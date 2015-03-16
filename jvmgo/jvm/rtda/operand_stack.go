@@ -1,8 +1,8 @@
 package rtda
 
 import (
-	. "jvmgo/any"
-	rtc "jvmgo/jvm/rtda/class"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
 type OperandStack struct {

@@ -1,8 +1,8 @@
 package rtda
 
 import (
-	rtc "jvmgo/jvm/rtda/class"
-	. "jvmgo/testing"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	. "github.com/zxh0/jvm.go/jvmgo/testing"
 	"testing"
 )
 

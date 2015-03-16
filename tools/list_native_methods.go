@@ -3,8 +3,8 @@ package main
 import (
 	"archive/zip"
 	"fmt"
+	"github.com/zxh0/jvm.go/jvmgo/classfile"
 	"io/ioutil"
-	"jvmgo/classfile"
 	"os"
 	"strings"
 )

@@ -1,9 +1,9 @@
 package instructions
 
 import (
-	"jvmgo/jvm/rtda"
-	rtc "jvmgo/jvm/rtda/class"
-	"jvmgo/util"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 // Push item from run-time constant pool

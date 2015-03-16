@@ -2,8 +2,8 @@ package class
 
 import (
 	"fmt"
-	cf "jvmgo/classfile"
-	"jvmgo/util"
+	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
+	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 type ConstantFieldref struct {

@@ -1,13 +1,13 @@
 package jvm
 
 import (
-	"jvmgo/cmdline"
-	"jvmgo/jvm/interpreter"
-	"jvmgo/jvm/keepalive"
-	"jvmgo/jvm/options"
-	"jvmgo/jvm/rtda"
-	rtc "jvmgo/jvm/rtda/class"
-	_ "jvmgo/native"
+	"github.com/zxh0/jvm.go/jvmgo/cmdline"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/interpreter"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/keepalive"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	_ "github.com/zxh0/jvm.go/jvmgo/native"
 )
 
 func Startup(cmd *cmdline.Command) {

@@ -1,10 +1,10 @@
 package lang
 
 import (
-	. "jvmgo/any"
-	cp "jvmgo/classpath"
-	"jvmgo/jvm/rtda"
-	rtc "jvmgo/jvm/rtda/class"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
+	cp "github.com/zxh0/jvm.go/jvmgo/classpath"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"strings"
 )
 

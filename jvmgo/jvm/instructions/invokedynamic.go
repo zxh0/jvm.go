@@ -1,7 +1,7 @@
 package instructions
 
 import (
-	"jvmgo/jvm/rtda"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 )
 
 // Invoke dynamic method

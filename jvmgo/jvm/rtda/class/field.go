@@ -1,8 +1,8 @@
 package class
 
 import (
-	. "jvmgo/any"
-	cf "jvmgo/classfile"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
+	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
 )
 
 type Field struct {

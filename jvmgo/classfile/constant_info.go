@@ -1,6 +1,6 @@
 package classfile
 
-import "jvmgo/util"
+import "github.com/zxh0/jvm.go/jvmgo/util"
 
 // Constant pool tags
 const (

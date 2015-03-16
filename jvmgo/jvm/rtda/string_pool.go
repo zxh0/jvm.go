@@ -1,7 +1,7 @@
 package rtda
 
 import (
-	rtc "jvmgo/jvm/rtda/class"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
 // home for interned Strings

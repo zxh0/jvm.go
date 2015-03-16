@@ -2,7 +2,7 @@ package classpath
 
 import (
 	"errors"
-	"jvmgo/jvm/options"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	"path/filepath"
 	"strings"
 )

@@ -1,7 +1,7 @@
 package classpath
 
 import (
-	. "jvmgo/testing"
+	. "github.com/zxh0/jvm.go/jvmgo/testing"
 	"strings"
 	"testing"
 )

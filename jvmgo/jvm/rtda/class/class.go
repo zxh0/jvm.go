@@ -1,9 +1,9 @@
 package class
 
 import (
-	. "jvmgo/any"
-	cp "jvmgo/classpath"
-	"jvmgo/util"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
+	cp "github.com/zxh0/jvm.go/jvmgo/classpath"
+	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 const (

@@ -2,7 +2,7 @@ package testing
 
 import (
 	"fmt"
-	. "jvmgo/any"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 )
 
 func AssertTrue(b bool) {

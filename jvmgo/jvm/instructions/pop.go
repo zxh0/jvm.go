@@ -1,8 +1,8 @@
 package instructions
 
 import (
-	"jvmgo/any"
-	"jvmgo/jvm/rtda"
+	"github.com/zxh0/jvm.go/jvmgo/any"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 )
 
 // Pop the top operand stack value

@@ -1,6 +1,6 @@
 package class
 
-import cf "jvmgo/classfile"
+import cf "github.com/zxh0/jvm.go/jvmgo/classfile"
 
 type ConstantClass struct {
 	name  string

@@ -1,8 +1,8 @@
 package class
 
 import (
-	"jvmgo/classfile"
-	"jvmgo/util"
+	"github.com/zxh0/jvm.go/jvmgo/classfile"
+	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 func newClass(cf *classfile.ClassFile) *Class {

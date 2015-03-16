@@ -1,6 +1,6 @@
 package rtda
 
-import rtc "jvmgo/jvm/rtda/class"
+import rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 
 func (self *Thread) InitClass(class *rtc.Class) {
 	uninitedClass := getUpmostUninitializedClassOrInterface(class)

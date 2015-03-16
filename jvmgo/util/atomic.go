@@ -1,7 +1,7 @@
 package util
 
 import (
-	. "jvmgo/any"
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"sync/atomic"
 	"unsafe"
 )

@@ -2,7 +2,7 @@ package cmdline
 
 import (
 	"fmt"
-	"jvmgo/util"
+	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 // java [ options ] class [ arguments ]

@@ -1,5 +1,5 @@
 # jvm.go
-A JVM writing in GO...
+A JVM written in GO...
 ![jvm.go Logo](https://raw.githubusercontent.com/zxh0/jvm.go/master/jvmgo.png)
 
 # Introduction

@@ -38,3 +38,33 @@ jvmgo -cp path/to/jars:path/to/classes HelloWorld
 ```sh
 /Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/jre/lib/rt.jar
 ```
+
+# Example
+Create a java source file: Main.java
+```java
+public class Main {
+
+    public static void main(String []args){
+        String val = "hello world";
+        if(args != null && args.length > 0){
+            val = args[0];
+        }
+        System.out.println(val);
+    }
+}
+```
+
+Compile Main.java, it will generate Main.class
+```sh
+javac Main.java
+``` 
+
+Run with jvmgo
+```sh
+jvmgo Main
+```
+
+Output
+```sh
+hello world
+```

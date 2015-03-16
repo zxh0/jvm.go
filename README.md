@@ -1,9 +1,9 @@
 # jvm.go
-A JVM written in GO...
+A JVM written in Go.
 ![jvm.go Logo](https://raw.githubusercontent.com/zxh0/jvm.go/master/jvmgo.png)
 
 # Introduction
-jvm.go is a new JVM(which is far from complete) programmed in Go. The main purpose of this project is learning Go and JVM. So, the number one goal of the project is readability of code. The basic idea is just implement the core JVM, and use rt.jar(from OpenJDK) as its class libraries. GC is directly using Go's. For me, the hardest part is Thread and ClassLoader.
+jvm.go is a new JVM (which is far from complete) programmed in Go. The main purpose of this project is learning Go and the JVM. So the number one goal of the project is readability of code. The basic idea is to just implement the core JVM, and use `rt.jar` (from OpenJDK) as its class libraries. The garbage collector is implemented by directly using Go’s GC. For me, the hardest part is `Thread` and `ClassLoader`.
 
 # My dev environment:
   * Mac OS X 10.10.2
@@ -33,14 +33,14 @@ $GOPATH/bin
 jvmgo -cp path/to/jars:path/to/classes HelloWorld
 ```
 
-# Where to find rt.jar: 
+# Where to find `rt.jar`:
 
 ```sh
 /Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/jre/lib/rt.jar
 ```
 
 # Example
-Create a java source file: Main.java
+Create a Java source file, `Main.java`:
 ```java
 public class Main {
 
@@ -54,17 +54,17 @@ public class Main {
 }
 ```
 
-Compile Main.java, it will generate Main.class
+Compile `Main.java`, which will generate `Main.class`:
 ```sh
 javac Main.java
 ``` 
 
-Run with jvmgo
+Run with `jvmgo`:
 ```sh
 jvmgo Main
 ```
 
-Output
+Output:
 ```sh
 hello world
 ```

@@ -10,11 +10,10 @@ jvm.go is a new JVM(which is far from complete) programmed in Go. The main purpo
   * Java 1.8.0_31
   * Go 1.4
 
-# Build `jvm.go`
+# Build jvm.go
 
 ```sh
-go get -d github.com/zxh0/jvm.go/
-go install github.com/zxh0/jvm.go/jvmgo
+go get github.com/zxh0/jvm.go/jvmgo
 ```
 
 # Run jvm.go

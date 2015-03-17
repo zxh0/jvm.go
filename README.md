@@ -16,8 +16,10 @@ go get github.com/zxh0/jvm.go/jvmgo
 ```
 
 # Run jvm.go
-download zulu1.8.0_31-8.5.0.1-macosx.zip from http://cdn.azulsystems.com/zulu/2015-01-8.5-bin/zulu1.8.0_31-8.5.0.1-macosx.zip and unzip it to somewhere
-copy $GOPATH/bin/jvmgo into zulu1.8.0_31-8.5.0.1-macosx
+```
+Download [zulu1.8.0_31-8.5.0.1-macosx.zip](http://cdn.azulsystems.com/zulu/2015-01-8.5-bin/zulu1.8.0_31-8.5.0.1-macosx.zip) and unzip it to somewhere
+Copy $GOPATH/bin/jvmgo into zulu1.8.0_31-8.5.0.1-macosx
+```
 ```sh
 cd path/to/zulu1.8.0_31-8.5.0.1-macosx
 jvmgo -cp path/to/jars:path/to/classes HelloWorld

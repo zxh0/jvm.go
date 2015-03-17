@@ -7,6 +7,7 @@ import java7.reflection.MethodTest;
 import java7.thread.MainThreadTest;
 import java7.StringTest;
 import java7.cl.GetClassLoaderTest;
+import java7.wrapper.DoubleTest;
 import java8.InterfaceMethodTest;
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
@@ -23,6 +24,7 @@ public class UnitTests {
         UnitTestRunner.run(new Class<?>[] {
             ArrayClassTest.class,
             ClassLoaderTest.class,
+            DoubleTest.class,
             FileIoTest.class,
             GetClassLoaderTest.class,
             InterfaceMethodTest.class,

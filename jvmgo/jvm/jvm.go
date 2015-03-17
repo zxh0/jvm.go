@@ -1,6 +1,7 @@
 package jvm
 
 import (
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/cmdline"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/interpreter"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/keepalive"
@@ -27,12 +28,7 @@ func initOptions(_options *cmdline.Options) {
 func createMainThread(className string, args []string) *rtda.Thread {
 	mainThread := rtda.NewThread(nil)
 	bootMethod := rtc.BootstrapMethod()
-	bootFrame := mainThread.NewFrame(bootMethod)
-	mainThread.PushFrame(bootFrame)
-
-	stack := bootFrame.OperandStack()
-	stack.Push(args)
-	stack.Push(className)
-
+	bootArgs := []Any{className, args}
+	mainThread.InvokeMethodWithShim(bootMethod, bootArgs)
 	return mainThread
 }

@@ -22,6 +22,7 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 
 	if _classLoader == nil {
+		_classLoader = rtc.BootLoader()
 		initVars(frame)
 	}
 	if bootClassesNotReady(thread) ||
@@ -35,10 +36,9 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
 }
 
 func initVars(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	_classLoader = rtc.BootLoader()
-	_mainClassName = stack.Pop().(string)
-	_args = stack.Pop().([]string)
+	vars := frame.LocalVars()
+	_mainClassName = vars.Get(0).(string)
+	_args = vars.Get(1).([]string)
 	_bootClasses = []string{
 		"java/lang/Class",
 		"java/lang/String",

@@ -5,38 +5,22 @@ A JVM written in Go.
 # Introduction
 jvm.go is a new JVM (which is far from complete) programmed in Go. The main purpose of this project is learning Go and the JVM. So the number one goal of the project is readability of code. The basic idea is to just implement the core JVM, and use `rt.jar` (from OpenJDK) as its class library. The garbage collector is implemented by directly using Go’s GC. For me, the hardest part is `Thread` and `ClassLoader`.
 
-# My dev environment:
+# My dev environment
   * Mac OS X 10.10.2
   * Java 1.8.0_31
   * Go 1.4
 
 # Build jvm.go
-
 ```sh
 go get github.com/zxh0/jvm.go/jvmgo
 ```
 
 # Run jvm.go
-Create the following folder and file structure:
-
-```
-$GOPATH/bin
-├── jvmgo
-└── jre/
-    └── lib/
-        ├── rt.jar
-        ├── currency.data
-        └── net.properties
-```
-
+download zulu1.8.0_31-8.5.0.1-macosx.zip from http://cdn.azulsystems.com/zulu/2015-01-8.5-bin/zulu1.8.0_31-8.5.0.1-macosx.zip and unzip it to somewhere
+copy $GOPATH/bin/jvmgo into zulu1.8.0_31-8.5.0.1-macosx
 ```sh
+cd path/to/zulu1.8.0_31-8.5.0.1-macosx
 jvmgo -cp path/to/jars:path/to/classes HelloWorld
-```
-
-# Where to find `rt.jar`:
-
-```sh
-/Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home/jre/lib/rt.jar
 ```
 
 # Example

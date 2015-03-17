@@ -16,7 +16,7 @@ go get github.com/zxh0/jvm.go/jvmgo
 ```
 
 # Run jvm.go
-Download [zulu1.8.0_31-8.5.0.1-macosx.zip](http://www.azulsystems.com/products/zulu/downloads#mac) and unzip it to somewhere, Copy `jvmgo` from `$GOPATH/bin/` into unzipped folder (Zulu is a certified build of OpenJDK that is fully compliant with the Java SE standard.)
+Download [zulu1.8.0_31-8.5.0.1-macosx.zip](http://www.azulsystems.com/products/zulu/downloads#mac) and unzip it to somewhere, Copy `jvmgo` from `$GOPATH/bin/` into unzipped folder ([Zulu](http://www.azulsystems.com/products/zulu) is a certified build of OpenJDK that is fully compliant with the Java SE standard.)
 ```sh
 cd path/to/zulu1.8.0_31-8.5.0.1-macosx
 jvmgo -cp path/to/jars:path/to/classes HelloWorld

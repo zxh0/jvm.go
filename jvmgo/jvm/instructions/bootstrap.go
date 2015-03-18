@@ -12,7 +12,6 @@ var (
 	_mainClassName   string
 	_args            []string
 	_mainThreadGroup *rtc.Obj
-	_mainThreadName  *rtc.Obj
 )
 
 // Fake instruction to load and execute main class
@@ -73,11 +72,6 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 		thread.InvokeMethod(initMethod)
 		return true
 	}
-	if _mainThreadName == nil {
-		undoExec(thread)
-		_mainThreadName = rtda.NewJString("main")
-		return true
-	}
 	if thread.JThread() == nil {
 		undoExec(thread)
 		threadClass := _classLoader.LoadClass("java/lang/Thread")
@@ -86,9 +80,9 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 		thread.HackSetJThread(mainThread)
 
 		initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
-		stack.PushRef(mainThread)       // this
-		stack.PushRef(_mainThreadGroup) // group
-		stack.PushRef(_mainThreadName)  // name
+		stack.PushRef(mainThread)              // this
+		stack.PushRef(_mainThreadGroup)        // group
+		stack.PushRef(rtda.NewJString("main")) // name
 		thread.InvokeMethod(initMethod)
 		return true
 	}

@@ -8,6 +8,7 @@ import (
 )
 
 func init() {
+	_thread(interrupt0, "interrupt0", "()V")
 	_thread(isInterrupted, "isInterrupted", "(Z)Z")
 	_thread(isAlive, "isAlive", "()Z")
 	_thread(setPriority0, "setPriority0", "(I)V")
@@ -22,8 +23,19 @@ func _thread(method Any, name, desc string) {
 // private native void stop0(Object o);
 // private native void suspend0();
 // private native void resume0();
-// private native void interrupt0();
 // private native void setNativeName(String name);
+
+// private native void interrupt0();
+// ()V
+func interrupt0(frame *rtda.Frame) {
+	panic("todo")
+}
+
+// private native boolean isInterrupted(boolean ClearInterrupted);
+// (Z)Z
+func isInterrupted(frame *rtda.Frame) {
+	panic("todo")
+}
 
 // public final native boolean isAlive();
 // ()Z
@@ -36,13 +48,6 @@ func isAlive(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushBoolean(alive)
-}
-
-// private native boolean isInterrupted(boolean ClearInterrupted);
-// (Z)Z
-func isInterrupted(frame *rtda.Frame) {
-	// todo
-	panic("todo")
 }
 
 func _extraThread(threadObj *rtc.Obj) *rtda.Thread {

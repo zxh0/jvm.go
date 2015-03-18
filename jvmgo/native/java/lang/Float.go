@@ -9,6 +9,7 @@ import (
 
 func init() {
 	_float(floatToRawIntBits, "floatToRawIntBits", "(F)I")
+	_float(intBitsToFloat, "intBitsToFloat", "(I)F")
 }
 
 func _float(method Any, name, desc string) {
@@ -24,4 +25,16 @@ func floatToRawIntBits(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushInt(int32(bits)) // todo
+}
+
+// public static native float intBitsToFloat(int value);
+// (I)F
+func intBitsToFloat(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	bits := vars.GetInt(0)
+	value := math.Float32frombits(uint32(bits))
+
+	stack := frame.OperandStack()
+	stack.PushFloat(value)
+
 }

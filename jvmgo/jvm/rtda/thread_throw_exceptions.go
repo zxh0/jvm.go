@@ -8,11 +8,11 @@ import (
 
 func (self *Thread) throwException(className, initDesc string, initArgs ...Any) {
 	class := rtc.BootLoader().LoadClass(className)
-	ex := class.NewObj()
-	athrowFrame := newAthrowFrame(self, ex, initArgs)
+	exObj := class.NewObj()
+	athrowFrame := newAthrowFrame(self, exObj, initArgs)
 	self.PushFrame(athrowFrame)
 
-	// init ex
+	// init exObj
 	constructor := class.GetConstructor(initDesc)
 	self.InvokeMethod(constructor)
 }

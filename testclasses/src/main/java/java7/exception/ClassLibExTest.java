@@ -14,6 +14,7 @@ public class ClassLibExTest {
     public void threadSleep() throws InterruptedException {
         try {
             Thread.sleep(-1);
+            fail();
         } catch (IllegalArgumentException e) {
             assertEquals("timeout value is negative", e.getMessage());
         }

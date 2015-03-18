@@ -29,7 +29,8 @@ func sleep(frame *rtda.Frame) {
 	millis := vars.GetLong(0)
 
 	if millis < 0 {
-		// IllegalArgumentException
+		frame.Thread().ThrowIllegalArgumentException("timeout value is negative")
+		return
 	}
 
 	m := millis * int64(time.Millisecond)

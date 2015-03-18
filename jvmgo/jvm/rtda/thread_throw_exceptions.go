@@ -37,6 +37,10 @@ func (self *Thread) ThrowDivByZero() {
 	self.throwExceptionS("java/lang/ArithmeticException", "/ by zero")
 }
 
+func (self *Thread) ThrowIllegalArgumentException(msg string) {
+	self.throwExceptionS("java/lang/IllegalArgumentException", msg)
+}
+
 func (self *Thread) ThrowClassNotFoundException(name string) {
 	self.throwExceptionS("java/lang/ClassNotFoundException", name)
 }

@@ -28,6 +28,10 @@ func sleep(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	millis := vars.GetLong(0)
 
+	if millis < 0 {
+		// IllegalArgumentException
+	}
+
 	m := millis * int64(time.Millisecond)
 	d := time.Duration(m)
 	time.Sleep(d)

@@ -1,4 +1,4 @@
-import java7.exception.JvmExTest;
+import java7.exception.InstructionExTest;
 import java7.file.FileIoTest;
 import java7.reflection.ArrayClassTest;
 import java7.reflection.PrimitiveClassTest;
@@ -27,8 +27,8 @@ public class UnitTests {
             DoubleTest.class,
             FileIoTest.class,
             GetClassLoaderTest.class,
+            InstructionExTest.class,
             InterfaceMethodTest.class,
-            JvmExTest.class,
             MainThreadTest.class,
             MethodTest.class,
             PrimitiveClassTest.class,

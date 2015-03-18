@@ -21,7 +21,7 @@ type Thread struct {
 	pc            int // the address of the instruction currently being executed
 	stack         *Stack
 	jThread       *rtc.Obj // java.lang.Thread
-	isInterrupted bool
+	isInterrupted bool     // interrupted flag
 	// todo
 }
 

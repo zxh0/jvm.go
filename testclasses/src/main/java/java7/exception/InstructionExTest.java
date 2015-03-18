@@ -3,12 +3,12 @@ package java7.exception;
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
 
-public class JvmExTest {
+public class InstructionExTest {
     
     private int i;
     
     public static void main(String[] args) {
-        UnitTestRunner.run(JvmExTest.class);
+        UnitTestRunner.run(InstructionExTest.class);
     }
     
     @Test(expected = NullPointerException.class)
@@ -25,7 +25,7 @@ public class JvmExTest {
     
     @Test(expected = NullPointerException.class)
     public void getfield() {
-        JvmExTest x = (JvmExTest) nullObj();
+        InstructionExTest x = (InstructionExTest) nullObj();
         int y = x.i;
     }
     

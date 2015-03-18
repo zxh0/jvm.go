@@ -27,7 +27,7 @@ func floatToRawIntBits(frame *rtda.Frame) {
 	stack.PushInt(int32(bits)) // todo
 }
 
-// public static native float intBitsToFloat(int value);
+// public static native float intBitsToFloat(int bits);
 // (I)F
 func intBitsToFloat(frame *rtda.Frame) {
 	vars := frame.LocalVars()
@@ -36,5 +36,4 @@ func intBitsToFloat(frame *rtda.Frame) {
 
 	stack := frame.OperandStack()
 	stack.PushFloat(value)
-
 }

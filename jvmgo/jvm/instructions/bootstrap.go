@@ -76,7 +76,7 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 		undoExec(thread)
 		threadClass := _classLoader.LoadClass("java/lang/Thread")
 		mainThreadObj := threadClass.NewObjWithExtra(thread)
-		threadClass.GetInstanceField("priority", "I").PutValue(mainThreadObj, int32(1))
+		mainThreadObj.SetFieldValue("priority", "I", int32(1))
 		thread.HackSetJThread(mainThreadObj)
 
 		initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")

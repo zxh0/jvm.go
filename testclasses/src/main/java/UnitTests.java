@@ -11,15 +11,8 @@ import java7.thread.MainThreadTest;
 import java7.wrapper.DoubleTest;
 import java8.InterfaceMethodTest;
 import libs.junit.UnitTestRunner;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
 
 public class UnitTests {
-    
-    @Test
-    public void test() {
-        assertEquals(2, 1 + 1);
-    }
     
     public static void main(String[] args) {
         UnitTestRunner.run(new Class<?>[] {
@@ -35,7 +28,6 @@ public class UnitTests {
             MethodTest.class,
             PrimitiveClassTest.class,
             StringTest.class,
-            UnitTests.class,
         });
     }
     

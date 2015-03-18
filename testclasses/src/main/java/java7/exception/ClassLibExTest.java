@@ -2,6 +2,7 @@ package java7.exception;
 
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class ClassLibExTest {
     
@@ -11,7 +12,11 @@ public class ClassLibExTest {
     
     @Test
     public void threadSleep() throws InterruptedException {
-        Thread.sleep(-1);
+        try {
+            Thread.sleep(-1);
+        } catch (IllegalArgumentException e) {
+            assertEquals("timeout value is negative", e.getMessage());
+        }
     }
     
 }

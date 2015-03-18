@@ -34,7 +34,19 @@ func interrupt0(frame *rtda.Frame) {
 // private native boolean isInterrupted(boolean ClearInterrupted);
 // (Z)Z
 func isInterrupted(frame *rtda.Frame) {
-	panic("todo")
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	clearInterrupted := vars.GetBoolean(1)
+
+	// todo
+	thread := _extraThread(this)
+	interrupted := thread.IsInterrupted()
+	if interrupted && clearInterrupted {
+		thread.SetInterrupted(false)
+	}
+
+	stack := frame.OperandStack()
+	stack.PushBoolean(interrupted)
 }
 
 // public final native boolean isAlive();

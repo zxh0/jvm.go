@@ -18,15 +18,19 @@ JVM
         OperandStack
 */
 type Thread struct {
-	pc      int // the address of the instruction currently being executed
-	stack   *Stack
-	jThread *rtc.Obj // java.lang.Thread
+	pc            int // the address of the instruction currently being executed
+	stack         *Stack
+	jThread       *rtc.Obj // java.lang.Thread
+	isInterrupted bool
 	// todo
 }
 
 func NewThread(jThread *rtc.Obj) *Thread {
 	stack := newStack(options.ThreadStackSize)
-	return &Thread{0, stack, jThread}
+	return &Thread{
+		stack:   stack,
+		jThread: jThread,
+	}
 }
 
 // getters & setters
@@ -39,10 +43,12 @@ func (self *Thread) SetPC(pc int) {
 func (self *Thread) JThread() *rtc.Obj {
 	return self.jThread
 }
-
-// func (self *Thread) ClassLoader() *rtc.ClassLoader {
-// 	return self.TopFrame().ClassLoader()
-// }
+func (self *Thread) IsInterrupted() bool {
+	return self.isInterrupted
+}
+func (self *Thread) SetInterrupted(flag bool) {
+	self.isInterrupted = flag
+}
 
 func (self *Thread) IsStackEmpty() bool {
 	return self.stack.isEmpty()

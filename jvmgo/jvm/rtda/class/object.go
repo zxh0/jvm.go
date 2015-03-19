@@ -10,7 +10,7 @@ import (
 type Obj struct {
 	class   *Class
 	fields  Any // []Any for Object, []int32 for int[] ...
-	extra   Any // todo
+	extra   Any // remember some important things from golnag
 	monitor *Monitor
 	lock    *sync.RWMutex // state lock
 }

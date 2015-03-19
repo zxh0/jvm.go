@@ -23,10 +23,12 @@ public class ClassLibExTest {
     //@Test
     public void threadSleep2() throws InterruptedException {
         Thread.currentThread().interrupt();
+        assertTrue(Thread.currentThread().isInterrupted());
         try {
             Thread.sleep(1000);
             fail();
         } catch (InterruptedException e) {
+            assertFalse(Thread.currentThread().isInterrupted());
             assertEquals("sleep interrupted", e.getMessage());
         }
     }

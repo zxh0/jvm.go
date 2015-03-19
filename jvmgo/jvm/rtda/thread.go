@@ -6,6 +6,7 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"strings"
+	"sync"
 )
 
 /*
@@ -20,8 +21,11 @@ JVM
 type Thread struct {
 	pc            int // the address of the instruction currently being executed
 	stack         *Stack
-	jThread       *rtc.Obj // java.lang.Thread
-	isInterrupted bool     // interrupted flag
+	jThread       *rtc.Obj      // java.lang.Thread
+	lock          *sync.RWMutex // state lock
+	ch            chan int
+	isInterrupted bool // interrupted flag
+	isBlocked     bool
 	// todo
 }
 
@@ -30,6 +34,7 @@ func NewThread(jThread *rtc.Obj) *Thread {
 	return &Thread{
 		stack:   stack,
 		jThread: jThread,
+		lock:    &sync.RWMutex{},
 	}
 }
 

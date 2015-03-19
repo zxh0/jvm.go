@@ -13,6 +13,10 @@ func newStack(maxSize uint) *Stack {
 	return &Stack{maxSize, 0, nil}
 }
 
+func (self *Stack) isEmpty() bool {
+	return self._top == nil
+}
+
 func (self *Stack) push(frame *Frame) {
 	if self.size >= self.maxSize {
 		// todo
@@ -40,6 +44,12 @@ func (self *Stack) pop() *Frame {
 	return top
 }
 
+func (self *Stack) clear() {
+	for !self.isEmpty() {
+		self.pop()
+	}
+}
+
 func (self *Stack) top() *Frame {
 	if self._top == nil {
 		panic("jvm stack is empty!")
@@ -60,14 +70,4 @@ func (self *Stack) topN(n uint) *Frame {
 	}
 
 	return frame
-}
-
-func (self *Stack) isEmpty() bool {
-	return self._top == nil
-}
-
-func (self *Stack) clear() {
-	for !self.isEmpty() {
-		self.pop()
-	}
 }

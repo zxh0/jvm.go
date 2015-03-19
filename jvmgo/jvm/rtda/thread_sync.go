@@ -9,19 +9,6 @@ const (
 	_interrupt = 2
 )
 
-func (self *Thread) IsInterrupted(clearInterrupted bool) bool {
-	self.lock.Lock()
-	defer self.lock.Unlock()
-
-	if self.isInterrupted {
-		if clearInterrupted {
-			self.isInterrupted = false
-		}
-		return true
-	}
-	return false
-}
-
 func (self *Thread) Sleep(d time.Duration) (interrupted bool) {
 	self.lock.Lock()
 	if self.isInterrupted {
@@ -61,4 +48,17 @@ func (self *Thread) Interrupt() {
 	}
 
 	self.isInterrupted = true
+}
+
+func (self *Thread) IsInterrupted(clearInterrupted bool) bool {
+	self.lock.Lock()
+	defer self.lock.Unlock()
+
+	if self.isInterrupted {
+		if clearInterrupted {
+			self.isInterrupted = false
+		}
+		return true
+	}
+	return false
 }

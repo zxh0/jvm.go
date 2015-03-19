@@ -6,20 +6,25 @@ import (
 )
 
 // Invoke a class (static) method
-type invokestatic struct{ Index16Instruction }
+type invokestatic struct {
+	Index16Instruction
+	method *rtc.Method
+}
 
 func (self *invokestatic) Execute(frame *rtda.Frame) {
-	cp := frame.Method().Class().ConstantPool()
-	kMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-	method := kMethodRef.StaticMethod()
+	if self.method == nil {
+		cp := frame.Method().Class().ConstantPool()
+		kMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
+		self.method = kMethodRef.StaticMethod()
+	}
 
 	// init class
-	class := method.Class()
+	class := self.method.Class()
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread().InitClass(class)
 		return
 	}
 
-	frame.Thread().InvokeMethod(method)
+	frame.Thread().InvokeMethod(self.method)
 }

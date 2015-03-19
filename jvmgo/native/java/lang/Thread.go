@@ -40,10 +40,7 @@ func isInterrupted(frame *rtda.Frame) {
 
 	// todo
 	thread := _extraThread(this)
-	interrupted := thread.IsInterrupted()
-	if interrupted && clearInterrupted {
-		thread.SetInterrupted(false)
-	}
+	interrupted := thread.IsInterrupted(clearInterrupted)
 
 	stack := frame.OperandStack()
 	stack.PushBoolean(interrupted)

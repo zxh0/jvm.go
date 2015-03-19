@@ -21,8 +21,8 @@ JVM
 type Thread struct {
 	pc            int // the address of the instruction currently being executed
 	stack         *Stack
-	jThread       *rtc.Obj      // java.lang.Thread
-	lock          *sync.RWMutex // state lock
+	jThread       *rtc.Obj    // java.lang.Thread
+	lock          *sync.Mutex // state lock
 	ch            chan int
 	isInterrupted bool // interrupted flag
 	isBlocked     bool
@@ -34,7 +34,7 @@ func NewThread(jThread *rtc.Obj) *Thread {
 	return &Thread{
 		stack:   stack,
 		jThread: jThread,
-		lock:    &sync.RWMutex{},
+		lock:    &sync.Mutex{},
 	}
 }
 
@@ -47,12 +47,6 @@ func (self *Thread) SetPC(pc int) {
 }
 func (self *Thread) JThread() *rtc.Obj {
 	return self.jThread
-}
-func (self *Thread) IsInterrupted() bool {
-	return self.isInterrupted
-}
-func (self *Thread) SetInterrupted(flag bool) {
-	self.isInterrupted = flag
 }
 
 func (self *Thread) IsStackEmpty() bool {

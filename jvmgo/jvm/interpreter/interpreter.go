@@ -26,7 +26,7 @@ func Loop(thread *rtda.Thread) {
 	}
 }
 
-func _loop(thread *rtda.Thread) {
+/*func _loop(thread *rtda.Thread) {
 	defer _catchErr(thread) // todo
 
 	decoder := instructions.NewDecoder()
@@ -47,9 +47,9 @@ func _loop(thread *rtda.Thread) {
 			break
 		}
 	}
-}
+}*/
 
-/*func _loop(thread *rtda.Thread) {
+func _loop(thread *rtda.Thread) {
 	defer _catchErr(thread) // todo
 
 	for {
@@ -81,7 +81,7 @@ func _loop(thread *rtda.Thread) {
 			break
 		}
 	}
-}*/
+}
 
 // todo
 func _catchErr(thread *rtda.Thread) {

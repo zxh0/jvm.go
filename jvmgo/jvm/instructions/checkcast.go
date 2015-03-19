@@ -6,9 +6,18 @@ import (
 )
 
 // Check whether object is of given type
-type checkcast struct{ Index16Instruction }
+type checkcast struct {
+	Index16Instruction
+	class *rtc.Class
+}
 
 func (self *checkcast) Execute(frame *rtda.Frame) {
+	if self.class == nil {
+		cp := frame.Method().Class().ConstantPool()
+		kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
+		self.class = kClass.Class()
+	}
+
 	stack := frame.OperandStack()
 	ref := stack.PopRef()
 	stack.PushRef(ref)
@@ -17,11 +26,7 @@ func (self *checkcast) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	cp := frame.Method().Class().ConstantPool()
-	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
-	class := kClass.Class()
-
-	if !ref.IsInstanceOf(class) {
-		frame.Thread().ThrowClassCastException(ref.Class(), class)
+	if !ref.IsInstanceOf(self.class) {
+		frame.Thread().ThrowClassCastException(ref.Class(), self.class)
 	}
 }

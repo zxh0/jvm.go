@@ -35,6 +35,7 @@ func NewThread(jThread *rtc.Obj) *Thread {
 		stack:   stack,
 		jThread: jThread,
 		lock:    &sync.Mutex{},
+		ch:      make(chan int),
 	}
 }
 

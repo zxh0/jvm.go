@@ -13,7 +13,7 @@ sourceCompatibility = '1.8'
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''
 }
-mainClass = 'HelloWorld'
+//mainClass = 'HelloWorld'
 
 repositories {
     mavenCentral()

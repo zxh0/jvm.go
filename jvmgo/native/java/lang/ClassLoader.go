@@ -7,6 +7,7 @@ import (
 )
 
 func init() {
+	_cl(defineClass1, "defineClass1", "(Ljava/lang/String;[BIILjava/security/ProtectionDomain;Ljava/lang/String;)Ljava/lang/Class;")
 	_cl(findBootstrapClass, "findBootstrapClass", "(Ljava/lang/String;)Ljava/lang/Class;")
 	_cl(findLoadedClass0, "findLoadedClass0", "(Ljava/lang/String;)Ljava/lang/Class;")
 }
@@ -14,6 +15,34 @@ func init() {
 func _cl(method Any, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/ClassLoader", name, desc, method)
 }
+
+// private native Class<?> defineClass0(String name, byte[] b, int off, int len,
+//                                      ProtectionDomain pd);
+
+// private native Class<?> defineClass1(String name, byte[] b, int off, int len,
+//                                      ProtectionDomain pd, String source);
+// (Ljava/lang/String;[BIILjava/security/ProtectionDomain;Ljava/lang/String;)Ljava/lang/Class;
+func defineClass1(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	name := vars.GetRef(1)
+	byteArr := vars.GetRef(2)
+	off := vars.GetInt(3)
+	_len := vars.GetInt(4)
+	// pd := vars.GetRef(5)
+	// source := vars.GetRef(6)
+
+	goBytes := byteArr.GoBytes()
+	goBytes = goBytes[off : off+_len]
+
+	println(this.Extra())
+	panic(rtda.GoString(name))
+
+}
+
+// private native Class<?> defineClass2(String name, java.nio.ByteBuffer b,
+//                                      int off, int len, ProtectionDomain pd,
+//                                      String source);
 
 // private native Class<?> findBootstrapClass(String name);
 // (Ljava/lang/String;)Ljava/lang/Class;

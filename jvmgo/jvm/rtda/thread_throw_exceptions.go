@@ -29,16 +29,20 @@ func (self *Thread) ThrowNPE() {
 	self.throwExceptionV("java/lang/NullPointerException")
 }
 
-func (self *Thread) ThrowNegativeArraySizeException() {
-	self.throwExceptionV("java/lang/NegativeArraySizeException")
-}
-
 func (self *Thread) ThrowDivByZero() {
 	self.throwExceptionS("java/lang/ArithmeticException", "/ by zero")
 }
 
+func (self *Thread) ThrowNegativeArraySizeException() {
+	self.throwExceptionV("java/lang/NegativeArraySizeException")
+}
+
 func (self *Thread) ThrowIllegalArgumentException(msg string) {
 	self.throwExceptionS("java/lang/IllegalArgumentException", msg)
+}
+
+func (self *Thread) ThrowInterruptedException(msg string) {
+	self.throwExceptionS("java/lang/InterruptedException", msg)
 }
 
 func (self *Thread) ThrowClassNotFoundException(name string) {

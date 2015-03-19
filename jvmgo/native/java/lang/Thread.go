@@ -28,7 +28,11 @@ func _thread(method Any, name, desc string) {
 // private native void interrupt0();
 // ()V
 func interrupt0(frame *rtda.Frame) {
-	panic("todo")
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+
+	thread := _extraThread(this)
+	thread.Interrupt()
 }
 
 // private native boolean isInterrupted(boolean ClearInterrupted);

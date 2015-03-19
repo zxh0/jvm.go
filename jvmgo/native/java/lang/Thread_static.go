@@ -28,12 +28,17 @@ func sleep(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	millis := vars.GetLong(0)
 
+	thread := frame.Thread()
 	if millis < 0 {
-		frame.Thread().ThrowIllegalArgumentException("timeout value is negative")
+		thread.ThrowIllegalArgumentException("timeout value is negative")
 		return
 	}
 
 	m := millis * int64(time.Millisecond)
 	d := time.Duration(m)
-	time.Sleep(d)
+	interrupted := thread.Sleep(d)
+
+	if interrupted {
+		thread.ThrowInterruptedException("sleep interrupted")
+	}
 }

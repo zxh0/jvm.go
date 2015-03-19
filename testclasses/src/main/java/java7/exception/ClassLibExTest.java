@@ -20,7 +20,7 @@ public class ClassLibExTest {
         }
     }
     
-    //@Test
+    @Test
     public void threadSleep2() throws InterruptedException {
         Thread.currentThread().interrupt();
         assertTrue(Thread.currentThread().isInterrupted());

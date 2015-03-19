@@ -29,7 +29,7 @@ func Loop(thread *rtda.Thread) {
 func _loop(thread *rtda.Thread) {
 	defer _catchErr(thread) // todo
 
-	decoder := instructions.NewInstructionDecoder()
+	decoder := instructions.NewDecoder()
 	for {
 		frame := thread.CurrentFrame()
 		pc := frame.NextPC()

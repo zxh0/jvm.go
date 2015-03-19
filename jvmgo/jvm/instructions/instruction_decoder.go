@@ -5,7 +5,7 @@ type InstructionDecoder struct {
 	code []byte // bytecodes
 }
 
-func NewInstructionDecoder() *InstructionDecoder {
+func NewDecoder() *InstructionDecoder {
 	return &InstructionDecoder{}
 }
 

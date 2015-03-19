@@ -13,14 +13,12 @@ func SetRegisterNatives(_registerNatives Any) {
 
 func RegisterNativeMethod(className, methodName, methodDescriptor string, method Any) {
 	key := className + "~" + methodName + "~" + methodDescriptor
-	registry[key] = method
 
 	if _, ok := registry[key]; !ok {
 		registry[key] = method
 	} else {
 		panic("native method:" + key + " has been registered !")
 	}
-
 }
 
 func findNativeMethod(method *Method) Any {

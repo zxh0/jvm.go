@@ -49,6 +49,40 @@ func _loop(thread *rtda.Thread) {
 	}
 }
 
+/*func _loop(thread *rtda.Thread) {
+	defer _catchErr(thread) // todo
+
+	for {
+		frame := thread.CurrentFrame()
+		pc := frame.NextPC()
+		thread.SetPC(pc)
+
+		// fetch instruction
+		method := frame.Method()
+		if method.Instructions == nil {
+			method.Instructions = decodeMethod(method.Code())
+		}
+		insts := method.Instructions.([]instructions.Instruction)
+		inst := insts[pc]
+
+		// update nextPC
+		for {
+			pc++
+			if pc >= len(insts) || insts[pc] != nil {
+				break
+			}
+		}
+		frame.SetNextPC(pc)
+
+		// execute instruction
+		//_logInstruction(frame, inst)
+		inst.Execute(frame)
+		if thread.IsStackEmpty() {
+			break
+		}
+	}
+}*/
+
 // todo
 func _catchErr(thread *rtda.Thread) {
 	if r := recover(); r != nil {

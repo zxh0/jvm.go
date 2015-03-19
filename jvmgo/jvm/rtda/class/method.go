@@ -30,6 +30,7 @@ type Method struct {
 	lineNumberTable         *cf.LineNumberTableAttribute
 	exceptions              *cf.ExceptionsAttribute
 	nativeMethod            Any // cannot use package 'native' because of cycle import!
+	Instructions            Any // []instructions.Instruction
 }
 
 func newMethod(class *Class, methodInfo *cf.MethodInfo) *Method {

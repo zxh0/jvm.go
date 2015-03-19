@@ -14,12 +14,12 @@ type Frame struct {
 }
 
 func newFrame(thread *Thread, method *rtc.Method) *Frame {
-	frame := &Frame{}
-	frame.thread = thread
-	frame.method = method
-	frame.localVars = newLocalVars(method.MaxLocals())
-	frame.operandStack = newOperandStack(method.MaxStack())
-	return frame
+	return &Frame{
+		thread:       thread,
+		method:       method,
+		localVars:    newLocalVars(method.MaxLocals()),
+		operandStack: newOperandStack(method.MaxStack()),
+	}
 }
 
 // getters & setters

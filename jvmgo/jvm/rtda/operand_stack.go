@@ -96,6 +96,7 @@ func (self *OperandStack) PopTops(n uint) []Any {
 	self.size -= n
 	return top
 }
+
 func (self *OperandStack) Top(n uint) Any {
 	return self.slots[self.size-1-n]
 }

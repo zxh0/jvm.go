@@ -100,6 +100,14 @@ func (self *OperandStack) PopTops(n uint) []Any {
 func (self *OperandStack) Top(n uint) Any {
 	return self.slots[self.size-1-n]
 }
+func (self *OperandStack) TopRef(n uint) *rtc.Obj {
+	ref := self.slots[self.size-1-n]
+	if ref == nil {
+		return nil
+	} else {
+		return ref.(*rtc.Obj)
+	}
+}
 
 func (self *OperandStack) Clear() {
 	for !self.IsEmpty() {

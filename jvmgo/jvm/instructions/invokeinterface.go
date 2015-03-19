@@ -23,11 +23,11 @@ func (self *invokeinterface) Execute(frame *rtda.Frame) {
 	kMethodRef := cp.GetConstant(uint(self.index)).(*rtc.ConstantMethodref)
 
 	stack := frame.OperandStack()
-	ref := stack.Top(kMethodRef.ArgCount())
+	ref := stack.TopRef(kMethodRef.ArgCount())
 	if ref == nil {
 		panic("NPE") // todo
 	}
 
-	method := kMethodRef.FindInterfaceMethod(ref.(*rtc.Obj))
+	method := kMethodRef.FindInterfaceMethod(ref)
 	frame.Thread().InvokeMethod(method)
 }

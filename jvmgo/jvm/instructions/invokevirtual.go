@@ -6,19 +6,26 @@ import (
 )
 
 // Invoke instance method; dispatch based on class
-type invokevirtual struct{ Index16Instruction }
+type invokevirtual struct {
+	Index16Instruction
+	kMethodRef *rtc.ConstantMethodref
+	argCount   uint
+}
 
 func (self *invokevirtual) Execute(frame *rtda.Frame) {
-	cp := frame.Method().ConstantPool()
-	kMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
+	if self.kMethodRef == nil {
+		cp := frame.Method().ConstantPool()
+		self.kMethodRef = cp.GetConstant(self.index).(*rtc.ConstantMethodref)
+		self.argCount = self.kMethodRef.ArgCount()
+	}
 
 	stack := frame.OperandStack()
-	ref := stack.Top(kMethodRef.ArgCount())
+	ref := stack.Top(self.argCount)
 	if ref == nil {
 		// frame.Thread().ThrowNPE()
 		panic("NPE")
 	}
 
-	method := kMethodRef.GetVirtualMethod(ref.(*rtc.Obj))
+	method := self.kMethodRef.GetVirtualMethod(ref.(*rtc.Obj))
 	frame.Thread().InvokeMethod(method)
 }

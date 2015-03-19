@@ -37,11 +37,11 @@ func _loop(thread *rtda.Thread) {
 
 		// decode
 		code := frame.Method().Code()
-		_, inst, nextPC := decoder.Decode(code, pc)
+		inst, nextPC := decoder.Decode(code, pc)
 		frame.SetNextPC(nextPC)
 
 		// execute
-		//_logInstruction(frame, opcode, inst)
+		//_logInstruction(frame, inst)
 		inst.Execute(frame)
 		if thread.IsStackEmpty() {
 			break
@@ -81,7 +81,7 @@ func _logFrames(thread *rtda.Thread) {
 	}
 }
 
-func _logInstruction(frame *rtda.Frame, opcode uint8, inst instructions.Instruction) {
+func _logInstruction(frame *rtda.Frame, inst instructions.Instruction) {
 	thread := frame.Thread()
 	method := frame.Method()
 	className := method.Class().Name()
@@ -89,8 +89,8 @@ func _logInstruction(frame *rtda.Frame, opcode uint8, inst instructions.Instruct
 	pc := thread.PC()
 
 	if method.IsStatic() {
-		fmt.Printf("[instruction] thread:%p %v.%v() #%v 0x%x %v\n", thread, className, methodName, pc, opcode, inst)
+		fmt.Printf("[instruction] thread:%p %v.%v() #%v %T %v\n", thread, className, methodName, pc, inst, inst)
 	} else {
-		fmt.Printf("[instruction] thread:%p %v#%v() #%v 0x%x %v\n", thread, className, methodName, pc, opcode, inst)
+		fmt.Printf("[instruction] thread:%p %v#%v() #%v %T %v\n", thread, className, methodName, pc, inst, inst)
 	}
 }

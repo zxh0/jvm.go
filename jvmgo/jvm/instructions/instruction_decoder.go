@@ -9,7 +9,7 @@ func NewDecoder() *InstructionDecoder {
 	return &InstructionDecoder{}
 }
 
-func (self *InstructionDecoder) Decode(code []byte, pc int) (uint8, Instruction, int) {
+func (self *InstructionDecoder) Decode(code []byte, pc int) (Instruction, int) {
 	self.code = code
 	self.pc = pc
 
@@ -18,7 +18,7 @@ func (self *InstructionDecoder) Decode(code []byte, pc int) (uint8, Instruction,
 	instruction.fetchOperands(self)
 	nextPC := self.pc
 
-	return opcode, instruction, nextPC
+	return instruction, nextPC
 }
 
 func (self *InstructionDecoder) readInt8() int8 {

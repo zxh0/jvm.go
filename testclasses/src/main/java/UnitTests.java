@@ -8,6 +8,7 @@ import java7.reflection.ArrayClassTest;
 import java7.reflection.MethodTest;
 import java7.reflection.PrimitiveClassTest;
 import java7.thread.MainThreadTest;
+import java7.thread.SleepTest;
 import java7.wrapper.DoubleTest;
 import java8.InterfaceMethodTest;
 import libs.junit.UnitTestRunner;
@@ -27,6 +28,7 @@ public class UnitTests {
             MainThreadTest.class,
             MethodTest.class,
             PrimitiveClassTest.class,
+            SleepTest.class,
             StringTest.class,
         });
     }

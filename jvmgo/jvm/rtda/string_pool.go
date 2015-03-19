@@ -5,9 +5,9 @@ import (
 )
 
 // home for interned Strings
-var _stringPool = []StringItem{}
+var _stringPool = []PooledString{}
 
-type StringItem struct {
+type PooledString struct {
 	chars []uint16
 	str   *rtc.Obj
 }
@@ -84,12 +84,12 @@ func _insert(index int, chars []uint16, str *rtc.Obj) {
 	dst := _stringPool[index+1 : poolLen+1]
 	copy(dst, src)
 
-	_stringPool[index] = StringItem{chars, str}
+	_stringPool[index] = PooledString{chars, str}
 }
 
 func _expandPool() {
 	poolLen := len(_stringPool)
-	newPool := make([]StringItem, poolLen, poolLen+100)
+	newPool := make([]PooledString, poolLen, poolLen+100)
 	copy(newPool, _stringPool) // func copy(dst, src []T) int
 	_stringPool = newPool
 }

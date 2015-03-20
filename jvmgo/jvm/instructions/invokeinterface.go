@@ -7,27 +7,34 @@ import (
 
 // Invoke interface method
 type invokeinterface struct {
-	index uint16
-	count uint8 // unused
-	// 0
+	index uint
+	// count uint8
+	// zero uint8
+
+	// optimization
+	kMethodRef *rtc.ConstantMethodref
+	argCount   uint
 }
 
 func (self *invokeinterface) fetchOperands(decoder *InstructionDecoder) {
-	self.index = decoder.readUint16()
-	self.count = decoder.readUint8()
+	self.index = uint(decoder.readUint16())
+	decoder.readUint8() // count
 	decoder.readUint8() // must be 0
 }
 
 func (self *invokeinterface) Execute(frame *rtda.Frame) {
-	cp := frame.Method().ConstantPool()
-	kMethodRef := cp.GetConstant(uint(self.index)).(*rtc.ConstantMethodref)
+	if self.kMethodRef == nil {
+		cp := frame.Method().ConstantPool()
+		self.kMethodRef = cp.GetConstant(self.index).(*rtc.ConstantMethodref)
+		self.argCount = self.kMethodRef.ArgCount()
+	}
 
 	stack := frame.OperandStack()
-	ref := stack.TopRef(kMethodRef.ArgCount())
+	ref := stack.TopRef(self.argCount)
 	if ref == nil {
 		panic("NPE") // todo
 	}
 
-	method := kMethodRef.FindInterfaceMethod(ref)
+	method := self.kMethodRef.FindInterfaceMethod(ref)
 	frame.Thread().InvokeMethod(method)
 }

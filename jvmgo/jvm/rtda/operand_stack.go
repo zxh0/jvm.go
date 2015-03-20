@@ -28,7 +28,8 @@ func (self *OperandStack) PushNull() {
 }
 
 func (self *OperandStack) PushRef(ref *rtc.Obj) {
-	self.Push(ref)
+	self.slots[self.size] = ref
+	self.size++
 }
 func (self *OperandStack) PopRef() *rtc.Obj {
 	ref := self.Pop()
@@ -51,28 +52,32 @@ func (self *OperandStack) PopBoolean() bool {
 }
 
 func (self *OperandStack) PushInt(val int32) {
-	self.Push(val)
+	self.slots[self.size] = val
+	self.size++
 }
 func (self *OperandStack) PopInt() int32 {
 	return self.Pop().(int32)
 }
 
 func (self *OperandStack) PushLong(val int64) {
-	self.Push(val)
+	self.slots[self.size] = val
+	self.size++
 }
 func (self *OperandStack) PopLong() int64 {
 	return self.Pop().(int64)
 }
 
 func (self *OperandStack) PushFloat(val float32) {
-	self.Push(val)
+	self.slots[self.size] = val
+	self.size++
 }
 func (self *OperandStack) PopFloat() float32 {
 	return self.Pop().(float32)
 }
 
 func (self *OperandStack) PushDouble(val float64) {
-	self.Push(val)
+	self.slots[self.size] = val
+	self.size++
 }
 func (self *OperandStack) PopDouble() float64 {
 	return self.Pop().(float64)

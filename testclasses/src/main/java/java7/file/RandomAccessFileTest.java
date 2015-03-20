@@ -27,31 +27,25 @@ import java.io.RandomAccessFile;
  * java/io/RandomAccessFile#close0()V
  */
 public class RandomAccessFileTest {
+    
     public static void main(String[] args) throws Exception {
         UnitTestRunner.run(RandomAccessFileTest.class);
     }
 
     @Test
-    public void writeTest() throws Exception {
-        RandomAccessFile randomAccessFile = null;
-        try {
-            randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw");
+    public void writeTest() throws IOException {
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw")) {
             //write data
             randomAccessFile.writeBytes("hello");
             randomAccessFile.writeInt(54);
             randomAccessFile.writeBytes("world");
             randomAccessFile.writeInt(-57);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            randomAccessFile.close();
         }
     }
 
     @Test
-    public void readTest() throws Exception {
-        RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw");
-        try {
+    public void readTest() throws IOException {
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw")) {
             byte data[] = new byte[5];
             randomAccessFile.read(data);
             String result = new String(data);
@@ -63,17 +57,12 @@ public class RandomAccessFileTest {
             Assert.assertTrue(result.equals("world"));
             intValue = randomAccessFile.readInt();
             Assert.assertTrue(intValue == -57);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            randomAccessFile.close();
         }
     }
 
     @Test
     public void seekTest() throws Exception {
-        RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw");
-        try {
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw")) {
             //write data
             randomAccessFile.writeBytes("hello");
             randomAccessFile.writeInt(54);
@@ -86,10 +75,7 @@ public class RandomAccessFileTest {
             //long seek = randomAccessFile.getFilePointer();
             //Assert.assertTrue(seek == 14);
             Assert.assertTrue(result.equals("world"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            randomAccessFile.close();
         }
     }
+    
 }

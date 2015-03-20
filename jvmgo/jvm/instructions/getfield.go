@@ -6,9 +6,18 @@ import (
 )
 
 // Fetch field from object
-type getfield struct{ Index16Instruction }
+type getfield struct {
+	Index16Instruction
+	field *rtc.Field
+}
 
 func (self *getfield) Execute(frame *rtda.Frame) {
+	if self.field == nil {
+		cp := frame.Method().ConstantPool()
+		kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
+		self.field = kFieldRef.InstanceField()
+	}
+
 	stack := frame.OperandStack()
 	ref := stack.PopRef()
 	if ref == nil {
@@ -16,29 +25,30 @@ func (self *getfield) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	cp := frame.Method().ConstantPool()
-	kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
-	field := kFieldRef.InstanceField()
-	val := field.GetValue(ref)
-
+	val := self.field.GetValue(ref)
 	stack.Push(val)
 }
 
 // Get static field from class
-type getstatic struct{ Index16Instruction }
+type getstatic struct {
+	Index16Instruction
+	field *rtc.Field
+}
 
 func (self *getstatic) Execute(frame *rtda.Frame) {
-	cp := frame.Method().Class().ConstantPool()
-	kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
-	field := kFieldRef.StaticField()
+	if self.field == nil {
+		cp := frame.Method().Class().ConstantPool()
+		kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
+		self.field = kFieldRef.StaticField()
+	}
 
-	class := field.Class()
+	class := self.field.Class()
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC() // undo getstatic
 		frame.Thread().InitClass(class)
 		return
 	}
 
-	val := field.GetStaticValue()
+	val := self.field.GetStaticValue()
 	frame.OperandStack().Push(val)
 }

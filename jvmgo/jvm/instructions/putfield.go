@@ -28,27 +28,3 @@ func (self *putfield) Execute(frame *rtda.Frame) {
 
 	self.field.PutValue(ref, val)
 }
-
-// Set static field in class
-type putstatic struct {
-	Index16Instruction
-	field *rtc.Field
-}
-
-func (self *putstatic) Execute(frame *rtda.Frame) {
-	if self.field == nil {
-		cp := frame.Method().Class().ConstantPool()
-		kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
-		self.field = kFieldRef.StaticField()
-	}
-
-	class := self.field.Class()
-	if class.InitializationNotStarted() {
-		frame.RevertNextPC()
-		frame.Thread().InitClass(class)
-		return
-	}
-
-	val := frame.OperandStack().Pop()
-	self.field.PutStaticValue(val)
-}

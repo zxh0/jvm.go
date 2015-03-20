@@ -1,6 +1,7 @@
 package java7.file;
 
 import libs.junit.UnitTestRunner;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -39,7 +40,52 @@ public class RandomAccessFileTest {
             randomAccessFile.writeBytes("hello");
             randomAccessFile.writeInt(54);
             randomAccessFile.writeBytes("world");
-            randomAccessFile.writeInt(57);
+            randomAccessFile.writeInt(-57);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            randomAccessFile.close();
+        }
+    }
+
+    @Test
+    public void readTest() throws Exception {
+        RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw");
+        try {
+            byte data[] = new byte[5];
+            randomAccessFile.read(data);
+            String result = new String(data);
+            Assert.assertTrue(result.equals("hello"));
+            int intValue = randomAccessFile.readInt();
+            Assert.assertTrue(intValue == 54);
+            randomAccessFile.read(data);
+            result = new String(data);
+            Assert.assertTrue(result.equals("world"));
+            intValue = randomAccessFile.readInt();
+            Assert.assertTrue(intValue == -57);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            randomAccessFile.close();
+        }
+    }
+
+    @Test
+    public void seekTest() throws Exception {
+        RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw");
+        try {
+            //write data
+            randomAccessFile.writeBytes("hello");
+            randomAccessFile.writeInt(54);
+            randomAccessFile.writeBytes("world");
+            randomAccessFile.writeInt(-57);
+            randomAccessFile.seek(9);
+            byte data[] = new byte[5];
+            randomAccessFile.read(data);
+            String result = new String(data);
+            //long seek = randomAccessFile.getFilePointer();
+            //Assert.assertTrue(seek == 14);
+            Assert.assertTrue(result.equals("world"));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

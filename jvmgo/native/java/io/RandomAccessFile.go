@@ -1,7 +1,6 @@
 package io
 
 import (
-	"encoding/binary"
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
@@ -16,6 +15,11 @@ func init() {
 	_raf(raf_close0, "close0", "()V")
 	_raf(raf_write0, "write0", "(I)V")
 	_raf(raf_writeBytes, "writeBytes", "([BII)V")
+	_raf(raf_readBytes, "readBytes", "([BII)I")
+	_raf(raf_read0, "read0", "()I")
+	_raf(raf_seek0, "seek0", "(J)V")
+	//TODO
+	//_raf(raf_getFilePointer, "getFilePointer", "()J")
 }
 
 func _raf(method Any, name, desc string) {
@@ -25,7 +29,7 @@ func _raf(method Any, name, desc string) {
 // private static native void initIDs();
 // ()V
 func raf_initIDs(frame *rtda.Frame) {
-	// todo
+	//TODO
 }
 
 // private native void open(String name, int mode) throws FileNotFoundException;
@@ -73,7 +77,7 @@ func raf_close0(frame *rtda.Frame) {
 	goFile := this.Extra().(*os.File)
 	err := goFile.Close()
 	if err != nil {
-		// todo
+		//TODO
 		panic("IOException")
 	}
 }
@@ -103,11 +107,73 @@ func raf_write0(frame *rtda.Frame) {
 	intObj := vars.GetInt(1) // b
 
 	goFile := this.Extra().(*os.File)
-	b := make([]byte, 2)
-	binary.LittleEndian.PutUint16(b, uint16(intObj))
-	_, err := goFile.Write(b)
+	//b := make([]byte, 4)
+	//binary.BigEndian.PutUint32(b, uint32(intObj))
+	_, err := goFile.Write([]byte{byte(intObj)})
 
 	if err != nil {
+		panic("IOException!" + err.Error())
+	}
+}
+
+// private native int readBytes(byte b[], int off, int len) throws IOException;
+// ([BII)I
+func raf_readBytes(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	buf := vars.GetRef(1)
+	off := vars.GetInt(2)
+	_len := vars.GetInt(3)
+
+	goFile := this.Extra().(*os.File)
+	goBuf := buf.GoBytes()
+	goBuf = goBuf[off : off+_len]
+
+	n, err := goFile.Read(goBuf)
+	if err == nil || n > 0 {
+		frame.OperandStack().PushInt(int32(n))
+	} else {
+		//TODO
+		panic("IOException!" + err.Error())
+	}
+}
+
+// public native int read() throws IOException;
+// ()I
+func raf_read0(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+
+	goFile := this.Extra().(*os.File)
+
+	//b := make([]byte, 4)
+	b := make([]byte, 1)
+	_, err := goFile.Read(b)
+
+	if err != nil {
+		panic("IOException!" + err.Error())
+	}
+	//n := binary.BigEndian.Uint32(b)
+	//frame.OperandStack().PushInt(int32(n))
+	frame.OperandStack().PushInt(int32(b[0]))
+}
+
+// private native void seek0(long pos) throws IOException;
+// (J)V
+func raf_seek0(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	pos := vars.GetLong(1)
+
+	goFile := this.Extra().(*os.File)
+
+	if pos < 0 {
+		//TODO
+		panic("IOException! Negative seek offset")
+	}
+
+	if _, err := goFile.Seek(pos, os.SEEK_SET); err != nil {
+		//TODO
 		panic("IOException!" + err.Error())
 	}
 }

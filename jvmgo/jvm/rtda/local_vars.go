@@ -5,6 +5,8 @@ import (
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
+var _noSlotVars = &LocalVars{[]Any{}}
+
 type LocalVars struct {
 	slots []Any
 }
@@ -14,7 +16,7 @@ func newLocalVars(size uint) *LocalVars {
 		slots := make([]Any, size)
 		return &LocalVars{slots}
 	} else {
-		return nil
+		return _noSlotVars
 	}
 }
 

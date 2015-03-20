@@ -16,6 +16,7 @@ type Options struct {
 	classpath    *classpath.ClassPath
 	verboseClass bool
 	xss          int
+	Xcpuprofile  string
 }
 
 func newOptions() *Options {
@@ -45,7 +46,8 @@ func parseOptions(args *CmdLineArgs) *Options {
 		optionName := args.removeFirst()
 		_ = options.parseClassPathOption(optionName, args) ||
 			options.parseVerboseOption(optionName) ||
-			options.parseXssOption(optionName)
+			options.parseXssOption(optionName) ||
+			options.parseXcpuprofile(optionName, args)
 		// todo
 	}
 
@@ -83,6 +85,14 @@ func (self *Options) parseXssOption(optionName string) bool {
 		default:
 			self.xss = parseInt(size)
 		}
+		return true
+	}
+	return false
+}
+
+func (self *Options) parseXcpuprofile(optionName string, args *CmdLineArgs) bool {
+	if optionName == "-Xcpuprofile" {
+		self.Xcpuprofile = args.removeFirst()
 		return true
 	}
 	return false

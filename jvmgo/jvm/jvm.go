@@ -9,9 +9,21 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	_ "github.com/zxh0/jvm.go/jvmgo/native"
+	"os"
+	"runtime/pprof"
 )
 
 func Startup(cmd *cmdline.Command) {
+	Xcpuprofile := cmd.Options().Xcpuprofile
+	if Xcpuprofile != "" {
+		f, err := os.Create(Xcpuprofile)
+		if err != nil {
+			panic(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
+
 	initOptions(cmd.Options())
 	rtc.InitBootLoader(cmd.Options().Classpath())
 
@@ -20,9 +32,9 @@ func Startup(cmd *cmdline.Command) {
 	keepalive.KeepAlive()
 }
 
-func initOptions(_options *cmdline.Options) {
-	options.VerboseClass = _options.VerboseClass()
-	options.ThreadStackSize = uint(_options.Xss())
+func initOptions(cmdOptions *cmdline.Options) {
+	options.VerboseClass = cmdOptions.VerboseClass()
+	options.ThreadStackSize = uint(cmdOptions.Xss())
 }
 
 func createMainThread(className string, args []string) *rtda.Thread {

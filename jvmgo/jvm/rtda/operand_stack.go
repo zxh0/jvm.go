@@ -107,8 +107,9 @@ func (self *OperandStack) TopRef(n uint) *rtc.Obj {
 }
 
 func (self *OperandStack) Clear() {
-	for !self.IsEmpty() {
-		self.Pop()
+	self.size = 0
+	for i, _ := range self.slots {
+		self.slots[i] = nil
 	}
 }
 

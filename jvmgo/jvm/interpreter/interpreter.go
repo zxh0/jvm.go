@@ -64,11 +64,12 @@ func _loop(thread *rtda.Thread) {
 		}
 		insts := method.Instructions.([]instructions.Instruction)
 		inst := insts[pc]
+		instCount := len(insts)
 
 		// update nextPC
 		for {
 			pc++
-			if pc >= len(insts) || insts[pc] != nil {
+			if pc >= instCount || insts[pc] != nil {
 				break
 			}
 		}

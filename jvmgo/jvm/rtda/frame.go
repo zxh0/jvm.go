@@ -22,8 +22,7 @@ func newFrame(thread *Thread, method *rtc.Method) *Frame {
 	}
 }
 
-func (self *Frame) reset(thread *Thread, method *rtc.Method) {
-	self.thread = thread
+func (self *Frame) reset(method *rtc.Method) {
 	self.method = method
 	self.nextPC = 0
 	self.lower = nil

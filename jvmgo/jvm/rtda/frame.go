@@ -9,6 +9,8 @@ type Frame struct {
 	method       *rtc.Method
 	localVars    *LocalVars
 	operandStack *OperandStack
+	maxLocals    uint
+	maxStack     uint
 	nextPC       int // the next instruction after the call
 	onPopAction  func()
 }
@@ -17,6 +19,8 @@ func newFrame(thread *Thread, method *rtc.Method) *Frame {
 	return &Frame{
 		thread:       thread,
 		method:       method,
+		maxLocals:    method.MaxLocals(),
+		maxStack:     method.MaxStack(),
 		localVars:    newLocalVars(method.MaxLocals()),
 		operandStack: newOperandStack(method.MaxStack()),
 	}
@@ -26,6 +30,7 @@ func (self *Frame) reset(method *rtc.Method) {
 	self.method = method
 	self.nextPC = 0
 	self.lower = nil
+	self.onPopAction = nil
 	self.localVars.clear()
 	self.operandStack.Clear()
 }

@@ -21,6 +21,7 @@ JVM
 type Thread struct {
 	pc            int // the address of the instruction currently being executed
 	stack         *Stack
+	frameCache    *FrameCache
 	jThread       *rtc.Obj    // java.lang.Thread
 	lock          *sync.Mutex // state lock
 	ch            chan int
@@ -31,12 +32,14 @@ type Thread struct {
 
 func NewThread(jThread *rtc.Obj) *Thread {
 	stack := newStack(options.ThreadStackSize)
-	return &Thread{
+	thread := &Thread{
 		stack:   stack,
 		jThread: jThread,
 		lock:    &sync.Mutex{},
 		ch:      make(chan int),
 	}
+	thread.frameCache = newFrameCache(thread, 16) // todo
+	return thread
 }
 
 // getters & setters
@@ -76,6 +79,8 @@ func (self *Thread) PopFrame() *Frame {
 		// todo
 		top.onPopAction()
 	}
+
+	self.frameCache.returnFrame(top)
 	return top
 }
 
@@ -83,7 +88,8 @@ func (self *Thread) NewFrame(method *rtc.Method) *Frame {
 	if method.IsNative() {
 		return newNativeFrame(self, method)
 	} else {
-		return newFrame(self, method)
+		return self.frameCache.borrowFrame(method)
+		//return newFrame(self, method)
 	}
 }
 

@@ -21,8 +21,8 @@ func (self *FrameCache) borrowFrame(method *rtc.Method) *Frame {
 	if self.frameCount > 0 {
 		for i, frame := range self.cachedFrames {
 			if frame != nil &&
-				uint(len(frame.localVars.slots)) > method.MaxLocals() &&
-				uint(len(frame.operandStack.slots)) > method.MaxStack() {
+				frame.maxLocals > method.MaxLocals() &&
+				frame.maxStack > method.MaxStack() {
 
 				self.frameCount--
 				self.cachedFrames[i] = nil
@@ -41,11 +41,11 @@ func (self *FrameCache) returnFrame(frame *Frame) {
 			self.frameCount++
 			return
 		}
-		if len(frame.localVars.slots) > len(cachedFrame.localVars.slots) {
-			cachedFrame.localVars = frame.localVars
-		}
-		if len(frame.operandStack.slots) > len(cachedFrame.operandStack.slots) {
-			cachedFrame.operandStack = frame.operandStack
-		}
+		// if len(frame.localVars.slots) > len(cachedFrame.localVars.slots) {
+		// 	cachedFrame.localVars = frame.localVars
+		// }
+		// if len(frame.operandStack.slots) > len(cachedFrame.operandStack.slots) {
+		// 	cachedFrame.operandStack = frame.operandStack
+		// }
 	}
 }

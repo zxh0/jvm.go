@@ -13,8 +13,7 @@ type aaload struct{ NoOperandsInstruction }
 func (self *aaload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
-		refArr := arrRef.Fields().([]*rtc.Obj)
-		ref := refArr[index]
+		ref := arrRef.Refs()[index]
 		stack.PushRef(ref)
 	}
 }
@@ -25,8 +24,7 @@ type baload struct{ NoOperandsInstruction }
 func (self *baload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
-		byteArr := arrRef.Fields().([]int8)
-		val := byteArr[index]
+		val := arrRef.Bytes()[index]
 		stack.PushInt(int32(val))
 	}
 }
@@ -37,8 +35,7 @@ type caload struct{ NoOperandsInstruction }
 func (self *caload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
-		charArr := arrRef.Fields().([]uint16)
-		val := charArr[index]
+		val := arrRef.Chars()[index]
 		stack.PushInt(int32(val))
 	}
 }
@@ -49,8 +46,7 @@ type daload struct{ NoOperandsInstruction }
 func (self *daload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
-		doubleArr := arrRef.Fields().([]float64)
-		val := doubleArr[index]
+		val := arrRef.Doubles()[index]
 		stack.PushDouble(val)
 	}
 }
@@ -61,8 +57,7 @@ type faload struct{ NoOperandsInstruction }
 func (self *faload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
-		floatArr := arrRef.Fields().([]float32)
-		val := floatArr[index]
+		val := arrRef.Floats()[index]
 		stack.PushFloat(val)
 	}
 }
@@ -73,8 +68,7 @@ type iaload struct{ NoOperandsInstruction }
 func (self *iaload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
-		intArr := arrRef.Fields().([]int32)
-		val := intArr[index]
+		val := arrRef.Ints()[index]
 		stack.PushInt(val)
 	}
 }
@@ -85,8 +79,7 @@ type laload struct{ NoOperandsInstruction }
 func (self *laload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
-		longArr := arrRef.Fields().([]int64)
-		val := longArr[index]
+		val := arrRef.Longs()[index]
 		stack.PushLong(val)
 	}
 }
@@ -97,8 +90,7 @@ type saload struct{ NoOperandsInstruction }
 func (self *saload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
-		shortArr := arrRef.Fields().([]int16)
-		val := shortArr[index]
+		val := arrRef.Shorts()[index]
 		stack.PushInt(int32(val))
 	}
 }

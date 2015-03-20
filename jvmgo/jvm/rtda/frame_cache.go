@@ -41,13 +41,15 @@ func (self *FrameCache) returnFrame(frame *Frame) {
 			self.frameCount++
 			return
 		}
-		// if frame.maxLocals > cachedFrame.maxLocals {
-		// 	cachedFrame.maxLocals = frame.maxLocals
-		// 	cachedFrame.localVars = frame.localVars
-		// }
-		// if frame.maxStack > cachedFrame.maxStack {
-		// 	cachedFrame.maxStack = frame.maxStack
-		// 	cachedFrame.operandStack = frame.operandStack
-		// }
+		if frame.maxLocals > cachedFrame.maxLocals {
+			cachedFrame.maxLocals = frame.maxLocals
+			cachedFrame.localVars = frame.localVars
+			frame.maxLocals = 0
+		}
+		if frame.maxStack > cachedFrame.maxStack {
+			cachedFrame.maxStack = frame.maxStack
+			cachedFrame.operandStack = frame.operandStack
+			frame.maxStack = 0
+		}
 	}
 }

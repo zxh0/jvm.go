@@ -17,7 +17,7 @@ func newOperandStack(size uint) *OperandStack {
 		slots := make([]Any, size)
 		return &OperandStack{0, slots}
 	} else {
-		return _noSlotStack
+		return nil
 	}
 }
 
@@ -131,7 +131,7 @@ func (self *OperandStack) TopRef(n uint) *rtc.Obj {
 
 func (self *OperandStack) Clear() {
 	self.size = 0
-	for i, _ := range self.slots {
+	for i := range self.slots {
 		self.slots[i] = nil
 	}
 }

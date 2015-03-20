@@ -76,7 +76,7 @@ func (self *LocalVars) Set(index uint, any Any) {
 }
 
 func (self *LocalVars) clear() {
-	for i, _ := range self.slots {
+	for i := range self.slots {
 		self.slots[i] = nil
 	}
 }

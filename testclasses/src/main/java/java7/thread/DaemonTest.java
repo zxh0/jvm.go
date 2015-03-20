@@ -1,16 +1,25 @@
 package java7.thread;
 
+import libs.junit.UnitTestRunner;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 public class DaemonTest {
     
     public static void main(String[] args) {
+        UnitTestRunner.run(DaemonTest.class);
+    }
+    
+    @Test
+    public void isDaemon() {
         Thread mainThread = Thread.currentThread();
-        System.out.println("main thread is daemon: " + mainThread.isDaemon());
+        assertFalse(mainThread.isDaemon());
         
         Thread newThread = new Thread();
-        System.out.println("new thread is daemon: " + newThread.isDaemon());
+        assertFalse(newThread.isDaemon());
         
         newThread.setDaemon(true);
-        System.out.println("new thread is daemon: " + newThread.isDaemon());
+        assertTrue(newThread.isDaemon());
     }
     
 }

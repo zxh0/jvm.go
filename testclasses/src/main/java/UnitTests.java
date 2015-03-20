@@ -7,6 +7,7 @@ import java7.file.FileIoTest;
 import java7.reflection.ArrayClassTest;
 import java7.reflection.MethodTest;
 import java7.reflection.PrimitiveClassTest;
+import java7.thread.DaemonTest;
 import java7.thread.MainThreadTest;
 import java7.thread.SleepTest;
 import java7.wrapper.DoubleTest;
@@ -20,6 +21,7 @@ public class UnitTests {
             ArrayClassTest.class,
             ClassLibExTest.class,
             ClassLoaderTest.class,
+            DaemonTest.class,
             DoubleTest.class,
             FileIoTest.class,
             GetClassLoaderTest.class,

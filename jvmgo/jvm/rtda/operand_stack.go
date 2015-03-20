@@ -24,7 +24,8 @@ func (self *OperandStack) IsEmpty() bool {
 }
 
 func (self *OperandStack) PushNull() {
-	self.Push(nil)
+	self.slots[self.size] = nil
+	self.size++
 }
 
 func (self *OperandStack) PushRef(ref *rtc.Obj) {
@@ -32,11 +33,14 @@ func (self *OperandStack) PushRef(ref *rtc.Obj) {
 	self.size++
 }
 func (self *OperandStack) PopRef() *rtc.Obj {
-	ref := self.Pop()
-	if ref == nil {
+	self.size--
+	top := self.slots[self.size]
+	self.slots[self.size] = nil
+
+	if top == nil {
 		return nil
 	} else {
-		return ref.(*rtc.Obj)
+		return top.(*rtc.Obj)
 	}
 }
 
@@ -56,7 +60,10 @@ func (self *OperandStack) PushInt(val int32) {
 	self.size++
 }
 func (self *OperandStack) PopInt() int32 {
-	return self.Pop().(int32)
+	self.size--
+	top := self.slots[self.size]
+	self.slots[self.size] = nil
+	return top.(int32)
 }
 
 func (self *OperandStack) PushLong(val int64) {
@@ -64,7 +71,10 @@ func (self *OperandStack) PushLong(val int64) {
 	self.size++
 }
 func (self *OperandStack) PopLong() int64 {
-	return self.Pop().(int64)
+	self.size--
+	top := self.slots[self.size]
+	self.slots[self.size] = nil
+	return top.(int64)
 }
 
 func (self *OperandStack) PushFloat(val float32) {
@@ -72,7 +82,10 @@ func (self *OperandStack) PushFloat(val float32) {
 	self.size++
 }
 func (self *OperandStack) PopFloat() float32 {
-	return self.Pop().(float32)
+	self.size--
+	top := self.slots[self.size]
+	self.slots[self.size] = nil
+	return top.(float32)
 }
 
 func (self *OperandStack) PushDouble(val float64) {
@@ -80,7 +93,10 @@ func (self *OperandStack) PushDouble(val float64) {
 	self.size++
 }
 func (self *OperandStack) PopDouble() float64 {
-	return self.Pop().(float64)
+	self.size--
+	top := self.slots[self.size]
+	self.slots[self.size] = nil
+	return top.(float64)
 }
 
 func (self *OperandStack) Push(any Any) {

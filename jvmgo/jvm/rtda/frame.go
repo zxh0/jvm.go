@@ -31,8 +31,12 @@ func (self *Frame) reset(method *rtc.Method) {
 	self.nextPC = 0
 	self.lower = nil
 	self.onPopAction = nil
-	self.localVars.clear()
-	self.operandStack.Clear()
+	if self.maxLocals > 0 {
+		self.localVars.clear()
+	}
+	if self.maxStack > 0 {
+		self.operandStack.Clear()
+	}
 }
 
 // getters & setters

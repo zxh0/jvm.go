@@ -5,8 +5,6 @@ import (
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
-var _noSlotStack = &OperandStack{0, []Any{}}
-
 type OperandStack struct {
 	size  uint
 	slots []Any

@@ -21,8 +21,8 @@ func (self *FrameCache) borrowFrame(method *rtc.Method) *Frame {
 	if self.frameCount > 0 {
 		for i, frame := range self.cachedFrames {
 			if frame != nil &&
-				frame.maxLocals > method.MaxLocals() &&
-				frame.maxStack > method.MaxStack() {
+				frame.maxLocals >= method.MaxLocals() &&
+				frame.maxStack >= method.MaxStack() {
 
 				self.frameCount--
 				self.cachedFrames[i] = nil

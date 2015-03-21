@@ -11,6 +11,12 @@ public class ArrayTest {
         UnitTestRunner.run(ArrayTest.class);
     }
     
+    @Test(expected = NullPointerException.class)
+    public void getNullArray() {
+        Object x = null;
+        Array.get(x, 3);
+    }
+    
     @Test
     public void getNonArray() {
         try {

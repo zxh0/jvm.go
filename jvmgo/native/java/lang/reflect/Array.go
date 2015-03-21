@@ -24,6 +24,11 @@ func get(frame *rtda.Frame) {
 	arr := vars.GetRef(0)
 	index := vars.GetInt(1)
 
+	if arr == nil {
+		frame.Thread().ThrowNPE()
+		return
+	}
+
 	if !arr.IsArray() {
 		frame.Thread().ThrowIllegalArgumentException("Argument is not an array")
 		return

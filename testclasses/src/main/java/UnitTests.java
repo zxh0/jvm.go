@@ -1,8 +1,8 @@
 import java7.StringTest;
 import java7.cl.ClassLoaderTest;
 import java7.cl.GetClassLoaderTest;
-import java7.exception.ClassLibExTest;
-import java7.exception.InstructionExTest;
+import java7.ex.ClassLibExTest;
+import java7.ex.InstructionExTest;
 import java7.file.FileIoTest;
 import java7.reflection.ArrayClassTest;
 import java7.reflection.MethodTest;

@@ -1,4 +1,4 @@
-package java7.exception;
+package java7.ex;
 
 public class UncaughtTest {
     

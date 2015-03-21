@@ -1,4 +1,4 @@
-package java7.exception;
+package java7.ex;
 
 import libs.junit.UnitTestRunner;
 import org.junit.Test;

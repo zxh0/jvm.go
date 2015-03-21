@@ -1,0 +1,44 @@
+package box
+
+import (
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/util"
+)
+
+// boxing primitive types
+// primitive value must be on the top of operand stack
+func Box(frame *rtda.Frame, primitiveDescriptor rune) {
+	switch primitiveDescriptor {
+	case 'Z':
+		_callValueOf(frame, "Z", "java/lang/Boolean")
+	case 'B':
+		_callValueOf(frame, "B", "java/lang/Byte")
+	case 'C':
+		_callValueOf(frame, "C", "java/lang/Character")
+	case 'S':
+		_callValueOf(frame, "S", "java/lang/Short")
+	case 'I':
+		_callValueOf(frame, "I", "java/lang/Integer")
+	case 'J':
+		_callValueOf(frame, "J", "java/lang/Long")
+	case 'F':
+		_callValueOf(frame, "F", "java/lang/Float")
+	case 'D':
+		_callValueOf(frame, "D", "java/lang/Double")
+	default:
+		util.Panicf("Not primitive type: %v", primitiveDescriptor)
+	}
+}
+
+func _callValueOf(frame *rtda.Frame, primitiveDescriptor, wrapperClassName string) {
+	wrapperClass := rtc.BootLoader().LoadClass(wrapperClassName)
+	valueOfDescriptor := "(" + primitiveDescriptor + ")L" + wrapperClassName + ";"
+	valueOfMethod := wrapperClass.GetStaticMethod("valueOf", valueOfDescriptor)
+	frame.Thread().InvokeMethod(valueOfMethod)
+
+	// init wrapper class
+	if wrapperClass.InitializationNotStarted() {
+		frame.Thread().InitClass(wrapperClass)
+	}
+}

@@ -2,13 +2,14 @@ package classpath
 
 import (
 	"errors"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	"path/filepath"
 	"strings"
+
+	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 )
 
 var (
-	absBootPath      = filepath.Join(options.AbsJavaHome, "lib") // jre/lib
+	absBootPath      = filepath.Join(options.AbsJavaHome, "jre/lib")
 	classNotFoundErr = errors.New("class not found!")
 )
 

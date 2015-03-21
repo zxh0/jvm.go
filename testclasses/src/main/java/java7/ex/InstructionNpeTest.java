@@ -2,6 +2,7 @@ package java7.ex;
 
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
+import static helper.TestHelper.nullObj;
 
 public class InstructionNpeTest {
     
@@ -41,10 +42,6 @@ public class InstructionNpeTest {
     public void invokevirtual() {
         Object x = nullObj();
         x.toString();
-    }
-    
-    private Object nullObj() {
-        return null;
     }
     
 }

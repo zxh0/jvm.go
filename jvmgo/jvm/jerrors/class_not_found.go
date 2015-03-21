@@ -1,5 +1,9 @@
 package jerrors
 
+import (
+	"fmt"
+)
+
 type ClassNotFoundError struct {
 	name string
 }
@@ -9,5 +13,5 @@ func NewClassNotFoundError(name string) ClassNotFoundError {
 }
 
 func (self ClassNotFoundError) Error() string {
-	return self.name
+	return fmt.Sprintf("Class not found %v", self.name)
 }

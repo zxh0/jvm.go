@@ -1,11 +1,12 @@
 package options
 
 import (
+	"os"
 	"path/filepath"
 )
 
 // todo
-const JavaHome = "./jre/"
+const JavaHome = "."
 
 var (
 	AbsJavaHome     string
@@ -14,7 +15,12 @@ var (
 )
 
 func init() {
-	if absJavaHome, err := filepath.Abs(JavaHome); err == nil {
+	jh := os.Getenv("JAVA_HOME")
+	if jh == "" {
+		jh = JavaHome
+	}
+
+	if absJavaHome, err := filepath.Abs(jh); err == nil {
 		AbsJavaHome = absJavaHome
 	} else {
 		panic(err)

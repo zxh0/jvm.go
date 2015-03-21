@@ -37,6 +37,12 @@ public class InstructionExTest {
         }
     }
     
+    @Test(expected = NullPointerException.class)
+    public void invokeVirtual() {
+        Object x = nullObj();
+        x.toString();
+    }
+    
     @Test(expected = ClassCastException.class)
     public void checkcast() {
         Object x = "String";

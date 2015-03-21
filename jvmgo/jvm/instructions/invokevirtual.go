@@ -22,8 +22,8 @@ func (self *invokevirtual) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	ref := stack.TopRef(self.argCount)
 	if ref == nil {
-		// frame.Thread().ThrowNPE()
-		panic("NPE")
+		frame.Thread().ThrowNPE()
+		return
 	}
 
 	method := self.kMethodRef.GetVirtualMethod(ref)

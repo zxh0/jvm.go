@@ -2,6 +2,7 @@ package java7.ex;
 
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class InstructionExTest {
     
@@ -25,17 +26,27 @@ public class InstructionExTest {
         Object[] a = new Object[-1];
     }
     
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    @Test
     public void aload() {
-        int[] a = {1};
-        int x = a[2];
+        try {
+            int[] a = {1};
+            int x = a[2];
+            fail();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            assertEquals("2", e.getMessage());
+        }
     }
     
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    @Test
     public void astore() {
-        int[] a = {};
-        a[1] = 2;
-        int x = a[1];
+        try {
+            int[] a = {};
+            a[1] = 2;
+            int x = a[1];
+            fail();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            assertEquals("1", e.getMessage());
+        }
     }
     
     @Test(expected = ArithmeticException.class)

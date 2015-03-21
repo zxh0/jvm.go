@@ -28,9 +28,12 @@ func get(frame *rtda.Frame) {
 		frame.Thread().ThrowNPE()
 		return
 	}
-
 	if !arr.IsArray() {
 		frame.Thread().ThrowIllegalArgumentException("Argument is not an array")
+		return
+	}
+	if index < 0 || index >= rtc.ArrayLength(arr) {
+		frame.Thread().ThrowArrayIndexOutOfBoundsExceptionNoMsg()
 		return
 	}
 

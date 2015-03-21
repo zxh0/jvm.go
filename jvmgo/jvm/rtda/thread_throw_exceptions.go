@@ -29,12 +29,16 @@ func (self *Thread) ThrowNPE() {
 	self.throwExceptionV("java/lang/NullPointerException")
 }
 
-func (self *Thread) ThrowDivByZero() {
-	self.throwExceptionS("java/lang/ArithmeticException", "/ by zero")
-}
-
 func (self *Thread) ThrowNegativeArraySizeException() {
 	self.throwExceptionV("java/lang/NegativeArraySizeException")
+}
+
+func (self *Thread) ThrowArrayIndexOutOfBoundsExceptionNoMsg() {
+	self.throwExceptionV("java/lang/ArrayIndexOutOfBoundsException")
+}
+
+func (self *Thread) ThrowDivByZero() {
+	self.throwExceptionS("java/lang/ArithmeticException", "/ by zero")
 }
 
 func (self *Thread) ThrowIllegalArgumentException(msg string) {

@@ -11,10 +11,15 @@ public class ArrayTest {
         UnitTestRunner.run(ArrayTest.class);
     }
     
-    @Test(expected = NullPointerException.class)
+    @Test
     public void getNullArray() {
-        Object x = null;
-        Array.get(x, 3);
+        try {
+            Object x = null;
+            Array.get(x, 3);
+            fail();
+        } catch (NullPointerException e) {
+            assertNull(e.getMessage());
+        }
     }
     
     @Test
@@ -25,6 +30,17 @@ public class ArrayTest {
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Argument is not an array", e.getMessage());
+        }
+    }
+    
+    @Test
+    public void getArrayBadIndex() {
+        try {
+            int[] arr = {1, 2, 3};
+            Array.get(arr, -1);
+            fail();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            assertEquals(null, e.getMessage());
         }
     }
     

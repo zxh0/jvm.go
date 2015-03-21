@@ -6,6 +6,7 @@ import java7.ex.InstructionExTest;
 import java7.ex.InstructionNpeTest;
 import java7.file.FileIoTest;
 import java7.reflection.ArrayClassTest;
+import java7.reflection.ArrayTest;
 import java7.reflection.MethodTest;
 import java7.reflection.PrimitiveClassTest;
 import java7.thread.DaemonTest;
@@ -20,6 +21,7 @@ public class UnitTests {
     public static void main(String[] args) {
         UnitTestRunner.run(new Class<?>[] {
             ArrayClassTest.class,
+            ArrayTest.class,
             ClassLibExTest.class,
             ClassLoaderTest.class,
             DaemonTest.class,

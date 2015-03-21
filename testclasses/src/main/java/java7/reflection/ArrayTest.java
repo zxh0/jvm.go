@@ -44,6 +44,12 @@ public class ArrayTest {
         }
     }
     
+    @Test
+    public void getObjectArray() {
+        String[] arr = {"a", "b", "c"};
+        assertEquals("c", Array.get(arr, 2));
+    }
+    
     //@Test
     public void get() {
         int[] arr = {1, 2, 3};

@@ -3,6 +3,7 @@ import java7.cl.ClassLoaderTest;
 import java7.cl.GetClassLoaderTest;
 import java7.ex.ClassLibExTest;
 import java7.ex.InstructionExTest;
+import java7.ex.InstructionNpeTest;
 import java7.file.FileIoTest;
 import java7.reflection.ArrayClassTest;
 import java7.reflection.MethodTest;
@@ -26,6 +27,7 @@ public class UnitTests {
             FileIoTest.class,
             GetClassLoaderTest.class,
             InstructionExTest.class,
+            InstructionNpeTest.class,
             InterfaceMethodTest.class,
             MainThreadTest.class,
             MethodTest.class,

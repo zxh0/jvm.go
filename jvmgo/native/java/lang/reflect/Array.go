@@ -4,6 +4,7 @@ import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
 func init() {
@@ -43,8 +44,30 @@ func get(frame *rtda.Frame) {
 		return
 	}
 
-	// todo
-	panic("get!!!")
+	// primitive array
+	stack := frame.OperandStack()
+	primitiveDescriptor := arr.Class().Name()[1]
+	switch primitiveDescriptor {
+	case 'Z':
+		stack.PushBoolean(arr.Booleans()[index] == 1)
+	case 'B':
+		stack.PushInt(int32(arr.Bytes()[index]))
+	case 'C':
+		stack.PushInt(int32(arr.Chars()[index]))
+	case 'S':
+		stack.PushInt(int32(arr.Shorts()[index]))
+	case 'I':
+		stack.PushInt(arr.Ints()[index])
+	case 'J':
+		stack.PushLong(arr.Longs()[index])
+	case 'F':
+		stack.PushFloat(arr.Floats()[index])
+	case 'D':
+		stack.PushDouble(arr.Doubles()[index])
+	}
+
+	// boxing
+	box.Box(frame, primitiveDescriptor)
 }
 
 // public static native int getLength(Object array) throws IllegalArgumentException;

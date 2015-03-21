@@ -15,6 +15,10 @@ func (self *Obj) Refs() []*Obj {
 	return self.fields.([]*Obj)
 }
 
+func (self *Obj) Booleans() []int8 {
+	return self.fields.([]int8)
+}
+
 func (self *Obj) Bytes() []int8 {
 	return self.fields.([]int8)
 }

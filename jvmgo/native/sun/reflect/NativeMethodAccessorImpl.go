@@ -26,7 +26,7 @@ func invoke0(frame *rtda.Frame) {
 		returnType := frame.LocalVars().Get(0).(*rtc.FieldType)
 		if returnType.IsBaseType() && !returnType.IsVoidType() {
 			primitiveDescriptor := returnType.Descriptor()[0]
-			box.Box(frame, rune(primitiveDescriptor)) // todo
+			box.Box(frame, primitiveDescriptor) // todo
 		}
 	}
 }

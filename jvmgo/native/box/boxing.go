@@ -8,7 +8,7 @@ import (
 
 // boxing primitive types
 // primitive value must be on the top of operand stack
-func Box(frame *rtda.Frame, primitiveDescriptor rune) {
+func Box(frame *rtda.Frame, primitiveDescriptor byte) {
 	switch primitiveDescriptor {
 	case 'Z':
 		_callValueOf(frame, "Z", "java/lang/Boolean")

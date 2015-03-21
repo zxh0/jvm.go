@@ -7,13 +7,13 @@ import (
 )
 
 func init() {
-	_id(id_init, "init", "()V")
+	_ia(ia_init, "init", "()V")
 }
 
-func _id(method Any, name, desc string) {
+func _ia(method Any, name, desc string) {
 	rtc.RegisterNativeMethod("java/net/InetAddress", name, desc, method)
 }
 
-func id_init(frame *rtda.Frame) {
+func ia_init(frame *rtda.Frame) {
 
 }

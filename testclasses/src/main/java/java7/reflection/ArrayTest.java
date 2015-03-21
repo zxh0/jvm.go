@@ -12,6 +12,17 @@ public class ArrayTest {
     }
     
     @Test
+    public void getNonArray() {
+        try {
+            String str = "abc";
+            Array.get(str, 1);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("Argument is not an array", e.getMessage());
+        }
+    }
+    
+    //@Test
     public void get() {
         int[] arr = {1, 2, 3};
         Object two = Array.get(arr, 1);

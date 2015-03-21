@@ -24,12 +24,15 @@ func get(frame *rtda.Frame) {
 	arr := vars.GetRef(0)
 	index := vars.GetInt(1)
 
-	if arr.IsArray() {
-		if !arr.IsPrimitiveArray() {
-			obj := arr.Refs()[index]
-			frame.OperandStack().PushRef(obj)
-			return
-		}
+	if !arr.IsArray() {
+		frame.Thread().ThrowIllegalArgumentException("Argument is not an array")
+		return
+	}
+
+	if !arr.IsPrimitiveArray() {
+		obj := arr.Refs()[index]
+		frame.OperandStack().PushRef(obj)
+		return
 	}
 
 	// todo

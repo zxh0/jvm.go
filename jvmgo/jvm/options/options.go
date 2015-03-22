@@ -6,7 +6,7 @@ import (
 )
 
 // todo
-const JavaHome = "./jre/"
+const _JavaHome = "./jre/"
 
 var (
 	AbsJavaHome     string
@@ -15,7 +15,7 @@ var (
 )
 
 func init() {
-	if absJavaHome, err := filepath.Abs(JavaHome); err == nil {
+	if absJavaHome, err := filepath.Abs(_JavaHome); err == nil {
 		AbsJavaHome = absJavaHome
 	} else {
 		panic(err)

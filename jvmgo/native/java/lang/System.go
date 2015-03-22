@@ -95,11 +95,10 @@ func initProperties(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	stack.PushRef(props)
 
-	cp := frame.ClassLoader().ClassPath().String()
 	// public synchronized Object setProperty(String key, String value)
 	setPropMethod := props.Class().GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
 	thread := frame.Thread()
-	for key, val := range _sysProps(cp) {
+	for key, val := range _sysProps() {
 		jKey := rtda.NewJString(key)
 		jVal := rtda.NewJString(val)
 		args := []Any{props, jKey, jVal}
@@ -107,15 +106,14 @@ func initProperties(frame *rtda.Frame) {
 	}
 }
 
-func _sysProps(classPath string) map[string]string {
-	javaHome := options.JavaHome // todo
+func _sysProps() map[string]string {
 	return map[string]string{
 		"java.version":        "1.8.0",
 		"java.vendor":         "jvm.go",
 		"java.vendor.url":     "https://github.com/zxh0/jvm.go",
-		"java.home":           javaHome,
+		"java.home":           options.AbsJavaHome,
 		"java.class.version":  "52.0",
-		"java.class.path":     classPath,
+		"java.class.path":     rtc.BootLoader().ClassPath().String(),
 		"os.name":             "",   // todo
 		"os.arch":             "",   // todo
 		"os.version":          "",   // todo

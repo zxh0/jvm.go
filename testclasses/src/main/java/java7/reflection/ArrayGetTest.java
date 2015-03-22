@@ -1,16 +1,14 @@
 package java7.reflection;
 
 import java.lang.reflect.Array;
-
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
-public class ArrayTest {
+public class ArrayGetTest {
 
     public static void main(String[] args) {
-        UnitTestRunner.run(ArrayTest.class);
+        UnitTestRunner.run(ArrayGetTest.class);
     }
 
     @Test
@@ -57,22 +55,6 @@ public class ArrayTest {
         int[] arr = {1, 2, 3};
         Object two = Array.get(arr, 1);
         assertEquals(2, two);
-    }
-
-    @Test
-    public void setObjectArray() {
-        String[] arr = {"beyond"};
-        Array.set(arr, 0, "5457");
-        assertEquals("5457", Array.get(arr, 0));
-    }
-
-    @Test
-    public void setPrimitiveArray() {
-        int[] arr = {5, 4, 5, 7};
-        Array.set(arr, 0, 0);
-        assertEquals(0, Array.get(arr, 0));
-
-        //Array.set(arr, 0, "beyond");
     }
 
 }

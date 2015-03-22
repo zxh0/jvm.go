@@ -29,13 +29,6 @@ func newCompoundClassPathEntry(pathList string) *CompoundClassPathEntry {
 }
 
 func (self *CompoundClassPathEntry) addEntry(entry ClassPathEntry) {
-	_len := len(self.entries)
-	if _len == cap(self.entries) {
-		newEntries := make([]ClassPathEntry, _len, _len+8)
-		copy(newEntries, self.entries)
-		self.entries = newEntries
-	}
-
 	self.entries = append(self.entries, entry)
 }
 

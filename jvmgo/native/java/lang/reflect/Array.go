@@ -108,24 +108,27 @@ func set(frame *rtda.Frame) {
 	//value.Class().Name()
 
 	// primitive array
+	primitiveDescriptorStr := arr.Class().Name()[1:]
+	unboxed := box.Unbox(value, primitiveDescriptorStr)
+
 	primitiveDescriptor := arr.Class().Name()[1]
 	switch primitiveDescriptor {
 	case 'Z':
-		arr.Booleans()[index] = value.Fields().([]Any)[0].(int8)
+		arr.Booleans()[index] = int8(unboxed.(int32))
 	case 'B':
-		arr.Bytes()[index] = value.Fields().([]Any)[0].(int8)
+		arr.Bytes()[index] = unboxed.(int8)
 	case 'C':
-		arr.Chars()[index] = value.Fields().([]Any)[0].(uint16)
+		arr.Chars()[index] = unboxed.(uint16)
 	case 'S':
-		arr.Shorts()[index] = value.Fields().([]Any)[0].(int16)
+		arr.Shorts()[index] = unboxed.(int16)
 	case 'I':
-		arr.Ints()[index] = value.Fields().([]Any)[0].(int32)
+		arr.Ints()[index] = unboxed.(int32)
 	case 'J':
-		arr.Longs()[index] = value.Fields().([]Any)[0].(int64)
+		arr.Longs()[index] = unboxed.(int64)
 	case 'F':
-		arr.Floats()[index] = value.Fields().([]Any)[0].(float32)
+		arr.Floats()[index] = unboxed.(float32)
 	case 'D':
-		arr.Doubles()[index] = value.Fields().([]Any)[0].(float64)
+		arr.Doubles()[index] = unboxed.(float64)
 	}
 
 }

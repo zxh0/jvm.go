@@ -53,7 +53,7 @@ public class ArraySetTest {
 
     @Test
     public void setPrimitiveArray() {
-//        Array.set(new boolean[]{true}, 0, false);
+        Array.set(new boolean[]{true}, 0, false);
 //        Array.set(new byte[]{2},       0, (byte)3);
 //        Array.set(new char[]{'a'},     0, 'b');
 //        Array.set(new short[]{2},      0, (short)3);

@@ -88,6 +88,12 @@ func set(frame *rtda.Frame) {
 		frame.Thread().ThrowIllegalArgumentException("Argument is not an array")
 		return
 	}
+	// if arr.Class().ComponentClass() != value.Class() {
+	// 	println(arr.Class().ComponentClass().String())
+	// 	println(value.Class().String())
+	// 	frame.Thread().ThrowIllegalArgumentException("argument type mismatch")
+	// 	return
+	// }
 	if index < 0 || index >= rtc.ArrayLength(arr) {
 		frame.Thread().ThrowArrayIndexOutOfBoundsExceptionNoMsg()
 		return

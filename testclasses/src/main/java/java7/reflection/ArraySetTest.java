@@ -33,6 +33,17 @@ public class ArraySetTest {
         }
     }
     
+    //@Test
+    public void setArrayTypeMismatch() {
+        try {
+            int[] arr = {1, 2, 3};
+            Array.set(arr, 1, 1L);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("argument type mismatch", e.getMessage());
+        }
+    }
+    
     @Test
     public void setArrayBadIndex() {
         try {

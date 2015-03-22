@@ -50,8 +50,8 @@ public class ArrayTest {
         assertEquals("c", Array.get(arr, 2));
     }
     
-    //@Test
-    public void get() {
+    @Test
+    public void getPrimitiveArray() {
         int[] arr = {1, 2, 3};
         Object two = Array.get(arr, 1);
         assertEquals(2, two);

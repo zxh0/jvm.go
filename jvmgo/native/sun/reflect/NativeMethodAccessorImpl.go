@@ -4,6 +4,7 @@ import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
 func init() {
@@ -24,7 +25,8 @@ func invoke0(frame *rtda.Frame) {
 	} else {
 		returnType := frame.LocalVars().Get(0).(*rtc.FieldType)
 		if returnType.IsBaseType() && !returnType.IsVoidType() {
-			_boxReturnValue(frame, returnType)
+			primitiveDescriptor := returnType.Descriptor()[0]
+			box.Box(frame, primitiveDescriptor) // todo
 		}
 	}
 }
@@ -65,40 +67,5 @@ func _invokeMethod(frame *rtda.Frame) {
 	frame.Thread().InvokeMethod(goMethod)
 	if returnType.IsVoidType() {
 		stack.PushNull()
-	}
-}
-
-func _boxReturnValue(frame *rtda.Frame, returnType *rtc.FieldType) {
-	switch returnType.Descriptor()[0] {
-	case 'Z':
-		_callValueOf(frame, "Z", "java/lang/Boolean")
-	case 'B':
-		_callValueOf(frame, "B", "java/lang/Byte")
-	case 'C':
-		_callValueOf(frame, "C", "java/lang/Character")
-	case 'S':
-		_callValueOf(frame, "S", "java/lang/Short")
-	case 'I':
-		_callValueOf(frame, "I", "java/lang/Integer")
-	case 'J':
-		_callValueOf(frame, "J", "java/lang/Long")
-	case 'F':
-		_callValueOf(frame, "F", "java/lang/Float")
-	case 'D':
-		_callValueOf(frame, "D", "java/lang/Double")
-	default:
-		panic("Not primitive type: " + returnType.Descriptor())
-	}
-}
-
-func _callValueOf(frame *rtda.Frame, primitiveDescriptor, wrapperClassName string) {
-	wrapperClass := frame.ClassLoader().LoadClass(wrapperClassName)
-	d := "(" + primitiveDescriptor + ")L" + wrapperClassName + ";"
-	valueOfMethod := wrapperClass.GetStaticMethod("valueOf", d)
-	frame.Thread().InvokeMethod(valueOfMethod)
-
-	// init wrapper class
-	if wrapperClass.InitializationNotStarted() {
-		frame.Thread().InitClass(wrapperClass)
 	}
 }

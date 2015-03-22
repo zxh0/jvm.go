@@ -13,7 +13,7 @@ type CompoundClassPathEntry struct {
 	entries []ClassPathEntry
 }
 
-func parseCompoundClassPathEntry(pathList string) *CompoundClassPathEntry {
+func newCompoundClassPathEntry(pathList string) *CompoundClassPathEntry {
 	compoundEntry := &CompoundClassPathEntry{}
 
 	for _, path := range strings.Split(pathList, _pathListSeparator) {

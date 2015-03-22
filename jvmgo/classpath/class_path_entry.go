@@ -22,5 +22,5 @@ func parseClassPathEntry(absPath string) ClassPathEntry {
 	if !strings.HasSuffix(absPath, "/") {
 		absPath = absPath + "/"
 	}
-	return &DirClassPathEntry{absPath}
+	return newDirClassPathEntry(absPath)
 }

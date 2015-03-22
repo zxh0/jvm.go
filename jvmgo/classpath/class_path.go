@@ -16,16 +16,16 @@ type ClassPath struct {
 	compoundEntry CompoundClassPathEntry
 }
 
-func Parse(cpOption string) *ClassPath {
-	if cpOption == "" {
-		cpOption = "."
+func Parse(pathList string) *ClassPath {
+	if pathList == "" {
+		pathList = "."
 	}
 
 	return &ClassPath{
 		CompoundClassPathEntry{
 			[]ClassPathEntry{
-				parseCompoundClassPathEntry(filepath.Join(absBootPath, "*")), // jre/lib/*
-				parseCompoundClassPathEntry(cpOption),
+				newCompoundClassPathEntry(filepath.Join(absBootPath, "*")), // jre/lib/*
+				newCompoundClassPathEntry(pathList),
 			},
 		},
 	}

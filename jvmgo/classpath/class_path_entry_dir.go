@@ -1,9 +1,15 @@
 package classpath
 
-import "io/ioutil"
+import (
+	"io/ioutil"
+)
 
 type DirClassPathEntry struct {
 	dir string
+}
+
+func newDirClassPathEntry(dir string) *DirClassPathEntry {
+	return &DirClassPathEntry{dir}
 }
 
 func (self *DirClassPathEntry) readClassData(className string) (ClassPathEntry, []byte, error) {

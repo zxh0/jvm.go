@@ -28,6 +28,17 @@ func newCompoundClassPathEntry(pathList string) *CompoundClassPathEntry {
 	return compoundEntry
 }
 
+func (self *CompoundClassPathEntry) addEntry(entry ClassPathEntry) {
+	_len := len(self.entries)
+	if _len == cap(self.entries) {
+		newEntries := make([]ClassPathEntry, _len, _len+8)
+		copy(newEntries, self.entries)
+		self.entries = newEntries
+	}
+
+	self.entries = append(self.entries, entry)
+}
+
 func (self *CompoundClassPathEntry) readClassData(className string) (ClassPathEntry, []byte, error) {
 	for _, entry := range self.entries {
 		entry, data, err := entry.readClassData(className)
@@ -38,17 +49,6 @@ func (self *CompoundClassPathEntry) readClassData(className string) (ClassPathEn
 
 	// todo
 	return nil, nil, classNotFoundErr
-}
-
-func (self *CompoundClassPathEntry) addEntry(entry ClassPathEntry) {
-	_len := len(self.entries)
-	if _len == cap(self.entries) {
-		newEntries := make([]ClassPathEntry, _len, _len+8)
-		copy(newEntries, self.entries)
-		self.entries = newEntries
-	}
-
-	self.entries = append(self.entries, entry)
 }
 
 func (self *CompoundClassPathEntry) String() string {

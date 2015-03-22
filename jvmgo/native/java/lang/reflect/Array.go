@@ -116,11 +116,11 @@ func set(frame *rtda.Frame) {
 	case 'Z':
 		arr.Booleans()[index] = int8(unboxed.(int32))
 	case 'B':
-		arr.Bytes()[index] = unboxed.(int8)
+		arr.Bytes()[index] = int8(unboxed.(int32))
 	case 'C':
-		arr.Chars()[index] = unboxed.(uint16)
+		arr.Chars()[index] = uint16(unboxed.(int32))
 	case 'S':
-		arr.Shorts()[index] = unboxed.(int16)
+		arr.Shorts()[index] = int16(unboxed.(int32))
 	case 'I':
 		arr.Ints()[index] = unboxed.(int32)
 	case 'J':
@@ -130,7 +130,6 @@ func set(frame *rtda.Frame) {
 	case 'D':
 		arr.Doubles()[index] = unboxed.(float64)
 	}
-
 }
 
 // public static native int getLength(Object array) throws IllegalArgumentException;

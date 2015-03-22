@@ -43,26 +43,26 @@ func (self *Field) PutStaticValue(val Any) {
 
 func (self *Field) defaultValue() Any {
 	switch self.descriptor[0] {
-	case 'Z':
-		return int32(0) // boolean
-	case 'B':
-		return int32(0) // byte
-	case 'S':
-		return int32(0) // short
-	case 'C':
-		return int32(0) // char
-	case 'I':
-		return int32(0) // int
-	case 'J':
-		return int64(0) // long
-	case 'F':
-		return float32(0) // float
-	case 'D':
-		return float64(0) // double
-	case 'L':
-		return nil // Object
-	case '[':
-		return nil // Array
+	case 'Z': // boolean
+		return int32(0)
+	case 'B': // byte
+		return int32(0)
+	case 'S': // short
+		return int32(0)
+	case 'C': // char
+		return int32(0)
+	case 'I': // int
+		return int32(0)
+	case 'J': // long
+		return int64(0)
+	case 'F': // float
+		return float32(0)
+	case 'D': // double
+		return float64(0)
+	case 'L': // Object
+		return nil
+	case '[': // Array
+		return nil
 	default:
 		panic("BAD field descriptor: " + self.descriptor)
 	}

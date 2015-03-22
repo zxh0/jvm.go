@@ -3,6 +3,7 @@ package reflect
 import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
 func getGoMethod(methodObj *rtc.Obj) *rtc.Method {
@@ -46,7 +47,7 @@ func convertArgs(this, argArr *rtc.Obj, method *rtc.Method) []Any {
 
 		if argType.IsBaseType() {
 			// todo
-			unboxed := unbox(argObj, argType.Descriptor())
+			unboxed := box.Unbox(argObj, argType.Descriptor())
 			args[i+1] = unboxed
 		} else {
 			args[i+1] = argObj
@@ -58,9 +59,4 @@ func convertArgs(this, argArr *rtc.Obj, method *rtc.Method) []Any {
 	} else {
 		return args
 	}
-}
-
-func unbox(obj *rtc.Obj, descriptor string) Any {
-	// todo
-	return obj.GetFieldValue("value", descriptor)
 }

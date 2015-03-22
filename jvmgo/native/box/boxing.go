@@ -1,10 +1,15 @@
 package box
 
 import (
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"github.com/zxh0/jvm.go/jvmgo/util"
 )
+
+func Unbox(obj *rtc.Obj, primitiveDescriptor string) Any {
+	return obj.GetFieldValue("value", primitiveDescriptor)
+}
 
 // boxing primitive types
 // primitive value must be on the top of operand stack

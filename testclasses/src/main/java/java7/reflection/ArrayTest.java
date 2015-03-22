@@ -1,16 +1,18 @@
 package java7.reflection;
 
 import java.lang.reflect.Array;
+
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class ArrayTest {
-    
+
     public static void main(String[] args) {
         UnitTestRunner.run(ArrayTest.class);
     }
-    
+
     @Test
     public void getNullArray() {
         try {
@@ -21,7 +23,7 @@ public class ArrayTest {
             assertNull(e.getMessage());
         }
     }
-    
+
     @Test
     public void getNonArray() {
         try {
@@ -32,7 +34,7 @@ public class ArrayTest {
             assertEquals("Argument is not an array", e.getMessage());
         }
     }
-    
+
     @Test
     public void getArrayBadIndex() {
         try {
@@ -43,7 +45,7 @@ public class ArrayTest {
             assertEquals(null, e.getMessage());
         }
     }
-    
+
     @Test
     public void getObjectArray() {
         String[] arr = {"a", "b", "c"};
@@ -56,5 +58,21 @@ public class ArrayTest {
         Object two = Array.get(arr, 1);
         assertEquals(2, two);
     }
-    
+
+    @Test
+    public void setObjectArray() {
+        String[] arr = {"beyond"};
+        Array.set(arr, 0, "5457");
+        assertEquals("5457", Array.get(arr, 0));
+    }
+
+    @Test
+    public void setPrimitiveArray() {
+        int[] arr = {5, 4, 5, 7};
+        Array.set(arr, 0, 0);
+        assertEquals(0, Array.get(arr, 0));
+
+        //Array.set(arr, 0, "beyond");
+    }
+
 }

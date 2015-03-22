@@ -4,12 +4,14 @@ import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
 func init() {
 	_array(get, "get", "(Ljava/lang/Object;I)Ljava/lang/Object;")
 	_array(getLength, "getLength", "(Ljava/lang/Object;)I")
 	_array(newArray, "newArray", "(Ljava/lang/Class;I)Ljava/lang/Object;")
+	_array(set, "set", "(Ljava/lang/Object;ILjava/lang/Object;)V")
 }
 
 func _array(method Any, name, desc string) {
@@ -43,8 +45,89 @@ func get(frame *rtda.Frame) {
 		return
 	}
 
-	// todo
-	panic("get!!!")
+	// primitive array
+	stack := frame.OperandStack()
+	primitiveDescriptor := arr.Class().Name()[1]
+	switch primitiveDescriptor {
+	case 'Z':
+		stack.PushBoolean(arr.Booleans()[index] == 1)
+	case 'B':
+		stack.PushInt(int32(arr.Bytes()[index]))
+	case 'C':
+		stack.PushInt(int32(arr.Chars()[index]))
+	case 'S':
+		stack.PushInt(int32(arr.Shorts()[index]))
+	case 'I':
+		stack.PushInt(arr.Ints()[index])
+	case 'J':
+		stack.PushLong(arr.Longs()[index])
+	case 'F':
+		stack.PushFloat(arr.Floats()[index])
+	case 'D':
+		stack.PushDouble(arr.Doubles()[index])
+	}
+
+	// boxing
+	box.Box(frame, primitiveDescriptor)
+}
+
+// public static native void set(Object array, int index, Object value)
+//        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
+// (Ljava/lang/Object;ILjava/lang/Object;)V
+func set(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	arr := vars.GetRef(0)
+	index := vars.GetInt(1)
+	value := vars.GetRef(2)
+
+	if arr == nil {
+		frame.Thread().ThrowNPE()
+		return
+	}
+	if !arr.IsArray() {
+		frame.Thread().ThrowIllegalArgumentException("Argument is not an array")
+		return
+	}
+	if index < 0 || index >= rtc.ArrayLength(arr) {
+		frame.Thread().ThrowArrayIndexOutOfBoundsExceptionNoMsg()
+		return
+	}
+
+	if !arr.IsPrimitiveArray() {
+		arr.Refs()[index] = value
+		return
+	}
+
+	//TODO Consistent with the current need to determine whether the type and source type
+	// Such as:
+	// [I
+	// java/lang/Integer
+	// frame.Thread().ThrowIllegalArgumentException("argument type mismatch")
+
+	//arr.Class().Name()
+	//value.Class().Name()
+
+	// primitive array
+	primitiveDescriptor := arr.Class().Name()[1]
+	switch primitiveDescriptor {
+	case 'Z':
+		arr.Booleans()[index] = value.Fields().([]Any)[0].(int8)
+	case 'B':
+		arr.Bytes()[index] = value.Fields().([]Any)[0].(int8)
+	case 'C':
+		arr.Chars()[index] = value.Fields().([]Any)[0].(uint16)
+	case 'S':
+		arr.Shorts()[index] = value.Fields().([]Any)[0].(int16)
+	case 'I':
+		arr.Ints()[index] = value.Fields().([]Any)[0].(int32)
+	case 'J':
+		arr.Longs()[index] = value.Fields().([]Any)[0].(int64)
+	case 'F':
+		arr.Floats()[index] = value.Fields().([]Any)[0].(float32)
+	case 'D':
+		arr.Doubles()[index] = value.Fields().([]Any)[0].(float64)
+	}
+
 }
 
 // public static native int getLength(Object array) throws IllegalArgumentException;

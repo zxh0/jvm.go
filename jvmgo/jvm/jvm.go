@@ -2,6 +2,7 @@ package jvm
 
 import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
+	"github.com/zxh0/jvm.go/jvmgo/classpath"
 	"github.com/zxh0/jvm.go/jvmgo/cmdline"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/interpreter"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/keepalive"
@@ -25,7 +26,9 @@ func Startup(cmd *cmdline.Command) {
 	}
 
 	initOptions(cmd.Options())
-	rtc.InitBootLoader(cmd.Options().Classpath())
+
+	cp := classpath.ParseClassPath(cmd.Options().Classpath())
+	rtc.InitBootLoader(cp)
 
 	mainThread := createMainThread(cmd.Class(), cmd.Args())
 	interpreter.Loop(mainThread)

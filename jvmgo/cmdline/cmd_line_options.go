@@ -1,7 +1,6 @@
 package cmdline
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/classpath"
 	"strconv"
 	"strings"
 )
@@ -13,7 +12,7 @@ const (
 )
 
 type Options struct {
-	classpath    *classpath.ClassPath
+	classpath    string
 	verboseClass bool
 	xss          int
 	Xcpuprofile  string
@@ -27,10 +26,7 @@ func newOptions() *Options {
 }
 
 // getters
-func (self *Options) Classpath() *classpath.ClassPath {
-	if self.classpath == nil {
-		self.classpath = classpath.ParseClassPath(".")
-	}
+func (self *Options) Classpath() string {
 	return self.classpath
 }
 func (self *Options) VerboseClass() bool {
@@ -58,8 +54,7 @@ func parseOptions(args *CmdLineArgs) *Options {
 
 func (self *Options) parseClassPathOption(optionName string, args *CmdLineArgs) bool {
 	if optionName == "-classpath" || optionName == "-cp" {
-		optionVal := args.removeFirst()
-		self.classpath = classpath.ParseClassPath(optionVal)
+		self.classpath = args.removeFirst()
 		return true
 	}
 	return false

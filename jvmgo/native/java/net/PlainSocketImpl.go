@@ -8,6 +8,7 @@ import (
 
 func init() {
 	_psi(psi_initProto, "initProto", "()V")
+	_psi(psi_socketCreate, "socketCreate", "(Z)V")
 }
 
 func _psi(method Any, name, desc string) {
@@ -16,4 +17,8 @@ func _psi(method Any, name, desc string) {
 
 func psi_initProto(frame *rtda.Frame) {
 	//TODO
+}
+
+func psi_socketCreate(frame *rtda.Frame) {
+
 }

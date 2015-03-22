@@ -18,8 +18,9 @@ func init() {
 	_raf(raf_readBytes, "readBytes", "([BII)I")
 	_raf(raf_read0, "read0", "()I")
 	_raf(raf_seek0, "seek0", "(J)V")
-	//TODO
-	//_raf(raf_getFilePointer, "getFilePointer", "()J")
+	_raf(raf_getFilePointer, "getFilePointer", "()J")
+	_raf(raf_length, "length", "()J")
+	_raf(raf_setLength, "setLength", "(J)V")
 }
 
 func _raf(method Any, name, desc string) {
@@ -59,13 +60,11 @@ func raf_open(frame *rtda.Frame) {
 	}
 
 	goName := rtda.GoString(name)
-	goFile, err := os.OpenFile(goName, flag, 0660)
-	if err != nil {
+	if goFile, err := os.OpenFile(goName, flag, 0660); err != nil {
 		frame.Thread().ThrowFileNotFoundException(goName)
-		return
+	} else {
+		this.SetExtra(goFile)
 	}
-
-	this.SetExtra(goFile)
 }
 
 // private native void close0() throws IOException;
@@ -75,10 +74,8 @@ func raf_close0(frame *rtda.Frame) {
 	this := vars.GetThis()
 
 	goFile := this.Extra().(*os.File)
-	err := goFile.Close()
-	if err != nil {
-		//TODO
-		panic("IOException")
+	if err := goFile.Close(); err != nil {
+		frame.Thread().ThrowIOException(err.Error())
 	}
 }
 
@@ -109,10 +106,8 @@ func raf_write0(frame *rtda.Frame) {
 	goFile := this.Extra().(*os.File)
 	//b := make([]byte, 4)
 	//binary.BigEndian.PutUint32(b, uint32(intObj))
-	_, err := goFile.Write([]byte{byte(intObj)})
-
-	if err != nil {
-		panic("IOException!" + err.Error())
+	if _, err := goFile.Write([]byte{byte(intObj)}); err != nil {
+		frame.Thread().ThrowIOException(err.Error())
 	}
 }
 
@@ -133,8 +128,7 @@ func raf_readBytes(frame *rtda.Frame) {
 	if err == nil || n > 0 {
 		frame.OperandStack().PushInt(int32(n))
 	} else {
-		//TODO
-		panic("IOException!" + err.Error())
+		frame.Thread().ThrowIOException(err.Error())
 	}
 }
 
@@ -151,7 +145,7 @@ func raf_read0(frame *rtda.Frame) {
 	_, err := goFile.Read(b)
 
 	if err != nil {
-		panic("IOException!" + err.Error())
+		frame.Thread().ThrowIOException(err.Error())
 	}
 	//n := binary.BigEndian.Uint32(b)
 	//frame.OperandStack().PushInt(int32(n))
@@ -168,12 +162,79 @@ func raf_seek0(frame *rtda.Frame) {
 	goFile := this.Extra().(*os.File)
 
 	if pos < 0 {
-		//TODO
-		panic("IOException! Negative seek offset")
+		frame.Thread().ThrowIOException("Negative seek offset")
 	}
 
 	if _, err := goFile.Seek(pos, os.SEEK_SET); err != nil {
-		//TODO
-		panic("IOException!" + err.Error())
+		frame.Thread().ThrowIOException("Seek failed")
+	}
+}
+
+//  public native long getFilePointer() throws IOException;
+//  ()J
+func raf_getFilePointer(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+
+	goFile := this.Extra().(*os.File)
+
+	if pos, err := goFile.Seek(0, os.SEEK_CUR); err != nil {
+		frame.Thread().ThrowIOException("Seek failed")
+	} else {
+		frame.OperandStack().PushLong(pos)
+	}
+
+}
+
+// public native long length() throws IOException;
+// java/io/RandomAccessFile#length()J
+func raf_length(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+
+	goFile := this.Extra().(*os.File)
+
+	cur, err := goFile.Seek(0, os.SEEK_CUR)
+	if err != nil {
+		frame.Thread().ThrowIOException("Seek failed")
+	}
+
+	end, err := goFile.Seek(0, os.SEEK_END)
+	if err != nil {
+		frame.Thread().ThrowIOException("Seek failed")
+	}
+
+	if _, err := goFile.Seek(cur, os.SEEK_SET); err != nil {
+		frame.Thread().ThrowIOException("Seek failed")
+	}
+
+	frame.OperandStack().PushLong(end)
+}
+
+// public native void setLength(long newLength) throws IOException;
+// (J)V
+func raf_setLength(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	//length := vars.GetLong(1)
+
+	goFile := this.Extra().(*os.File)
+
+	cur, _ := goFile.Seek(0, os.SEEK_CUR)
+
+	//TODO
+	//How do set file length in Go ?
+	panic("native method not implement! RandomAccessFile.setLength")
+	var newLength int64
+	newLength = 0
+	if cur > newLength {
+		if _, err := goFile.Seek(0, os.SEEK_END); err != nil {
+			frame.Thread().ThrowIOException("setLength failed")
+		}
+
+	} else {
+		if _, err := goFile.Seek(cur, os.SEEK_SET); err != nil {
+			frame.Thread().ThrowIOException("setLength failed")
+		}
 	}
 }

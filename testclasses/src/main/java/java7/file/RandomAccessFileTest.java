@@ -27,7 +27,7 @@ import java.io.RandomAccessFile;
  * java/io/RandomAccessFile#close0()V
  */
 public class RandomAccessFileTest {
-    
+
     public static void main(String[] args) throws Exception {
         UnitTestRunner.run(RandomAccessFileTest.class);
     }
@@ -62,20 +62,36 @@ public class RandomAccessFileTest {
 
     @Test
     public void seekTest() throws Exception {
-        try (RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw")) {
-            //write data
-            randomAccessFile.writeBytes("hello");
-            randomAccessFile.writeInt(54);
-            randomAccessFile.writeBytes("world");
-            randomAccessFile.writeInt(-57);
-            randomAccessFile.seek(9);
-            byte data[] = new byte[5];
-            randomAccessFile.read(data);
-            String result = new String(data);
-            //long seek = randomAccessFile.getFilePointer();
-            //Assert.assertTrue(seek == 14);
-            Assert.assertTrue(result.equals("world"));
-        }
+        RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw");
+        //write data
+        randomAccessFile.writeBytes("hello");
+        randomAccessFile.writeInt(54);
+        randomAccessFile.writeBytes("world");
+        randomAccessFile.writeInt(-57);
+        randomAccessFile.seek(9);
+        byte data[] = new byte[5];
+        randomAccessFile.read(data);
+        String result = new String(data);
+        long seek = randomAccessFile.getFilePointer();
+        Assert.assertTrue(seek == 14);
+        Assert.assertTrue(result.equals("world"));
+        randomAccessFile.close();
     }
-    
+
+    @Test
+    public void lengthTest() throws Exception {
+        RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw");
+        //write data
+        randomAccessFile.writeBytes("hello");
+        randomAccessFile.writeInt(54);
+        randomAccessFile.writeBytes("world");
+        randomAccessFile.writeInt(-57);
+
+        //randomAccessFile.setLength(5457);
+        long length = randomAccessFile.length();
+        //Assert.assertTrue(length == 5457);
+        Assert.assertTrue(length == 18);
+        randomAccessFile.close();
+    }
+
 }

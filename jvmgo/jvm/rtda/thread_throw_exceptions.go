@@ -67,3 +67,7 @@ func (self *Thread) ThrowClassCastException(from, to *rtc.Class) {
 	msg := fmt.Sprintf("%v cannot be cast to %v", from.NameJlsFormat(), to.NameJlsFormat())
 	self.throwExceptionS("java/lang/ClassCastException", msg)
 }
+
+func (self *Thread) ThrowIOException(name string) {
+	self.throwExceptionS("java/lang/IOException", name)
+}

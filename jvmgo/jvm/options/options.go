@@ -1,6 +1,7 @@
 package options
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/cmdline"
 	"path/filepath"
 )
 
@@ -19,4 +20,9 @@ func init() {
 	} else {
 		panic(err)
 	}
+}
+
+func InitOptions(cmdOptions *cmdline.Options) {
+	VerboseClass = cmdOptions.VerboseClass()
+	ThreadStackSize = uint(cmdOptions.Xss())
 }

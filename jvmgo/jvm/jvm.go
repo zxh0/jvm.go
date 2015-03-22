@@ -25,7 +25,7 @@ func Startup(cmd *cmdline.Command) {
 		defer pprof.StopCPUProfile()
 	}
 
-	initOptions(cmd.Options())
+	options.InitOptions(cmd.Options())
 
 	cp := classpath.Parse(cmd.Options().Classpath())
 	rtc.InitBootLoader(cp)
@@ -33,11 +33,6 @@ func Startup(cmd *cmdline.Command) {
 	mainThread := createMainThread(cmd.Class(), cmd.Args())
 	interpreter.Loop(mainThread)
 	keepalive.KeepAlive()
-}
-
-func initOptions(cmdOptions *cmdline.Options) {
-	options.VerboseClass = cmdOptions.VerboseClass()
-	options.ThreadStackSize = uint(cmdOptions.Xss())
 }
 
 func createMainThread(className string, args []string) *rtda.Thread {

@@ -16,7 +16,11 @@ public class SocketTest {
 
     public static void main(String[] args) throws Exception {
         ServerSocket serverSocket = new ServerSocket(5457);
-        serverSocket.accept();
-
+        Socket socket = serverSocket.accept();
+//        String s = "Hi i'm beyond\r\n";
+//        socket.getOutputStream().write(s.getBytes());
+//        socket.close();
+//        System.out.println("success!");
+        //telnet 127.0.0.1 5457
     }
 }

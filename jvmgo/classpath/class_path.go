@@ -8,7 +8,6 @@ import (
 )
 
 var (
-	absBootPath      = filepath.Join(options.AbsJavaHome, "lib") // jre/lib
 	classNotFoundErr = errors.New("class not found!")
 )
 
@@ -21,10 +20,13 @@ func Parse(pathList string) *ClassPath {
 		pathList = "."
 	}
 
+	// jre/lib/*
+	jreLibPath := filepath.Join(options.AbsJavaHome, "lib", "*")
+
 	return &ClassPath{
 		CompoundClassPathEntry{
 			[]ClassPathEntry{
-				newCompoundClassPathEntry(filepath.Join(absBootPath, "*")), // jre/lib/*
+				newCompoundClassPathEntry(jreLibPath), // boot classpath
 				newCompoundClassPathEntry(pathList),
 			},
 		},
@@ -48,5 +50,5 @@ func IsBootClassPath(entry ClassPathEntry) bool {
 		return true
 	}
 
-	return strings.HasPrefix(entry.String(), absBootPath)
+	return strings.HasPrefix(entry.String(), options.AbsJreLib)
 }

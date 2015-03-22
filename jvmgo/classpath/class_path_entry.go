@@ -19,8 +19,5 @@ func parseClassPathEntry(absPath string) ClassPathEntry {
 		return newJarClassPathEntry(absPath)
 	}
 
-	if !strings.HasSuffix(absPath, "/") {
-		absPath = absPath + "/"
-	}
 	return newDirClassPathEntry(absPath)
 }

@@ -27,7 +27,7 @@ func Startup(cmd *cmdline.Command) {
 
 	initOptions(cmd.Options())
 
-	cp := classpath.ParseClassPath(cmd.Options().Classpath())
+	cp := classpath.Parse(cmd.Options().Classpath())
 	rtc.InitBootLoader(cp)
 
 	mainThread := createMainThread(cmd.Class(), cmd.Args())

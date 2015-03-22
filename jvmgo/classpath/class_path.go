@@ -16,7 +16,7 @@ type ClassPath struct {
 	compoundEntry CompoundClassPathEntry
 }
 
-func ParseClassPath(cpOption string) *ClassPath {
+func Parse(cpOption string) *ClassPath {
 	if cpOption == "" {
 		cpOption = "."
 	}

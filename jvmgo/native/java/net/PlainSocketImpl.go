@@ -14,6 +14,7 @@ func init() {
 	_psi(psi_socketBind, "socketBind", "(Ljava/net/InetAddress;I)V")
 	_psi(psi_socketListen, "socketListen", "(I)V")
 	_psi(psi_socketAccept, "socketAccept", "(Ljava/net/SocketImpl;)V")
+	_psi(psi_socketClose0, "socketClose0", "(Z)V")
 }
 
 func _psi(method Any, name, desc string) {
@@ -60,13 +61,30 @@ func psi_socketListen(frame *rtda.Frame) {
 func psi_socketAccept(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
+	s := vars.GetRef(1)
+
+	fdObj := s.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Obj)
+	//goFd := fdObj.GetFieldValue("fd", "I").(int32)
+	///fmt.Printf("fd:%d\r\n", goFd)
 	listen := this.Extra().(net.Listener)
 	if conn, err := listen.Accept(); err != nil {
 		panic(err.Error())
 	} else {
-		conn.Write([]byte("Beyond\r\n"))
+		fdObj.SetExtra(conn)
+		//fmt.Println("set connection!!!!")
+		//conn.Write([]byte("Beyond\r\n"))
 	}
 }
 
 // native void socketConnect(InetAddress address, int port, int timeout)
 //        throws IOException;
+
+// java/net/PlainSocketImpl~socketClose0~(Z)V
+func psi_socketClose0(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Obj)
+	//goFd := fdObj.GetFieldValue("fd", "I").(int32)
+	conn := fdObj.Extra().(net.Conn)
+	conn.Close()
+}

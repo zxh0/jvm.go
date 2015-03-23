@@ -1,6 +1,7 @@
 package class
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/jtype"
 	"github.com/zxh0/jvm.go/jvmgo/util"
 	"strings"
 )
@@ -17,10 +18,11 @@ func getArrayClassName(className string) string {
 		// array
 		return "[" + className
 	}
-	descriptor, isPrimitive := primitiveTypes[className]
-	if isPrimitive {
-		// primitive
-		return "[" + descriptor
+	for _, primitiveType := range jtype.PrimitiveTypes {
+		if primitiveType.Name == className {
+			// primitive
+			return primitiveType.ArrayClassName
+		}
 	}
 	// object
 	return "[L" + className + ";"
@@ -53,7 +55,7 @@ func getClassName(descriptor string) string {
 	case 'L':
 		return descriptor[1 : len(descriptor)-1] // object
 	default:
-		return getPrimitiveType(descriptor) // primirive types
+		return jtype.GetPrimitiveType(descriptor) // primirive types
 	}
 }
 

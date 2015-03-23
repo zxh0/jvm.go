@@ -1,8 +1,11 @@
 package class
 
+import (
+	"github.com/zxh0/jvm.go/jvmgo/jtype"
+)
+
 func (self *Class) IsPrimitive() bool {
-	// todo
-	return isPrimitiveType(self.name)
+	return jtype.IsPrimitiveType(self.name)
 }
 
 func (self *Class) GetFields(publicOnly bool) []*Field {

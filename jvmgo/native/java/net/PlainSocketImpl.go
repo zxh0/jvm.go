@@ -15,6 +15,7 @@ func init() {
 	_psi(psi_socketListen, "socketListen", "(I)V")
 	_psi(psi_socketAccept, "socketAccept", "(Ljava/net/SocketImpl;)V")
 	_psi(psi_socketClose0, "socketClose0", "(Z)V")
+	_psi(psi_socketAvailable, "socketAvailable", "()I")
 }
 
 func _psi(method Any, name, desc string) {
@@ -78,7 +79,6 @@ func psi_socketAccept(frame *rtda.Frame) {
 
 // native void socketConnect(InetAddress address, int port, int timeout)
 //        throws IOException;
-
 // java/net/PlainSocketImpl~socketClose0~(Z)V
 func psi_socketClose0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
@@ -87,4 +87,19 @@ func psi_socketClose0(frame *rtda.Frame) {
 	//goFd := fdObj.GetFieldValue("fd", "I").(int32)
 	conn := fdObj.Extra().(net.Conn)
 	conn.Close()
+}
+
+// native int socketAvailable() throws IOException;
+// ()I
+func psi_socketAvailable(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Obj)
+	conn := fdObj.Extra().(net.Conn)
+	if r := conn.RemoteAddr(); r != nil {
+		frame.OperandStack().PushBoolean(true)
+	} else {
+		frame.OperandStack().PushBoolean(false)
+	}
+
 }

@@ -7,7 +7,7 @@ import java.net.Socket;
 /**
  * Created with IntelliJ IDEA.
  * User: beyond
- * Email: yangbing@gozap.com
+ * Email: beyondblog@outlook.com
  * Date: 15/3/24
  * Time: 上午9:35
  * Description:

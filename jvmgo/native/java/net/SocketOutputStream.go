@@ -1,6 +1,7 @@
 package io
 
 import (
+	"fmt"
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
@@ -34,6 +35,7 @@ func sos_socketWrite0(frame *rtda.Frame) {
 	length := vars.GetInt(4)
 
 	conn := fd.Extra().(net.Conn)
+	fmt.Println("########################")
 
 	jBytes := b.Fields().([]int8)
 	jBytes = jBytes[offset : offset+length]

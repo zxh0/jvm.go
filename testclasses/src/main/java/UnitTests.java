@@ -16,6 +16,7 @@ import java7.thread.SleepTest;
 import java7.wrapper.DoubleTest;
 import java8.InterfaceMethodTest;
 import jls8.Eg12_4_1_1;
+import jls8.Eg12_4_1_2;
 import libs.junit.UnitTestRunner;
 
 public class UnitTests {
@@ -30,6 +31,7 @@ public class UnitTests {
             DaemonTest.class,
             DoubleTest.class,
             Eg12_4_1_1.class,
+            Eg12_4_1_2.class,
             FileIoTest.class,
             GetClassLoaderTest.class,
             InstructionExTest.class,

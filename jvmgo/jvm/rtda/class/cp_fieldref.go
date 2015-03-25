@@ -51,16 +51,15 @@ func (self *ConstantFieldref) resolveInstanceField() {
 
 func (self *ConstantFieldref) StaticField() *Field {
 	if self.field == nil {
-		self.resolveField(true)
+		self.resolveStaticField()
 	}
 	return self.field
 }
-
-func (self *ConstantFieldref) resolveField(isStatic bool) {
+func (self *ConstantFieldref) resolveStaticField() {
 	fromClass := bootLoader.LoadClass(self.className)
 
 	for class := fromClass; class != nil; class = class.superClass {
-		field := class.getField(self.name, self.descriptor, isStatic)
+		field := class.getField(self.name, self.descriptor, true)
 		if field != nil {
 			self.field = field
 			return
@@ -68,5 +67,5 @@ func (self *ConstantFieldref) resolveField(isStatic bool) {
 	}
 
 	// todo
-	util.Panicf("field not found! %v", self)
+	util.Panicf("static field not found! %v", self)
 }

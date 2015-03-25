@@ -34,9 +34,9 @@ func getArrayClassName(className string) string {
 // [LXXX; -> XXX
 // [I -> int
 func getComponentClassName(className string) string {
-	if className[0] != '[' {
-		panic("Not array: " + className)
+	if className[0] == '[' {
+		descriptor := className[1:]
+		return getClassName(descriptor)
 	}
-	descriptor := className[1:]
-	return getClassName(descriptor)
+	panic("Not array: " + className)
 }

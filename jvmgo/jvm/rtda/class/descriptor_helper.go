@@ -21,12 +21,12 @@ func calcArgSlotCount(descriptor string) uint {
 // I -> int ...
 func getClassName(descriptor string) string {
 	switch descriptor[0] {
-	case '[':
-		return descriptor // array
-	case 'L':
-		return descriptor[1 : len(descriptor)-1] // object
-	default:
-		return jtype.GetPrimitiveType(descriptor) // primirive types
+	case '[': // array
+		return descriptor
+	case 'L': // object
+		return descriptor[1 : len(descriptor)-1]
+	default: // primirive
+		return jtype.GetPrimitiveType(descriptor)
 	}
 }
 

@@ -30,9 +30,23 @@ func (self *ConstantFieldref) String() string {
 
 func (self *ConstantFieldref) InstanceField() *Field {
 	if self.field == nil {
-		self.resolveField(false)
+		self.resolveInstanceField()
 	}
 	return self.field
+}
+func (self *ConstantFieldref) resolveInstanceField() {
+	fromClass := bootLoader.LoadClass(self.className)
+
+	for class := fromClass; class != nil; class = class.superClass {
+		field := class.getField(self.name, self.descriptor, false)
+		if field != nil {
+			self.field = field
+			return
+		}
+	}
+
+	// todo
+	util.Panicf("instance field not found! %v", self)
 }
 
 func (self *ConstantFieldref) StaticField() *Field {

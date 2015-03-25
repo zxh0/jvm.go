@@ -7,8 +7,9 @@ import (
 
 type Field struct {
 	ClassMember
-	slot  uint
-	_type *Class
+	IsLongOrDouble bool
+	slot           uint
+	_type          *Class
 }
 
 func newField(class *Class, fieldInfo *cf.FieldInfo) *Field {
@@ -18,6 +19,7 @@ func newField(class *Class, fieldInfo *cf.FieldInfo) *Field {
 	field.name = fieldInfo.Name()
 	field.descriptor = fieldInfo.Descriptor()
 	field.signature = fieldInfo.Signature()
+	field.IsLongOrDouble = (field.descriptor == "J" || field.descriptor == "D")
 	return field
 }
 

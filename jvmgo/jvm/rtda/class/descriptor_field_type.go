@@ -32,3 +32,7 @@ func (self *FieldType) IsObjectType() bool {
 func (self *FieldType) IsArrayType() bool {
 	return self.descriptor[0] == '['
 }
+func (self *FieldType) IsLongOrDouble() bool {
+	return self.descriptor == "J" ||
+		self.descriptor == "D"
+}

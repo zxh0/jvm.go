@@ -25,6 +25,6 @@ func (self *putstatic) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	val := frame.OperandStack().Pop()
+	val := frame.OperandStack().PopField(self.field.IsLongOrDouble)
 	self.field.PutStaticValue(val)
 }

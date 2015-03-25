@@ -29,34 +29,37 @@ func _getGoMethod(methodObj *rtc.Obj, isConstructor bool) *rtc.Method {
 
 // Object[] -> []Any
 func convertArgs(this, argArr *rtc.Obj, method *rtc.Method) []Any {
-	if method.ArgCount() == 0 {
-		if method.IsStatic() {
-			return nil
-		} else {
-			return []Any{this}
-		}
+	if method.ArgSlotCount() == 0 {
+		return nil
+	}
+	if method.ArgSlotCount() == 1 && !method.IsStatic() {
+		return []Any{this}
 	}
 
 	argObjs := argArr.Refs()
 	argTypes := method.ParsedDescriptor().ParameterTypes()
 
-	args := make([]Any, len(argObjs)+1)
-	args[0] = this
+	args := make([]Any, method.ArgSlotCount())
+	j := 0
+	if !method.IsStatic() {
+		args[0] = this
+		j = 1
+	}
+
 	for i, argType := range argTypes {
 		argObj := argObjs[i]
 
 		if argType.IsBaseType() {
 			// todo
 			unboxed := box.Unbox(argObj, argType.Descriptor())
-			args[i+1] = unboxed
+			args[i+j] = unboxed
+			if argType.IsLongOrDouble() {
+				j++
+			}
 		} else {
-			args[i+1] = argObj
+			args[i+j] = argObj
 		}
 	}
 
-	if method.IsStatic() {
-		return args[1:] // no this
-	} else {
-		return args
-	}
+	return args
 }

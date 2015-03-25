@@ -1,14 +1,14 @@
 package class
 
 func (self *Method) ParameterTypes() []*Class {
-	if self.argCount == 0 {
+	if self.argSlotCount == 0 {
 		return nil
 	}
 
-	paramClasses := make([]*Class, self.argCount)
-	for i, paramType := range self.md.parameterTypes {
+	paramClasses := make([]*Class, 0, self.argSlotCount)
+	for _, paramType := range self.md.parameterTypes {
 		paramClassName := getClassName(paramType.descriptor)
-		paramClasses[i] = bootLoader.LoadClass(paramClassName)
+		paramClasses = append(paramClasses, bootLoader.LoadClass(paramClassName))
 	}
 
 	return paramClasses

@@ -6,8 +6,15 @@ import (
 	"strings"
 )
 
-func calcArgCount(descriptor string) uint {
-	return parseMethodDescriptor(descriptor).argCount()
+func calcArgSlotCount(descriptor string) uint {
+	md := parseMethodDescriptor(descriptor)
+	slotCount := md.argCount()
+	for _, paramType := range md.ParameterTypes() {
+		if paramType.IsLongOrDouble() {
+			slotCount++
+		}
+	}
+	return slotCount
 }
 
 // [XXX -> [[XXX

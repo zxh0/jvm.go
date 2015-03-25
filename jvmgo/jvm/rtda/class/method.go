@@ -22,7 +22,7 @@ type Method struct {
 	ExceptionTable
 	maxStack                uint
 	maxLocals               uint
-	argCount                uint
+	argSlotCount            uint
 	md                      *MethodDescriptor
 	code                    []byte
 	parameterAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
@@ -40,9 +40,15 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) *Method {
 	method.name = methodInfo.Name()
 	method.descriptor = methodInfo.Descriptor()
 	method.md = parseMethodDescriptor(method.descriptor)
-	method.argCount = method.md.argCount()
+	method.calcArgSlotCount()
 	method.copyAttributes(methodInfo)
 	return method
+}
+func (self *Method) calcArgSlotCount() {
+	self.argSlotCount = calcArgSlotCount(self.descriptor)
+	if !self.IsStatic() {
+		self.argSlotCount++
+	}
 }
 func (self *Method) copyAttributes(methodInfo *cf.MethodInfo) {
 	if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
@@ -79,8 +85,8 @@ func (self *Method) MaxStack() uint {
 func (self *Method) MaxLocals() uint {
 	return self.maxLocals
 }
-func (self *Method) ArgCount() uint {
-	return self.argCount
+func (self *Method) ArgSlotCount() uint {
+	return self.argSlotCount
 }
 func (self *Method) Code() []byte {
 	return self.code
@@ -104,16 +110,6 @@ func (self *Method) NativeMethod() Any {
 		self.nativeMethod = findNativeMethod(self)
 	}
 	return self.nativeMethod
-}
-
-// argCount for static method
-// argCount+1 for instance method
-func (self *Method) ActualArgCount() uint {
-	if self.IsStatic() {
-		return self.argCount
-	} else {
-		return self.argCount + 1
-	}
 }
 
 func (self *Method) IsVoidReturnType() bool {

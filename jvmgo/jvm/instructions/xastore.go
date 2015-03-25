@@ -1,7 +1,6 @@
 package instructions
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -10,15 +9,13 @@ import (
 type aastore struct{ NoOperandsInstruction }
 
 func (self *aastore) Execute(frame *rtda.Frame) {
-	arrRef, index, val, ok := _astorePop(frame)
-	if ok {
-		refArr := arrRef.Fields().([]*rtc.Obj)
-		if val == nil {
-			refArr[index] = nil
-		} else {
-			ref := val.(*rtc.Obj)
-			refArr[index] = ref
-		}
+	stack := frame.OperandStack()
+	ref := stack.PopRef()
+	index := stack.PopInt()
+	arrRef := stack.PopRef()
+
+	if _checkArrayAndIndex(frame, arrRef, index) {
+		arrRef.Refs()[index] = ref
 	}
 }
 
@@ -26,10 +23,13 @@ func (self *aastore) Execute(frame *rtda.Frame) {
 type bastore struct{ NoOperandsInstruction }
 
 func (self *bastore) Execute(frame *rtda.Frame) {
-	arrRef, index, val, ok := _astorePop(frame)
-	if ok {
-		byteArr := arrRef.Fields().([]int8)
-		byteArr[index] = int8(val.(int32))
+	stack := frame.OperandStack()
+	val := stack.PopInt()
+	index := stack.PopInt()
+	arrRef := stack.PopRef()
+
+	if _checkArrayAndIndex(frame, arrRef, index) {
+		arrRef.Bytes()[index] = int8(val)
 	}
 }
 
@@ -37,10 +37,13 @@ func (self *bastore) Execute(frame *rtda.Frame) {
 type castore struct{ NoOperandsInstruction }
 
 func (self *castore) Execute(frame *rtda.Frame) {
-	arrRef, index, val, ok := _astorePop(frame)
-	if ok {
-		charArr := arrRef.Fields().([]uint16)
-		charArr[index] = uint16(val.(int32))
+	stack := frame.OperandStack()
+	val := stack.PopInt()
+	index := stack.PopInt()
+	arrRef := stack.PopRef()
+
+	if _checkArrayAndIndex(frame, arrRef, index) {
+		arrRef.Chars()[index] = uint16(val)
 	}
 }
 
@@ -48,10 +51,13 @@ func (self *castore) Execute(frame *rtda.Frame) {
 type dastore struct{ NoOperandsInstruction }
 
 func (self *dastore) Execute(frame *rtda.Frame) {
-	arrRef, index, val, ok := _astorePop(frame)
-	if ok {
-		doubleArr := arrRef.Fields().([]float64)
-		doubleArr[index] = val.(float64)
+	stack := frame.OperandStack()
+	val := stack.PopDouble()
+	index := stack.PopInt()
+	arrRef := stack.PopRef()
+
+	if _checkArrayAndIndex(frame, arrRef, index) {
+		arrRef.Doubles()[index] = val
 	}
 }
 
@@ -59,10 +65,13 @@ func (self *dastore) Execute(frame *rtda.Frame) {
 type fastore struct{ NoOperandsInstruction }
 
 func (self *fastore) Execute(frame *rtda.Frame) {
-	arrRef, index, val, ok := _astorePop(frame)
-	if ok {
-		floatArr := arrRef.Fields().([]float32)
-		floatArr[index] = val.(float32)
+	stack := frame.OperandStack()
+	val := stack.PopFloat()
+	index := stack.PopInt()
+	arrRef := stack.PopRef()
+
+	if _checkArrayAndIndex(frame, arrRef, index) {
+		arrRef.Floats()[index] = val
 	}
 }
 
@@ -70,10 +79,13 @@ func (self *fastore) Execute(frame *rtda.Frame) {
 type iastore struct{ NoOperandsInstruction }
 
 func (self *iastore) Execute(frame *rtda.Frame) {
-	arrRef, index, val, ok := _astorePop(frame)
-	if ok {
-		intArr := arrRef.Fields().([]int32)
-		intArr[index] = val.(int32)
+	stack := frame.OperandStack()
+	val := stack.PopInt()
+	index := stack.PopInt()
+	arrRef := stack.PopRef()
+
+	if _checkArrayAndIndex(frame, arrRef, index) {
+		arrRef.Ints()[index] = val
 	}
 }
 
@@ -81,10 +93,13 @@ func (self *iastore) Execute(frame *rtda.Frame) {
 type lastore struct{ NoOperandsInstruction }
 
 func (self *lastore) Execute(frame *rtda.Frame) {
-	arrRef, index, val, ok := _astorePop(frame)
-	if ok {
-		longArr := arrRef.Fields().([]int64)
-		longArr[index] = val.(int64)
+	stack := frame.OperandStack()
+	val := stack.PopLong()
+	index := stack.PopInt()
+	arrRef := stack.PopRef()
+
+	if _checkArrayAndIndex(frame, arrRef, index) {
+		arrRef.Longs()[index] = val
 	}
 }
 
@@ -92,27 +107,24 @@ func (self *lastore) Execute(frame *rtda.Frame) {
 type sastore struct{ NoOperandsInstruction }
 
 func (self *sastore) Execute(frame *rtda.Frame) {
-	arrRef, index, val, ok := _astorePop(frame)
-	if ok {
-		shortArr := arrRef.Fields().([]int16)
-		shortArr[index] = int16(val.(int32))
-	}
-}
-
-func _astorePop(frame *rtda.Frame) (*rtc.Obj, int, Any, bool) {
 	stack := frame.OperandStack()
-	val := stack.Pop()
+	val := stack.PopInt()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 
+	if _checkArrayAndIndex(frame, arrRef, index) {
+		arrRef.Shorts()[index] = int16(val)
+	}
+}
+
+func _checkArrayAndIndex(frame *rtda.Frame, arrRef *rtc.Obj, index int32) bool {
 	if arrRef == nil {
 		frame.Thread().ThrowNPE()
-		return nil, 0, nil, false
+		return false
 	}
 	if index < 0 || index >= rtc.ArrayLength(arrRef) {
 		frame.Thread().ThrowArrayIndexOutOfBoundsException(index)
-		return nil, 0, nil, false
+		return false
 	}
-
-	return arrRef, int(index), val, true
+	return true
 }

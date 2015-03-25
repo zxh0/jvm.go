@@ -98,9 +98,9 @@ func (self *Thread) InvokeMethod(method *rtc.Method) {
 	currentFrame := self.CurrentFrame()
 	newFrame := self.NewFrame(method)
 	self.PushFrame(newFrame)
-	actualArgCount := method.ActualArgCount()
-	if actualArgCount > 0 {
-		_passArgs(currentFrame.operandStack, newFrame.localVars, actualArgCount)
+	argSlotsCount := method.ArgSlotCount()
+	if argSlotsCount > 0 {
+		_passArgs(currentFrame.operandStack, newFrame.localVars, argSlotsCount)
 	}
 
 	if method.IsSynchronized() {
@@ -119,15 +119,12 @@ func (self *Thread) InvokeMethod(method *rtc.Method) {
 		})
 	}
 }
-func _passArgs(stack *OperandStack, vars *LocalVars, argCount uint) {
-	args := stack.PopTops(argCount)
-	for i, j := uint(0), uint(0); i < argCount; i++ {
+func _passArgs(stack *OperandStack, vars *LocalVars, argSlotsCount uint) {
+	args := stack.PopTops(argSlotsCount)
+	for i := uint(0); i < argSlotsCount; i++ {
 		arg := args[i]
 		args[i] = nil
-		vars.Set(i+j, arg)
-		if IsLongOrDouble(arg) {
-			j++
-		}
+		vars.Set(i, arg)
 	}
 }
 func (self *Thread) _logInvoke(stackSize uint, method *rtc.Method) {

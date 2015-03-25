@@ -26,5 +26,5 @@ func (self *getfield) Execute(frame *rtda.Frame) {
 	}
 
 	val := self.field.GetValue(ref)
-	stack.Push(val)
+	stack.PushField(val, self.field.IsLongOrDouble)
 }

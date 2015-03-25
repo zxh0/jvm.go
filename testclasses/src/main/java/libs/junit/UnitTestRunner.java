@@ -15,6 +15,7 @@ public class UnitTestRunner {
         if (!result.wasSuccessful()) {
             for (Failure f : result.getFailures()) {
                 System.out.println(f);
+                //f.getException().printStackTrace();
             }
         }
     }

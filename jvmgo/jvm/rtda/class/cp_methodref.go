@@ -5,30 +5,30 @@ import (
 )
 
 type ConstantMethodref struct {
-	isIface    bool
-	className  string
-	name       string
-	descriptor string
-	argCount   uint
-	cp         *ConstantPool
-	method     *Method
-	vslot      int
+	isIface      bool
+	className    string
+	name         string
+	descriptor   string
+	argSlotCount uint
+	cp           *ConstantPool
+	method       *Method
+	vslot        int
 }
 
 func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
 	return &ConstantMethodref{
-		isIface:    false,
-		className:  methodrefInfo.ClassName(),
-		name:       methodrefInfo.Name(),
-		descriptor: methodrefInfo.Descriptor(),
-		argCount:   calcArgCount(methodrefInfo.Descriptor()),
-		cp:         cp,
-		vslot:      -1,
+		isIface:      false,
+		className:    methodrefInfo.ClassName(),
+		name:         methodrefInfo.Name(),
+		descriptor:   methodrefInfo.Descriptor(),
+		argSlotCount: calcArgSlotCount(methodrefInfo.Descriptor()),
+		cp:           cp,
+		vslot:        -1,
 	}
 }
 
-func (self *ConstantMethodref) ArgCount() uint {
-	return self.argCount
+func (self *ConstantMethodref) ArgSlotCount() uint {
+	return self.argSlotCount
 }
 
 func (self *ConstantMethodref) StaticMethod() *Method {
@@ -126,12 +126,12 @@ func (self *ConstantMethodref) FindInterfaceMethod(ref *Obj) *Method {
 // todo
 func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
 	return &ConstantMethodref{
-		isIface:    true,
-		className:  methodrefInfo.ClassName(),
-		name:       methodrefInfo.Name(),
-		descriptor: methodrefInfo.Descriptor(),
-		argCount:   calcArgCount(methodrefInfo.Descriptor()),
-		cp:         cp,
-		vslot:      -1,
+		isIface:      true,
+		className:    methodrefInfo.ClassName(),
+		name:         methodrefInfo.Name(),
+		descriptor:   methodrefInfo.Descriptor(),
+		argSlotCount: calcArgSlotCount(methodrefInfo.Descriptor()),
+		cp:           cp,
+		vslot:        -1,
 	}
 }

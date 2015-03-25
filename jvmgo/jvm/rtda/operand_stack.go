@@ -66,12 +66,13 @@ func (self *OperandStack) PopInt() int32 {
 	return top.(int32)
 }
 
+// long consumes two slots
 func (self *OperandStack) PushLong(val int64) {
 	self.slots[self.size] = val
-	self.size++
+	self.size += 2
 }
 func (self *OperandStack) PopLong() int64 {
-	self.size--
+	self.size -= 2
 	top := self.slots[self.size]
 	self.slots[self.size] = nil
 	return top.(int64)
@@ -88,23 +89,43 @@ func (self *OperandStack) PopFloat() float32 {
 	return top.(float32)
 }
 
+// double consumes two slots
 func (self *OperandStack) PushDouble(val float64) {
 	self.slots[self.size] = val
-	self.size++
+	self.size += 2
 }
 func (self *OperandStack) PopDouble() float64 {
-	self.size--
+	self.size -= 2
 	top := self.slots[self.size]
 	self.slots[self.size] = nil
 	return top.(float64)
 }
 
-func (self *OperandStack) Push(any Any) {
+func (self *OperandStack) PushSlot(any Any) {
 	self.slots[self.size] = any
 	self.size++
 }
-func (self *OperandStack) Pop() Any {
+func (self *OperandStack) PopSlot() Any {
 	self.size--
+	top := self.slots[self.size]
+	self.slots[self.size] = nil
+	return top
+}
+
+func (self *OperandStack) PushField(any Any, isLongOrDouble bool) {
+	self.slots[self.size] = any
+	if isLongOrDouble {
+		self.size += 2
+	} else {
+		self.size++
+	}
+}
+func (self *OperandStack) PopField(isLongOrDouble bool) Any {
+	if isLongOrDouble {
+		self.size -= 2
+	} else {
+		self.size--
+	}
 	top := self.slots[self.size]
 	self.slots[self.size] = nil
 	return top

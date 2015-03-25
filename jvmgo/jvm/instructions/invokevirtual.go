@@ -8,19 +8,19 @@ import (
 // Invoke instance method; dispatch based on class
 type invokevirtual struct {
 	Index16Instruction
-	kMethodRef *rtc.ConstantMethodref
-	argCount   uint
+	kMethodRef   *rtc.ConstantMethodref
+	argSlotCount uint
 }
 
 func (self *invokevirtual) Execute(frame *rtda.Frame) {
 	if self.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
 		self.kMethodRef = cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-		self.argCount = self.kMethodRef.ArgCount()
+		self.argSlotCount = self.kMethodRef.ArgSlotCount()
 	}
 
 	stack := frame.OperandStack()
-	ref := stack.TopRef(self.argCount)
+	ref := stack.TopRef(self.argSlotCount)
 	if ref == nil {
 		frame.Thread().ThrowNPE()
 		return

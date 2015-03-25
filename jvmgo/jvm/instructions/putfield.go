@@ -19,7 +19,7 @@ func (self *putfield) Execute(frame *rtda.Frame) {
 	}
 
 	stack := frame.OperandStack()
-	val := stack.Pop()
+	val := stack.PopField(self.field.IsLongOrDouble)
 	ref := stack.PopRef()
 	if ref == nil {
 		frame.Thread().ThrowNPE()

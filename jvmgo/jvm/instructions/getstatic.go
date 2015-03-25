@@ -26,5 +26,5 @@ func (self *getstatic) Execute(frame *rtda.Frame) {
 	}
 
 	val := self.field.GetStaticValue()
-	frame.OperandStack().Push(val)
+	frame.OperandStack().PushField(val, self.field.IsLongOrDouble)
 }

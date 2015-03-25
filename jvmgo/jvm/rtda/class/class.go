@@ -3,7 +3,6 @@ package class
 import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	cp "github.com/zxh0/jvm.go/jvmgo/classpath"
-	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 const (

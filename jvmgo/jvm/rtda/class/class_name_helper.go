@@ -1,8 +1,42 @@
 package class
 
+import (
+	"github.com/zxh0/jvm.go/jvmgo/jtype"
+	"github.com/zxh0/jvm.go/jvmgo/util"
+)
+
 func DotToSlash(name string) string {
 	return util.ReplaceAll(name, ".", "/")
 }
 func SlashToDot(name string) string {
 	return util.ReplaceAll(name, "/", ".")
+}
+
+// [XXX -> [[XXX
+// int -> [I
+// XXX -> [LXXX;
+func getArrayClassName(className string) string {
+	if className[0] == '[' {
+		// array
+		return "[" + className
+	}
+	for _, primitiveType := range jtype.PrimitiveTypes {
+		if primitiveType.Name == className {
+			// primitive
+			return primitiveType.ArrayClassName
+		}
+	}
+	// object
+	return "[L" + className + ";"
+}
+
+// [[XXX -> [XXX
+// [LXXX; -> XXX
+// [I -> int
+func getComponentClassName(className string) string {
+	if className[0] != '[' {
+		panic("Not array: " + className)
+	}
+	descriptor := className[1:]
+	return getClassName(descriptor)
 }

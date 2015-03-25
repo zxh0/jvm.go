@@ -1,25 +1,37 @@
 package jls8;
 
+import libs.junit.UnitTestRunner;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 /**
  * Example 12.4.1-1. 
  * Superclasses Are Initialized Before Subclasses
  */
 public class Eg12_4_1_1 {
     
+    private static String output = "";
+    
     private static class Super {
-        static { System.out.print("Super "); }
+        static { Eg12_4_1_1.output += "Super "; }
     }
     private static class One {
-        static { System.out.print("One "); }
+        static { Eg12_4_1_1.output += "One "; }
     }
     private static class Two extends Super {
-        static { System.out.print("Two "); }
+        static { Eg12_4_1_1.output += "Two "; }
+    }
+    
+    @Test
+    public void test() {
+        One o = null;
+        Two t = new Two();
+        output += ((Object)o == (Object)t);
+        assertEquals("Super Two false", output);
     }
     
     public static void main(String[] args) {
-        One o = null;
-        Two t = new Two();
-        System.out.println((Object)o == (Object)t);
+        UnitTestRunner.run(Eg12_4_1_1.class);
     }
     
 }

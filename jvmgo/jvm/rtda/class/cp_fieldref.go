@@ -64,8 +64,26 @@ func (self *ConstantFieldref) resolveStaticField() {
 			self.field = field
 			return
 		}
+		if self._findInterfaceField(class) {
+			return
+		}
 	}
 
 	// todo
 	util.Panicf("static field not found! %v", self)
+}
+
+func (self *ConstantFieldref) _findInterfaceField(class *Class) bool {
+	for _, iface := range class.interfaces {
+		for _, f := range iface.fields {
+			if f.name == self.name && f.descriptor == self.descriptor {
+				self.field = f
+				return true
+			}
+		}
+		if self._findInterfaceField(iface) {
+			return true
+		}
+	}
+	return false
 }

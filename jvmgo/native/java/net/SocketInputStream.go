@@ -6,6 +6,7 @@ import (
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"io"
 	"net"
+	"time"
 )
 
 func init() {
@@ -33,15 +34,15 @@ func sis_socketRead0(frame *rtda.Frame) {
 
 	conn := fd.Extra().(net.Conn)
 
-	//TODO what ? timeout how to implement ?
-	//_timeout := vars.GetInt(5)
-	//conn.SetReadDeadline()
+	_timeout := vars.GetInt(5)
+	if _timeout > 0 {
+		conn.SetDeadline(time.Now().Add(time.Duration(_timeout) * time.Millisecond))
+	}
 
 	goBuf := buf.GoBytes()
 	goBuf = goBuf[off : off+_len]
 
 	n, err := conn.Read(goBuf)
-	//fmt.Println(string(goBuf))
 	if err == nil || n > 0 || err == io.EOF {
 		frame.OperandStack().PushInt(int32(n))
 	} else {

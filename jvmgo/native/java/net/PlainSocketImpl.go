@@ -6,7 +6,9 @@ import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/native/box"
 	"net"
+	"time"
 )
 
 func init() {
@@ -18,6 +20,7 @@ func init() {
 	_psi(psi_socketClose0, "socketClose0", "(Z)V")
 	_psi(psi_socketAvailable, "socketAvailable", "()I")
 	_psi(psi_socketConnect, "socketConnect", "(Ljava/net/InetAddress;II)V")
+	_psi(psi_socketSetOption, "socketSetOption", "(IZLjava/lang/Object;)V")
 
 }
 
@@ -57,8 +60,10 @@ func psi_socketConnect(frame *rtda.Frame) {
 		frame.Thread().ThrowIOException(err.Error())
 	}
 	//TODO what ? timeout how to implement ?
-	//_timeout := vars.GetInt(5)
-	//conn.SetReadDeadline()
+	_timeout := vars.GetInt(3)
+	if _timeout > 0 {
+		conn.SetDeadline(time.Now().Add(time.Duration(_timeout) * time.Millisecond))
+	}
 
 	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Obj)
 	fdObj.SetExtra(conn)
@@ -128,6 +133,32 @@ func psi_socketAvailable(frame *rtda.Frame) {
 		frame.OperandStack().PushBoolean(true)
 	} else {
 		frame.OperandStack().PushBoolean(false)
+	}
+
+}
+
+// java/net/PlainSocketImpl~socketSetOption~
+// (IZLjava/lang/Object;)V
+// abstract void socketSetOption(int cmd, boolean on, Object value)
+//  throws SocketException;
+func psi_socketSetOption(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	cmd := vars.GetInt(1)
+	//on := vars.GetBoolean(2)
+	value := vars.GetRef(3)
+
+	switch cmd {
+	case 0x1006: //timeout
+		_timeout := box.Unbox(value, "I").(int32)
+		fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Obj)
+		if fdObj.Extra() != nil {
+			conn := fdObj.Extra().(net.Conn)
+			conn.SetReadDeadline(time.Now().Add(time.Duration(_timeout) * time.Millisecond))
+		}
+		break
+	default:
+		break
 	}
 
 }

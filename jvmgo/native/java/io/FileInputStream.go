@@ -4,6 +4,7 @@ import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"io"
 	"os"
 )
 
@@ -79,7 +80,7 @@ func readBytes(frame *rtda.Frame) {
 
 	// func (f *File) Read(b []byte) (n int, err error)
 	n, err := goFile.Read(goBuf)
-	if err == nil || n > 0 {
+	if err == nil || n > 0 || err == io.EOF {
 		frame.OperandStack().PushInt(int32(n))
 	} else {
 		// todo

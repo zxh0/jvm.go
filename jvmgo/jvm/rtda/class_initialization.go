@@ -1,19 +1,21 @@
 package rtda
 
-import rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+import (
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+)
 
-func (self *Thread) InitClass(class *rtc.Class) {
+func initClass(thread *Thread, class *rtc.Class) {
 	uninitedClass := getUpmostUninitializedClassOrInterface(class)
 	if uninitedClass != nil {
 		clinit := uninitedClass.GetClinitMethod()
 		if clinit != nil {
 			// exec <clinit>
 			uninitedClass.MarkInitializing()
-			newFrame := self.NewFrame(clinit)
+			newFrame := thread.NewFrame(clinit)
 			newFrame.SetOnPopAction(func() {
 				uninitedClass.MarkInitialized()
 			})
-			self.PushFrame(newFrame)
+			thread.PushFrame(newFrame)
 		} else {
 			// no <clinit> method
 			uninitedClass.MarkInitialized()

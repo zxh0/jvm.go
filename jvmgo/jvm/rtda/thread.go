@@ -145,6 +145,10 @@ func (self *Thread) InvokeMethodWithShim(method *rtc.Method, args []Any) {
 	self.InvokeMethod(method)
 }
 
+func (self *Thread) InitClass(class *rtc.Class) {
+	initClass(self, class)
+}
+
 func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
 	self.stack.clear()
 	sysClass := rtc.BootLoader().LoadClass("java/lang/System")

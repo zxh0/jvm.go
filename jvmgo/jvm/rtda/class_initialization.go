@@ -4,6 +4,8 @@ import (
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
+// see: jls8 12.4.2. Detailed Initialization Procedure
+// http://docs.oracle.com/javase/specs/jls/se8/html/jls-12.html#jls-12.4.2
 func initClass(thread *Thread, class *rtc.Class) {
 	uninitedClass := getUpmostUninitializedClassOrInterface(class)
 	if uninitedClass != nil {

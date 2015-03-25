@@ -68,12 +68,6 @@ func (self *Class) LoadedFrom() cp.ClassPathEntry {
 func (self *Class) NameJlsFormat() string {
 	return SlashToDot(self.name)
 }
-func DotToSlash(name string) string {
-	return util.ReplaceAll(name, ".", "/")
-}
-func SlashToDot(name string) string {
-	return util.ReplaceAll(name, "/", ".")
-}
 
 func (self *Class) InitializationNotStarted() bool {
 	return self.state < _initializing // todo

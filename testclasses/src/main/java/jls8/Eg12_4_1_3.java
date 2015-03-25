@@ -7,19 +7,17 @@ package jls8;
 public class Eg12_4_1_3 {
     
     private static interface I {
-        int i = 1, ii = Test.out("ii", 2);
+        int i = 1, ii = out("ii", 2);
     }
     private static interface J extends I {
-        int j = Test.out("j", 3), jj = Test.out("jj", 4);
+        int j = out("j", 3), jj = out("jj", 4);
     }
     private static interface K extends J {
-        int k = Test.out("k", 5);
+        int k = out("k", 5);
     }
-    private static class Test {
-        static int out(String s, int i) {
-            System.out.println(s + "=" + i);
-            return i;
-        }
+    static int out(String s, int i) {
+        System.out.println(s + "=" + i);
+        return i;
     }
     
     public static void main(String[] args) {

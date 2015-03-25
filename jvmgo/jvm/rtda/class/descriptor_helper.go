@@ -5,6 +5,11 @@ import (
 	"strings"
 )
 
+func GetReturnDescriptor(methodDescriptor string) string {
+	start := strings.Index(methodDescriptor, ")") + 1
+	return methodDescriptor[start:]
+}
+
 func calcArgSlotCount(descriptor string) uint {
 	md := parseMethodDescriptor(descriptor)
 	slotCount := md.argCount()
@@ -28,9 +33,4 @@ func getClassName(descriptor string) string {
 	default: // primirive
 		return jtype.GetPrimitiveType(descriptor)
 	}
-}
-
-func GetReturnDescriptor(methodDescriptor string) string {
-	start := strings.Index(methodDescriptor, ")") + 1
-	return methodDescriptor[start:]
 }

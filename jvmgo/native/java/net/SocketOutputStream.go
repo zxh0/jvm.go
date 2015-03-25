@@ -32,11 +32,12 @@ func sos_socketWrite0(frame *rtda.Frame) {
 	b := vars.GetRef(2)
 	offset := vars.GetInt(3)
 	length := vars.GetInt(4)
-
 	conn := fd.Extra().(net.Conn)
-
 	jBytes := b.Fields().([]int8)
 	jBytes = jBytes[offset : offset+length]
 	goBytes := util.CastInt8sToUint8s(jBytes)
-	conn.Write(goBytes)
+
+	if _, err := conn.Write(goBytes); err != nil {
+		frame.Thread().ThrowIOException(err.Error())
+	}
 }

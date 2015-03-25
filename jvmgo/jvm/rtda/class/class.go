@@ -5,9 +5,12 @@ import (
 	cp "github.com/zxh0/jvm.go/jvmgo/classpath"
 )
 
+// initialization state
 const (
-	_initializing = 1
-	_initialized  = 2
+	_notInitialized   = 0 // This Class object is verified and prepared but not initialized.
+	_beingInitialized = 1 // This Class object is being initialized by some particular thread T.
+	_fullyInitialized = 2 // This Class object is fully initialized and ready for use.
+	_initFailed       = 3 // This Class object is in an erroneous state, perhaps because initialization was attempted and failed.
 )
 
 // name, superClassName and interfaceNames are all binary names(jvms8-4.2.1)
@@ -27,9 +30,9 @@ type Class struct {
 	jClass             *Obj      // java.lang.Class instance
 	superClass         *Class
 	interfaces         []*Class
+	loadedFrom         cp.ClassPathEntry // todo
+	initState          int
 	//classLoader        *ClassLoader      // defining class loader
-	loadedFrom cp.ClassPathEntry // todo
-	state      int
 }
 
 func (self *Class) String() string {
@@ -55,10 +58,6 @@ func (self *Class) SuperClass() *Class {
 func (self *Class) Interfaces() []*Class {
 	return self.interfaces
 }
-
-// func (self *Class) ClassLoader() *ClassLoader {
-// 	return self.classLoader
-// }
 func (self *Class) LoadedFrom() cp.ClassPathEntry {
 	return self.loadedFrom
 }
@@ -69,13 +68,13 @@ func (self *Class) NameJlsFormat() string {
 }
 
 func (self *Class) InitializationNotStarted() bool {
-	return self.state < _initializing // todo
+	return self.initState < _beingInitialized // todo
 }
-func (self *Class) MarkInitializing() {
-	self.state = _initializing
+func (self *Class) MarkBeingInitialized() {
+	self.initState = _beingInitialized
 }
-func (self *Class) MarkInitialized() {
-	self.state = _initialized
+func (self *Class) MarkFullyInitialized() {
+	self.initState = _fullyInitialized
 }
 
 func (self *Class) getField(name, descriptor string, isStatic bool) *Field {

@@ -12,15 +12,15 @@ func initClass(thread *Thread, class *rtc.Class) {
 		clinit := uninitedClass.GetClinitMethod()
 		if clinit != nil {
 			// exec <clinit>
-			uninitedClass.MarkInitializing()
+			uninitedClass.MarkBeingInitialized()
 			newFrame := thread.NewFrame(clinit)
 			newFrame.SetOnPopAction(func() {
-				uninitedClass.MarkInitialized()
+				uninitedClass.MarkFullyInitialized()
 			})
 			thread.PushFrame(newFrame)
 		} else {
 			// no <clinit> method
-			uninitedClass.MarkInitialized()
+			uninitedClass.MarkFullyInitialized()
 		}
 	}
 }

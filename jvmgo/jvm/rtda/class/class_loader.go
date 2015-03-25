@@ -82,7 +82,7 @@ func (self *ClassLoader) loadPrimitiveClass(className string) {
 	//class.classLoader = self
 	class.jClass = _jlClassClass.NewObj()
 	class.jClass.extra = class
-	class.MarkInitialized()
+	class.MarkFullyInitialized()
 	self.classMap[className] = class
 }
 
@@ -99,7 +99,7 @@ func (self *ClassLoader) loadArrayClass(className string) *Class {
 	class.jClass = _jlClassClass.NewObj()
 	class.jClass.extra = class
 	createVtable(class)
-	class.MarkInitialized()
+	class.MarkFullyInitialized()
 	self.classMap[className] = class
 	return class
 }

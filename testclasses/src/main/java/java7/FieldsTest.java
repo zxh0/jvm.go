@@ -1,5 +1,9 @@
 package java7;
 
+import libs.junit.UnitTestRunner;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 public class FieldsTest {
     
     static class Sup {
@@ -12,30 +16,27 @@ public class FieldsTest {
         int b;
     }
     
-    public static void main(String[] args) {
-        staticFields();
-        instanceFields();
-    }
-    
-    private static void staticFields() {
+    @Test
+    public void staticFields() {
         int z = Sub.x + Sub.y;
         z += 100;
         Sub.y = z;
         Sub.x = z;
-        if (Sub.x == 100 && Sub.y == 100) {
-            System.out.println("OK! staticFields");
-        }
+        assertTrue(Sub.x == 100 && Sub.y == 100);
     }
     
-    private static void instanceFields() {
+    @Test
+    public void instanceFields() {
         Sub sub = new Sub();
         int c = sub.a + sub.b;
         c += 100;
         sub.a = c;
         sub.b = c;
-        if (sub.a == 100 && sub.b == 100) {
-            System.out.println("OK! instanceFields");
-        }
+        assertTrue(sub.a == 100 && sub.b == 100);
+    }
+    
+    public static void main(String[] args) {
+        UnitTestRunner.run(FieldsTest.class);
     }
     
 }

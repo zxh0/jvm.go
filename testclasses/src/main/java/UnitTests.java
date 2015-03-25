@@ -1,3 +1,5 @@
+import java7.FieldAccessTest;
+import java7.FieldsTest;
 import java7.StringTest;
 import java7.cl.ClassLoaderTest;
 import java7.cl.GetClassLoaderTest;
@@ -32,6 +34,8 @@ public class UnitTests {
             DoubleTest.class,
             Eg12_4_1_1.class,
             Eg12_4_1_2.class,
+            FieldAccessTest.class,
+            FieldsTest.class,
             FileIoTest.class,
             GetClassLoaderTest.class,
             InstructionExTest.class,

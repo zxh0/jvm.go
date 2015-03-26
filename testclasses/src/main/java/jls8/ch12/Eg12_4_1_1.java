@@ -1,4 +1,4 @@
-package jls8;
+package jls8.ch12;
 
 import libs.junit.UnitTestRunner;
 import org.junit.Test;

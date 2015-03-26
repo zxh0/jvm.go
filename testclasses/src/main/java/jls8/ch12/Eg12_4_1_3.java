@@ -1,4 +1,4 @@
-package jls8;
+package jls8.ch12;
 
 /**
  * Example 12.4.1-3.

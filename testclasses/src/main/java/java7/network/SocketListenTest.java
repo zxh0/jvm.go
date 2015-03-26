@@ -29,6 +29,7 @@ public class SocketListenTest {
             int len;
             StringBuilder sb = new StringBuilder();
             //Reader reader = new InputStreamReader(socket.getInputStream());
+            socket.setSoTimeout(2000);
             while ((len = socket.getInputStream().read(buffer)) != -1) {
                 sb.append(new String(buffer, 0, len));
             }

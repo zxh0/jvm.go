@@ -3,10 +3,12 @@ package class
 import (
 	"github.com/zxh0/jvm.go/jvmgo/classfile"
 	"github.com/zxh0/jvm.go/jvmgo/util"
+	"sync"
 )
 
 func newClass(cf *classfile.ClassFile) *Class {
 	class := &Class{}
+	class.initCond = sync.NewCond(&sync.Mutex{})
 	class.accessFlags = cf.AccessFlags()
 	class.copyConstantPool(cf)
 	class.copyClassNames(cf)

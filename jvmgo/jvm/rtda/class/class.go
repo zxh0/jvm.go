@@ -3,6 +3,7 @@ package class
 import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	cp "github.com/zxh0/jvm.go/jvmgo/classpath"
+	"sync"
 )
 
 // initialization state
@@ -32,6 +33,8 @@ type Class struct {
 	interfaces         []*Class
 	loadedFrom         cp.ClassPathEntry // todo
 	initState          int
+	initCond           *sync.Cond
+	initThread         uintptr
 	//classLoader        *ClassLoader      // defining class loader
 }
 
@@ -61,6 +64,9 @@ func (self *Class) Interfaces() []*Class {
 func (self *Class) LoadedFrom() cp.ClassPathEntry {
 	return self.loadedFrom
 }
+func (self *Class) InitCond() *sync.Cond {
+	return self.initCond
+}
 
 // todo
 func (self *Class) NameJlsFormat() string {
@@ -70,8 +76,18 @@ func (self *Class) NameJlsFormat() string {
 func (self *Class) InitializationNotStarted() bool {
 	return self.initState < _beingInitialized // todo
 }
-func (self *Class) MarkBeingInitialized() {
+func (self *Class) IsBeingInitialized() (bool, uintptr) {
+	return self.initState == _beingInitialized, self.initThread
+}
+func (self *Class) IsFullyInitialized() bool {
+	return self.initState == _fullyInitialized
+}
+func (self *Class) IsInitializationFailed() bool {
+	return self.initState == _initFailed
+}
+func (self *Class) MarkBeingInitialized(thread uintptr) {
 	self.initState = _beingInitialized
+	self.initThread = thread
 }
 func (self *Class) MarkFullyInitialized() {
 	self.initState = _fullyInitialized

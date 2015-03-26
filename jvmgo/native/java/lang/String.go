@@ -18,10 +18,11 @@ func _string(method Any, name, desc string) {
 // ()Ljava/lang/String;
 func intern(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	str := vars.GetRef(0) // this
+	jStr := vars.GetThis()
 
-	chars := rtda.JStringChars(str)
-	internedStr := rtda.InternString(chars, str)
+	goStr := rtda.GoString(jStr)
+	internedStr := rtda.InternString(goStr, jStr)
+
 	stack := frame.OperandStack()
 	stack.PushRef(internedStr)
 }

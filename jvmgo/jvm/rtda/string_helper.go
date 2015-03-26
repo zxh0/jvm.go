@@ -7,16 +7,16 @@ import (
 
 // todo: is there a better way to create String?
 func NewJString(goStr string) *rtc.Obj {
-	chars := util.StringToUtf16(goStr)
-	internedStr := getInternedString(chars)
+	internedStr := getInternedString(goStr)
 	if internedStr != nil {
 		return internedStr
 	}
 
+	chars := util.StringToUtf16(goStr)
 	charArr := rtc.NewCharArray(chars)
 	jStr := rtc.BootLoader().JLStringClass().NewObj()
 	jStr.SetFieldValue("value", "[C", charArr)
-	return InternString(chars, jStr)
+	return InternString(goStr, jStr)
 }
 
 func GoString(jStr *rtc.Obj) string {

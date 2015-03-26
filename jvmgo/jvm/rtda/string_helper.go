@@ -20,11 +20,6 @@ func NewJString(goStr string) *rtc.Obj {
 }
 
 func GoString(jStr *rtc.Obj) string {
-	utf16 := JStringChars(jStr)
-	return util.Utf16ToString(utf16)
-}
-
-func JStringChars(jStr *rtc.Obj) []uint16 {
 	charArr := jStr.GetFieldValue("value", "[C").(*rtc.Obj)
-	return charArr.Fields().([]uint16)
+	return util.Utf16ToString(charArr.Chars())
 }

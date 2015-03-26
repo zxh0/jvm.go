@@ -36,7 +36,7 @@ func initClass(thread *Thread, class *rtc.Class) {
 	}
 
 	// step 6
-	initConstantStaticFields(class)
+	//initConstantStaticFields(class)
 
 	uninitedClass := getUpmostUninitializedClassOrInterface(class)
 	if uninitedClass != nil {
@@ -83,10 +83,8 @@ func initConstantStaticFields(class *rtc.Class) {
 					staticSlots[slotId] = cp.GetConstant(kValIndex).(float32)
 				case "D":
 					staticSlots[slotId] = cp.GetConstant(kValIndex).(float64)
-				case "Ljava/lang/String":
-					// staticSlots[slotId] = JString(cp.GetConstant(kValIndex).)
-					// todo
-					//class.staticFieldValues[field.slot] = kVal.(*classfile.ConstantStringInfo).String()
+				case "Ljava/lang/String;":
+					staticSlots[slotId] = JString(cp.GetConstant(kValIndex).(string))
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-package java7;
+package java7.field;
 
 import libs.junit.UnitTestRunner;
 import org.junit.Test;

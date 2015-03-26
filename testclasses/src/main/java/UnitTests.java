@@ -1,11 +1,11 @@
-import java7.FieldAccessTest;
-import java7.FieldsTest;
 import java7.StringTest;
 import java7.cl.ClassLoaderTest;
 import java7.cl.GetClassLoaderTest;
 import java7.ex.ClassLibExTest;
 import java7.ex.InstructionExTest;
 import java7.ex.InstructionNpeTest;
+import java7.field.FieldAccessTest;
+import java7.field.FieldsTest;
 import java7.file.FileIoTest;
 import java7.reflection.ArrayClassTest;
 import java7.reflection.ArrayGetTest;

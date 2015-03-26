@@ -4,6 +4,7 @@ import java7.cl.GetClassLoaderTest;
 import java7.ex.ClassLibExTest;
 import java7.ex.InstructionExTest;
 import java7.ex.InstructionNpeTest;
+import java7.field.ConstantVariablesTest;
 import java7.field.FieldAccessTest;
 import java7.field.FieldsTest;
 import java7.file.FileIoTest;
@@ -30,6 +31,7 @@ public class UnitTests {
             ArraySetTest.class,
             ClassLibExTest.class,
             ClassLoaderTest.class,
+            ConstantVariablesTest.class,
             DaemonTest.class,
             DoubleTest.class,
             Eg12_4_1_1.class,

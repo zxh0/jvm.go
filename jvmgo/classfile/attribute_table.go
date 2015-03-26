@@ -14,6 +14,16 @@ func (self *AttributeTable) CodeAttribute() *CodeAttribute {
 	return nil
 }
 
+func (self *AttributeTable) ConstantValueAttribute() *ConstantValueAttribute {
+	for _, attrInfo := range self.attributes {
+		switch attrInfo.(type) {
+		case *ConstantValueAttribute:
+			return attrInfo.(*ConstantValueAttribute)
+		}
+	}
+	return nil
+}
+
 func (self *AttributeTable) EnclosingMethodAttribute() *EnclosingMethodAttribute {
 	for _, attrInfo := range self.attributes {
 		switch attrInfo.(type) {

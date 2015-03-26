@@ -26,7 +26,7 @@ type Class struct {
 	attributes         *Attributes
 	staticFieldCount   uint
 	instanceFieldCount uint
-	staticFieldValues  []Any
+	staticFieldValues  []Any     // todo: rename to staticFieldSlots
 	vtable             []*Method // virtual method table
 	jClass             *Obj      // java.lang.Class instance
 	superClass         *Class
@@ -49,11 +49,17 @@ func (self *Class) ConstantPool() *ConstantPool {
 func (self *Class) Name() string {
 	return self.name
 }
+func (self *Class) Fields() []*Field {
+	return self.fields
+}
 func (self *Class) Attributes() *Attributes {
 	return self.attributes
 }
 func (self *Class) JClass() *Obj {
 	return self.jClass
+}
+func (self *Class) StaticFieldValues() []Any {
+	return self.staticFieldValues
 }
 func (self *Class) SuperClass() *Class {
 	return self.superClass

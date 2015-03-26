@@ -14,3 +14,7 @@ type ConstantValueAttribute struct {
 func (self *ConstantValueAttribute) readInfo(reader *ClassReader, attrLen uint32) {
 	self.constantValueIndex = reader.readUint16()
 }
+
+func (self *ConstantValueAttribute) ConstantValueIndex() uint16 {
+	return self.constantValueIndex
+}

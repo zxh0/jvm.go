@@ -7,9 +7,10 @@ import (
 
 type Field struct {
 	ClassMember
-	IsLongOrDouble bool
-	slot           uint
-	_type          *Class
+	IsLongOrDouble  bool
+	constValueIndex uint16
+	slot            uint // todo: rename to slotId
+	_type           *Class
 }
 
 func newField(class *Class, fieldInfo *cf.FieldInfo) *Field {
@@ -20,9 +21,15 @@ func newField(class *Class, fieldInfo *cf.FieldInfo) *Field {
 	field.descriptor = fieldInfo.Descriptor()
 	field.signature = fieldInfo.Signature()
 	field.IsLongOrDouble = (field.descriptor == "J" || field.descriptor == "D")
+	if kValAttr := fieldInfo.ConstantValueAttribute(); kValAttr != nil {
+		field.constValueIndex = kValAttr.ConstantValueIndex()
+	}
 	return field
 }
 
+func (self *Field) ConstValueIndex() uint16 {
+	return self.constValueIndex
+}
 func (self *Field) Slot() uint {
 	return self.slot
 }

@@ -6,6 +6,7 @@ import (
 )
 
 // todo: is there a better way to create String?
+// go string -> java.lang.String
 func JString(goStr string) *rtc.Obj {
 	internedStr := getInternedString(goStr)
 	if internedStr != nil {
@@ -19,6 +20,7 @@ func JString(goStr string) *rtc.Obj {
 	return InternString(goStr, jStr)
 }
 
+// java.lang.String -> go string
 func GoString(jStr *rtc.Obj) string {
 	charArr := jStr.GetFieldValue("value", "[C").(*rtc.Obj)
 	return _utf16ToString(charArr.Chars())

@@ -30,13 +30,9 @@ func _ldc(frame *rtda.Frame, index uint) {
 		stack.PushInt(c.(int32))
 	case float32:
 		stack.PushFloat(c.(float32))
-	case *rtc.ConstantString:
-		kString := c.(*rtc.ConstantString)
-		if kString.JStr() == nil {
-			strObj := rtda.JString(kString.GoStr()) // already interned
-			kString.SetJStr(strObj)
-		}
-		stack.PushRef(kString.JStr())
+	case string:
+		internedStr := rtda.JString(c.(string))
+		stack.PushRef(internedStr)
 	case *rtc.ConstantClass:
 		kClass := c.(*rtc.ConstantClass)
 		classObj := kClass.Class().JClass()

@@ -41,7 +41,7 @@ func getStartupTime(frame *rtda.Frame) {
 // ()Ljava/lang/String;
 func getVersion0(frame *rtda.Frame) {
 	// todo
-	version := rtda.NewJString("0")
+	version := rtda.JString("0")
 
 	stack := frame.OperandStack()
 	stack.PushRef(version)

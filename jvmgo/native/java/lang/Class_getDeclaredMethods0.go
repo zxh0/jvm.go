@@ -66,7 +66,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 }
 
 func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []Any {
-	nameObj := rtda.NewJString(method.Name())
+	nameObj := rtda.JString(method.Name())
 
 	return []Any{
 		methodObj,                      // this

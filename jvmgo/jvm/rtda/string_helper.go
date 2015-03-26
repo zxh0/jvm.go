@@ -6,7 +6,7 @@ import (
 )
 
 // todo: is there a better way to create String?
-func NewJString(goStr string) *rtc.Obj {
+func JString(goStr string) *rtc.Obj {
 	internedStr := getInternedString(goStr)
 	if internedStr != nil {
 		return internedStr

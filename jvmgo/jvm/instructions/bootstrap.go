@@ -80,9 +80,9 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 		thread.HackSetJThread(mainThreadObj)
 
 		initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
-		stack.PushRef(mainThreadObj)           // this
-		stack.PushRef(_mainThreadGroup)        // group
-		stack.PushRef(rtda.NewJString("main")) // name
+		stack.PushRef(mainThreadObj)        // this
+		stack.PushRef(_mainThreadGroup)     // group
+		stack.PushRef(rtda.JString("main")) // name
 		thread.InvokeMethod(initMethod)
 		return true
 	}
@@ -124,7 +124,7 @@ func execMain(thread *rtda.Thread) {
 func createArgs() *rtc.Obj {
 	jArgs := make([]*rtc.Obj, len(_args))
 	for i, arg := range _args {
-		jArgs[i] = rtda.NewJString(arg)
+		jArgs[i] = rtda.JString(arg)
 	}
 
 	return rtc.NewRefArray2(_classLoader.JLStringClass(), jArgs)

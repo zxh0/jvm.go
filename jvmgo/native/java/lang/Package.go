@@ -21,7 +21,7 @@ func getSystemPackage0(frame *rtda.Frame) {
 	// name := vars.GetRef(0)
 
 	sysPkg := frame.ClassLoader().JLObjectClass().LoadedFrom().String()
-	sysPkgObj := rtda.NewJString(sysPkg)
+	sysPkgObj := rtda.JString(sysPkg)
 
 	stack := frame.OperandStack()
 	stack.PushRef(sysPkgObj)

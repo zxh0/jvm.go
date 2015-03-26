@@ -84,7 +84,7 @@ func initConstantStaticFields(class *rtc.Class) {
 				case "D":
 					staticSlots[slotId] = cp.GetConstant(kValIndex).(float64)
 				case "Ljava/lang/String":
-					// staticSlots[slotId] = NewJString(cp.GetConstant(kValIndex).)
+					// staticSlots[slotId] = JString(cp.GetConstant(kValIndex).)
 					// todo
 					//class.staticFieldValues[field.slot] = kVal.(*classfile.ConstantStringInfo).String()
 				}

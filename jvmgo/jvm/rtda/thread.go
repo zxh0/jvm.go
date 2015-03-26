@@ -167,7 +167,7 @@ func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
 	// newFrame = self.NewFrame(printString)
 	// vars = newFrame.localVars
 	// vars.SetRef(0, sysErr)
-	// vars.SetRef(1, NewJString("Exception in thread \"main\" ", newFrame))
+	// vars.SetRef(1, JString("Exception in thread \"main\" ", newFrame))
 	// self.PushFrame(newFrame)
 }
 

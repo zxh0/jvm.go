@@ -9,8 +9,6 @@ import static org.junit.Assert.*;
 public class UnsafeObjectTest {
     
     private static final Unsafe unsafe;
-    private static final long shortArrBaseOffset;
-    private static final long shortArrIndexScale;
     private static final long intArrBaseOffset;
     private static final long intArrIndexScale;
     private static final long longArrBaseOffset;
@@ -21,7 +19,6 @@ public class UnsafeObjectTest {
     private static final long doubleArrIndexScale;
     private static final long objectArrBaseOffset;
     private static final long objectArrIndexScale;
-    private static final long sOffset;
     private static final long iOffset;
     private static final long jOffset;
     private static final long fOffset;
@@ -38,8 +35,6 @@ public class UnsafeObjectTest {
     
     static {
         unsafe = UnsafeGetter.getUnsafe();
-        shortArrBaseOffset = unsafe.arrayBaseOffset(short[].class);
-        shortArrIndexScale = unsafe.arrayIndexScale(short[].class);
         intArrBaseOffset = unsafe.arrayBaseOffset(int[].class);
         intArrIndexScale = unsafe.arrayIndexScale(int[].class);
         longArrBaseOffset = unsafe.arrayBaseOffset(long[].class);
@@ -51,7 +46,6 @@ public class UnsafeObjectTest {
         objectArrBaseOffset = unsafe.arrayBaseOffset(Object[].class);
         objectArrIndexScale = unsafe.arrayIndexScale(Object[].class);
         try {
-            sOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("s"));
             iOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("i"));
             jOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("j"));
             fOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("f"));
@@ -123,11 +117,34 @@ public class UnsafeObjectTest {
     @Test
     public void charField() {
         UnsafeObjectTest obj = new UnsafeObjectTest();
-        long bOffset = objectFieldOffset("c");
+        long cOffset = objectFieldOffset("c");
         
-        assertEquals('\0', unsafe.getChar(obj, bOffset));
-        unsafe.putChar(obj, bOffset, 'x');
-        assertEquals('x', unsafe.getChar(obj, bOffset));
+        assertEquals('\0', unsafe.getChar(obj, cOffset));
+        unsafe.putChar(obj, cOffset, 'x');
+        assertEquals('x', unsafe.getChar(obj, cOffset));
+    }
+    
+    @Test
+    public void shortArray() {
+        short[] arr = {3, 4, 5};
+        
+        long shortArrBaseOffset = unsafe.arrayBaseOffset(short[].class);
+        long shortArrIndexScale = unsafe.arrayIndexScale(short[].class);
+        long index1 = shortArrBaseOffset + shortArrIndexScale;
+        
+        assertEquals(4, unsafe.getShort(arr, index1));
+        unsafe.putShort(arr, index1, (short)12345);
+        assertEquals((short)12345, unsafe.getShort(arr, index1));
+    }
+    
+    @Test
+    public void shortField() {
+        UnsafeObjectTest obj = new UnsafeObjectTest();
+        long sOffset = objectFieldOffset("s");
+        
+        assertEquals((short)0, unsafe.getShort(obj, sOffset));
+        unsafe.putShort(obj, sOffset, (short)12345);
+        assertEquals((short)12345, unsafe.getShort(obj, sOffset));
     }
     
     private static long objectFieldOffset(String fieldName) {

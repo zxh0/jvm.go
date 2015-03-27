@@ -11,9 +11,6 @@ public class UnsafeTest {
     public static void main(String[] args) throws Exception {
         Unsafe unsafe = UnsafeGetter.getUnsafe();
 
-        //memory(unsafe);
-        //array(unsafe);
-        //objArr(unsafe);
         casInt(unsafe);
         casLong(unsafe);
         casObj(unsafe);

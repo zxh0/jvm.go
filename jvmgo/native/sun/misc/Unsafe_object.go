@@ -10,6 +10,7 @@ func init() {
 	_unsafe(arrayBaseOffset, "arrayBaseOffset", "(Ljava/lang/Class;)I")
 	_unsafe(arrayIndexScale, "arrayIndexScale", "(Ljava/lang/Class;)I")
 	_unsafe(objectFieldOffset, "objectFieldOffset", "(Ljava/lang/reflect/Field;)J")
+	_unsafe(getBoolean, "getBoolean", "(Ljava/lang/Object;J)Z")
 	_unsafe(putObject, "putObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getObject, "getObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
 	_unsafe(putObjectVolatile, "putObjectVolatile", "(Ljava/lang/Object;JLjava/lang/Object;)V")
@@ -23,10 +24,6 @@ func init() {
 // public native int arrayBaseOffset(Class<?> type);
 // (Ljava/lang/Class;)I
 func arrayBaseOffset(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	vars.GetRef(0) // this
-	vars.GetRef(1) // type
-
 	stack := frame.OperandStack()
 	stack.PushInt(0) // todo
 }
@@ -34,9 +31,6 @@ func arrayBaseOffset(frame *rtda.Frame) {
 // public native int arrayIndexScale(Class<?> type);
 // (Ljava/lang/Class;)I
 func arrayIndexScale(frame *rtda.Frame) {
-	//stack.PopRef() // type
-	//stack.PopRef() // this
-
 	stack := frame.OperandStack()
 	stack.PushInt(1) // todo
 }
@@ -45,12 +39,31 @@ func arrayIndexScale(frame *rtda.Frame) {
 // (Ljava/lang/reflect/Field;)J
 func objectFieldOffset(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	// this := vars.GetRef(0)
 	jField := vars.GetRef(1)
 
 	offset := jField.GetFieldValue("slot", "I").(int32)
+
 	stack := frame.OperandStack()
 	stack.PushLong(int64(offset))
+}
+
+// public native boolean getBoolean(Object o, long offset);
+// (Ljava/lang/Object;J)Z
+func getBoolean(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fields := vars.GetRef(1).Fields()
+	offset := vars.GetLong(2)
+
+	stack := frame.OperandStack()
+	if anys, ok := fields.([]Any); ok {
+		// object
+		stack.PushBoolean(anys[offset].(int32) == 1)
+	} else if bytes, ok := fields.([]int8); ok {
+		// byte[]
+		stack.PushBoolean(bytes[offset] == 1)
+	} else {
+		panic("putObject!")
+	}
 }
 
 // public native void putObject(Object o, long offset, Object x);

@@ -5,28 +5,46 @@ import libs.junit.UnitTestRunner;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import sun.misc.Unsafe;
+import static org.junit.Assert.*;
 
 public class UnsafeObjectTest {
     
     private static final Unsafe unsafe;
-    private static final int booleanArrBaseOffset;
-    private static final int  booleanArrIndexScale;
-    private static final int  byteArrBaseOffset;
-    private static final int  byteArrIndexScale;
-    private static final int  charArrBaseOffset;
-    private static final int  charArrIndexScale;
-    private static final int  shortArrBaseOffset;
-    private static final int  shortArrIndexScale;
-    private static final int  intArrBaseOffset;
-    private static final int  intArrIndexScale;
-    private static final int  longArrBaseOffset;
-    private static final int  longArrIndexScale;
-    private static final int  floatArrBaseOffset;
-    private static final int  floatArrIndexScale;
-    private static final int  doubleArrBaseOffset;
-    private static final int  doubleArrIndexScale;
-    private static final int  objectArrBaseOffset;
-    private static final int  objectArrIndexScale;
+    private static final long booleanArrBaseOffset;
+    private static final long booleanArrIndexScale;
+    private static final long byteArrBaseOffset;
+    private static final long byteArrIndexScale;
+    private static final long charArrBaseOffset;
+    private static final long charArrIndexScale;
+    private static final long shortArrBaseOffset;
+    private static final long shortArrIndexScale;
+    private static final long intArrBaseOffset;
+    private static final long intArrIndexScale;
+    private static final long longArrBaseOffset;
+    private static final long longArrIndexScale;
+    private static final long floatArrBaseOffset;
+    private static final long floatArrIndexScale;
+    private static final long doubleArrBaseOffset;
+    private static final long doubleArrIndexScale;
+    private static final long objectArrBaseOffset;
+    private static final long objectArrIndexScale;
+    private static final long zOffset;
+    private static final long bOffset;
+    private static final long cOffset;
+    private static final long sOffset;
+    private static final long iOffset;
+    private static final long jOffset;
+    private static final long fOffset;
+    private static final long dOffset;
+    
+    private boolean z;
+    private byte b;
+    private char c;
+    private short s;
+    private int i;
+    private long j;
+    private float f;
+    private double d;
     
     static {
         unsafe = UnsafeGetter.getUnsafe();
@@ -48,15 +66,37 @@ public class UnsafeObjectTest {
         doubleArrIndexScale = unsafe.arrayIndexScale(double[].class);
         objectArrBaseOffset = unsafe.arrayBaseOffset(Object[].class);
         objectArrIndexScale = unsafe.arrayIndexScale(Object[].class);
+        try {
+            zOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("z"));
+            bOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("b"));
+            cOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("c"));
+            sOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("s"));
+            iOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("i"));
+            jOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("j"));
+            fOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("f"));
+            dOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("d"));
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     @Test
-    public void test() {
-        
+    public void getPutBooleanArray() {
+        boolean[] arr = {false, true, false};
+        long index1 = booleanArrBaseOffset + booleanArrIndexScale;
+        assertEquals(true, unsafe.getBoolean(arr, index1));
+        unsafe.putBoolean(arr, index1, false);
+        assertEquals(false, unsafe.getBoolean(arr, index1));
+    }
+    
+    @Test
+    public void getPutBooleanField() {
+        UnsafeObjectTest obj = new UnsafeObjectTest();
+//        unsafe.objectFieldOffset(null)
     }
     
     public static void main(String[] args) {
-        //UnitTestRunner.run(UnsafeObjectTest.class);
+        UnitTestRunner.run(UnsafeObjectTest.class);
     }
     
 }

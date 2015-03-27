@@ -12,6 +12,8 @@ func init() {
 	_unsafe(objectFieldOffset, "objectFieldOffset", "(Ljava/lang/reflect/Field;)J")
 	_unsafe(getBoolean, "getBoolean", "(Ljava/lang/Object;J)Z")
 	_unsafe(putBoolean, "putBoolean", "(Ljava/lang/Object;JZ)V")
+	_unsafe(getByte, "getByte", "(Ljava/lang/Object;J)B")
+	_unsafe(putByte, "putByte", "(Ljava/lang/Object;JB)V")
 	_unsafe(getObject, "getObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
 	_unsafe(putObject, "putObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getObjectVolatile, "getObjectVolatile", "(Ljava/lang/Object;J)Ljava/lang/Object;")
@@ -83,6 +85,44 @@ func putBoolean(frame *rtda.Frame) {
 		bytes[offset] = int8(x)
 	} else {
 		panic("putBoolean!")
+	}
+}
+
+// public native boolean getByte(Object o, long offset);
+// (Ljava/lang/Object;J)B
+func getByte(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fields := vars.GetRef(1).Fields()
+	offset := vars.GetLong(2)
+
+	stack := frame.OperandStack()
+	if anys, ok := fields.([]Any); ok {
+		// object
+		stack.PushInt(anys[offset].(int32))
+	} else if bytes, ok := fields.([]int8); ok {
+		// byte[]
+		stack.PushInt(int32(bytes[offset]))
+	} else {
+		panic("getByte!")
+	}
+}
+
+// public native void putByte(Object o, long offset, byte x);
+// (Ljava/lang/Object;JZ)V
+func putByte(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fields := vars.GetRef(1).Fields()
+	offset := vars.GetLong(2)
+	x := vars.GetInt(4)
+
+	if anys, ok := fields.([]Any); ok {
+		// object
+		anys[offset] = x
+	} else if bytes, ok := fields.([]int8); ok {
+		// byte[]
+		bytes[offset] = int8(x)
+	} else {
+		panic("putByte!")
 	}
 }
 

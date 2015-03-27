@@ -26,7 +26,8 @@ func (self *bootstrap) Execute(frame *rtda.Frame) {
 	}
 	if bootClassesNotReady(thread) ||
 		mainThreadNotReady(thread) ||
-		jlSystemNotReady(thread) {
+		jlSystemNotReady(thread) ||
+		mainClassNotReady(thread) {
 
 		return
 	}
@@ -45,7 +46,6 @@ func initVars(frame *rtda.Frame) {
 		"java/lang/Thread",
 		"java/lang/ThreadGroup",
 		"java/io/PrintStream",
-		_mainClassName,
 	}
 }
 
@@ -57,6 +57,16 @@ func bootClassesNotReady(thread *rtda.Thread) bool {
 			thread.InitClass(class)
 			return true
 		}
+	}
+	return false
+}
+
+func mainClassNotReady(thread *rtda.Thread) bool {
+	mainClass := _classLoader.LoadClass(_mainClassName)
+	if mainClass.InitializationNotStarted() {
+		undoExec(thread)
+		thread.InitClass(mainClass)
+		return true
 	}
 	return false
 }

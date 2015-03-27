@@ -13,13 +13,13 @@ const (
 
 func (self *Thread) Sleep(d time.Duration) (interrupted bool) {
 	self.lock.Lock()
-	if self.isInterrupted {
-		self.isInterrupted = false
+	if self.interruptedFlag {
+		self.interruptedFlag = false
 		self.lock.Unlock()
 		return true
 	}
 
-	self.isBlocked = true
+	self.blockingFlag = true
 	go self._sleep(d)
 	self.lock.Unlock()
 
@@ -33,8 +33,8 @@ func (self *Thread) _sleep(d time.Duration) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
 
-	if self.isBlocked { // not interrupted
-		self.isBlocked = false
+	if self.blockingFlag { // not interrupted
+		self.blockingFlag = false
 		self.ch <- _timeOut
 	}
 }
@@ -43,24 +43,32 @@ func (self *Thread) Interrupt() {
 	self.lock.Lock()
 	defer self.lock.Unlock()
 
-	if self.isBlocked {
-		self.isBlocked = false
+	if self.blockingFlag {
+		self.blockingFlag = false
 		self.ch <- _interrupt
 		return
 	}
 
-	self.isInterrupted = true
+	self.interruptedFlag = true
 }
 
 func (self *Thread) IsInterrupted(clearInterrupted bool) bool {
 	self.lock.Lock()
 	defer self.lock.Unlock()
 
-	if self.isInterrupted {
+	if self.interruptedFlag {
 		if clearInterrupted {
-			self.isInterrupted = false
+			self.interruptedFlag = false
 		}
 		return true
 	}
 	return false
+}
+
+func (self *Thread) Park(d time.Duration) {
+	self.Sleep(d)
+}
+
+func (self *Thread) Unpark() {
+
 }

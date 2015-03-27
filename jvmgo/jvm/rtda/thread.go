@@ -19,14 +19,14 @@ JVM
         OperandStack
 */
 type Thread struct {
-	pc            int // the address of the instruction currently being executed
-	stack         *Stack
-	frameCache    *FrameCache
-	jThread       *rtc.Obj    // java.lang.Thread
-	lock          *sync.Mutex // state lock
-	ch            chan int
-	isInterrupted bool // interrupted flag
-	isBlocked     bool
+	pc              int // the address of the instruction currently being executed
+	stack           *Stack
+	frameCache      *FrameCache
+	jThread         *rtc.Obj    // java.lang.Thread
+	lock            *sync.Mutex // state lock
+	ch              chan int
+	interruptedFlag bool
+	blockingFlag    bool
 	// todo
 }
 

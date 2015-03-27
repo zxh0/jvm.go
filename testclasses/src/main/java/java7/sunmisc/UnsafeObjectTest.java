@@ -2,7 +2,6 @@ package java7.sunmisc;
 
 import java.lang.reflect.Field;
 import libs.junit.UnitTestRunner;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import sun.misc.Unsafe;
 import static org.junit.Assert.*;
@@ -10,8 +9,6 @@ import static org.junit.Assert.*;
 public class UnsafeObjectTest {
     
     private static final Unsafe unsafe;
-    private static final long booleanArrBaseOffset;
-    private static final long booleanArrIndexScale;
     private static final long byteArrBaseOffset;
     private static final long byteArrIndexScale;
     private static final long charArrBaseOffset;
@@ -28,7 +25,6 @@ public class UnsafeObjectTest {
     private static final long doubleArrIndexScale;
     private static final long objectArrBaseOffset;
     private static final long objectArrIndexScale;
-    private static final long zOffset;
     private static final long bOffset;
     private static final long cOffset;
     private static final long sOffset;
@@ -48,8 +44,6 @@ public class UnsafeObjectTest {
     
     static {
         unsafe = UnsafeGetter.getUnsafe();
-        booleanArrBaseOffset = unsafe.arrayBaseOffset(boolean[].class);
-        booleanArrIndexScale = unsafe.arrayIndexScale(boolean[].class);
         byteArrBaseOffset = unsafe.arrayBaseOffset(byte[].class);
         byteArrIndexScale = unsafe.arrayIndexScale(byte[].class);
         charArrBaseOffset = unsafe.arrayBaseOffset(char[].class);
@@ -67,7 +61,6 @@ public class UnsafeObjectTest {
         objectArrBaseOffset = unsafe.arrayBaseOffset(Object[].class);
         objectArrIndexScale = unsafe.arrayIndexScale(Object[].class);
         try {
-            zOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("z"));
             bOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("b"));
             cOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("c"));
             sOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("s"));
@@ -81,18 +74,35 @@ public class UnsafeObjectTest {
     }
     
     @Test
-    public void getPutBooleanArray() {
+    public void booleanArray() {
         boolean[] arr = {false, true, false};
+        
+        long booleanArrBaseOffset = unsafe.arrayBaseOffset(boolean[].class);
+        long booleanArrIndexScale = unsafe.arrayIndexScale(boolean[].class);
         long index1 = booleanArrBaseOffset + booleanArrIndexScale;
+        
         assertEquals(true, unsafe.getBoolean(arr, index1));
         unsafe.putBoolean(arr, index1, false);
         assertEquals(false, unsafe.getBoolean(arr, index1));
     }
     
     @Test
-    public void getPutBooleanField() {
+    public void booleanField() {
         UnsafeObjectTest obj = new UnsafeObjectTest();
-//        unsafe.objectFieldOffset(null)
+        long zOffset = objectFieldOffset("z");
+        
+        assertEquals(false, unsafe.getBoolean(obj, zOffset));
+        unsafe.putBoolean(obj, zOffset, true);
+        assertEquals(true, unsafe.getBoolean(obj, zOffset));
+    }
+    
+    private static long objectFieldOffset(String fieldName) {
+        try {
+            Field f = UnsafeObjectTest.class.getDeclaredField(fieldName);
+            return unsafe.objectFieldOffset(f);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     public static void main(String[] args) {

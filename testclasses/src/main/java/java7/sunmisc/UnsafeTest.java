@@ -18,15 +18,6 @@ public class UnsafeTest {
         System.out.println("OK!");
     }
     
-    
-    private static void objArr(Unsafe unsafe) {
-        String[] arr = {"one", "two"};
-        long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());
-        long arrayIndexScale = unsafe.arrayIndexScale(arr.getClass());
-        System.out.println(unsafe.getObject(arr, arrayBaseOffset));
-        System.out.println(unsafe.getObject(arr, arrayBaseOffset + arrayIndexScale));
-    }
-    
     private static void casInt(Unsafe unsafe) throws Exception {
         int[] arr = {1, 3, 7};
         long arrayBaseOffset = unsafe.arrayBaseOffset(arr.getClass());

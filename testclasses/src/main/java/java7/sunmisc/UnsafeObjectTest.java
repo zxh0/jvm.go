@@ -8,9 +8,7 @@ import static org.junit.Assert.*;
 
 public class UnsafeObjectTest {
     
-    private static final Unsafe unsafe;
-    private static final long objectArrBaseOffset;
-    private static final long objectArrIndexScale;
+    private static final Unsafe unsafe = UnsafeGetter.getUnsafe();
     
     private boolean z;
     private byte b;
@@ -20,12 +18,7 @@ public class UnsafeObjectTest {
     private long j;
     private float f;
     private double d;
-    
-    static {
-        unsafe = UnsafeGetter.getUnsafe();
-        objectArrBaseOffset = unsafe.arrayBaseOffset(Object[].class);
-        objectArrIndexScale = unsafe.arrayIndexScale(Object[].class);
-    }
+    private String str;
     
     @Test
     public void booleanArray() {
@@ -209,6 +202,29 @@ public class UnsafeObjectTest {
         assertEquals(0, unsafe.getDouble(obj, dOffset), 0.1);
         unsafe.putDouble(obj, dOffset, 3.14);
         assertEquals(3.14, unsafe.getDouble(obj, dOffset), 0.1);
+    }
+    
+    @Test
+    public void objectArray() {
+        String[] arr = {"a", "b", "c"};
+        
+        long objectArrBaseOffset = unsafe.arrayBaseOffset(String[].class);
+        long objectArrIndexScale = unsafe.arrayIndexScale(String[].class);
+        long index1 = objectArrBaseOffset + objectArrIndexScale;
+        
+        assertEquals("b", unsafe.getObject(arr, index1));
+        unsafe.putObject(arr, index1, "hello");
+        assertEquals("hello", unsafe.getObject(arr, index1));
+    }
+    
+    @Test
+    public void objectField() {
+        UnsafeObjectTest obj = new UnsafeObjectTest();
+        long strOffset = objectFieldOffset("str");
+        
+        assertEquals(null, unsafe.getObject(obj, strOffset));
+        unsafe.putObject(obj, strOffset, "world");
+        assertEquals("world", unsafe.getObject(obj, strOffset));
     }
     
     private static long objectFieldOffset(String fieldName) {

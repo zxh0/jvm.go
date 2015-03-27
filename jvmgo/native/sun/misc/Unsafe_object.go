@@ -11,12 +11,13 @@ func init() {
 	_unsafe(arrayIndexScale, "arrayIndexScale", "(Ljava/lang/Class;)I")
 	_unsafe(objectFieldOffset, "objectFieldOffset", "(Ljava/lang/reflect/Field;)J")
 	_unsafe(getBoolean, "getBoolean", "(Ljava/lang/Object;J)Z")
-	_unsafe(putObject, "putObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
+	_unsafe(putBoolean, "putBoolean", "(Ljava/lang/Object;JZ)V")
 	_unsafe(getObject, "getObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
-	_unsafe(putObjectVolatile, "putObjectVolatile", "(Ljava/lang/Object;JLjava/lang/Object;)V")
+	_unsafe(putObject, "putObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getObjectVolatile, "getObjectVolatile", "(Ljava/lang/Object;J)Ljava/lang/Object;")
-	_unsafe(putOrderedObject, "putOrderedObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
+	_unsafe(putObjectVolatile, "putObjectVolatile", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getOrderedObject, "getOrderedObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
+	_unsafe(putOrderedObject, "putOrderedObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getIntVolatile, "getIntVolatile", "(Ljava/lang/Object;J)I")
 	_unsafe(getLongVolatile, "getLongVolatile", "(Ljava/lang/Object;J)J")
 }
@@ -62,7 +63,26 @@ func getBoolean(frame *rtda.Frame) {
 		// byte[]
 		stack.PushBoolean(bytes[offset] == 1)
 	} else {
-		panic("putObject!")
+		panic("getBoolean!")
+	}
+}
+
+// public native void putBoolean(Object o, long offset, boolean x);
+// (Ljava/lang/Object;JZ)V
+func putBoolean(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fields := vars.GetRef(1).Fields()
+	offset := vars.GetLong(2)
+	x := vars.GetInt(4)
+
+	if anys, ok := fields.([]Any); ok {
+		// object
+		anys[offset] = x
+	} else if bytes, ok := fields.([]int8); ok {
+		// byte[]
+		bytes[offset] = int8(x)
+	} else {
+		panic("putBoolean!")
 	}
 }
 

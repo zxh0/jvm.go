@@ -1,6 +1,5 @@
 package java7.sunmisc;
 
-import java.lang.reflect.Field;
 import sun.misc.Unsafe;
 
 public class UnsafeTest {
@@ -10,10 +9,7 @@ public class UnsafeTest {
     public String z;
     
     public static void main(String[] args) throws Exception {
-        //Unsafe unsafe = Unsafe.getUnsafe();
-        Field f = Unsafe.class.getDeclaredField("theUnsafe");
-        f.setAccessible(true);
-        Unsafe unsafe = (Unsafe) f.get(null);
+        Unsafe unsafe = UnsafeGetter.getUnsafe();
 
         //memory(unsafe);
         //array(unsafe);
@@ -98,70 +94,6 @@ public class UnsafeTest {
         if (obj.z != "two") {
             System.out.println("casObj(obj) failed!" + obj.z);
         }
-    }
-    
-    private static void memory(Unsafe unsafe) {
-        final long address = unsafe.allocateMemory(8);
-        
-        unsafe.putAddress(address, address);
-        if (unsafe.getAddress(address) != address) {
-            System.out.println("getAddress() failed!");
-        }
-        
-        unsafe.putByte(address, (byte)7);
-        if (unsafe.getByte(address) != 7) {
-            System.out.println("getByte() failed!");
-        }
-        unsafe.putByte(address, (byte)-7);
-        if (unsafe.getByte(address) != -7) {
-            System.out.println("getByte() failed!");
-        }
-        
-        unsafe.putShort(address, (short)500);
-        if (unsafe.getShort(address) != 500) {
-            System.out.println("getShort() failed!");
-        }
-        unsafe.putShort(address, (short)-500);
-        if (unsafe.getShort(address) != -500) {
-            System.out.println("getShort() failed!");
-        }
-        
-        unsafe.putChar(address, 'c');
-        if (unsafe.getChar(address) != 'c') {
-            System.out.println("getChar() failed!");
-        }
-        
-        unsafe.putInt(address, 65536);
-        if (unsafe.getInt(address) != 65536) {
-            System.out.println("getInt() failed!");
-        }
-        unsafe.putInt(address, -65536);
-        if (unsafe.getInt(address) != -65536) {
-            System.out.println("getInt() failed!");
-        }
-        
-        unsafe.putLong(address, 79L);
-        if (unsafe.getLong(address) != 79L) {
-            System.out.println("getLong() failed!");
-        }
-        unsafe.putLong(address, -79L);
-        if (unsafe.getLong(address) != -79L) {
-            System.out.println("getLong() failed!");
-        }
-        
-        unsafe.putFloat(address, 3.14f);
-        if (unsafe.getFloat(address) != 3.14f) {
-            System.out.println("getFloat() failed!");
-        }
-        
-        unsafe.putDouble(address, 2.71828);
-        if (unsafe.getDouble(address) != 2.71828) {
-            System.out.println("getDouble() failed");
-        }
-        
-        long newAddress = unsafe.reallocateMemory(address, 100);
-        unsafe.freeMemory(newAddress);
-        System.out.println("memory testing ok!");
     }
     
 }

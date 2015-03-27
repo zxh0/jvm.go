@@ -13,6 +13,7 @@ import java7.reflection.ArrayGetTest;
 import java7.reflection.ArraySetTest;
 import java7.reflection.MethodTest;
 import java7.reflection.PrimitiveClassTest;
+import java7.sunmisc.UnsafeMemoryTest;
 import java7.thread.DaemonTest;
 import java7.thread.MainThreadTest;
 import java7.thread.SleepTest;
@@ -48,6 +49,7 @@ public class UnitTests {
             PrimitiveClassTest.class,
             SleepTest.class,
             StringTest.class,
+            UnsafeMemoryTest.class,
         });
     }
     

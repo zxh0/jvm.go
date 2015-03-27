@@ -9,11 +9,8 @@ import static org.junit.Assert.*;
 public class UnsafeObjectTest {
     
     private static final Unsafe unsafe;
-    private static final long doubleArrBaseOffset;
-    private static final long doubleArrIndexScale;
     private static final long objectArrBaseOffset;
     private static final long objectArrIndexScale;
-    private static final long dOffset;
     
     private boolean z;
     private byte b;
@@ -26,15 +23,8 @@ public class UnsafeObjectTest {
     
     static {
         unsafe = UnsafeGetter.getUnsafe();
-        doubleArrBaseOffset = unsafe.arrayBaseOffset(double[].class);
-        doubleArrIndexScale = unsafe.arrayIndexScale(double[].class);
         objectArrBaseOffset = unsafe.arrayBaseOffset(Object[].class);
         objectArrIndexScale = unsafe.arrayIndexScale(Object[].class);
-        try {
-            dOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("d"));
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
     }
     
     @Test
@@ -196,6 +186,29 @@ public class UnsafeObjectTest {
         assertEquals(0f, unsafe.getFloat(obj, fOffset), 0.1);
         unsafe.putFloat(obj, fOffset, 3.14f);
         assertEquals(3.14f, unsafe.getFloat(obj, fOffset), 0.1);
+    }
+    
+    @Test
+    public void doubleArray() {
+        double[] arr = {1.4, 3.14, 0d};
+        
+        long doubleArrBaseOffset = unsafe.arrayBaseOffset(double[].class);
+        long doubleArrIndexScale = unsafe.arrayIndexScale(double[].class);
+        long index1 = doubleArrBaseOffset + doubleArrIndexScale;
+        
+        assertEquals(3.14, unsafe.getDouble(arr, index1),  0.01);
+        unsafe.putDouble(arr, index1, 2.71828);
+        assertEquals(2.71828, unsafe.getDouble(arr, index1), 0.01);
+    }
+    
+    @Test
+    public void doubleField() {
+        UnsafeObjectTest obj = new UnsafeObjectTest();
+        long dOffset = objectFieldOffset("d");
+        
+        assertEquals(0, unsafe.getDouble(obj, dOffset), 0.1);
+        unsafe.putDouble(obj, dOffset, 3.14);
+        assertEquals(3.14, unsafe.getDouble(obj, dOffset), 0.1);
     }
     
     private static long objectFieldOffset(String fieldName) {

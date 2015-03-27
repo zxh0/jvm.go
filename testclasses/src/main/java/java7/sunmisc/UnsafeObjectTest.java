@@ -9,13 +9,10 @@ import static org.junit.Assert.*;
 public class UnsafeObjectTest {
     
     private static final Unsafe unsafe;
-    private static final long floatArrBaseOffset;
-    private static final long floatArrIndexScale;
     private static final long doubleArrBaseOffset;
     private static final long doubleArrIndexScale;
     private static final long objectArrBaseOffset;
     private static final long objectArrIndexScale;
-    private static final long fOffset;
     private static final long dOffset;
     
     private boolean z;
@@ -29,14 +26,11 @@ public class UnsafeObjectTest {
     
     static {
         unsafe = UnsafeGetter.getUnsafe();
-        floatArrBaseOffset = unsafe.arrayBaseOffset(float[].class);
-        floatArrIndexScale = unsafe.arrayIndexScale(float[].class);
         doubleArrBaseOffset = unsafe.arrayBaseOffset(double[].class);
         doubleArrIndexScale = unsafe.arrayIndexScale(double[].class);
         objectArrBaseOffset = unsafe.arrayBaseOffset(Object[].class);
         objectArrIndexScale = unsafe.arrayIndexScale(Object[].class);
         try {
-            fOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("f"));
             dOffset = unsafe.objectFieldOffset(UnsafeObjectTest.class.getDeclaredField("d"));
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
@@ -179,6 +173,29 @@ public class UnsafeObjectTest {
         assertEquals(0L, unsafe.getLong(obj, jOffset));
         unsafe.putLong(obj, jOffset, 12345L);
         assertEquals(12345L, unsafe.getLong(obj, jOffset));
+    }
+    
+    @Test
+    public void floatArray() {
+        float[] arr = {1.4f, 3.14f, 0f};
+        
+        long floatArrBaseOffset = unsafe.arrayBaseOffset(float[].class);
+        long floatArrIndexScale = unsafe.arrayIndexScale(float[].class);
+        long index1 = floatArrBaseOffset + floatArrIndexScale;
+        
+        assertEquals(3.14f, unsafe.getFloat(arr, index1),  0.01);
+        unsafe.putFloat(arr, index1, 2.71828f);
+        assertEquals(2.71828f, unsafe.getFloat(arr, index1), 0.01);
+    }
+    
+    @Test
+    public void floatField() {
+        UnsafeObjectTest obj = new UnsafeObjectTest();
+        long fOffset = objectFieldOffset("f");
+        
+        assertEquals(0f, unsafe.getFloat(obj, fOffset), 0.1);
+        unsafe.putFloat(obj, fOffset, 3.14f);
+        assertEquals(3.14f, unsafe.getFloat(obj, fOffset), 0.1);
     }
     
     private static long objectFieldOffset(String fieldName) {

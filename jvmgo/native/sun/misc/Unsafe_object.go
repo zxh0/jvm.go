@@ -18,6 +18,8 @@ func init() {
 	_unsafe(putChar, "putChar", "(Ljava/lang/Object;JC)V")
 	_unsafe(getShort, "getShort", "(Ljava/lang/Object;J)S")
 	_unsafe(putShort, "putShort", "(Ljava/lang/Object;JS)V")
+	_unsafe(getInt, "getInt", "(Ljava/lang/Object;J)I")
+	_unsafe(putInt, "putInt", "(Ljava/lang/Object;JI)V")
 	_unsafe(getObject, "getObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
 	_unsafe(putObject, "putObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getObjectVolatile, "getObjectVolatile", "(Ljava/lang/Object;J)Ljava/lang/Object;")
@@ -112,7 +114,7 @@ func getByte(frame *rtda.Frame) {
 }
 
 // public native void putByte(Object o, long offset, byte x);
-// (Ljava/lang/Object;JZ)V
+// (Ljava/lang/Object;JB)V
 func putByte(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	fields := vars.GetRef(1).Fields()
@@ -142,15 +144,15 @@ func getChar(frame *rtda.Frame) {
 		// object
 		stack.PushInt(anys[offset].(int32))
 	} else if chars, ok := fields.([]uint16); ok {
-		// byte[]
+		// char[]
 		stack.PushInt(int32(chars[offset]))
 	} else {
 		panic("getChar!")
 	}
 }
 
-// public native void putChar(Object o, long offset, byte x);
-// (Ljava/lang/Object;JZ)V
+// public native void putChar(Object o, long offset, char x);
+// (Ljava/lang/Object;JC)V
 func putChar(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	fields := vars.GetRef(1).Fields()
@@ -161,7 +163,7 @@ func putChar(frame *rtda.Frame) {
 		// object
 		anys[offset] = x
 	} else if chars, ok := fields.([]uint16); ok {
-		// byte[]
+		// char[]
 		chars[offset] = uint16(x)
 	} else {
 		panic("putChar!")
@@ -180,14 +182,14 @@ func getShort(frame *rtda.Frame) {
 		// object
 		stack.PushInt(anys[offset].(int32))
 	} else if shorts, ok := fields.([]int16); ok {
-		// byte[]
+		// short[]
 		stack.PushInt(int32(shorts[offset]))
 	} else {
 		panic("getShort!")
 	}
 }
 
-// public native void putShort(Object o, long offset, byte x);
+// public native void putShort(Object o, long offset, short x);
 // (Ljava/lang/Object;JS)V
 func putShort(frame *rtda.Frame) {
 	vars := frame.LocalVars()
@@ -199,10 +201,48 @@ func putShort(frame *rtda.Frame) {
 		// object
 		anys[offset] = x
 	} else if shorts, ok := fields.([]int16); ok {
-		// byte[]
+		// short[]
 		shorts[offset] = int16(x)
 	} else {
 		panic("putShort!")
+	}
+}
+
+// public native boolean getInt(Object o, long offset);
+// (Ljava/lang/Object;J)I
+func getInt(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fields := vars.GetRef(1).Fields()
+	offset := vars.GetLong(2)
+
+	stack := frame.OperandStack()
+	if anys, ok := fields.([]Any); ok {
+		// object
+		stack.PushInt(anys[offset].(int32))
+	} else if shorts, ok := fields.([]int32); ok {
+		// int[]
+		stack.PushInt(int32(shorts[offset]))
+	} else {
+		panic("getInt!")
+	}
+}
+
+// public native void putInt(Object o, long offset, int x);
+// (Ljava/lang/Object;JI)V
+func putInt(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fields := vars.GetRef(1).Fields()
+	offset := vars.GetLong(2)
+	x := vars.GetInt(4)
+
+	if anys, ok := fields.([]Any); ok {
+		// object
+		anys[offset] = x
+	} else if shorts, ok := fields.([]int32); ok {
+		// int[]
+		shorts[offset] = x
+	} else {
+		panic("putInt!")
 	}
 }
 

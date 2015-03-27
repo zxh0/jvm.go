@@ -5,8 +5,10 @@ import (
 )
 
 const (
-	_wakeUp    = 1
+	// wake up signals
+	_timeOut   = 1
 	_interrupt = 2
+	_unpark    = 3
 )
 
 func (self *Thread) Sleep(d time.Duration) (interrupted bool) {
@@ -33,7 +35,7 @@ func (self *Thread) _sleep(d time.Duration) {
 
 	if self.isBlocked { // not interrupted
 		self.isBlocked = false
-		self.ch <- _wakeUp
+		self.ch <- _timeOut
 	}
 }
 

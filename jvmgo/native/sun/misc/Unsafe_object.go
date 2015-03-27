@@ -20,6 +20,8 @@ func init() {
 	_unsafe(putShort, "putShort", "(Ljava/lang/Object;JS)V")
 	_unsafe(getInt, "getInt", "(Ljava/lang/Object;J)I")
 	_unsafe(putInt, "putInt", "(Ljava/lang/Object;JI)V")
+	_unsafe(getLong, "getLong", "(Ljava/lang/Object;J)J")
+	_unsafe(putLong, "putLong", "(Ljava/lang/Object;JJ)V")
 	_unsafe(getObject, "getObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
 	_unsafe(putObject, "putObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getObjectVolatile, "getObjectVolatile", "(Ljava/lang/Object;J)Ljava/lang/Object;")
@@ -243,6 +245,44 @@ func putInt(frame *rtda.Frame) {
 		shorts[offset] = x
 	} else {
 		panic("putInt!")
+	}
+}
+
+// public native boolean getLong(Object o, long offset);
+// (Ljava/lang/Object;J)J
+func getLong(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fields := vars.GetRef(1).Fields()
+	offset := vars.GetLong(2)
+
+	stack := frame.OperandStack()
+	if anys, ok := fields.([]Any); ok {
+		// object
+		stack.PushLong(anys[offset].(int64))
+	} else if longs, ok := fields.([]int64); ok {
+		// long[]
+		stack.PushLong(longs[offset])
+	} else {
+		panic("getLong!")
+	}
+}
+
+// public native void putLong(Object o, long offset, long x);
+// (Ljava/lang/Object;JJ)V
+func putLong(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	fields := vars.GetRef(1).Fields()
+	offset := vars.GetLong(2)
+	x := vars.GetLong(4)
+
+	if anys, ok := fields.([]Any); ok {
+		// object
+		anys[offset] = x
+	} else if longs, ok := fields.([]int64); ok {
+		// long[]
+		longs[offset] = x
+	} else {
+		panic("putLong!")
 	}
 }
 

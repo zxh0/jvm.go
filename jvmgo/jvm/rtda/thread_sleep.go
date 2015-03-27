@@ -19,7 +19,7 @@ func (self *Thread) Sleep(d time.Duration) (interrupted bool) {
 		return true
 	}
 
-	self.blockingFlag = true
+	self.sleepingFlag = true
 	go self._sleep(d)
 	self.lock.Unlock()
 
@@ -33,8 +33,8 @@ func (self *Thread) _sleep(d time.Duration) {
 	self.lock.Lock()
 	defer self.lock.Unlock()
 
-	if self.blockingFlag { // not interrupted
-		self.blockingFlag = false
+	if self.sleepingFlag { // not interrupted
+		self.sleepingFlag = false
 		self.ch <- _timeOut
 	}
 }
@@ -43,8 +43,13 @@ func (self *Thread) Interrupt() {
 	self.lock.Lock()
 	defer self.lock.Unlock()
 
-	if self.blockingFlag {
-		self.blockingFlag = false
+	if self.sleepingFlag {
+		self.sleepingFlag = false
+		self.ch <- _interrupt
+		return
+	}
+	if self.parkingFlag {
+		self.parkingFlag = false
 		self.ch <- _interrupt
 		return
 	}
@@ -66,9 +71,47 @@ func (self *Thread) IsInterrupted(clearInterrupted bool) bool {
 }
 
 func (self *Thread) Park(d time.Duration) {
-	self.Sleep(d)
+	self.lock.Lock()
+	if self.interruptedFlag {
+		self.interruptedFlag = false
+		self.lock.Unlock()
+		return
+	}
+	if self.unparkedFlag {
+		self.unparkedFlag = false
+		self.lock.Unlock()
+		return
+	}
+
+	self.parkingFlag = true
+	go self._park(d)
+	self.lock.Unlock()
+
+	// todo: check interrupted?
+	<-self.ch
+}
+
+func (self *Thread) _park(d time.Duration) {
+	time.Sleep(d)
+
+	self.lock.Lock()
+	defer self.lock.Unlock()
+
+	if self.parkingFlag { // not interrupted
+		self.parkingFlag = false
+		self.ch <- _timeOut
+	}
 }
 
 func (self *Thread) Unpark() {
+	self.lock.Lock()
+	defer self.lock.Unlock()
 
+	if self.parkingFlag {
+		self.parkingFlag = false
+		self.ch <- _unpark
+		return
+	}
+
+	self.unparkedFlag = true
 }

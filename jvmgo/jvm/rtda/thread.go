@@ -25,8 +25,10 @@ type Thread struct {
 	jThread         *rtc.Obj    // java.lang.Thread
 	lock            *sync.Mutex // state lock
 	ch              chan int
+	sleepingFlag    bool
 	interruptedFlag bool
-	blockingFlag    bool
+	parkingFlag     bool // used by Unsafe
+	unparkedFlag    bool // used by Unsafe
 	// todo
 }
 

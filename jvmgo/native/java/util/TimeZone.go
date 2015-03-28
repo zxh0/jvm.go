@@ -22,9 +22,10 @@ func getSystemTimeZoneID(frame *rtda.Frame) {
 	//javaHomeObj := vars.GetRef(0)
 	//countryObj := vars.GetRef(1)
 
-	// todo
-	name, _ := time.Now().Zone()
-	zoneID := rtda.JString(name)
+	//TODO
+	location, _ := time.LoadLocation("GMT")
+
+	zoneID := rtda.JString(location.String())
 
 	stack := frame.OperandStack()
 	stack.PushRef(zoneID)

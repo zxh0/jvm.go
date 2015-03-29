@@ -69,7 +69,7 @@ func checkArrayCopy(src, dest *rtc.Obj) bool {
 // public static native long currentTimeMillis();
 // ()J
 func currentTimeMillis(frame *rtda.Frame) {
-	millis := time.Now().UnixNano() / 1000
+	millis := time.Now().UnixNano() / int64(time.Millisecond)
 	stack := frame.OperandStack()
 	stack.PushLong(millis)
 }
@@ -123,6 +123,7 @@ func _sysProps() map[string]string {
 		"user.name":           "",   // todo
 		"user.home":           "",   // todo
 		"user.dir":            ".",  // todo
+		"user.country":        "CN", // todo
 		"file.encoding":       "UTF-8",
 		"sun.stdout.encoding": "UTF-8",
 		"sun.stderr.encoding": "UTF-8",

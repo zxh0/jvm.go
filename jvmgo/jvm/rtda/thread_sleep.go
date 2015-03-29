@@ -49,6 +49,7 @@ func (self *Thread) Interrupt() {
 		return
 	}
 	if self.parkingFlag {
+		self.interruptedFlag = true
 		self.parkingFlag = false
 		self.ch <- _interrupt
 		return

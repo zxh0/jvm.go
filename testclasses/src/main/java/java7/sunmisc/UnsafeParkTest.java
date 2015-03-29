@@ -1,6 +1,7 @@
 package java7.sunmisc;
 
 import libs.junit.UnitTestRunner;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Date;
@@ -72,10 +73,12 @@ public class UnsafeParkTest {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
+                    //Thread.sleep(2000);
                     LockSupport.park();
                     //TODO
-                    //Assert.assertTrue(Thread.interrupted());
+                    Assert.assertTrue(Thread.interrupted());
                 } catch (Exception e) {
+                    Assert.assertTrue(Thread.interrupted());
                     System.out.println(e.getMessage());
                 }
             }

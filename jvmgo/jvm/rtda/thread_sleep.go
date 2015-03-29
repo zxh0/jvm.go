@@ -93,13 +93,7 @@ func (self *Thread) Park(d time.Duration) {
 }
 
 func (self *Thread) _park(d time.Duration) {
-
-	if d != 0 {
-		time.Sleep(d)
-	} else {
-		//TODO duration to approximately 290 years =. =
-		time.Sleep(1<<63 - 1)
-	}
+	time.Sleep(d)
 
 	self.lock.Lock()
 	defer self.lock.Unlock()

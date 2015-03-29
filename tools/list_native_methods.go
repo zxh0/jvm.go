@@ -44,8 +44,7 @@ func skip(className string) bool {
 		strings.HasPrefix(className, "sun/awt") ||
 		strings.HasPrefix(className, "sun/font") ||
 		strings.HasPrefix(className, "sun/java2d") ||
-		strings.HasPrefix(className, "sun/lwawt/macosx") ||
-		strings.HasPrefix(className, "java/awt")
+		strings.HasPrefix(className, "sun/lwawt/macosx")
 }
 
 func handleClass(f *zip.File) {

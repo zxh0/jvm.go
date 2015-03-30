@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 // A constant variable is a final variable of primitive type or type String
 // that is initialized with a constant expression (§15.28).
-public class ConstantVariablesTest {
+public class ConstantStaticFieldsTest {
     
     public static final boolean z = true;
     public static final byte b = 125;
@@ -22,40 +22,40 @@ public class ConstantVariablesTest {
     
     @Test
     public void test() {
-        assertEquals(true, ConstantVariablesTest.z);
+        assertEquals(true, ConstantStaticFieldsTest.z);
         assertEquals(true, getFieldValue("z"));
-        assertEquals((byte)125, ConstantVariablesTest.b);
+        assertEquals((byte)125, ConstantStaticFieldsTest.b);
         assertEquals((byte)125, getFieldValue("b"));
-        assertEquals('c', ConstantVariablesTest.c);
+        assertEquals('c', ConstantStaticFieldsTest.c);
         assertEquals('c', getFieldValue("c"));
-        assertEquals((short)300, ConstantVariablesTest.s);
+        assertEquals((short)300, ConstantStaticFieldsTest.s);
         assertEquals((short)300, getFieldValue("s"));
-        assertEquals(100, ConstantVariablesTest.x);
+        assertEquals(100, ConstantStaticFieldsTest.x);
         assertEquals(100, getFieldValue("x"));
-        assertEquals(118, ConstantVariablesTest.y);
+        assertEquals(118, ConstantStaticFieldsTest.y);
         assertEquals(118, getFieldValue("y"));
-        assertEquals(1L, ConstantVariablesTest.j);
+        assertEquals(1L, ConstantStaticFieldsTest.j);
         assertEquals(1L, getFieldValue("j"));
-        assertEquals(3.14f, ConstantVariablesTest.f, 0.1);
+        assertEquals(3.14f, ConstantStaticFieldsTest.f, 0.1);
         assertEquals(3.14f, getFieldValue("f"));
-        assertEquals(2.71828, ConstantVariablesTest.d, 0.1);
+        assertEquals(2.71828, ConstantStaticFieldsTest.d, 0.1);
         assertEquals(2.71828, getFieldValue("d"));
-        assertEquals("hello", ConstantVariablesTest.str1);
+        assertEquals("hello", ConstantStaticFieldsTest.str1);
         assertEquals("hello", getFieldValue("str1"));
-        assertEquals("hello world!", ConstantVariablesTest.str2);
+        assertEquals("hello world!", ConstantStaticFieldsTest.str2);
         assertEquals("hello world!", getFieldValue("str2"));
     }
     
     private static Object getFieldValue(String name) {
         try {
-            return ConstantVariablesTest.class.getField(name).get(null);
+            return ConstantStaticFieldsTest.class.getField(name).get(null);
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
     
     public static void main(String[] args) throws Exception {
-        UnitTestRunner.run(ConstantVariablesTest.class);
+        UnitTestRunner.run(ConstantStaticFieldsTest.class);
     }
     
 }

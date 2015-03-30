@@ -71,7 +71,7 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 		return &UndefinedAttribute{name: "RuntimeVisibleParameterAnnotations"}
 	// case "RuntimeVisibleTypeAnnotations":
 	case "Signature":
-		return &SignatureAttribute{}
+		return &SignatureAttribute{cp: cp}
 	case "SourceFile":
 		return &SourceFileAttribute{cp: cp}
 	case "SourceDebugExtension":

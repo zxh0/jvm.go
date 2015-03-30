@@ -47,6 +47,7 @@ func (self *Class) copyAttributes(cf *classfile.ClassFile) {
 		sourceFile:      getSourceFile(cf),
 		annotationData:  getAnnotationData(cf),
 		enclosingMethod: getEnclosingMethod(cf),
+		signature:       getSignature(cf),
 	}
 }
 
@@ -74,4 +75,11 @@ func getEnclosingMethod(cf *classfile.ClassFile) *EnclosingMethod {
 		}
 	}
 	return nil
+}
+
+func getSignature(cf *classfile.ClassFile) string {
+	if sigAttr := cf.SignatureAttribute(); sigAttr != nil {
+		return sigAttr.SignatureName()
+	}
+	return "Unknown" //TODO
 }

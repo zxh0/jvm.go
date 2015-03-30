@@ -23,6 +23,7 @@ func init() {
 	_class(isInstance, "isInstance", "(Ljava/lang/Object;)Z")
 	_class(isInterface, "isInterface", "()Z")
 	_class(isPrimitive, "isPrimitive", "()Z")
+	_class(getGenericSignature0, "getGenericSignature0", "()Ljava/lang/String;")
 }
 
 func _class(method Any, name, desc string) {
@@ -98,9 +99,17 @@ func getDeclaringClass0(frame *rtda.Frame) {
 // ()[Ljava/lang/Object;
 func getEnclosingMethod0(frame *rtda.Frame) {
 	class := _popClass(frame)
-	emInfo := class.Attributes().EnclosingMethod()
-	emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
-	frame.OperandStack().PushRef(emInfoObj)
+	if class.IsPrimitive() {
+		frame.OperandStack().PushNull()
+	} else {
+		emInfo := class.Attributes().EnclosingMethod()
+		emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
+		if rtc.ArrayLength(emInfoObj) == 0 {
+			frame.OperandStack().PushNull()
+		}
+		frame.OperandStack().PushRef(emInfoObj)
+	}
+
 }
 
 func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.EnclosingMethod) *rtc.Obj {
@@ -225,6 +234,24 @@ func isPrimitive(frame *rtda.Frame) {
 	class := _popClass(frame)
 	stack := frame.OperandStack()
 	stack.PushBoolean(class.IsPrimitive())
+}
+
+// private native String getGenericSignature0();
+// ()Ljava/lang/String;
+func getGenericSignature0(frame *rtda.Frame) {
+	class := _popClass(frame)
+	if class == nil {
+		panic("illegal class")
+	}
+
+	// Return null for arrays and primatives
+	if !class.IsPrimitive() {
+		attr := class.Attributes()
+		signature := attr.Signature()
+		frame.OperandStack().PushRef(rtda.JString(signature))
+	}
+
+	frame.OperandStack().PushNull()
 }
 
 func _popClass(frame *rtda.Frame) *rtc.Class {

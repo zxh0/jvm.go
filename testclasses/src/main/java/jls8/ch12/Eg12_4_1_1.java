@@ -1,5 +1,6 @@
 package jls8.ch12;
 
+import jls8.StringOut;
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -10,24 +11,24 @@ import static org.junit.Assert.*;
  */
 public class Eg12_4_1_1 {
     
-    private static String output = "";
+    private static final StringOut out = new StringOut();
     
     private static class Super {
-        static { Eg12_4_1_1.output += "Super "; }
+        static { out.print("Super "); }
     }
     private static class One {
-        static { Eg12_4_1_1.output += "One "; }
+        static { out.print("One "); }
     }
     private static class Two extends Super {
-        static { Eg12_4_1_1.output += "Two "; }
+        static { out.print("Two "); }
     }
     
     @Test
     public void test() {
         One o = null;
         Two t = new Two();
-        output += ((Object)o == (Object)t);
-        assertEquals("Super Two false", output);
+        out.println((Object)o == (Object)t);
+        assertEquals("Super Two false\n", out.toString());
     }
     
     public static void main(String[] args) {

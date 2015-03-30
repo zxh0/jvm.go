@@ -1,5 +1,6 @@
 package jls8.ch12;
 
+import jls8.StringOut;
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -10,7 +11,7 @@ import static org.junit.Assert.*;
  */
 public class Eg12_4_1_3 {
     
-    private static String output = "";
+    private static final StringOut sout = new StringOut();
     
     private static interface I {
         int i = 1, ii = out("ii", 2);
@@ -23,20 +24,15 @@ public class Eg12_4_1_3 {
     }
     
     static int out(String s, int i) {
-        println(s + "=" + i);
+        sout.println(s + "=" + i);
         return i;
-    }
-    
-    private static void println(String s) {
-        output += s;
-        output += "\n";
     }
     
     @Test
     public void test() {
-        println("" + J.i);
-        println("" + K.j);
-        assertEquals("1\nj=3\njj=4\n3\n", output);
+        sout.println("" + J.i);
+        sout.println("" + K.j);
+        assertEquals("1\nj=3\njj=4\n3\n", sout.toString());
     }
     
     public static void main(String[] args) {

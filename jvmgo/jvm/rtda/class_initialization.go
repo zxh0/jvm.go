@@ -11,7 +11,6 @@ func initClass(thread *Thread, class *rtc.Class) {
 	// step 1
 	initCond := class.InitCond()
 	initCond.L.Lock()
-	defer initCond.L.Unlock()
 
 	// step 2 & 3
 	threadPtr := uintptr(unsafe.Pointer(thread))
@@ -20,40 +19,73 @@ func initClass(thread *Thread, class *rtc.Class) {
 		if initThreadPtr != threadPtr {
 			initCond.Wait()
 		} else {
+			initCond.L.Unlock()
 			return
 		}
 	}
 
 	// step 4
 	if class.IsFullyInitialized() {
+		initCond.L.Unlock()
 		return
 	}
 
 	// step 5
 	if class.IsInitializationFailed() {
-		// todo
-		panic("NoClassDefFoundError")
+		initCond.L.Unlock()
+		panic("NoClassDefFoundError") // todo
 	}
 
 	// step 6
-	//initConstantStaticFields(class)
+	class.MarkBeingInitialized(threadPtr)
+	initCond.L.Unlock()
+	initConstantStaticFields(class)
 
-	uninitedClass := getUpmostUninitializedClassOrInterface(class)
-	if uninitedClass != nil {
-		clinit := uninitedClass.GetClinitMethod()
-		if clinit != nil {
-			// exec <clinit>
-			uninitedClass.MarkBeingInitialized(threadPtr)
-			newFrame := thread.NewFrame(clinit)
-			newFrame.SetOnPopAction(func() {
-				uninitedClass.MarkFullyInitialized()
-			})
-			thread.PushFrame(newFrame)
-		} else {
-			// no <clinit> method
-			uninitedClass.MarkFullyInitialized()
+	// step 7
+	defer initSuperClass(thread, class)
+
+	// step 8
+	// todo
+
+	// step 9 & 10
+	callClinit(thread, class)
+
+	// step 11 & 12
+	// todo
+}
+
+func initSuperClass(thread *Thread, class *rtc.Class) {
+	if !class.IsInterface() {
+		superClass := class.SuperClass()
+		if superClass != nil && superClass.InitializationNotStarted() {
+			initClass(thread, superClass)
 		}
 	}
+}
+
+func callClinit(thread *Thread, class *rtc.Class) {
+	clinit := class.GetClinitMethod()
+	if clinit == nil {
+		clinit = rtc.ReturnMethod() // just do nothing
+	}
+
+	// exec <clinit>
+	newFrame := thread.NewFrame(clinit)
+	newFrame.SetOnPopAction(func() {
+		// step 10
+		initSucceeded(class)
+	})
+	thread.PushFrame(newFrame)
+}
+
+// step 10
+func initSucceeded(class *rtc.Class) {
+	initCond := class.InitCond()
+	initCond.L.Lock()
+	defer initCond.L.Unlock()
+
+	class.MarkFullyInitialized()
+	class.InitCond().Broadcast()
 }
 
 // todo
@@ -67,15 +99,7 @@ func initConstantStaticFields(class *rtc.Class) {
 				slotId := field.Slot()
 				staticSlots := class.StaticFieldValues()
 				switch field.Descriptor() {
-				case "Z":
-					staticSlots[slotId] = (1 == cp.GetConstant(kValIndex).(int32))
-				case "B":
-					staticSlots[slotId] = int8(cp.GetConstant(kValIndex).(int32))
-				case "C":
-					staticSlots[slotId] = uint16(cp.GetConstant(kValIndex).(int32))
-				case "S":
-					staticSlots[slotId] = int16(cp.GetConstant(kValIndex).(int32))
-				case "I":
+				case "Z", "B", "C", "S", "I":
 					staticSlots[slotId] = cp.GetConstant(kValIndex).(int32)
 				case "J":
 					staticSlots[slotId] = cp.GetConstant(kValIndex).(int64)
@@ -89,21 +113,4 @@ func initConstantStaticFields(class *rtc.Class) {
 			}
 		}
 	}
-}
-
-func getUpmostUninitializedClassOrInterface(from *rtc.Class) *rtc.Class {
-	if !from.InitializationNotStarted() {
-		return nil
-	}
-	for k := from.SuperClass(); k != nil; k = k.SuperClass() {
-		if k.InitializationNotStarted() {
-			return getUpmostUninitializedClassOrInterface(k)
-		}
-	}
-	for _, i := range from.Interfaces() {
-		if i.InitializationNotStarted() {
-			return getUpmostUninitializedClassOrInterface(i)
-		}
-	}
-	return from
 }

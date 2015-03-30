@@ -79,7 +79,7 @@ func getEnclosingMethod(cf *classfile.ClassFile) *EnclosingMethod {
 
 func getSignature(cf *classfile.ClassFile) string {
 	if sigAttr := cf.SignatureAttribute(); sigAttr != nil {
-		return sigAttr.SignatureName()
+		return sigAttr.Signature()
 	}
 	return "Unknown" //TODO
 }

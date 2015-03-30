@@ -8,14 +8,14 @@ Signature_attribute {
 }
 */
 type SignatureAttribute struct {
-	signatureIndex uint16
 	cp             *ConstantPool
+	signatureIndex uint16
 }
 
 func (self *SignatureAttribute) readInfo(reader *ClassReader, attrLen uint32) {
 	self.signatureIndex = reader.readUint16()
 }
 
-func (self *SignatureAttribute) SignatureName() string {
+func (self *SignatureAttribute) Signature() string {
 	return self.cp.getUtf8(self.signatureIndex)
 }

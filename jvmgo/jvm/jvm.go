@@ -10,6 +10,7 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	_ "github.com/zxh0/jvm.go/jvmgo/native"
+	"github.com/zxh0/jvm.go/jvmgo/util"
 	"os"
 	"runtime/pprof"
 )
@@ -30,7 +31,8 @@ func Startup(cmd *cmdline.Command) {
 	cp := classpath.Parse(cmd.Options().Classpath())
 	rtc.InitBootLoader(cp)
 
-	mainThread := createMainThread(cmd.Class(), cmd.Args())
+	mainClassName := util.ReplaceAll(cmd.Class(), ".", "/")
+	mainThread := createMainThread(mainClassName, cmd.Args())
 	interpreter.Loop(mainThread)
 	keepalive.KeepAlive()
 }

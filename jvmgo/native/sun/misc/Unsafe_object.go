@@ -28,12 +28,19 @@ func init() {
 	_unsafe(putDouble, "putDouble", "(Ljava/lang/Object;JD)V")
 	_unsafe(getObject, "getObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
 	_unsafe(putObject, "putObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
-	_unsafe(getObjectVolatile, "getObjectVolatile", "(Ljava/lang/Object;J)Ljava/lang/Object;")
-	_unsafe(putObjectVolatile, "putObjectVolatile", "(Ljava/lang/Object;JLjava/lang/Object;)V")
-	_unsafe(getOrderedObject, "getOrderedObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
-	_unsafe(putOrderedObject, "putOrderedObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
-	_unsafe(getIntVolatile, "getIntVolatile", "(Ljava/lang/Object;J)I")
-	_unsafe(getLongVolatile, "getLongVolatile", "(Ljava/lang/Object;J)J")
+	// todo
+	_unsafe(getObject, "getObjectVolatile", "(Ljava/lang/Object;J)Ljava/lang/Object;")
+	_unsafe(putObject, "putObjectVolatile", "(Ljava/lang/Object;JLjava/lang/Object;)V")
+	_unsafe(getObject, "getOrderedObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
+	_unsafe(putObject, "putOrderedObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
+	_unsafe(getInt, "getIntVolatile", "(Ljava/lang/Object;J)I")
+	_unsafe(getLong, "getLongVolatile", "(Ljava/lang/Object;J)J")
+	_unsafe(getBoolean, "getBooleanVolatile", "(Ljava/lang/Object;J)Z")
+	_unsafe(getByte, "getByteVolatile", "(Ljava/lang/Object;J)B")
+	_unsafe(getChar, "getCharVolatile", "(Ljava/lang/Object;J)C")
+	_unsafe(getShort, "getShortVolatile", "(Ljava/lang/Object;J)S")
+	_unsafe(getFloat, "getFloatVolatile", "(Ljava/lang/Object;J)F")
+	_unsafe(getDouble, "getDoubleVolatile", "(Ljava/lang/Object;J)D")
 }
 
 // public native int arrayBaseOffset(Class<?> type);
@@ -411,52 +418,4 @@ func _getObj(fields []Any, offset int64) *rtc.Obj {
 	} else {
 		return nil
 	}
-}
-
-// public native void putObjectVolatile(Object o, long offset, Object x);
-// (Ljava/lang/Object;JLjava/lang/Object;)V
-func putObjectVolatile(frame *rtda.Frame) {
-	putObject(frame) // todo
-}
-
-// public native Object getObjectVolatile(Object o, long offset);
-//(Ljava/lang/Object;J)Ljava/lang/Object;
-func getObjectVolatile(frame *rtda.Frame) {
-	getObject(frame) // todo
-}
-
-// public native void putOrderedObject(Object o, long offset, Object x);
-// (Ljava/lang/Object;JLjava/lang/Object;)V
-func putOrderedObject(frame *rtda.Frame) {
-	putObjectVolatile(frame) // todo
-}
-
-// public native Object getOrderedObject(Object o, long offset);
-//(Ljava/lang/Object;J)Ljava/lang/Object;
-func getOrderedObject(frame *rtda.Frame) {
-	getObjectVolatile(frame) // todo
-}
-
-// public native int getIntVolatile(Object o, long offset);
-// (Ljava/lang/Object;J)I
-func getIntVolatile(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	obj := vars.GetRef(1)
-	offset := vars.GetLong(2)
-
-	// todo
-	value := obj.Fields().([]Any)[offset].(int32)
-	frame.OperandStack().PushInt(value)
-}
-
-// public native long getLongVolatile(Object o, long offset);
-// (Ljava/lang/Object;J)J
-func getLongVolatile(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	obj := vars.GetRef(1)
-	offset := vars.GetLong(2)
-
-	// todo
-	value := obj.Fields().([]Any)[offset].(int64)
-	frame.OperandStack().PushLong(value)
 }

@@ -104,12 +104,12 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 	} else {
 		emInfo := class.Attributes().EnclosingMethod()
 		emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
-		if rtc.ArrayLength(emInfoObj) == 0 {
+		if emInfoObj == nil || rtc.ArrayLength(emInfoObj) == 0 {
 			frame.OperandStack().PushNull()
+		} else {
+			frame.OperandStack().PushRef(emInfoObj)
 		}
-		frame.OperandStack().PushRef(emInfoObj)
 	}
-
 }
 
 func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.EnclosingMethod) *rtc.Obj {

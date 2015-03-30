@@ -236,8 +236,8 @@ func isPrimitive(frame *rtda.Frame) {
 	stack.PushBoolean(class.IsPrimitive())
 }
 
-//
-//()Ljava/lang/String;
+// private native String getGenericSignature0();
+// ()Ljava/lang/String;
 func getGenericSignature0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	if class == nil {

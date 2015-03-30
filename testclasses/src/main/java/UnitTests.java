@@ -23,6 +23,7 @@ import java8.InterfaceMethodTest;
 import jls8.ch12.Eg12_4_1_1;
 import jls8.ch12.Eg12_4_1_2;
 import jls8.ch12.Eg12_4_1_3;
+import jls8.ch12.Eg12_5_2;
 import libs.junit.UnitTestRunner;
 
 public class UnitTests {
@@ -40,6 +41,7 @@ public class UnitTests {
             Eg12_4_1_1.class,
             Eg12_4_1_2.class,
             Eg12_4_1_3.class,
+            Eg12_5_2.class,
             FieldAccessTest.class,
             FieldsTest.class,
             FileIoTest.class,

@@ -87,6 +87,14 @@ func (self *Options) parseXssOption(optionName string) bool {
 	return false
 }
 
+func parseInt(str string) int {
+	i, err := strconv.Atoi(str)
+	if err != nil {
+		panic(err.Error())
+	}
+	return i
+}
+
 func (self *Options) parseXcpuprofile(optionName string, args *CmdLineArgs) bool {
 	if optionName == "-Xcpuprofile" {
 		self.Xcpuprofile = args.removeFirst()
@@ -101,12 +109,4 @@ func (self *Options) parseXuseJavaHome(optionName string) bool {
 		return true
 	}
 	return false
-}
-
-func parseInt(str string) int {
-	i, err := strconv.Atoi(str)
-	if err != nil {
-		panic(err.Error())
-	}
-	return i
 }

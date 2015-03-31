@@ -2,9 +2,9 @@ package io
 
 import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"github.com/zxh0/jvm.go/jvmgo/util"
 	"net"
 )
 
@@ -35,7 +35,7 @@ func sos_socketWrite0(frame *rtda.Frame) {
 	conn := fd.Extra().(net.Conn)
 	jBytes := b.Fields().([]int8)
 	jBytes = jBytes[offset : offset+length]
-	goBytes := util.CastInt8sToUint8s(jBytes)
+	goBytes := jutil.CastInt8sToUint8s(jBytes)
 
 	if _, err := conn.Write(goBytes); err != nil {
 		frame.Thread().ThrowIOException(err.Error())

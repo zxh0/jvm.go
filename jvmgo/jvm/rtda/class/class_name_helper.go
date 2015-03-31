@@ -2,14 +2,14 @@ package class
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/jtype"
-	"github.com/zxh0/jvm.go/jvmgo/util"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 )
 
 func DotToSlash(name string) string {
-	return util.ReplaceAll(name, ".", "/")
+	return jutil.ReplaceAll(name, ".", "/")
 }
 func SlashToDot(name string) string {
-	return util.ReplaceAll(name, "/", ".")
+	return jutil.ReplaceAll(name, "/", ".")
 }
 
 // [XXX -> [[XXX

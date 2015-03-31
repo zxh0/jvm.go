@@ -3,9 +3,9 @@ package zip
 import (
 	gozip "archive/zip"
 	. "github.com/zxh0/jvm.go/jvmgo/any"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 const (
@@ -123,7 +123,7 @@ func getEntryBytes(frame *rtda.Frame) {
 	_type := vars.GetInt(2)
 
 	goBytes := _getEntryBytes(jzentry, _type)
-	jBytes := util.CastUint8sToInt8s(goBytes)
+	jBytes := jutil.CastUint8sToInt8s(goBytes)
 	byteArr := rtc.NewByteArray(jBytes)
 
 	stack := frame.OperandStack()
@@ -140,7 +140,7 @@ func _getEntryBytes(jzentry int64, _type int32) []byte {
 	case JZENTRY_COMMENT:
 		return []byte(entry.Comment)
 	}
-	util.Panicf("BAD type: %v", _type)
+	jutil.Panicf("BAD type: %v", _type)
 	return nil
 }
 

@@ -1,9 +1,9 @@
 package instructions
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 // Push item from run-time constant pool
@@ -40,7 +40,7 @@ func _ldc(frame *rtda.Frame, index uint) {
 	default:
 		// todo
 		// ref to MethodType or MethodHandle
-		util.Panicf("todo: ldc! %v", c)
+		jutil.Panicf("todo: ldc! %v", c)
 	}
 }
 
@@ -58,6 +58,6 @@ func (self *ldc2_w) Execute(frame *rtda.Frame) {
 	case float64:
 		stack.PushDouble(c.(float64))
 	default:
-		util.Panicf("ldc2_w! %v", c)
+		jutil.Panicf("ldc2_w! %v", c)
 	}
 }

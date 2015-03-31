@@ -1,6 +1,8 @@
 package instructions
 
-import "github.com/zxh0/jvm.go/jvmgo/util"
+import (
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
+)
 
 // NoOperandsInstruction singletons
 var (
@@ -566,7 +568,7 @@ func newInstruction(opcode byte) Instruction {
 	case 0xff:
 		return &bootstrap{} // impdep2
 	default:
-		util.Panicf("BAD opcode: %v!", opcode)
+		jutil.Panicf("BAD opcode: %v!", opcode)
 		return nil
 	}
 }

@@ -2,9 +2,9 @@ package misc
 
 import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"github.com/zxh0/jvm.go/jvmgo/util"
 	"sync/atomic"
 	"unsafe"
 )
@@ -26,7 +26,7 @@ func compareAndSwapInt(frame *rtda.Frame) {
 
 	if anys, ok := fields.([]Any); ok {
 		// object
-		swapped := util.CasInt32(anys[offset], expected, newVal)
+		swapped := jutil.CasInt32(anys[offset], expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
 	} else if ints, ok := fields.([]int32); ok {
 		// int[]
@@ -49,7 +49,7 @@ func compareAndSwapLong(frame *rtda.Frame) {
 
 	if anys, ok := fields.([]Any); ok {
 		// object
-		swapped := util.CasInt64(anys[offset], expected, newVal)
+		swapped := jutil.CasInt64(anys[offset], expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
 	} else if ints, ok := fields.([]int64); ok {
 		// long[]

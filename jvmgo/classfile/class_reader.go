@@ -1,7 +1,7 @@
 package classfile
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/util/bigendian"
+	"github.com/zxh0/jvm.go/jvmgo/jutil/bigendian"
 )
 
 type ClassReader struct {

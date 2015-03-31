@@ -2,7 +2,7 @@ package class
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/classfile"
-	"github.com/zxh0/jvm.go/jvmgo/util"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"sync"
 )
 
@@ -60,7 +60,7 @@ func getSourceFile(cf *classfile.ClassFile) string {
 
 func getAnnotationData(cf *classfile.ClassFile) []int8 {
 	if rvaAttr := cf.RuntimeVisibleAnnotationsAttribute(); rvaAttr != nil {
-		return util.CastUint8sToInt8s(rvaAttr.Info())
+		return jutil.CastUint8sToInt8s(rvaAttr.Info())
 	}
 	return nil
 }

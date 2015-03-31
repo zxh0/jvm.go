@@ -1,9 +1,9 @@
 package lang
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"github.com/zxh0/jvm.go/jvmgo/util"
 )
 
 func getParameterTypeArr(method *rtc.Method) *rtc.Obj {
@@ -47,14 +47,14 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 
 func getParameterAnnotationDyteArr(method *rtc.Method) *rtc.Obj {
 	if data := method.ParameterAnnotationData(); data != nil {
-		bytes := util.CastUint8sToInt8s(data)
+		bytes := jutil.CastUint8sToInt8s(data)
 		return rtc.NewByteArray(bytes)
 	}
 	return nil
 }
 func getAnnotationDefaultData(method *rtc.Method) *rtc.Obj {
 	if data := method.AnnotationDefaultData(); data != nil {
-		bytes := util.CastUint8sToInt8s(data)
+		bytes := jutil.CastUint8sToInt8s(data)
 		return rtc.NewByteArray(bytes)
 	}
 	return nil
@@ -62,7 +62,7 @@ func getAnnotationDefaultData(method *rtc.Method) *rtc.Obj {
 
 func getAnnotationByteArr(member *rtc.ClassMember) *rtc.Obj {
 	if data := member.AnnotationData(); data != nil {
-		bytes := util.CastUint8sToInt8s(data)
+		bytes := jutil.CastUint8sToInt8s(data)
 		return rtc.NewByteArray(bytes)
 	}
 	return nil

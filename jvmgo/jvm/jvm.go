@@ -4,13 +4,13 @@ import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/classpath"
 	"github.com/zxh0/jvm.go/jvmgo/cmdline"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/interpreter"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/keepalive"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	_ "github.com/zxh0/jvm.go/jvmgo/native"
-	"github.com/zxh0/jvm.go/jvmgo/util"
 	"os"
 	"runtime/pprof"
 )
@@ -31,7 +31,7 @@ func Startup(cmd *cmdline.Command) {
 	cp := classpath.Parse(cmd.Options().Classpath())
 	rtc.InitBootLoader(cp)
 
-	mainClassName := util.ReplaceAll(cmd.Class(), ".", "/")
+	mainClassName := jutil.ReplaceAll(cmd.Class(), ".", "/")
 	mainThread := createMainThread(mainClassName, cmd.Args())
 	interpreter.Loop(mainThread)
 	keepalive.KeepAlive()

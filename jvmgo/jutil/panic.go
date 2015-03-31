@@ -1,9 +1,9 @@
-package util
+package jutil
 
 import (
 	"fmt"
 )
 
 func Panicf(format string, a ...interface{}) {
-	panic(fmt.Sprintf(format, a...))
+	panic(fmt.Errorf(format, a...))
 }

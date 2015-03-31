@@ -3,7 +3,7 @@ package class
 import (
 	"fmt"
 	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
-	"github.com/zxh0/jvm.go/jvmgo/util"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 )
 
 type ConstantFieldref struct {
@@ -46,7 +46,7 @@ func (self *ConstantFieldref) resolveInstanceField() {
 	}
 
 	// todo
-	util.Panicf("instance field not found! %v", self)
+	jutil.Panicf("instance field not found! %v", self)
 }
 
 func (self *ConstantFieldref) StaticField() *Field {
@@ -70,7 +70,7 @@ func (self *ConstantFieldref) resolveStaticField() {
 	}
 
 	// todo
-	util.Panicf("static field not found! %v", self)
+	jutil.Panicf("static field not found! %v", self)
 }
 
 func (self *ConstantFieldref) _findInterfaceField(class *Class) bool {

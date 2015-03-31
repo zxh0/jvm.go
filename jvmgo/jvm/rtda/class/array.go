@@ -1,7 +1,7 @@
 package class
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/util"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 )
 
 const (
@@ -44,7 +44,7 @@ func _newPrimitiveArray(arrClass *Class, count uint) *Obj {
 	case "[D":
 		return newObj(arrClass, make([]float64, count), nil)
 	default:
-		util.Panicf("Not primitive array: %v!", arrClass)
+		jutil.Panicf("Not primitive array: %v!", arrClass)
 		return nil
 	}
 }
@@ -68,7 +68,7 @@ func NewPrimitiveArray(atype uint8, count uint) *Obj {
 	case AT_DOUBLE:
 		return newObj(bootLoader.getClass("[D"), make([]float64, count), nil)
 	default:
-		util.Panicf("BAD atype: %v!", atype)
+		jutil.Panicf("BAD atype: %v!", atype)
 		return nil
 	}
 }
@@ -111,7 +111,7 @@ func ArrayLength(arr *Obj) int32 {
 	case []*Obj:
 		return int32(len(arr.fields.([]*Obj)))
 	default:
-		util.Panicf("Not array: %v!", arr)
+		jutil.Panicf("Not array: %v!", arr)
 		return -1
 	}
 }
@@ -151,6 +151,6 @@ func ArrayCopy(src, dst *Obj, srcPos, dstPos, length int32) {
 		_dst := dst.fields.([]*Obj)[dstPos : dstPos+length]
 		copy(_dst, _src)
 	default:
-		util.Panicf("Not array: %v!", src)
+		jutil.Panicf("Not array: %v!", src)
 	}
 }

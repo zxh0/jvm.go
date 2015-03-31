@@ -1,6 +1,8 @@
 package classfile
 
-import "github.com/zxh0/jvm.go/jvmgo/util"
+import (
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
+)
 
 // Constant pool tags
 const (
@@ -62,7 +64,7 @@ func newConstantInfo(tag uint8, cp *ConstantPool) ConstantInfo {
 	case CONSTANT_InvokeDynamic:
 		return &ConstantInvokeDynamicInfo{}
 	default: // todo
-		util.Panicf("BAD constant pool tag: %v", tag)
+		jutil.Panicf("BAD constant pool tag: %v", tag)
 		return nil
 	}
 }

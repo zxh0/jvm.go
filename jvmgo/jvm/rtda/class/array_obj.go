@@ -1,7 +1,7 @@
 package class
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/util"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 )
 
 func (self *Obj) IsArray() bool {
@@ -49,5 +49,5 @@ func (self *Obj) Doubles() []float64 {
 
 func (self *Obj) GoBytes() []byte {
 	s := self.fields.([]int8)
-	return util.CastInt8sToUint8s(s)
+	return jutil.CastInt8sToUint8s(s)
 }

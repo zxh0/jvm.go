@@ -2,8 +2,8 @@ package misc
 
 import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
+	"github.com/zxh0/jvm.go/jvmgo/jutil/bigendian"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
-	"github.com/zxh0/jvm.go/jvmgo/util/bigendian"
 )
 
 func init() {

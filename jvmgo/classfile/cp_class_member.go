@@ -7,8 +7,8 @@ CONSTANT_Class_info {
 }
 */
 type ConstantClassInfo struct {
-	nameIndex uint16
 	cp        *ConstantPool
+	nameIndex uint16
 }
 
 func (self *ConstantClassInfo) readInfo(reader *ClassReader) {
@@ -36,9 +36,9 @@ CONSTANT_InterfaceMethodref_info {
 }
 */
 type ConstantMemberrefInfo struct {
+	cp               *ConstantPool
 	classIndex       uint16
 	nameAndTypeIndex uint16
-	cp               *ConstantPool
 }
 
 func (self *ConstantMemberrefInfo) readInfo(reader *ClassReader) {

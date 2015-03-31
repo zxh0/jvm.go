@@ -25,8 +25,8 @@ CONSTANT_String_info {
 }
 */
 type ConstantStringInfo struct {
-	stringIndex uint16
 	cp          *ConstantPool
+	stringIndex uint16
 }
 
 func (self *ConstantStringInfo) readInfo(reader *ClassReader) {

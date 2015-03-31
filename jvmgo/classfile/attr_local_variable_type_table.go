@@ -13,7 +13,6 @@ LocalVariableTypeTable_attribute {
     } local_variable_type_table[local_variable_type_table_length];
 }
 */
-
 type LocalVariableTypeTableAttribute struct {
 	localVariableTypeTable []*LocalVariableTypeTableEntry
 }

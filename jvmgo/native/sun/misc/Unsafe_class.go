@@ -1,7 +1,6 @@
 package misc
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -41,8 +40,7 @@ func defineClass(frame *rtda.Frame) {
 
 	name := rtda.GoString(nameObj)
 	name = rtc.DotToSlash(name)
-	int8s := byteArr.Fields().([]int8)
-	data := jutil.CastInt8sToUint8s(int8s)
+	data := byteArr.GoBytes()
 	data = data[off : off+_len]
 
 	// todo

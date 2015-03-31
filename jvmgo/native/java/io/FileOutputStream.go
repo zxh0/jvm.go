@@ -2,7 +2,6 @@ package io
 
 import (
 	. "github.com/zxh0/jvm.go/jvmgo/any"
-	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"os"
@@ -47,8 +46,7 @@ func writeBytes(frame *rtda.Frame) {
 	}
 	goFile := fdObj.Extra().(*os.File)
 
-	jBytes := byteArrObj.Fields().([]int8)
-	jBytes = jBytes[offset : offset+length]
-	goBytes := jutil.CastInt8sToUint8s(jBytes)
+	goBytes := byteArrObj.GoBytes()
+	goBytes = goBytes[offset : offset+length]
 	goFile.Write(goBytes)
 }

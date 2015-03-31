@@ -2,7 +2,6 @@ package class
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/classfile"
-	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"sync"
 )
 
@@ -63,9 +62,9 @@ func getSignature(cf *classfile.ClassFile) string {
 	return ""
 }
 
-func getAnnotationData(cf *classfile.ClassFile) []int8 {
+func getAnnotationData(cf *classfile.ClassFile) []byte {
 	if rvaAttr := cf.RuntimeVisibleAnnotationsAttribute(); rvaAttr != nil {
-		return jutil.CastUint8sToInt8s(rvaAttr.Info())
+		return rvaAttr.Info()
 	}
 	return nil
 }

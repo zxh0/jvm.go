@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -16,9 +17,10 @@ func getRawAnnotations(frame *rtda.Frame) {
 	this := vars.GetThis()
 
 	class := this.Extra().(*rtc.Class)
-	data := class.AnnotationData()
-	if data != nil {
-		byteArr := rtc.NewByteArray(data)
+	goBytes := class.AnnotationData()
+	if goBytes != nil {
+		jBytes := jutil.CastUint8sToInt8s(goBytes)
+		byteArr := rtc.NewByteArray(jBytes)
 		frame.OperandStack().PushRef(byteArr)
 		return
 	}

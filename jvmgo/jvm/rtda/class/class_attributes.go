@@ -3,7 +3,7 @@ package class
 type ClassAttributes struct {
 	sourceFile      string
 	signature       string
-	annotationData  []int8 // RuntimeVisibleAnnotations_attribute
+	annotationData  []byte // RuntimeVisibleAnnotations_attribute
 	enclosingMethod *EnclosingMethod
 }
 
@@ -13,7 +13,7 @@ func (self *ClassAttributes) SourceFile() string {
 func (self *ClassAttributes) Signature() string {
 	return self.signature
 }
-func (self *ClassAttributes) AnnotationData() []int8 {
+func (self *ClassAttributes) AnnotationData() []byte {
 	return self.annotationData
 }
 func (self *ClassAttributes) EnclosingMethod() *EnclosingMethod {

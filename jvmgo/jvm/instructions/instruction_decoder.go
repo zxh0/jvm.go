@@ -9,16 +9,16 @@ func NewDecoder() *InstructionDecoder {
 	return &InstructionDecoder{}
 }
 
-func (self *InstructionDecoder) Decode(code []byte, pc int) (Instruction, int) {
+func (self *InstructionDecoder) Decode(code []byte, pc int) (inst Instruction, nextPC int) {
 	self.code = code
 	self.pc = pc
 
 	opcode := self.readUint8()
-	instruction := newInstruction(opcode)
-	instruction.fetchOperands(self)
-	nextPC := self.pc
+	inst = newInstruction(opcode)
+	inst.fetchOperands(self)
+	nextPC = self.pc
 
-	return instruction, nextPC
+	return
 }
 
 func (self *InstructionDecoder) readInt8() int8 {
@@ -40,13 +40,10 @@ func (self *InstructionDecoder) readUint16() uint16 {
 }
 
 func (self *InstructionDecoder) readInt32() int32 {
-	return int32(self.readUint32())
-}
-func (self *InstructionDecoder) readUint32() uint32 {
-	byte1 := uint32(self.readUint8())
-	byte2 := uint32(self.readUint8())
-	byte3 := uint32(self.readUint8())
-	byte4 := uint32(self.readUint8())
+	byte1 := int32(self.readUint8())
+	byte2 := int32(self.readUint8())
+	byte3 := int32(self.readUint8())
+	byte4 := int32(self.readUint8())
 	return (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | byte4
 }
 

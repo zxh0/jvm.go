@@ -1,22 +1,22 @@
 package class
 
-type Attributes struct {
+type ClassAttributes struct {
 	sourceFile      string
 	signature       string
 	annotationData  []int8 // RuntimeVisibleAnnotations_attribute
 	enclosingMethod *EnclosingMethod
 }
 
-func (self *Attributes) SourceFile() string {
+func (self *ClassAttributes) SourceFile() string {
 	return self.sourceFile
 }
-func (self *Attributes) Signature() string {
+func (self *ClassAttributes) Signature() string {
 	return self.signature
 }
-func (self *Attributes) AnnotationData() []int8 {
+func (self *ClassAttributes) AnnotationData() []int8 {
 	return self.annotationData
 }
-func (self *Attributes) EnclosingMethod() *EnclosingMethod {
+func (self *ClassAttributes) EnclosingMethod() *EnclosingMethod {
 	return self.enclosingMethod
 }
 

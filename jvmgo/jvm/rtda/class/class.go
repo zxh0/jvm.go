@@ -17,13 +17,13 @@ const (
 // name, superClassName and interfaceNames are all binary names(jvms8-4.2.1)
 type Class struct {
 	AccessFlags
+	ClassAttributes
 	constantPool       *ConstantPool
 	name               string // thisClassName
 	superClassName     string
 	interfaceNames     []string
 	fields             []*Field
 	methods            []*Method
-	attributes         *Attributes
 	staticFieldCount   uint
 	instanceFieldCount uint
 	staticFieldValues  []Any     // todo: rename to staticFieldSlots
@@ -51,9 +51,6 @@ func (self *Class) Name() string {
 }
 func (self *Class) Fields() []*Field {
 	return self.fields
-}
-func (self *Class) Attributes() *Attributes {
-	return self.attributes
 }
 func (self *Class) JClass() *Obj {
 	return self.jClass

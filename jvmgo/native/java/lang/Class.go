@@ -102,7 +102,7 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 	if class.IsPrimitive() {
 		frame.OperandStack().PushNull()
 	} else {
-		emInfo := class.Attributes().EnclosingMethod()
+		emInfo := class.EnclosingMethod()
 		emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
 		if emInfoObj == nil || rtc.ArrayLength(emInfoObj) == 0 {
 			frame.OperandStack().PushNull()
@@ -246,8 +246,7 @@ func getGenericSignature0(frame *rtda.Frame) {
 
 	// Return null for arrays and primatives
 	if !class.IsPrimitive() {
-		attr := class.Attributes()
-		signature := attr.Signature()
+		signature := class.Signature()
 		frame.OperandStack().PushRef(rtda.JString(signature))
 	}
 

@@ -2,7 +2,7 @@ package classfile
 
 import "fmt"
 
-func ParseClassFile(classData []byte) (cf *ClassFile, err error) {
+func Parse(classData []byte) (cf *ClassFile, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			var ok bool

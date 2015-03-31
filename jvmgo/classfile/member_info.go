@@ -43,7 +43,7 @@ func (self *MemberInfo) Descriptor() string {
 func (self *MemberInfo) Signature() string {
 	signatureAttr := self.SignatureAttribute()
 	if signatureAttr != nil {
-		return self.cp.getUtf8(signatureAttr.signatureIndex)
+		return signatureAttr.Signature()
 	}
 	return ""
 }

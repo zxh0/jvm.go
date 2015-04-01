@@ -80,6 +80,6 @@ func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []
 		getSignature(&method.ClassMember),                      // signature
 		getAnnotationByteArr(method.AnnotationData()),          // annotations
 		getAnnotationByteArr(method.ParameterAnnotationData()), // parameterAnnotations
-		getAnnotationDefaultData(method),                       // annotationDefault
+		getAnnotationByteArr(method.AnnotationDefaultData()),   // annotationDefault
 	}
 }

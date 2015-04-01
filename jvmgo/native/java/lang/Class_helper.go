@@ -53,15 +53,6 @@ func getAnnotationByteArr(goBytes []byte) *rtc.Obj {
 	return nil
 }
 
-// todo
-func getAnnotationDefaultData(method *rtc.Method) *rtc.Obj {
-	if data := method.AnnotationDefaultData(); data != nil {
-		bytes := jutil.CastUint8sToInt8s(data)
-		return rtc.NewByteArray(bytes)
-	}
-	return nil
-}
-
 func getSignature(member *rtc.ClassMember) *rtc.Obj {
 	if signature := member.Signature(); signature != "" {
 		return rtda.JString(signature)

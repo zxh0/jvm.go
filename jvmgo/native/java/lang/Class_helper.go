@@ -54,13 +54,6 @@ func getAnnotationByteArr(goBytes []byte) *rtc.Obj {
 }
 
 // todo
-func getParameterAnnotationDyteArr(method *rtc.Method) *rtc.Obj {
-	if data := method.ParameterAnnotationData(); data != nil {
-		bytes := jutil.CastUint8sToInt8s(data)
-		return rtc.NewByteArray(bytes)
-	}
-	return nil
-}
 func getAnnotationDefaultData(method *rtc.Method) *rtc.Obj {
 	if data := method.AnnotationDefaultData(); data != nil {
 		bytes := jutil.CastUint8sToInt8s(data)

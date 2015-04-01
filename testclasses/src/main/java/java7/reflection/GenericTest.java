@@ -31,7 +31,8 @@ public class GenericTest {
         assertEquals("list", listField.getName());
         assertEquals(List.class, listField.getType());
         assertEquals(26, listField.getModifiers());
-//        System.out.println(f.getGenericType());
+        assertEquals("java.util.List<java.lang.String>",
+                listField.getGenericType().toString());
     }
     
     public static void main(String[] args) throws Exception {

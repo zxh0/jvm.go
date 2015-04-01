@@ -32,38 +32,39 @@ func init() {
 // (Z)[Ljava/lang/reflect/Constructor;
 func getDeclaredConstructors0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	jClass := vars.GetRef(0) // this
+	classObj := vars.GetThis()
 	publicOnly := vars.GetBoolean(1)
 
-	goClass := jClass.Extra().(*rtc.Class)
-	goConstructors := goClass.GetConstructors(publicOnly)
-	constructorCount := uint(len(goConstructors))
+	class := classObj.Extra().(*rtc.Class)
+	constructors := class.GetConstructors(publicOnly)
+	constructorCount := uint(len(constructors))
 
 	constructorClass := rtc.BootLoader().LoadClass("java/lang/reflect/Constructor")
-	constructorInitMethod := constructorClass.GetConstructor(_constructorConstructorDescriptor)
 	constructorArr := constructorClass.NewArray(constructorCount)
+
 	stack := frame.OperandStack()
 	stack.PushRef(constructorArr)
 
 	if constructorCount > 0 {
-		constructorObjs := constructorArr.Refs()
 		thread := frame.Thread()
-		for i, goConstructor := range goConstructors {
-			constructorObj := constructorClass.NewObjWithExtra(goConstructor)
+		constructorObjs := constructorArr.Refs()
+		constructorInitMethod := constructorClass.GetConstructor(_constructorConstructorDescriptor)
+		for i, constructor := range constructors {
+			constructorObj := constructorClass.NewObjWithExtra(constructor)
 			constructorObjs[i] = constructorObj
 
 			// call <init>
 			newFrame := thread.NewFrame(constructorInitMethod)
 			vars := newFrame.LocalVars()
-			vars.SetRef(0, constructorObj)                                                // this
-			vars.SetRef(1, jClass)                                                        // declaringClass
-			vars.SetRef(2, getParameterTypeArr(goConstructor))                            // parameterTypes
-			vars.SetRef(3, getExceptionTypeArr(goConstructor))                            // checkedExceptions
-			vars.SetInt(4, int32(goConstructor.GetAccessFlags()))                         // modifiers
-			vars.SetInt(5, int32(0))                                                      // todo slot
-			vars.SetRef(6, getSignatureStr(goConstructor.Signature()))                    // signature
-			vars.SetRef(7, getAnnotationByteArr(goConstructor.AnnotationData()))          // annotations
-			vars.SetRef(8, getAnnotationByteArr(goConstructor.ParameterAnnotationData())) // parameterAnnotations
+			vars.SetRef(0, constructorObj)                                              // this
+			vars.SetRef(1, classObj)                                                    // declaringClass
+			vars.SetRef(2, getParameterTypeArr(constructor))                            // parameterTypes
+			vars.SetRef(3, getExceptionTypeArr(constructor))                            // checkedExceptions
+			vars.SetInt(4, int32(constructor.GetAccessFlags()))                         // modifiers
+			vars.SetInt(5, int32(0))                                                    // todo slot
+			vars.SetRef(6, getSignatureStr(constructor.Signature()))                    // signature
+			vars.SetRef(7, getAnnotationByteArr(constructor.AnnotationData()))          // annotations
+			vars.SetRef(8, getAnnotationByteArr(constructor.ParameterAnnotationData())) // parameterAnnotations
 			thread.PushFrame(newFrame)
 		}
 	}

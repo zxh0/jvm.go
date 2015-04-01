@@ -43,17 +43,18 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 	class := classObj.Extra().(*rtc.Class)
 	methods := class.GetMethods(publicOnly)
 	methodCount := uint(len(methods))
+
 	methodClass := rtc.BootLoader().LoadClass("java/lang/reflect/Method")
-	methodConstructor := methodClass.GetConstructor(_methodConstructorDescriptor)
-	methodArrObj := methodClass.NewArray(methodCount)
+	methodArr := methodClass.NewArray(methodCount)
 
 	stack := frame.OperandStack()
-	stack.PushRef(methodArrObj)
+	stack.PushRef(methodArr)
 
 	// create method objs
 	if methodCount > 0 {
 		thread := frame.Thread()
-		methodObjs := methodArrObj.Refs()
+		methodObjs := methodArr.Refs()
+		methodConstructor := methodClass.GetConstructor(_methodConstructorDescriptor)
 		for i, method := range methods {
 			methodObj := methodClass.NewObjWithExtra(method)
 			methodObjs[i] = methodObj
@@ -66,12 +67,10 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 }
 
 func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []Any {
-	nameObj := rtda.JString(method.Name())
-
 	return []Any{
 		methodObj,                      // this
 		classObj,                       // declaringClass
-		nameObj,                        // name
+		rtda.JString(method.Name()),    // name
 		getParameterTypeArr(method),    // parameterTypes
 		getReturnType(method),          // returnType
 		getExceptionTypeArr(method),    // checkedExceptions

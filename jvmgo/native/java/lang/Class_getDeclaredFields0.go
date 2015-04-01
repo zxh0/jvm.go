@@ -1,6 +1,7 @@
 package lang
 
 import (
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -51,17 +52,17 @@ func getDeclaredFields0(frame *rtda.Frame) {
 			fieldObj := fieldClass.NewObjWithExtra(goField)
 			fieldObjs[i] = fieldObj
 
-			newFrame := thread.NewFrame(fieldConstructor)
-			vars := newFrame.LocalVars()
-			vars.SetRef(0, fieldObj)                                       // this
-			vars.SetRef(1, classObj)                                       // declaringClass
-			vars.SetRef(2, rtda.JString(goField.Name()))                   // name
-			vars.SetRef(3, goField.Type().JClass())                        // type
-			vars.SetInt(4, int32(goField.GetAccessFlags()))                // modifiers
-			vars.SetInt(5, int32(goField.Slot()))                          // slot
-			vars.SetRef(6, getSignatureStr(goField.Signature()))           // signature
-			vars.SetRef(7, getAnnotationByteArr(goField.AnnotationData())) // annotations
-			thread.PushFrame(newFrame)
+			// init fieldObj
+			thread.InvokeMethodWithShim(fieldConstructor, []Any{
+				fieldObj,                                       // this
+				classObj,                                       // declaringClass
+				rtda.JString(goField.Name()),                   // name
+				goField.Type().JClass(),                        // type
+				int32(goField.GetAccessFlags()),                // modifiers
+				int32(goField.Slot()),                          // slot
+				getSignatureStr(goField.Signature()),           // signature
+				getAnnotationByteArr(goField.AnnotationData()), // annotations
+			})
 		}
 	}
 }

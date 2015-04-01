@@ -1,6 +1,7 @@
 package lang
 
 import (
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -53,19 +54,18 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 			constructorObj := constructorClass.NewObjWithExtra(constructor)
 			constructorObjs[i] = constructorObj
 
-			// call <init>
-			newFrame := thread.NewFrame(constructorInitMethod)
-			vars := newFrame.LocalVars()
-			vars.SetRef(0, constructorObj)                                              // this
-			vars.SetRef(1, classObj)                                                    // declaringClass
-			vars.SetRef(2, getParameterTypeArr(constructor))                            // parameterTypes
-			vars.SetRef(3, getExceptionTypeArr(constructor))                            // checkedExceptions
-			vars.SetInt(4, int32(constructor.GetAccessFlags()))                         // modifiers
-			vars.SetInt(5, int32(0))                                                    // todo slot
-			vars.SetRef(6, getSignatureStr(constructor.Signature()))                    // signature
-			vars.SetRef(7, getAnnotationByteArr(constructor.AnnotationData()))          // annotations
-			vars.SetRef(8, getAnnotationByteArr(constructor.ParameterAnnotationData())) // parameterAnnotations
-			thread.PushFrame(newFrame)
+			// init constructorObj
+			thread.InvokeMethodWithShim(constructorInitMethod, []Any{
+				constructorObj, // this
+				classObj,       // declaringClass
+				getParameterTypeArr(constructor),    // parameterTypes
+				getExceptionTypeArr(constructor),    // checkedExceptions
+				int32(constructor.GetAccessFlags()), // modifiers
+				int32(0), // todo slot
+				getSignatureStr(constructor.Signature()),                    // signature
+				getAnnotationByteArr(constructor.AnnotationData()),          // annotations
+				getAnnotationByteArr(constructor.ParameterAnnotationData()), // parameterAnnotations
+			})
 		}
 	}
 }

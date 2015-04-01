@@ -59,26 +59,21 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 			methodObj := methodClass.NewObjWithExtra(method)
 			methodObjs[i] = methodObj
 
-			// init method obj
-			args := _methodConstructorArgs(classObj, methodObj, method)
-			thread.InvokeMethodWithShim(methodConstructor, args)
+			// init methodObj
+			thread.InvokeMethodWithShim(methodConstructor, []Any{
+				methodObj,                      // this
+				classObj,                       // declaringClass
+				rtda.JString(method.Name()),    // name
+				getParameterTypeArr(method),    // parameterTypes
+				getReturnType(method),          // returnType
+				getExceptionTypeArr(method),    // checkedExceptions
+				int32(method.GetAccessFlags()), // modifiers
+				int32(0),                       // todo slot
+				getSignatureStr(method.Signature()),                    // signature
+				getAnnotationByteArr(method.AnnotationData()),          // annotations
+				getAnnotationByteArr(method.ParameterAnnotationData()), // parameterAnnotations
+				getAnnotationByteArr(method.AnnotationDefaultData()),   // annotationDefault
+			})
 		}
-	}
-}
-
-func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []Any {
-	return []Any{
-		methodObj,                      // this
-		classObj,                       // declaringClass
-		rtda.JString(method.Name()),    // name
-		getParameterTypeArr(method),    // parameterTypes
-		getReturnType(method),          // returnType
-		getExceptionTypeArr(method),    // checkedExceptions
-		int32(method.GetAccessFlags()), // modifiers
-		int32(0),                       // todo slot
-		getSignatureStr(method.Signature()),                    // signature
-		getAnnotationByteArr(method.AnnotationData()),          // annotations
-		getAnnotationByteArr(method.ParameterAnnotationData()), // parameterAnnotations
-		getAnnotationByteArr(method.AnnotationDefaultData()),   // annotationDefault
 	}
 }

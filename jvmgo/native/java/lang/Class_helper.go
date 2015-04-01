@@ -53,8 +53,8 @@ func getAnnotationByteArr(goBytes []byte) *rtc.Obj {
 	return nil
 }
 
-func getSignature(member *rtc.ClassMember) *rtc.Obj {
-	if signature := member.Signature(); signature != "" {
+func getSignatureStr(signature string) *rtc.Obj {
+	if signature != "" {
 		return rtda.JString(signature)
 	}
 	return nil

@@ -77,7 +77,7 @@ func _methodConstructorArgs(classObj, methodObj *rtc.Obj, method *rtc.Method) []
 		getExceptionTypeArr(method),    // checkedExceptions
 		int32(method.GetAccessFlags()), // modifiers
 		int32(0),                       // todo slot
-		getSignature(&method.ClassMember),                      // signature
+		getSignatureStr(method.Signature()),                    // signature
 		getAnnotationByteArr(method.AnnotationData()),          // annotations
 		getAnnotationByteArr(method.ParameterAnnotationData()), // parameterAnnotations
 		getAnnotationByteArr(method.AnnotationDefaultData()),   // annotationDefault

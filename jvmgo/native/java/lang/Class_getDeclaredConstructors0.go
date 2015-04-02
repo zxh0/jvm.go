@@ -1,6 +1,7 @@
 package lang
 
 import (
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -32,39 +33,39 @@ func init() {
 // (Z)[Ljava/lang/reflect/Constructor;
 func getDeclaredConstructors0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	jClass := vars.GetRef(0) // this
+	classObj := vars.GetThis()
 	publicOnly := vars.GetBoolean(1)
 
-	goClass := jClass.Extra().(*rtc.Class)
-	goConstructors := goClass.GetConstructors(publicOnly)
-	constructorCount := uint(len(goConstructors))
+	class := classObj.Extra().(*rtc.Class)
+	constructors := class.GetConstructors(publicOnly)
+	constructorCount := uint(len(constructors))
 
 	constructorClass := rtc.BootLoader().LoadClass("java/lang/reflect/Constructor")
-	constructorInitMethod := constructorClass.GetConstructor(_constructorConstructorDescriptor)
 	constructorArr := constructorClass.NewArray(constructorCount)
+
 	stack := frame.OperandStack()
 	stack.PushRef(constructorArr)
 
 	if constructorCount > 0 {
-		constructorObjs := constructorArr.Refs()
 		thread := frame.Thread()
-		for i, goConstructor := range goConstructors {
-			constructorObj := constructorClass.NewObjWithExtra(goConstructor)
+		constructorObjs := constructorArr.Refs()
+		constructorInitMethod := constructorClass.GetConstructor(_constructorConstructorDescriptor)
+		for i, constructor := range constructors {
+			constructorObj := constructorClass.NewObjWithExtra(constructor)
 			constructorObjs[i] = constructorObj
 
-			// call <init>
-			newFrame := thread.NewFrame(constructorInitMethod)
-			vars := newFrame.LocalVars()
-			vars.SetRef(0, constructorObj)                                   // this
-			vars.SetRef(1, jClass)                                           // declaringClass
-			vars.SetRef(2, getParameterTypeArr(goConstructor))               // parameterTypes
-			vars.SetRef(3, getExceptionTypeArr(goConstructor))               // checkedExceptions
-			vars.SetInt(4, int32(goConstructor.GetAccessFlags()))            // modifiers
-			vars.SetInt(5, int32(0))                                         // todo slot
-			vars.SetRef(6, getSignature(&goConstructor.ClassMember))         // signature
-			vars.SetRef(7, getAnnotationByteArr(&goConstructor.ClassMember)) // annotations
-			vars.SetRef(8, getParameterAnnotationDyteArr(goConstructor))     // parameterAnnotations
-			thread.PushFrame(newFrame)
+			// init constructorObj
+			thread.InvokeMethodWithShim(constructorInitMethod, []Any{
+				constructorObj, // this
+				classObj,       // declaringClass
+				getParameterTypeArr(constructor),    // parameterTypes
+				getExceptionTypeArr(constructor),    // checkedExceptions
+				int32(constructor.GetAccessFlags()), // modifiers
+				int32(0), // todo slot
+				getSignatureStr(constructor.Signature()),                    // signature
+				getAnnotationByteArr(constructor.AnnotationData()),          // annotations
+				getAnnotationByteArr(constructor.ParameterAnnotationData()), // parameterAnnotations
+			})
 		}
 	}
 }

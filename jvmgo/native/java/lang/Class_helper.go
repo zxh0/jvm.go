@@ -45,31 +45,16 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 	return classArr
 }
 
-func getParameterAnnotationDyteArr(method *rtc.Method) *rtc.Obj {
-	if data := method.ParameterAnnotationData(); data != nil {
-		bytes := jutil.CastUint8sToInt8s(data)
-		return rtc.NewByteArray(bytes)
-	}
-	return nil
-}
-func getAnnotationDefaultData(method *rtc.Method) *rtc.Obj {
-	if data := method.AnnotationDefaultData(); data != nil {
-		bytes := jutil.CastUint8sToInt8s(data)
-		return rtc.NewByteArray(bytes)
+func getAnnotationByteArr(goBytes []byte) *rtc.Obj {
+	if goBytes != nil {
+		jBytes := jutil.CastUint8sToInt8s(goBytes)
+		return rtc.NewByteArray(jBytes)
 	}
 	return nil
 }
 
-func getAnnotationByteArr(member *rtc.ClassMember) *rtc.Obj {
-	if data := member.AnnotationData(); data != nil {
-		bytes := jutil.CastUint8sToInt8s(data)
-		return rtc.NewByteArray(bytes)
-	}
-	return nil
-}
-
-func getSignature(member *rtc.ClassMember) *rtc.Obj {
-	if signature := member.Signature(); signature != "" {
+func getSignatureStr(signature string) *rtc.Obj {
+	if signature != "" {
 		return rtda.JString(signature)
 	}
 	return nil

@@ -248,6 +248,7 @@ func getGenericSignature0(frame *rtda.Frame) {
 	if !class.IsPrimitive() {
 		signature := class.Signature()
 		frame.OperandStack().PushRef(rtda.JString(signature))
+		return
 	}
 
 	frame.OperandStack().PushNull()

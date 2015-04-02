@@ -11,6 +11,7 @@ import java7.file.FileIoTest;
 import java7.reflection.ArrayClassTest;
 import java7.reflection.ArrayGetTest;
 import java7.reflection.ArraySetTest;
+import java7.reflection.GenericTest;
 import java7.reflection.MethodTest;
 import java7.reflection.PrimitiveClassTest;
 import java7.sunmisc.UnsafeMemoryTest;
@@ -45,6 +46,7 @@ public class UnitTests {
             FieldAccessTest.class,
             FieldsTest.class,
             FileIoTest.class,
+            GenericTest.class,
             GetClassLoaderTest.class,
             InstructionExTest.class,
             InstructionNpeTest.class,

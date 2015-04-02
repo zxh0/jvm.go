@@ -41,7 +41,6 @@ func skip(className string) bool {
 		strings.HasPrefix(className, "com/apple") ||
 		strings.HasPrefix(className, "com/sun/java/swing") ||
 		strings.HasPrefix(className, "com/sun/media/sound") ||
-		strings.HasPrefix(className, "sun/awt") ||
 		strings.HasPrefix(className, "sun/font") ||
 		strings.HasPrefix(className, "sun/java2d") ||
 		strings.HasPrefix(className, "sun/lwawt/macosx")

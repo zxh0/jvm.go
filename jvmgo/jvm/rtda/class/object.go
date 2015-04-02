@@ -41,6 +41,29 @@ func (self *Obj) SetExtra(extra Any) {
 	self.extra = extra
 }
 
+func (self *Obj) GetPrimitiveDescriptor() string {
+	switch self.class.name {
+	case "java/lang/Boolean":
+		return "Z"
+	case "java/lang/Byte":
+		return "B"
+	case "java/lang/Character":
+		return "C"
+	case "java/lang/Short":
+		return "S"
+	case "java/lang/Integer":
+		return "I"
+	case "java/lang/Long":
+		return "J"
+	case "java/lang/Float":
+		return "F"
+	case "java/lang/Double":
+		return "D"
+	default:
+		return ""
+	}
+}
+
 // todo
 func (self *Obj) initFields() {
 	fields := self.fields.([]Any)

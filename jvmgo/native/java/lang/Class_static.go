@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"fmt"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 )
@@ -30,6 +31,8 @@ func forName0(frame *rtda.Frame) {
 	jName := vars.GetRef(0)
 	initialize := vars.GetBoolean(1)
 	//jLoader := vars.GetRef(2)
+
+	fmt.Println(jName)
 
 	goName := rtda.GoString(jName)
 	goName = jutil.ReplaceAll(goName, ".", "/")

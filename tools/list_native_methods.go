@@ -64,7 +64,7 @@ func handleClass(f *zip.File) {
 	}
 
 	// parse classfile
-	cf, err := classfile.ParseClassFile(data)
+	cf, err := classfile.Parse(data)
 	if err != nil {
 		panic(err.Error())
 	}

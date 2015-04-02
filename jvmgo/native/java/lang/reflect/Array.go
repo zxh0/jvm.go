@@ -88,12 +88,7 @@ func set(frame *rtda.Frame) {
 		frame.Thread().ThrowIllegalArgumentException("Argument is not an array")
 		return
 	}
-	// if arr.Class().ComponentClass() != value.Class() {
-	// 	println(arr.Class().ComponentClass().String())
-	// 	println(value.Class().String())
-	// 	frame.Thread().ThrowIllegalArgumentException("argument type mismatch")
-	// 	return
-	// }
+
 	if index < 0 || index >= rtc.ArrayLength(arr) {
 		frame.Thread().ThrowArrayIndexOutOfBoundsExceptionNoMsg()
 		return
@@ -110,11 +105,13 @@ func set(frame *rtda.Frame) {
 	// java/lang/Integer
 	// frame.Thread().ThrowIllegalArgumentException("argument type mismatch")
 
-	//arr.Class().Name()
-	//value.Class().Name()
-
 	// primitive array
 	primitiveDescriptorStr := arr.Class().Name()[1:]
+	if primitiveDescriptorStr != value.GetPrimitiveDescriptor() {
+		frame.Thread().ThrowIllegalArgumentException("argument type mismatch")
+		return
+	}
+
 	unboxed := box.Unbox(value, primitiveDescriptorStr)
 
 	primitiveDescriptor := arr.Class().Name()[1]

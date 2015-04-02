@@ -1,8 +1,10 @@
 package java7.reflection;
 
 import java.lang.reflect.Array;
+
 import libs.junit.UnitTestRunner;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class ArraySetTest {
@@ -21,7 +23,7 @@ public class ArraySetTest {
             assertNull(e.getMessage());
         }
     }
-    
+
     @Test
     public void setNonArray() {
         try {
@@ -32,18 +34,18 @@ public class ArraySetTest {
             assertEquals("Argument is not an array", e.getMessage());
         }
     }
-    
-    //@Test
+
+    @Test
     public void setArrayTypeMismatch() {
         try {
             int[] arr = {1, 2, 3};
-            Array.set(arr, 1, 1L);
+            Array.set(arr, 0, "beyond");
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("argument type mismatch", e.getMessage());
         }
     }
-    
+
     @Test
     public void setArrayBadIndex() {
         try {
@@ -54,7 +56,7 @@ public class ArraySetTest {
             assertEquals(null, e.getMessage());
         }
     }
-    
+
     @Test
     public void setObjectArray() {
         String[] arr = {"beyond"};
@@ -65,19 +67,18 @@ public class ArraySetTest {
     @Test
     public void setPrimitiveArray() {
         Array.set(new boolean[]{true}, 0, false);
-        Array.set(new byte[]{2},       0, (byte)3);
-        Array.set(new char[]{'a'},     0, 'b');
-        Array.set(new short[]{2},      0, (short)3);
-        Array.set(new int[]{2},        0, 3);
-        Array.set(new long[]{2},       0, 3L);
-        Array.set(new float[]{3.14f},  0, 2.71f);
-        Array.set(new double[]{2.71},  0, 3.14);
-        
+        Array.set(new byte[]{2}, 0, (byte) 3);
+        Array.set(new char[]{'a'}, 0, 'b');
+        Array.set(new short[]{2}, 0, (short) 3);
+        Array.set(new int[]{2}, 0, 3);
+        Array.set(new long[]{2}, 0, 3L);
+        Array.set(new float[]{3.14f}, 0, 2.71f);
+        Array.set(new double[]{2.71}, 0, 3.14);
+
         int[] arr = {5, 4, 5, 7};
         Array.set(arr, 0, 0);
         assertEquals(0, Array.get(arr, 0));
 
-        //Array.set(arr, 0, "beyond");
     }
 
 }

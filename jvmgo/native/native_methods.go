@@ -20,9 +20,9 @@ import (
 
 // register native methods
 func init() {
-	rtc.SetRegisterNatives(registerNatives)
+	rtc.SetEmptyNativeMethod(emptyNativeMethod)
 }
 
-func registerNatives(frame *rtda.Frame) {
-	// todo
+func emptyNativeMethod(frame *rtda.Frame) {
+	// do nothing
 }

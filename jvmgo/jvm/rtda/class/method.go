@@ -8,13 +8,11 @@ import (
 )
 
 const (
-	mainMethodName            = "main"
-	mainMethodDesc            = "([Ljava/lang/String;)V"
-	clinitMethodName          = "<clinit>"
-	clinitMethodDesc          = "()V"
-	constructorName           = "<init>"
-	registerNativesMethodName = "registerNatives"
-	registerNativesMethodDesc = "()V"
+	mainMethodName   = "main"
+	mainMethodDesc   = "([Ljava/lang/String;)V"
+	clinitMethodName = "<clinit>"
+	clinitMethodDesc = "()V"
+	constructorName  = "<init>"
 )
 
 type Method struct {
@@ -126,8 +124,13 @@ func (self *Method) IsClinit() bool {
 }
 func (self *Method) IsRegisterNatives() bool {
 	return self.IsStatic() &&
-		self.name == registerNativesMethodName &&
-		self.descriptor == registerNativesMethodDesc
+		self.name == "registerNatives" &&
+		self.descriptor == "()V"
+}
+func (self *Method) IsInitIDs() bool {
+	return self.IsStatic() &&
+		self.name == "initIDs" &&
+		self.descriptor == "()V"
 }
 
 func (self *Method) GetLineNumber(pc int) int {

@@ -21,7 +21,6 @@ import (
 	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/reflect"
 )
 
-// register native methods
 func init() {
 	rtc.SetEmptyNativeMethod(emptyNativeMethod)
 }

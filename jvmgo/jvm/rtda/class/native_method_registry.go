@@ -28,7 +28,7 @@ func findNativeMethod(method *Method) Any {
 	if method, ok := registry[key]; ok {
 		return method
 	}
-	if method.IsRegisterNatives() {
+	if method.IsRegisterNatives() || method.IsInitIDs() {
 		return emptyNativeMethod
 	}
 	panic("native method not found: " + key)

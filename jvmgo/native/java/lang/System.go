@@ -108,25 +108,26 @@ func initProperties(frame *rtda.Frame) {
 
 func _sysProps() map[string]string {
 	return map[string]string{
-		"java.version":        "1.8.0",
-		"java.vendor":         "jvm.go",
-		"java.vendor.url":     "https://github.com/zxh0/jvm.go",
-		"java.home":           options.AbsJavaHome,
-		"java.class.version":  "52.0",
-		"java.class.path":     rtc.BootLoader().ClassPath().String(),
-		"os.name":             "",   // todo
-		"os.arch":             "",   // todo
-		"os.version":          "",   // todo
-		"file.separator":      "/",  // todo os.PathSeparator
-		"path.separator":      ":",  // todo os.PathListSeparator
-		"line.separator":      "\n", // todo
-		"user.name":           "",   // todo
-		"user.home":           "",   // todo
-		"user.dir":            ".",  // todo
-		"user.country":        "CN", // todo
-		"file.encoding":       "UTF-8",
-		"sun.stdout.encoding": "UTF-8",
-		"sun.stderr.encoding": "UTF-8",
+		"java.version":         "1.8.0",
+		"java.vendor":          "jvm.go",
+		"java.vendor.url":      "https://github.com/zxh0/jvm.go",
+		"java.home":            options.AbsJavaHome,
+		"java.class.version":   "52.0",
+		"java.class.path":      rtc.BootLoader().ClassPath().String(),
+		"java.awt.graphicsenv": "sun.awt.CGraphicsEnvironment",
+		"os.name":              "",   // todo
+		"os.arch":              "",   // todo
+		"os.version":           "",   // todo
+		"file.separator":       "/",  // todo os.PathSeparator
+		"path.separator":       ":",  // todo os.PathListSeparator
+		"line.separator":       "\n", // todo
+		"user.name":            "",   // todo
+		"user.home":            "",   // todo
+		"user.dir":             ".",  // todo
+		"user.country":         "CN", // todo
+		"file.encoding":        "UTF-8",
+		"sun.stdout.encoding":  "UTF-8",
+		"sun.stderr.encoding":  "UTF-8",
 	}
 }
 

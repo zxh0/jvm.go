@@ -8,6 +8,6 @@ import (
 func init() {
 }
 
-func _comp(method Any, name, desc string) {
-	rtc.RegisterNativeMethod("java/awt/Component", name, desc, method)
+func _font(method Any, name, desc string) {
+	rtc.RegisterNativeMethod("java/awt/Font", name, desc, method)
 }

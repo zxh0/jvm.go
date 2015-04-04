@@ -4,3 +4,6 @@ jvmgo.sublime-workspace
 /testclasses/.gradle
 /testclasses/.nb-gradle/
 /testclasses/build/
+
+.DS_Store
+*.swp

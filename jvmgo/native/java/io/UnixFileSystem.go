@@ -9,7 +9,6 @@ import (
 )
 
 func init() {
-	_ufs(ufs_initIDs, "initIDs", "()V")
 	_ufs(canonicalize0, "canonicalize0", "(Ljava/lang/String;)Ljava/lang/String;")
 	_ufs(getBooleanAttributes0, "getBooleanAttributes0", "(Ljava/io/File;)I")
 	_ufs(getLastModifiedTime, "getLastModifiedTime", "(Ljava/io/File;)J")
@@ -17,12 +16,6 @@ func init() {
 
 func _ufs(method Any, name, desc string) {
 	rtc.RegisterNativeMethod("java/io/UnixFileSystem", name, desc, method)
-}
-
-// private static native void initIDs();
-// ()V
-func ufs_initIDs(frame *rtda.Frame) {
-	// todo
 }
 
 // private native String canonicalize0(String path) throws IOException;

@@ -14,6 +14,8 @@ import (
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/util/concurrent/atomic"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/util/jar"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/util/zip"
+	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/awt"
+	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/java2d/opengl"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/management"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/misc"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/reflect"

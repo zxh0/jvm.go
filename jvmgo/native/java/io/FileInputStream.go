@@ -9,7 +9,6 @@ import (
 )
 
 func init() {
-	_fis(fis_initIDs, "initIDs", "()V")
 	_fis(available, "available", "()I")
 	_fis(close0, "close0", "()V")
 	_fis(readBytes, "readBytes", "([BII)I")
@@ -18,12 +17,6 @@ func init() {
 
 func _fis(method Any, name, desc string) {
 	rtc.RegisterNativeMethod("java/io/FileInputStream", name, desc, method)
-}
-
-// private static native void initIDs();
-// ()V
-func fis_initIDs(frame *rtda.Frame) {
-	// todo
 }
 
 // public native int available() throws IOException;

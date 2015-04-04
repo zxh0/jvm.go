@@ -8,6 +8,7 @@ import java7.field.ConstantStaticFieldsTest;
 import java7.field.FieldAccessTest;
 import java7.field.FieldsTest;
 import java7.file.FileIoTest;
+import java7.file.RandomAccessFileTest;
 import java7.reflection.ArrayClassTest;
 import java7.reflection.ArrayGetTest;
 import java7.reflection.ArraySetTest;
@@ -28,37 +29,38 @@ import jls8.ch12.Eg12_5_2;
 import libs.junit.UnitTestRunner;
 
 public class UnitTests {
-    
+
     public static void main(String[] args) {
-        UnitTestRunner.run(new Class<?>[] {
-            ArrayClassTest.class,
-            ArrayGetTest.class,
-            ArraySetTest.class,
-            ClassLibExTest.class,
-            ClassLoaderTest.class,
-            ConstantStaticFieldsTest.class,
-            DaemonTest.class,
-            DoubleTest.class,
-            Eg12_4_1_1.class,
-            Eg12_4_1_2.class,
-            Eg12_4_1_3.class,
-            Eg12_5_2.class,
-            FieldAccessTest.class,
-            FieldsTest.class,
-            FileIoTest.class,
-            GenericTest.class,
-            GetClassLoaderTest.class,
-            InstructionExTest.class,
-            InstructionNpeTest.class,
-            InterfaceMethodTest.class,
-            MainThreadTest.class,
-            MethodTest.class,
-            PrimitiveClassTest.class,
-            SleepTest.class,
-            StringTest.class,
-            UnsafeMemoryTest.class,
-            UnsafeObjectTest.class,
+        UnitTestRunner.run(new Class<?>[]{
+                ArrayClassTest.class,
+                ArrayGetTest.class,
+                ArraySetTest.class,
+                ClassLibExTest.class,
+                ClassLoaderTest.class,
+                ConstantStaticFieldsTest.class,
+                DaemonTest.class,
+                DoubleTest.class,
+                Eg12_4_1_1.class,
+                Eg12_4_1_2.class,
+                Eg12_4_1_3.class,
+                Eg12_5_2.class,
+                FieldAccessTest.class,
+                FieldsTest.class,
+                FileIoTest.class,
+                GenericTest.class,
+                GetClassLoaderTest.class,
+                InstructionExTest.class,
+                InstructionNpeTest.class,
+                InterfaceMethodTest.class,
+                MainThreadTest.class,
+                MethodTest.class,
+                PrimitiveClassTest.class,
+                SleepTest.class,
+                StringTest.class,
+                UnsafeMemoryTest.class,
+                UnsafeObjectTest.class,
+                RandomAccessFileTest.class,
         });
     }
-    
+
 }

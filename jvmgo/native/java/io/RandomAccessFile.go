@@ -9,7 +9,6 @@ import (
 )
 
 func init() {
-	_raf(raf_initIDs, "initIDs", "()V")
 	_raf(raf_open, "open", "(Ljava/lang/String;I)V")
 	_raf(raf_close0, "close0", "()V")
 	_raf(raf_write0, "write0", "(I)V")
@@ -24,12 +23,6 @@ func init() {
 
 func _raf(method Any, name, desc string) {
 	rtc.RegisterNativeMethod("java/io/RandomAccessFile", name, desc, method)
-}
-
-// private static native void initIDs();
-// ()V
-func raf_initIDs(frame *rtda.Frame) {
-	//TODO
 }
 
 // private native void open(String name, int mode) throws FileNotFoundException;

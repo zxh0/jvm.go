@@ -62,7 +62,7 @@ func newConstantInfo(tag uint8, cp *ConstantPool) ConstantInfo {
 	case CONSTANT_MethodHandle:
 		return &ConstantMethodHandleInfo{}
 	case CONSTANT_InvokeDynamic:
-		return &ConstantInvokeDynamicInfo{}
+		return &ConstantInvokeDynamicInfo{cp: cp}
 	default: // todo
 		jutil.Panicf("BAD constant pool tag: %v", tag)
 		return nil

@@ -51,10 +51,13 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 		case *cf.ConstantUtf8Info:
 			utf8Info := cpInfo.(*cf.ConstantUtf8Info)
 			consts[i] = newConstantUtf8(utf8Info)
+		case *cf.ConstantInvokeDynamicInfo:
+			indyInfo := cpInfo.(*cf.ConstantInvokeDynamicInfo)
+			consts[i] = newConstantInvokeDynamic(indyInfo)
 		default:
 			// todo
-			//fmt.Printf("%v \n", cpInfo)
-			//panic("todo")
+			//fmt.Printf("%T \n", cpInfo)
+			// panic("todo")
 		}
 	}
 

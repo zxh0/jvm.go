@@ -1,6 +1,7 @@
 package classfile
 
 type ConstantPool struct {
+	cf      *ClassFile
 	cpInfos []ConstantInfo
 }
 

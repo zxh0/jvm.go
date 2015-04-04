@@ -4,6 +4,16 @@ type AttributeTable struct {
 	attributes []AttributeInfo
 }
 
+func (self *AttributeTable) BootstrapMethodsAttribute() *BootstrapMethodsAttribute {
+	for _, attrInfo := range self.attributes {
+		switch attrInfo.(type) {
+		case *BootstrapMethodsAttribute:
+			return attrInfo.(*BootstrapMethodsAttribute)
+		}
+	}
+	return nil
+}
+
 func (self *AttributeTable) CodeAttribute() *CodeAttribute {
 	for _, attrInfo := range self.attributes {
 		switch attrInfo.(type) {

@@ -61,7 +61,7 @@ func (self *ClassFile) readVersions(reader *ClassReader) {
 }
 
 func (self *ClassFile) readConstantPool(reader *ClassReader) {
-	self.constantPool = &ConstantPool{}
+	self.constantPool = &ConstantPool{cf: self}
 	self.constantPool.read(reader)
 }
 

@@ -39,7 +39,8 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	switch attrName {
 	case "AnnotationDefault":
 		return &UndefinedAttribute{name: "AnnotationDefault"}
-	// case "BootstrapMethods":
+	case "BootstrapMethods":
+		return &BootstrapMethodsAttribute{}
 	case "Code":
 		return &CodeAttribute{cp: cp}
 	case "ConstantValue":

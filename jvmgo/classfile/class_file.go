@@ -41,7 +41,7 @@ func (self *ClassFile) read(reader *ClassReader) {
 	self.accessFlags = reader.readUint16()
 	self.thisClass = reader.readUint16()
 	self.superClass = reader.readUint16()
-	self.readInterfaces(reader)
+	self.interfaces = reader.readUint16s()
 	self.readFields(reader)
 	self.readMethods(reader)
 	self.attributes = readAttributes(reader, self.constantPool)
@@ -63,14 +63,6 @@ func (self *ClassFile) readVersions(reader *ClassReader) {
 func (self *ClassFile) readConstantPool(reader *ClassReader) {
 	self.constantPool = &ConstantPool{}
 	self.constantPool.read(reader)
-}
-
-func (self *ClassFile) readInterfaces(reader *ClassReader) {
-	interfacesCount := reader.readUint16()
-	self.interfaces = make([]uint16, interfacesCount)
-	for i := range self.interfaces {
-		self.interfaces[i] = reader.readUint16()
-	}
 }
 
 func (self *ClassFile) readFields(reader *ClassReader) {

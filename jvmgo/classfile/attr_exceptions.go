@@ -13,11 +13,7 @@ type ExceptionsAttribute struct {
 }
 
 func (self *ExceptionsAttribute) readInfo(reader *ClassReader, attrLen uint32) {
-	numberOfExceptions := reader.readUint16()
-	self.exceptionIndexTable = make([]uint16, numberOfExceptions)
-	for i := range self.exceptionIndexTable {
-		self.exceptionIndexTable[i] = reader.readUint16()
-	}
+	self.exceptionIndexTable = reader.readUint16s()
 }
 
 func (self *ExceptionsAttribute) ExceptionIndexTable() []uint16 {

@@ -74,7 +74,17 @@ func (self *AttributeTable) SourceFileAttribute() *SourceFileAttribute {
 	return nil
 }
 
-func (self *AttributeTable) UndefinedAttribute(name string) *UndefinedAttribute {
+func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *UndefinedAttribute {
+	return self.getUndefinedAttribute("RuntimeVisibleAnnotations")
+}
+func (self *AttributeTable) RuntimeVisibleParameterAnnotationsAttribute() *UndefinedAttribute {
+	return self.getUndefinedAttribute("RuntimeVisibleParameterAnnotationsAttribute")
+}
+func (self *AttributeTable) AnnotationDefaultAttribute() *UndefinedAttribute {
+	return self.getUndefinedAttribute("AnnotationDefault")
+}
+
+func (self *AttributeTable) getUndefinedAttribute(name string) *UndefinedAttribute {
 	for _, attrInfo := range self.attributes {
 		switch attrInfo.(type) {
 		case *UndefinedAttribute:
@@ -82,14 +92,4 @@ func (self *AttributeTable) UndefinedAttribute(name string) *UndefinedAttribute 
 		}
 	}
 	return nil
-}
-
-func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *UndefinedAttribute {
-	return self.UndefinedAttribute("RuntimeVisibleAnnotations")
-}
-func (self *AttributeTable) RuntimeVisibleParameterAnnotationsAttribute() *UndefinedAttribute {
-	return self.UndefinedAttribute("RuntimeVisibleParameterAnnotationsAttribute")
-}
-func (self *AttributeTable) AnnotationDefaultAttribute() *UndefinedAttribute {
-	return self.UndefinedAttribute("AnnotationDefault")
 }

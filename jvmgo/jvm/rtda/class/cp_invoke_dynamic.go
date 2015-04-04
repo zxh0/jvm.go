@@ -1,6 +1,9 @@
 package class
 
-import cf "github.com/zxh0/jvm.go/jvmgo/classfile"
+import (
+	"fmt"
+	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
+)
 
 type ConstantInvokeDynamic struct {
 	name     string
@@ -20,4 +23,25 @@ func newConstantInvokeDynamic(indyInfo *cf.ConstantInvokeDynamicInfo) *ConstantI
 		refIndex: refIndex,
 		args:     args,
 	}
+}
+
+func (self *ConstantInvokeDynamic) String() string {
+	return fmt.Sprintf("{name:%v type:%v refKind:%v refIndex:%v args:%v}",
+		self.name, self._type, self.refKind, self.refIndex, self.args)
+}
+
+func (self *ConstantInvokeDynamic) Name() string {
+	return self.name
+}
+func (self *ConstantInvokeDynamic) Type() string {
+	return self._type
+}
+func (self *ConstantInvokeDynamic) RefKind() uint8 {
+	return self.refKind
+}
+func (self *ConstantInvokeDynamic) RefIndex() uint16 {
+	return self.refIndex
+}
+func (self *ConstantInvokeDynamic) Args() []uint16 {
+	return self.args
 }

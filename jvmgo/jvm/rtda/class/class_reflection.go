@@ -1,7 +1,7 @@
 package class
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/jtype"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/jtype"
 )
 
 func (self *Class) IsPrimitive() bool {

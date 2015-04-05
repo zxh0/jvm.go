@@ -5,11 +5,13 @@ import (
 )
 
 type ConstantMethodHandle struct {
-	// todo
+	referenceKind  uint8
+	referenceIndex uint16
 }
 
 func newConstantMethodHandle(cp *ConstantPool, mhInfo *cf.ConstantMethodHandleInfo) *ConstantMethodHandle {
 	return &ConstantMethodHandle{
-	// todo
+		referenceKind:  mhInfo.ReferenceKind(),
+		referenceIndex: mhInfo.ReferenceIndex(),
 	}
 }

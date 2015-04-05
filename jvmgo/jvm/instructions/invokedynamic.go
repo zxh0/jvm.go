@@ -33,7 +33,7 @@ func (self *invokedynamic) fetchOperands(decoder *InstructionDecoder) {
 }
 
 func (self *invokedynamic) Execute(frame *rtda.Frame) {
-
+	self.resolveCallSiteSpecifier(frame)
 	// todo
 	panic("todo invokedynamic")
 }
@@ -47,4 +47,5 @@ func (self *invokedynamic) resolveCallSiteSpecifier(frame *rtda.Frame) {
 
 	// todo
 	fmt.Printf("kIndy: %v\n", kIndy)
+	kIndy.MethodHandle()
 }

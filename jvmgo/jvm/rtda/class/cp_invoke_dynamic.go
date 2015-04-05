@@ -1,47 +1,34 @@
 package class
 
 import (
-	"fmt"
 	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
 )
 
 type ConstantInvokeDynamic struct {
-	name  string
-	_type string
-	spec  *BootstrapMethodSpecifier
+	name               string
+	_type              string
+	bootstrapMethodRef uint16 // method handle
+	bootstrapArguments []uint16
+	cp                 *ConstantPool
 }
 
-type BootstrapMethodSpecifier struct {
-	methodRefKind  uint8
-	methodRefIndex uint16
-	bootstrapArgs  []uint16
-}
-
-func newConstantInvokeDynamic(indyInfo *cf.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
+func newConstantInvokeDynamic(cp *ConstantPool, indyInfo *cf.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
 	name, _type := indyInfo.NameAndType()
-	methodRefKind, methodRefIndex, bootstrapArgs := indyInfo.BootstrapMethodInfo()
+	bootstrapMethodRef, bootstrapArguments := indyInfo.BootstrapMethodInfo()
 	return &ConstantInvokeDynamic{
-		name:  name,
-		_type: _type,
-		spec: &BootstrapMethodSpecifier{
-			methodRefKind:  methodRefKind,
-			methodRefIndex: methodRefIndex,
-			bootstrapArgs:  bootstrapArgs,
-		},
+		name:               name,
+		_type:              _type,
+		bootstrapMethodRef: bootstrapMethodRef,
+		bootstrapArguments: bootstrapArguments,
+		cp:                 cp,
 	}
 }
 
-func (self *ConstantInvokeDynamic) String() string {
-	return fmt.Sprintf("{name:%v type:%v refKind:%v refIndex:%v args:%v}",
-		self.name, self._type, self.spec.methodRefKind, self.spec.methodRefIndex, self.spec.bootstrapArgs)
-}
-
-func (self *ConstantInvokeDynamic) Name() string {
-	return self.name
-}
-func (self *ConstantInvokeDynamic) Type() string {
-	return self._type
-}
-func (self *ConstantInvokeDynamic) BootstrapMethodSpecifier() *BootstrapMethodSpecifier {
-	return self.spec
+func (self *ConstantInvokeDynamic) MethodHandle() {
+	println(2222)
+	println(self.bootstrapMethodRef)
+	kMH := self.cp.GetConstant(uint(self.bootstrapMethodRef)).(*ConstantMethodHandle)
+	println(kMH.referenceKind)
+	println(kMH.referenceIndex)
+	println(kMH)
 }

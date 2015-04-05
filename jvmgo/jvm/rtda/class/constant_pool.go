@@ -42,7 +42,7 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 		case *cf.ConstantInterfaceMethodrefInfo:
 			consts[i] = newConstantInterfaceMethodref(rtCp, cpInfo.(*cf.ConstantInterfaceMethodrefInfo))
 		case *cf.ConstantInvokeDynamicInfo:
-			consts[i] = newConstantInvokeDynamic(cpInfo.(*cf.ConstantInvokeDynamicInfo))
+			consts[i] = newConstantInvokeDynamic(rtCp, cpInfo.(*cf.ConstantInvokeDynamicInfo))
 		case *cf.ConstantMethodHandleInfo:
 			consts[i] = newConstantMethodHandle(rtCp, cpInfo.(*cf.ConstantMethodHandleInfo))
 		case *cf.ConstantMethodTypeInfo:
@@ -60,16 +60,4 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 func (self *ConstantPool) GetConstant(index uint) Constant {
 	// todo
 	return self.consts[index]
-}
-
-// todo
-func (self *ConstantPool) GetMethodref(name string) *ConstantMethodref {
-	for _, c := range self.consts {
-		if methodref, ok := c.(*ConstantMethodref); ok {
-			if methodref.name == name {
-				return methodref
-			}
-		}
-	}
-	return nil // todo
 }

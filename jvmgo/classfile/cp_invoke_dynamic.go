@@ -23,16 +23,11 @@ func (self *ConstantInvokeDynamicInfo) NameAndType() (string, string) {
 }
 
 // todo
-func (self *ConstantInvokeDynamicInfo) BootstrapMethodInfo() (uint8, uint16, []uint16) {
+func (self *ConstantInvokeDynamicInfo) BootstrapMethodInfo() (uint16, []uint16) {
 	bmAttr := self.cp.cf.BootstrapMethodsAttribute()
 	bm := bmAttr.bootstrapMethods[self.bootstrapMethodAttrIndex]
-	mhInfo := self.cp.getConstantInfo(bm.bootstrapMethodRef).(*ConstantMethodHandleInfo)
 
-	methodRefKind := mhInfo.referenceKind
-	methodRefIndex := mhInfo.referenceIndex
-	bootstrapArgs := bm.bootstrapArguments
-
-	return methodRefKind, methodRefIndex, bootstrapArgs
+	return bm.bootstrapMethodRef, bm.bootstrapArguments
 }
 
 /*
@@ -50,6 +45,12 @@ type ConstantMethodHandleInfo struct {
 func (self *ConstantMethodHandleInfo) readInfo(reader *ClassReader) {
 	self.referenceKind = reader.readUint8()
 	self.referenceIndex = reader.readUint16()
+}
+func (self *ConstantMethodHandleInfo) ReferenceKind() uint8 {
+	return self.referenceKind
+}
+func (self *ConstantMethodHandleInfo) ReferenceIndex() uint16 {
+	return self.referenceIndex
 }
 
 /*

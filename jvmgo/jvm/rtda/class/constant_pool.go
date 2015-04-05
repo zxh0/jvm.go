@@ -43,6 +43,10 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 			consts[i] = newConstantInterfaceMethodref(rtCp, cpInfo.(*cf.ConstantInterfaceMethodrefInfo))
 		case *cf.ConstantInvokeDynamicInfo:
 			consts[i] = newConstantInvokeDynamic(cpInfo.(*cf.ConstantInvokeDynamicInfo))
+		case *cf.ConstantMethodHandleInfo:
+			consts[i] = newConstantMethodHandle(rtCp, cpInfo.(*cf.ConstantMethodHandleInfo))
+		case *cf.ConstantMethodTypeInfo:
+			consts[i] = newConstantMethodType(rtCp, cpInfo.(*cf.ConstantMethodTypeInfo))
 		default:
 			// todo
 			//fmt.Printf("%T \n", cpInfo)

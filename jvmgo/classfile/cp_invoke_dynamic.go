@@ -23,16 +23,16 @@ func (self *ConstantInvokeDynamicInfo) NameAndType() (string, string) {
 }
 
 // todo
-func (self *ConstantInvokeDynamicInfo) BootstrapMethodInfo() (refKind uint8, refIndex uint16, args []uint16) {
+func (self *ConstantInvokeDynamicInfo) BootstrapMethodInfo() (uint8, uint16, []uint16) {
 	bmAttr := self.cp.cf.BootstrapMethodsAttribute()
 	bm := bmAttr.bootstrapMethods[self.bootstrapMethodAttrIndex]
-
 	mhInfo := self.cp.getConstantInfo(bm.bootstrapMethodRef).(*ConstantMethodHandleInfo)
-	refKind = mhInfo.referenceKind
-	refIndex = mhInfo.referenceIndex
 
-	args = bm.bootstrapArguments
-	return
+	methodRefKind := mhInfo.referenceKind
+	methodRefIndex := mhInfo.referenceIndex
+	bootstrapArgs := bm.bootstrapArguments
+
+	return methodRefKind, methodRefIndex, bootstrapArgs
 }
 
 /*

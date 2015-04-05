@@ -33,10 +33,18 @@ func (self *invokedynamic) fetchOperands(decoder *InstructionDecoder) {
 }
 
 func (self *invokedynamic) Execute(frame *rtda.Frame) {
+
+	// todo
+	panic("todo invokedynamic")
+}
+
+func (self *invokedynamic) resolveCallSiteSpecifier(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
 	kIndy := cp.GetConstant(uint(self.index)).(*rtc.ConstantInvokeDynamic)
+	//bmSpec := kIndy.BootstrapMethodSpecifier()
+
+	// Method Type and Method Handle Resolution
 
 	// todo
 	fmt.Printf("kIndy: %v\n", kIndy)
-	panic("todo invokedynamic")
 }

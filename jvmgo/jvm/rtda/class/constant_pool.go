@@ -20,40 +20,29 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 		cpInfo := cpInfos[i]
 		switch cpInfo.(type) {
 		case *cf.ConstantIntegerInfo:
-			intInfo := cpInfo.(*cf.ConstantIntegerInfo)
-			consts[i] = intInfo.Value()
+			consts[i] = cpInfo.(*cf.ConstantIntegerInfo).Value()
 		case *cf.ConstantFloatInfo:
-			floatInfo := cpInfo.(*cf.ConstantFloatInfo)
-			consts[i] = floatInfo.Value()
+			consts[i] = cpInfo.(*cf.ConstantFloatInfo).Value()
 		case *cf.ConstantLongInfo:
-			longInfo := cpInfo.(*cf.ConstantLongInfo)
-			consts[i] = longInfo.Value()
+			consts[i] = cpInfo.(*cf.ConstantLongInfo).Value()
 			i++
 		case *cf.ConstantDoubleInfo:
-			doubleInfo := cpInfo.(*cf.ConstantDoubleInfo)
-			consts[i] = doubleInfo.Value()
+			consts[i] = cpInfo.(*cf.ConstantDoubleInfo).Value()
 			i++
 		case *cf.ConstantStringInfo:
-			stringInfo := cpInfo.(*cf.ConstantStringInfo)
-			consts[i] = stringInfo.String()
-		case *cf.ConstantClassInfo:
-			classInfo := cpInfo.(*cf.ConstantClassInfo)
-			consts[i] = newConstantClass(rtCp, classInfo)
-		case *cf.ConstantFieldrefInfo:
-			fieldrefInfo := cpInfo.(*cf.ConstantFieldrefInfo)
-			consts[i] = newConstantFieldref(rtCp, fieldrefInfo)
-		case *cf.ConstantMethodrefInfo:
-			methodrefInfo := cpInfo.(*cf.ConstantMethodrefInfo)
-			consts[i] = newConstantMethodref(rtCp, methodrefInfo)
-		case *cf.ConstantInterfaceMethodrefInfo:
-			methodrefInfo := cpInfo.(*cf.ConstantInterfaceMethodrefInfo)
-			consts[i] = newConstantInterfaceMethodref(rtCp, methodrefInfo)
+			consts[i] = cpInfo.(*cf.ConstantStringInfo).String()
 		case *cf.ConstantUtf8Info:
-			utf8Info := cpInfo.(*cf.ConstantUtf8Info)
-			consts[i] = newConstantUtf8(utf8Info)
+			consts[i] = newConstantUtf8(cpInfo.(*cf.ConstantUtf8Info))
+		case *cf.ConstantClassInfo:
+			consts[i] = newConstantClass(rtCp, cpInfo.(*cf.ConstantClassInfo))
+		case *cf.ConstantFieldrefInfo:
+			consts[i] = newConstantFieldref(rtCp, cpInfo.(*cf.ConstantFieldrefInfo))
+		case *cf.ConstantMethodrefInfo:
+			consts[i] = newConstantMethodref(rtCp, cpInfo.(*cf.ConstantMethodrefInfo))
+		case *cf.ConstantInterfaceMethodrefInfo:
+			consts[i] = newConstantInterfaceMethodref(rtCp, cpInfo.(*cf.ConstantInterfaceMethodrefInfo))
 		case *cf.ConstantInvokeDynamicInfo:
-			indyInfo := cpInfo.(*cf.ConstantInvokeDynamicInfo)
-			consts[i] = newConstantInvokeDynamic(indyInfo)
+			consts[i] = newConstantInvokeDynamic(cpInfo.(*cf.ConstantInvokeDynamicInfo))
 		default:
 			// todo
 			//fmt.Printf("%T \n", cpInfo)

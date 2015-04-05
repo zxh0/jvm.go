@@ -6,28 +6,34 @@ import (
 )
 
 type ConstantInvokeDynamic struct {
-	name     string
-	_type    string
-	refKind  uint8
-	refIndex uint16
-	args     []uint16
+	name  string
+	_type string
+	spec  *BootstrapMethodSpecifier
+}
+
+type BootstrapMethodSpecifier struct {
+	methodRefKind  uint8
+	methodRefIndex uint16
+	bootstrapArgs  []uint16
 }
 
 func newConstantInvokeDynamic(indyInfo *cf.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
 	name, _type := indyInfo.NameAndType()
-	refKind, refIndex, args := indyInfo.BootstrapMethodInfo()
+	methodRefKind, methodRefIndex, bootstrapArgs := indyInfo.BootstrapMethodInfo()
 	return &ConstantInvokeDynamic{
-		name:     name,
-		_type:    _type,
-		refKind:  refKind,
-		refIndex: refIndex,
-		args:     args,
+		name:  name,
+		_type: _type,
+		spec: &BootstrapMethodSpecifier{
+			methodRefKind:  methodRefKind,
+			methodRefIndex: methodRefIndex,
+			bootstrapArgs:  bootstrapArgs,
+		},
 	}
 }
 
 func (self *ConstantInvokeDynamic) String() string {
 	return fmt.Sprintf("{name:%v type:%v refKind:%v refIndex:%v args:%v}",
-		self.name, self._type, self.refKind, self.refIndex, self.args)
+		self.name, self._type, self.spec.methodRefKind, self.spec.methodRefIndex, self.spec.bootstrapArgs)
 }
 
 func (self *ConstantInvokeDynamic) Name() string {
@@ -36,12 +42,6 @@ func (self *ConstantInvokeDynamic) Name() string {
 func (self *ConstantInvokeDynamic) Type() string {
 	return self._type
 }
-func (self *ConstantInvokeDynamic) RefKind() uint8 {
-	return self.refKind
-}
-func (self *ConstantInvokeDynamic) RefIndex() uint16 {
-	return self.refIndex
-}
-func (self *ConstantInvokeDynamic) Args() []uint16 {
-	return self.args
+func (self *ConstantInvokeDynamic) BootstrapMethodSpecifier() *BootstrapMethodSpecifier {
+	return self.spec
 }

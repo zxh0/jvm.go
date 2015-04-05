@@ -1,4 +1,4 @@
-package java7.indy;
+package jsr292;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

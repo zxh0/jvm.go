@@ -1,6 +1,7 @@
 package helper;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class ReflectionHelper {
     
@@ -22,6 +23,21 @@ public class ReflectionHelper {
                 // ignored
             }
         }
+        return null;
+    }
+    
+    // call static method
+    public static Object call(Class<?> c, String methodName, Object... args) throws ReflectiveOperationException {
+        for (Method m : c.getDeclaredMethods()) {
+            if (m.getName().equals(methodName)
+                    && m.getParameterCount() == args.length) {
+                
+                m.setAccessible(true);
+                return m.invoke(m, args);
+            }
+        }
+        
+        // todo
         return null;
     }
     

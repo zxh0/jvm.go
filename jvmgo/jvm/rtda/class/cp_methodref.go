@@ -115,8 +115,25 @@ func (self *ConstantMethodref) FindInterfaceMethod(ref *Obj) *Method {
 		}
 	}
 
-	// todo
-	panic("virtual method not found!")
+	if method := findInterfaceMethod(ref.class.interfaces, self.name, self.descriptor); method != nil {
+		return method
+	} else {
+		//TODO
+		panic("virtual method not found!")
+	}
+}
+
+func findInterfaceMethod(interfaces []*Class, name, descriptor string) *Method {
+	for i := 0; i < len(interfaces); i++ {
+		if method := findInterfaceMethod(interfaces[i].interfaces, name, descriptor); method != nil {
+			return method
+		}
+		method := interfaces[i].getMethod(name, descriptor, false)
+		if method != nil {
+			return method
+		}
+	}
+	return nil
 }
 
 // type ConstantInterfaceMethodref struct {

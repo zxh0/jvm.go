@@ -5,16 +5,11 @@ import libs.junit.UnitTestRunner;
 import org.junit.Assert;
 import org.junit.Test;
 
-
-
-
-
 public class GsonTest {
 
     public static void main(String[] args) {
         UnitTestRunner.run(GsonTest.class);
     }
-
 //    @Test
 //    public void gson() {
 //        JsonTest2 obj = new JsonTest2();

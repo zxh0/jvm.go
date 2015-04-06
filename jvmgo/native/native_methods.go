@@ -7,6 +7,7 @@ import (
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/awt"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/io"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/lang"
+	_ "github.com/zxh0/jvm.go/jvmgo/native/java/lang/invoke"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/lang/reflect"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/net"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/security"

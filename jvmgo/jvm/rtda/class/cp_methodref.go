@@ -71,7 +71,6 @@ func (self *ConstantMethodref) resolveSpecialMethod() {
 	// }
 
 	// todo
-	println("@@@::" + self.className + "::" + self.name + "::" + self.descriptor)
 	panic("special method not found!")
 }
 
@@ -81,7 +80,7 @@ func (self *ConstantMethodref) findMethod(isStatic bool) *Method {
 }
 
 // todo
-func (self *ConstantMethodref) findMethodInInterfaces(iface *Class) *Method {
+/*func (self *ConstantMethodref) findMethodInInterfaces(iface *Class) *Method {
 	for _, m := range iface.methods {
 		if !m.IsAbstract() {
 			if m.name == self.name && m.descriptor == self.descriptor {
@@ -97,7 +96,7 @@ func (self *ConstantMethodref) findMethodInInterfaces(iface *Class) *Method {
 	}
 
 	return nil
-}
+}*/
 
 func (self *ConstantMethodref) GetVirtualMethod(ref *Obj) *Method {
 	if self.vslot < 0 {
@@ -116,7 +115,7 @@ func (self *ConstantMethodref) FindInterfaceMethod(ref *Obj) *Method {
 	}
 
 	// todo
-	panic("virtual method not found!")
+	panic("interface method not found!")
 }
 
 // type ConstantInterfaceMethodref struct {

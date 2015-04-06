@@ -21,11 +21,13 @@ import java7.thread.DaemonTest;
 import java7.thread.MainThreadTest;
 import java7.thread.SleepTest;
 import java7.wrapper.DoubleTest;
+import java8.InterfaceDefaultMethodTest;
 import java8.InterfaceMethodTest;
 import jls8.ch12.Eg12_4_1_1;
 import jls8.ch12.Eg12_4_1_2;
 import jls8.ch12.Eg12_4_1_3;
 import jls8.ch12.Eg12_5_2;
+import libs.gson.GsonTest;
 import libs.junit.UnitTestRunner;
 
 public class UnitTests {
@@ -49,6 +51,7 @@ public class UnitTests {
                 FileIoTest.class,
                 GenericTest.class,
                 GetClassLoaderTest.class,
+                GsonTest.class,
                 InstructionExTest.class,
                 InstructionNpeTest.class,
                 InterfaceMethodTest.class,

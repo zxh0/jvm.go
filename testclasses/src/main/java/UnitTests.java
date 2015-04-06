@@ -21,6 +21,7 @@ import java6.thread.DaemonTest;
 import java6.thread.MainThreadTest;
 import java6.thread.SleepTest;
 import java6.wrapper.DoubleTest;
+import java8.InterfaceDefaultMethodTest;
 import java8.InterfaceMethodTest;
 import jls8.ch12.Eg12_4_1_1;
 import jls8.ch12.Eg12_4_1_2;
@@ -53,6 +54,7 @@ public class UnitTests {
                 GsonTest.class,
                 InstructionExTest.class,
                 InstructionNpeTest.class,
+                InterfaceDefaultMethodTest.class,
                 InterfaceMethodTest.class,
                 MainThreadTest.class,
                 MethodTest.class,

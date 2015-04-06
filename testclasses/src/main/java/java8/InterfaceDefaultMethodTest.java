@@ -71,10 +71,10 @@ public class InterfaceDefaultMethodTest {
         FirstTest firstTest = testInterfaceFirstTestClass;
         SecondTest secondTest = testInterfaceFirstTestClass;
         ThirdTest thirdTest = testInterfaceFirstTestClass;
-        System.out.println(defaultTest.test());
-        System.out.println(firstTest.test());
-        System.out.println(secondTest.test());
-        System.out.println(thirdTest.test());
+//        System.out.println(defaultTest.test());
+//        System.out.println(firstTest.test());
+//        System.out.println(secondTest.test());
+//        System.out.println(thirdTest.test());
         Assert.assertEquals(defaultTest.test(), "ThirdTest");
         Assert.assertEquals(firstTest.test(), "ThirdTest");
         Assert.assertEquals(secondTest.test(), "ThirdTest");

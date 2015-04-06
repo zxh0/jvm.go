@@ -66,7 +66,7 @@ public class ClassLoaderTest {
         ClassLoader appCl = ClassLoaderTest.class.getClassLoader();
         //URL url = appCl.getResource("org/eclipse/jetty/http/mime.properties");
         URL url = appCl.getResource("LICENSE.txt");
-        System.out.println(url);
+        //System.out.println(url);
         assertNotNull(url);
         
         InputStream is = appCl.getResourceAsStream("LICENSE.txt");

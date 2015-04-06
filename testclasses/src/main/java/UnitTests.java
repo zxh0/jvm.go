@@ -51,7 +51,6 @@ public class UnitTests {
                 FileIoTest.class,
                 GenericTest.class,
                 GetClassLoaderTest.class,
-                GsonTest.class,
                 InstructionExTest.class,
                 InstructionNpeTest.class,
                 InterfaceDefaultMethodTest.class,

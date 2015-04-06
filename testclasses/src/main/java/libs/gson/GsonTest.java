@@ -10,13 +10,14 @@ public class GsonTest {
     public static void main(String[] args) {
         UnitTestRunner.run(GsonTest.class);
     }
-//    @Test
-//    public void gson() {
-//        JsonTest2 obj = new JsonTest2();
-//        obj.x = 100;
-//        obj.y = 3.14f;
-//        Assert.assertEquals("{\"x\":100,\"y\":3.14}", new Gson().toJson(obj));
-//    }
+
+    @Test
+    public void gson() {
+        JsonTest2 obj = new JsonTest2();
+        obj.x = 100;
+        obj.y = 3.14f;
+        Assert.assertEquals("{\"x\":100,\"y\":3.14}", new Gson().toJson(obj));
+    }
 
     @Test
     public void testGenericsType() {

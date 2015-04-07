@@ -51,7 +51,6 @@ public class UnitTests {
                 FileIoTest.class,
                 GenericTest.class,
                 GetClassLoaderTest.class,
-                GsonTest.class,
                 InstructionExTest.class,
                 InstructionNpeTest.class,
                 InterfaceDefaultMethodTest.class,
@@ -64,6 +63,7 @@ public class UnitTests {
                 UnsafeMemoryTest.class,
                 UnsafeObjectTest.class,
                 RandomAccessFileTest.class,
+                GsonTest.class,
         });
     }
 

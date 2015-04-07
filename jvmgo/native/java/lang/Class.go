@@ -247,7 +247,11 @@ func getGenericSignature0(frame *rtda.Frame) {
 	// Return null for arrays and primatives
 	if !class.IsPrimitive() {
 		signature := class.Signature()
-		frame.OperandStack().PushRef(rtda.JString(signature))
+		if signature == "" {
+			frame.OperandStack().PushNull()
+		} else {
+			frame.OperandStack().PushRef(rtda.JString(signature))
+		}
 		return
 	}
 

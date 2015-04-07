@@ -5,11 +5,11 @@ import libs.junit.UnitTestRunner;
 import org.junit.Test;
 
 /**
- * Created with IntelliJ IDEA. 
- * User: beyond 
- * Email: beyondblog@outlook.com 
- * Date: 15/4/6 
- * Time: 下午5:28 Description:
+ * Created with IntelliJ IDEA.
+ * User: beyond
+ * Email: beyondblog@outlook.com
+ * Date: 15/4/6
+ * Time: 下午5:28
  */
 public class InterfaceDefaultMethodTest {
 
@@ -71,6 +71,7 @@ public class InterfaceDefaultMethodTest {
         FirstTest firstTest = testInterfaceFirstTestClass;
         SecondTest secondTest = testInterfaceFirstTestClass;
         ThirdTest thirdTest = testInterfaceFirstTestClass;
+
 //        System.out.println(defaultTest.test());
 //        System.out.println(firstTest.test());
 //        System.out.println(secondTest.test());
@@ -80,5 +81,4 @@ public class InterfaceDefaultMethodTest {
         Assert.assertEquals(secondTest.test(), "ThirdTest");
         Assert.assertEquals(thirdTest.test(), "ThirdTest");
     }
-    
 }

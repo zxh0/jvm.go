@@ -121,6 +121,7 @@ func (self *ConstantMethodref) FindInterfaceMethod(ref *Obj) *Method {
 		panic("virtual method not found!")
 	}
 }
+
 func findInterfaceMethod(interfaces []*Class, name, descriptor string) *Method {
 	for i := 0; i < len(interfaces); i++ {
 		if method := findInterfaceMethod(interfaces[i].interfaces, name, descriptor); method != nil {

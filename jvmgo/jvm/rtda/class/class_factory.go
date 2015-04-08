@@ -38,6 +38,7 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
 	self.methods = make([]*Method, len(cf.Methods()))
 	for i, methodInfo := range cf.Methods() {
 		self.methods[i] = newMethod(self, methodInfo)
+		self.methods[i].slot = uint(i)
 	}
 }
 

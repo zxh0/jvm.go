@@ -21,6 +21,7 @@ type Method struct {
 	maxStack                uint
 	maxLocals               uint
 	argSlotCount            uint
+	slot                    uint
 	md                      *MethodDescriptor
 	code                    []byte
 	parameterAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
@@ -85,6 +86,9 @@ func (self *Method) MaxLocals() uint {
 }
 func (self *Method) ArgSlotCount() uint {
 	return self.argSlotCount
+}
+func (self *Method) Slot() uint {
+	return self.slot
 }
 func (self *Method) Code() []byte {
 	return self.code

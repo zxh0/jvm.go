@@ -49,6 +49,9 @@ func (self *Class) ConstantPool() *ConstantPool {
 func (self *Class) Name() string {
 	return self.name
 }
+func (self *Class) Methods() []*Method {
+	return self.methods
+}
 func (self *Class) Fields() []*Field {
 	return self.fields
 }

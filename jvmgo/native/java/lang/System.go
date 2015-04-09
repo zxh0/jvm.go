@@ -5,6 +5,7 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"runtime"
 	"time"
 	"unsafe"
 )
@@ -115,8 +116,8 @@ func _sysProps() map[string]string {
 		"java.class.version":   "52.0",
 		"java.class.path":      rtc.BootLoader().ClassPath().String(),
 		"java.awt.graphicsenv": "sun.awt.CGraphicsEnvironment",
-		"os.name":              "",   // todo
-		"os.arch":              "",   // todo
+		"os.name":              runtime.GOOS, // todo
+		"os.arch":              runtime.GOARCH, // todo
 		"os.version":           "",   // todo
 		"file.separator":       "/",  // todo os.PathSeparator
 		"path.separator":       ":",  // todo os.PathListSeparator

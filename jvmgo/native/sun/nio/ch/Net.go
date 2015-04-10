@@ -89,10 +89,10 @@ func net_localInetAddress(frame *rtda.Frame) {
 	this := vars.GetThis()
 	listen := this.Extra().(net.Listener)
 
-	//inetAddress := rtc.BootLoader().LoadClass("Ljava/net/InetAddress;").JClass()
+	inetAddress := rtc.BootLoader().LoadClass("Ljava/net/InetAddress;")
 	//fmt.Println(inetAddress)
 	//fmt.Println(listen.Addr().String())
-	fmt.Println(listen.Addr().Network())
+	//fmt.Println(listen.Addr().Network())
 
 	panic("net_localInetAddress error")
 }

@@ -53,7 +53,7 @@ func open(frame *rtda.Frame) {
 	jzfile, err := openZip(name)
 	if err != nil {
 		// todo
-		panic("IOException")
+		panic("IOException!" + err.Error())
 	}
 
 	stack := frame.OperandStack()

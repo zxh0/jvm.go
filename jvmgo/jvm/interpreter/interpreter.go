@@ -111,8 +111,8 @@ func _logFrames(thread *rtda.Thread) {
 		method := frame.Method()
 		className := method.Class().Name()
 		lineNum := method.GetLineNumber(frame.NextPC())
-		fmt.Printf(">> %v.%v%v bytecode:%v line:%v \n", className, method.Name(), method.Descriptor(),
-			frame.NextPC(), lineNum)
+		fmt.Printf(">> line:%4d pc:%4d %v.%v%v \n",
+			lineNum, frame.NextPC(), className, method.Name(), method.Descriptor())
 	}
 }
 
@@ -124,8 +124,10 @@ func _logInstruction(frame *rtda.Frame, inst instructions.Instruction) {
 	pc := thread.PC()
 
 	if method.IsStatic() {
-		fmt.Printf("[instruction] thread:%p %v.%v() #%v %T %v\n", thread, className, methodName, pc, inst, inst)
+		fmt.Printf("[instruction] thread:%p %v.%v() #%v %T %v\n",
+			thread, className, methodName, pc, inst, inst)
 	} else {
-		fmt.Printf("[instruction] thread:%p %v#%v() #%v %T %v\n", thread, className, methodName, pc, inst, inst)
+		fmt.Printf("[instruction] thread:%p %v#%v() #%v %T %v\n",
+			thread, className, methodName, pc, inst, inst)
 	}
 }

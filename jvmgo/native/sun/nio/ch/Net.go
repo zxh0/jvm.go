@@ -85,11 +85,11 @@ func net_listen(frame *rtda.Frame) {
 
 // private static native InetAddress localInetAddress(FileDescriptor fd) throws IOException;
 func net_localInetAddress(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	listen := this.Extra().(net.Listener)
+	//vars := frame.LocalVars()
+	//this := vars.GetThis()
+	//listen := this.Extra().(net.Listener)
 
-	inetAddress := rtc.BootLoader().LoadClass("Ljava/net/InetAddress;")
+	//inetAddress := rtc.BootLoader().LoadClass("Ljava/net/InetAddress;")
 	//fmt.Println(inetAddress)
 	//fmt.Println(listen.Addr().String())
 	//fmt.Println(listen.Addr().Network())

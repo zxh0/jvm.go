@@ -10,6 +10,7 @@ import (
 func init() {
 	_mhn(getConstant, "getConstant", "(I)I")
 	_mhn(mhn_init, "init", "(Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V")
+	_mhn(resolve, "resolve", "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;")
 }
 
 func _mhn(method Any, name, desc string) {
@@ -49,4 +50,16 @@ func mhn_init(frame *rtda.Frame) {
 
 	fmt.Printf("mn:%v  ref:%v \n", mn, ref)
 	//panic("todo mhn_init...")
+}
+
+// static native MemberName resolve(MemberName self, Class<?> caller) throws LinkageError;
+// (Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;
+func resolve(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	mn := vars.GetRef(0)
+	// caller := vars.GetRef(1)
+
+	// panic("todo resolve")
+	stack := frame.OperandStack()
+	stack.PushRef(mn)
 }

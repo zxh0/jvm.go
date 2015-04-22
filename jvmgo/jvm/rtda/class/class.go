@@ -32,7 +32,7 @@ type Class struct {
 	jClass             *Obj      // java.lang.Class instance
 	superClass         *Class
 	interfaces         []*Class
-	loadedFrom         cp.ClassPathEntry // todo
+	loadedFrom         cp.Entry // todo
 	initState          int
 	initCond           *sync.Cond
 	initThread         uintptr
@@ -68,7 +68,7 @@ func (self *Class) SuperClass() *Class {
 func (self *Class) Interfaces() []*Class {
 	return self.interfaces
 }
-func (self *Class) LoadedFrom() cp.ClassPathEntry {
+func (self *Class) LoadedFrom() cp.Entry {
 	return self.loadedFrom
 }
 func (self *Class) InitCond() *sync.Cond {

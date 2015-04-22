@@ -177,7 +177,7 @@ func (self *ClassLoader) reallyLoadClass(name string) *Class {
 	return class
 }
 
-func (self *ClassLoader) readClassData(name string) (classpath.ClassPathEntry, []byte) {
+func (self *ClassLoader) readClassData(name string) (classpath.Entry, []byte) {
 	cpEntry, classData, err := self.classPath.ReadClassData(name)
 	if err != nil {
 		panic(jerrors.NewClassNotFoundError(SlashToDot(name)))

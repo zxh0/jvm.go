@@ -13,7 +13,7 @@ var (
 )
 
 type ClassPath struct {
-	compoundEntry CompoundClassPathEntry
+	compoundEntry CompoundEntry
 }
 
 func Parse(pathList string) *ClassPath {
@@ -25,17 +25,17 @@ func Parse(pathList string) *ClassPath {
 	jreLibPath := filepath.Join(options.AbsJavaHome, "lib", "*")
 
 	return &ClassPath{
-		CompoundClassPathEntry{
-			[]ClassPathEntry{
-				newCompoundClassPathEntry(jreLibPath), // boot classpath
-				newCompoundClassPathEntry(pathList),
+		CompoundEntry{
+			[]Entry{
+				newCompoundEntry(jreLibPath), // boot classpath
+				newCompoundEntry(pathList),
 			},
 		},
 	}
 }
 
 // className: fully/qualified/ClassName
-func (self *ClassPath) ReadClassData(className string) (ClassPathEntry, []byte, error) {
+func (self *ClassPath) ReadClassData(className string) (Entry, []byte, error) {
 	className = className + ".class"
 	return self.compoundEntry.readClassData(className)
 }
@@ -45,7 +45,7 @@ func (self *ClassPath) String() string {
 	return self.compoundEntry.entries[1].String()
 }
 
-func IsBootClassPath(entry ClassPathEntry) bool {
+func IsBootClassPath(entry Entry) bool {
 	if entry == nil {
 		// todo
 		return true

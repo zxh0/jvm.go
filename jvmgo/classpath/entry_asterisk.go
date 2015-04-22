@@ -6,15 +6,15 @@ import (
 	"strings"
 )
 
-type AsteriskClassPathEntry struct {
-	compoundEntry CompoundClassPathEntry
+type AsteriskEntry struct {
+	compoundEntry CompoundEntry
 }
 
-func newAsteriskClassPathEntry(path string) *AsteriskClassPathEntry {
-	compoundEntry := CompoundClassPathEntry{}
+func newAsteriskEntry(path string) *AsteriskEntry {
+	compoundEntry := CompoundEntry{}
 	walkFn := func(path string, info os.FileInfo, err error) error {
 		if strings.HasSuffix(path, ".jar") || strings.HasSuffix(path, ".JAR") {
-			jarEntry := newJarClassPathEntry(path)
+			jarEntry := newJarEntry(path)
 			compoundEntry.addEntry(jarEntry)
 		}
 
@@ -24,13 +24,13 @@ func newAsteriskClassPathEntry(path string) *AsteriskClassPathEntry {
 	dir := path[:len(path)-1]
 	filepath.Walk(dir, walkFn)
 
-	return &AsteriskClassPathEntry{compoundEntry}
+	return &AsteriskEntry{compoundEntry}
 }
 
-func (self *AsteriskClassPathEntry) readClassData(className string) (ClassPathEntry, []byte, error) {
+func (self *AsteriskEntry) readClassData(className string) (Entry, []byte, error) {
 	return self.compoundEntry.readClassData(className)
 }
 
-func (self *AsteriskClassPathEntry) String() string {
+func (self *AsteriskEntry) String() string {
 	return self.compoundEntry.String()
 }

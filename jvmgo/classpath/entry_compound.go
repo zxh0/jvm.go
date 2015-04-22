@@ -9,16 +9,16 @@ import (
 // :(linux/unix) or ;(windows)
 const _pathListSeparator = string(os.PathListSeparator)
 
-type CompoundClassPathEntry struct {
-	entries []ClassPathEntry
+type CompoundEntry struct {
+	entries []Entry
 }
 
-func newCompoundClassPathEntry(pathList string) *CompoundClassPathEntry {
-	compoundEntry := &CompoundClassPathEntry{}
+func newCompoundEntry(pathList string) *CompoundEntry {
+	compoundEntry := &CompoundEntry{}
 
 	for _, path := range strings.Split(pathList, _pathListSeparator) {
 		if absPath, err := filepath.Abs(path); err == nil {
-			entry := parseClassPathEntry(absPath)
+			entry := parseEntry(absPath)
 			compoundEntry.addEntry(entry)
 		} else {
 			// todo
@@ -28,11 +28,11 @@ func newCompoundClassPathEntry(pathList string) *CompoundClassPathEntry {
 	return compoundEntry
 }
 
-func (self *CompoundClassPathEntry) addEntry(entry ClassPathEntry) {
+func (self *CompoundEntry) addEntry(entry Entry) {
 	self.entries = append(self.entries, entry)
 }
 
-func (self *CompoundClassPathEntry) readClassData(className string) (ClassPathEntry, []byte, error) {
+func (self *CompoundEntry) readClassData(className string) (Entry, []byte, error) {
 	for _, entry := range self.entries {
 		entry, data, err := entry.readClassData(className)
 		if err == nil {
@@ -44,7 +44,7 @@ func (self *CompoundClassPathEntry) readClassData(className string) (ClassPathEn
 	return nil, nil, classNotFoundErr
 }
 
-func (self *CompoundClassPathEntry) String() string {
+func (self *CompoundEntry) String() string {
 	strs := make([]string, len(self.entries))
 
 	for i, entry := range self.entries {

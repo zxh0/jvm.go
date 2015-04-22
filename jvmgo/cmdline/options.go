@@ -12,6 +12,7 @@ const (
 )
 
 type Options struct {
+	argReader    *ArgReader
 	classpath    string
 	verboseClass bool
 	xss          int
@@ -19,10 +20,11 @@ type Options struct {
 	XuseJavaHome bool
 }
 
-func newOptions() *Options {
-	options := &Options{}
-	options.xss = 16 * _1k
-	return options
+func newOptions(argReader *ArgReader) *Options {
+	return &Options{
+		argReader: argReader,
+		xss:       16 * _1k,
+	}
 }
 
 // getters
@@ -37,14 +39,14 @@ func (self *Options) Xss() int {
 }
 
 func parseOptions(argReader *ArgReader) *Options {
-	options := newOptions()
+	options := newOptions(argReader)
 
 	for argReader.hasMoreOptions() {
 		optionName := argReader.removeFirst()
-		_ = options.parseClassPathOption(optionName, argReader) ||
+		_ = options.parseClassPathOption(optionName) ||
 			options.parseVerboseOption(optionName) ||
 			options.parseXssOption(optionName) ||
-			options.parseXcpuprofile(optionName, argReader) ||
+			options.parseXcpuprofile(optionName) ||
 			options.parseXuseJavaHome(optionName)
 		// todo
 	}
@@ -52,9 +54,9 @@ func parseOptions(argReader *ArgReader) *Options {
 	return options
 }
 
-func (self *Options) parseClassPathOption(optionName string, argReader *ArgReader) bool {
+func (self *Options) parseClassPathOption(optionName string) bool {
 	if optionName == "-classpath" || optionName == "-cp" {
-		self.classpath = argReader.removeFirst()
+		self.classpath = self.argReader.removeFirst()
 		return true
 	}
 	return false
@@ -95,9 +97,9 @@ func parseInt(str string) int {
 	return i
 }
 
-func (self *Options) parseXcpuprofile(optionName string, argReader *ArgReader) bool {
+func (self *Options) parseXcpuprofile(optionName string) bool {
 	if optionName == "-Xcpuprofile" {
-		self.Xcpuprofile = argReader.removeFirst()
+		self.Xcpuprofile = self.argReader.removeFirst()
 		return true
 	}
 	return false

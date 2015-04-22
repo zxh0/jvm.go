@@ -1,10 +1,11 @@
 package lang
 
 import (
+	"math"
+
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"math"
 )
 
 func init() {

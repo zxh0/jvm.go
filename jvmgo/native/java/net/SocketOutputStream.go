@@ -1,10 +1,11 @@
 package io
 
 import (
+	"net"
+
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"net"
 )
 
 func init() {

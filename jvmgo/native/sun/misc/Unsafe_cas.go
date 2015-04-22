@@ -1,12 +1,13 @@
 package misc
 
 import (
+	"sync/atomic"
+	"unsafe"
+
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"sync/atomic"
-	"unsafe"
 )
 
 func init() {

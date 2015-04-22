@@ -1,13 +1,14 @@
 package lang
 
 import (
+	"runtime"
+	"time"
+	"unsafe"
+
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"runtime"
-	"time"
-	"unsafe"
 )
 
 func init() {
@@ -116,16 +117,16 @@ func _sysProps() map[string]string {
 		"java.class.version":   "52.0",
 		"java.class.path":      rtc.BootLoader().ClassPath().String(),
 		"java.awt.graphicsenv": "sun.awt.CGraphicsEnvironment",
-		"os.name":              runtime.GOOS, // todo
+		"os.name":              runtime.GOOS,   // todo
 		"os.arch":              runtime.GOARCH, // todo
-		"os.version":           "",   // todo
-		"file.separator":       "/",  // todo os.PathSeparator
-		"path.separator":       ":",  // todo os.PathListSeparator
-		"line.separator":       "\n", // todo
-		"user.name":            "",   // todo
-		"user.home":            "",   // todo
-		"user.dir":             ".",  // todo
-		"user.country":         "CN", // todo
+		"os.version":           "",             // todo
+		"file.separator":       "/",            // todo os.PathSeparator
+		"path.separator":       ":",            // todo os.PathListSeparator
+		"line.separator":       "\n",           // todo
+		"user.name":            "",             // todo
+		"user.home":            "",             // todo
+		"user.dir":             ".",            // todo
+		"user.country":         "CN",           // todo
 		"file.encoding":        "UTF-8",
 		"sun.stdout.encoding":  "UTF-8",
 		"sun.stderr.encoding":  "UTF-8",

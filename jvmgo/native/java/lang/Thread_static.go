@@ -1,8 +1,9 @@
 package lang
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	"time"
+
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 )
 
 func init() {

@@ -2,12 +2,13 @@ package util
 
 import (
 	"bufio"
-	. "github.com/zxh0/jvm.go/jvmgo/any"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"os"
 	"strings"
 	"time"
+
+	. "github.com/zxh0/jvm.go/jvmgo/any"
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
 func init() {

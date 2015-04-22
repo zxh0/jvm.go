@@ -1,10 +1,11 @@
 package zip
 
 import (
+	"hash/crc32"
+
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
-	"hash/crc32"
 )
 
 func init() {

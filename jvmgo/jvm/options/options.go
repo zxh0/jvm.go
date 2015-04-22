@@ -1,9 +1,10 @@
 package options
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/cmdline"
 	"os"
 	"path/filepath"
+
+	"github.com/zxh0/jvm.go/jvmgo/cmdline"
 )
 
 var (

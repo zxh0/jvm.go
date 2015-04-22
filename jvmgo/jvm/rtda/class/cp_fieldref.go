@@ -2,6 +2,7 @@ package class
 
 import (
 	"fmt"
+
 	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 )

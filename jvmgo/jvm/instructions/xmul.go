@@ -1,6 +1,8 @@
 package instructions
 
-import "github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+import (
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+)
 
 // Multiply double
 type dmul struct{ NoOperandsInstruction }

@@ -1,9 +1,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/zxh0/jvm.go/jvmgo/cmdline"
 	"github.com/zxh0/jvm.go/jvmgo/jvm"
-	"os"
 )
 
 func main() {

@@ -1,6 +1,8 @@
 package instructions
 
-import "github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+import (
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+)
 
 // Branch if int comparison succeeds
 type if_icmpeq struct{ BranchInstruction }

@@ -3,8 +3,9 @@ package classpath
 import (
 	"archive/zip"
 	"fmt"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	"io/ioutil"
+
+	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 )
 
 type JarClassPathEntry struct {

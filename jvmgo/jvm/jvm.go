@@ -1,6 +1,9 @@
 package jvm
 
 import (
+	"os"
+	"runtime/pprof"
+
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/classpath"
 	"github.com/zxh0/jvm.go/jvmgo/cmdline"
@@ -11,8 +14,6 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	_ "github.com/zxh0/jvm.go/jvmgo/native"
-	"os"
-	"runtime/pprof"
 )
 
 func Startup(cmd *cmdline.Command) {

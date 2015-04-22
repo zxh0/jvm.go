@@ -2,8 +2,9 @@ package class
 
 import (
 	"fmt"
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"sync"
+
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 )
 
 // object

@@ -1,6 +1,8 @@
 package instructions
 
-import "github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+import (
+	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+)
 
 // Branch if reference is null
 type ifnull struct{ BranchInstruction }

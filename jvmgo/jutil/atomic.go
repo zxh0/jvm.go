@@ -1,9 +1,10 @@
 package jutil
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"sync/atomic"
 	"unsafe"
+
+	. "github.com/zxh0/jvm.go/jvmgo/any"
 )
 
 // copied from go/src/sync/atomic/value.go

@@ -1,6 +1,8 @@
 package classfile
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func Parse(classData []byte) (cf *ClassFile, err error) {
 	defer func() {

@@ -2,9 +2,10 @@ package classpath
 
 import (
 	"errors"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	"path/filepath"
 	"strings"
+
+	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 )
 
 var (

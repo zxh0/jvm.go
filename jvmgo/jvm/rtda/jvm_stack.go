@@ -1,6 +1,8 @@
 package rtda
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // jvm stack
 type Stack struct {

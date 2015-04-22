@@ -1,6 +1,8 @@
 package class
 
-import cf "github.com/zxh0/jvm.go/jvmgo/classfile"
+import (
+	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
+)
 
 type ConstantUtf8 struct {
 	str string

@@ -33,11 +33,13 @@ func ParseCommand(osArgs []string) (cmd *Command, err error) {
 		}
 	}()
 
-	args := &CmdLineArgs{osArgs[1:]}
-	cmd = &Command{}
-	cmd.options = parseOptions(args)
-	cmd.class = args.removeFirst()
-	cmd.args = args.args
+	argReader := &ArgReader{osArgs[1:]}
+	cmd = &Command{
+		options: parseOptions(argReader),
+		class:   argReader.removeFirst(),
+		args:    argReader.args,
+	}
+
 	return
 }
 

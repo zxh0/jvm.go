@@ -36,15 +36,15 @@ func (self *Options) Xss() int {
 	return self.xss
 }
 
-func parseOptions(args *CmdLineArgs) *Options {
+func parseOptions(argReader *ArgReader) *Options {
 	options := newOptions()
 
-	for !args.isEmpty() && args.first()[0] == '-' {
-		optionName := args.removeFirst()
-		_ = options.parseClassPathOption(optionName, args) ||
+	for argReader.hasMoreOptions() {
+		optionName := argReader.removeFirst()
+		_ = options.parseClassPathOption(optionName, argReader) ||
 			options.parseVerboseOption(optionName) ||
 			options.parseXssOption(optionName) ||
-			options.parseXcpuprofile(optionName, args) ||
+			options.parseXcpuprofile(optionName, argReader) ||
 			options.parseXuseJavaHome(optionName)
 		// todo
 	}
@@ -52,9 +52,9 @@ func parseOptions(args *CmdLineArgs) *Options {
 	return options
 }
 
-func (self *Options) parseClassPathOption(optionName string, args *CmdLineArgs) bool {
+func (self *Options) parseClassPathOption(optionName string, argReader *ArgReader) bool {
 	if optionName == "-classpath" || optionName == "-cp" {
-		self.classpath = args.removeFirst()
+		self.classpath = argReader.removeFirst()
 		return true
 	}
 	return false
@@ -95,9 +95,9 @@ func parseInt(str string) int {
 	return i
 }
 
-func (self *Options) parseXcpuprofile(optionName string, args *CmdLineArgs) bool {
+func (self *Options) parseXcpuprofile(optionName string, argReader *ArgReader) bool {
 	if optionName == "-Xcpuprofile" {
-		self.Xcpuprofile = args.removeFirst()
+		self.Xcpuprofile = argReader.removeFirst()
 		return true
 	}
 	return false

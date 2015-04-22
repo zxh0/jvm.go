@@ -10,6 +10,7 @@ func init() {
 	_ioUtil(iou_iovMax, "iovMax", "()I")
 	_ioUtil(iou_setfdVal, "setfdVal", "(Ljava/io/FileDescriptor;I)V")
 	_ioUtil(iou_fdVal, "fdVal", "(Ljava/io/FileDescriptor;)I")
+	_ioUtil(iou_makePipe, "makePipe", "(Z)J")
 }
 
 func _ioUtil(method Any, name, desc string) {
@@ -36,4 +37,9 @@ func iou_setfdVal(frame *rtda.Frame) {
 //(Ljava/io/FileDescriptor;)I
 func iou_fdVal(frame *rtda.Frame) {
 	frame.OperandStack().PushInt(100)
+}
+
+//makePipe~(Z)J
+func iou_makePipe(frame *rtda.Frame) {
+
 }

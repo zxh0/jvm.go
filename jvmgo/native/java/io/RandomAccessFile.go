@@ -2,7 +2,6 @@ package io
 
 import (
 	"os"
-	"syscall"
 
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
@@ -36,20 +35,21 @@ func raf_open(frame *rtda.Frame) {
 	flag := 0
 
 	if mode&1 > 0 {
-		flag |= syscall.O_RDONLY
+		flag |= os.O_RDONLY
 	}
 
 	//write
 	if mode&2 > 0 {
-		flag |= syscall.O_RDWR | syscall.O_CREAT
+		flag |= os.O_RDWR | os.O_CREATE
 	}
 
 	if mode&4 > 0 {
-		flag |= syscall.O_SYNC | syscall.O_CREAT
+		flag |= os.O_SYNC | os.O_CREATE
 	}
 
 	if mode&8 > 0 {
-		flag |= syscall.O_DSYNC | syscall.O_CREAT
+		//TODO:O_DSYNC
+		flag |= os.O_SYNC | os.O_CREATE
 	}
 
 	goName := rtda.GoString(name)

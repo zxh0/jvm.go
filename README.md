@@ -27,33 +27,3 @@ Download [zulu1.8.0_31-8.5.0.1-macosx.zip](http://www.azulsystems.com/products/z
 cd path/to/zulu1.8.0_31-8.5.0.1-macosx
 jvmgo -cp path/to/jars:path/to/classes HelloWorld
 ```
-
-# Example
-Create a Java source file, `Main.java`:
-```java
-public class Main {
-
-    public static void main(String []args){
-        String val = "hello world";
-        if(args != null && args.length > 0){
-            val = args[0];
-        }
-        System.out.println(val);
-    }
-}
-```
-
-Compile `Main.java`, which will generate `Main.class`:
-```sh
-javac Main.java
-``` 
-
-Run with `jvmgo`:
-```sh
-jvmgo Main
-```
-
-Output:
-```sh
-hello world
-```

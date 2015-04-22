@@ -1,9 +1,10 @@
-//sun/nio/ch/ServerSocketChannelImpl~initIDs~
 package ch
 
 import (
 	"fmt"
 	"net"
+	"strconv"
+	"strings"
 
 	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
@@ -25,6 +26,7 @@ func init() {
 	_net(net_bind0, "bind0", "(Ljava/io/FileDescriptor;ZZLjava/net/InetAddress;I)V")
 	_net(net_listen, "listen", "(Ljava/io/FileDescriptor;I)V")
 	_net(net_localInetAddress, "localInetAddress", "(Ljava/io/FileDescriptor;)Ljava/net/InetAddress;")
+	_net(net_localPort, "localPort", "(Ljava/io/FileDescriptor;)I")
 }
 
 func _net(method Any, name, desc string) {
@@ -90,10 +92,29 @@ func net_localInetAddress(frame *rtda.Frame) {
 	//this := vars.GetThis()
 	//listen := this.Extra().(net.Listener)
 
-	//inetAddress := rtc.BootLoader().LoadClass("Ljava/net/InetAddress;")
+	inetAddress := rtc.BootLoader().LoadClass("java/net/InetAddress")
+	inetObj := inetAddress.NewObj()
+
+	stack := frame.OperandStack()
+	stack.PushRef(inetObj)
+
 	//fmt.Println(inetAddress)
 	//fmt.Println(listen.Addr().String())
 	//fmt.Println(listen.Addr().Network())
 
-	panic("net_localInetAddress error")
+	//panic("net_localInetAddress error")
+}
+
+func net_localPort(frame *rtda.Frame) {
+	vars := frame.LocalVars()
+	this := vars.GetThis()
+	listen := this.Extra().(net.Listener)
+
+	//fmt.Println(inetAddress)
+	address := listen.Addr().String()
+	lastIndex := strings.LastIndex(address, ":")
+
+	stack := frame.OperandStack()
+	port, _ := strconv.Atoi(address[lastIndex+1:])
+	stack.PushInt(int32(port))
 }

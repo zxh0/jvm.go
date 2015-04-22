@@ -12,7 +12,7 @@ type Entry interface {
 
 func parseEntry(absPath string) Entry {
 	if strings.HasSuffix(absPath, "*") {
-		return newAsteriskEntry(absPath)
+		return newWildcardEntry(absPath)
 	}
 
 	if strings.HasSuffix(absPath, ".jar") {

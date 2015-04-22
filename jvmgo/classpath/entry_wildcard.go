@@ -6,11 +6,11 @@ import (
 	"strings"
 )
 
-type AsteriskEntry struct {
+type WildcardEntry struct {
 	compoundEntry CompoundEntry
 }
 
-func newAsteriskEntry(path string) *AsteriskEntry {
+func newWildcardEntry(path string) *WildcardEntry {
 	compoundEntry := CompoundEntry{}
 	walkFn := func(path string, info os.FileInfo, err error) error {
 		if strings.HasSuffix(path, ".jar") || strings.HasSuffix(path, ".JAR") {
@@ -24,13 +24,13 @@ func newAsteriskEntry(path string) *AsteriskEntry {
 	dir := path[:len(path)-1]
 	filepath.Walk(dir, walkFn)
 
-	return &AsteriskEntry{compoundEntry}
+	return &WildcardEntry{compoundEntry}
 }
 
-func (self *AsteriskEntry) readClassData(className string) (Entry, []byte, error) {
+func (self *WildcardEntry) readClassData(className string) (Entry, []byte, error) {
 	return self.compoundEntry.readClassData(className)
 }
 
-func (self *AsteriskEntry) String() string {
+func (self *WildcardEntry) String() string {
 	return self.compoundEntry.String()
 }

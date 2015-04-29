@@ -18,6 +18,7 @@ import (
 	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/java2d/opengl"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/management"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/misc"
+	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/io"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/nio/ch"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/sun/reflect"
 )

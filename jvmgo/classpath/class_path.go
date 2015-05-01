@@ -27,7 +27,7 @@ func Parse(pathList string) *ClassPath {
 	return &ClassPath{
 		CompoundEntry{
 			[]Entry{
-				newCompoundEntry(jreLibPath), // boot classpath
+				newWildcardEntry(jreLibPath), // boot classpath
 				newCompoundEntry(pathList),
 			},
 		},
@@ -35,9 +35,9 @@ func Parse(pathList string) *ClassPath {
 }
 
 // className: fully/qualified/ClassName
-func (self *ClassPath) ReadClassData(className string) (Entry, []byte, error) {
+func (self *ClassPath) ReadClass(className string) (Entry, []byte, error) {
 	className = className + ".class"
-	return self.compoundEntry.readClassData(className)
+	return self.compoundEntry.readClass(className)
 }
 
 func (self *ClassPath) String() string {

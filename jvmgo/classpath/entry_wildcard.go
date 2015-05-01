@@ -27,8 +27,8 @@ func newWildcardEntry(path string) *WildcardEntry {
 	return &WildcardEntry{compoundEntry}
 }
 
-func (self *WildcardEntry) readClassData(className string) (Entry, []byte, error) {
-	return self.compoundEntry.readClassData(className)
+func (self *WildcardEntry) readClass(className string) (Entry, []byte, error) {
+	return self.compoundEntry.readClass(className)
 }
 
 func (self *WildcardEntry) String() string {

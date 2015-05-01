@@ -32,9 +32,9 @@ func (self *CompoundEntry) addEntry(entry Entry) {
 	self.entries = append(self.entries, entry)
 }
 
-func (self *CompoundEntry) readClassData(className string) (Entry, []byte, error) {
+func (self *CompoundEntry) readClass(className string) (Entry, []byte, error) {
 	for _, entry := range self.entries {
-		entry, data, err := entry.readClassData(className)
+		entry, data, err := entry.readClass(className)
 		if err == nil {
 			return entry, data, nil
 		}

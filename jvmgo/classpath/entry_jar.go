@@ -17,7 +17,7 @@ func newJarEntry(jar string) *JarEntry {
 	return &JarEntry{jar, nil}
 }
 
-func (self *JarEntry) readClassData(className string) (Entry, []byte, error) {
+func (self *JarEntry) readClass(className string) (Entry, []byte, error) {
 	if self.zipRC == nil {
 		err := self.openJar()
 		if err != nil {

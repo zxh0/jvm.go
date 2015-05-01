@@ -6,7 +6,7 @@ import (
 
 type Entry interface {
 	// className: fully/qualified/ClassName.class
-	readClassData(className string) (Entry, []byte, error)
+	readClass(className string) (Entry, []byte, error)
 	String() string
 }
 

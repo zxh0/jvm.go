@@ -14,7 +14,7 @@ const (
 type Options struct {
 	classpath    string
 	verboseClass bool
-	xss          int
+	Xss          int
 	Xcpuprofile  string
 	XuseJavaHome bool
 }
@@ -26,13 +26,10 @@ func (self *Options) Classpath() string {
 func (self *Options) VerboseClass() bool {
 	return self.verboseClass
 }
-func (self *Options) Xss() int {
-	return self.xss
-}
 
 func parseOptions(argReader *ArgReader) *Options {
 	options := &Options{
-		xss: 16 * _1k,
+		Xss: 16 * _1k,
 	}
 
 	for argReader.hasMoreOptions() {
@@ -48,7 +45,7 @@ func parseOptions(argReader *ArgReader) *Options {
 			options.XuseJavaHome = true
 		default:
 			if strings.HasPrefix(optionName, "-Xss") {
-				options.xss = parseXss(optionName)
+				options.Xss = parseXss(optionName)
 			} else {
 				panic("Unrecognized option: " + optionName)
 			}

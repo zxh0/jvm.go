@@ -16,7 +16,7 @@ var (
 
 func InitOptions(cmdOptions *cmdline.Options) {
 	VerboseClass = cmdOptions.VerboseClass()
-	ThreadStackSize = uint(cmdOptions.Xss())
+	ThreadStackSize = uint(cmdOptions.Xss)
 	initJavaHome(cmdOptions.XuseJavaHome)
 }
 

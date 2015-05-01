@@ -12,19 +12,11 @@ const (
 )
 
 type Options struct {
-	argReader    *ArgReader
 	classpath    string
 	verboseClass bool
 	xss          int
 	Xcpuprofile  string
 	XuseJavaHome bool
-}
-
-func newOptions(argReader *ArgReader) *Options {
-	return &Options{
-		argReader: argReader,
-		xss:       16 * _1k,
-	}
 }
 
 // getters
@@ -39,54 +31,46 @@ func (self *Options) Xss() int {
 }
 
 func parseOptions(argReader *ArgReader) *Options {
-	options := newOptions(argReader)
+	options := &Options{
+		xss: 16 * _1k,
+	}
 
 	for argReader.hasMoreOptions() {
 		optionName := argReader.removeFirst()
-		_ = options.parseClassPathOption(optionName) ||
-			options.parseVerboseOption(optionName) ||
-			options.parseXssOption(optionName) ||
-			options.parseXcpuprofile(optionName) ||
-			options.parseXuseJavaHome(optionName)
-		// todo
+		switch optionName {
+		case "-cp", "-classpath":
+			options.classpath = argReader.removeFirst()
+		case "-verbose", "-verbose:class":
+			options.verboseClass = true
+		case "-Xcpuprofile":
+			options.Xcpuprofile = argReader.removeFirst()
+		case "-XuseJavaHome":
+			options.XuseJavaHome = true
+		default:
+			if strings.HasPrefix(optionName, "-Xss") {
+				options.xss = parseXss(optionName)
+			} else {
+				panic("Unrecognized option: " + optionName)
+			}
+		}
 	}
 
 	return options
 }
 
-func (self *Options) parseClassPathOption(optionName string) bool {
-	if optionName == "-classpath" || optionName == "-cp" {
-		self.classpath = self.argReader.removeFirst()
-		return true
-	}
-	return false
-}
-
-func (self *Options) parseVerboseOption(optionName string) bool {
-	if optionName == "-verbose" || optionName == "-verbose:class" {
-		self.verboseClass = true
-		return true
-	}
-	return false
-}
-
 // -Xss<size>[g|G|m|M|k|K]
-func (self *Options) parseXssOption(optionName string) bool {
-	if strings.HasPrefix(optionName, "-Xss") {
-		size := optionName[4:]
-		switch size[len(size)-1] {
-		case 'g', 'G':
-			self.xss = _1g * parseInt(size[:len(size)-1])
-		case 'm', 'M':
-			self.xss = _1m * parseInt(size[:len(size)-1])
-		case 'k', 'K':
-			self.xss = _1k * parseInt(size[:len(size)-1])
-		default:
-			self.xss = parseInt(size)
-		}
-		return true
+func parseXss(optionName string) int {
+	size := optionName[4:]
+	switch size[len(size)-1] {
+	case 'g', 'G':
+		return _1g * parseInt(size[:len(size)-1])
+	case 'm', 'M':
+		return _1m * parseInt(size[:len(size)-1])
+	case 'k', 'K':
+		return _1k * parseInt(size[:len(size)-1])
+	default:
+		return parseInt(size)
 	}
-	return false
 }
 
 func parseInt(str string) int {
@@ -95,20 +79,4 @@ func parseInt(str string) int {
 		panic(err.Error())
 	}
 	return i
-}
-
-func (self *Options) parseXcpuprofile(optionName string) bool {
-	if optionName == "-Xcpuprofile" {
-		self.Xcpuprofile = self.argReader.removeFirst()
-		return true
-	}
-	return false
-}
-
-func (self *Options) parseXuseJavaHome(optionName string) bool {
-	if optionName == "-XuseJavaHome" {
-		self.XuseJavaHome = true
-		return true
-	}
-	return false
 }

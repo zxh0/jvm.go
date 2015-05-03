@@ -8,6 +8,12 @@ field_info {
     u2             attributes_count;
     attribute_info attributes[attributes_count];
 }
+*/
+type FieldInfo struct {
+	MemberInfo
+}
+
+/*
 method_info {
     u2             access_flags;
     u2             name_index;
@@ -16,6 +22,10 @@ method_info {
     attribute_info attributes[attributes_count];
 }
 */
+type MethodInfo struct {
+	MemberInfo
+}
+
 type MemberInfo struct {
 	cp              *ConstantPool
 	accessFlags     uint16
@@ -46,12 +56,4 @@ func (self *MemberInfo) Signature() string {
 		return signatureAttr.Signature()
 	}
 	return ""
-}
-
-type FieldInfo struct {
-	MemberInfo
-}
-
-type MethodInfo struct {
-	MemberInfo
 }

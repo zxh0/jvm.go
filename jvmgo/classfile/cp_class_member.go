@@ -24,17 +24,33 @@ CONSTANT_Fieldref_info {
     u2 class_index;
     u2 name_and_type_index;
 }
+*/
+type ConstantFieldrefInfo struct {
+	ConstantMemberrefInfo
+}
+
+/*
 CONSTANT_Methodref_info {
     u1 tag;
     u2 class_index;
     u2 name_and_type_index;
 }
+*/
+type ConstantMethodrefInfo struct {
+	ConstantMemberrefInfo
+}
+
+/*
 CONSTANT_InterfaceMethodref_info {
     u1 tag;
     u2 class_index;
     u2 name_and_type_index;
 }
 */
+type ConstantInterfaceMethodrefInfo struct {
+	ConstantMemberrefInfo
+}
+
 type ConstantMemberrefInfo struct {
 	cp               *ConstantPool
 	classIndex       uint16
@@ -56,16 +72,4 @@ func (self *ConstantMemberrefInfo) Name() string {
 func (self *ConstantMemberrefInfo) Descriptor() string {
 	_, _type := self.cp.getNameAndType(self.nameAndTypeIndex)
 	return _type
-}
-
-type ConstantFieldrefInfo struct {
-	ConstantMemberrefInfo
-}
-
-type ConstantMethodrefInfo struct {
-	ConstantMemberrefInfo
-}
-
-type ConstantInterfaceMethodrefInfo struct {
-	ConstantMemberrefInfo
 }

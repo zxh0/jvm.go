@@ -1,4 +1,4 @@
-package java6;
+package java6.string;
 
 import libs.junit.UnitTestRunner;
 import org.junit.Test;

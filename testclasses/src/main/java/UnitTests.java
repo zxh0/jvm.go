@@ -1,4 +1,4 @@
-import java6.StringTest;
+import java6.string.StringTest;
 import java6.cl.ClassLoaderTest;
 import java6.cl.GetClassLoaderTest;
 import java6.ex.ClassLibExTest;

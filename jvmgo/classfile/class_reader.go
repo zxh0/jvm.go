@@ -76,39 +76,27 @@ func (self *ClassReader) readString() string {
 }
 
 // todo
-// see java.io.DataInputStream.readUTF()
+// see java.io.DataInputStream.readUTF(DataInput)
 func (self *ClassReader) readMUTF8() string {
-	return ""
 
-	// int utflen = in.readUnsignedShort();
-	// byte[] bytearr = null;
-	// char[] chararr = null;
-	// if (in instanceof DataInputStream) {
-	//     DataInputStream dis = (DataInputStream)in;
-	//     if (dis.bytearr.length < utflen){
-	//         dis.bytearr = new byte[utflen*2];
-	//         dis.chararr = new char[utflen*2];
-	//     }
-	//     chararr = dis.chararr;
-	//     bytearr = dis.bytearr;
-	// } else {
-	//     bytearr = new byte[utflen];
-	//     chararr = new char[utflen];
-	// }
+	utflen := uint32(self.readUint16())
+	bytearr := self.readBytes(utflen)
+	chararr := make([]uint16, utflen)
 
-	// int c, char2, char3;
-	// int count = 0;
-	// int chararr_count=0;
+	var c, char2, char3 int32
+	var count uint32 = 0
+	var chararr_count int32 = 0
 
-	// in.readFully(bytearr, 0, utflen);
-
-	// while (count < utflen) {
-	//     c = (int) bytearr[count] & 0xff;
-	//     if (c > 127) break;
-	//     count++;
-	//     chararr[chararr_count++]=(char)c;
-	// }
-
+	for count < utflen {
+		c = int32(bytearr[count])
+		if c > 127 {
+			break
+		}
+		count++
+		chararr[chararr_count] = uint16(c)
+		chararr_count++
+	}
+	println(char2, char3)
 	// while (count < utflen) {
 	//     c = (int) bytearr[count] & 0xff;
 	//     switch (c >> 4) {
@@ -153,4 +141,5 @@ func (self *ClassReader) readMUTF8() string {
 	// }
 	// // The number of chars produced may be less than utflen
 	// return new String(chararr, 0, chararr_count);
+	return ""
 }

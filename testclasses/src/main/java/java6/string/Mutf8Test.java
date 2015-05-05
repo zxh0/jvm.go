@@ -1,12 +1,23 @@
 package java6.string;
 
+import libs.junit.UnitTestRunner;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+// http://www.oracle.com/technetwork/articles/javase/supplementary-142654.html
 public class Mutf8Test {
     
     public static void main(String[] args) {
-        System.out.println("1\u0001~\u007F"); // 1-byte code points
-        System.out.println("2\u0000&\u0080~\u07FF"); // 2-bytes code points
-        System.out.println("3\u0800~\uFFFF"); // 3-bytes code points
-        //System.out.println(new String(new int[] {0x10000}, 0, 1));
+        UnitTestRunner.run(Mutf8Test.class);
+    }
+    
+    @Test
+    public void test() {
+        assertEquals("A", 1, "A".length()); // U+0041
+        assertEquals("NULL", 1, "\u0000".length());
+        assertEquals("ß", 1, "ß".length()); // U+00DF
+        assertEquals("東", 1, "東".length()); // U+6771
+        assertEquals("U+10400", 2, "\uD801\uDC00".length()); // U+10400
     }
     
 }

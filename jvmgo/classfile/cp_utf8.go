@@ -12,7 +12,7 @@ type ConstantUtf8Info struct {
 }
 
 func (self *ConstantUtf8Info) readInfo(reader *ClassReader) {
-	self.str = reader.readString()
+	self.str = reader.readMUTF8()
 }
 func (self *ConstantUtf8Info) Str() string {
 	return self.str

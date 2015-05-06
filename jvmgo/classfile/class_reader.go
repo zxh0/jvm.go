@@ -72,11 +72,11 @@ func (self *ClassReader) readBytes(length uint32) []byte {
 }
 
 // todo
-func (self *ClassReader) readString() string {
-	length := uint32(self.readUint16())
-	bytes := self.readBytes(length)
-	return string(bytes)
-}
+// func (self *ClassReader) readString() string {
+// 	length := uint32(self.readUint16())
+// 	bytes := self.readBytes(length)
+// 	return string(bytes)
+// }
 
 // mutf8 -> utf16 -> utf32 -> string
 // see java.io.DataInputStream.readUTF(DataInput)

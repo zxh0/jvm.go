@@ -84,27 +84,27 @@ func (self *ClassReader) readMUTF8() string {
 	bytearr := self.readBytes(utflen)
 	chararr := make([]uint16, utflen)
 
-	var c, char2, char3 int32
+	var c, char2, char3 uint16
 	var count uint32 = 0
 	var chararr_count uint32 = 0
 
 	for count < utflen {
-		c = int32(bytearr[count])
+		c = uint16(bytearr[count])
 		if c > 127 {
 			break
 		}
 		count++
-		chararr[chararr_count] = uint16(c)
+		chararr[chararr_count] = c
 		chararr_count++
 	}
 
 	for count < utflen {
-		c = int32(bytearr[count])
+		c = uint16(bytearr[count])
 		switch c >> 4 {
 		case 0, 1, 2, 3, 4, 5, 6, 7:
 			/* 0xxxxxxx*/
 			count++
-			chararr[chararr_count] = uint16(c)
+			chararr[chararr_count] = c
 			chararr_count++
 			break
 		case 12, 13:
@@ -113,12 +113,11 @@ func (self *ClassReader) readMUTF8() string {
 			if count > utflen {
 				panic("malformed input: partial character at end")
 			}
-			char2 = int32(bytearr[count-1])
-			if (char2 & 0xC0) != 0x80 {
+			char2 = uint16(bytearr[count-1])
+			if char2&0xC0 != 0x80 {
 				panic(fmt.Sprintf("malformed input around byte %v", count))
 			}
-			chararr[chararr_count] = uint16((((c & 0x1F) << 6) |
-				(char2 & 0x3F)))
+			chararr[chararr_count] = ((c & 0x1F) << 6) | (char2 & 0x3F)
 			chararr_count++
 			break
 		case 14:
@@ -127,8 +126,8 @@ func (self *ClassReader) readMUTF8() string {
 			if count > utflen {
 				panic("malformed input: partial character at end")
 			}
-			char2 = int32(bytearr[count-2])
-			char3 = int32(bytearr[count-1])
+			char2 = uint16(bytearr[count-2])
+			char3 = uint16(bytearr[count-1])
 			if ((char2 & 0xC0) != 0x80) || ((char3 & 0xC0) != 0x80) {
 				panic(fmt.Sprintf("malformed input around byte %v", (count - 1)))
 			}

@@ -2,6 +2,7 @@ package classfile
 
 import (
 	"fmt"
+	"unicode/utf16"
 
 	"github.com/zxh0/jvm.go/jvmgo/jutil/bigendian"
 )
@@ -77,7 +78,7 @@ func (self *ClassReader) readString() string {
 	return string(bytes)
 }
 
-// todo
+// mutf8 -> utf16 -> utf32 -> string
 // see java.io.DataInputStream.readUTF(DataInput)
 func (self *ClassReader) readMUTF8() string {
 	utflen := uint32(self.readUint16())
@@ -136,7 +137,8 @@ func (self *ClassReader) readMUTF8() string {
 			panic(fmt.Sprintf("malformed input around byte %v", count))
 		}
 	}
-	// // The number of chars produced may be less than utflen
-	// return new String(chararr, 0, chararr_count);
-	return ""
+	// The number of chars produced may be less than utflen
+	chararr = chararr[0:chararr_count]
+	runes := utf16.Decode(chararr)
+	return string(runes)
 }

@@ -1,6 +1,8 @@
 package classfile
 
 import (
+	"fmt"
+
 	"github.com/zxh0/jvm.go/jvmgo/jutil/bigendian"
 )
 
@@ -84,7 +86,7 @@ func (self *ClassReader) readMUTF8() string {
 
 	var c, char2, char3 int32
 	var count uint32 = 0
-	var chararr_count int32 = 0
+	var chararr_count uint32 = 0
 
 	for count < utflen {
 		c = int32(bytearr[count])
@@ -113,7 +115,7 @@ func (self *ClassReader) readMUTF8() string {
 			}
 			char2 = int32(bytearr[count-1])
 			if (char2 & 0xC0) != 0x80 {
-				panic("malformed input around byte " + count)
+				panic(fmt.Sprintf("malformed input around byte %v", count))
 			}
 			chararr[chararr_count] = uint16((((c & 0x1F) << 6) |
 				(char2 & 0x3F)))
@@ -128,7 +130,7 @@ func (self *ClassReader) readMUTF8() string {
 			char2 = int32(bytearr[count-2])
 			char3 = int32(bytearr[count-1])
 			if ((char2 & 0xC0) != 0x80) || ((char3 & 0xC0) != 0x80) {
-				panic("malformed input around byte " + (count - 1))
+				panic(fmt.Sprintf("malformed input around byte %v", (count - 1)))
 			}
 			chararr[chararr_count] = uint16((((c & 0x0F) << 12) |
 				((char2 & 0x3F) << 6) |
@@ -137,7 +139,7 @@ func (self *ClassReader) readMUTF8() string {
 			break
 		default:
 			/* 10xx xxxx,  1111 xxxx */
-			panic("malformed input around byte " + count)
+			panic(fmt.Sprintf("malformed input around byte %v", count))
 		}
 	}
 	// // The number of chars produced may be less than utflen

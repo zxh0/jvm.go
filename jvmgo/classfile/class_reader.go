@@ -106,7 +106,6 @@ func (self *ClassReader) readMUTF8() string {
 			count++
 			chararr[chararr_count] = c
 			chararr_count++
-			break
 		case 12, 13:
 			/* 110x xxxx   10xx xxxx*/
 			count += 2
@@ -117,9 +116,8 @@ func (self *ClassReader) readMUTF8() string {
 			if char2&0xC0 != 0x80 {
 				panic(fmt.Sprintf("malformed input around byte %v", count))
 			}
-			chararr[chararr_count] = (c&0x1F)<<6 | char2&0x3F
+			chararr[chararr_count] = c&0x1F<<6 | char2&0x3F
 			chararr_count++
-			break
 		case 14:
 			/* 1110 xxxx  10xx xxxx  10xx xxxx*/
 			count += 3
@@ -131,9 +129,8 @@ func (self *ClassReader) readMUTF8() string {
 			if char2&0xC0 != 0x80 || char3&0xC0 != 0x80 {
 				panic(fmt.Sprintf("malformed input around byte %v", (count - 1)))
 			}
-			chararr[chararr_count] = (c&0x0F)<<12 | (char2&0x3F)<<6 | (char3&0x3F)<<0
+			chararr[chararr_count] = c&0x0F<<12 | char2&0x3F<<6 | char3&0x3F<<0
 			chararr_count++
-			break
 		default:
 			/* 10xx xxxx,  1111 xxxx */
 			panic(fmt.Sprintf("malformed input around byte %v", count))

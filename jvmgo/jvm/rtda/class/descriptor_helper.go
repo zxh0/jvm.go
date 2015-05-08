@@ -12,14 +12,7 @@ func GetReturnDescriptor(methodDescriptor string) string {
 }
 
 func calcArgSlotCount(descriptor string) uint {
-	md := parseMethodDescriptor(descriptor)
-	slotCount := md.argCount()
-	for _, paramType := range md.ParameterTypes() {
-		if paramType.IsLongOrDouble() {
-			slotCount++
-		}
-	}
-	return slotCount
+	return parseMethodDescriptor(descriptor).argSlotCount()
 }
 
 // [XXX -> [XXX

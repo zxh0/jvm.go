@@ -4,13 +4,13 @@ import (
 	"strings"
 )
 
-type MemberDescriptorParser struct {
+type MethodDescriptorParser struct {
 	descriptor string
 	offset     int
 	md         *MethodDescriptor
 }
 
-func (self *MemberDescriptorParser) parse() *MethodDescriptor {
+func (self *MethodDescriptorParser) parse() *MethodDescriptor {
 	self.md = &MethodDescriptor{}
 	self.md.d = self.descriptor
 	self.startParams()
@@ -21,36 +21,36 @@ func (self *MemberDescriptorParser) parse() *MethodDescriptor {
 	return self.md
 }
 
-func (self *MemberDescriptorParser) startParams() {
+func (self *MethodDescriptorParser) startParams() {
 	if self.readUint8() != '(' {
 		self.causePanic()
 	}
 }
-func (self *MemberDescriptorParser) endParams() {
+func (self *MethodDescriptorParser) endParams() {
 	if self.readUint8() != ')' {
 		self.causePanic()
 	}
 }
-func (self *MemberDescriptorParser) finish() {
+func (self *MethodDescriptorParser) finish() {
 	if self.offset != len(self.descriptor) {
 		self.causePanic()
 	}
 }
 
-func (self *MemberDescriptorParser) causePanic() {
+func (self *MethodDescriptorParser) causePanic() {
 	panic("BAD descriptor: " + self.descriptor)
 }
 
-func (self *MemberDescriptorParser) readUint8() uint8 {
+func (self *MethodDescriptorParser) readUint8() uint8 {
 	b := self.descriptor[self.offset]
 	self.offset++
 	return b
 }
-func (self *MemberDescriptorParser) unreadUint8() {
+func (self *MethodDescriptorParser) unreadUint8() {
 	self.offset--
 }
 
-func (self *MemberDescriptorParser) parseParamTypes() {
+func (self *MethodDescriptorParser) parseParamTypes() {
 	for {
 		t := self.parseFieldType()
 		if t != nil {
@@ -60,7 +60,7 @@ func (self *MemberDescriptorParser) parseParamTypes() {
 		}
 	}
 }
-func (self *MemberDescriptorParser) parseReturnType() {
+func (self *MethodDescriptorParser) parseReturnType() {
 	t := self.parseFieldType()
 	if t != nil {
 		self.md.returnType = t
@@ -69,7 +69,7 @@ func (self *MemberDescriptorParser) parseReturnType() {
 	}
 }
 
-func (self *MemberDescriptorParser) parseFieldType() *FieldType {
+func (self *MethodDescriptorParser) parseFieldType() *FieldType {
 	switch self.readUint8() {
 	case 'B':
 		return baseTypeB
@@ -98,7 +98,7 @@ func (self *MemberDescriptorParser) parseFieldType() *FieldType {
 		return nil
 	}
 }
-func (self *MemberDescriptorParser) parseObjectType() *FieldType {
+func (self *MethodDescriptorParser) parseObjectType() *FieldType {
 	unread := self.descriptor[self.offset:]
 	semicolonIndex := strings.IndexRune(unread, ';')
 	if semicolonIndex == -1 {
@@ -112,15 +112,10 @@ func (self *MemberDescriptorParser) parseObjectType() *FieldType {
 		return &FieldType{descriptor}
 	}
 }
-func (self *MemberDescriptorParser) parseArrayType() *FieldType {
+func (self *MethodDescriptorParser) parseArrayType() *FieldType {
 	arrStart := self.offset - 1
 	self.parseFieldType()
 	arrEnd := self.offset
 	descriptor := self.descriptor[arrStart:arrEnd]
 	return &FieldType{descriptor}
-}
-
-func parseMethodDescriptor(descriptor string) *MethodDescriptor {
-	parser := &MemberDescriptorParser{descriptor: descriptor}
-	return parser.parse()
 }

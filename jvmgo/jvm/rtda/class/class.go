@@ -25,8 +25,8 @@ type Class struct {
 	interfaceNames     []string
 	fields             []*Field
 	methods            []*Method
-	staticFieldCount   uint
 	instanceFieldCount uint
+	staticFieldCount   uint
 	staticFieldSlots   []Any
 	vtable             []*Method // virtual method table
 	jClass             *Obj      // java.lang.Class instance
@@ -56,11 +56,11 @@ func (self *Class) Methods() []*Method {
 func (self *Class) Fields() []*Field {
 	return self.fields
 }
-func (self *Class) JClass() *Obj {
-	return self.jClass
-}
 func (self *Class) StaticFieldSlots() []Any {
 	return self.staticFieldSlots
+}
+func (self *Class) JClass() *Obj {
+	return self.jClass
 }
 func (self *Class) SuperClass() *Class {
 	return self.superClass

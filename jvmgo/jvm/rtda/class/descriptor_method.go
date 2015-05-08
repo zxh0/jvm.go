@@ -6,6 +6,11 @@ type MethodDescriptor struct {
 	returnType     *FieldType
 }
 
+func parseMethodDescriptor(descriptor string) *MethodDescriptor {
+	parser := &MethodDescriptorParser{descriptor: descriptor}
+	return parser.parse()
+}
+
 func (self *MethodDescriptor) String() string {
 	return self.d
 }
@@ -20,6 +25,16 @@ func (self *MethodDescriptor) ReturnType() *FieldType {
 // parameterCount()
 func (self *MethodDescriptor) argCount() uint {
 	return uint(len(self.parameterTypes))
+}
+
+func (self *MethodDescriptor) argSlotCount() uint {
+	slotCount := self.argCount()
+	for _, paramType := range self.parameterTypes {
+		if paramType.IsLongOrDouble() {
+			slotCount++
+		}
+	}
+	return slotCount
 }
 
 func (self *MethodDescriptor) addParameterType(t *FieldType) {

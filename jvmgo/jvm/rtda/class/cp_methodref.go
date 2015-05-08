@@ -27,6 +27,19 @@ func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefI
 	}
 }
 
+// todo
+func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
+	return &ConstantMethodref{
+		isIface:      true,
+		className:    methodrefInfo.ClassName(),
+		name:         methodrefInfo.Name(),
+		descriptor:   methodrefInfo.Descriptor(),
+		argSlotCount: calcArgSlotCount(methodrefInfo.Descriptor()),
+		cp:           cp,
+		vslot:        -1,
+	}
+}
+
 func (self *ConstantMethodref) ArgSlotCount() uint {
 	return self.argSlotCount
 }
@@ -133,21 +146,4 @@ func findInterfaceMethod(interfaces []*Class, name, descriptor string) *Method {
 		}
 	}
 	return nil
-}
-
-// type ConstantInterfaceMethodref struct {
-// 	ConstantMethodref
-// }
-
-// todo
-func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
-	return &ConstantMethodref{
-		isIface:      true,
-		className:    methodrefInfo.ClassName(),
-		name:         methodrefInfo.Name(),
-		descriptor:   methodrefInfo.Descriptor(),
-		argSlotCount: calcArgSlotCount(methodrefInfo.Descriptor()),
-		cp:           cp,
-		vslot:        -1,
-	}
 }

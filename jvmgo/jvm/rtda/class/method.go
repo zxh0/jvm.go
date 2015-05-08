@@ -45,7 +45,7 @@ func newMethod(class *Class, methodInfo *cf.MethodInfo) *Method {
 	return method
 }
 func (self *Method) calcArgSlotCount() {
-	self.argSlotCount = calcArgSlotCount(self.descriptor)
+	self.argSlotCount = self.md.argSlotCount()
 	if !self.IsStatic() {
 		self.argSlotCount++
 	}

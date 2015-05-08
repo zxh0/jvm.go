@@ -9,7 +9,7 @@ type Field struct {
 	ClassMember
 	IsLongOrDouble  bool
 	constValueIndex uint16
-	slot            uint // todo: rename to slotId
+	slotId          uint
 	_type           *Class
 }
 
@@ -30,24 +30,24 @@ func newField(class *Class, fieldInfo *cf.FieldInfo) *Field {
 func (self *Field) ConstValueIndex() uint16 {
 	return self.constValueIndex
 }
-func (self *Field) Slot() uint {
-	return self.slot
+func (self *Field) SlotId() uint {
+	return self.slotId
 }
 
 func (self *Field) GetValue(ref *Obj) Any {
 	fields := ref.fields.([]Any)
-	return fields[self.slot]
+	return fields[self.slotId]
 }
 func (self *Field) PutValue(ref *Obj, val Any) {
 	fields := ref.fields.([]Any)
-	fields[self.slot] = val
+	fields[self.slotId] = val
 }
 
 func (self *Field) GetStaticValue() Any {
-	return self.class.staticFieldValues[self.slot]
+	return self.class.staticFieldSlots[self.slotId]
 }
 func (self *Field) PutStaticValue(val Any) {
-	self.class.staticFieldValues[self.slot] = val
+	self.class.staticFieldSlots[self.slotId] = val
 }
 
 func (self *Field) defaultValue() Any {

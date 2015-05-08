@@ -59,7 +59,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
 				rtda.JString(goField.Name()),                   // name
 				goField.Type().JClass(),                        // type
 				int32(goField.GetAccessFlags()),                // modifiers
-				int32(goField.Slot()),                          // slot
+				int32(goField.SlotId()),                        // slot
 				getSignatureStr(goField.Signature()),           // signature
 				getAnnotationByteArr(goField.AnnotationData()), // annotations
 			})

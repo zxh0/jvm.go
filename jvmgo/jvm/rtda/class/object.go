@@ -71,7 +71,7 @@ func (self *Obj) initFields() {
 	for class := self.class; class != nil; class = class.superClass {
 		for _, f := range class.fields {
 			if !f.IsStatic() {
-				fields[f.slot] = f.defaultValue()
+				fields[f.slotId] = f.defaultValue()
 			}
 		}
 	}

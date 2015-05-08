@@ -97,8 +97,8 @@ func initConstantStaticFields(class *rtc.Class) {
 		if field.IsStatic() && field.IsFinal() {
 			kValIndex := uint(field.ConstValueIndex())
 			if kValIndex > 0 {
-				slotId := field.Slot()
-				staticSlots := class.StaticFieldValues()
+				slotId := field.SlotId()
+				staticSlots := class.StaticFieldSlots()
 				switch field.Descriptor() {
 				case "Z", "B", "C", "S", "I":
 					staticSlots[slotId] = cp.GetConstant(kValIndex).(int32)

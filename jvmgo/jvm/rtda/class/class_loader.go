@@ -245,7 +245,7 @@ func calcStaticFieldSlots(class *Class) {
 	slotId := uint(0)
 	for _, field := range class.fields {
 		if field.IsStatic() {
-			field.slot = slotId
+			field.slotId = slotId
 			slotId++
 		}
 	}
@@ -259,7 +259,7 @@ func calcInstanceFieldSlots(class *Class) {
 	}
 	for _, field := range class.fields {
 		if !field.IsStatic() {
-			field.slot = slotId
+			field.slotId = slotId
 			slotId++
 		}
 	}
@@ -267,10 +267,10 @@ func calcInstanceFieldSlots(class *Class) {
 }
 
 func prepare(class *Class) {
-	class.staticFieldValues = make([]Any, class.staticFieldCount)
+	class.staticFieldSlots = make([]Any, class.staticFieldCount)
 	for _, field := range class.fields {
 		if field.IsStatic() {
-			class.staticFieldValues[field.slot] = field.defaultValue()
+			class.staticFieldSlots[field.slotId] = field.defaultValue()
 		}
 	}
 }

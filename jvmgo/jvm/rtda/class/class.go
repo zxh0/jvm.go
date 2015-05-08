@@ -27,7 +27,7 @@ type Class struct {
 	methods            []*Method
 	staticFieldCount   uint
 	instanceFieldCount uint
-	staticFieldValues  []Any     // todo: rename to staticFieldSlots
+	staticFieldSlots   []Any
 	vtable             []*Method // virtual method table
 	jClass             *Obj      // java.lang.Class instance
 	superClass         *Class
@@ -59,8 +59,8 @@ func (self *Class) Fields() []*Field {
 func (self *Class) JClass() *Obj {
 	return self.jClass
 }
-func (self *Class) StaticFieldValues() []Any {
-	return self.staticFieldValues
+func (self *Class) StaticFieldSlots() []Any {
+	return self.staticFieldSlots
 }
 func (self *Class) SuperClass() *Class {
 	return self.superClass
@@ -203,5 +203,5 @@ func (self *Class) SetStaticValue(fieldName, fieldDescriptor string, value Any) 
 }
 
 func (self *Class) AsObj() *Obj {
-	return &Obj{fields: self.staticFieldValues}
+	return &Obj{fields: self.staticFieldSlots}
 }

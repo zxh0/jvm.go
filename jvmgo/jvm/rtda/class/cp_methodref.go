@@ -10,32 +10,29 @@ type ConstantMethodref struct {
 	name         string
 	descriptor   string
 	argSlotCount uint
-	cp           *ConstantPool
 	method       *Method
 	vslot        int
 }
 
-func newConstantMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
+func newConstantMethodref(methodrefInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
 	return &ConstantMethodref{
 		isIface:      false,
 		className:    methodrefInfo.ClassName(),
 		name:         methodrefInfo.Name(),
 		descriptor:   methodrefInfo.Descriptor(),
 		argSlotCount: calcArgSlotCount(methodrefInfo.Descriptor()),
-		cp:           cp,
 		vslot:        -1,
 	}
 }
 
 // todo
-func newConstantInterfaceMethodref(cp *ConstantPool, methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
+func newConstantInterfaceMethodref(methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
 	return &ConstantMethodref{
 		isIface:      true,
 		className:    methodrefInfo.ClassName(),
 		name:         methodrefInfo.Name(),
 		descriptor:   methodrefInfo.Descriptor(),
 		argSlotCount: calcArgSlotCount(methodrefInfo.Descriptor()),
-		cp:           cp,
 		vslot:        -1,
 	}
 }

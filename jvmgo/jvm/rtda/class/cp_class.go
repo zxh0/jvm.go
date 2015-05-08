@@ -6,14 +6,12 @@ import (
 
 type ConstantClass struct {
 	name  string
-	cp    *ConstantPool
 	class *Class
 }
 
-func newConstantClass(cp *ConstantPool, classInfo *cf.ConstantClassInfo) *ConstantClass {
+func newConstantClass(classInfo *cf.ConstantClassInfo) *ConstantClass {
 	return &ConstantClass{
 		name: classInfo.Name(),
-		cp:   cp,
 	}
 }
 

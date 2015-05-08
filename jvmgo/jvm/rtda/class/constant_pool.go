@@ -34,13 +34,13 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 		case *cf.ConstantUtf8Info:
 			consts[i] = newConstantUtf8(cpInfo.(*cf.ConstantUtf8Info))
 		case *cf.ConstantClassInfo:
-			consts[i] = newConstantClass(rtCp, cpInfo.(*cf.ConstantClassInfo))
+			consts[i] = newConstantClass(cpInfo.(*cf.ConstantClassInfo))
 		case *cf.ConstantFieldrefInfo:
-			consts[i] = newConstantFieldref(rtCp, cpInfo.(*cf.ConstantFieldrefInfo))
+			consts[i] = newConstantFieldref(cpInfo.(*cf.ConstantFieldrefInfo))
 		case *cf.ConstantMethodrefInfo:
-			consts[i] = newConstantMethodref(rtCp, cpInfo.(*cf.ConstantMethodrefInfo))
+			consts[i] = newConstantMethodref(cpInfo.(*cf.ConstantMethodrefInfo))
 		case *cf.ConstantInterfaceMethodrefInfo:
-			consts[i] = newConstantInterfaceMethodref(rtCp, cpInfo.(*cf.ConstantInterfaceMethodrefInfo))
+			consts[i] = newConstantInterfaceMethodref(cpInfo.(*cf.ConstantInterfaceMethodrefInfo))
 		case *cf.ConstantInvokeDynamicInfo:
 			consts[i] = newConstantInvokeDynamic(rtCp, cpInfo.(*cf.ConstantInvokeDynamicInfo))
 		case *cf.ConstantMethodHandleInfo:

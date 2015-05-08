@@ -11,16 +11,14 @@ type ConstantFieldref struct {
 	className  string
 	name       string
 	descriptor string
-	cp         *ConstantPool
 	field      *Field
 }
 
-func newConstantFieldref(cp *ConstantPool, fieldrefInfo *cf.ConstantFieldrefInfo) *ConstantFieldref {
+func newConstantFieldref(fieldrefInfo *cf.ConstantFieldrefInfo) *ConstantFieldref {
 	return &ConstantFieldref{
 		className:  fieldrefInfo.ClassName(),
 		name:       fieldrefInfo.Name(),
 		descriptor: fieldrefInfo.Descriptor(),
-		cp:         cp,
 	}
 }
 

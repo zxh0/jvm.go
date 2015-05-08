@@ -201,8 +201,8 @@ func (self *ClassLoader) _loadClass(name string, data []byte) *Class {
 	hackClass(class)
 	self.resolveSuperClass(class)
 	self.resolveInterfaces(class)
-	calcStaticFieldSlots(class)
-	calcInstanceFieldSlots(class)
+	calcStaticFieldSlotIds(class)
+	calcInstanceFieldSlotIds(class)
 	createVtable(class)
 	prepare(class)
 	// todo
@@ -241,7 +241,7 @@ func (self *ClassLoader) resolveInterfaces(class *Class) {
 	}
 }
 
-func calcStaticFieldSlots(class *Class) {
+func calcStaticFieldSlotIds(class *Class) {
 	slotId := uint(0)
 	for _, field := range class.fields {
 		if field.IsStatic() {
@@ -252,7 +252,7 @@ func calcStaticFieldSlots(class *Class) {
 	class.staticFieldCount = slotId
 }
 
-func calcInstanceFieldSlots(class *Class) {
+func calcInstanceFieldSlotIds(class *Class) {
 	slotId := uint(0)
 	if class.superClassName != "" {
 		slotId = class.superClass.instanceFieldCount

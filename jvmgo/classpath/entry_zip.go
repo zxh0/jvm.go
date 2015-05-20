@@ -2,19 +2,23 @@ package classpath
 
 import (
 	"archive/zip"
-	"fmt"
+	"errors"
 	"io/ioutil"
-
-	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
+	"path/filepath"
 )
 
 type ZipEntry struct {
-	jar   string
-	zipRC *zip.ReadCloser
+	absZip string
+	zipRC  *zip.ReadCloser
 }
 
-func newZipEntry(jar string) *ZipEntry {
-	return &ZipEntry{jar, nil}
+func newZipEntry(path string) *ZipEntry {
+	absZip, err := filepath.Abs(path)
+	if err != nil {
+		panic(err)
+	}
+
+	return &ZipEntry{absZip, nil}
 }
 
 func (self *ZipEntry) readClass(className string) (Entry, []byte, error) {
@@ -27,21 +31,18 @@ func (self *ZipEntry) readClass(className string) (Entry, []byte, error) {
 
 	classFile := self.findClass(className)
 	if classFile == nil {
-		return self, nil, classNotFoundErr
+		return self, nil, errors.New("class not found: " + className)
 	}
 
 	data, err := readClass(classFile)
 	return self, data, err
 }
 
-// todo: close jar
+// todo: close zip
 func (self *ZipEntry) openJar() error {
-	r, err := zip.OpenReader(self.jar) // func OpenReader(name string) (*ReadCloser, error)
+	r, err := zip.OpenReader(self.absZip) // func OpenReader(name string) (*ReadCloser, error)
 	if err == nil {
 		self.zipRC = r
-		if options.VerboseClass {
-			fmt.Printf("[Opened %v]\n", self.jar)
-		}
 	}
 	return err
 }
@@ -70,5 +71,5 @@ func readClass(classFile *zip.File) ([]byte, error) {
 }
 
 func (self *ZipEntry) String() string {
-	return self.jar
+	return self.absZip
 }

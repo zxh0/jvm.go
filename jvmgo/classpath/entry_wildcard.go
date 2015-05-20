@@ -7,30 +7,25 @@ import (
 )
 
 type WildcardEntry struct {
-	compositeEntry CompositeEntry
+	CompositeEntry
 }
 
 func newWildcardEntry(path string) *WildcardEntry {
-	compositeEntry := CompositeEntry{}
+	baseDir := path[:len(path)-1] // remove *
+	entry := &WildcardEntry{}
+
 	walkFn := func(path string, info os.FileInfo, err error) error {
+		if info.IsDir() && path != baseDir {
+			return filepath.SkipDir
+		}
 		if strings.HasSuffix(path, ".jar") || strings.HasSuffix(path, ".JAR") {
 			jarEntry := newZipEntry(path)
-			compositeEntry.addEntry(jarEntry)
+			entry.addEntry(jarEntry)
 		}
-
 		return nil
 	}
 
-	dir := path[:len(path)-1]
-	filepath.Walk(dir, walkFn)
+	filepath.Walk(baseDir, walkFn)
 
-	return &WildcardEntry{compositeEntry}
-}
-
-func (self *WildcardEntry) readClass(className string) (Entry, []byte, error) {
-	return self.compositeEntry.readClass(className)
-}
-
-func (self *WildcardEntry) String() string {
-	return self.compositeEntry.String()
+	return entry
 }

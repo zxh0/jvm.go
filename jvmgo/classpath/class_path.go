@@ -1,48 +1,49 @@
 package classpath
 
 import (
-	"errors"
 	"path/filepath"
 	"strings"
 
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 )
 
-var (
-	classNotFoundErr = errors.New("class not found!")
-)
-
 type ClassPath struct {
-	compositeEntry CompositeEntry
+	CompositeEntry
 }
 
-func Parse(pathList string) *ClassPath {
-	if pathList == "" {
-		pathList = "."
-	}
+func Parse(cpOption string) *ClassPath {
+	cp := &ClassPath{}
+	cp.parseBootAndExtClassPath()
+	cp.parseUserClassPath(cpOption)
+	return cp
+}
 
+func (self *ClassPath) parseBootAndExtClassPath() {
 	// jre/lib/*
 	jreLibPath := filepath.Join(options.AbsJavaHome, "lib", "*")
+	self.addEntry(newWildcardEntry(jreLibPath))
 
-	return &ClassPath{
-		CompositeEntry{
-			[]Entry{
-				newWildcardEntry(jreLibPath), // boot classpath
-				newCompositeEntry(pathList),
-			},
-		},
+	// jre/lib/ext/*
+	jreExtPath := filepath.Join(options.AbsJavaHome, "lib", "ext", "*")
+	self.addEntry(newWildcardEntry(jreExtPath))
+}
+
+func (self *ClassPath) parseUserClassPath(cpOption string) {
+	if cpOption == "" {
+		cpOption = "."
 	}
+	self.addEntry(newEntry(cpOption))
 }
 
 // className: fully/qualified/ClassName
 func (self *ClassPath) ReadClass(className string) (Entry, []byte, error) {
 	className = className + ".class"
-	return self.compositeEntry.readClass(className)
+	return self.readClass(className)
 }
 
 func (self *ClassPath) String() string {
-	// todo
-	return self.compositeEntry.entries[1].String()
+	userClassPath := self.CompositeEntry.entries[2]
+	return userClassPath.String()
 }
 
 func IsBootClassPath(entry Entry) bool {

@@ -1,13 +1,9 @@
 package classpath
 
 import (
-	"os"
-	"path/filepath"
+	"errors"
 	"strings"
 )
-
-// :(linux/unix) or ;(windows)
-const _pathListSeparator = string(os.PathListSeparator)
 
 type CompositeEntry struct {
 	entries []Entry
@@ -16,13 +12,9 @@ type CompositeEntry struct {
 func newCompositeEntry(pathList string) *CompositeEntry {
 	compoundEntry := &CompositeEntry{}
 
-	for _, path := range strings.Split(pathList, _pathListSeparator) {
-		if absPath, err := filepath.Abs(path); err == nil {
-			entry := parseEntry(absPath)
-			compoundEntry.addEntry(entry)
-		} else {
-			// todo
-		}
+	for _, path := range strings.Split(pathList, pathListSeparator) {
+		entry := newEntry(path)
+		compoundEntry.addEntry(entry)
 	}
 
 	return compoundEntry
@@ -40,8 +32,7 @@ func (self *CompositeEntry) readClass(className string) (Entry, []byte, error) {
 		}
 	}
 
-	// todo
-	return nil, nil, classNotFoundErr
+	return self, nil, errors.New("class not found: " + className)
 }
 
 func (self *CompositeEntry) String() string {
@@ -51,5 +42,5 @@ func (self *CompositeEntry) String() string {
 		strs[i] = entry.String()
 	}
 
-	return strings.Join(strs, _pathListSeparator)
+	return strings.Join(strs, pathListSeparator)
 }

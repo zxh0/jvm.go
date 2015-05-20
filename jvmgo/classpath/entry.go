@@ -1,8 +1,12 @@
 package classpath
 
 import (
+	"os"
 	"strings"
 )
+
+// :(linux/unix) or ;(windows)
+const pathListSeparator = string(os.PathListSeparator)
 
 type Entry interface {
 	// className: fully/qualified/ClassName.class
@@ -10,14 +14,20 @@ type Entry interface {
 	String() string
 }
 
-func parseEntry(absPath string) Entry {
-	if strings.HasSuffix(absPath, "*") {
-		return newWildcardEntry(absPath)
+func newEntry(path string) Entry {
+	if strings.Contains(path, pathListSeparator) {
+		return newCompositeEntry(path)
 	}
 
-	if strings.HasSuffix(absPath, ".jar") {
-		return newZipEntry(absPath)
+	if strings.HasSuffix(path, "*") {
+		return newWildcardEntry(path)
 	}
 
-	return newDirEntry(absPath)
+	if strings.HasSuffix(path, ".jar") || strings.HasSuffix(path, ".JAR") ||
+		strings.HasSuffix(path, ".zip") || strings.HasSuffix(path, ".ZIP") {
+
+		return newZipEntry(path)
+	}
+
+	return newDirEntry(path)
 }

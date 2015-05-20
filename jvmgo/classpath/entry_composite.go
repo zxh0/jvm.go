@@ -9,12 +9,12 @@ import (
 // :(linux/unix) or ;(windows)
 const _pathListSeparator = string(os.PathListSeparator)
 
-type CompoundEntry struct {
+type CompositeEntry struct {
 	entries []Entry
 }
 
-func newCompoundEntry(pathList string) *CompoundEntry {
-	compoundEntry := &CompoundEntry{}
+func newCompositeEntry(pathList string) *CompositeEntry {
+	compoundEntry := &CompositeEntry{}
 
 	for _, path := range strings.Split(pathList, _pathListSeparator) {
 		if absPath, err := filepath.Abs(path); err == nil {
@@ -28,11 +28,11 @@ func newCompoundEntry(pathList string) *CompoundEntry {
 	return compoundEntry
 }
 
-func (self *CompoundEntry) addEntry(entry Entry) {
+func (self *CompositeEntry) addEntry(entry Entry) {
 	self.entries = append(self.entries, entry)
 }
 
-func (self *CompoundEntry) readClass(className string) (Entry, []byte, error) {
+func (self *CompositeEntry) readClass(className string) (Entry, []byte, error) {
 	for _, entry := range self.entries {
 		entry, data, err := entry.readClass(className)
 		if err == nil {
@@ -44,7 +44,7 @@ func (self *CompoundEntry) readClass(className string) (Entry, []byte, error) {
 	return nil, nil, classNotFoundErr
 }
 
-func (self *CompoundEntry) String() string {
+func (self *CompositeEntry) String() string {
 	strs := make([]string, len(self.entries))
 
 	for i, entry := range self.entries {

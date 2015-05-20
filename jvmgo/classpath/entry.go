@@ -16,7 +16,7 @@ func parseEntry(absPath string) Entry {
 	}
 
 	if strings.HasSuffix(absPath, ".jar") {
-		return newJarEntry(absPath)
+		return newZipEntry(absPath)
 	}
 
 	return newDirEntry(absPath)

@@ -8,16 +8,16 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 )
 
-type JarEntry struct {
+type ZipEntry struct {
 	jar   string
 	zipRC *zip.ReadCloser
 }
 
-func newJarEntry(jar string) *JarEntry {
-	return &JarEntry{jar, nil}
+func newZipEntry(jar string) *ZipEntry {
+	return &ZipEntry{jar, nil}
 }
 
-func (self *JarEntry) readClass(className string) (Entry, []byte, error) {
+func (self *ZipEntry) readClass(className string) (Entry, []byte, error) {
 	if self.zipRC == nil {
 		err := self.openJar()
 		if err != nil {
@@ -35,7 +35,7 @@ func (self *JarEntry) readClass(className string) (Entry, []byte, error) {
 }
 
 // todo: close jar
-func (self *JarEntry) openJar() error {
+func (self *ZipEntry) openJar() error {
 	r, err := zip.OpenReader(self.jar) // func OpenReader(name string) (*ReadCloser, error)
 	if err == nil {
 		self.zipRC = r
@@ -46,7 +46,7 @@ func (self *JarEntry) openJar() error {
 	return err
 }
 
-func (self *JarEntry) findClass(className string) *zip.File {
+func (self *ZipEntry) findClass(className string) *zip.File {
 	for _, f := range self.zipRC.File {
 		if f.Name == className {
 			return f
@@ -69,6 +69,6 @@ func readClass(classFile *zip.File) ([]byte, error) {
 	return data, nil
 }
 
-func (self *JarEntry) String() string {
+func (self *ZipEntry) String() string {
 	return self.jar
 }

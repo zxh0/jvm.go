@@ -14,7 +14,7 @@ func newWildcardEntry(path string) *WildcardEntry {
 	compoundEntry := CompoundEntry{}
 	walkFn := func(path string, info os.FileInfo, err error) error {
 		if strings.HasSuffix(path, ".jar") || strings.HasSuffix(path, ".JAR") {
-			jarEntry := newJarEntry(path)
+			jarEntry := newZipEntry(path)
 			compoundEntry.addEntry(jarEntry)
 		}
 

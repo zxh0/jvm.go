@@ -29,8 +29,8 @@ type ClassFile struct {
 	thisClass    uint16
 	superClass   uint16
 	interfaces   []uint16
-	fields       []*FieldInfo
-	methods      []*MethodInfo
+	fields       []*MemberInfo
+	methods      []*MemberInfo
 	AttributeTable
 }
 
@@ -42,8 +42,8 @@ func (self *ClassFile) read(reader *ClassReader) {
 	self.thisClass = reader.readUint16()
 	self.superClass = reader.readUint16()
 	self.interfaces = reader.readUint16s()
-	self.readFields(reader)
-	self.readMethods(reader)
+	self.fields = readMembers(reader, self.constantPool)
+	self.methods = readMembers(reader, self.constantPool)
 	self.attributes = readAttributes(reader, self.constantPool)
 }
 
@@ -65,36 +65,17 @@ func (self *ClassFile) readConstantPool(reader *ClassReader) {
 	self.constantPool.read(reader)
 }
 
-func (self *ClassFile) readFields(reader *ClassReader) {
-	fieldsCount := reader.readUint16()
-	self.fields = make([]*FieldInfo, fieldsCount)
-	for i := range self.fields {
-		self.fields[i] = &FieldInfo{}
-		self.fields[i].cp = self.constantPool
-		self.fields[i].read(reader)
-	}
-}
-
-func (self *ClassFile) readMethods(reader *ClassReader) {
-	methodsCount := reader.readUint16()
-	self.methods = make([]*MethodInfo, methodsCount)
-	for i := range self.methods {
-		self.methods[i] = &MethodInfo{}
-		self.methods[i].cp = self.constantPool
-		self.methods[i].read(reader)
-	}
-}
-
 func (self *ClassFile) ConstantPool() *ConstantPool {
 	return self.constantPool
 }
 func (self *ClassFile) AccessFlags() uint16 {
 	return self.accessFlags
 }
-func (self *ClassFile) Fields() []*FieldInfo {
+
+func (self *ClassFile) Fields() []*MemberInfo {
 	return self.fields
 }
-func (self *ClassFile) Methods() []*MethodInfo {
+func (self *ClassFile) Methods() []*MemberInfo {
 	return self.methods
 }
 

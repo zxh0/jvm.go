@@ -33,7 +33,7 @@ type Method struct {
 	Instructions            Any // []instructions.Instruction
 }
 
-func newMethod(class *Class, methodInfo *cf.MethodInfo) *Method {
+func newMethod(class *Class, methodInfo *cf.MemberInfo) *Method {
 	method := &Method{}
 	method.class = class
 	method.accessFlags = methodInfo.AccessFlags()
@@ -50,7 +50,7 @@ func (self *Method) calcArgSlotCount() {
 		self.argSlotCount++
 	}
 }
-func (self *Method) copyAttributes(methodInfo *cf.MethodInfo) {
+func (self *Method) copyAttributes(methodInfo *cf.MemberInfo) {
 	if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
 		self.exceptions = methodInfo.ExceptionsAttribute()
 		self.signature = methodInfo.Signature()

@@ -86,10 +86,8 @@ func (self *ClassFile) ClassName() string {
 func (self *ClassFile) SuperClassName() string {
 	if self.superClass != 0 {
 		return self.constantPool.getClassName(self.superClass)
-	} else {
-		// todo Object
-		return ""
 	}
+	return ""
 }
 
 func (self *ClassFile) InterfaceNames() []string {

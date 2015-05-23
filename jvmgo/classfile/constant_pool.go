@@ -11,16 +11,14 @@ func (self *ConstantPool) read(reader *ClassReader) {
 
 	// The constant_pool table is indexed from 1 to constant_pool_count - 1.
 	for i := 1; i < cpCount; i++ {
-		tag := reader.readUint8()
-		c := newConstantInfo(tag, self)
-		c.readInfo(reader)
-		self.cpInfos[i] = c
+		self.cpInfos[i] = readConstantInfo(reader, self)
 		// http://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.4.5
 		// All 8-byte constants take up two entries in the constant_pool table of the class file.
 		// If a CONSTANT_Long_info or CONSTANT_Double_info structure is the item in the constant_pool
 		// table at index n, then the next usable item in the pool is located at index n+2.
 		// The constant_pool index n+1 must be valid but is considered unusable.
-		if tag == CONSTANT_Long || tag == CONSTANT_Double {
+		switch self.cpInfos[i].(type) {
+		case *ConstantLongInfo, *ConstantDoubleInfo:
 			i++
 		}
 	}

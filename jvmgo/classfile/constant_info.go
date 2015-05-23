@@ -32,6 +32,13 @@ type ConstantInfo interface {
 	readInfo(reader *ClassReader)
 }
 
+func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
+	tag := reader.readUint8()
+	c := newConstantInfo(tag, cp)
+	c.readInfo(reader)
+	return c
+}
+
 // todo ugly code
 func newConstantInfo(tag uint8, cp *ConstantPool) ConstantInfo {
 	switch tag {

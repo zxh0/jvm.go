@@ -15,11 +15,10 @@ type ConstantFieldref struct {
 }
 
 func newConstantFieldref(fieldrefInfo *cf.ConstantFieldrefInfo) *ConstantFieldref {
-	return &ConstantFieldref{
-		className:  fieldrefInfo.ClassName(),
-		name:       fieldrefInfo.Name(),
-		descriptor: fieldrefInfo.Descriptor(),
-	}
+	ref := &ConstantFieldref{}
+	ref.className = fieldrefInfo.ClassName()
+	ref.name, ref.descriptor = fieldrefInfo.NameAndDescriptor()
+	return ref
 }
 
 func (self *ConstantFieldref) String() string {

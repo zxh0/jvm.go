@@ -47,11 +47,6 @@ func (self *ConstantMemberrefInfo) readInfo(reader *ClassReader) {
 func (self *ConstantMemberrefInfo) ClassName() string {
 	return self.cp.getClassName(self.classIndex)
 }
-func (self *ConstantMemberrefInfo) Name() string {
-	name, _ := self.cp.getNameAndType(self.nameAndTypeIndex)
-	return name
-}
-func (self *ConstantMemberrefInfo) Descriptor() string {
-	_, _type := self.cp.getNameAndType(self.nameAndTypeIndex)
-	return _type
+func (self *ConstantMemberrefInfo) NameAndDescriptor() (string, string) {
+	return self.cp.getNameAndType(self.nameAndTypeIndex)
 }

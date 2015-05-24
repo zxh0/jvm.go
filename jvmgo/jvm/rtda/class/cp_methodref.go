@@ -5,7 +5,7 @@ import (
 )
 
 type ConstantMethodref struct {
-	isIface      bool
+	//isIface      bool
 	className    string
 	name         string
 	descriptor   string
@@ -15,26 +15,20 @@ type ConstantMethodref struct {
 }
 
 func newConstantMethodref(methodrefInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
-	return &ConstantMethodref{
-		isIface:      false,
-		className:    methodrefInfo.ClassName(),
-		name:         methodrefInfo.Name(),
-		descriptor:   methodrefInfo.Descriptor(),
-		argSlotCount: calcArgSlotCount(methodrefInfo.Descriptor()),
-		vslot:        -1,
-	}
+	ref := &ConstantMethodref{vslot: -1}
+	ref.className = methodrefInfo.ClassName()
+	ref.name, ref.descriptor = methodrefInfo.NameAndDescriptor()
+	ref.argSlotCount = calcArgSlotCount(ref.descriptor)
+	return ref
 }
 
 // todo
 func newConstantInterfaceMethodref(methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
-	return &ConstantMethodref{
-		isIface:      true,
-		className:    methodrefInfo.ClassName(),
-		name:         methodrefInfo.Name(),
-		descriptor:   methodrefInfo.Descriptor(),
-		argSlotCount: calcArgSlotCount(methodrefInfo.Descriptor()),
-		vslot:        -1,
-	}
+	ref := &ConstantMethodref{vslot: -1}
+	ref.className = methodrefInfo.ClassName()
+	ref.name, ref.descriptor = methodrefInfo.NameAndDescriptor()
+	ref.argSlotCount = calcArgSlotCount(ref.descriptor)
+	return ref
 }
 
 func (self *ConstantMethodref) ArgSlotCount() uint {

@@ -12,7 +12,7 @@ type invokeinterface struct {
 	// zero uint8
 
 	// optimization
-	kMethodRef   *rtc.ConstantMethodref
+	kMethodRef   *rtc.ConstantInterfaceMethodref
 	argSlotCount uint
 }
 
@@ -25,7 +25,7 @@ func (self *invokeinterface) fetchOperands(decoder *InstructionDecoder) {
 func (self *invokeinterface) Execute(frame *rtda.Frame) {
 	if self.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
-		self.kMethodRef = cp.GetConstant(self.index).(*rtc.ConstantMethodref)
+		self.kMethodRef = cp.GetConstant(self.index).(*rtc.ConstantInterfaceMethodref)
 		self.argSlotCount = self.kMethodRef.ArgSlotCount()
 	}
 

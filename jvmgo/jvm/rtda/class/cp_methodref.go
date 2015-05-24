@@ -18,14 +18,6 @@ func newConstantMethodref(refInfo *cf.ConstantMethodrefInfo) *ConstantMethodref 
 	return ref
 }
 
-// todo
-func newConstantInterfaceMethodref(refInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
-	ref := &ConstantMethodref{vslot: -1}
-	ref.copy(&refInfo.ConstantMemberrefInfo)
-	ref.argSlotCount = calcArgSlotCount(ref.descriptor)
-	return ref
-}
-
 func (self *ConstantMethodref) ArgSlotCount() uint {
 	return self.argSlotCount
 }
@@ -102,34 +94,4 @@ func (self *ConstantMethodref) GetVirtualMethod(ref *Obj) *Method {
 		self.vslot = getVslot(ref.class, self.name, self.descriptor)
 	}
 	return ref.class.vtable[self.vslot]
-}
-
-// todo
-func (self *ConstantMethodref) FindInterfaceMethod(ref *Obj) *Method {
-	for class := ref.class; class != nil; class = class.superClass {
-		method := class.getMethod(self.name, self.descriptor, false)
-		if method != nil {
-			return method
-		}
-	}
-
-	if method := findInterfaceMethod(ref.class.interfaces, self.name, self.descriptor); method != nil {
-		return method
-	} else {
-		//TODO
-		panic("virtual method not found!")
-	}
-}
-
-func findInterfaceMethod(interfaces []*Class, name, descriptor string) *Method {
-	for i := 0; i < len(interfaces); i++ {
-		if method := findInterfaceMethod(interfaces[i].interfaces, name, descriptor); method != nil {
-			return method
-		}
-		method := interfaces[i].getMethod(name, descriptor, false)
-		if method != nil {
-			return method
-		}
-	}
-	return nil
 }

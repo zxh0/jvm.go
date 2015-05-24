@@ -14,8 +14,12 @@ type invokestatic struct {
 func (self *invokestatic) Execute(frame *rtda.Frame) {
 	if self.method == nil {
 		cp := frame.Method().Class().ConstantPool()
-		kMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-		self.method = kMethodRef.StaticMethod()
+		k := cp.GetConstant(self.index)
+		if kMethodRef, ok := k.(*rtc.ConstantMethodref); ok {
+			self.method = kMethodRef.StaticMethod()
+		} else {
+			self.method = k.(*rtc.ConstantInterfaceMethodref).StaticMethod()
+		}
 	}
 
 	// init class

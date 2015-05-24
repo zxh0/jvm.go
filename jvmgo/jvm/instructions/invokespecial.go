@@ -11,7 +11,12 @@ type invokespecial struct{ Index16Instruction }
 
 func (self *invokespecial) Execute(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
-	kMethodRef := cp.GetConstant(self.index).(*rtc.ConstantMethodref)
-	method := kMethodRef.SpecialMethod()
-	frame.Thread().InvokeMethod(method)
+	k := cp.GetConstant(self.index)
+	if kMethodRef, ok := k.(*rtc.ConstantMethodref); ok {
+		method := kMethodRef.SpecialMethod()
+		frame.Thread().InvokeMethod(method)
+	} else {
+		method := k.(*rtc.ConstantInterfaceMethodref).SpecialMethod()
+		frame.Thread().InvokeMethod(method)
+	}
 }

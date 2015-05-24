@@ -1,5 +1,9 @@
 package classfile
 
+import (
+	"fmt"
+)
+
 type ConstantPool struct {
 	cf      *ClassFile
 	cpInfos []ConstantInfo
@@ -29,8 +33,12 @@ func (self *ConstantPool) Infos() []ConstantInfo {
 }
 
 func (self *ConstantPool) getConstantInfo(index uint16) ConstantInfo {
-	// todo check index
-	return self.cpInfos[index]
+	cpInfo := self.cpInfos[index]
+	if cpInfo == nil {
+		panic(fmt.Errorf("Bad constant pool index: %v!", index))
+	}
+
+	return cpInfo
 }
 
 func (self *ConstantPool) getNameAndType(index uint16) (name, _type string) {

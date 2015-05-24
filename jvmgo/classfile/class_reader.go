@@ -27,15 +27,6 @@ func (self *ClassReader) readUint16() uint16 {
 	return val
 }
 
-func (self *ClassReader) readUint16s() []uint16 {
-	n := self.readUint16()
-	s := make([]uint16, n)
-	for i := range s {
-		s[i] = self.readUint16()
-	}
-	return s
-}
-
 func (self *ClassReader) readUint32() uint32 {
 	val := bigendian.Int32(self.data)
 	self.data = self.data[4:]
@@ -65,18 +56,20 @@ func (self *ClassReader) readFloat64() float64 {
 	return val
 }
 
+func (self *ClassReader) readUint16s() []uint16 {
+	n := self.readUint16()
+	s := make([]uint16, n)
+	for i := range s {
+		s[i] = self.readUint16()
+	}
+	return s
+}
+
 func (self *ClassReader) readBytes(length uint32) []byte {
 	bytes := self.data[:length]
 	self.data = self.data[length:]
 	return bytes
 }
-
-// todo
-// func (self *ClassReader) readString() string {
-// 	length := uint32(self.readUint16())
-// 	bytes := self.readBytes(length)
-// 	return string(bytes)
-// }
 
 // mutf8 -> utf16 -> utf32 -> string
 // see java.io.DataInputStream.readUTF(DataInput)

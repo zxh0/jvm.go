@@ -8,16 +8,13 @@ import (
 )
 
 type ConstantFieldref struct {
-	className  string
-	name       string
-	descriptor string
-	field      *Field
+	ConstantMemberref
+	field *Field
 }
 
-func newConstantFieldref(fieldrefInfo *cf.ConstantFieldrefInfo) *ConstantFieldref {
+func newConstantFieldref(refInfo *cf.ConstantFieldrefInfo) *ConstantFieldref {
 	ref := &ConstantFieldref{}
-	ref.className = fieldrefInfo.ClassName()
-	ref.name, ref.descriptor = fieldrefInfo.NameAndDescriptor()
+	ref.copy(&refInfo.ConstantMemberrefInfo)
 	return ref
 }
 

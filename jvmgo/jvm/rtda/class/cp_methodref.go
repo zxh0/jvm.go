@@ -5,28 +5,23 @@ import (
 )
 
 type ConstantMethodref struct {
-	//isIface      bool
-	className    string
-	name         string
-	descriptor   string
+	ConstantMemberref
 	argSlotCount uint
 	method       *Method
 	vslot        int
 }
 
-func newConstantMethodref(methodrefInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
+func newConstantMethodref(refInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
 	ref := &ConstantMethodref{vslot: -1}
-	ref.className = methodrefInfo.ClassName()
-	ref.name, ref.descriptor = methodrefInfo.NameAndDescriptor()
+	ref.copy(&refInfo.ConstantMemberrefInfo)
 	ref.argSlotCount = calcArgSlotCount(ref.descriptor)
 	return ref
 }
 
 // todo
-func newConstantInterfaceMethodref(methodrefInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
+func newConstantInterfaceMethodref(refInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantMethodref {
 	ref := &ConstantMethodref{vslot: -1}
-	ref.className = methodrefInfo.ClassName()
-	ref.name, ref.descriptor = methodrefInfo.NameAndDescriptor()
+	ref.copy(&refInfo.ConstantMemberrefInfo)
 	ref.argSlotCount = calcArgSlotCount(ref.descriptor)
 	return ref
 }

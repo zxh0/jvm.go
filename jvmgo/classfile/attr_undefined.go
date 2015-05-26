@@ -8,12 +8,13 @@ attribute_info {
 }
 */
 type UndefinedAttribute struct {
-	name string
-	info []byte
+	name   string
+	length uint32
+	info   []byte
 }
 
-func (self *UndefinedAttribute) readInfo(reader *ClassReader, attrLen uint32) {
-	self.info = reader.readBytes(attrLen)
+func (self *UndefinedAttribute) readInfo(reader *ClassReader) {
+	self.info = reader.readBytes(self.length)
 }
 
 func (self *UndefinedAttribute) Info() []byte {

@@ -3,7 +3,6 @@ package classfile
 var (
 	_attrDeprecated = &DeprecatedAttribute{}
 	_attrSynthetic  = &SyntheticAttribute{}
-	_attrUndefined  = &UndefinedAttribute{}
 )
 
 /*
@@ -14,7 +13,7 @@ attribute_info {
 }
 */
 type AttributeInfo interface {
-	readInfo(reader *ClassReader, attrLen uint32)
+	readInfo(reader *ClassReader)
 }
 
 func readAttributes(reader *ClassReader, cp *ConstantPool) []AttributeInfo {
@@ -30,15 +29,21 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) AttributeInfo {
 	attrNameIndex := reader.readUint16()
 	attrLen := reader.readUint32()
 	attrName := cp.getUtf8(attrNameIndex)
-	attrInfo := newAttributeInfo(attrName, attrLen, cp)
-	attrInfo.readInfo(reader, attrLen)
+	attrInfo := newAttributeInfo(attrName, cp)
+	if attrInfo == nil {
+		attrInfo = &UndefinedAttribute{
+			name:   attrName,
+			length: attrLen,
+		}
+	}
+
+	attrInfo.readInfo(reader)
 	return attrInfo
 }
 
-func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) AttributeInfo {
+func newAttributeInfo(attrName string, cp *ConstantPool) AttributeInfo {
 	switch attrName {
-	case "AnnotationDefault":
-		return &UndefinedAttribute{name: "AnnotationDefault"}
+	// case "AnnotationDefault":
 	case "BootstrapMethods":
 		return &BootstrapMethodsAttribute{}
 	case "Code":
@@ -60,28 +65,21 @@ func newAttributeInfo(attrName string, attrLen uint32, cp *ConstantPool) Attribu
 	case "LocalVariableTypeTable":
 		return &LocalVariableTypeTableAttribute{}
 	// case "MethodParameters":
-	case "RuntimeInvisibleAnnotations":
-		return _attrUndefined
-	case "RuntimeInvisibleParameterAnnotations":
-		return _attrUndefined
-	case "RuntimeInvisibleTypeAnnotations":
-		return _attrUndefined
-	case "RuntimeVisibleAnnotations":
-		return &UndefinedAttribute{name: "RuntimeVisibleAnnotations"}
-	case "RuntimeVisibleParameterAnnotations":
-		return &UndefinedAttribute{name: "RuntimeVisibleParameterAnnotations"}
+	// case "RuntimeInvisibleAnnotations":
+	// case "RuntimeInvisibleParameterAnnotations":
+	// case "RuntimeInvisibleTypeAnnotations":
+	// case "RuntimeVisibleAnnotations":
+	// case "RuntimeVisibleParameterAnnotations":
 	// case "RuntimeVisibleTypeAnnotations":
 	case "Signature":
 		return &SignatureAttribute{cp: cp}
 	case "SourceFile":
 		return &SourceFileAttribute{cp: cp}
-	case "SourceDebugExtension":
-		return _attrUndefined // todo
-	case "StackMapTable":
-		return _attrUndefined // todo
+	// case "SourceDebugExtension":
+	// case "StackMapTable":
 	case "Synthetic":
 		return _attrSynthetic
 	default:
-		return _attrUndefined
+		return nil // undefined attr
 	}
 }

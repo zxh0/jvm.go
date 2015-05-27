@@ -7,16 +7,16 @@ attribute_info {
     u1 info[attribute_length];
 }
 */
-type UndefinedAttribute struct {
+type UnparsedAttribute struct {
 	name   string
 	length uint32
 	info   []byte
 }
 
-func (self *UndefinedAttribute) readInfo(reader *ClassReader) {
+func (self *UnparsedAttribute) readInfo(reader *ClassReader) {
 	self.info = reader.readBytes(self.length)
 }
 
-func (self *UndefinedAttribute) Info() []byte {
+func (self *UnparsedAttribute) Info() []byte {
 	return self.info
 }

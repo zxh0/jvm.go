@@ -31,7 +31,7 @@ func readAttribute(reader *ClassReader, cp *ConstantPool) AttributeInfo {
 	attrName := cp.getUtf8(attrNameIndex)
 	attrInfo := newAttributeInfo(attrName, cp)
 	if attrInfo == nil {
-		attrInfo = &UndefinedAttribute{
+		attrInfo = &UnparsedAttribute{
 			name:   attrName,
 			length: attrLen,
 		}

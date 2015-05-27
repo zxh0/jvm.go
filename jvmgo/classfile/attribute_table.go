@@ -92,21 +92,21 @@ func (self *AttributeTable) LineNumberTableAttribute() *LineNumberTableAttribute
 
 /* unparsed */
 
-func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *UndefinedAttribute {
-	return self.getUndefinedAttribute("RuntimeVisibleAnnotations")
+func (self *AttributeTable) RuntimeVisibleAnnotationsAttribute() *UnparsedAttribute {
+	return self.getUnparsedAttribute("RuntimeVisibleAnnotations")
 }
-func (self *AttributeTable) RuntimeVisibleParameterAnnotationsAttribute() *UndefinedAttribute {
-	return self.getUndefinedAttribute("RuntimeVisibleParameterAnnotationsAttribute")
+func (self *AttributeTable) RuntimeVisibleParameterAnnotationsAttribute() *UnparsedAttribute {
+	return self.getUnparsedAttribute("RuntimeVisibleParameterAnnotationsAttribute")
 }
-func (self *AttributeTable) AnnotationDefaultAttribute() *UndefinedAttribute {
-	return self.getUndefinedAttribute("AnnotationDefault")
+func (self *AttributeTable) AnnotationDefaultAttribute() *UnparsedAttribute {
+	return self.getUnparsedAttribute("AnnotationDefault")
 }
 
-func (self *AttributeTable) getUndefinedAttribute(name string) *UndefinedAttribute {
+func (self *AttributeTable) getUnparsedAttribute(name string) *UnparsedAttribute {
 	for _, attrInfo := range self.attributes {
 		switch attrInfo.(type) {
-		case *UndefinedAttribute:
-			return attrInfo.(*UndefinedAttribute)
+		case *UnparsedAttribute:
+			return attrInfo.(*UnparsedAttribute)
 		}
 	}
 	return nil

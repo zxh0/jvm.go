@@ -63,15 +63,9 @@ func (self *Method) copyAttributes(methodInfo *cf.MemberInfo) {
 			self.copyExceptionTable(codeAttr.ExceptionTable(), rtCp)
 		}
 	}
-	if rvaAttr := methodInfo.RuntimeVisibleAnnotationsAttribute(); rvaAttr != nil {
-		self.annotationData = rvaAttr.Info()
-	}
-	if rvpaAttr := methodInfo.RuntimeVisibleParameterAnnotationsAttribute(); rvpaAttr != nil {
-		self.parameterAnnotationData = rvpaAttr.Info()
-	}
-	if adAttr := methodInfo.AnnotationDefaultAttribute(); adAttr != nil {
-		self.annotationDefaultData = adAttr.Info()
-	}
+	self.annotationData = methodInfo.RuntimeVisibleAnnotationsAttributeData()
+	self.parameterAnnotationData = methodInfo.RuntimeVisibleParameterAnnotationsAttributeData()
+	self.annotationDefaultData = methodInfo.AnnotationDefaultAttributeData()
 }
 
 func (self *Method) String() string {

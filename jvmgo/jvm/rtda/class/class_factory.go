@@ -46,7 +46,7 @@ func (self *Class) copyMethods(cf *classfile.ClassFile) {
 func (self *Class) copyAttributes(cf *classfile.ClassFile) {
 	self.sourceFile = getSourceFile(cf)
 	self.signature = getSignature(cf)
-	self.annotationData = getAnnotationData(cf)
+	self.annotationData = cf.RuntimeVisibleAnnotationsAttributeData()
 	self.enclosingMethod = getEnclosingMethod(cf)
 }
 
@@ -62,13 +62,6 @@ func getSignature(cf *classfile.ClassFile) string {
 		return sigAttr.Signature()
 	}
 	return ""
-}
-
-func getAnnotationData(cf *classfile.ClassFile) []byte {
-	if rvaAttr := cf.RuntimeVisibleAnnotationsAttribute(); rvaAttr != nil {
-		return rvaAttr.Info()
-	}
-	return nil
 }
 
 func getEnclosingMethod(cf *classfile.ClassFile) *EnclosingMethod {

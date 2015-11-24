@@ -1,7 +1,6 @@
 package awt
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -11,7 +10,7 @@ func init() {
 	_cge(cge_getMainDisplayID, "getMainDisplayID", "()I")
 }
 
-func _cge(method Any, name, desc string) {
+func _cge(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("sun/awt/CGraphicsEnvironment", name, desc, method)
 }
 

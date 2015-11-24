@@ -3,7 +3,6 @@ package lang
 import (
 	"unsafe"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -16,7 +15,7 @@ func init() {
 	_object(wait, "wait", "(J)V")
 }
 
-func _object(method Any, name, desc string) {
+func _object(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Object", name, desc, method)
 }
 

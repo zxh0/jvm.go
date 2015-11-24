@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -15,7 +14,7 @@ func init() {
 	_tz(getSystemTimeZoneID, "getSystemTimeZoneID", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;")
 }
 
-func _tz(method Any, name, desc string) {
+func _tz(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/util/TimeZone", name, desc, method)
 }
 

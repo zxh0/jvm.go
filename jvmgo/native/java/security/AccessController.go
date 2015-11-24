@@ -1,7 +1,6 @@
 package security
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -14,7 +13,7 @@ func init() {
 	_ac(getStackAccessControlContext, "getStackAccessControlContext", "()Ljava/security/AccessControlContext;")
 }
 
-func _ac(method Any, name, desc string) {
+func _ac(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/security/AccessController", name, desc, method)
 }
 

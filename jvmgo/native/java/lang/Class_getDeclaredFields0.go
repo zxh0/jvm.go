@@ -1,7 +1,6 @@
 package lang
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -53,7 +52,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
 			fieldObjs[i] = fieldObj
 
 			// init fieldObj
-			thread.InvokeMethodWithShim(fieldConstructor, []Any{
+			thread.InvokeMethodWithShim(fieldConstructor, []interface{}{
 				fieldObj,                                       // this
 				classObj,                                       // declaringClass
 				rtda.JString(goField.Name()),                   // name

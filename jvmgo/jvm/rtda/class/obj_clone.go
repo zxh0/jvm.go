@@ -1,17 +1,13 @@
 package class
 
-import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
-)
-
 func (self *Obj) Clone() *Obj {
 	fields2 := self._cloneFields()
-	var extra2 Any = nil // todo
+	var extra2 interface{} = nil // todo
 
 	return newObj(self.class, fields2, extra2)
 }
 
-func (self *Obj) _cloneFields() Any {
+func (self *Obj) _cloneFields() interface{} {
 	switch self.fields.(type) {
 	case []int8:
 		fields := self.fields.([]int8)
@@ -53,9 +49,9 @@ func (self *Obj) _cloneFields() Any {
 		fields2 := make([]*Obj, len(fields))
 		copy(fields2, fields)
 		return fields2
-	default: // []Any
-		fields := self.fields.([]Any)
-		fields2 := make([]Any, len(fields))
+	default: // []interface{}
+		fields := self.fields.([]interface{})
+		fields2 := make([]interface{}, len(fields))
 		copy(fields2, fields)
 		return fields2
 	}

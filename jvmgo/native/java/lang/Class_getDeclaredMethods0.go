@@ -1,7 +1,6 @@
 package lang
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -60,7 +59,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 			methodObjs[i] = methodObj
 
 			// init methodObj
-			thread.InvokeMethodWithShim(methodConstructor, []Any{
+			thread.InvokeMethodWithShim(methodConstructor, []interface{}{
 				methodObj,                                              // this
 				classObj,                                               // declaringClass
 				rtda.JString(method.Name()),                            // name

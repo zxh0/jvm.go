@@ -1,11 +1,10 @@
 package rtda
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
-func newShimFrame(thread *Thread, args []Any) *Frame {
+func newShimFrame(thread *Thread, args []interface{}) *Frame {
 	frame := &Frame{}
 	frame.thread = thread
 	frame.method = rtc.ReturnMethod()
@@ -16,9 +15,9 @@ func newShimFrame(thread *Thread, args []Any) *Frame {
 	return frame
 }
 
-func newAthrowFrame(thread *Thread, ex *rtc.Obj, initArgs []Any) *Frame {
+func newAthrowFrame(thread *Thread, ex *rtc.Obj, initArgs []interface{}) *Frame {
 	// stackSlots := [ex, ex, initArgs]
-	stackSlots := make([]Any, len(initArgs)+2)
+	stackSlots := make([]interface{}, len(initArgs)+2)
 	stackSlots[0] = ex
 	stackSlots[1] = ex
 	copy(stackSlots[2:], initArgs)

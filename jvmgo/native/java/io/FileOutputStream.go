@@ -3,7 +3,6 @@ package io
 import (
 	"os"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -12,7 +11,7 @@ func init() {
 	_fos(writeBytes, "writeBytes", "([BIIZ)V")
 }
 
-func _fos(method Any, name, desc string) {
+func _fos(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/io/FileOutputStream", name, desc, method)
 }
 

@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"strings"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -29,7 +28,7 @@ func init() {
 	_net(net_localPort, "localPort", "(Ljava/io/FileDescriptor;)I")
 }
 
-func _net(method Any, name, desc string) {
+func _net(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("sun/nio/ch/Net", name, desc, method)
 }
 

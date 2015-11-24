@@ -1,7 +1,6 @@
 package misc
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -10,7 +9,7 @@ func init() {
 	_urlcp(getLookupCacheURLs, "getLookupCacheURLs", "(Ljava/lang/ClassLoader;)[Ljava/net/URL;")
 }
 
-func _urlcp(method Any, name, desc string) {
+func _urlcp(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("sun/misc/URLClassPath", name, desc, method)
 }
 

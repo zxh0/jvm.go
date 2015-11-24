@@ -5,7 +5,6 @@ import (
 	"strings"
 	"sync"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -142,7 +141,7 @@ func (self *Thread) _logInvoke(stackSize uint, method *rtc.Method) {
 	}
 }
 
-func (self *Thread) InvokeMethodWithShim(method *rtc.Method, args []Any) {
+func (self *Thread) InvokeMethodWithShim(method *rtc.Method, args []interface{}) {
 	shimFrame := newShimFrame(self, args)
 	self.PushFrame(shimFrame)
 	self.InvokeMethod(method)

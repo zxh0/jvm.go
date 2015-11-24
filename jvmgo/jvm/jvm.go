@@ -4,7 +4,6 @@ import (
 	"os"
 	"runtime/pprof"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/classpath"
 	"github.com/zxh0/jvm.go/jvmgo/cmdline"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
@@ -41,7 +40,7 @@ func Startup(cmd *cmdline.Command) {
 func createMainThread(className string, args []string) *rtda.Thread {
 	mainThread := rtda.NewThread(nil)
 	bootMethod := rtc.BootstrapMethod()
-	bootArgs := []Any{className, args}
+	bootArgs := []interface{}{className, args}
 	mainThread.InvokeMethodWithShim(bootMethod, bootArgs)
 	return mainThread
 }

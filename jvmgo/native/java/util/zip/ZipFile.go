@@ -3,7 +3,6 @@ package zip
 import (
 	gozip "archive/zip"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
@@ -33,7 +32,7 @@ func init() {
 	_zf(startsWithLOC, "startsWithLOC", "(J)Z")
 }
 
-func _zf(method Any, name, desc string) {
+func _zf(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/util/zip/ZipFile", name, desc, method)
 }
 

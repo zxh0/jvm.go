@@ -1,7 +1,6 @@
 package lang
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -55,7 +54,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 			constructorObjs[i] = constructorObj
 
 			// init constructorObj
-			thread.InvokeMethodWithShim(constructorInitMethod, []Any{
+			thread.InvokeMethodWithShim(constructorInitMethod, []interface{}{
 				constructorObj, // this
 				classObj,       // declaringClass
 				getParameterTypeArr(constructor),    // parameterTypes

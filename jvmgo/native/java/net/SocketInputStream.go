@@ -5,7 +5,6 @@ import (
 	"net"
 	"time"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -15,7 +14,7 @@ func init() {
 	_sis(sis_socketRead0, "socketRead0", "(Ljava/io/FileDescriptor;[BIII)I")
 }
 
-func _sis(method Any, name, desc string) {
+func _sis(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/net/SocketInputStream", name, desc, method)
 }
 

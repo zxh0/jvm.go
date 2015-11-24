@@ -4,7 +4,6 @@ import (
 	"math"
 	"time"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -14,7 +13,7 @@ func init() {
 	_unsafe(unpark, "unpark", "(Ljava/lang/Object;)V")
 }
 
-func _unsafe(method Any, name, desc string) {
+func _unsafe(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("sun/misc/Unsafe", name, desc, method)
 }
 

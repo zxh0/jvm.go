@@ -1,18 +1,17 @@
 package rtda
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
 type OperandStack struct {
 	size  uint
-	slots []Any
+	slots []interface{}
 }
 
 func newOperandStack(size uint) *OperandStack {
 	if size > 0 {
-		slots := make([]Any, size)
+		slots := make([]interface{}, size)
 		return &OperandStack{0, slots}
 	} else {
 		return nil
@@ -101,18 +100,18 @@ func (self *OperandStack) PopDouble() float64 {
 	return top.(float64)
 }
 
-func (self *OperandStack) PushSlot(any Any) {
+func (self *OperandStack) PushSlot(any interface{}) {
 	self.slots[self.size] = any
 	self.size++
 }
-func (self *OperandStack) PopSlot() Any {
+func (self *OperandStack) PopSlot() interface{} {
 	self.size--
 	top := self.slots[self.size]
 	self.slots[self.size] = nil
 	return top
 }
 
-func (self *OperandStack) PushField(any Any, isLongOrDouble bool) {
+func (self *OperandStack) PushField(any interface{}, isLongOrDouble bool) {
 	self.slots[self.size] = any
 	if isLongOrDouble {
 		self.size += 2
@@ -120,7 +119,7 @@ func (self *OperandStack) PushField(any Any, isLongOrDouble bool) {
 		self.size++
 	}
 }
-func (self *OperandStack) PopField(isLongOrDouble bool) Any {
+func (self *OperandStack) PopField(isLongOrDouble bool) interface{} {
 	if isLongOrDouble {
 		self.size -= 2
 	} else {
@@ -131,7 +130,7 @@ func (self *OperandStack) PopField(isLongOrDouble bool) Any {
 	return top
 }
 
-func (self *OperandStack) PopTops(n uint) []Any {
+func (self *OperandStack) PopTops(n uint) []interface{} {
 	start := self.size - n
 	end := self.size
 	top := self.slots[start:end]
@@ -156,7 +155,7 @@ func (self *OperandStack) Clear() {
 }
 
 // only used by native methods
-func (self *OperandStack) HackSetSlots(slots []Any) {
+func (self *OperandStack) HackSetSlots(slots []interface{}) {
 	self.slots = slots
 	self.size = uint(len(slots))
 }

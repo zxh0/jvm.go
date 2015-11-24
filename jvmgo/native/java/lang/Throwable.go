@@ -1,7 +1,6 @@
 package lang
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -12,7 +11,7 @@ func init() {
 	_throwable(getStackTraceDepth, "getStackTraceDepth", "()I")
 }
 
-func _throwable(method Any, name, desc string) {
+func _throwable(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
 }
 

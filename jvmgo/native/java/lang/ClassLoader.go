@@ -1,7 +1,6 @@
 package lang
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -12,7 +11,7 @@ func init() {
 	_cl(findLoadedClass0, "findLoadedClass0", "(Ljava/lang/String;)Ljava/lang/Class;")
 }
 
-func _cl(method Any, name, desc string) {
+func _cl(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/ClassLoader", name, desc, method)
 }
 

@@ -3,7 +3,6 @@ package lang
 import (
 	"math"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -13,7 +12,7 @@ func init() {
 	_float(intBitsToFloat, "intBitsToFloat", "(I)F")
 }
 
-func _float(method Any, name, desc string) {
+func _float(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Float", name, desc, method)
 }
 

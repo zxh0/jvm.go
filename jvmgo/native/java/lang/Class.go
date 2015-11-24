@@ -3,7 +3,6 @@ package lang
 import (
 	"strings"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	cp "github.com/zxh0/jvm.go/jvmgo/classpath"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
@@ -27,7 +26,7 @@ func init() {
 	_class(getGenericSignature0, "getGenericSignature0", "()Ljava/lang/String;")
 }
 
-func _class(method Any, name, desc string) {
+func _class(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
 }
 

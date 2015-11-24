@@ -1,7 +1,6 @@
 package atomic
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -10,7 +9,7 @@ func init() {
 	_al(VMSupportsCS8, "VMSupportsCS8", "()Z")
 }
 
-func _al(method Any, name, desc string) {
+func _al(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/util/concurrent/atomic/AtomicLong", name, desc, method)
 }
 

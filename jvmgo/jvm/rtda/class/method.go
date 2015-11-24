@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
 )
 
@@ -29,8 +28,8 @@ type Method struct {
 	annotationDefaultData   []byte // AnnotationDefault_attribute
 	lineNumberTable         *cf.LineNumberTableAttribute
 	exceptions              *cf.ExceptionsAttribute
-	nativeMethod            Any // cannot use package 'native' because of cycle import!
-	Instructions            Any // []instructions.Instruction
+	nativeMethod            interface{} // cannot use package 'native' because of cycle import!
+	Instructions            interface{} // []instructions.Instruction
 }
 
 func newMethod(class *Class, methodInfo *cf.MemberInfo) *Method {
@@ -102,7 +101,7 @@ func (self *Method) HackSetCode(code []byte) {
 	self.code = code
 }
 
-func (self *Method) NativeMethod() Any {
+func (self *Method) NativeMethod() interface{} {
 	if self.nativeMethod == nil {
 		self.nativeMethod = findNativeMethod(self)
 	}

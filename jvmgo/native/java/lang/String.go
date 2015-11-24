@@ -1,7 +1,6 @@
 package lang
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -10,7 +9,7 @@ func init() {
 	_string(intern, "intern", "()Ljava/lang/String;")
 }
 
-func _string(method Any, name, desc string) {
+func _string(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/String", name, desc, method)
 }
 

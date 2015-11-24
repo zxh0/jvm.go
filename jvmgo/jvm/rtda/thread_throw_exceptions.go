@@ -3,11 +3,10 @@ package rtda
 import (
 	"fmt"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
-func (self *Thread) throwException(className, initDesc string, initArgs ...Any) {
+func (self *Thread) throwException(className, initDesc string, initArgs ...interface{}) {
 	class := rtc.BootLoader().LoadClass(className)
 	exObj := class.NewObj()
 	athrowFrame := newAthrowFrame(self, exObj, initArgs)

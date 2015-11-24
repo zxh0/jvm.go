@@ -1,7 +1,6 @@
 package reflect
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -10,7 +9,7 @@ func init() {
 	_proxy(defineClass0, "defineClass0", "(Ljava/lang/ClassLoader;Ljava/lang/String;[BII)Ljava/lang/Class;")
 }
 
-func _proxy(method Any, name, desc string) {
+func _proxy(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/reflect/Proxy", name, desc, method)
 }
 

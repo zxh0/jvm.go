@@ -3,7 +3,6 @@ package invoke
 import (
 	"fmt"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -14,7 +13,7 @@ func init() {
 	_mhn(resolve, "resolve", "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;")
 }
 
-func _mhn(method Any, name, desc string) {
+func _mhn(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/invoke/MethodHandleNatives", name, desc, method)
 }
 

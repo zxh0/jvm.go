@@ -3,20 +3,18 @@ package class
 import (
 	"fmt"
 	"sync"
-
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 )
 
 // object
 type Obj struct {
 	class   *Class
-	fields  Any // []Any for Object, []int32 for int[] ...
-	extra   Any // remember some important things from golnag
+	fields  interface{} // []interface{} for Object, []int32 for int[] ...
+	extra   interface{} // remember some important things from golnag
 	monitor *Monitor
 	lock    *sync.RWMutex // state lock
 }
 
-func newObj(class *Class, fields, extra Any) *Obj {
+func newObj(class *Class, fields, extra interface{}) *Obj {
 	return &Obj{class, fields, extra, newMonitor(), &sync.RWMutex{}}
 }
 
@@ -32,13 +30,13 @@ func (self *Obj) Class() *Class {
 func (self *Obj) Monitor() *Monitor {
 	return self.monitor
 }
-func (self *Obj) Fields() Any {
+func (self *Obj) Fields() interface{} {
 	return self.fields
 }
-func (self *Obj) Extra() Any {
+func (self *Obj) Extra() interface{} {
 	return self.extra
 }
-func (self *Obj) SetExtra(extra Any) {
+func (self *Obj) SetExtra(extra interface{}) {
 	self.extra = extra
 }
 
@@ -67,7 +65,7 @@ func (self *Obj) GetPrimitiveDescriptor() string {
 
 // todo
 func (self *Obj) initFields() {
-	fields := self.fields.([]Any)
+	fields := self.fields.([]interface{})
 	for class := self.class; class != nil; class = class.superClass {
 		for _, f := range class.fields {
 			if !f.IsStatic() {
@@ -92,11 +90,11 @@ func (self *Obj) RUnlockState() {
 }
 
 // reflection
-func (self *Obj) GetFieldValue(fieldName, fieldDescriptor string) Any {
+func (self *Obj) GetFieldValue(fieldName, fieldDescriptor string) interface{} {
 	field := self.class.GetInstanceField(fieldName, fieldDescriptor)
 	return field.GetValue(self)
 }
-func (self *Obj) SetFieldValue(fieldName, fieldDescriptor string, value Any) {
+func (self *Obj) SetFieldValue(fieldName, fieldDescriptor string, value interface{}) {
 	field := self.class.GetInstanceField(fieldName, fieldDescriptor)
 	field.PutValue(self, value)
 }

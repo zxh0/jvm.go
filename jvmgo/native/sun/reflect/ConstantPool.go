@@ -1,7 +1,6 @@
 package reflect
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -11,7 +10,7 @@ func init() {
 	_cp(getUTF8At0, "getUTF8At0", "(Ljava/lang/Object;I)Ljava/lang/String;")
 }
 
-func _cp(method Any, name, desc string) {
+func _cp(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("sun/reflect/ConstantPool", name, desc, method)
 }
 

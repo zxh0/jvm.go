@@ -1,7 +1,6 @@
 package reflect
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
@@ -27,19 +26,19 @@ func _getGoMethod(methodObj *rtc.Obj, isConstructor bool) *rtc.Method {
 	}
 }
 
-// Object[] -> []Any
-func convertArgs(this, argArr *rtc.Obj, method *rtc.Method) []Any {
+// Object[] -> []interface{}
+func convertArgs(this, argArr *rtc.Obj, method *rtc.Method) []interface{} {
 	if method.ArgSlotCount() == 0 {
 		return nil
 	}
 	if method.ArgSlotCount() == 1 && !method.IsStatic() {
-		return []Any{this}
+		return []interface{}{this}
 	}
 
 	argObjs := argArr.Refs()
 	argTypes := method.ParsedDescriptor().ParameterTypes()
 
-	args := make([]Any, method.ArgSlotCount())
+	args := make([]interface{}, method.ArgSlotCount())
 	j := 0
 	if !method.IsStatic() {
 		args[0] = this

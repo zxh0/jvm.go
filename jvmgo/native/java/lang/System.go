@@ -5,7 +5,6 @@ import (
 	"time"
 	"unsafe"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
@@ -22,7 +21,7 @@ func init() {
 	_system(setOut0, "setOut0", "(Ljava/io/PrintStream;)V")
 }
 
-func _system(method Any, name, desc string) {
+func _system(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
 
@@ -103,7 +102,7 @@ func initProperties(frame *rtda.Frame) {
 	for key, val := range _sysProps() {
 		jKey := rtda.JString(key)
 		jVal := rtda.JString(val)
-		args := []Any{props, jKey, jVal}
+		args := []interface{}{props, jKey, jVal}
 		thread.InvokeMethodWithShim(setPropMethod, args)
 	}
 }

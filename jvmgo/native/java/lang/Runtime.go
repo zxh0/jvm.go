@@ -3,7 +3,6 @@ package lang
 import (
 	"runtime"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -13,7 +12,7 @@ func init() {
 	_runtime(freeMemory, "freeMemory", "()J")
 }
 
-func _runtime(method Any, name, desc string) {
+func _runtime(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Runtime", name, desc, method)
 }
 

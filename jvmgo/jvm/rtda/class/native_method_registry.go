@@ -1,19 +1,15 @@
 package class
 
-import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
-)
-
 // todo
 // cannot use package 'native' because of cycle import!
-var registry = map[string]Any{}
-var emptyNativeMethod Any
+var registry = map[string]interface{}{}
+var emptyNativeMethod interface{}
 
-func SetEmptyNativeMethod(m Any) {
+func SetEmptyNativeMethod(m interface{}) {
 	emptyNativeMethod = m
 }
 
-func RegisterNativeMethod(className, methodName, methodDescriptor string, method Any) {
+func RegisterNativeMethod(className, methodName, methodDescriptor string, method interface{}) {
 	key := className + "~" + methodName + "~" + methodDescriptor
 
 	if _, ok := registry[key]; !ok {
@@ -23,7 +19,7 @@ func RegisterNativeMethod(className, methodName, methodDescriptor string, method
 	}
 }
 
-func findNativeMethod(method *Method) Any {
+func findNativeMethod(method *Method) interface{} {
 	key := method.class.name + "~" + method.name + "~" + method.descriptor
 	if method, ok := registry[key]; ok {
 		return method

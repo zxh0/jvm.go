@@ -6,7 +6,6 @@ import (
 	"net"
 	"time"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"github.com/zxh0/jvm.go/jvmgo/native/box"
@@ -25,7 +24,7 @@ func init() {
 
 }
 
-func _psi(method Any, name, desc string) {
+func _psi(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/net/PlainSocketImpl", name, desc, method)
 }
 

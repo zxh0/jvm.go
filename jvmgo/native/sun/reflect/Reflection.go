@@ -1,7 +1,6 @@
 package reflect
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -11,7 +10,7 @@ func init() {
 	_reflection(getClassAccessFlags, "getClassAccessFlags", "(Ljava/lang/Class;)I")
 }
 
-func _reflection(method Any, name, desc string) {
+func _reflection(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("sun/reflect/Reflection", name, desc, method)
 }
 

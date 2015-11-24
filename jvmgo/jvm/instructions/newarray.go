@@ -1,7 +1,6 @@
 package instructions
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -77,7 +76,7 @@ func (self *multianewarray) Execute(frame *rtda.Frame) {
 	}
 }
 
-func _checkCounts(counts []Any) bool {
+func _checkCounts(counts []interface{}) bool {
 	for _, c := range counts {
 		if c.(int32) < 0 {
 			return false
@@ -86,7 +85,7 @@ func _checkCounts(counts []Any) bool {
 	return true
 }
 
-func _newMultiArray(counts []Any, arrClass *rtc.Class) *rtc.Obj {
+func _newMultiArray(counts []interface{}, arrClass *rtc.Class) *rtc.Obj {
 	count := uint(counts[0].(int32))
 	arr := rtc.NewArray(arrClass, count)
 

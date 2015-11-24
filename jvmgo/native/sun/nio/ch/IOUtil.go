@@ -1,7 +1,6 @@
 package ch
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -13,7 +12,7 @@ func init() {
 	_ioUtil(iou_makePipe, "makePipe", "(Z)J")
 }
 
-func _ioUtil(method Any, name, desc string) {
+func _ioUtil(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("sun/nio/ch/IOUtil", name, desc, method)
 }
 

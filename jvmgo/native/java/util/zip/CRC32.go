@@ -3,7 +3,6 @@ package zip
 import (
 	"hash/crc32"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -12,7 +11,7 @@ func init() {
 	_crc(updateBytes, "updateBytes", "(I[BII)I")
 }
 
-func _crc(method Any, name, desc string) {
+func _crc(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/util/zip/CRC32", name, desc, method)
 }
 

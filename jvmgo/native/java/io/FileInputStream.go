@@ -4,7 +4,6 @@ import (
 	"io"
 	"os"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -16,7 +15,7 @@ func init() {
 	_fis(open, "open0", "(Ljava/lang/String;)V")
 }
 
-func _fis(method Any, name, desc string) {
+func _fis(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/io/FileInputStream", name, desc, method)
 }
 

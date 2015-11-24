@@ -1,7 +1,6 @@
 package reflect
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"github.com/zxh0/jvm.go/jvmgo/native/box"
@@ -11,7 +10,7 @@ func init() {
 	_nmai(invoke0, "invoke0", "(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;")
 }
 
-func _nmai(method Any, name, desc string) {
+func _nmai(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("sun/reflect/NativeMethodAccessorImpl", name, desc, method)
 }
 
@@ -60,11 +59,11 @@ func _invokeMethod(frame *rtda.Frame) {
 		stack.HackSetSlots(args)
 	} else if len(args) > 0 {
 		// make room for return value
-		stack.HackSetSlots([]Any{args[0], nil})
+		stack.HackSetSlots([]interface{}{args[0], nil})
 		stack.PopRef()
 	} else {
 		// make room for return value
-		stack.HackSetSlots([]Any{nil, nil})
+		stack.HackSetSlots([]interface{}{nil, nil})
 		stack.PopRef()
 		stack.PopRef()
 	}

@@ -3,7 +3,6 @@ package class
 import (
 	"sync"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	cp "github.com/zxh0/jvm.go/jvmgo/classpath"
 )
 
@@ -27,7 +26,7 @@ type Class struct {
 	methods            []*Method
 	instanceFieldCount uint
 	staticFieldCount   uint
-	staticFieldSlots   []Any
+	staticFieldSlots   []interface{}
 	vtable             []*Method // virtual method table
 	jClass             *Obj      // java.lang.Class instance
 	superClass         *Class
@@ -56,7 +55,7 @@ func (self *Class) Methods() []*Method {
 func (self *Class) Fields() []*Field {
 	return self.fields
 }
-func (self *Class) StaticFieldSlots() []Any {
+func (self *Class) StaticFieldSlots() []interface{} {
 	return self.staticFieldSlots
 }
 func (self *Class) JClass() *Obj {
@@ -163,14 +162,14 @@ func (self *Class) GetClinitMethod() *Method {
 	return self._getMethod(clinitMethodName, clinitMethodDesc, true)
 }
 
-func (self *Class) NewObjWithExtra(extra Any) *Obj {
+func (self *Class) NewObjWithExtra(extra interface{}) *Obj {
 	obj := self.NewObj()
 	obj.extra = extra
 	return obj
 }
 func (self *Class) NewObj() *Obj {
 	if self.instanceFieldCount > 0 {
-		fields := make([]Any, self.instanceFieldCount)
+		fields := make([]interface{}, self.instanceFieldCount)
 		obj := newObj(self, fields, nil)
 		obj.initFields()
 		return obj
@@ -193,11 +192,11 @@ func (self *Class) isJioSerializable() bool {
 }
 
 // reflection
-func (self *Class) GetStaticValue(fieldName, fieldDescriptor string) Any {
+func (self *Class) GetStaticValue(fieldName, fieldDescriptor string) interface{} {
 	field := self.GetStaticField(fieldName, fieldDescriptor)
 	return field.GetStaticValue()
 }
-func (self *Class) SetStaticValue(fieldName, fieldDescriptor string, value Any) {
+func (self *Class) SetStaticValue(fieldName, fieldDescriptor string, value interface{}) {
 	field := self.GetStaticField(fieldName, fieldDescriptor)
 	field.PutStaticValue(value)
 }

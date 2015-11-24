@@ -1,7 +1,6 @@
 package reflect
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 	"github.com/zxh0/jvm.go/jvmgo/native/box"
@@ -14,7 +13,7 @@ func init() {
 	_array(set, "set", "(Ljava/lang/Object;ILjava/lang/Object;)V")
 }
 
-func _array(method Any, name, desc string) {
+func _array(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/reflect/Array", name, desc, method)
 }
 

@@ -3,7 +3,6 @@ package class
 import (
 	"fmt"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/classfile"
 	"github.com/zxh0/jvm.go/jvmgo/classpath"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/jerrors"
@@ -267,7 +266,7 @@ func calcInstanceFieldSlotIds(class *Class) {
 }
 
 func prepare(class *Class) {
-	class.staticFieldSlots = make([]Any, class.staticFieldCount)
+	class.staticFieldSlots = make([]interface{}, class.staticFieldCount)
 	for _, field := range class.fields {
 		if field.IsStatic() {
 			class.staticFieldSlots[field.slotId] = field.defaultValue()

@@ -3,7 +3,6 @@ package io
 import (
 	"net"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -13,7 +12,7 @@ func init() {
 	_sos(sos_socketWrite0, "socketWrite0", "(Ljava/io/FileDescriptor;[BII)V")
 }
 
-func _sos(method Any, name, desc string) {
+func _sos(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/net/SocketOutputStream", name, desc, method)
 }
 

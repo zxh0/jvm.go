@@ -1,7 +1,6 @@
 package misc
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jutil/bigendian"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 )
@@ -183,7 +182,7 @@ func mem_getDouble(frame *rtda.Frame) {
 	stack.PushDouble(bigendian.Float64(mem))
 }
 
-func _put(frame *rtda.Frame) ([]byte, Any) {
+func _put(frame *rtda.Frame) ([]byte, interface{}) {
 	vars := frame.LocalVars()
 	// vars.GetRef(0) // this
 	address := vars.GetLong(1)

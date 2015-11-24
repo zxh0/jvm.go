@@ -2,12 +2,10 @@ package class
 
 import (
 	"sync"
-
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 )
 
 type Monitor struct {
-	owner      Any // *rtda.Thread
+	owner      interface{} // *rtda.Thread
 	ownerLock  sync.Locker
 	lock       sync.Locker
 	entryCount int
@@ -22,7 +20,7 @@ func newMonitor() *Monitor {
 	return m
 }
 
-func (self *Monitor) Enter(thread Any) {
+func (self *Monitor) Enter(thread interface{}) {
 	self.ownerLock.Lock()
 	if self.owner == thread {
 		self.entryCount++
@@ -40,7 +38,7 @@ func (self *Monitor) Enter(thread Any) {
 	self.ownerLock.Unlock()
 }
 
-func (self *Monitor) Exit(thread Any) {
+func (self *Monitor) Exit(thread interface{}) {
 	self.ownerLock.Lock()
 	var _unlock bool
 	if self.owner == thread {
@@ -57,7 +55,7 @@ func (self *Monitor) Exit(thread Any) {
 	}
 }
 
-func (self *Monitor) HasOwner(thread Any) bool {
+func (self *Monitor) HasOwner(thread interface{}) bool {
 	self.ownerLock.Lock()
 	isOwner := self.owner == thread
 	self.ownerLock.Unlock()

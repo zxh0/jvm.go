@@ -1,7 +1,6 @@
 package misc
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -77,7 +76,7 @@ func getBoolean(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		stack.PushBoolean(anys[offset].(int32) == 1)
 	} else if bytes, ok := fields.([]int8); ok {
@@ -96,7 +95,7 @@ func putBoolean(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
 	} else if bytes, ok := fields.([]int8); ok {
@@ -115,7 +114,7 @@ func getByte(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		stack.PushInt(anys[offset].(int32))
 	} else if bytes, ok := fields.([]int8); ok {
@@ -134,7 +133,7 @@ func putByte(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
 	} else if bytes, ok := fields.([]int8); ok {
@@ -153,7 +152,7 @@ func getChar(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		stack.PushInt(anys[offset].(int32))
 	} else if chars, ok := fields.([]uint16); ok {
@@ -172,7 +171,7 @@ func putChar(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
 	} else if chars, ok := fields.([]uint16); ok {
@@ -191,7 +190,7 @@ func getShort(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		stack.PushInt(anys[offset].(int32))
 	} else if shorts, ok := fields.([]int16); ok {
@@ -210,7 +209,7 @@ func putShort(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
 	} else if shorts, ok := fields.([]int16); ok {
@@ -229,7 +228,7 @@ func getInt(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		stack.PushInt(anys[offset].(int32))
 	} else if shorts, ok := fields.([]int32); ok {
@@ -248,7 +247,7 @@ func putInt(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
 	} else if shorts, ok := fields.([]int32); ok {
@@ -267,7 +266,7 @@ func getLong(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		stack.PushLong(anys[offset].(int64))
 	} else if longs, ok := fields.([]int64); ok {
@@ -286,7 +285,7 @@ func putLong(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetLong(4)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
 	} else if longs, ok := fields.([]int64); ok {
@@ -305,7 +304,7 @@ func getFloat(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		stack.PushFloat(anys[offset].(float32))
 	} else if floats, ok := fields.([]float32); ok {
@@ -324,7 +323,7 @@ func putFloat(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetFloat(4)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
 	} else if floats, ok := fields.([]float32); ok {
@@ -343,7 +342,7 @@ func getDouble(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		stack.PushDouble(anys[offset].(float64))
 	} else if doubles, ok := fields.([]float64); ok {
@@ -362,7 +361,7 @@ func putDouble(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetDouble(4)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
 	} else if doubles, ok := fields.([]float64); ok {
@@ -381,7 +380,7 @@ func putObject(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetRef(4)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
 	} else if objs, ok := fields.([]*rtc.Obj); ok {
@@ -399,7 +398,7 @@ func getObject(frame *rtda.Frame) {
 	fields := vars.GetRef(1).Fields()
 	offset := vars.GetLong(2)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		x := _getObj(anys, offset)
 		frame.OperandStack().PushRef(x)
@@ -411,7 +410,7 @@ func getObject(frame *rtda.Frame) {
 		panic("getObject!")
 	}
 }
-func _getObj(fields []Any, offset int64) *rtc.Obj {
+func _getObj(fields []interface{}, offset int64) *rtc.Obj {
 	f := fields[offset]
 	if f != nil {
 		return f.(*rtc.Obj)

@@ -1,7 +1,6 @@
 package class
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
 )
 
@@ -34,23 +33,23 @@ func (self *Field) SlotId() uint {
 	return self.slotId
 }
 
-func (self *Field) GetValue(ref *Obj) Any {
-	fields := ref.fields.([]Any)
+func (self *Field) GetValue(ref *Obj) interface{} {
+	fields := ref.fields.([]interface{})
 	return fields[self.slotId]
 }
-func (self *Field) PutValue(ref *Obj, val Any) {
-	fields := ref.fields.([]Any)
+func (self *Field) PutValue(ref *Obj, val interface{}) {
+	fields := ref.fields.([]interface{})
 	fields[self.slotId] = val
 }
 
-func (self *Field) GetStaticValue() Any {
+func (self *Field) GetStaticValue() interface{} {
 	return self.class.staticFieldSlots[self.slotId]
 }
-func (self *Field) PutStaticValue(val Any) {
+func (self *Field) PutStaticValue(val interface{}) {
 	self.class.staticFieldSlots[self.slotId] = val
 }
 
-func (self *Field) defaultValue() Any {
+func (self *Field) defaultValue() interface{} {
 	switch self.descriptor[0] {
 	case 'Z': // boolean
 		return int32(0)

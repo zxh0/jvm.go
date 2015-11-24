@@ -3,7 +3,6 @@ package io
 import (
 	"os"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -21,7 +20,7 @@ func init() {
 	_raf(raf_setLength, "setLength", "(J)V")
 }
 
-func _raf(method Any, name, desc string) {
+func _raf(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/io/RandomAccessFile", name, desc, method)
 }
 

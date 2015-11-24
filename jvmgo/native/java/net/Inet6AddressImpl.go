@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
@@ -14,7 +13,7 @@ func init() {
 	_i6di(i6di_lookupAllHostAddr, "lookupAllHostAddr", "(Ljava/lang/String;)[Ljava/net/InetAddress;")
 }
 
-func _i6di(method Any, name, desc string) {
+func _i6di(method interface{}, name, desc string) {
 	rtc.RegisterNativeMethod("java/net/Inet6AddressImpl", name, desc, method)
 }
 
@@ -56,7 +55,7 @@ func i6di_lookupAllHostAddr(frame *rtda.Frame) {
 	//	fmt.Println(constructorObjs[0])
 	//	fmt.Println(inetAddressGetByNameMethod)
 	//	fmt.Println(thread)
-	//	thread.InvokeMethodWithShim(inetAddressGetByNameMethod, []Any{
+	//	thread.InvokeMethodWithShim(inetAddressGetByNameMethod, []interface{}{
 	//		constructorObjs[0],
 	//		rtda.JString(host),
 	//	})

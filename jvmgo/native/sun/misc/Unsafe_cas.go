@@ -4,7 +4,6 @@ import (
 	"sync/atomic"
 	"unsafe"
 
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
@@ -25,7 +24,7 @@ func compareAndSwapInt(frame *rtda.Frame) {
 	expected := vars.GetInt(4)
 	newVal := vars.GetInt(5)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		swapped := jutil.CasInt32(anys[offset], expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
@@ -48,7 +47,7 @@ func compareAndSwapLong(frame *rtda.Frame) {
 	expected := vars.GetLong(4)
 	newVal := vars.GetLong(6)
 
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		swapped := jutil.CasInt64(anys[offset], expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
@@ -73,7 +72,7 @@ func compareAndSwapObject(frame *rtda.Frame) {
 	newVal := vars.GetRef(5)
 
 	// todo
-	if anys, ok := fields.([]Any); ok {
+	if anys, ok := fields.([]interface{}); ok {
 		// object
 		swapped := _casObj(obj, anys, offset, expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
@@ -86,7 +85,7 @@ func compareAndSwapObject(frame *rtda.Frame) {
 		panic("todo: compareAndSwapObject!")
 	}
 }
-func _casObj(obj *rtc.Obj, fields []Any, offset int64, expected, newVal *rtc.Obj) bool {
+func _casObj(obj *rtc.Obj, fields []interface{}, offset int64, expected, newVal *rtc.Obj) bool {
 	// todo
 	obj.LockState()
 	defer obj.UnlockState()

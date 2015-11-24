@@ -1,17 +1,16 @@
 package rtda
 
 import (
-	. "github.com/zxh0/jvm.go/jvmgo/any"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
 )
 
 type LocalVars struct {
-	slots []Any
+	slots []interface{}
 }
 
 func newLocalVars(size uint) *LocalVars {
 	if size > 0 {
-		slots := make([]Any, size)
+		slots := make([]interface{}, size)
 		return &LocalVars{slots}
 	} else {
 		return nil
@@ -66,10 +65,10 @@ func (self *LocalVars) SetDouble(index uint, val float64) {
 	self.slots[index] = val
 }
 
-func (self *LocalVars) Get(index uint) Any {
+func (self *LocalVars) Get(index uint) interface{} {
 	return self.slots[index]
 }
-func (self *LocalVars) Set(index uint, any Any) {
+func (self *LocalVars) Set(index uint, any interface{}) {
 	self.slots[index] = any
 }
 

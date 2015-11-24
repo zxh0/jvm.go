@@ -51,7 +51,7 @@ public class InterfaceDefaultMethodTest {
         UnitTestRunner.run(InterfaceDefaultMethodTest.class);
     }
 
-    @Test
+    //@Test
     public void Test1() {
         TestInterfaceDefaultTest testInterfaceDefaultTest = new TestInterfaceDefaultTest();
         DefaultTest defaultTest = testInterfaceDefaultTest;
@@ -64,7 +64,7 @@ public class InterfaceDefaultMethodTest {
         Assert.assertEquals(thirdTest.test(), "ThirdTest");
     }
 
-    @Test
+    //@Test
     public void Test2() {
         TestInterfaceFirstTestClass testInterfaceFirstTestClass = new TestInterfaceFirstTestClass();
         DefaultTest defaultTest = testInterfaceFirstTestClass;

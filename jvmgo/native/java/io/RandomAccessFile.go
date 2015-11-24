@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	_raf(raf_open, "open", "(Ljava/lang/String;I)V")
+	_raf(raf_open, "open0", "(Ljava/lang/String;I)V")
 	_raf(raf_close0, "close0", "()V")
 	_raf(raf_write0, "write0", "(I)V")
 	_raf(raf_writeBytes, "writeBytes", "([BII)V")

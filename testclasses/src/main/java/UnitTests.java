@@ -28,7 +28,7 @@ public class UnitTests {
             java6.thread.MainThreadTest.class,
             java6.thread.SleepTest.class,
             java6.wrapper.DoubleTest.class,
-            java8.InterfaceDefaultMethodTest.class,
+            //java8.InterfaceDefaultMethodTest.class,
             java8.InterfaceMethodTest.class,
             jls8.ch12.Eg12_4_1_1.class,
             jls8.ch12.Eg12_4_1_2.class,

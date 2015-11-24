@@ -13,7 +13,7 @@ func init() {
 	_fis(available, "available", "()I")
 	_fis(close0, "close0", "()V")
 	_fis(readBytes, "readBytes", "([BII)I")
-	_fis(open, "open", "(Ljava/lang/String;)V")
+	_fis(open, "open0", "(Ljava/lang/String;)V")
 }
 
 func _fis(method Any, name, desc string) {

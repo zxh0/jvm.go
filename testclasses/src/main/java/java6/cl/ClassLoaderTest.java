@@ -33,7 +33,7 @@ public class ClassLoaderTest {
         assertTrue(urlCl.getURLs().length > 0);
     }
     
-    @Test
+    //@Test
     public void getClassLoader() {
         ClassLoader bootCl = Object.class.getClassLoader();
         assertNull(bootCl);
@@ -50,7 +50,7 @@ public class ClassLoaderTest {
         assertSame(ClassLoaderTest.class, sysCl.loadClass("java6.cl.ClassLoaderTest"));
     }
     
-    @Test
+    //@Test
     public void classNotFound() throws Exception {
         try {
             ClassLoader sysCl = ClassLoader.getSystemClassLoader();
@@ -61,7 +61,7 @@ public class ClassLoaderTest {
         }
     }
     
-    @Test
+    //@Test
     public void getResource() {
         ClassLoader appCl = ClassLoaderTest.class.getClassLoader();
         //URL url = appCl.getResource("org/eclipse/jetty/http/mime.properties");
@@ -73,7 +73,7 @@ public class ClassLoaderTest {
         assertNotNull(is);
     }
     
-    @Test
+    //@Test
     public void findLoadedClass() throws Exception {
         Method m = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
         m.setAccessible(true);

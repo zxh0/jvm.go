@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 func init() {

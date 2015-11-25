@@ -3,9 +3,9 @@ package interpreter
 import (
 	"fmt"
 
-	"github.com/zxh0/jvm.go/jvmgo/jvm/instructions"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/jerrors"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+	"github.com/zxh0/jvm.go/jvmgo/instructions"
+	"github.com/zxh0/jvm.go/jvmgo/jerrors"
+	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // todo

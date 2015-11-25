@@ -1,9 +1,9 @@
 package lang
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/jvm/interpreter"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/interpreter"
+	"github.com/zxh0/jvm.go/jvmgo/rtda"
+	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 func init() {

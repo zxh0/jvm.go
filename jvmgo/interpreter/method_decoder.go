@@ -1,7 +1,7 @@
 package interpreter
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/jvm/instructions"
+	"github.com/zxh0/jvm.go/jvmgo/instructions"
 )
 
 var decoder = instructions.NewDecoder()

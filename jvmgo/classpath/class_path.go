@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
+	"github.com/zxh0/jvm.go/jvmgo/options"
 )
 
 type ClassPath struct {

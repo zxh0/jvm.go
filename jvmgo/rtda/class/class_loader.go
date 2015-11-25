@@ -5,8 +5,8 @@ import (
 
 	"github.com/zxh0/jvm.go/jvmgo/classfile"
 	"github.com/zxh0/jvm.go/jvmgo/classpath"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/jerrors"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
+	"github.com/zxh0/jvm.go/jvmgo/jerrors"
+	"github.com/zxh0/jvm.go/jvmgo/options"
 )
 
 const (

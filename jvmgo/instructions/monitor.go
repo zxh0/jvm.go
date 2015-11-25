@@ -1,7 +1,7 @@
 package instructions
 
 import (
-	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Enter monitor for object

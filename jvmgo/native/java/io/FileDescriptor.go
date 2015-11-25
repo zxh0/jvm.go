@@ -1,7 +1,7 @@
 package io
 
 import (
-	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 func init() {

@@ -3,7 +3,7 @@ package rtda
 import (
 	"unsafe"
 
-	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 // see: jls8 12.4.2. Detailed Initialization Procedure

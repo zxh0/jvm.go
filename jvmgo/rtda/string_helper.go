@@ -3,7 +3,7 @@ package rtda
 import (
 	"unicode/utf16"
 
-	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 // todo: is there a better way to create String?

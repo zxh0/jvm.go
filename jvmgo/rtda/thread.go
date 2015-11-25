@@ -5,8 +5,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
-	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/options"
+	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 /*

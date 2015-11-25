@@ -1,7 +1,7 @@
 package awt
 
 import (
-	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 func _window(method interface{}, name, desc string) {

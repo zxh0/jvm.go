@@ -2,7 +2,7 @@ package instructions
 
 import (
 	//"fmt"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
+	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 /*

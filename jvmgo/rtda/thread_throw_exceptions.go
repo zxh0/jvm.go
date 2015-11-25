@@ -3,7 +3,7 @@ package rtda
 import (
 	"fmt"
 
-	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
+	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 func (self *Thread) throwException(className, initDesc string, initArgs ...interface{}) {

@@ -40,7 +40,7 @@ type PrimitiveType struct {
 	WrapperClassName string
 }
 
-func IsPrimitiveType(name string) bool {
+func isPrimitiveType(name string) bool {
 	for _, primitiveType := range PrimitiveTypes {
 		if primitiveType.Name == name {
 			return true
@@ -49,7 +49,7 @@ func IsPrimitiveType(name string) bool {
 	return false
 }
 
-func GetPrimitiveType(descriptor string) string {
+func getPrimitiveType(descriptor string) string {
 	for _, primitiveType := range PrimitiveTypes {
 		if primitiveType.Descriptor == descriptor {
 			return primitiveType.Name

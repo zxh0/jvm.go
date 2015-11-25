@@ -1,7 +1,7 @@
 package class
 
 func (self *Class) IsPrimitive() bool {
-	return IsPrimitiveType(self.name)
+	return isPrimitiveType(self.name)
 }
 
 func (self *Class) GetFields(publicOnly bool) []*Field {

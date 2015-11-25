@@ -23,6 +23,6 @@ func getClassName(descriptor string) string {
 	case 'L': // object
 		return descriptor[1 : len(descriptor)-1]
 	default: // primirive
-		return GetPrimitiveType(descriptor)
+		return getPrimitiveType(descriptor)
 	}
 }

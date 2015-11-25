@@ -1,4 +1,4 @@
-package jtype
+package class
 
 const (
 	V = 'V' // void

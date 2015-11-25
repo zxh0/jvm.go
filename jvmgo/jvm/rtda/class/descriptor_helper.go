@@ -2,8 +2,6 @@ package class
 
 import (
 	"strings"
-
-	"github.com/zxh0/jvm.go/jvmgo/jvm/jtype"
 )
 
 func GetReturnDescriptor(methodDescriptor string) string {
@@ -25,6 +23,6 @@ func getClassName(descriptor string) string {
 	case 'L': // object
 		return descriptor[1 : len(descriptor)-1]
 	default: // primirive
-		return jtype.GetPrimitiveType(descriptor)
+		return GetPrimitiveType(descriptor)
 	}
 }

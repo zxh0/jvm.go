@@ -6,7 +6,6 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/classfile"
 	"github.com/zxh0/jvm.go/jvmgo/classpath"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/jerrors"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/jtype"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 )
 
@@ -73,7 +72,7 @@ func (self *ClassLoader) _init() {
 }
 
 func (self *ClassLoader) loadPrimitiveClasses() {
-	for _, primitiveType := range jtype.PrimitiveTypes {
+	for _, primitiveType := range PrimitiveTypes {
 		self.loadPrimitiveClass(primitiveType.Name)
 	}
 }
@@ -87,7 +86,7 @@ func (self *ClassLoader) loadPrimitiveClass(className string) {
 }
 
 func (self *ClassLoader) loadPrimitiveArrayClasses() {
-	for _, primitiveType := range jtype.PrimitiveTypes {
+	for _, primitiveType := range PrimitiveTypes {
 		self.loadArrayClass(primitiveType.ArrayClassName)
 	}
 }

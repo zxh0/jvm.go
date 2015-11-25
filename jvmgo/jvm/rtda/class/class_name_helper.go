@@ -2,7 +2,6 @@ package class
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/jtype"
 )
 
 func DotToSlash(name string) string {
@@ -20,7 +19,7 @@ func getArrayClassName(className string) string {
 		// array
 		return "[" + className
 	}
-	for _, primitiveType := range jtype.PrimitiveTypes {
+	for _, primitiveType := range PrimitiveTypes {
 		if primitiveType.Name == className {
 			// primitive
 			return primitiveType.ArrayClassName

@@ -4,7 +4,6 @@ import (
 	"os"
 
 	"github.com/zxh0/jvm.go/jvmgo/cmdline"
-	"github.com/zxh0/jvm.go/jvmgo/jvm"
 )
 
 func main() {
@@ -12,6 +11,6 @@ func main() {
 	if err != nil {
 		cmdline.PrintUsage()
 	} else {
-		jvm.Startup(cmd)
+		startJVM(cmd)
 	}
 }

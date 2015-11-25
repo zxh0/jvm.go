@@ -1,4 +1,4 @@
-package jvm
+package main
 
 import (
 	"os"
@@ -15,7 +15,7 @@ import (
 	_ "github.com/zxh0/jvm.go/jvmgo/native"
 )
 
-func Startup(cmd *cmdline.Command) {
+func startJVM(cmd *cmdline.Command) {
 	Xcpuprofile := cmd.Options().Xcpuprofile
 	if Xcpuprofile != "" {
 		f, err := os.Create(Xcpuprofile)

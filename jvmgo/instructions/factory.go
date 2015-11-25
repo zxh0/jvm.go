@@ -18,190 +18,190 @@ import (
 
 // NoOperandsInstruction singletons
 var (
-	_nop           = &NOP{}
-	_aconst_null   = &ACONST_NULL{}
-	_iconst_m1     = &ICONST_M1{}
-	_iconst_0      = &ICONST_0{}
-	_iconst_1      = &ICONST_1{}
-	_iconst_2      = &ICONST_2{}
-	_iconst_3      = &ICONST_3{}
-	_iconst_4      = &ICONST_4{}
-	_iconst_5      = &ICONST_5{}
-	_lconst_0      = &LCONST_0{}
-	_lconst_1      = &LCONST_1{}
-	_fconst_0      = &FCONST_0{}
-	_fconst_1      = &FCONST_1{}
-	_fconst_2      = &FCONST_2{}
-	_dconst_0      = &DCONST_0{}
-	_dconst_1      = &DCONST_1{}
-	_iload_0       = &ILOAD_0{}
-	_iload_1       = &ILOAD_1{}
-	_iload_2       = &ILOAD_2{}
-	_iload_3       = &ILOAD_3{}
-	_lload_0       = &LLOAD_0{}
-	_lload_1       = &LLOAD_1{}
-	_lload_2       = &LLOAD_2{}
-	_lload_3       = &LLOAD_3{}
-	_fload_0       = &FLOAD_0{}
-	_fload_1       = &FLOAD_1{}
-	_fload_2       = &FLOAD_2{}
-	_fload_3       = &FLOAD_3{}
-	_dload_0       = &DLOAD_0{}
-	_dload_1       = &DLOAD_1{}
-	_dload_2       = &DLOAD_2{}
-	_dload_3       = &DLOAD_3{}
-	_aload_0       = &ALOAD_0{}
-	_aload_1       = &ALOAD_1{}
-	_aload_2       = &ALOAD_2{}
-	_aload_3       = &ALOAD_3{}
-	_iaload        = &IALOAD{}
-	_laload        = &LALOAD{}
-	_faload        = &FALOAD{}
-	_daload        = &DALOAD{}
-	_aaload        = &AALOAD{}
-	_baload        = &BALOAD{}
-	_caload        = &CALOAD{}
-	_saload        = &SALOAD{}
-	_istore_0      = &ISTORE_0{}
-	_istore_1      = &ISTORE_1{}
-	_istore_2      = &ISTORE_2{}
-	_istore_3      = &ISTORE_3{}
-	_lstore_0      = &LSTORE_0{}
-	_lstore_1      = &LSTORE_1{}
-	_lstore_2      = &LSTORE_2{}
-	_lstore_3      = &LSTORE_3{}
-	_fstore_0      = &FSTORE_0{}
-	_fstore_1      = &FSTORE_1{}
-	_fstore_2      = &FSTORE_2{}
-	_fstore_3      = &FSTORE_3{}
-	_dstore_0      = &DSTORE_0{}
-	_dstore_1      = &DSTORE_1{}
-	_dstore_2      = &DSTORE_2{}
-	_dstore_3      = &DSTORE_3{}
-	_astore_0      = &ASTORE_0{}
-	_astore_1      = &ASTORE_1{}
-	_astore_2      = &ASTORE_2{}
-	_astore_3      = &ASTORE_3{}
-	_iastore       = &IASTORE{}
-	_lastore       = &LASTORE{}
-	_fastore       = &FASTORE{}
-	_dastore       = &DASTORE{}
-	_aastore       = &AASTORE{}
-	_bastore       = &BASTORE{}
-	_castore       = &CASTORE{}
-	_sastore       = &SASTORE{}
-	_pop           = &POP{}
-	_pop2          = &POP2{}
-	_dup           = &DUP{}
-	_dup_x1        = &DUP_X1{}
-	_dup_x2        = &DUP_X2{}
-	_dup2          = &DUP2{}
-	_dup2_x1       = &DUP2_X1{}
-	_dup2_x2       = &DUP2_X2{}
-	_swap          = &SWAP{}
-	_iadd          = &IADD{}
-	_ladd          = &LADD{}
-	_fadd          = &FADD{}
-	_dadd          = &DADD{}
-	_isub          = &ISUB{}
-	_lsub          = &LSUB{}
-	_fsub          = &FSUB{}
-	_dsub          = &DSUB{}
-	_imul          = &IMUL{}
-	_lmul          = &LMUL{}
-	_fmul          = &FMUL{}
-	_dmul          = &DMUL{}
-	_idiv          = &IDIV{}
-	_ldiv          = &LDIV{}
-	_fdiv          = &FDIV{}
-	_ddiv          = &DDIV{}
-	_irem          = &IREM{}
-	_lrem          = &LREM{}
-	_frem          = &FREM{}
-	_drem          = &DREM{}
-	_ineg          = &INEG{}
-	_lneg          = &LNEG{}
-	_fneg          = &FNEG{}
-	_dneg          = &DNEG{}
-	_ishl          = &ISHL{}
-	_lshl          = &LSHL{}
-	_ishr          = &ISHR{}
-	_lshr          = &LSHR{}
-	_iushr         = &IUSHR{}
-	_lushr         = &LUSHR{}
-	_iand          = &IAND{}
-	_land          = &LAND{}
-	_ior           = &IOR{}
-	_lor           = &LOR{}
-	_ixor          = &IXOR{}
-	_lxor          = &LXOR{}
-	_i2l           = &I2L{}
-	_i2f           = &I2F{}
-	_i2d           = &I2D{}
-	_l2i           = &L2I{}
-	_l2f           = &L2F{}
-	_l2d           = &L2D{}
-	_f2i           = &F2I{}
-	_f2l           = &F2L{}
-	_f2d           = &F2D{}
-	_d2i           = &D2I{}
-	_d2l           = &D2L{}
-	_d2f           = &D2F{}
-	_i2b           = &I2B{}
-	_i2c           = &I2C{}
-	_i2s           = &I2S{}
-	_lcmp          = &LCMP{}
-	_fcmpl         = &FCMPL{}
-	_fcmpg         = &FCMPG{}
-	_dcmpl         = &DCMPL{}
-	_dcmpg         = &DCMPG{}
-	_ireturn       = &IRETURN{}
-	_lreturn       = &LRETURN{}
-	_freturn       = &FRETURN{}
-	_dreturn       = &DRETURN{}
-	_areturn       = &ARETURN{}
-	_return_       = &RETURN{}
-	_arraylength   = &ARRAY_LENGTH{}
-	_athrow        = &ATHROW{}
-	_monitorenter  = &MONITOR_ENTER{}
-	_monitorexit   = &MONITOR_EXIT{}
-	_invoke_native = &INVOKE_NATIVE{}
+	nop           = &NOP{}
+	aconst_null   = &ACONST_NULL{}
+	iconst_m1     = &ICONST_M1{}
+	iconst_0      = &ICONST_0{}
+	iconst_1      = &ICONST_1{}
+	iconst_2      = &ICONST_2{}
+	iconst_3      = &ICONST_3{}
+	iconst_4      = &ICONST_4{}
+	iconst_5      = &ICONST_5{}
+	lconst_0      = &LCONST_0{}
+	lconst_1      = &LCONST_1{}
+	fconst_0      = &FCONST_0{}
+	fconst_1      = &FCONST_1{}
+	fconst_2      = &FCONST_2{}
+	dconst_0      = &DCONST_0{}
+	dconst_1      = &DCONST_1{}
+	iload_0       = &ILOAD_0{}
+	iload_1       = &ILOAD_1{}
+	iload_2       = &ILOAD_2{}
+	iload_3       = &ILOAD_3{}
+	lload_0       = &LLOAD_0{}
+	lload_1       = &LLOAD_1{}
+	lload_2       = &LLOAD_2{}
+	lload_3       = &LLOAD_3{}
+	fload_0       = &FLOAD_0{}
+	fload_1       = &FLOAD_1{}
+	fload_2       = &FLOAD_2{}
+	fload_3       = &FLOAD_3{}
+	dload_0       = &DLOAD_0{}
+	dload_1       = &DLOAD_1{}
+	dload_2       = &DLOAD_2{}
+	dload_3       = &DLOAD_3{}
+	aload_0       = &ALOAD_0{}
+	aload_1       = &ALOAD_1{}
+	aload_2       = &ALOAD_2{}
+	aload_3       = &ALOAD_3{}
+	iaload        = &IALOAD{}
+	laload        = &LALOAD{}
+	faload        = &FALOAD{}
+	daload        = &DALOAD{}
+	aaload        = &AALOAD{}
+	baload        = &BALOAD{}
+	caload        = &CALOAD{}
+	saload        = &SALOAD{}
+	istore_0      = &ISTORE_0{}
+	istore_1      = &ISTORE_1{}
+	istore_2      = &ISTORE_2{}
+	istore_3      = &ISTORE_3{}
+	lstore_0      = &LSTORE_0{}
+	lstore_1      = &LSTORE_1{}
+	lstore_2      = &LSTORE_2{}
+	lstore_3      = &LSTORE_3{}
+	fstore_0      = &FSTORE_0{}
+	fstore_1      = &FSTORE_1{}
+	fstore_2      = &FSTORE_2{}
+	fstore_3      = &FSTORE_3{}
+	dstore_0      = &DSTORE_0{}
+	dstore_1      = &DSTORE_1{}
+	dstore_2      = &DSTORE_2{}
+	dstore_3      = &DSTORE_3{}
+	astore_0      = &ASTORE_0{}
+	astore_1      = &ASTORE_1{}
+	astore_2      = &ASTORE_2{}
+	astore_3      = &ASTORE_3{}
+	iastore       = &IASTORE{}
+	lastore       = &LASTORE{}
+	fastore       = &FASTORE{}
+	dastore       = &DASTORE{}
+	aastore       = &AASTORE{}
+	bastore       = &BASTORE{}
+	castore       = &CASTORE{}
+	sastore       = &SASTORE{}
+	pop           = &POP{}
+	pop2          = &POP2{}
+	dup           = &DUP{}
+	dup_x1        = &DUP_X1{}
+	dup_x2        = &DUP_X2{}
+	dup2          = &DUP2{}
+	dup2_x1       = &DUP2_X1{}
+	dup2_x2       = &DUP2_X2{}
+	swap          = &SWAP{}
+	iadd          = &IADD{}
+	ladd          = &LADD{}
+	fadd          = &FADD{}
+	dadd          = &DADD{}
+	isub          = &ISUB{}
+	lsub          = &LSUB{}
+	fsub          = &FSUB{}
+	dsub          = &DSUB{}
+	imul          = &IMUL{}
+	lmul          = &LMUL{}
+	fmul          = &FMUL{}
+	dmul          = &DMUL{}
+	idiv          = &IDIV{}
+	ldiv          = &LDIV{}
+	fdiv          = &FDIV{}
+	ddiv          = &DDIV{}
+	irem          = &IREM{}
+	lrem          = &LREM{}
+	frem          = &FREM{}
+	drem          = &DREM{}
+	ineg          = &INEG{}
+	lneg          = &LNEG{}
+	fneg          = &FNEG{}
+	dneg          = &DNEG{}
+	ishl          = &ISHL{}
+	lshl          = &LSHL{}
+	ishr          = &ISHR{}
+	lshr          = &LSHR{}
+	iushr         = &IUSHR{}
+	lushr         = &LUSHR{}
+	iand          = &IAND{}
+	land          = &LAND{}
+	ior           = &IOR{}
+	lor           = &LOR{}
+	ixor          = &IXOR{}
+	lxor          = &LXOR{}
+	i2l           = &I2L{}
+	i2f           = &I2F{}
+	i2d           = &I2D{}
+	l2i           = &L2I{}
+	l2f           = &L2F{}
+	l2d           = &L2D{}
+	f2i           = &F2I{}
+	f2l           = &F2L{}
+	f2d           = &F2D{}
+	d2i           = &D2I{}
+	d2l           = &D2L{}
+	d2f           = &D2F{}
+	i2b           = &I2B{}
+	i2c           = &I2C{}
+	i2s           = &I2S{}
+	lcmp          = &LCMP{}
+	fcmpl         = &FCMPL{}
+	fcmpg         = &FCMPG{}
+	dcmpl         = &DCMPL{}
+	dcmpg         = &DCMPG{}
+	ireturn       = &IRETURN{}
+	lreturn       = &LRETURN{}
+	freturn       = &FRETURN{}
+	dreturn       = &DRETURN{}
+	areturn       = &ARETURN{}
+	_return       = &RETURN{}
+	arraylength   = &ARRAY_LENGTH{}
+	athrow        = &ATHROW{}
+	monitorenter  = &MONITOR_ENTER{}
+	monitorexit   = &MONITOR_EXIT{}
+	invoke_native = &INVOKE_NATIVE{}
 )
 
 func newInstruction(opcode byte) base.Instruction {
 	switch opcode {
 	case 0x00:
-		return _nop
+		return nop
 	case 0x01:
-		return _aconst_null
+		return aconst_null
 	case 0x02:
-		return _iconst_m1
+		return iconst_m1
 	case 0x03:
-		return _iconst_0
+		return iconst_0
 	case 0x04:
-		return _iconst_1
+		return iconst_1
 	case 0x05:
-		return _iconst_2
+		return iconst_2
 	case 0x06:
-		return _iconst_3
+		return iconst_3
 	case 0x07:
-		return _iconst_4
+		return iconst_4
 	case 0x08:
-		return _iconst_5
+		return iconst_5
 	case 0x09:
-		return _lconst_0
+		return lconst_0
 	case 0x0a:
-		return _lconst_1
+		return lconst_1
 	case 0x0b:
-		return _fconst_0
+		return fconst_0
 	case 0x0c:
-		return _fconst_1
+		return fconst_1
 	case 0x0d:
-		return _fconst_2
+		return fconst_2
 	case 0x0e:
-		return _dconst_0
+		return dconst_0
 	case 0x0f:
-		return _dconst_1
+		return dconst_1
 	case 0x10:
 		return &BIPUSH{}
 	case 0x11:
@@ -223,61 +223,61 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0x19:
 		return &ALOAD{}
 	case 0x1a:
-		return _iload_0
+		return iload_0
 	case 0x1b:
-		return _iload_1
+		return iload_1
 	case 0x1c:
-		return _iload_2
+		return iload_2
 	case 0x1d:
-		return _iload_3
+		return iload_3
 	case 0x1e:
-		return _lload_0
+		return lload_0
 	case 0x1f:
-		return _lload_1
+		return lload_1
 	case 0x20:
-		return _lload_2
+		return lload_2
 	case 0x21:
-		return _lload_3
+		return lload_3
 	case 0x22:
-		return _fload_0
+		return fload_0
 	case 0x23:
-		return _fload_1
+		return fload_1
 	case 0x24:
-		return _fload_2
+		return fload_2
 	case 0x25:
-		return _fload_3
+		return fload_3
 	case 0x26:
-		return _dload_0
+		return dload_0
 	case 0x27:
-		return _dload_1
+		return dload_1
 	case 0x28:
-		return _dload_2
+		return dload_2
 	case 0x29:
-		return _dload_3
+		return dload_3
 	case 0x2a:
-		return _aload_0
+		return aload_0
 	case 0x2b:
-		return _aload_1
+		return aload_1
 	case 0x2c:
-		return _aload_2
+		return aload_2
 	case 0x2d:
-		return _aload_3
+		return aload_3
 	case 0x2e:
-		return _iaload
+		return iaload
 	case 0x2f:
-		return _laload
+		return laload
 	case 0x30:
-		return _faload
+		return faload
 	case 0x31:
-		return _daload
+		return daload
 	case 0x32:
-		return _aaload
+		return aaload
 	case 0x33:
-		return _baload
+		return baload
 	case 0x34:
-		return _caload
+		return caload
 	case 0x35:
-		return _saload
+		return saload
 	case 0x36:
 		return &ISTORE{}
 	case 0x37:
@@ -289,193 +289,193 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0x3a:
 		return &ASTORE{}
 	case 0x3b:
-		return _istore_0
+		return istore_0
 	case 0x3c:
-		return _istore_1
+		return istore_1
 	case 0x3d:
-		return _istore_2
+		return istore_2
 	case 0x3e:
-		return _istore_3
+		return istore_3
 	case 0x3f:
-		return _lstore_0
+		return lstore_0
 	case 0x40:
-		return _lstore_1
+		return lstore_1
 	case 0x41:
-		return _lstore_2
+		return lstore_2
 	case 0x42:
-		return _lstore_3
+		return lstore_3
 	case 0x43:
-		return _fstore_0
+		return fstore_0
 	case 0x44:
-		return _fstore_1
+		return fstore_1
 	case 0x45:
-		return _fstore_2
+		return fstore_2
 	case 0x46:
-		return _fstore_3
+		return fstore_3
 	case 0x47:
-		return _dstore_0
+		return dstore_0
 	case 0x48:
-		return _dstore_1
+		return dstore_1
 	case 0x49:
-		return _dstore_2
+		return dstore_2
 	case 0x4a:
-		return _dstore_3
+		return dstore_3
 	case 0x4b:
-		return _astore_0
+		return astore_0
 	case 0x4c:
-		return _astore_1
+		return astore_1
 	case 0x4d:
-		return _astore_2
+		return astore_2
 	case 0x4e:
-		return _astore_3
+		return astore_3
 	case 0x4f:
-		return _iastore
+		return iastore
 	case 0x50:
-		return _lastore
+		return lastore
 	case 0x51:
-		return _fastore
+		return fastore
 	case 0x52:
-		return _dastore
+		return dastore
 	case 0x53:
-		return _aastore
+		return aastore
 	case 0x54:
-		return _bastore
+		return bastore
 	case 0x55:
-		return _castore
+		return castore
 	case 0x56:
-		return _sastore
+		return sastore
 	case 0x57:
-		return _pop
+		return pop
 	case 0x58:
-		return _pop2
+		return pop2
 	case 0x59:
-		return _dup
+		return dup
 	case 0x5a:
-		return _dup_x1
+		return dup_x1
 	case 0x5b:
-		return _dup_x2
+		return dup_x2
 	case 0x5c:
-		return _dup2
+		return dup2
 	case 0x5d:
-		return _dup2_x1
+		return dup2_x1
 	case 0x5e:
-		return _dup2_x2
+		return dup2_x2
 	case 0x5f:
-		return _swap
+		return swap
 	case 0x60:
-		return _iadd
+		return iadd
 	case 0x61:
-		return _ladd
+		return ladd
 	case 0x62:
-		return _fadd
+		return fadd
 	case 0x63:
-		return _dadd
+		return dadd
 	case 0x64:
-		return _isub
+		return isub
 	case 0x65:
-		return _lsub
+		return lsub
 	case 0x66:
-		return _fsub
+		return fsub
 	case 0x67:
-		return _dsub
+		return dsub
 	case 0x68:
-		return _imul
+		return imul
 	case 0x69:
-		return _lmul
+		return lmul
 	case 0x6a:
-		return _fmul
+		return fmul
 	case 0x6b:
-		return _dmul
+		return dmul
 	case 0x6c:
-		return _idiv
+		return idiv
 	case 0x6d:
-		return _ldiv
+		return ldiv
 	case 0x6e:
-		return _fdiv
+		return fdiv
 	case 0x6f:
-		return _ddiv
+		return ddiv
 	case 0x70:
-		return _irem
+		return irem
 	case 0x71:
-		return _lrem
+		return lrem
 	case 0x72:
-		return _frem
+		return frem
 	case 0x73:
-		return _drem
+		return drem
 	case 0x74:
-		return _ineg
+		return ineg
 	case 0x75:
-		return _lneg
+		return lneg
 	case 0x76:
-		return _fneg
+		return fneg
 	case 0x77:
-		return _dneg
+		return dneg
 	case 0x78:
-		return _ishl
+		return ishl
 	case 0x79:
-		return _lshl
+		return lshl
 	case 0x7a:
-		return _ishr
+		return ishr
 	case 0x7b:
-		return _lshr
+		return lshr
 	case 0x7c:
-		return _iushr
+		return iushr
 	case 0x7d:
-		return _lushr
+		return lushr
 	case 0x7e:
-		return _iand
+		return iand
 	case 0x7f:
-		return _land
+		return land
 	case 0x80:
-		return _ior
+		return ior
 	case 0x81:
-		return _lor
+		return lor
 	case 0x82:
-		return _ixor
+		return ixor
 	case 0x83:
-		return _lxor
+		return lxor
 	case 0x84:
 		return &IINC{}
 	case 0x85:
-		return _i2l
+		return i2l
 	case 0x86:
-		return _i2f
+		return i2f
 	case 0x87:
-		return _i2d
+		return i2d
 	case 0x88:
-		return _l2i
+		return l2i
 	case 0x89:
-		return _l2f
+		return l2f
 	case 0x8a:
-		return _l2d
+		return l2d
 	case 0x8b:
-		return _f2i
+		return f2i
 	case 0x8c:
-		return _f2l
+		return f2l
 	case 0x8d:
-		return _f2d
+		return f2d
 	case 0x8e:
-		return _d2i
+		return d2i
 	case 0x8f:
-		return _d2l
+		return d2l
 	case 0x90:
-		return _d2f
+		return d2f
 	case 0x91:
-		return _i2b
+		return i2b
 	case 0x92:
-		return _i2c
+		return i2c
 	case 0x93:
-		return _i2s
+		return i2s
 	case 0x94:
-		return _lcmp
+		return lcmp
 	case 0x95:
-		return _fcmpl
+		return fcmpl
 	case 0x96:
-		return _fcmpg
+		return fcmpg
 	case 0x97:
-		return _dcmpl
+		return dcmpl
 	case 0x98:
-		return _dcmpg
+		return dcmpg
 	case 0x99:
 		return &IFEQ{}
 	case 0x9a:
@@ -515,17 +515,17 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xab:
 		return &LOOKUP_SWITCH{}
 	case 0xac:
-		return _ireturn
+		return ireturn
 	case 0xad:
-		return _lreturn
+		return lreturn
 	case 0xae:
-		return _freturn
+		return freturn
 	case 0xaf:
-		return _dreturn
+		return dreturn
 	case 0xb0:
-		return _areturn
+		return areturn
 	case 0xb1:
-		return _return_
+		return _return
 	case 0xb2:
 		return &GET_STATIC{}
 	case 0xb3:
@@ -551,17 +551,17 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xbd:
 		return &ANEW_ARRAY{}
 	case 0xbe:
-		return _arraylength
+		return arraylength
 	case 0xbf:
-		return _athrow
+		return athrow
 	case 0xc0:
 		return &CHECK_CAST{}
 	case 0xc1:
 		return &INSTANCE_OF{}
 	case 0xc2:
-		return _monitorenter
+		return monitorenter
 	case 0xc3:
-		return _monitorexit
+		return monitorexit
 	case 0xc4:
 		return &WIDE{}
 	case 0xc5:
@@ -576,7 +576,7 @@ func newInstruction(opcode byte) base.Instruction {
 		return &JSR_W{}
 	//case 0xca: todo breakpoint
 	case 0xfe:
-		return _invoke_native // impdep1
+		return invoke_native // impdep1
 	case 0xff:
 		return &BOOTSTRAP{} // impdep2
 	default:

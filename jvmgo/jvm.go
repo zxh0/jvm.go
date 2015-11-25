@@ -8,7 +8,6 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/cmdline"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/interpreter"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/keepalive"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/options"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/jvm/rtda/class"
@@ -34,7 +33,7 @@ func startJVM(cmd *cmdline.Command) {
 	mainClassName := jutil.ReplaceAll(cmd.Class(), ".", "/")
 	mainThread := createMainThread(mainClassName, cmd.Args())
 	interpreter.Loop(mainThread)
-	keepalive.KeepAlive()
+	interpreter.KeepAlive()
 }
 
 func createMainThread(className string, args []string) *rtda.Thread {

@@ -5,7 +5,6 @@ import (
 
 	"github.com/zxh0/jvm.go/jvmgo/jvm/instructions"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/jerrors"
-	"github.com/zxh0/jvm.go/jvmgo/jvm/keepalive"
 	"github.com/zxh0/jvm.go/jvmgo/jvm/rtda"
 )
 
@@ -14,7 +13,7 @@ func Loop(thread *rtda.Thread) {
 	threadObj := thread.JThread()
 	isDaemon := threadObj != nil && threadObj.GetFieldValue("daemon", "Z").(int32) == 1
 	if !isDaemon {
-		keepalive.NonDaemonThreadStart()
+		nonDaemonThreadStart()
 	}
 
 	_loop(thread)
@@ -23,7 +22,7 @@ func Loop(thread *rtda.Thread) {
 	threadObj = thread.JThread()
 	threadObj.Monitor().NotifyAll()
 	if !isDaemon {
-		keepalive.NonDaemonThreadStop()
+		nonDaemonThreadStop()
 	}
 }
 

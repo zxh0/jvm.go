@@ -1,4 +1,4 @@
-package keepalive
+package interpreter
 
 import (
 	"sync"
@@ -10,14 +10,14 @@ var (
 	cond       = sync.NewCond(lock)
 )
 
-func NonDaemonThreadStart() {
+func nonDaemonThreadStart() {
 	lock.Lock()
 	defer lock.Unlock()
 
 	aliveCount++
 }
 
-func NonDaemonThreadStop() {
+func nonDaemonThreadStop() {
 	lock.Lock()
 	defer lock.Unlock()
 

@@ -3,7 +3,7 @@ package interpreter
 import (
 	"fmt"
 
-	"github.com/zxh0/jvm.go/jvmgo/instructions"
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/jerrors"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
@@ -62,7 +62,7 @@ func _loop(thread *rtda.Thread) {
 		if method.Instructions == nil {
 			method.Instructions = decodeMethod(method.Code())
 		}
-		insts := method.Instructions.([]instructions.Instruction)
+		insts := method.Instructions.([]base.Instruction)
 		inst := insts[pc]
 		instCount := len(insts)
 
@@ -116,7 +116,7 @@ func _logFrames(thread *rtda.Thread) {
 	}
 }
 
-func _logInstruction(frame *rtda.Frame, inst instructions.Instruction) {
+func _logInstruction(frame *rtda.Frame, inst base.Instruction) {
 	thread := frame.Thread()
 	method := frame.Method()
 	className := method.Class().Name()

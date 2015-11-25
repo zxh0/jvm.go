@@ -8,9 +8,9 @@ import (
 
 // Invoke instance method;
 // special handling for superclass, private, and instance initialization method invocations
-type invokespecial struct{ base.Index16Instruction }
+type INVOKE_SPECIAL struct{ base.Index16Instruction }
 
-func (self *invokespecial) Execute(frame *rtda.Frame) {
+func (self *INVOKE_SPECIAL) Execute(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
 	k := cp.GetConstant(self.Index)
 	if kMethodRef, ok := k.(*rtc.ConstantMethodref); ok {

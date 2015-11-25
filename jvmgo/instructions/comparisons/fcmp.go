@@ -6,15 +6,15 @@ import (
 )
 
 // Compare float
-type fcmpg struct{ base.NoOperandsInstruction }
+type FCMPG struct{ base.NoOperandsInstruction }
 
-func (self *fcmpg) Execute(frame *rtda.Frame) {
+func (self *FCMPG) Execute(frame *rtda.Frame) {
 	_fcmp(frame, true)
 }
 
-type fcmpl struct{ base.NoOperandsInstruction }
+type FCMPL struct{ base.NoOperandsInstruction }
 
-func (self *fcmpl) Execute(frame *rtda.Frame) {
+func (self *FCMPL) Execute(frame *rtda.Frame) {
 	_fcmp(frame, false)
 }
 

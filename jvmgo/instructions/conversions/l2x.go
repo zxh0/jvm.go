@@ -6,9 +6,9 @@ import (
 )
 
 // Convert long to double
-type l2d struct{ base.NoOperandsInstruction }
+type L2D struct{ base.NoOperandsInstruction }
 
-func (self *l2d) Execute(frame *rtda.Frame) {
+func (self *L2D) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	l := stack.PopLong()
 	d := float64(l)
@@ -16,9 +16,9 @@ func (self *l2d) Execute(frame *rtda.Frame) {
 }
 
 // Convert long to float
-type l2f struct{ base.NoOperandsInstruction }
+type L2F struct{ base.NoOperandsInstruction }
 
-func (self *l2f) Execute(frame *rtda.Frame) {
+func (self *L2F) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	l := stack.PopLong()
 	f := float32(l)
@@ -26,9 +26,9 @@ func (self *l2f) Execute(frame *rtda.Frame) {
 }
 
 // Convert long to int
-type l2i struct{ base.NoOperandsInstruction }
+type L2I struct{ base.NoOperandsInstruction }
 
-func (self *l2i) Execute(frame *rtda.Frame) {
+func (self *L2I) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	l := stack.PopLong()
 	i := int32(l)

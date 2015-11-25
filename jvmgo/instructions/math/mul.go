@@ -6,9 +6,9 @@ import (
 )
 
 // Multiply double
-type dmul struct{ base.NoOperandsInstruction }
+type DMUL struct{ base.NoOperandsInstruction }
 
-func (self *dmul) Execute(frame *rtda.Frame) {
+func (self *DMUL) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopDouble()
 	v1 := stack.PopDouble()
@@ -17,9 +17,9 @@ func (self *dmul) Execute(frame *rtda.Frame) {
 }
 
 // Multiply float
-type fmul struct{ base.NoOperandsInstruction }
+type FMUL struct{ base.NoOperandsInstruction }
 
-func (self *fmul) Execute(frame *rtda.Frame) {
+func (self *FMUL) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopFloat()
 	v1 := stack.PopFloat()
@@ -28,9 +28,9 @@ func (self *fmul) Execute(frame *rtda.Frame) {
 }
 
 // Multiply int
-type imul struct{ base.NoOperandsInstruction }
+type IMUL struct{ base.NoOperandsInstruction }
 
-func (self *imul) Execute(frame *rtda.Frame) {
+func (self *IMUL) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -39,9 +39,9 @@ func (self *imul) Execute(frame *rtda.Frame) {
 }
 
 // Multiply long
-type lmul struct{ base.NoOperandsInstruction }
+type LMUL struct{ base.NoOperandsInstruction }
 
-func (self *lmul) Execute(frame *rtda.Frame) {
+func (self *LMUL) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopLong()
 	v1 := stack.PopLong()

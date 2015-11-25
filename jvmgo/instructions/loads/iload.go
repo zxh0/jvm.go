@@ -6,33 +6,33 @@ import (
 )
 
 // Load int from local variable
-type iload struct{ base.Index8Instruction }
+type ILOAD struct{ base.Index8Instruction }
 
-func (self *iload) Execute(frame *rtda.Frame) {
+func (self *ILOAD) Execute(frame *rtda.Frame) {
 	_iload(frame, uint(self.Index))
 }
 
-type iload_0 struct{ base.NoOperandsInstruction }
+type ILOAD_0 struct{ base.NoOperandsInstruction }
 
-func (self *iload_0) Execute(frame *rtda.Frame) {
+func (self *ILOAD_0) Execute(frame *rtda.Frame) {
 	_iload(frame, 0)
 }
 
-type iload_1 struct{ base.NoOperandsInstruction }
+type ILOAD_1 struct{ base.NoOperandsInstruction }
 
-func (self *iload_1) Execute(frame *rtda.Frame) {
+func (self *ILOAD_1) Execute(frame *rtda.Frame) {
 	_iload(frame, 1)
 }
 
-type iload_2 struct{ base.NoOperandsInstruction }
+type ILOAD_2 struct{ base.NoOperandsInstruction }
 
-func (self *iload_2) Execute(frame *rtda.Frame) {
+func (self *ILOAD_2) Execute(frame *rtda.Frame) {
 	_iload(frame, 2)
 }
 
-type iload_3 struct{ base.NoOperandsInstruction }
+type ILOAD_3 struct{ base.NoOperandsInstruction }
 
-func (self *iload_3) Execute(frame *rtda.Frame) {
+func (self *ILOAD_3) Execute(frame *rtda.Frame) {
 	_iload(frame, 3)
 }
 

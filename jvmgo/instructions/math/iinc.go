@@ -6,19 +6,19 @@ import (
 )
 
 // Increment local variable by constant
-type iinc struct {
-	index  uint
-	_const int32
+type IINC struct {
+	Index uint
+	Const int32
 }
 
-func (self *iinc) fetchOperands(reader *base.BytecodeReader) {
-	self.index = uint(reader.ReadUint8())
-	self._const = int32(reader.ReadInt8())
+func (self *IINC) FetchOperands(reader *base.BytecodeReader) {
+	self.Index = uint(reader.ReadUint8())
+	self.Const = int32(reader.ReadInt8())
 }
 
-func (self *iinc) Execute(frame *rtda.Frame) {
+func (self *IINC) Execute(frame *rtda.Frame) {
 	localVars := frame.LocalVars()
-	val := localVars.GetInt(self.index)
-	val += self._const
-	localVars.SetInt(self.index, val)
+	val := localVars.GetInt(self.Index)
+	val += self.Const
+	localVars.SetInt(self.Index, val)
 }

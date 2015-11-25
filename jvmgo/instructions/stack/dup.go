@@ -6,9 +6,9 @@ import (
 )
 
 // Duplicate the top operand stack value
-type dup struct{ base.NoOperandsInstruction }
+type DUP struct{ base.NoOperandsInstruction }
 
-func (self *dup) Execute(frame *rtda.Frame) {
+func (self *DUP) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopSlot()
 	stack.PushSlot(val)
@@ -16,9 +16,9 @@ func (self *dup) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top operand stack value and insert two values down
-type dup_x1 struct{ base.NoOperandsInstruction }
+type DUP_X1 struct{ base.NoOperandsInstruction }
 
-func (self *dup_x1) Execute(frame *rtda.Frame) {
+func (self *DUP_X1) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val1 := stack.PopSlot()
 	val2 := stack.PopSlot()
@@ -28,9 +28,9 @@ func (self *dup_x1) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top operand stack value and insert two or three values down
-type dup_x2 struct{ base.NoOperandsInstruction }
+type DUP_X2 struct{ base.NoOperandsInstruction }
 
-func (self *dup_x2) Execute(frame *rtda.Frame) {
+func (self *DUP_X2) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val1 := stack.PopSlot()
 	val2 := stack.PopSlot()
@@ -42,9 +42,9 @@ func (self *dup_x2) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top one or two operand stack values
-type dup2 struct{ base.NoOperandsInstruction }
+type DUP2 struct{ base.NoOperandsInstruction }
 
-func (self *dup2) Execute(frame *rtda.Frame) {
+func (self *DUP2) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val1 := stack.PopSlot()
 	val2 := stack.PopSlot()
@@ -55,9 +55,9 @@ func (self *dup2) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top one or two operand stack values and insert two or three values down
-type dup2_x1 struct{ base.NoOperandsInstruction }
+type DUP2_X1 struct{ base.NoOperandsInstruction }
 
-func (self *dup2_x1) Execute(frame *rtda.Frame) {
+func (self *DUP2_X1) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val1 := stack.PopSlot()
 	val2 := stack.PopSlot()
@@ -70,9 +70,9 @@ func (self *dup2_x1) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top one or two operand stack values and insert two, three, or four values down
-type dup2_x2 struct{ base.NoOperandsInstruction }
+type DUP2_X2 struct{ base.NoOperandsInstruction }
 
-func (self *dup2_x2) Execute(frame *rtda.Frame) {
+func (self *DUP2_X2) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val1 := stack.PopSlot()
 	val2 := stack.PopSlot()

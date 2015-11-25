@@ -6,9 +6,9 @@ import (
 )
 
 // Shift left int
-type ishl struct{ base.NoOperandsInstruction }
+type ISHL struct{ base.NoOperandsInstruction }
 
-func (self *ishl) Execute(frame *rtda.Frame) {
+func (self *ISHL) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -18,9 +18,9 @@ func (self *ishl) Execute(frame *rtda.Frame) {
 }
 
 // Arithmetic shift right int
-type ishr struct{ base.NoOperandsInstruction }
+type ISHR struct{ base.NoOperandsInstruction }
 
-func (self *ishr) Execute(frame *rtda.Frame) {
+func (self *ISHR) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -30,9 +30,9 @@ func (self *ishr) Execute(frame *rtda.Frame) {
 }
 
 // Logical shift right int
-type iushr struct{ base.NoOperandsInstruction }
+type IUSHR struct{ base.NoOperandsInstruction }
 
-func (self *iushr) Execute(frame *rtda.Frame) {
+func (self *IUSHR) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -42,9 +42,9 @@ func (self *iushr) Execute(frame *rtda.Frame) {
 }
 
 // Shift left long
-type lshl struct{ base.NoOperandsInstruction }
+type LSHL struct{ base.NoOperandsInstruction }
 
-func (self *lshl) Execute(frame *rtda.Frame) {
+func (self *LSHL) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopLong()
@@ -54,9 +54,9 @@ func (self *lshl) Execute(frame *rtda.Frame) {
 }
 
 // Arithmetic shift right long
-type lshr struct{ base.NoOperandsInstruction }
+type LSHR struct{ base.NoOperandsInstruction }
 
-func (self *lshr) Execute(frame *rtda.Frame) {
+func (self *LSHR) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopLong()
@@ -66,9 +66,9 @@ func (self *lshr) Execute(frame *rtda.Frame) {
 }
 
 // Logical shift right long
-type lushr struct{ base.NoOperandsInstruction }
+type LUSHR struct{ base.NoOperandsInstruction }
 
-func (self *lushr) Execute(frame *rtda.Frame) {
+func (self *LUSHR) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopLong()

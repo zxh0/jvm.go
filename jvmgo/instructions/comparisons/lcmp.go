@@ -6,9 +6,9 @@ import (
 )
 
 // Compare long
-type lcmp struct{ base.NoOperandsInstruction }
+type LCMP struct{ base.NoOperandsInstruction }
 
-func (self *lcmp) Execute(frame *rtda.Frame) {
+func (self *LCMP) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopLong()
 	v1 := stack.PopLong()

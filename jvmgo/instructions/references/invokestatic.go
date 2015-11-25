@@ -7,12 +7,12 @@ import (
 )
 
 // Invoke a class (static) method
-type invokestatic struct {
+type INVOKE_STATIC struct {
 	base.Index16Instruction
 	method *rtc.Method
 }
 
-func (self *invokestatic) Execute(frame *rtda.Frame) {
+func (self *INVOKE_STATIC) Execute(frame *rtda.Frame) {
 	if self.method == nil {
 		cp := frame.Method().Class().ConstantPool()
 		k := cp.GetConstant(self.Index)

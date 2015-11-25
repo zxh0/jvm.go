@@ -6,17 +6,17 @@ import (
 )
 
 // Return void from method
-type return_ struct{ base.NoOperandsInstruction }
+type RETURN struct{ base.NoOperandsInstruction }
 
-func (self *return_) Execute(frame *rtda.Frame) {
+func (self *RETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	thread.PopFrame()
 }
 
 // Return reference from method
-type areturn struct{ base.NoOperandsInstruction }
+type ARETURN struct{ base.NoOperandsInstruction }
 
-func (self *areturn) Execute(frame *rtda.Frame) {
+func (self *ARETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
@@ -25,9 +25,9 @@ func (self *areturn) Execute(frame *rtda.Frame) {
 }
 
 // Return double from method
-type dreturn struct{ base.NoOperandsInstruction }
+type DRETURN struct{ base.NoOperandsInstruction }
 
-func (self *dreturn) Execute(frame *rtda.Frame) {
+func (self *DRETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
@@ -36,9 +36,9 @@ func (self *dreturn) Execute(frame *rtda.Frame) {
 }
 
 // Return float from method
-type freturn struct{ base.NoOperandsInstruction }
+type FRETURN struct{ base.NoOperandsInstruction }
 
-func (self *freturn) Execute(frame *rtda.Frame) {
+func (self *FRETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
@@ -47,9 +47,9 @@ func (self *freturn) Execute(frame *rtda.Frame) {
 }
 
 // Return int from method
-type ireturn struct{ base.NoOperandsInstruction }
+type IRETURN struct{ base.NoOperandsInstruction }
 
-func (self *ireturn) Execute(frame *rtda.Frame) {
+func (self *IRETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
@@ -58,9 +58,9 @@ func (self *ireturn) Execute(frame *rtda.Frame) {
 }
 
 // Return double from method
-type lreturn struct{ base.NoOperandsInstruction }
+type LRETURN struct{ base.NoOperandsInstruction }
 
-func (self *lreturn) Execute(frame *rtda.Frame) {
+func (self *LRETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()

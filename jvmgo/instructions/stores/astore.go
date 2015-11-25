@@ -6,33 +6,33 @@ import (
 )
 
 // Store reference into local variable
-type astore struct{ base.Index8Instruction }
+type ASTORE struct{ base.Index8Instruction }
 
-func (self *astore) Execute(frame *rtda.Frame) {
+func (self *ASTORE) Execute(frame *rtda.Frame) {
 	_astore(frame, uint(self.Index))
 }
 
-type astore_0 struct{ base.NoOperandsInstruction }
+type ASTORE_0 struct{ base.NoOperandsInstruction }
 
-func (self *astore_0) Execute(frame *rtda.Frame) {
+func (self *ASTORE_0) Execute(frame *rtda.Frame) {
 	_astore(frame, 0)
 }
 
-type astore_1 struct{ base.NoOperandsInstruction }
+type ASTORE_1 struct{ base.NoOperandsInstruction }
 
-func (self *astore_1) Execute(frame *rtda.Frame) {
+func (self *ASTORE_1) Execute(frame *rtda.Frame) {
 	_astore(frame, 1)
 }
 
-type astore_2 struct{ base.NoOperandsInstruction }
+type ASTORE_2 struct{ base.NoOperandsInstruction }
 
-func (self *astore_2) Execute(frame *rtda.Frame) {
+func (self *ASTORE_2) Execute(frame *rtda.Frame) {
 	_astore(frame, 2)
 }
 
-type astore_3 struct{ base.NoOperandsInstruction }
+type ASTORE_3 struct{ base.NoOperandsInstruction }
 
-func (self *astore_3) Execute(frame *rtda.Frame) {
+func (self *ASTORE_3) Execute(frame *rtda.Frame) {
 	_astore(frame, 3)
 }
 

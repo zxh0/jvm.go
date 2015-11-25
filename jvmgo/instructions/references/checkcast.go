@@ -7,12 +7,12 @@ import (
 )
 
 // Check whether object is of given type
-type checkcast struct {
+type CHECK_CAST struct {
 	base.Index16Instruction
 	class *rtc.Class
 }
 
-func (self *checkcast) Execute(frame *rtda.Frame) {
+func (self *CHECK_CAST) Execute(frame *rtda.Frame) {
 	if self.class == nil {
 		cp := frame.Method().Class().ConstantPool()
 		kClass := cp.GetConstant(self.Index).(*rtc.ConstantClass)

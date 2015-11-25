@@ -6,9 +6,9 @@ import (
 )
 
 // Throw exception or error
-type athrow struct{ base.NoOperandsInstruction }
+type ATHROW struct{ base.NoOperandsInstruction }
 
-func (self *athrow) Execute(frame *rtda.Frame) {
+func (self *ATHROW) Execute(frame *rtda.Frame) {
 	ex := frame.OperandStack().PopRef()
 	if ex == nil {
 		frame.Thread().ThrowNPE()

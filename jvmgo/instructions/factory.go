@@ -1,162 +1,174 @@
 package instructions
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/comparisons"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/constants"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/control"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/conversions"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/extended"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/loads"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/math"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/references"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/reserved"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/stack"
+	. "github.com/zxh0/jvm.go/jvmgo/instructions/stores"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 )
 
 // NoOperandsInstruction singletons
 var (
-	_nop           = &nop{}
-	_aconst_null   = &aconst_null{}
-	_iconst_m1     = &iconst_m1{}
-	_iconst_0      = &iconst_0{}
-	_iconst_1      = &iconst_1{}
-	_iconst_2      = &iconst_2{}
-	_iconst_3      = &iconst_3{}
-	_iconst_4      = &iconst_4{}
-	_iconst_5      = &iconst_5{}
-	_lconst_0      = &lconst_0{}
-	_lconst_1      = &lconst_1{}
-	_fconst_0      = &fconst_0{}
-	_fconst_1      = &fconst_1{}
-	_fconst_2      = &fconst_2{}
-	_dconst_0      = &dconst_0{}
-	_dconst_1      = &dconst_1{}
-	_iload_0       = &iload_0{}
-	_iload_1       = &iload_1{}
-	_iload_2       = &iload_2{}
-	_iload_3       = &iload_3{}
-	_lload_0       = &lload_0{}
-	_lload_1       = &lload_1{}
-	_lload_2       = &lload_2{}
-	_lload_3       = &lload_3{}
-	_fload_0       = &fload_0{}
-	_fload_1       = &fload_1{}
-	_fload_2       = &fload_2{}
-	_fload_3       = &fload_3{}
-	_dload_0       = &dload_0{}
-	_dload_1       = &dload_1{}
-	_dload_2       = &dload_2{}
-	_dload_3       = &dload_3{}
-	_aload_0       = &aload_0{}
-	_aload_1       = &aload_1{}
-	_aload_2       = &aload_2{}
-	_aload_3       = &aload_3{}
-	_iaload        = &iaload{}
-	_laload        = &laload{}
-	_faload        = &faload{}
-	_daload        = &daload{}
-	_aaload        = &aaload{}
-	_baload        = &baload{}
-	_caload        = &caload{}
-	_saload        = &saload{}
-	_istore_0      = &istore_0{}
-	_istore_1      = &istore_1{}
-	_istore_2      = &istore_2{}
-	_istore_3      = &istore_3{}
-	_lstore_0      = &lstore_0{}
-	_lstore_1      = &lstore_1{}
-	_lstore_2      = &lstore_2{}
-	_lstore_3      = &lstore_3{}
-	_fstore_0      = &fstore_0{}
-	_fstore_1      = &fstore_1{}
-	_fstore_2      = &fstore_2{}
-	_fstore_3      = &fstore_3{}
-	_dstore_0      = &dstore_0{}
-	_dstore_1      = &dstore_1{}
-	_dstore_2      = &dstore_2{}
-	_dstore_3      = &dstore_3{}
-	_astore_0      = &astore_0{}
-	_astore_1      = &astore_1{}
-	_astore_2      = &astore_2{}
-	_astore_3      = &astore_3{}
-	_iastore       = &iastore{}
-	_lastore       = &lastore{}
-	_fastore       = &fastore{}
-	_dastore       = &dastore{}
-	_aastore       = &aastore{}
-	_bastore       = &bastore{}
-	_castore       = &castore{}
-	_sastore       = &sastore{}
-	_pop           = &pop{}
-	_pop2          = &pop2{}
-	_dup           = &dup{}
-	_dup_x1        = &dup_x1{}
-	_dup_x2        = &dup_x2{}
-	_dup2          = &dup2{}
-	_dup2_x1       = &dup2_x1{}
-	_dup2_x2       = &dup2_x2{}
-	_swap          = &swap{}
-	_iadd          = &iadd{}
-	_ladd          = &ladd{}
-	_fadd          = &fadd{}
-	_dadd          = &dadd{}
-	_isub          = &isub{}
-	_lsub          = &lsub{}
-	_fsub          = &fsub{}
-	_dsub          = &dsub{}
-	_imul          = &imul{}
-	_lmul          = &lmul{}
-	_fmul          = &fmul{}
-	_dmul          = &dmul{}
-	_idiv          = &idiv{}
-	_ldiv          = &ldiv{}
-	_fdiv          = &fdiv{}
-	_ddiv          = &ddiv{}
-	_irem          = &irem{}
-	_lrem          = &lrem{}
-	_frem          = &frem{}
-	_drem          = &drem{}
-	_ineg          = &ineg{}
-	_lneg          = &lneg{}
-	_fneg          = &fneg{}
-	_dneg          = &dneg{}
-	_ishl          = &ishl{}
-	_lshl          = &lshl{}
-	_ishr          = &ishr{}
-	_lshr          = &lshr{}
-	_iushr         = &iushr{}
-	_lushr         = &lushr{}
-	_iand          = &iand{}
-	_land          = &land{}
-	_ior           = &ior{}
-	_lor           = &lor{}
-	_ixor          = &ixor{}
-	_lxor          = &lxor{}
-	_i2l           = &i2l{}
-	_i2f           = &i2f{}
-	_i2d           = &i2d{}
-	_l2i           = &l2i{}
-	_l2f           = &l2f{}
-	_l2d           = &l2d{}
-	_f2i           = &f2i{}
-	_f2l           = &f2l{}
-	_f2d           = &f2d{}
-	_d2i           = &d2i{}
-	_d2l           = &d2l{}
-	_d2f           = &d2f{}
-	_i2b           = &i2b{}
-	_i2c           = &i2c{}
-	_i2s           = &i2s{}
-	_lcmp          = &lcmp{}
-	_fcmpl         = &fcmpl{}
-	_fcmpg         = &fcmpg{}
-	_dcmpl         = &dcmpl{}
-	_dcmpg         = &dcmpg{}
-	_ireturn       = &ireturn{}
-	_lreturn       = &lreturn{}
-	_freturn       = &freturn{}
-	_dreturn       = &dreturn{}
-	_areturn       = &areturn{}
-	_return_       = &return_{}
-	_arraylength   = &arraylength{}
-	_athrow        = &athrow{}
-	_monitorenter  = &monitorenter{}
-	_monitorexit   = &monitorexit{}
-	_invoke_native = &invoke_native{}
+	_nop           = &NOP{}
+	_aconst_null   = &ACONST_NULL{}
+	_iconst_m1     = &ICONST_M1{}
+	_iconst_0      = &ICONST_0{}
+	_iconst_1      = &ICONST_1{}
+	_iconst_2      = &ICONST_2{}
+	_iconst_3      = &ICONST_3{}
+	_iconst_4      = &ICONST_4{}
+	_iconst_5      = &ICONST_5{}
+	_lconst_0      = &LCONST_0{}
+	_lconst_1      = &LCONST_1{}
+	_fconst_0      = &FCONST_0{}
+	_fconst_1      = &FCONST_1{}
+	_fconst_2      = &FCONST_2{}
+	_dconst_0      = &DCONST_0{}
+	_dconst_1      = &DCONST_1{}
+	_iload_0       = &ILOAD_0{}
+	_iload_1       = &ILOAD_1{}
+	_iload_2       = &ILOAD_2{}
+	_iload_3       = &ILOAD_3{}
+	_lload_0       = &LLOAD_0{}
+	_lload_1       = &LLOAD_1{}
+	_lload_2       = &LLOAD_2{}
+	_lload_3       = &LLOAD_3{}
+	_fload_0       = &FLOAD_0{}
+	_fload_1       = &FLOAD_1{}
+	_fload_2       = &FLOAD_2{}
+	_fload_3       = &FLOAD_3{}
+	_dload_0       = &DLOAD_0{}
+	_dload_1       = &DLOAD_1{}
+	_dload_2       = &DLOAD_2{}
+	_dload_3       = &DLOAD_3{}
+	_aload_0       = &ALOAD_0{}
+	_aload_1       = &ALOAD_1{}
+	_aload_2       = &ALOAD_2{}
+	_aload_3       = &ALOAD_3{}
+	_iaload        = &IALOAD{}
+	_laload        = &LALOAD{}
+	_faload        = &FALOAD{}
+	_daload        = &DALOAD{}
+	_aaload        = &AALOAD{}
+	_baload        = &BALOAD{}
+	_caload        = &CALOAD{}
+	_saload        = &SALOAD{}
+	_istore_0      = &ISTORE_0{}
+	_istore_1      = &ISTORE_1{}
+	_istore_2      = &ISTORE_2{}
+	_istore_3      = &ISTORE_3{}
+	_lstore_0      = &LSTORE_0{}
+	_lstore_1      = &LSTORE_1{}
+	_lstore_2      = &LSTORE_2{}
+	_lstore_3      = &LSTORE_3{}
+	_fstore_0      = &FSTORE_0{}
+	_fstore_1      = &FSTORE_1{}
+	_fstore_2      = &FSTORE_2{}
+	_fstore_3      = &FSTORE_3{}
+	_dstore_0      = &DSTORE_0{}
+	_dstore_1      = &DSTORE_1{}
+	_dstore_2      = &DSTORE_2{}
+	_dstore_3      = &DSTORE_3{}
+	_astore_0      = &ASTORE_0{}
+	_astore_1      = &ASTORE_1{}
+	_astore_2      = &ASTORE_2{}
+	_astore_3      = &ASTORE_3{}
+	_iastore       = &IASTORE{}
+	_lastore       = &LASTORE{}
+	_fastore       = &FASTORE{}
+	_dastore       = &DASTORE{}
+	_aastore       = &AASTORE{}
+	_bastore       = &BASTORE{}
+	_castore       = &CASTORE{}
+	_sastore       = &SASTORE{}
+	_pop           = &POP{}
+	_pop2          = &POP2{}
+	_dup           = &DUP{}
+	_dup_x1        = &DUP_X1{}
+	_dup_x2        = &DUP_X2{}
+	_dup2          = &DUP2{}
+	_dup2_x1       = &DUP2_X1{}
+	_dup2_x2       = &DUP2_X2{}
+	_swap          = &SWAP{}
+	_iadd          = &IADD{}
+	_ladd          = &LADD{}
+	_fadd          = &FADD{}
+	_dadd          = &DADD{}
+	_isub          = &ISUB{}
+	_lsub          = &LSUB{}
+	_fsub          = &FSUB{}
+	_dsub          = &DSUB{}
+	_imul          = &IMUL{}
+	_lmul          = &LMUL{}
+	_fmul          = &FMUL{}
+	_dmul          = &DMUL{}
+	_idiv          = &IDIV{}
+	_ldiv          = &LDIV{}
+	_fdiv          = &FDIV{}
+	_ddiv          = &DDIV{}
+	_irem          = &IREM{}
+	_lrem          = &LREM{}
+	_frem          = &FREM{}
+	_drem          = &DREM{}
+	_ineg          = &INEG{}
+	_lneg          = &LNEG{}
+	_fneg          = &FNEG{}
+	_dneg          = &DNEG{}
+	_ishl          = &ISHL{}
+	_lshl          = &LSHL{}
+	_ishr          = &ISHR{}
+	_lshr          = &LSHR{}
+	_iushr         = &IUSHR{}
+	_lushr         = &LUSHR{}
+	_iand          = &IAND{}
+	_land          = &LAND{}
+	_ior           = &IOR{}
+	_lor           = &LOR{}
+	_ixor          = &IXOR{}
+	_lxor          = &LXOR{}
+	_i2l           = &I2L{}
+	_i2f           = &I2F{}
+	_i2d           = &I2D{}
+	_l2i           = &L2I{}
+	_l2f           = &L2F{}
+	_l2d           = &L2D{}
+	_f2i           = &F2I{}
+	_f2l           = &F2L{}
+	_f2d           = &F2D{}
+	_d2i           = &D2I{}
+	_d2l           = &D2L{}
+	_d2f           = &D2F{}
+	_i2b           = &I2B{}
+	_i2c           = &I2C{}
+	_i2s           = &I2S{}
+	_lcmp          = &LCMP{}
+	_fcmpl         = &FCMPL{}
+	_fcmpg         = &FCMPG{}
+	_dcmpl         = &DCMPL{}
+	_dcmpg         = &DCMPG{}
+	_ireturn       = &IRETURN{}
+	_lreturn       = &LRETURN{}
+	_freturn       = &FRETURN{}
+	_dreturn       = &DRETURN{}
+	_areturn       = &ARETURN{}
+	_return_       = &RETURN{}
+	_arraylength   = &ARRAY_LENGTH{}
+	_athrow        = &ATHROW{}
+	_monitorenter  = &MONITOR_ENTER{}
+	_monitorexit   = &MONITOR_EXIT{}
+	_invoke_native = &INVOKE_NATIVE{}
 )
 
-func newInstruction(opcode byte) Instruction {
+func newInstruction(opcode byte) base.Instruction {
 	switch opcode {
 	case 0x00:
 		return _nop
@@ -191,25 +203,25 @@ func newInstruction(opcode byte) Instruction {
 	case 0x0f:
 		return _dconst_1
 	case 0x10:
-		return &bipush{}
+		return &BIPUSH{}
 	case 0x11:
-		return &sipush{}
+		return &SIPUSH{}
 	case 0x12:
-		return &ldc{}
+		return &LDC{}
 	case 0x13:
-		return &ldc_w{}
+		return &LDC_W{}
 	case 0x14:
-		return &ldc2_w{}
+		return &LDC2_W{}
 	case 0x15:
-		return &iload{}
+		return &ILOAD{}
 	case 0x16:
-		return &lload{}
+		return &LLOAD{}
 	case 0x17:
-		return &fload{}
+		return &FLOAD{}
 	case 0x18:
-		return &dload{}
+		return &DLOAD{}
 	case 0x19:
-		return &aload{}
+		return &ALOAD{}
 	case 0x1a:
 		return _iload_0
 	case 0x1b:
@@ -267,15 +279,15 @@ func newInstruction(opcode byte) Instruction {
 	case 0x35:
 		return _saload
 	case 0x36:
-		return &istore{}
+		return &ISTORE{}
 	case 0x37:
-		return &lstore{}
+		return &LSTORE{}
 	case 0x38:
-		return &fstore{}
+		return &FSTORE{}
 	case 0x39:
-		return &dstore{}
+		return &DSTORE{}
 	case 0x3a:
-		return &astore{}
+		return &ASTORE{}
 	case 0x3b:
 		return _istore_0
 	case 0x3c:
@@ -423,7 +435,7 @@ func newInstruction(opcode byte) Instruction {
 	case 0x83:
 		return _lxor
 	case 0x84:
-		return &iinc{}
+		return &IINC{}
 	case 0x85:
 		return _i2l
 	case 0x86:
@@ -465,43 +477,43 @@ func newInstruction(opcode byte) Instruction {
 	case 0x98:
 		return _dcmpg
 	case 0x99:
-		return &ifeq{}
+		return &IFEQ{}
 	case 0x9a:
-		return &ifne{}
+		return &IFNE{}
 	case 0x9b:
-		return &iflt{}
+		return &IFLT{}
 	case 0x9c:
-		return &ifge{}
+		return &IFGE{}
 	case 0x9d:
-		return &ifgt{}
+		return &IFGT{}
 	case 0x9e:
-		return &ifle{}
+		return &IFLE{}
 	case 0x9f:
-		return &if_icmpeq{}
+		return &IF_ICMPEQ{}
 	case 0xa0:
-		return &if_icmpne{}
+		return &IF_ICMPNE{}
 	case 0xa1:
-		return &if_icmplt{}
+		return &IF_ICMPLT{}
 	case 0xa2:
-		return &if_icmpge{}
+		return &IF_ICMPGE{}
 	case 0xa3:
-		return &if_icmpgt{}
+		return &IF_ICMPGT{}
 	case 0xa4:
-		return &if_icmple{}
+		return &IF_ICMPLE{}
 	case 0xa5:
-		return &if_acmpeq{}
+		return &IF_ACMPEQ{}
 	case 0xa6:
-		return &if_acmpne{}
+		return &IF_ACMPNE{}
 	case 0xa7:
-		return &goto_{}
+		return &GOTO{}
 	case 0xa8:
-		return &jsr{}
+		return &JSR{}
 	case 0xa9:
-		return &ret{}
+		return &RET{}
 	case 0xaa:
-		return &tableswitch{}
+		return &TABLE_SWITCH{}
 	case 0xab:
-		return &lookupswitch{}
+		return &LOOKUP_SWITCH{}
 	case 0xac:
 		return _ireturn
 	case 0xad:
@@ -515,58 +527,58 @@ func newInstruction(opcode byte) Instruction {
 	case 0xb1:
 		return _return_
 	case 0xb2:
-		return &getstatic{}
+		return &GET_STATIC{}
 	case 0xb3:
-		return &putstatic{}
+		return &PUT_STATIC{}
 	case 0xb4:
-		return &getfield{}
+		return &GET_FIELD{}
 	case 0xb5:
-		return &putfield{}
+		return &PUT_FIELD{}
 	case 0xb6:
-		return &invokevirtual{}
+		return &INVOKE_VIRTUAL{}
 	case 0xb7:
-		return &invokespecial{}
+		return &INVOKE_SPECIAL{}
 	case 0xb8:
-		return &invokestatic{}
+		return &INVOKE_STATIC{}
 	case 0xb9:
-		return &invokeinterface{}
+		return &INVOKE_INTERFACE{}
 	case 0xba:
-		return &invokedynamic{}
+		return &INVOKE_DYNAMIC{}
 	case 0xbb:
-		return &new_{}
+		return &NEW{}
 	case 0xbc:
-		return &newarray{}
+		return &NEW_ARRAY{}
 	case 0xbd:
-		return &anewarray{}
+		return &ANEW_ARRAY{}
 	case 0xbe:
 		return _arraylength
 	case 0xbf:
 		return _athrow
 	case 0xc0:
-		return &checkcast{}
+		return &CHECK_CAST{}
 	case 0xc1:
-		return &instanceof{}
+		return &INSTANCE_OF{}
 	case 0xc2:
 		return _monitorenter
 	case 0xc3:
 		return _monitorexit
 	case 0xc4:
-		return &wide{}
+		return &WIDE{}
 	case 0xc5:
-		return &multianewarray{}
+		return &MULTI_ANEW_ARRAY{}
 	case 0xc6:
-		return &ifnull{}
+		return &IFNULL{}
 	case 0xc7:
-		return &ifnonnull{}
+		return &IFNONNULL{}
 	case 0xc8:
-		return &goto_w{}
+		return &GOTO_W{}
 	case 0xc9:
-		return &jsr_w{}
+		return &JSR_W{}
 	//case 0xca: todo breakpoint
 	case 0xfe:
 		return _invoke_native // impdep1
 	case 0xff:
-		return &bootstrap{} // impdep2
+		return &BOOTSTRAP{} // impdep2
 	default:
 		jutil.Panicf("BAD opcode: %v!", opcode)
 		return nil

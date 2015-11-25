@@ -6,15 +6,15 @@ import (
 )
 
 // Compare double
-type dcmpg struct{ base.NoOperandsInstruction }
+type DCMPG struct{ base.NoOperandsInstruction }
 
-func (self *dcmpg) Execute(frame *rtda.Frame) {
+func (self *DCMPG) Execute(frame *rtda.Frame) {
 	_dcmp(frame, true)
 }
 
-type dcmpl struct{ base.NoOperandsInstruction }
+type DCMPL struct{ base.NoOperandsInstruction }
 
-func (self *dcmpl) Execute(frame *rtda.Frame) {
+func (self *DCMPL) Execute(frame *rtda.Frame) {
 	_dcmp(frame, false)
 }
 

@@ -19,20 +19,20 @@ npairs4
 match-offset pairs...
 */
 // Access jump table by key match and jump
-type lookupswitch struct {
+type LOOKUP_SWITCH struct {
 	defaultOffset int32
 	npairs        int32
 	matchOffsets  []int32
 }
 
-func (self *lookupswitch) fetchOperands(reader *base.BytecodeReader) {
+func (self *LOOKUP_SWITCH) FetchOperands(reader *base.BytecodeReader) {
 	reader.SkipPadding()
 	self.defaultOffset = reader.ReadInt32()
 	self.npairs = reader.ReadInt32()
 	self.matchOffsets = reader.ReadInt32s(self.npairs * 2)
 }
 
-func (self *lookupswitch) Execute(frame *rtda.Frame) {
+func (self *LOOKUP_SWITCH) Execute(frame *rtda.Frame) {
 	key := frame.OperandStack().PopInt()
 	for i := int32(0); i < self.npairs*2; i += 2 {
 		if self.matchOffsets[i] == key {

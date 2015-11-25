@@ -7,12 +7,12 @@ import (
 )
 
 // Set field in object
-type putfield struct {
+type PUT_FIELD struct {
 	base.Index16Instruction
 	field *rtc.Field
 }
 
-func (self *putfield) Execute(frame *rtda.Frame) {
+func (self *PUT_FIELD) Execute(frame *rtda.Frame) {
 	if self.field == nil {
 		cp := frame.Method().Class().ConstantPool()
 		kFieldRef := cp.GetConstant(self.Index).(*rtc.ConstantFieldref)

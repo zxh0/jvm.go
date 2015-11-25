@@ -6,33 +6,33 @@ import (
 )
 
 // Store long into local variable
-type lstore struct{ base.Index8Instruction }
+type LSTORE struct{ base.Index8Instruction }
 
-func (self *lstore) Execute(frame *rtda.Frame) {
+func (self *LSTORE) Execute(frame *rtda.Frame) {
 	_lstore(frame, uint(self.Index))
 }
 
-type lstore_0 struct{ base.NoOperandsInstruction }
+type LSTORE_0 struct{ base.NoOperandsInstruction }
 
-func (self *lstore_0) Execute(frame *rtda.Frame) {
+func (self *LSTORE_0) Execute(frame *rtda.Frame) {
 	_lstore(frame, 0)
 }
 
-type lstore_1 struct{ base.NoOperandsInstruction }
+type LSTORE_1 struct{ base.NoOperandsInstruction }
 
-func (self *lstore_1) Execute(frame *rtda.Frame) {
+func (self *LSTORE_1) Execute(frame *rtda.Frame) {
 	_lstore(frame, 1)
 }
 
-type lstore_2 struct{ base.NoOperandsInstruction }
+type LSTORE_2 struct{ base.NoOperandsInstruction }
 
-func (self *lstore_2) Execute(frame *rtda.Frame) {
+func (self *LSTORE_2) Execute(frame *rtda.Frame) {
 	_lstore(frame, 2)
 }
 
-type lstore_3 struct{ base.NoOperandsInstruction }
+type LSTORE_3 struct{ base.NoOperandsInstruction }
 
-func (self *lstore_3) Execute(frame *rtda.Frame) {
+func (self *LSTORE_3) Execute(frame *rtda.Frame) {
 	_lstore(frame, 3)
 }
 

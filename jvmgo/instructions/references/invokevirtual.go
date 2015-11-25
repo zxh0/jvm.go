@@ -7,13 +7,13 @@ import (
 )
 
 // Invoke instance method; dispatch based on class
-type invokevirtual struct {
+type INVOKE_VIRTUAL struct {
 	base.Index16Instruction
 	kMethodRef   *rtc.ConstantMethodref
 	argSlotCount uint
 }
 
-func (self *invokevirtual) Execute(frame *rtda.Frame) {
+func (self *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
 	if self.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
 		self.kMethodRef = cp.GetConstant(self.Index).(*rtc.ConstantMethodref)

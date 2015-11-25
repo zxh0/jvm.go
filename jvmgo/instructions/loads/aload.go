@@ -6,33 +6,33 @@ import (
 )
 
 // Load reference from local variable
-type aload struct{ base.Index8Instruction }
+type ALOAD struct{ base.Index8Instruction }
 
-func (self *aload) Execute(frame *rtda.Frame) {
+func (self *ALOAD) Execute(frame *rtda.Frame) {
 	_aload(frame, uint(self.Index))
 }
 
-type aload_0 struct{ base.NoOperandsInstruction }
+type ALOAD_0 struct{ base.NoOperandsInstruction }
 
-func (self *aload_0) Execute(frame *rtda.Frame) {
+func (self *ALOAD_0) Execute(frame *rtda.Frame) {
 	_aload(frame, 0)
 }
 
-type aload_1 struct{ base.NoOperandsInstruction }
+type ALOAD_1 struct{ base.NoOperandsInstruction }
 
-func (self *aload_1) Execute(frame *rtda.Frame) {
+func (self *ALOAD_1) Execute(frame *rtda.Frame) {
 	_aload(frame, 1)
 }
 
-type aload_2 struct{ base.NoOperandsInstruction }
+type ALOAD_2 struct{ base.NoOperandsInstruction }
 
-func (self *aload_2) Execute(frame *rtda.Frame) {
+func (self *ALOAD_2) Execute(frame *rtda.Frame) {
 	_aload(frame, 2)
 }
 
-type aload_3 struct{ base.NoOperandsInstruction }
+type ALOAD_3 struct{ base.NoOperandsInstruction }
 
-func (self *aload_3) Execute(frame *rtda.Frame) {
+func (self *ALOAD_3) Execute(frame *rtda.Frame) {
 	_aload(frame, 3)
 }
 

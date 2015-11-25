@@ -8,16 +8,16 @@ import (
 )
 
 // Push item from run-time constant pool
-type ldc struct{ base.Index8Instruction }
+type LDC struct{ base.Index8Instruction }
 
-func (self *ldc) Execute(frame *rtda.Frame) {
+func (self *LDC) Execute(frame *rtda.Frame) {
 	_ldc(frame, self.Index)
 }
 
 // Push item from run-time constant pool (wide index)
-type ldc_w struct{ base.Index16Instruction }
+type LDC_W struct{ base.Index16Instruction }
 
-func (self *ldc_w) Execute(frame *rtda.Frame) {
+func (self *LDC_W) Execute(frame *rtda.Frame) {
 	_ldc(frame, self.Index)
 }
 
@@ -46,9 +46,9 @@ func _ldc(frame *rtda.Frame, index uint) {
 }
 
 // Push long or double from run-time constant pool (wide index)
-type ldc2_w struct{ base.Index16Instruction }
+type LDC2_W struct{ base.Index16Instruction }
 
-func (self *ldc2_w) Execute(frame *rtda.Frame) {
+func (self *LDC2_W) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	cp := frame.ConstantPool()
 	c := cp.GetConstant(self.Index)

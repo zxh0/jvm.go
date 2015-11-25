@@ -7,9 +7,9 @@ import (
 )
 
 // Store into reference array
-type aastore struct{ base.NoOperandsInstruction }
+type AASTORE struct{ base.NoOperandsInstruction }
 
-func (self *aastore) Execute(frame *rtda.Frame) {
+func (self *AASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	ref := stack.PopRef()
 	index := stack.PopInt()
@@ -21,9 +21,9 @@ func (self *aastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into byte or boolean array
-type bastore struct{ base.NoOperandsInstruction }
+type BASTORE struct{ base.NoOperandsInstruction }
 
-func (self *bastore) Execute(frame *rtda.Frame) {
+func (self *BASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopInt()
 	index := stack.PopInt()
@@ -35,9 +35,9 @@ func (self *bastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into char array
-type castore struct{ base.NoOperandsInstruction }
+type CASTORE struct{ base.NoOperandsInstruction }
 
-func (self *castore) Execute(frame *rtda.Frame) {
+func (self *CASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopInt()
 	index := stack.PopInt()
@@ -49,9 +49,9 @@ func (self *castore) Execute(frame *rtda.Frame) {
 }
 
 // Store into double array
-type dastore struct{ base.NoOperandsInstruction }
+type DASTORE struct{ base.NoOperandsInstruction }
 
-func (self *dastore) Execute(frame *rtda.Frame) {
+func (self *DASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopDouble()
 	index := stack.PopInt()
@@ -63,9 +63,9 @@ func (self *dastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into float array
-type fastore struct{ base.NoOperandsInstruction }
+type FASTORE struct{ base.NoOperandsInstruction }
 
-func (self *fastore) Execute(frame *rtda.Frame) {
+func (self *FASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopFloat()
 	index := stack.PopInt()
@@ -77,9 +77,9 @@ func (self *fastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into int array
-type iastore struct{ base.NoOperandsInstruction }
+type IASTORE struct{ base.NoOperandsInstruction }
 
-func (self *iastore) Execute(frame *rtda.Frame) {
+func (self *IASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopInt()
 	index := stack.PopInt()
@@ -91,9 +91,9 @@ func (self *iastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into long array
-type lastore struct{ base.NoOperandsInstruction }
+type LASTORE struct{ base.NoOperandsInstruction }
 
-func (self *lastore) Execute(frame *rtda.Frame) {
+func (self *LASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopLong()
 	index := stack.PopInt()
@@ -105,9 +105,9 @@ func (self *lastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into short array
-type sastore struct{ base.NoOperandsInstruction }
+type SASTORE struct{ base.NoOperandsInstruction }
 
-func (self *sastore) Execute(frame *rtda.Frame) {
+func (self *SASTORE) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopInt()
 	index := stack.PopInt()

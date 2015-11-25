@@ -6,33 +6,33 @@ import (
 )
 
 // Load long from local variable
-type lload struct{ base.Index8Instruction }
+type LLOAD struct{ base.Index8Instruction }
 
-func (self *lload) Execute(frame *rtda.Frame) {
+func (self *LLOAD) Execute(frame *rtda.Frame) {
 	_lload(frame, uint(self.Index))
 }
 
-type lload_0 struct{ base.NoOperandsInstruction }
+type LLOAD_0 struct{ base.NoOperandsInstruction }
 
-func (self *lload_0) Execute(frame *rtda.Frame) {
+func (self *LLOAD_0) Execute(frame *rtda.Frame) {
 	_lload(frame, 0)
 }
 
-type lload_1 struct{ base.NoOperandsInstruction }
+type LLOAD_1 struct{ base.NoOperandsInstruction }
 
-func (self *lload_1) Execute(frame *rtda.Frame) {
+func (self *LLOAD_1) Execute(frame *rtda.Frame) {
 	_lload(frame, 1)
 }
 
-type lload_2 struct{ base.NoOperandsInstruction }
+type LLOAD_2 struct{ base.NoOperandsInstruction }
 
-func (self *lload_2) Execute(frame *rtda.Frame) {
+func (self *LLOAD_2) Execute(frame *rtda.Frame) {
 	_lload(frame, 2)
 }
 
-type lload_3 struct{ base.NoOperandsInstruction }
+type LLOAD_3 struct{ base.NoOperandsInstruction }
 
-func (self *lload_3) Execute(frame *rtda.Frame) {
+func (self *LLOAD_3) Execute(frame *rtda.Frame) {
 	_lload(frame, 3)
 }
 

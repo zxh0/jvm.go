@@ -6,9 +6,9 @@ import (
 )
 
 // Convert int to byte
-type i2b struct{ base.NoOperandsInstruction }
+type I2B struct{ base.NoOperandsInstruction }
 
-func (self *i2b) Execute(frame *rtda.Frame) {
+func (self *I2B) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	i := stack.PopInt()
 	b := int32(int8(i))
@@ -16,9 +16,9 @@ func (self *i2b) Execute(frame *rtda.Frame) {
 }
 
 // Convert int to char
-type i2c struct{ base.NoOperandsInstruction }
+type I2C struct{ base.NoOperandsInstruction }
 
-func (self *i2c) Execute(frame *rtda.Frame) {
+func (self *I2C) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	i := stack.PopInt()
 	c := int32(uint16(i))
@@ -26,9 +26,9 @@ func (self *i2c) Execute(frame *rtda.Frame) {
 }
 
 // Convert int to short
-type i2s struct{ base.NoOperandsInstruction }
+type I2S struct{ base.NoOperandsInstruction }
 
-func (self *i2s) Execute(frame *rtda.Frame) {
+func (self *I2S) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	i := stack.PopInt()
 	s := int32(int16(i))
@@ -36,9 +36,9 @@ func (self *i2s) Execute(frame *rtda.Frame) {
 }
 
 // Convert int to long
-type i2l struct{ base.NoOperandsInstruction }
+type I2L struct{ base.NoOperandsInstruction }
 
-func (self *i2l) Execute(frame *rtda.Frame) {
+func (self *I2L) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	i := stack.PopInt()
 	l := int64(i)
@@ -46,9 +46,9 @@ func (self *i2l) Execute(frame *rtda.Frame) {
 }
 
 // Convert int to float
-type i2f struct{ base.NoOperandsInstruction }
+type I2F struct{ base.NoOperandsInstruction }
 
-func (self *i2f) Execute(frame *rtda.Frame) {
+func (self *I2F) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	i := stack.PopInt()
 	f := float32(i)
@@ -56,9 +56,9 @@ func (self *i2f) Execute(frame *rtda.Frame) {
 }
 
 // Convert int to double
-type i2d struct{ base.NoOperandsInstruction }
+type I2D struct{ base.NoOperandsInstruction }
 
-func (self *i2d) Execute(frame *rtda.Frame) {
+func (self *I2D) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	i := stack.PopInt()
 	d := float64(i)

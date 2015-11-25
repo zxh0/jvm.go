@@ -6,27 +6,27 @@ import (
 )
 
 // Jump subroutine
-type jsr struct{ base.BranchInstruction }
+type JSR struct{ base.BranchInstruction }
 
-func (self *jsr) Execute(frame *rtda.Frame) {
+func (self *JSR) Execute(frame *rtda.Frame) {
 	panic("todo")
 }
 
 // Jump subroutine (wide index)
-type jsr_w struct {
+type JSR_W struct {
 	offset int
 }
 
-func (self *jsr_w) fetchOperands(reader *base.BytecodeReader) {
+func (self *JSR_W) FetchOperands(reader *base.BytecodeReader) {
 	self.offset = int(reader.ReadInt32())
 }
-func (self *jsr_w) Execute(frame *rtda.Frame) {
+func (self *JSR_W) Execute(frame *rtda.Frame) {
 	panic("todo")
 }
 
 // Return from subroutine
-type ret struct{ base.Index8Instruction }
+type RET struct{ base.Index8Instruction }
 
-func (self *ret) Execute(frame *rtda.Frame) {
+func (self *RET) Execute(frame *rtda.Frame) {
 	panic("todo")
 }

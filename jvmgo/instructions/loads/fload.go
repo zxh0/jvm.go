@@ -6,33 +6,33 @@ import (
 )
 
 // Load float from local variable
-type fload struct{ base.Index8Instruction }
+type FLOAD struct{ base.Index8Instruction }
 
-func (self *fload) Execute(frame *rtda.Frame) {
+func (self *FLOAD) Execute(frame *rtda.Frame) {
 	_fload(frame, uint(self.Index))
 }
 
-type fload_0 struct{ base.NoOperandsInstruction }
+type FLOAD_0 struct{ base.NoOperandsInstruction }
 
-func (self *fload_0) Execute(frame *rtda.Frame) {
+func (self *FLOAD_0) Execute(frame *rtda.Frame) {
 	_fload(frame, 0)
 }
 
-type fload_1 struct{ base.NoOperandsInstruction }
+type FLOAD_1 struct{ base.NoOperandsInstruction }
 
-func (self *fload_1) Execute(frame *rtda.Frame) {
+func (self *FLOAD_1) Execute(frame *rtda.Frame) {
 	_fload(frame, 1)
 }
 
-type fload_2 struct{ base.NoOperandsInstruction }
+type FLOAD_2 struct{ base.NoOperandsInstruction }
 
-func (self *fload_2) Execute(frame *rtda.Frame) {
+func (self *FLOAD_2) Execute(frame *rtda.Frame) {
 	_fload(frame, 2)
 }
 
-type fload_3 struct{ base.NoOperandsInstruction }
+type FLOAD_3 struct{ base.NoOperandsInstruction }
 
-func (self *fload_3) Execute(frame *rtda.Frame) {
+func (self *FLOAD_3) Execute(frame *rtda.Frame) {
 	_fload(frame, 3)
 }
 

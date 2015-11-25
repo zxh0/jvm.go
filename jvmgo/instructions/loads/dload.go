@@ -6,33 +6,33 @@ import (
 )
 
 // Load double from local variable
-type dload struct{ base.Index8Instruction }
+type DLOAD struct{ base.Index8Instruction }
 
-func (self *dload) Execute(frame *rtda.Frame) {
+func (self *DLOAD) Execute(frame *rtda.Frame) {
 	_dload(frame, uint(self.Index))
 }
 
-type dload_0 struct{ base.NoOperandsInstruction }
+type DLOAD_0 struct{ base.NoOperandsInstruction }
 
-func (self *dload_0) Execute(frame *rtda.Frame) {
+func (self *DLOAD_0) Execute(frame *rtda.Frame) {
 	_dload(frame, 0)
 }
 
-type dload_1 struct{ base.NoOperandsInstruction }
+type DLOAD_1 struct{ base.NoOperandsInstruction }
 
-func (self *dload_1) Execute(frame *rtda.Frame) {
+func (self *DLOAD_1) Execute(frame *rtda.Frame) {
 	_dload(frame, 1)
 }
 
-type dload_2 struct{ base.NoOperandsInstruction }
+type DLOAD_2 struct{ base.NoOperandsInstruction }
 
-func (self *dload_2) Execute(frame *rtda.Frame) {
+func (self *DLOAD_2) Execute(frame *rtda.Frame) {
 	_dload(frame, 2)
 }
 
-type dload_3 struct{ base.NoOperandsInstruction }
+type DLOAD_3 struct{ base.NoOperandsInstruction }
 
-func (self *dload_3) Execute(frame *rtda.Frame) {
+func (self *DLOAD_3) Execute(frame *rtda.Frame) {
 	_dload(frame, 3)
 }
 

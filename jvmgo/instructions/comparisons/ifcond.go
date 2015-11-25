@@ -6,54 +6,54 @@ import (
 )
 
 // Branch if int comparison with zero succeeds
-type ifeq struct{ base.BranchInstruction }
+type IFEQ struct{ base.BranchInstruction }
 
-func (self *ifeq) Execute(frame *rtda.Frame) {
+func (self *IFEQ) Execute(frame *rtda.Frame) {
 	val := frame.OperandStack().PopInt()
 	if val == 0 {
 		base.Branch(frame, self.Offset)
 	}
 }
 
-type ifne struct{ base.BranchInstruction }
+type IFNE struct{ base.BranchInstruction }
 
-func (self *ifne) Execute(frame *rtda.Frame) {
+func (self *IFNE) Execute(frame *rtda.Frame) {
 	val := frame.OperandStack().PopInt()
 	if val != 0 {
 		base.Branch(frame, self.Offset)
 	}
 }
 
-type iflt struct{ base.BranchInstruction }
+type IFLT struct{ base.BranchInstruction }
 
-func (self *iflt) Execute(frame *rtda.Frame) {
+func (self *IFLT) Execute(frame *rtda.Frame) {
 	val := frame.OperandStack().PopInt()
 	if val < 0 {
 		base.Branch(frame, self.Offset)
 	}
 }
 
-type ifle struct{ base.BranchInstruction }
+type IFLE struct{ base.BranchInstruction }
 
-func (self *ifle) Execute(frame *rtda.Frame) {
+func (self *IFLE) Execute(frame *rtda.Frame) {
 	val := frame.OperandStack().PopInt()
 	if val <= 0 {
 		base.Branch(frame, self.Offset)
 	}
 }
 
-type ifgt struct{ base.BranchInstruction }
+type IFGT struct{ base.BranchInstruction }
 
-func (self *ifgt) Execute(frame *rtda.Frame) {
+func (self *IFGT) Execute(frame *rtda.Frame) {
 	val := frame.OperandStack().PopInt()
 	if val > 0 {
 		base.Branch(frame, self.Offset)
 	}
 }
 
-type ifge struct{ base.BranchInstruction }
+type IFGE struct{ base.BranchInstruction }
 
-func (self *ifge) Execute(frame *rtda.Frame) {
+func (self *IFGE) Execute(frame *rtda.Frame) {
 	val := frame.OperandStack().PopInt()
 	if val >= 0 {
 		base.Branch(frame, self.Offset)

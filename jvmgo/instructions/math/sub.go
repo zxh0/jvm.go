@@ -6,9 +6,9 @@ import (
 )
 
 // Subtract double
-type dsub struct{ base.NoOperandsInstruction }
+type DSUB struct{ base.NoOperandsInstruction }
 
-func (self *dsub) Execute(frame *rtda.Frame) {
+func (self *DSUB) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopDouble()
 	v1 := stack.PopDouble()
@@ -17,9 +17,9 @@ func (self *dsub) Execute(frame *rtda.Frame) {
 }
 
 // Subtract float
-type fsub struct{ base.NoOperandsInstruction }
+type FSUB struct{ base.NoOperandsInstruction }
 
-func (self *fsub) Execute(frame *rtda.Frame) {
+func (self *FSUB) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopFloat()
 	v1 := stack.PopFloat()
@@ -28,9 +28,9 @@ func (self *fsub) Execute(frame *rtda.Frame) {
 }
 
 // Subtract int
-type isub struct{ base.NoOperandsInstruction }
+type ISUB struct{ base.NoOperandsInstruction }
 
-func (self *isub) Execute(frame *rtda.Frame) {
+func (self *ISUB) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -39,9 +39,9 @@ func (self *isub) Execute(frame *rtda.Frame) {
 }
 
 // Subtract long
-type lsub struct{ base.NoOperandsInstruction }
+type LSUB struct{ base.NoOperandsInstruction }
 
-func (self *lsub) Execute(frame *rtda.Frame) {
+func (self *LSUB) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopLong()
 	v1 := stack.PopLong()

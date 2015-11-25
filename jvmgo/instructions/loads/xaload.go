@@ -9,9 +9,9 @@ import (
 //type Ref *rtda.Obj
 
 // Load reference from array
-type aaload struct{ base.NoOperandsInstruction }
+type AALOAD struct{ base.NoOperandsInstruction }
 
-func (self *aaload) Execute(frame *rtda.Frame) {
+func (self *AALOAD) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
 		ref := arrRef.Refs()[index]
@@ -20,9 +20,9 @@ func (self *aaload) Execute(frame *rtda.Frame) {
 }
 
 // Load byte or boolean from array
-type baload struct{ base.NoOperandsInstruction }
+type BALOAD struct{ base.NoOperandsInstruction }
 
-func (self *baload) Execute(frame *rtda.Frame) {
+func (self *BALOAD) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
 		val := arrRef.Bytes()[index]
@@ -31,9 +31,9 @@ func (self *baload) Execute(frame *rtda.Frame) {
 }
 
 // Load char from array
-type caload struct{ base.NoOperandsInstruction }
+type CALOAD struct{ base.NoOperandsInstruction }
 
-func (self *caload) Execute(frame *rtda.Frame) {
+func (self *CALOAD) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
 		val := arrRef.Chars()[index]
@@ -42,9 +42,9 @@ func (self *caload) Execute(frame *rtda.Frame) {
 }
 
 // Load double from array
-type daload struct{ base.NoOperandsInstruction }
+type DALOAD struct{ base.NoOperandsInstruction }
 
-func (self *daload) Execute(frame *rtda.Frame) {
+func (self *DALOAD) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
 		val := arrRef.Doubles()[index]
@@ -53,9 +53,9 @@ func (self *daload) Execute(frame *rtda.Frame) {
 }
 
 // Load float from array
-type faload struct{ base.NoOperandsInstruction }
+type FALOAD struct{ base.NoOperandsInstruction }
 
-func (self *faload) Execute(frame *rtda.Frame) {
+func (self *FALOAD) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
 		val := arrRef.Floats()[index]
@@ -64,9 +64,9 @@ func (self *faload) Execute(frame *rtda.Frame) {
 }
 
 // Load int from array
-type iaload struct{ base.NoOperandsInstruction }
+type IALOAD struct{ base.NoOperandsInstruction }
 
-func (self *iaload) Execute(frame *rtda.Frame) {
+func (self *IALOAD) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
 		val := arrRef.Ints()[index]
@@ -75,9 +75,9 @@ func (self *iaload) Execute(frame *rtda.Frame) {
 }
 
 // Load long from array
-type laload struct{ base.NoOperandsInstruction }
+type LALOAD struct{ base.NoOperandsInstruction }
 
-func (self *laload) Execute(frame *rtda.Frame) {
+func (self *LALOAD) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
 		val := arrRef.Longs()[index]
@@ -86,9 +86,9 @@ func (self *laload) Execute(frame *rtda.Frame) {
 }
 
 // Load short from array
-type saload struct{ base.NoOperandsInstruction }
+type SALOAD struct{ base.NoOperandsInstruction }
 
-func (self *saload) Execute(frame *rtda.Frame) {
+func (self *SALOAD) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
 	if ok {
 		val := arrRef.Shorts()[index]

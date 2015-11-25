@@ -1,11 +1,12 @@
-package instructions
+package references
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Enter monitor for object
-type monitorenter struct{ NoOperandsInstruction }
+type monitorenter struct{ base.NoOperandsInstruction }
 
 func (self *monitorenter) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
@@ -19,7 +20,7 @@ func (self *monitorenter) Execute(frame *rtda.Frame) {
 }
 
 // Exit monitor for object
-type monitorexit struct{ NoOperandsInstruction }
+type monitorexit struct{ base.NoOperandsInstruction }
 
 func (self *monitorexit) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()

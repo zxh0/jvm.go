@@ -1,7 +1,8 @@
-package instructions
+package control
 
 import (
 	//"fmt"
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
@@ -30,16 +31,13 @@ type tableswitch struct {
 	jumpOffsets   []int32
 }
 
-func (self *tableswitch) fetchOperands(decoder *InstructionDecoder) {
-	for decoder.pc%4 != 0 {
-		// skip padding
-		decoder.readUint8()
-	}
-	self.defaultOffset = decoder.readInt32()
-	self.low = decoder.readInt32()
-	self.high = decoder.readInt32()
+func (self *tableswitch) fetchOperands(reader *base.BytecodeReader) {
+	reader.SkipPadding()
+	self.defaultOffset = reader.ReadInt32()
+	self.low = reader.ReadInt32()
+	self.high = reader.ReadInt32()
 	jumpOffsetsCount := self.high - self.low + 1
-	self.jumpOffsets = decoder.readInt32s(jumpOffsetsCount)
+	self.jumpOffsets = reader.ReadInt32s(jumpOffsetsCount)
 }
 
 func (self *tableswitch) Execute(frame *rtda.Frame) {
@@ -52,5 +50,5 @@ func (self *tableswitch) Execute(frame *rtda.Frame) {
 		offset = int(self.defaultOffset)
 	}
 
-	branch(frame, offset)
+	base.Branch(frame, offset)
 }

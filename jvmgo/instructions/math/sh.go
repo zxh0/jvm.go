@@ -1,11 +1,12 @@
-package instructions
+package math
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Shift left int
-type ishl struct{ NoOperandsInstruction }
+type ishl struct{ base.NoOperandsInstruction }
 
 func (self *ishl) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -17,7 +18,7 @@ func (self *ishl) Execute(frame *rtda.Frame) {
 }
 
 // Arithmetic shift right int
-type ishr struct{ NoOperandsInstruction }
+type ishr struct{ base.NoOperandsInstruction }
 
 func (self *ishr) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -29,7 +30,7 @@ func (self *ishr) Execute(frame *rtda.Frame) {
 }
 
 // Logical shift right int
-type iushr struct{ NoOperandsInstruction }
+type iushr struct{ base.NoOperandsInstruction }
 
 func (self *iushr) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -41,7 +42,7 @@ func (self *iushr) Execute(frame *rtda.Frame) {
 }
 
 // Shift left long
-type lshl struct{ NoOperandsInstruction }
+type lshl struct{ base.NoOperandsInstruction }
 
 func (self *lshl) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -53,7 +54,7 @@ func (self *lshl) Execute(frame *rtda.Frame) {
 }
 
 // Arithmetic shift right long
-type lshr struct{ NoOperandsInstruction }
+type lshr struct{ base.NoOperandsInstruction }
 
 func (self *lshr) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -65,7 +66,7 @@ func (self *lshr) Execute(frame *rtda.Frame) {
 }
 
 // Logical shift right long
-type lushr struct{ NoOperandsInstruction }
+type lushr struct{ base.NoOperandsInstruction }
 
 func (self *lushr) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

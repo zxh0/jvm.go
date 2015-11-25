@@ -1,11 +1,12 @@
-package instructions
+package math
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Subtract double
-type dsub struct{ NoOperandsInstruction }
+type dsub struct{ base.NoOperandsInstruction }
 
 func (self *dsub) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -16,7 +17,7 @@ func (self *dsub) Execute(frame *rtda.Frame) {
 }
 
 // Subtract float
-type fsub struct{ NoOperandsInstruction }
+type fsub struct{ base.NoOperandsInstruction }
 
 func (self *fsub) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -27,7 +28,7 @@ func (self *fsub) Execute(frame *rtda.Frame) {
 }
 
 // Subtract int
-type isub struct{ NoOperandsInstruction }
+type isub struct{ base.NoOperandsInstruction }
 
 func (self *isub) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -38,7 +39,7 @@ func (self *isub) Execute(frame *rtda.Frame) {
 }
 
 // Subtract long
-type lsub struct{ NoOperandsInstruction }
+type lsub struct{ base.NoOperandsInstruction }
 
 func (self *lsub) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

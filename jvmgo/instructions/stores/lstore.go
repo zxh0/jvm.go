@@ -1,35 +1,36 @@
-package instructions
+package stores
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Store long into local variable
-type lstore struct{ Index8Instruction }
+type lstore struct{ base.Index8Instruction }
 
 func (self *lstore) Execute(frame *rtda.Frame) {
-	_lstore(frame, uint(self.index))
+	_lstore(frame, uint(self.Index))
 }
 
-type lstore_0 struct{ NoOperandsInstruction }
+type lstore_0 struct{ base.NoOperandsInstruction }
 
 func (self *lstore_0) Execute(frame *rtda.Frame) {
 	_lstore(frame, 0)
 }
 
-type lstore_1 struct{ NoOperandsInstruction }
+type lstore_1 struct{ base.NoOperandsInstruction }
 
 func (self *lstore_1) Execute(frame *rtda.Frame) {
 	_lstore(frame, 1)
 }
 
-type lstore_2 struct{ NoOperandsInstruction }
+type lstore_2 struct{ base.NoOperandsInstruction }
 
 func (self *lstore_2) Execute(frame *rtda.Frame) {
 	_lstore(frame, 2)
 }
 
-type lstore_3 struct{ NoOperandsInstruction }
+type lstore_3 struct{ base.NoOperandsInstruction }
 
 func (self *lstore_3) Execute(frame *rtda.Frame) {
 	_lstore(frame, 3)

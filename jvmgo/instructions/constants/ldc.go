@@ -1,23 +1,24 @@
-package instructions
+package constants
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 // Push item from run-time constant pool
-type ldc struct{ Index8Instruction }
+type ldc struct{ base.Index8Instruction }
 
 func (self *ldc) Execute(frame *rtda.Frame) {
-	_ldc(frame, self.index)
+	_ldc(frame, self.Index)
 }
 
 // Push item from run-time constant pool (wide index)
-type ldc_w struct{ Index16Instruction }
+type ldc_w struct{ base.Index16Instruction }
 
 func (self *ldc_w) Execute(frame *rtda.Frame) {
-	_ldc(frame, self.index)
+	_ldc(frame, self.Index)
 }
 
 func _ldc(frame *rtda.Frame, index uint) {
@@ -45,12 +46,12 @@ func _ldc(frame *rtda.Frame, index uint) {
 }
 
 // Push long or double from run-time constant pool (wide index)
-type ldc2_w struct{ Index16Instruction }
+type ldc2_w struct{ base.Index16Instruction }
 
 func (self *ldc2_w) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	cp := frame.ConstantPool()
-	c := cp.GetConstant(self.index)
+	c := cp.GetConstant(self.Index)
 
 	switch c.(type) {
 	case int64:

@@ -1,6 +1,7 @@
-package instructions
+package references
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
@@ -10,8 +11,8 @@ type newarray struct {
 	atype uint8
 }
 
-func (self *newarray) fetchOperands(decoder *InstructionDecoder) {
-	self.atype = decoder.readUint8()
+func (self *newarray) fetchOperands(reader *base.BytecodeReader) {
+	self.atype = reader.ReadUint8()
 }
 func (self *newarray) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -26,11 +27,11 @@ func (self *newarray) Execute(frame *rtda.Frame) {
 }
 
 // Create new array of reference
-type anewarray struct{ Index16Instruction }
+type anewarray struct{ base.Index16Instruction }
 
 func (self *anewarray) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()
-	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
+	kClass := cp.GetConstant(self.Index).(*rtc.ConstantClass)
 	componentClass := kClass.Class()
 
 	if componentClass.InitializationNotStarted() {
@@ -57,9 +58,9 @@ type multianewarray struct {
 	dimensions uint8
 }
 
-func (self *multianewarray) fetchOperands(decoder *InstructionDecoder) {
-	self.index = decoder.readUint16()
-	self.dimensions = decoder.readUint8()
+func (self *multianewarray) fetchOperands(reader *base.BytecodeReader) {
+	self.index = reader.ReadUint16()
+	self.dimensions = reader.ReadUint8()
 }
 func (self *multianewarray) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()

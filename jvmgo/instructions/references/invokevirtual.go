@@ -1,13 +1,14 @@
-package instructions
+package references
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 // Invoke instance method; dispatch based on class
 type invokevirtual struct {
-	Index16Instruction
+	base.Index16Instruction
 	kMethodRef   *rtc.ConstantMethodref
 	argSlotCount uint
 }
@@ -15,7 +16,7 @@ type invokevirtual struct {
 func (self *invokevirtual) Execute(frame *rtda.Frame) {
 	if self.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
-		self.kMethodRef = cp.GetConstant(self.index).(*rtc.ConstantMethodref)
+		self.kMethodRef = cp.GetConstant(self.Index).(*rtc.ConstantMethodref)
 		self.argSlotCount = self.kMethodRef.ArgSlotCount()
 	}
 

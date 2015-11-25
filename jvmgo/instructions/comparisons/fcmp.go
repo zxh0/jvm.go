@@ -1,17 +1,18 @@
-package instructions
+package comparisons
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Compare float
-type fcmpg struct{ NoOperandsInstruction }
+type fcmpg struct{ base.NoOperandsInstruction }
 
 func (self *fcmpg) Execute(frame *rtda.Frame) {
 	_fcmp(frame, true)
 }
 
-type fcmpl struct{ NoOperandsInstruction }
+type fcmpl struct{ base.NoOperandsInstruction }
 
 func (self *fcmpl) Execute(frame *rtda.Frame) {
 	_fcmp(frame, false)

@@ -1,11 +1,12 @@
-package instructions
+package math
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Boolean AND int
-type iand struct{ NoOperandsInstruction }
+type iand struct{ base.NoOperandsInstruction }
 
 func (self *iand) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -16,7 +17,7 @@ func (self *iand) Execute(frame *rtda.Frame) {
 }
 
 // Boolean AND long
-type land struct{ NoOperandsInstruction }
+type land struct{ base.NoOperandsInstruction }
 
 func (self *land) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

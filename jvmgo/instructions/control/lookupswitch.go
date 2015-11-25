@@ -1,6 +1,7 @@
-package instructions
+package control
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
@@ -24,14 +25,11 @@ type lookupswitch struct {
 	matchOffsets  []int32
 }
 
-func (self *lookupswitch) fetchOperands(decoder *InstructionDecoder) {
-	for decoder.pc%4 != 0 {
-		// skip padding
-		decoder.readUint8()
-	}
-	self.defaultOffset = decoder.readInt32()
-	self.npairs = decoder.readInt32()
-	self.matchOffsets = decoder.readInt32s(self.npairs * 2)
+func (self *lookupswitch) fetchOperands(reader *base.BytecodeReader) {
+	reader.SkipPadding()
+	self.defaultOffset = reader.ReadInt32()
+	self.npairs = reader.ReadInt32()
+	self.matchOffsets = reader.ReadInt32s(self.npairs * 2)
 }
 
 func (self *lookupswitch) Execute(frame *rtda.Frame) {
@@ -39,9 +37,9 @@ func (self *lookupswitch) Execute(frame *rtda.Frame) {
 	for i := int32(0); i < self.npairs*2; i += 2 {
 		if self.matchOffsets[i] == key {
 			offset := self.matchOffsets[i+1]
-			branch(frame, int(offset))
+			base.Branch(frame, int(offset))
 			return
 		}
 	}
-	branch(frame, int(self.defaultOffset))
+	base.Branch(frame, int(self.defaultOffset))
 }

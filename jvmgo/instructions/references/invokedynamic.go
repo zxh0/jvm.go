@@ -1,8 +1,9 @@
-package instructions
+package references
 
 import (
 	"fmt"
 
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
@@ -27,10 +28,10 @@ type invokedynamic struct {
 	// 0
 }
 
-func (self *invokedynamic) fetchOperands(decoder *InstructionDecoder) {
-	self.index = decoder.readUint16()
-	decoder.readUint8() // must be 0
-	decoder.readUint8() // must be 0
+func (self *invokedynamic) fetchOperands(reader *base.BytecodeReader) {
+	self.index = reader.ReadUint16()
+	reader.ReadUint8() // must be 0
+	reader.ReadUint8() // must be 0
 }
 
 func (self *invokedynamic) Execute(frame *rtda.Frame) {

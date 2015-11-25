@@ -1,11 +1,12 @@
-package instructions
+package math
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Divide double
-type ddiv struct{ NoOperandsInstruction }
+type ddiv struct{ base.NoOperandsInstruction }
 
 func (self *ddiv) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -16,7 +17,7 @@ func (self *ddiv) Execute(frame *rtda.Frame) {
 }
 
 // Divide float
-type fdiv struct{ NoOperandsInstruction }
+type fdiv struct{ base.NoOperandsInstruction }
 
 func (self *fdiv) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -27,7 +28,7 @@ func (self *fdiv) Execute(frame *rtda.Frame) {
 }
 
 // Divide int
-type idiv struct{ NoOperandsInstruction }
+type idiv struct{ base.NoOperandsInstruction }
 
 func (self *idiv) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -43,7 +44,7 @@ func (self *idiv) Execute(frame *rtda.Frame) {
 }
 
 // Divide long
-type ldiv struct{ NoOperandsInstruction }
+type ldiv struct{ base.NoOperandsInstruction }
 
 func (self *ldiv) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

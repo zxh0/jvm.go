@@ -1,11 +1,12 @@
-package instructions
+package stack
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Duplicate the top operand stack value
-type dup struct{ NoOperandsInstruction }
+type dup struct{ base.NoOperandsInstruction }
 
 func (self *dup) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -15,7 +16,7 @@ func (self *dup) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top operand stack value and insert two values down
-type dup_x1 struct{ NoOperandsInstruction }
+type dup_x1 struct{ base.NoOperandsInstruction }
 
 func (self *dup_x1) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -27,7 +28,7 @@ func (self *dup_x1) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top operand stack value and insert two or three values down
-type dup_x2 struct{ NoOperandsInstruction }
+type dup_x2 struct{ base.NoOperandsInstruction }
 
 func (self *dup_x2) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -41,7 +42,7 @@ func (self *dup_x2) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top one or two operand stack values
-type dup2 struct{ NoOperandsInstruction }
+type dup2 struct{ base.NoOperandsInstruction }
 
 func (self *dup2) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -54,7 +55,7 @@ func (self *dup2) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top one or two operand stack values and insert two or three values down
-type dup2_x1 struct{ NoOperandsInstruction }
+type dup2_x1 struct{ base.NoOperandsInstruction }
 
 func (self *dup2_x1) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -69,7 +70,7 @@ func (self *dup2_x1) Execute(frame *rtda.Frame) {
 }
 
 // Duplicate the top one or two operand stack values and insert two, three, or four values down
-type dup2_x2 struct{ NoOperandsInstruction }
+type dup2_x2 struct{ base.NoOperandsInstruction }
 
 func (self *dup2_x2) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

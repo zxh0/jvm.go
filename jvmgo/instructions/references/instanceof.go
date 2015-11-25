@@ -1,19 +1,20 @@
-package instructions
+package references
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 // Determine if object is of given type
-type instanceof struct{ Index16Instruction }
+type instanceof struct{ base.Index16Instruction }
 
 func (self *instanceof) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	ref := stack.PopRef()
 
 	cp := frame.ConstantPool()
-	kClass := cp.GetConstant(self.index).(*rtc.ConstantClass)
+	kClass := cp.GetConstant(self.Index).(*rtc.ConstantClass)
 	class := kClass.Class()
 
 	if ref == nil {

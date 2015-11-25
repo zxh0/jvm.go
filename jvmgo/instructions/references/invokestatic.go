@@ -1,20 +1,21 @@
-package instructions
+package references
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 // Invoke a class (static) method
 type invokestatic struct {
-	Index16Instruction
+	base.Index16Instruction
 	method *rtc.Method
 }
 
 func (self *invokestatic) Execute(frame *rtda.Frame) {
 	if self.method == nil {
 		cp := frame.Method().Class().ConstantPool()
-		k := cp.GetConstant(self.index)
+		k := cp.GetConstant(self.Index)
 		if kMethodRef, ok := k.(*rtc.ConstantMethodref); ok {
 			self.method = kMethodRef.StaticMethod()
 		} else {

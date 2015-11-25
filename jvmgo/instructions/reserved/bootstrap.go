@@ -1,6 +1,7 @@
-package instructions
+package reserved
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
@@ -15,7 +16,7 @@ var (
 )
 
 // Fake instruction to load and execute main class
-type bootstrap struct{ NoOperandsInstruction }
+type bootstrap struct{ base.NoOperandsInstruction }
 
 func (self *bootstrap) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()

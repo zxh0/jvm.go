@@ -1,11 +1,12 @@
-package instructions
+package control
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Return void from method
-type return_ struct{ NoOperandsInstruction }
+type return_ struct{ base.NoOperandsInstruction }
 
 func (self *return_) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
@@ -13,7 +14,7 @@ func (self *return_) Execute(frame *rtda.Frame) {
 }
 
 // Return reference from method
-type areturn struct{ NoOperandsInstruction }
+type areturn struct{ base.NoOperandsInstruction }
 
 func (self *areturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
@@ -24,7 +25,7 @@ func (self *areturn) Execute(frame *rtda.Frame) {
 }
 
 // Return double from method
-type dreturn struct{ NoOperandsInstruction }
+type dreturn struct{ base.NoOperandsInstruction }
 
 func (self *dreturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
@@ -35,7 +36,7 @@ func (self *dreturn) Execute(frame *rtda.Frame) {
 }
 
 // Return float from method
-type freturn struct{ NoOperandsInstruction }
+type freturn struct{ base.NoOperandsInstruction }
 
 func (self *freturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
@@ -46,7 +47,7 @@ func (self *freturn) Execute(frame *rtda.Frame) {
 }
 
 // Return int from method
-type ireturn struct{ NoOperandsInstruction }
+type ireturn struct{ base.NoOperandsInstruction }
 
 func (self *ireturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
@@ -57,7 +58,7 @@ func (self *ireturn) Execute(frame *rtda.Frame) {
 }
 
 // Return double from method
-type lreturn struct{ NoOperandsInstruction }
+type lreturn struct{ base.NoOperandsInstruction }
 
 func (self *lreturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()

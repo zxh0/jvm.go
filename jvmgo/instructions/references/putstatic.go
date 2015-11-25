@@ -1,20 +1,21 @@
-package instructions
+package references
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 // Set static field in class
 type putstatic struct {
-	Index16Instruction
+	base.Index16Instruction
 	field *rtc.Field
 }
 
 func (self *putstatic) Execute(frame *rtda.Frame) {
 	if self.field == nil {
 		cp := frame.Method().Class().ConstantPool()
-		kFieldRef := cp.GetConstant(self.index).(*rtc.ConstantFieldref)
+		kFieldRef := cp.GetConstant(self.Index).(*rtc.ConstantFieldref)
 		self.field = kFieldRef.StaticField()
 	}
 

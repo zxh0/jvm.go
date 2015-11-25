@@ -1,6 +1,7 @@
-package instructions
+package references
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
@@ -16,10 +17,10 @@ type invokeinterface struct {
 	argSlotCount uint
 }
 
-func (self *invokeinterface) fetchOperands(decoder *InstructionDecoder) {
-	self.index = uint(decoder.readUint16())
-	decoder.readUint8() // count
-	decoder.readUint8() // must be 0
+func (self *invokeinterface) fetchOperands(reader *base.BytecodeReader) {
+	self.index = uint(reader.ReadUint16())
+	reader.ReadUint8() // count
+	reader.ReadUint8() // must be 0
 }
 
 func (self *invokeinterface) Execute(frame *rtda.Frame) {

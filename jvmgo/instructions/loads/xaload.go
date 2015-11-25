@@ -1,6 +1,7 @@
-package instructions
+package loads
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
@@ -8,7 +9,7 @@ import (
 //type Ref *rtda.Obj
 
 // Load reference from array
-type aaload struct{ NoOperandsInstruction }
+type aaload struct{ base.NoOperandsInstruction }
 
 func (self *aaload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
@@ -19,7 +20,7 @@ func (self *aaload) Execute(frame *rtda.Frame) {
 }
 
 // Load byte or boolean from array
-type baload struct{ NoOperandsInstruction }
+type baload struct{ base.NoOperandsInstruction }
 
 func (self *baload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
@@ -30,7 +31,7 @@ func (self *baload) Execute(frame *rtda.Frame) {
 }
 
 // Load char from array
-type caload struct{ NoOperandsInstruction }
+type caload struct{ base.NoOperandsInstruction }
 
 func (self *caload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
@@ -41,7 +42,7 @@ func (self *caload) Execute(frame *rtda.Frame) {
 }
 
 // Load double from array
-type daload struct{ NoOperandsInstruction }
+type daload struct{ base.NoOperandsInstruction }
 
 func (self *daload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
@@ -52,7 +53,7 @@ func (self *daload) Execute(frame *rtda.Frame) {
 }
 
 // Load float from array
-type faload struct{ NoOperandsInstruction }
+type faload struct{ base.NoOperandsInstruction }
 
 func (self *faload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
@@ -63,7 +64,7 @@ func (self *faload) Execute(frame *rtda.Frame) {
 }
 
 // Load int from array
-type iaload struct{ NoOperandsInstruction }
+type iaload struct{ base.NoOperandsInstruction }
 
 func (self *iaload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
@@ -74,7 +75,7 @@ func (self *iaload) Execute(frame *rtda.Frame) {
 }
 
 // Load long from array
-type laload struct{ NoOperandsInstruction }
+type laload struct{ base.NoOperandsInstruction }
 
 func (self *laload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)
@@ -85,7 +86,7 @@ func (self *laload) Execute(frame *rtda.Frame) {
 }
 
 // Load short from array
-type saload struct{ NoOperandsInstruction }
+type saload struct{ base.NoOperandsInstruction }
 
 func (self *saload) Execute(frame *rtda.Frame) {
 	stack, arrRef, index, ok := _aloadPop(frame)

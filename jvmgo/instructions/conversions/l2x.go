@@ -1,11 +1,12 @@
-package instructions
+package conversions
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Convert long to double
-type l2d struct{ NoOperandsInstruction }
+type l2d struct{ base.NoOperandsInstruction }
 
 func (self *l2d) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -15,7 +16,7 @@ func (self *l2d) Execute(frame *rtda.Frame) {
 }
 
 // Convert long to float
-type l2f struct{ NoOperandsInstruction }
+type l2f struct{ base.NoOperandsInstruction }
 
 func (self *l2f) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -25,7 +26,7 @@ func (self *l2f) Execute(frame *rtda.Frame) {
 }
 
 // Convert long to int
-type l2i struct{ NoOperandsInstruction }
+type l2i struct{ base.NoOperandsInstruction }
 
 func (self *l2i) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

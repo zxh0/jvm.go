@@ -1,12 +1,13 @@
-package instructions
+package stores
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
 // Store into reference array
-type aastore struct{ NoOperandsInstruction }
+type aastore struct{ base.NoOperandsInstruction }
 
 func (self *aastore) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -20,7 +21,7 @@ func (self *aastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into byte or boolean array
-type bastore struct{ NoOperandsInstruction }
+type bastore struct{ base.NoOperandsInstruction }
 
 func (self *bastore) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -34,7 +35,7 @@ func (self *bastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into char array
-type castore struct{ NoOperandsInstruction }
+type castore struct{ base.NoOperandsInstruction }
 
 func (self *castore) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -48,7 +49,7 @@ func (self *castore) Execute(frame *rtda.Frame) {
 }
 
 // Store into double array
-type dastore struct{ NoOperandsInstruction }
+type dastore struct{ base.NoOperandsInstruction }
 
 func (self *dastore) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -62,7 +63,7 @@ func (self *dastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into float array
-type fastore struct{ NoOperandsInstruction }
+type fastore struct{ base.NoOperandsInstruction }
 
 func (self *fastore) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -76,7 +77,7 @@ func (self *fastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into int array
-type iastore struct{ NoOperandsInstruction }
+type iastore struct{ base.NoOperandsInstruction }
 
 func (self *iastore) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -90,7 +91,7 @@ func (self *iastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into long array
-type lastore struct{ NoOperandsInstruction }
+type lastore struct{ base.NoOperandsInstruction }
 
 func (self *lastore) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -104,7 +105,7 @@ func (self *lastore) Execute(frame *rtda.Frame) {
 }
 
 // Store into short array
-type sastore struct{ NoOperandsInstruction }
+type sastore struct{ base.NoOperandsInstruction }
 
 func (self *sastore) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

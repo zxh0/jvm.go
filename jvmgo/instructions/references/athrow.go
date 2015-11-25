@@ -1,11 +1,12 @@
-package instructions
+package references
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Throw exception or error
-type athrow struct{ NoOperandsInstruction }
+type athrow struct{ base.NoOperandsInstruction }
 
 func (self *athrow) Execute(frame *rtda.Frame) {
 	ex := frame.OperandStack().PopRef()

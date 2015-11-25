@@ -1,11 +1,12 @@
-package instructions
+package stack
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Swap the top two operand stack values
-type swap struct{ NoOperandsInstruction }
+type swap struct{ base.NoOperandsInstruction }
 
 func (self *swap) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

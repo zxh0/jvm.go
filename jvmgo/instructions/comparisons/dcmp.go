@@ -1,17 +1,18 @@
-package instructions
+package comparisons
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Compare double
-type dcmpg struct{ NoOperandsInstruction }
+type dcmpg struct{ base.NoOperandsInstruction }
 
 func (self *dcmpg) Execute(frame *rtda.Frame) {
 	_dcmp(frame, true)
 }
 
-type dcmpl struct{ NoOperandsInstruction }
+type dcmpl struct{ base.NoOperandsInstruction }
 
 func (self *dcmpl) Execute(frame *rtda.Frame) {
 	_dcmp(frame, false)

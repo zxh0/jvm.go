@@ -1,13 +1,14 @@
-package instructions
+package math
 
 import (
 	"math"
 
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Remainder double
-type drem struct{ NoOperandsInstruction }
+type drem struct{ base.NoOperandsInstruction }
 
 func (self *drem) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -18,7 +19,7 @@ func (self *drem) Execute(frame *rtda.Frame) {
 }
 
 // Remainder float
-type frem struct{ NoOperandsInstruction }
+type frem struct{ base.NoOperandsInstruction }
 
 func (self *frem) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -29,7 +30,7 @@ func (self *frem) Execute(frame *rtda.Frame) {
 }
 
 // Remainder int
-type irem struct{ NoOperandsInstruction }
+type irem struct{ base.NoOperandsInstruction }
 
 func (self *irem) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
@@ -45,7 +46,7 @@ func (self *irem) Execute(frame *rtda.Frame) {
 }
 
 // Remainder long
-type lrem struct{ NoOperandsInstruction }
+type lrem struct{ base.NoOperandsInstruction }
 
 func (self *lrem) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

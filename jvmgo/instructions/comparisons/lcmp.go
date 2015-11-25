@@ -1,11 +1,12 @@
-package instructions
+package comparisons
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Compare long
-type lcmp struct{ NoOperandsInstruction }
+type lcmp struct{ base.NoOperandsInstruction }
 
 func (self *lcmp) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()

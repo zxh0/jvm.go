@@ -1,11 +1,11 @@
-package instructions
+package base
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 type Instruction interface {
-	fetchOperands(decoder *InstructionDecoder)
+	FetchOperands(reader *BytecodeReader)
 	Execute(frame *rtda.Frame)
 }
 
@@ -13,35 +13,36 @@ type NoOperandsInstruction struct {
 	// empty
 }
 
-func (self *NoOperandsInstruction) fetchOperands(decoder *InstructionDecoder) {
+func (self *NoOperandsInstruction) FetchOperands(reader *BytecodeReader) {
 	// nothing to do
 }
 
 type BranchInstruction struct {
-	offset int // todo target
+	Offset int // todo target
 }
 
-func (self *BranchInstruction) fetchOperands(decoder *InstructionDecoder) {
-	self.offset = int(decoder.readInt16())
+func (self *BranchInstruction) FetchOperands(reader *BytecodeReader) {
+	self.Offset = int(reader.ReadInt16())
 }
 
 type Index8Instruction struct {
-	index uint
+	Index uint
 }
 
-func (self *Index8Instruction) fetchOperands(decoder *InstructionDecoder) {
-	self.index = uint(decoder.readUint8())
+func (self *Index8Instruction) FetchOperands(reader *BytecodeReader) {
+	self.Index = uint(reader.ReadUint8())
 }
 
 type Index16Instruction struct {
-	index uint
+	Index uint
 }
 
-func (self *Index16Instruction) fetchOperands(decoder *InstructionDecoder) {
-	self.index = uint(decoder.readUint16())
+func (self *Index16Instruction) FetchOperands(reader *BytecodeReader) {
+	self.Index = uint(reader.ReadUint16())
 }
 
-func branch(frame *rtda.Frame, offset int) {
-	nextPC := frame.Thread().PC() + offset
+func Branch(frame *rtda.Frame, offset int) {
+	pc := frame.Thread().PC()
+	nextPC := pc + offset
 	frame.SetNextPC(nextPC)
 }

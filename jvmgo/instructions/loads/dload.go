@@ -1,35 +1,36 @@
-package instructions
+package loads
 
 import (
+	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 )
 
 // Load double from local variable
-type dload struct{ Index8Instruction }
+type dload struct{ base.Index8Instruction }
 
 func (self *dload) Execute(frame *rtda.Frame) {
-	_dload(frame, uint(self.index))
+	_dload(frame, uint(self.Index))
 }
 
-type dload_0 struct{ NoOperandsInstruction }
+type dload_0 struct{ base.NoOperandsInstruction }
 
 func (self *dload_0) Execute(frame *rtda.Frame) {
 	_dload(frame, 0)
 }
 
-type dload_1 struct{ NoOperandsInstruction }
+type dload_1 struct{ base.NoOperandsInstruction }
 
 func (self *dload_1) Execute(frame *rtda.Frame) {
 	_dload(frame, 1)
 }
 
-type dload_2 struct{ NoOperandsInstruction }
+type dload_2 struct{ base.NoOperandsInstruction }
 
 func (self *dload_2) Execute(frame *rtda.Frame) {
 	_dload(frame, 2)
 }
 
-type dload_3 struct{ NoOperandsInstruction }
+type dload_3 struct{ base.NoOperandsInstruction }
 
 func (self *dload_3) Execute(frame *rtda.Frame) {
 	_dload(frame, 3)

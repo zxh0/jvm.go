@@ -9,7 +9,7 @@ func init() {
 	_ia(ia_init, "init", "()V")
 }
 
-func _ia(method interface{}, name, desc string) {
+func _ia(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/net/InetAddress", name, desc, method)
 }
 

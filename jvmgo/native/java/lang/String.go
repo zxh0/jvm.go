@@ -9,7 +9,7 @@ func init() {
 	_string(intern, "intern", "()Ljava/lang/String;")
 }
 
-func _string(method interface{}, name, desc string) {
+func _string(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/String", name, desc, method)
 }
 

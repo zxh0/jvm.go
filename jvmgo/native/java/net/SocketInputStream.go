@@ -14,7 +14,7 @@ func init() {
 	_sis(sis_socketRead0, "socketRead0", "(Ljava/io/FileDescriptor;[BIII)I")
 }
 
-func _sis(method interface{}, name, desc string) {
+func _sis(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/net/SocketInputStream", name, desc, method)
 }
 

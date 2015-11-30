@@ -13,7 +13,7 @@ func init() {
 	_unsafe(unpark, "unpark", "(Ljava/lang/Object;)V")
 }
 
-func _unsafe(method interface{}, name, desc string) {
+func _unsafe(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/misc/Unsafe", name, desc, method)
 }
 

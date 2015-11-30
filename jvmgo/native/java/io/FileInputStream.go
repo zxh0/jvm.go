@@ -15,7 +15,7 @@ func init() {
 	_fis(open, "open0", "(Ljava/lang/String;)V")
 }
 
-func _fis(method interface{}, name, desc string) {
+func _fis(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/io/FileInputStream", name, desc, method)
 }
 

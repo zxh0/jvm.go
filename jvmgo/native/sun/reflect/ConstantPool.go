@@ -10,7 +10,7 @@ func init() {
 	_cp(getUTF8At0, "getUTF8At0", "(Ljava/lang/Object;I)Ljava/lang/String;")
 }
 
-func _cp(method interface{}, name, desc string) {
+func _cp(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/reflect/ConstantPool", name, desc, method)
 }
 

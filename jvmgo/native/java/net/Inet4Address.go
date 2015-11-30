@@ -9,7 +9,7 @@ func init() {
 	_i4a(i4a_init, "init", "()V")
 }
 
-func _i4a(method interface{}, name, desc string) {
+func _i4a(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/net/Inet4Address", name, desc, method)
 }
 

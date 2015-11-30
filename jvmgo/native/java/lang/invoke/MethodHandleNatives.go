@@ -13,7 +13,7 @@ func init() {
 	_mhn(resolve, "resolve", "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;")
 }
 
-func _mhn(method interface{}, name, desc string) {
+func _mhn(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/invoke/MethodHandleNatives", name, desc, method)
 }
 

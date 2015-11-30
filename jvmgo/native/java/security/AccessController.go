@@ -13,7 +13,7 @@ func init() {
 	_ac(getStackAccessControlContext, "getStackAccessControlContext", "()Ljava/security/AccessControlContext;")
 }
 
-func _ac(method interface{}, name, desc string) {
+func _ac(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/security/AccessController", name, desc, method)
 }
 

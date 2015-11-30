@@ -9,7 +9,7 @@ func init() {
 	_perf(createLong, "createLong", "(Ljava/lang/String;IIJ)Ljava/nio/ByteBuffer;")
 }
 
-func _perf(method interface{}, name, desc string) {
+func _perf(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/misc/Perf", name, desc, method)
 }
 

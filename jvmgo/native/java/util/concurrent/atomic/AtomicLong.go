@@ -9,7 +9,7 @@ func init() {
 	_al(VMSupportsCS8, "VMSupportsCS8", "()Z")
 }
 
-func _al(method interface{}, name, desc string) {
+func _al(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/util/concurrent/atomic/AtomicLong", name, desc, method)
 }
 

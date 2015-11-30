@@ -9,7 +9,7 @@ func init() {
 	_ncai(newInstance0, "newInstance0", "(Ljava/lang/reflect/Constructor;[Ljava/lang/Object;)Ljava/lang/Object;")
 }
 
-func _ncai(method interface{}, name, desc string) {
+func _ncai(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/reflect/NativeConstructorAccessorImpl", name, desc, method)
 }
 

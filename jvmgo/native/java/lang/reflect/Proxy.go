@@ -9,7 +9,7 @@ func init() {
 	_proxy(defineClass0, "defineClass0", "(Ljava/lang/ClassLoader;Ljava/lang/String;[BII)Ljava/lang/Class;")
 }
 
-func _proxy(method interface{}, name, desc string) {
+func _proxy(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/reflect/Proxy", name, desc, method)
 }
 

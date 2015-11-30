@@ -28,7 +28,7 @@ func init() {
 	_net(net_localPort, "localPort", "(Ljava/io/FileDescriptor;)I")
 }
 
-func _net(method interface{}, name, desc string) {
+func _net(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/nio/ch/Net", name, desc, method)
 }
 

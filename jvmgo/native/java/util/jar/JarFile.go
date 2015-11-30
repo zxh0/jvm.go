@@ -9,7 +9,7 @@ func init() {
 	_jf(getMetaInfEntryNames, "getMetaInfEntryNames", "()[Ljava/lang/String;")
 }
 
-func _jf(method interface{}, name, desc string) {
+func _jf(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/util/jar/JarFile", name, desc, method)
 }
 

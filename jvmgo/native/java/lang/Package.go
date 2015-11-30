@@ -9,7 +9,7 @@ func init() {
 	_package(getSystemPackage0, "getSystemPackage0", "(Ljava/lang/String;)Ljava/lang/String;")
 }
 
-func _package(method interface{}, name, desc string) {
+func _package(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Package", name, desc, method)
 }
 

@@ -12,7 +12,7 @@ func init() {
 	_double(longBitsToDouble, "longBitsToDouble", "(J)D")
 }
 
-func _double(method interface{}, name, desc string) {
+func _double(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Double", name, desc, method)
 }
 

@@ -10,7 +10,7 @@ func init() {
 	_reflection(getClassAccessFlags, "getClassAccessFlags", "(Ljava/lang/Class;)I")
 }
 
-func _reflection(method interface{}, name, desc string) {
+func _reflection(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/reflect/Reflection", name, desc, method)
 }
 

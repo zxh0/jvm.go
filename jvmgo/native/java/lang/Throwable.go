@@ -11,7 +11,7 @@ func init() {
 	_throwable(getStackTraceDepth, "getStackTraceDepth", "()I")
 }
 
-func _throwable(method interface{}, name, desc string) {
+func _throwable(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
 }
 

@@ -9,7 +9,7 @@ func init() {
 	_cgl(cgl_initCGL, "initCGL", "()Z")
 }
 
-func _cgl(method interface{}, name, desc string) {
+func _cgl(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/java2d/opengl/CGLGraphicsConfig", name, desc, method)
 }
 

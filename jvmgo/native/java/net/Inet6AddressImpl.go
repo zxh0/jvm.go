@@ -13,7 +13,7 @@ func init() {
 	_i6di(i6di_lookupAllHostAddr, "lookupAllHostAddr", "(Ljava/lang/String;)[Ljava/net/InetAddress;")
 }
 
-func _i6di(method interface{}, name, desc string) {
+func _i6di(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/net/Inet6AddressImpl", name, desc, method)
 }
 

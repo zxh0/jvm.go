@@ -21,7 +21,7 @@ func init() {
 	_system(setOut0, "setOut0", "(Ljava/io/PrintStream;)V")
 }
 
-func _system(method interface{}, name, desc string) {
+func _system(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
 

@@ -20,7 +20,7 @@ func init() {
 	_raf(raf_setLength, "setLength", "(J)V")
 }
 
-func _raf(method interface{}, name, desc string) {
+func _raf(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/io/RandomAccessFile", name, desc, method)
 }
 

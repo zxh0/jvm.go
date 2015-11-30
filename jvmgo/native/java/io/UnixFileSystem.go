@@ -14,7 +14,7 @@ func init() {
 	_ufs(getLastModifiedTime, "getLastModifiedTime", "(Ljava/io/File;)J")
 }
 
-func _ufs(method interface{}, name, desc string) {
+func _ufs(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/io/UnixFileSystem", name, desc, method)
 }
 

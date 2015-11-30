@@ -12,7 +12,7 @@ func init() {
 	_ioUtil(iou_makePipe, "makePipe", "(Z)J")
 }
 
-func _ioUtil(method interface{}, name, desc string) {
+func _ioUtil(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/nio/ch/IOUtil", name, desc, method)
 }
 

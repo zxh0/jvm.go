@@ -15,7 +15,7 @@ func init() {
 	_object(wait, "wait", "(J)V")
 }
 
-func _object(method interface{}, name, desc string) {
+func _object(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Object", name, desc, method)
 }
 

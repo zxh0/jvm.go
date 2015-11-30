@@ -14,7 +14,7 @@ func init() {
 	_thread(start0, "start0", "()V")
 }
 
-func _thread(method interface{}, name, desc string) {
+func _thread(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Thread", name, desc, method)
 }
 

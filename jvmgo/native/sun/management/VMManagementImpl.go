@@ -12,7 +12,7 @@ func init() {
 	_vmm(initOptionalSupportFields, "initOptionalSupportFields", "()V")
 }
 
-func _vmm(method interface{}, name, desc string) {
+func _vmm(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/management/VMManagementImpl", name, desc, method)
 }
 

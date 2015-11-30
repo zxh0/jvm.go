@@ -9,7 +9,7 @@ func init() {
 	_iaif(iaif_isIPv6Supported, "isIPv6Supported", "()Z")
 }
 
-func _iaif(method interface{}, name, desc string) {
+func _iaif(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/net/InetAddressImplFactory", name, desc, method)
 }
 

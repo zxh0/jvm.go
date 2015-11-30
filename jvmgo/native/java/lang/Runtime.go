@@ -12,7 +12,7 @@ func init() {
 	_runtime(freeMemory, "freeMemory", "()J")
 }
 
-func _runtime(method interface{}, name, desc string) {
+func _runtime(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Runtime", name, desc, method)
 }
 

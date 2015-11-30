@@ -10,7 +10,7 @@ func init() {
 	_nmai(invoke0, "invoke0", "(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;")
 }
 
-func _nmai(method interface{}, name, desc string) {
+func _nmai(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/reflect/NativeMethodAccessorImpl", name, desc, method)
 }
 

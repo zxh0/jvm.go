@@ -26,7 +26,7 @@ func init() {
 	_class(getGenericSignature0, "getGenericSignature0", "()Ljava/lang/String;")
 }
 
-func _class(method interface{}, name, desc string) {
+func _class(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
 }
 

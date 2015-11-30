@@ -9,7 +9,7 @@ func init() {
 	_osc(initNative, "initNative", "()V")
 }
 
-func _osc(method interface{}, name, desc string) {
+func _osc(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/io/ObjectStreamClass", name, desc, method)
 }
 

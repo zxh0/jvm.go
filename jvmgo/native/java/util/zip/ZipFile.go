@@ -32,7 +32,7 @@ func init() {
 	_zf(startsWithLOC, "startsWithLOC", "(J)Z")
 }
 
-func _zf(method interface{}, name, desc string) {
+func _zf(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/util/zip/ZipFile", name, desc, method)
 }
 

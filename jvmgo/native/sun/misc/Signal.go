@@ -10,7 +10,7 @@ func init() {
 	_signal(handle0, "handle0", "(IJ)J")
 }
 
-func _signal(method interface{}, name, desc string) {
+func _signal(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/misc/Signal", name, desc, method)
 }
 

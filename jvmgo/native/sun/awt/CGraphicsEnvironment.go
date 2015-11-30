@@ -10,7 +10,7 @@ func init() {
 	_cge(cge_getMainDisplayID, "getMainDisplayID", "()I")
 }
 
-func _cge(method interface{}, name, desc string) {
+func _cge(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/awt/CGraphicsEnvironment", name, desc, method)
 }
 

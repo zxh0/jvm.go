@@ -9,7 +9,7 @@ func init() {
 	_vm(initialize, "initialize", "()V")
 }
 
-func _vm(method interface{}, name, desc string) {
+func _vm(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("sun/misc/VM", name, desc, method)
 }
 

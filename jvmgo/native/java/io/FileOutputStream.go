@@ -11,7 +11,7 @@ func init() {
 	_fos(writeBytes, "writeBytes", "([BIIZ)V")
 }
 
-func _fos(method interface{}, name, desc string) {
+func _fos(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/io/FileOutputStream", name, desc, method)
 }
 

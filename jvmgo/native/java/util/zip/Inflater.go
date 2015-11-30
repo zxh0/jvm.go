@@ -9,7 +9,7 @@ func init() {
 	_inflater(inflater_initIDs, "initIDs", "()V")
 }
 
-func _inflater(method interface{}, name, desc string) {
+func _inflater(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/util/zip/Inflater", name, desc, method)
 }
 

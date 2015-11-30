@@ -12,7 +12,7 @@ func init() {
 	_float(intBitsToFloat, "intBitsToFloat", "(I)F")
 }
 
-func _float(method interface{}, name, desc string) {
+func _float(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/Float", name, desc, method)
 }
 

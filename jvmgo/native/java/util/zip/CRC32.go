@@ -11,7 +11,7 @@ func init() {
 	_crc(updateBytes, "updateBytes", "(I[BII)I")
 }
 
-func _crc(method interface{}, name, desc string) {
+func _crc(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/util/zip/CRC32", name, desc, method)
 }
 

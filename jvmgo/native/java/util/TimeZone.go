@@ -14,7 +14,7 @@ func init() {
 	_tz(getSystemTimeZoneID, "getSystemTimeZoneID", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;")
 }
 
-func _tz(method interface{}, name, desc string) {
+func _tz(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/util/TimeZone", name, desc, method)
 }
 

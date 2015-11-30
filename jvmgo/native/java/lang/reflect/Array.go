@@ -13,7 +13,7 @@ func init() {
 	_array(set, "set", "(Ljava/lang/Object;ILjava/lang/Object;)V")
 }
 
-func _array(method interface{}, name, desc string) {
+func _array(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/lang/reflect/Array", name, desc, method)
 }
 

@@ -24,7 +24,7 @@ func init() {
 
 }
 
-func _psi(method interface{}, name, desc string) {
+func _psi(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/net/PlainSocketImpl", name, desc, method)
 }
 

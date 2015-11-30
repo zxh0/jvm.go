@@ -12,7 +12,7 @@ func init() {
 	_sos(sos_socketWrite0, "socketWrite0", "(Ljava/io/FileDescriptor;[BII)V")
 }
 
-func _sos(method interface{}, name, desc string) {
+func _sos(method func(frame *rtda.Frame), name, desc string) {
 	rtc.RegisterNativeMethod("java/net/SocketOutputStream", name, desc, method)
 }
 

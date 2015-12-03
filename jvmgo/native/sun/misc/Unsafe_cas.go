@@ -76,7 +76,7 @@ func compareAndSwapObject(frame *rtda.Frame) {
 		// object
 		swapped := _casObj(obj, anys, offset, expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
-	} else if objs, ok := fields.([]*rtc.Obj); ok {
+	} else if objs, ok := fields.([]*rtc.Object); ok {
 		// ref[]
 		swapped := _casArr(objs, offset, expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
@@ -85,7 +85,7 @@ func compareAndSwapObject(frame *rtda.Frame) {
 		panic("todo: compareAndSwapObject!")
 	}
 }
-func _casObj(obj *rtc.Obj, fields []interface{}, offset int64, expected, newVal *rtc.Obj) bool {
+func _casObj(obj *rtc.Object, fields []interface{}, offset int64, expected, newVal *rtc.Object) bool {
 	// todo
 	obj.LockState()
 	defer obj.UnlockState()
@@ -98,7 +98,7 @@ func _casObj(obj *rtc.Obj, fields []interface{}, offset int64, expected, newVal 
 		return false
 	}
 }
-func _casArr(objs []*rtc.Obj, offset int64, expected, newVal *rtc.Obj) bool {
+func _casArr(objs []*rtc.Object, offset int64, expected, newVal *rtc.Object) bool {
 	// cast to []unsafe.Pointer
 	ps := *((*[]unsafe.Pointer)(unsafe.Pointer(&objs)))
 

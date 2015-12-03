@@ -55,8 +55,8 @@ func getBooleanAttributes0(frame *rtda.Frame) {
 	stack.PushInt(int32(attributes0))
 }
 
-func _getPath(fileObj *rtc.Obj) string {
-	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").(*rtc.Obj)
+func _getPath(fileObj *rtc.Object) string {
+	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").(*rtc.Object)
 	return rtda.GoString(pathStr)
 }
 

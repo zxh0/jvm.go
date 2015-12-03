@@ -22,7 +22,7 @@ type Thread struct {
 	pc              int // the address of the instruction currently being executed
 	stack           *Stack
 	frameCache      *FrameCache
-	jThread         *rtc.Obj    // java.lang.Thread
+	jThread         *rtc.Object    // java.lang.Thread
 	lock            *sync.Mutex // state lock
 	ch              chan int
 	sleepingFlag    bool
@@ -32,7 +32,7 @@ type Thread struct {
 	// todo
 }
 
-func NewThread(jThread *rtc.Obj) *Thread {
+func NewThread(jThread *rtc.Object) *Thread {
 	stack := newStack(options.ThreadStackSize)
 	thread := &Thread{
 		stack:   stack,
@@ -51,7 +51,7 @@ func (self *Thread) PC() int {
 func (self *Thread) SetPC(pc int) {
 	self.pc = pc
 }
-func (self *Thread) JThread() *rtc.Obj {
+func (self *Thread) JThread() *rtc.Object {
 	return self.jThread
 }
 
@@ -151,10 +151,10 @@ func (self *Thread) InitClass(class *rtc.Class) {
 	initClass(self, class)
 }
 
-func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
+func (self *Thread) HandleUncaughtException(ex *rtc.Object) {
 	self.stack.clear()
 	sysClass := rtc.BootLoader().LoadClass("java/lang/System")
-	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").(*rtc.Obj)
+	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").(*rtc.Object)
 	printStackTrace := ex.Class().GetInstanceMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
 
 	// call ex.printStackTrace(System.err)
@@ -174,6 +174,6 @@ func (self *Thread) HandleUncaughtException(ex *rtc.Obj) {
 }
 
 // hack
-func (self *Thread) HackSetJThread(jThread *rtc.Obj) {
+func (self *Thread) HackSetJThread(jThread *rtc.Object) {
 	self.jThread = jThread
 }

@@ -8,7 +8,7 @@ import (
 
 // todo: is there a better way to create String?
 // go string -> java.lang.String
-func JString(goStr string) *rtc.Obj {
+func JString(goStr string) *rtc.Object {
 	internedStr := getInternedString(goStr)
 	if internedStr != nil {
 		return internedStr
@@ -22,8 +22,8 @@ func JString(goStr string) *rtc.Obj {
 }
 
 // java.lang.String -> go string
-func GoString(jStr *rtc.Obj) string {
-	charArr := jStr.GetFieldValue("value", "[C").(*rtc.Obj)
+func GoString(jStr *rtc.Object) string {
+	charArr := jStr.GetFieldValue("value", "[C").(*rtc.Object)
 	return _utf16ToString(charArr.Chars())
 }
 

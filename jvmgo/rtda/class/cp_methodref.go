@@ -89,7 +89,7 @@ func (self *ConstantMethodref) findMethod(isStatic bool) *Method {
 	return nil
 }*/
 
-func (self *ConstantMethodref) GetVirtualMethod(ref *Obj) *Method {
+func (self *ConstantMethodref) GetVirtualMethod(ref *Object) *Method {
 	if self.vslot < 0 {
 		self.vslot = getVslot(ref.class, self.name, self.descriptor)
 	}

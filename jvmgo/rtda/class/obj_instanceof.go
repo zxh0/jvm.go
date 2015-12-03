@@ -1,6 +1,6 @@
 package class
 
-func (self *Obj) IsInstanceOf(class *Class) bool {
+func (self *Object) IsInstanceOf(class *Class) bool {
 	s, t := self.class, class
 	return _checkcast(s, t)
 }

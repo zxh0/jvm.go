@@ -112,14 +112,14 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 	}
 }
 
-func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.EnclosingMethod) *rtc.Obj {
+func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.EnclosingMethod) *rtc.Object {
 	if emInfo == nil {
 		return nil
 	}
 
 	enclosingClass := classLoader.LoadClass(emInfo.ClassName())
 	enclosingClassObj := enclosingClass.JClass()
-	var methodNameObj, methodDescriptorObj *rtc.Obj
+	var methodNameObj, methodDescriptorObj *rtc.Object
 	if emInfo.MethodName() != "" {
 		methodNameObj = rtda.JString(emInfo.MethodName())
 		methodDescriptorObj = rtda.JString(emInfo.MethodDescriptor())
@@ -127,7 +127,7 @@ func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.Enclos
 		methodNameObj, methodDescriptorObj = nil, nil
 	}
 
-	objs := []*rtc.Obj{enclosingClassObj, methodNameObj, methodDescriptorObj}
+	objs := []*rtc.Object{enclosingClassObj, methodNameObj, methodDescriptorObj}
 	return rtc.NewRefArray2(classLoader.JLObjectClass(), objs) // Object[]
 }
 
@@ -136,7 +136,7 @@ func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.Enclos
 func getInterfaces0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	interfaces := class.Interfaces()
-	interfaceObjs := make([]*rtc.Obj, len(interfaces))
+	interfaceObjs := make([]*rtc.Object, len(interfaces))
 	for i, iface := range interfaces {
 		interfaceObjs[i] = iface.JClass()
 	}

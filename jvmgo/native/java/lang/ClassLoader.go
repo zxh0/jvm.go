@@ -87,6 +87,6 @@ func findLoadedClass0(frame *rtda.Frame) {
 }
 
 // todo
-func isAppClassLoader(loader *rtc.Obj) bool {
+func isAppClassLoader(loader *rtc.Object) bool {
 	return loader.Class().Name() == "sun/misc/Launcher$AppClassLoader"
 }

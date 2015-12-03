@@ -16,7 +16,7 @@ const (
 	AT_LONG    = 11
 )
 
-func NewArray(arrClass *Class, count uint) *Obj {
+func NewArray(arrClass *Class, count uint) *Object {
 	if arrClass.IsPrimitiveArray() {
 		return _newPrimitiveArray(arrClass, count)
 	} else {
@@ -25,7 +25,7 @@ func NewArray(arrClass *Class, count uint) *Obj {
 	}
 }
 
-func _newPrimitiveArray(arrClass *Class, count uint) *Obj {
+func _newPrimitiveArray(arrClass *Class, count uint) *Object {
 	switch arrClass.Name() {
 	case "[Z":
 		return newObj(arrClass, make([]int8, count), nil)
@@ -49,7 +49,7 @@ func _newPrimitiveArray(arrClass *Class, count uint) *Obj {
 	}
 }
 
-func NewPrimitiveArray(atype uint8, count uint) *Obj {
+func NewPrimitiveArray(atype uint8, count uint) *Object {
 	switch atype {
 	case AT_BOOLEAN:
 		return newObj(bootLoader.getClass("[Z"), make([]int8, count), nil)
@@ -73,26 +73,26 @@ func NewPrimitiveArray(atype uint8, count uint) *Obj {
 	}
 }
 
-func NewByteArray(bytes []int8) *Obj {
+func NewByteArray(bytes []int8) *Object {
 	return newObj(bootLoader.getClass("[B"), bytes, nil)
 }
-func NewCharArray(chars []uint16) *Obj {
+func NewCharArray(chars []uint16) *Object {
 	return newObj(bootLoader.getClass("[C"), chars, nil)
 }
 
-func NewRefArray(componentClass *Class, count uint) *Obj {
+func NewRefArray(componentClass *Class, count uint) *Object {
 	arrClass := componentClass.arrayClass()
-	components := make([]*Obj, count)
+	components := make([]*Object, count)
 	return newObj(arrClass, components, nil)
 }
 
 // todo rename
-func NewRefArray2(componentClass *Class, components []*Obj) *Obj {
+func NewRefArray2(componentClass *Class, components []*Object) *Object {
 	arrClass := componentClass.arrayClass()
 	return newObj(arrClass, components, nil)
 }
 
-func ArrayLength(arr *Obj) int32 {
+func ArrayLength(arr *Object) int32 {
 	switch arr.fields.(type) {
 	case []int8:
 		return int32(len(arr.fields.([]int8)))
@@ -108,15 +108,15 @@ func ArrayLength(arr *Obj) int32 {
 		return int32(len(arr.fields.([]float32)))
 	case []float64:
 		return int32(len(arr.fields.([]float64)))
-	case []*Obj:
-		return int32(len(arr.fields.([]*Obj)))
+	case []*Object:
+		return int32(len(arr.fields.([]*Object)))
 	default:
 		jutil.Panicf("Not array: %v!", arr)
 		return -1
 	}
 }
 
-func ArrayCopy(src, dst *Obj, srcPos, dstPos, length int32) {
+func ArrayCopy(src, dst *Object, srcPos, dstPos, length int32) {
 	switch src.fields.(type) {
 	case []int8:
 		_src := src.fields.([]int8)[srcPos : srcPos+length]
@@ -146,9 +146,9 @@ func ArrayCopy(src, dst *Obj, srcPos, dstPos, length int32) {
 		_src := src.fields.([]float64)[srcPos : srcPos+length]
 		_dst := dst.fields.([]float64)[dstPos : dstPos+length]
 		copy(_dst, _src)
-	case []*Obj:
-		_src := src.fields.([]*Obj)[srcPos : srcPos+length]
-		_dst := dst.fields.([]*Obj)[dstPos : dstPos+length]
+	case []*Object:
+		_src := src.fields.([]*Object)[srcPos : srcPos+length]
+		_dst := dst.fields.([]*Object)[dstPos : dstPos+length]
 		copy(_dst, _src)
 	default:
 		jutil.Panicf("Not array: %v!", src)

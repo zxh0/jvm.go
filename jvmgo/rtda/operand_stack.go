@@ -27,11 +27,11 @@ func (self *OperandStack) PushNull() {
 	self.size++
 }
 
-func (self *OperandStack) PushRef(ref *rtc.Obj) {
+func (self *OperandStack) PushRef(ref *rtc.Object) {
 	self.slots[self.size] = ref
 	self.size++
 }
-func (self *OperandStack) PopRef() *rtc.Obj {
+func (self *OperandStack) PopRef() *rtc.Object {
 	self.size--
 	top := self.slots[self.size]
 	self.slots[self.size] = nil
@@ -39,7 +39,7 @@ func (self *OperandStack) PopRef() *rtc.Obj {
 	if top == nil {
 		return nil
 	} else {
-		return top.(*rtc.Obj)
+		return top.(*rtc.Object)
 	}
 }
 
@@ -138,12 +138,12 @@ func (self *OperandStack) PopTops(n uint) []interface{} {
 	return top
 }
 
-func (self *OperandStack) TopRef(n uint) *rtc.Obj {
+func (self *OperandStack) TopRef(n uint) *rtc.Object {
 	ref := self.slots[self.size-1-n]
 	if ref == nil {
 		return nil
 	} else {
-		return ref.(*rtc.Obj)
+		return ref.(*rtc.Object)
 	}
 }
 

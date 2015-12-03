@@ -6,7 +6,7 @@ import (
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
-func Unbox(obj *rtc.Obj, primitiveDescriptor string) interface{} {
+func Unbox(obj *rtc.Object, primitiveDescriptor string) interface{} {
 	return obj.GetFieldValue("value", primitiveDescriptor)
 }
 

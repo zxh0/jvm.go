@@ -33,11 +33,11 @@ func (self *Field) SlotId() uint {
 	return self.slotId
 }
 
-func (self *Field) GetValue(ref *Obj) interface{} {
+func (self *Field) GetValue(ref *Object) interface{} {
 	fields := ref.fields.([]interface{})
 	return fields[self.slotId]
 }
-func (self *Field) PutValue(ref *Obj, val interface{}) {
+func (self *Field) PutValue(ref *Object, val interface{}) {
 	fields := ref.fields.([]interface{})
 	fields[self.slotId] = val
 }

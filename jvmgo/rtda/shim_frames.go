@@ -15,7 +15,7 @@ func newShimFrame(thread *Thread, args []interface{}) *Frame {
 	return frame
 }
 
-func newAthrowFrame(thread *Thread, ex *rtc.Obj, initArgs []interface{}) *Frame {
+func newAthrowFrame(thread *Thread, ex *rtc.Object, initArgs []interface{}) *Frame {
 	// stackSlots := [ex, ex, initArgs]
 	stackSlots := make([]interface{}, len(initArgs)+2)
 	stackSlots[0] = ex

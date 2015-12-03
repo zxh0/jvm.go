@@ -28,7 +28,7 @@ type Class struct {
 	staticFieldCount   uint
 	staticFieldSlots   []interface{}
 	vtable             []*Method // virtual method table
-	jClass             *Obj      // java.lang.Class instance
+	jClass             *Object      // java.lang.Class instance
 	superClass         *Class
 	interfaces         []*Class
 	loadedFrom         cp.Entry // todo
@@ -58,7 +58,7 @@ func (self *Class) Fields() []*Field {
 func (self *Class) StaticFieldSlots() []interface{} {
 	return self.staticFieldSlots
 }
-func (self *Class) JClass() *Obj {
+func (self *Class) JClass() *Object {
 	return self.jClass
 }
 func (self *Class) SuperClass() *Class {
@@ -162,12 +162,12 @@ func (self *Class) GetClinitMethod() *Method {
 	return self._getMethod(clinitMethodName, clinitMethodDesc, true)
 }
 
-func (self *Class) NewObjWithExtra(extra interface{}) *Obj {
+func (self *Class) NewObjWithExtra(extra interface{}) *Object {
 	obj := self.NewObj()
 	obj.extra = extra
 	return obj
 }
-func (self *Class) NewObj() *Obj {
+func (self *Class) NewObj() *Object {
 	if self.instanceFieldCount > 0 {
 		fields := make([]interface{}, self.instanceFieldCount)
 		obj := newObj(self, fields, nil)
@@ -177,7 +177,7 @@ func (self *Class) NewObj() *Obj {
 		return newObj(self, nil, nil)
 	}
 }
-func (self *Class) NewArray(count uint) *Obj {
+func (self *Class) NewArray(count uint) *Object {
 	return NewRefArray(self, count)
 }
 
@@ -201,6 +201,6 @@ func (self *Class) SetStaticValue(fieldName, fieldDescriptor string, value inter
 	field.PutStaticValue(value)
 }
 
-func (self *Class) AsObj() *Obj {
-	return &Obj{fields: self.staticFieldSlots}
+func (self *Class) AsObj() *Object {
+	return &Object{fields: self.staticFieldSlots}
 }

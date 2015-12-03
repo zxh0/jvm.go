@@ -12,7 +12,7 @@ var (
 	_classLoader     *rtc.ClassLoader // todo
 	_mainClassName   string
 	_args            []string
-	_mainThreadGroup *rtc.Obj
+	_mainThreadGroup *rtc.Object
 )
 
 // Fake instruction to load and execute main class
@@ -132,8 +132,8 @@ func execMain(thread *rtda.Thread) {
 	}
 }
 
-func createArgs() *rtc.Obj {
-	jArgs := make([]*rtc.Obj, len(_args))
+func createArgs() *rtc.Object {
+	jArgs := make([]*rtc.Object, len(_args))
 	for i, arg := range _args {
 		jArgs[i] = rtda.JString(arg)
 	}

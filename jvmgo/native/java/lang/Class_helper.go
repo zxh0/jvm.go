@@ -6,7 +6,7 @@ import (
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
-func getParameterTypeArr(method *rtc.Method) *rtc.Obj {
+func getParameterTypeArr(method *rtc.Method) *rtc.Object {
 	paramTypes := method.ParameterTypes()
 	paramCount := len(paramTypes)
 
@@ -23,12 +23,12 @@ func getParameterTypeArr(method *rtc.Method) *rtc.Obj {
 	return classArr
 }
 
-func getReturnType(method *rtc.Method) *rtc.Obj {
+func getReturnType(method *rtc.Method) *rtc.Object {
 	goReturnType := method.ReturnType()
 	return goReturnType.JClass()
 }
 
-func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
+func getExceptionTypeArr(method *rtc.Method) *rtc.Object {
 	exTypes := method.ExceptionTypes()
 	exCount := len(exTypes)
 
@@ -45,7 +45,7 @@ func getExceptionTypeArr(method *rtc.Method) *rtc.Obj {
 	return classArr
 }
 
-func getAnnotationByteArr(goBytes []byte) *rtc.Obj {
+func getAnnotationByteArr(goBytes []byte) *rtc.Object {
 	if goBytes != nil {
 		jBytes := jutil.CastUint8sToInt8s(goBytes)
 		return rtc.NewByteArray(jBytes)
@@ -53,7 +53,7 @@ func getAnnotationByteArr(goBytes []byte) *rtc.Obj {
 	return nil
 }
 
-func getSignatureStr(signature string) *rtc.Obj {
+func getSignatureStr(signature string) *rtc.Object {
 	if signature != "" {
 		return rtda.JString(signature)
 	}

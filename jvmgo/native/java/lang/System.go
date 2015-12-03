@@ -54,7 +54,7 @@ func arraycopy(frame *rtda.Frame) {
 	rtc.ArrayCopy(src, dest, srcPos, destPos, length)
 }
 
-func checkArrayCopy(src, dest *rtc.Obj) bool {
+func checkArrayCopy(src, dest *rtc.Object) bool {
 	srcClass := src.Class()
 	destClass := dest.Class()
 

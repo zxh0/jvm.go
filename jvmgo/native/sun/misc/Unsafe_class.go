@@ -92,12 +92,12 @@ func staticFieldBase(frame *rtda.Frame) {
 	stack.PushRef(obj)
 }
 
-func _getGoField(fieldObj *rtc.Obj) *rtc.Field {
+func _getGoField(fieldObj *rtc.Object) *rtc.Field {
 	extra := fieldObj.Extra()
 	if extra != nil {
 		return extra.(*rtc.Field)
 	}
 
-	root := fieldObj.GetFieldValue("root", "Ljava/lang/reflect/Field;").(*rtc.Obj)
+	root := fieldObj.GetFieldValue("root", "Ljava/lang/reflect/Field;").(*rtc.Object)
 	return root.Extra().(*rtc.Field)
 }

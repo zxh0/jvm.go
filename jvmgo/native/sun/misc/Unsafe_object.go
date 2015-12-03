@@ -383,7 +383,7 @@ func putObject(frame *rtda.Frame) {
 	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
-	} else if objs, ok := fields.([]*rtc.Obj); ok {
+	} else if objs, ok := fields.([]*rtc.Object); ok {
 		// ref[]
 		objs[offset] = x
 	} else {
@@ -402,7 +402,7 @@ func getObject(frame *rtda.Frame) {
 		// object
 		x := _getObj(anys, offset)
 		frame.OperandStack().PushRef(x)
-	} else if objs, ok := fields.([]*rtc.Obj); ok {
+	} else if objs, ok := fields.([]*rtc.Object); ok {
 		// ref[]
 		x := objs[offset]
 		frame.OperandStack().PushRef(x)
@@ -410,10 +410,10 @@ func getObject(frame *rtda.Frame) {
 		panic("getObject!")
 	}
 }
-func _getObj(fields []interface{}, offset int64) *rtc.Obj {
+func _getObj(fields []interface{}, offset int64) *rtc.Object {
 	f := fields[offset]
 	if f != nil {
-		return f.(*rtc.Obj)
+		return f.(*rtc.Object)
 	} else {
 		return nil
 	}

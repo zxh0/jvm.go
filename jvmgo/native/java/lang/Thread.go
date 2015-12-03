@@ -62,7 +62,7 @@ func isAlive(frame *rtda.Frame) {
 	stack.PushBoolean(alive)
 }
 
-func _extraThread(threadObj *rtc.Obj) *rtda.Thread {
+func _extraThread(threadObj *rtc.Object) *rtda.Thread {
 	threadObj.RLockState()
 	defer threadObj.RUnlockState()
 

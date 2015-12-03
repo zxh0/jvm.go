@@ -118,7 +118,7 @@ func (self *SASTORE) Execute(frame *rtda.Frame) {
 	}
 }
 
-func _checkArrayAndIndex(frame *rtda.Frame, arrRef *rtc.Obj, index int32) bool {
+func _checkArrayAndIndex(frame *rtda.Frame, arrRef *rtc.Object, index int32) bool {
 	if arrRef == nil {
 		frame.Thread().ThrowNPE()
 		return false

@@ -69,8 +69,8 @@ func net_bind0(frame *rtda.Frame) {
 	address := vars.GetRef(3)
 	port := vars.Get(4)
 
-	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").(*rtc.Obj)
-	hostNameObj := holder.GetFieldValue("hostName", "Ljava/lang/String;").(*rtc.Obj)
+	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").(*rtc.Object)
+	hostNameObj := holder.GetFieldValue("hostName", "Ljava/lang/String;").(*rtc.Object)
 	hostName := rtda.GoString(hostNameObj)
 	laddr := fmt.Sprintf("%s:%d", hostName, port)
 	listen, err := net.Listen("tcp", laddr)

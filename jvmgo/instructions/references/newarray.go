@@ -86,7 +86,7 @@ func _checkCounts(counts []interface{}) bool {
 	return true
 }
 
-func _newMultiArray(counts []interface{}, arrClass *rtc.Class) *rtc.Obj {
+func _newMultiArray(counts []interface{}, arrClass *rtc.Class) *rtc.Object {
 	count := uint(counts[0].(int32))
 	arr := rtc.NewArray(arrClass, count)
 

@@ -1,13 +1,13 @@
 package class
 
-func (self *Obj) Clone() *Obj {
+func (self *Object) Clone() *Object {
 	fields2 := self._cloneFields()
 	var extra2 interface{} = nil // todo
 
 	return newObj(self.class, fields2, extra2)
 }
 
-func (self *Obj) _cloneFields() interface{} {
+func (self *Object) _cloneFields() interface{} {
 	switch self.fields.(type) {
 	case []int8:
 		fields := self.fields.([]int8)
@@ -44,9 +44,9 @@ func (self *Obj) _cloneFields() interface{} {
 		fields2 := make([]float64, len(fields))
 		copy(fields2, fields)
 		return fields2
-	case []*Obj:
-		fields := self.fields.([]*Obj)
-		fields2 := make([]*Obj, len(fields))
+	case []*Object:
+		fields := self.fields.([]*Object)
+		fields2 := make([]*Object, len(fields))
 		copy(fields2, fields)
 		return fields2
 	default: // []interface{}

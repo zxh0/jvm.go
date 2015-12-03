@@ -5,29 +5,29 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
-func getGoMethod(methodObj *rtc.Obj) *rtc.Method {
+func getGoMethod(methodObj *rtc.Object) *rtc.Method {
 	return _getGoMethod(methodObj, false)
 }
-func getGoConstructor(constructorObj *rtc.Obj) *rtc.Method {
+func getGoConstructor(constructorObj *rtc.Object) *rtc.Method {
 	return _getGoMethod(constructorObj, true)
 }
-func _getGoMethod(methodObj *rtc.Obj, isConstructor bool) *rtc.Method {
+func _getGoMethod(methodObj *rtc.Object, isConstructor bool) *rtc.Method {
 	extra := methodObj.Extra()
 	if extra != nil {
 		return extra.(*rtc.Method)
 	}
 
 	if isConstructor {
-		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").(*rtc.Obj)
+		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").(*rtc.Object)
 		return root.Extra().(*rtc.Method)
 	} else {
-		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Method;").(*rtc.Obj)
+		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Method;").(*rtc.Object)
 		return root.Extra().(*rtc.Method)
 	}
 }
 
 // Object[] -> []interface{}
-func convertArgs(this, argArr *rtc.Obj, method *rtc.Method) []interface{} {
+func convertArgs(this, argArr *rtc.Object, method *rtc.Method) []interface{} {
 	if method.ArgSlotCount() == 0 {
 		return nil
 	}

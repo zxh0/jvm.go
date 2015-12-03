@@ -6,7 +6,7 @@ import (
 	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
 )
 
-//type Ref *rtda.Obj
+//type Ref *rtda.Object
 
 // Load reference from array
 type AALOAD struct{ base.NoOperandsInstruction }
@@ -96,7 +96,7 @@ func (self *SALOAD) Execute(frame *rtda.Frame) {
 	}
 }
 
-func _aloadPop(frame *rtda.Frame) (*rtda.OperandStack, *rtc.Obj, int, bool) {
+func _aloadPop(frame *rtda.Frame) (*rtda.OperandStack, *rtc.Object, int, bool) {
 	stack := frame.OperandStack()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()

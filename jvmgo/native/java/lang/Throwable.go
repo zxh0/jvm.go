@@ -35,7 +35,7 @@ func fillInStackTrace(frame *rtda.Frame) {
 	this.SetExtra(stes)
 }
 
-func createStackTraceElements(tObj *rtc.Obj, frame *rtda.Frame) []*StackTraceElement {
+func createStackTraceElements(tObj *rtc.Object, frame *rtda.Frame) []*StackTraceElement {
 	thread := frame.Thread()
 	depth := thread.StackDepth()
 
@@ -96,7 +96,7 @@ func getStackTraceElement(frame *rtda.Frame) {
 	stack.PushRef(steObj)
 }
 
-func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) *rtc.Obj {
+func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) *rtc.Object {
 	declaringClass := rtda.JString(ste.declaringClass)
 	methodName := rtda.JString(ste.methodName)
 	fileName := rtda.JString(ste.fileName)

@@ -1,5 +1,7 @@
 package classfile
 
+import "math"
+
 /*
 CONSTANT_Integer_info {
     u1 tag;
@@ -11,7 +13,8 @@ type ConstantIntegerInfo struct {
 }
 
 func (self *ConstantIntegerInfo) readInfo(reader *ClassReader) {
-	self.val = reader.readInt32()
+	bytes := reader.readUint32()
+	self.val = int32(bytes)
 }
 func (self *ConstantIntegerInfo) Value() int32 {
 	return self.val
@@ -28,7 +31,8 @@ type ConstantFloatInfo struct {
 }
 
 func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
-	self.val = reader.readFloat32()
+	bytes := reader.readUint32()
+	self.val = math.Float32frombits(bytes)
 }
 func (self *ConstantFloatInfo) Value() float32 {
 	return self.val
@@ -46,7 +50,8 @@ type ConstantLongInfo struct {
 }
 
 func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
-	self.val = reader.readInt64()
+	bytes := reader.readUint64()
+	self.val = int64(bytes)
 }
 func (self *ConstantLongInfo) Value() int64 {
 	return self.val
@@ -64,7 +69,8 @@ type ConstantDoubleInfo struct {
 }
 
 func (self *ConstantDoubleInfo) readInfo(reader *ClassReader) {
-	self.val = reader.readFloat64()
+	bytes := reader.readUint64()
+	self.val = math.Float64frombits(bytes)
 }
 func (self *ConstantDoubleInfo) Value() float64 {
 	return self.val

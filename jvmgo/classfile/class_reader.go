@@ -1,10 +1,9 @@
 package classfile
 
 import (
+	"encoding/binary"
 	"fmt"
 	"unicode/utf16"
-
-	"github.com/zxh0/jvm.go/jvmgo/jutil/bigendian"
 )
 
 type ClassReader struct {
@@ -15,43 +14,29 @@ func newClassReader(data []byte) *ClassReader {
 	return &ClassReader{data}
 }
 
+// u1
 func (self *ClassReader) readUint8() uint8 {
 	val := self.data[0]
 	self.data = self.data[1:]
 	return val
 }
 
+// u2
 func (self *ClassReader) readUint16() uint16 {
-	val := bigendian.Uint16(self.data)
+	val := binary.BigEndian.Uint16(self.data)
 	self.data = self.data[2:]
 	return val
 }
 
+// u4
 func (self *ClassReader) readUint32() uint32 {
-	val := bigendian.Int32(self.data)
-	self.data = self.data[4:]
-	return uint32(val)
-}
-func (self *ClassReader) readInt32() int32 {
-	val := bigendian.Int32(self.data)
+	val := binary.BigEndian.Uint32(self.data)
 	self.data = self.data[4:]
 	return val
 }
 
-func (self *ClassReader) readInt64() int64 {
-	val := bigendian.Int64(self.data)
-	self.data = self.data[8:]
-	return val
-}
-
-func (self *ClassReader) readFloat32() float32 {
-	val := bigendian.Float32(self.data)
-	self.data = self.data[4:]
-	return val
-}
-
-func (self *ClassReader) readFloat64() float64 {
-	val := bigendian.Float64(self.data)
+func (self *ClassReader) readUint64() uint64 {
+	val := binary.BigEndian.Uint64(self.data)
 	self.data = self.data[8:]
 	return val
 }

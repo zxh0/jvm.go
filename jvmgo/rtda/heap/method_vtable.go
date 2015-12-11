@@ -1,4 +1,4 @@
-package class
+package heap
 
 func getVslot(class *Class, name, descriptor string) int {
 	for i, m := range class.vtable {

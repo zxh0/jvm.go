@@ -2,7 +2,7 @@ package reflect
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -10,7 +10,7 @@ func init() {
 }
 
 func _proxy(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/lang/reflect/Proxy", name, desc, method)
+	heap.RegisterNativeMethod("java/lang/reflect/Proxy", name, desc, method)
 }
 
 // private static native Class<?> defineClass0(ClassLoader loader, String name,
@@ -23,7 +23,7 @@ func defineClass0(frame *rtda.Frame) {
 	}
 
 	// init class
-	class := stack.TopRef(0).Extra().(*rtc.Class)
+	class := stack.TopRef(0).Extra().(*heap.Class)
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread().InitClass(class)
@@ -39,7 +39,7 @@ func _loadClass(frame *rtda.Frame) {
 	_len := vars.GetInt(4)
 
 	name := rtda.GoString(nameObj)
-	name = rtc.DotToSlash(name)
+	name = heap.DotToSlash(name)
 	data := byteArr.GoBytes()
 	data = data[off : off+_len]
 

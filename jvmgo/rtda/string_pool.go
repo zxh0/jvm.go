@@ -1,17 +1,17 @@
 package rtda
 
 import (
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
-var _internedStrings = map[string]*rtc.Object{}
+var _internedStrings = map[string]*heap.Object{}
 
-func getInternedString(goStr string) *rtc.Object {
+func getInternedString(goStr string) *heap.Object {
 	return _internedStrings[goStr]
 }
 
 // todo
-func InternString(goStr string, jStr *rtc.Object) *rtc.Object {
+func InternString(goStr string, jStr *heap.Object) *heap.Object {
 	if internedStr, ok := _internedStrings[goStr]; ok {
 		return internedStr
 	}

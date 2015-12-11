@@ -3,11 +3,11 @@ package rtda
 import (
 	"fmt"
 
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func (self *Thread) throwException(className, initDesc string, initArgs ...interface{}) {
-	class := rtc.BootLoader().LoadClass(className)
+	class := heap.BootLoader().LoadClass(className)
 	exObj := class.NewObj()
 	athrowFrame := newAthrowFrame(self, exObj, initArgs)
 	self.PushFrame(athrowFrame)
@@ -63,7 +63,7 @@ func (self *Thread) ThrowArrayIndexOutOfBoundsException(index int32) {
 	self.throwExceptionS("java/lang/ArrayIndexOutOfBoundsException", msg)
 }
 
-func (self *Thread) ThrowClassCastException(from, to *rtc.Class) {
+func (self *Thread) ThrowClassCastException(from, to *heap.Class) {
 	msg := fmt.Sprintf("%v cannot be cast to %v", from.NameJlsFormat(), to.NameJlsFormat())
 	self.throwExceptionS("java/lang/ClassCastException", msg)
 }

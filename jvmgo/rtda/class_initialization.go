@@ -3,12 +3,12 @@ package rtda
 import (
 	"unsafe"
 
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // see: jls8 12.4.2. Detailed Initialization Procedure
 // http://docs.oracle.com/javase/specs/jls/se8/html/jls-12.html#jls-12.4.2
-func initClass(thread *Thread, class *rtc.Class) {
+func initClass(thread *Thread, class *heap.Class) {
 	// step 1
 	initCond := class.InitCond()
 	initCond.L.Lock()
@@ -55,7 +55,7 @@ func initClass(thread *Thread, class *rtc.Class) {
 	// todo
 }
 
-func initSuperClass(thread *Thread, class *rtc.Class) {
+func initSuperClass(thread *Thread, class *heap.Class) {
 	if !class.IsInterface() {
 		superClass := class.SuperClass()
 		if superClass != nil && superClass.InitializationNotStarted() {
@@ -64,10 +64,10 @@ func initSuperClass(thread *Thread, class *rtc.Class) {
 	}
 }
 
-func callClinit(thread *Thread, class *rtc.Class) {
+func callClinit(thread *Thread, class *heap.Class) {
 	clinit := class.GetClinitMethod()
 	if clinit == nil {
-		clinit = rtc.ReturnMethod() // just do nothing
+		clinit = heap.ReturnMethod() // just do nothing
 	}
 
 	// exec <clinit>
@@ -80,7 +80,7 @@ func callClinit(thread *Thread, class *rtc.Class) {
 }
 
 // step 10
-func initSucceeded(class *rtc.Class) {
+func initSucceeded(class *heap.Class) {
 	initCond := class.InitCond()
 	initCond.L.Lock()
 	defer initCond.L.Unlock()
@@ -90,7 +90,7 @@ func initSucceeded(class *rtc.Class) {
 }
 
 // todo
-func initConstantStaticFields(class *rtc.Class) {
+func initConstantStaticFields(class *heap.Class) {
 	cp := class.ConstantPool()
 
 	for _, field := range class.Fields() {

@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/zxh0/jvm.go/jvmgo/options"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 /*
@@ -22,7 +22,7 @@ type Thread struct {
 	pc              int // the address of the instruction currently being executed
 	stack           *Stack
 	frameCache      *FrameCache
-	jThread         *rtc.Object    // java.lang.Thread
+	jThread         *heap.Object    // java.lang.Thread
 	lock            *sync.Mutex // state lock
 	ch              chan int
 	sleepingFlag    bool
@@ -32,7 +32,7 @@ type Thread struct {
 	// todo
 }
 
-func NewThread(jThread *rtc.Object) *Thread {
+func NewThread(jThread *heap.Object) *Thread {
 	stack := newStack(options.ThreadStackSize)
 	thread := &Thread{
 		stack:   stack,
@@ -51,7 +51,7 @@ func (self *Thread) PC() int {
 func (self *Thread) SetPC(pc int) {
 	self.pc = pc
 }
-func (self *Thread) JThread() *rtc.Object {
+func (self *Thread) JThread() *heap.Object {
 	return self.jThread
 }
 
@@ -86,7 +86,7 @@ func (self *Thread) PopFrame() *Frame {
 	return top
 }
 
-func (self *Thread) NewFrame(method *rtc.Method) *Frame {
+func (self *Thread) NewFrame(method *heap.Method) *Frame {
 	if method.IsNative() {
 		return newNativeFrame(self, method)
 	} else {
@@ -95,7 +95,7 @@ func (self *Thread) NewFrame(method *rtc.Method) *Frame {
 	}
 }
 
-func (self *Thread) InvokeMethod(method *rtc.Method) {
+func (self *Thread) InvokeMethod(method *heap.Method) {
 	//self._logInvoke(self.stack.size, method)
 	currentFrame := self.CurrentFrame()
 	newFrame := self.NewFrame(method)
@@ -106,7 +106,7 @@ func (self *Thread) InvokeMethod(method *rtc.Method) {
 	}
 
 	if method.IsSynchronized() {
-		var monitor *rtc.Monitor
+		var monitor *heap.Monitor
 		if method.IsStatic() {
 			classObj := method.Class().JClass()
 			monitor = classObj.Monitor()
@@ -129,7 +129,7 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argSlotsCount uint) {
 		vars.Set(i, arg)
 	}
 }
-func (self *Thread) _logInvoke(stackSize uint, method *rtc.Method) {
+func (self *Thread) _logInvoke(stackSize uint, method *heap.Method) {
 	space := strings.Repeat(" ", int(stackSize))
 	className := method.Class().Name()
 	methodName := method.Name()
@@ -141,20 +141,20 @@ func (self *Thread) _logInvoke(stackSize uint, method *rtc.Method) {
 	}
 }
 
-func (self *Thread) InvokeMethodWithShim(method *rtc.Method, args []interface{}) {
+func (self *Thread) InvokeMethodWithShim(method *heap.Method, args []interface{}) {
 	shimFrame := newShimFrame(self, args)
 	self.PushFrame(shimFrame)
 	self.InvokeMethod(method)
 }
 
-func (self *Thread) InitClass(class *rtc.Class) {
+func (self *Thread) InitClass(class *heap.Class) {
 	initClass(self, class)
 }
 
-func (self *Thread) HandleUncaughtException(ex *rtc.Object) {
+func (self *Thread) HandleUncaughtException(ex *heap.Object) {
 	self.stack.clear()
-	sysClass := rtc.BootLoader().LoadClass("java/lang/System")
-	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").(*rtc.Object)
+	sysClass := heap.BootLoader().LoadClass("java/lang/System")
+	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").(*heap.Object)
 	printStackTrace := ex.Class().GetInstanceMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
 
 	// call ex.printStackTrace(System.err)
@@ -174,6 +174,6 @@ func (self *Thread) HandleUncaughtException(ex *rtc.Object) {
 }
 
 // hack
-func (self *Thread) HackSetJThread(jThread *rtc.Object) {
+func (self *Thread) HackSetJThread(jThread *heap.Object) {
 	self.jThread = jThread
 }

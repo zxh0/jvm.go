@@ -1,4 +1,4 @@
-package class
+package heap
 
 const (
 	V = 'V' // void

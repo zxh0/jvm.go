@@ -1,7 +1,7 @@
 package rtda
 
 import (
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 type LocalVars struct {
@@ -17,19 +17,19 @@ func newLocalVars(size uint) *LocalVars {
 	}
 }
 
-func (self *LocalVars) GetThis() *rtc.Object {
+func (self *LocalVars) GetThis() *heap.Object {
 	return self.GetRef(0)
 }
 
-func (self *LocalVars) GetRef(index uint) *rtc.Object {
+func (self *LocalVars) GetRef(index uint) *heap.Object {
 	ref := self.slots[index]
 	if ref == nil {
 		return nil
 	} else {
-		return ref.(*rtc.Object)
+		return ref.(*heap.Object)
 	}
 }
-func (self *LocalVars) SetRef(index uint, ref *rtc.Object) {
+func (self *LocalVars) SetRef(index uint, ref *heap.Object) {
 	self.slots[index] = ref
 }
 

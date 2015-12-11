@@ -3,7 +3,7 @@ package lang
 import (
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -16,11 +16,11 @@ func getRawAnnotations(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
 
-	class := this.Extra().(*rtc.Class)
+	class := this.Extra().(*heap.Class)
 	goBytes := class.AnnotationData()
 	if goBytes != nil {
 		jBytes := jutil.CastUint8sToInt8s(goBytes)
-		byteArr := rtc.NewByteArray(jBytes)
+		byteArr := heap.NewByteArray(jBytes)
 		frame.OperandStack().PushRef(byteArr)
 		return
 	}

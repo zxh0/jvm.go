@@ -10,7 +10,7 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/interpreter"
 	"github.com/zxh0/jvm.go/jvmgo/options"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 	_ "github.com/zxh0/jvm.go/jvmgo/native"
 )
 
@@ -28,7 +28,7 @@ func startJVM(cmd *cmdline.Command) {
 	options.InitOptions(cmd.Options())
 
 	cp := classpath.Parse(cmd.Options().Classpath())
-	rtc.InitBootLoader(cp)
+	heap.InitBootLoader(cp)
 
 	mainClassName := jutil.ReplaceAll(cmd.Class(), ".", "/")
 	mainThread := createMainThread(mainClassName, cmd.Args())
@@ -38,7 +38,7 @@ func startJVM(cmd *cmdline.Command) {
 
 func createMainThread(className string, args []string) *rtda.Thread {
 	mainThread := rtda.NewThread(nil)
-	bootMethod := rtc.BootstrapMethod()
+	bootMethod := heap.BootstrapMethod()
 	bootArgs := []interface{}{className, args}
 	mainThread.InvokeMethodWithShim(bootMethod, bootArgs)
 	return mainThread

@@ -5,7 +5,7 @@ import (
 	"net"
 
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -14,7 +14,7 @@ func init() {
 }
 
 func _i6di(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/net/Inet6AddressImpl", name, desc, method)
+	heap.RegisterNativeMethod("java/net/Inet6AddressImpl", name, desc, method)
 }
 
 //([B)Ljava/lang/String;
@@ -39,7 +39,7 @@ func i6di_lookupAllHostAddr(frame *rtda.Frame) {
 	address, _ := net.LookupHost(host)
 	constructorCount := uint(len(address))
 
-	inetAddress := rtc.BootLoader().LoadClass("java/net/InetAddress")
+	inetAddress := heap.BootLoader().LoadClass("java/net/InetAddress")
 	inetAddressArr := inetAddress.NewArray(constructorCount)
 
 	stack := frame.OperandStack()

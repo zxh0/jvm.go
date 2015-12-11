@@ -3,7 +3,7 @@ package references
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Create new array
@@ -22,7 +22,7 @@ func (self *NEW_ARRAY) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	arr := rtc.NewPrimitiveArray(self.atype, uint(count))
+	arr := heap.NewPrimitiveArray(self.atype, uint(count))
 	stack.PushRef(arr)
 }
 
@@ -31,7 +31,7 @@ type ANEW_ARRAY struct{ base.Index16Instruction }
 
 func (self *ANEW_ARRAY) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()
-	kClass := cp.GetConstant(self.Index).(*rtc.ConstantClass)
+	kClass := cp.GetConstant(self.Index).(*heap.ConstantClass)
 	componentClass := kClass.Class()
 
 	if componentClass.InitializationNotStarted() {
@@ -46,7 +46,7 @@ func (self *ANEW_ARRAY) Execute(frame *rtda.Frame) {
 	if count < 0 {
 		frame.Thread().ThrowNegativeArraySizeException()
 	} else {
-		arr := rtc.NewRefArray(componentClass, uint(count))
+		arr := heap.NewRefArray(componentClass, uint(count))
 		stack.PushRef(arr)
 	}
 
@@ -64,7 +64,7 @@ func (self *MULTI_ANEW_ARRAY) FetchOperands(reader *base.BytecodeReader) {
 }
 func (self *MULTI_ANEW_ARRAY) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()
-	kClass := cp.GetConstant(uint(self.index)).(*rtc.ConstantClass)
+	kClass := cp.GetConstant(uint(self.index)).(*heap.ConstantClass)
 	arrClass := kClass.Class()
 
 	stack := frame.OperandStack()
@@ -86,9 +86,9 @@ func _checkCounts(counts []interface{}) bool {
 	return true
 }
 
-func _newMultiArray(counts []interface{}, arrClass *rtc.Class) *rtc.Object {
+func _newMultiArray(counts []interface{}, arrClass *heap.Class) *heap.Object {
 	count := uint(counts[0].(int32))
-	arr := rtc.NewArray(arrClass, count)
+	arr := heap.NewArray(arrClass, count)
 
 	if len(counts) > 1 {
 		objs := arr.Refs()

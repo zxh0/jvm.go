@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -14,7 +14,7 @@ func init() {
 }
 
 func _unsafe(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("sun/misc/Unsafe", name, desc, method)
+	heap.RegisterNativeMethod("sun/misc/Unsafe", name, desc, method)
 }
 
 // public native void park(boolean isAbsolute, long time);

@@ -2,7 +2,7 @@ package awt
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -10,7 +10,7 @@ func init() {
 }
 
 func _cgl(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("sun/java2d/opengl/CGLGraphicsConfig", name, desc, method)
+	heap.RegisterNativeMethod("sun/java2d/opengl/CGLGraphicsConfig", name, desc, method)
 }
 
 func cgl_initCGL(frame *rtda.Frame) {

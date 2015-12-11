@@ -3,7 +3,7 @@ package references
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Determine if object is of given type
@@ -14,7 +14,7 @@ func (self *INSTANCE_OF) Execute(frame *rtda.Frame) {
 	ref := stack.PopRef()
 
 	cp := frame.ConstantPool()
-	kClass := cp.GetConstant(self.Index).(*rtc.ConstantClass)
+	kClass := cp.GetConstant(self.Index).(*heap.ConstantClass)
 	class := kClass.Class()
 
 	if ref == nil {

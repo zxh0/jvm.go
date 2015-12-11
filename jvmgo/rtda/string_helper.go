@@ -3,27 +3,27 @@ package rtda
 import (
 	"unicode/utf16"
 
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // todo: is there a better way to create String?
 // go string -> java.lang.String
-func JString(goStr string) *rtc.Object {
+func JString(goStr string) *heap.Object {
 	internedStr := getInternedString(goStr)
 	if internedStr != nil {
 		return internedStr
 	}
 
 	chars := _stringToUtf16(goStr)
-	charArr := rtc.NewCharArray(chars)
-	jStr := rtc.BootLoader().JLStringClass().NewObj()
+	charArr := heap.NewCharArray(chars)
+	jStr := heap.BootLoader().JLStringClass().NewObj()
 	jStr.SetFieldValue("value", "[C", charArr)
 	return InternString(goStr, jStr)
 }
 
 // java.lang.String -> go string
-func GoString(jStr *rtc.Object) string {
-	charArr := jStr.GetFieldValue("value", "[C").(*rtc.Object)
+func GoString(jStr *heap.Object) string {
+	charArr := jStr.GetFieldValue("value", "[C").(*heap.Object)
 	return _utf16ToString(charArr.Chars())
 }
 

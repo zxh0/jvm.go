@@ -3,20 +3,20 @@ package references
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Invoke instance method; dispatch based on class
 type INVOKE_VIRTUAL struct {
 	base.Index16Instruction
-	kMethodRef   *rtc.ConstantMethodref
+	kMethodRef   *heap.ConstantMethodref
 	argSlotCount uint
 }
 
 func (self *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
 	if self.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
-		self.kMethodRef = cp.GetConstant(self.Index).(*rtc.ConstantMethodref)
+		self.kMethodRef = cp.GetConstant(self.Index).(*heap.ConstantMethodref)
 		self.argSlotCount = self.kMethodRef.ArgSlotCount()
 	}
 

@@ -2,7 +2,7 @@ package jar
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -10,7 +10,7 @@ func init() {
 }
 
 func _jf(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/util/jar/JarFile", name, desc, method)
+	heap.RegisterNativeMethod("java/util/jar/JarFile", name, desc, method)
 }
 
 // private native String[] getMetaInfEntryNames();

@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -12,7 +12,7 @@ func init() {
 }
 
 func _cl(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/lang/ClassLoader", name, desc, method)
+	heap.RegisterNativeMethod("java/lang/ClassLoader", name, desc, method)
 }
 
 // private native Class<?> defineClass0(String name, byte[] b, int off, int len,
@@ -50,8 +50,8 @@ func findBootstrapClass(frame *rtda.Frame) {
 	//this := vars.GetThis()
 	name := vars.GetRef(1)
 
-	className := rtc.DotToSlash(rtda.GoString(name))
-	class := rtc.BootLoader().LoadClass(className)
+	className := heap.DotToSlash(rtda.GoString(name))
+	class := heap.BootLoader().LoadClass(className)
 
 	// todo: init class?
 	stack := frame.OperandStack()
@@ -70,10 +70,10 @@ func findLoadedClass0(frame *rtda.Frame) {
 	this := vars.GetThis()
 	name := vars.GetRef(1)
 
-	className := rtc.DotToSlash(rtda.GoString(name))
+	className := heap.DotToSlash(rtda.GoString(name))
 
 	if isAppClassLoader(this) {
-		class := rtc.BootLoader().FindLoadedClass(className)
+		class := heap.BootLoader().FindLoadedClass(className)
 		if class != nil {
 			frame.OperandStack().PushRef(class.JClass())
 		} else {
@@ -87,6 +87,6 @@ func findLoadedClass0(frame *rtda.Frame) {
 }
 
 // todo
-func isAppClassLoader(loader *rtc.Object) bool {
+func isAppClassLoader(loader *heap.Object) bool {
 	return loader.Class().Name() == "sun/misc/Launcher$AppClassLoader"
 }

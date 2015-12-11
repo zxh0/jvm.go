@@ -1,4 +1,4 @@
-package class
+package heap
 
 func (self *Object) IsInstanceOf(class *Class) bool {
 	s, t := self.class, class

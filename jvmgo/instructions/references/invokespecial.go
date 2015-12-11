@@ -3,7 +3,7 @@ package references
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Invoke instance method;
@@ -13,11 +13,11 @@ type INVOKE_SPECIAL struct{ base.Index16Instruction }
 func (self *INVOKE_SPECIAL) Execute(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
 	k := cp.GetConstant(self.Index)
-	if kMethodRef, ok := k.(*rtc.ConstantMethodref); ok {
+	if kMethodRef, ok := k.(*heap.ConstantMethodref); ok {
 		method := kMethodRef.SpecialMethod()
 		frame.Thread().InvokeMethod(method)
 	} else {
-		method := k.(*rtc.ConstantInterfaceMethodref).SpecialMethod()
+		method := k.(*heap.ConstantInterfaceMethodref).SpecialMethod()
 		frame.Thread().InvokeMethod(method)
 	}
 }

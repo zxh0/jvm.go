@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -21,7 +21,7 @@ func init() {
 }
 
 func _raf(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/io/RandomAccessFile", name, desc, method)
+	heap.RegisterNativeMethod("java/io/RandomAccessFile", name, desc, method)
 }
 
 // private native void open(String name, int mode) throws FileNotFoundException;

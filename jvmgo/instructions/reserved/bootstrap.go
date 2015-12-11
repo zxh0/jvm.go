@@ -3,16 +3,16 @@ package reserved
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // todo
 var (
 	_bootClasses     []string
-	_classLoader     *rtc.ClassLoader // todo
+	_classLoader     *heap.ClassLoader // todo
 	_mainClassName   string
 	_args            []string
-	_mainThreadGroup *rtc.Object
+	_mainThreadGroup *heap.Object
 )
 
 // Fake instruction to load and execute main class
@@ -22,7 +22,7 @@ func (self *BOOTSTRAP) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 
 	if _classLoader == nil {
-		_classLoader = rtc.BootLoader()
+		_classLoader = heap.BootLoader()
 		initVars(frame)
 	}
 	if bootClassesNotReady(thread) ||
@@ -132,11 +132,11 @@ func execMain(thread *rtda.Thread) {
 	}
 }
 
-func createArgs() *rtc.Object {
-	jArgs := make([]*rtc.Object, len(_args))
+func createArgs() *heap.Object {
+	jArgs := make([]*heap.Object, len(_args))
 	for i, arg := range _args {
 		jArgs[i] = rtda.JString(arg)
 	}
 
-	return rtc.NewRefArray2(_classLoader.JLStringClass(), jArgs)
+	return heap.NewRefArray2(_classLoader.JLStringClass(), jArgs)
 }

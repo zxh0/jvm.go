@@ -2,7 +2,7 @@ package reflect
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -10,7 +10,7 @@ func init() {
 }
 
 func _ncai(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("sun/reflect/NativeConstructorAccessorImpl", name, desc, method)
+	heap.RegisterNativeMethod("sun/reflect/NativeConstructorAccessorImpl", name, desc, method)
 }
 
 // private static native Object newInstance0(Constructor<?> c, Object[] os)

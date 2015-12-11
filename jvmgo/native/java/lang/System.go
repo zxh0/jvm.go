@@ -7,7 +7,7 @@ import (
 
 	"github.com/zxh0/jvm.go/jvmgo/options"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -22,7 +22,7 @@ func init() {
 }
 
 func _system(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/lang/System", name, desc, method)
+	heap.RegisterNativeMethod("java/lang/System", name, desc, method)
 }
 
 // public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
@@ -45,16 +45,16 @@ func arraycopy(frame *rtda.Frame) {
 	}
 	// IndexOutOfBoundsException
 	if srcPos < 0 || destPos < 0 || length < 0 ||
-		srcPos+length > rtc.ArrayLength(src) ||
-		destPos+length > rtc.ArrayLength(dest) {
+		srcPos+length > heap.ArrayLength(src) ||
+		destPos+length > heap.ArrayLength(dest) {
 
 		panic("IndexOutOfBoundsException") // todo
 	}
 
-	rtc.ArrayCopy(src, dest, srcPos, destPos, length)
+	heap.ArrayCopy(src, dest, srcPos, destPos, length)
 }
 
-func checkArrayCopy(src, dest *rtc.Object) bool {
+func checkArrayCopy(src, dest *heap.Object) bool {
 	srcClass := src.Class()
 	destClass := dest.Class()
 
@@ -114,7 +114,7 @@ func _sysProps() map[string]string {
 		"java.vendor.url":      "https://github.com/zxh0/jvm.go",
 		"java.home":            options.AbsJavaHome,
 		"java.class.version":   "52.0",
-		"java.class.path":      rtc.BootLoader().ClassPath().String(),
+		"java.class.path":      heap.BootLoader().ClassPath().String(),
 		"java.awt.graphicsenv": "sun.awt.CGraphicsEnvironment",
 		"os.name":              runtime.GOOS,   // todo
 		"os.arch":              runtime.GOARCH, // todo

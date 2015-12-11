@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -14,7 +14,7 @@ func init() {
 }
 
 func _mhn(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/lang/invoke/MethodHandleNatives", name, desc, method)
+	heap.RegisterNativeMethod("java/lang/invoke/MethodHandleNatives", name, desc, method)
 }
 
 // static native int getConstant(int which);
@@ -38,8 +38,8 @@ func mhn_init(frame *rtda.Frame) {
 	ref := vars.GetRef(1)
 
 	if ref.Class().Name() == "java/lang/reflect/Method" {
-		classObj := ref.GetFieldValue("clazz", "Ljava/lang/Class;").(*rtc.Object)
-		class := classObj.Extra().(*rtc.Class)
+		classObj := ref.GetFieldValue("clazz", "Ljava/lang/Class;").(*heap.Object)
+		class := classObj.Extra().(*heap.Class)
 		slot := ref.GetFieldValue("slot", "I").(int32)
 		method := class.Methods()[slot]
 

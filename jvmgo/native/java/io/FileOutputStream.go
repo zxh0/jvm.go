@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -12,7 +12,7 @@ func init() {
 }
 
 func _fos(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/io/FileOutputStream", name, desc, method)
+	heap.RegisterNativeMethod("java/io/FileOutputStream", name, desc, method)
 }
 
 // private native void writeBytes(byte b[], int off, int len, boolean append) throws IOException;
@@ -25,7 +25,7 @@ func writeBytes(frame *rtda.Frame) {
 	length := vars.GetInt(3)     // len
 	//vars.GetBoolean(4) // append
 
-	fdObj := fosObj.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Object)
+	fdObj := fosObj.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*heap.Object)
 	if fdObj.Extra() == nil {
 		goFd := fdObj.GetFieldValue("fd", "I").(int32)
 		switch goFd {

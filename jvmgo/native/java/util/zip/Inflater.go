@@ -2,7 +2,7 @@ package zip
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -10,7 +10,7 @@ func init() {
 }
 
 func _inflater(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/util/zip/Inflater", name, desc, method)
+	heap.RegisterNativeMethod("java/util/zip/Inflater", name, desc, method)
 }
 
 // private static native void initIDs();

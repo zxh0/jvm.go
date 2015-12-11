@@ -3,10 +3,10 @@ package box
 import (
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
-func Unbox(obj *rtc.Object, primitiveDescriptor string) interface{} {
+func Unbox(obj *heap.Object, primitiveDescriptor string) interface{} {
 	return obj.GetFieldValue("value", primitiveDescriptor)
 }
 
@@ -36,7 +36,7 @@ func Box(frame *rtda.Frame, primitiveDescriptor byte) {
 }
 
 func _callValueOf(frame *rtda.Frame, primitiveDescriptor, wrapperClassName string) {
-	wrapperClass := rtc.BootLoader().LoadClass(wrapperClassName)
+	wrapperClass := heap.BootLoader().LoadClass(wrapperClassName)
 	valueOfDescriptor := "(" + primitiveDescriptor + ")L" + wrapperClassName + ";"
 	valueOfMethod := wrapperClass.GetStaticMethod("valueOf", valueOfDescriptor)
 	frame.Thread().InvokeMethod(valueOfMethod)

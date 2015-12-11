@@ -1,4 +1,4 @@
-package class
+package heap
 
 type MethodDescriptor struct {
 	d              string

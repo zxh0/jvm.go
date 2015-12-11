@@ -3,7 +3,7 @@ package loads
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 //type Ref *rtda.Object
@@ -96,7 +96,7 @@ func (self *SALOAD) Execute(frame *rtda.Frame) {
 	}
 }
 
-func _aloadPop(frame *rtda.Frame) (*rtda.OperandStack, *rtc.Object, int, bool) {
+func _aloadPop(frame *rtda.Frame) (*rtda.OperandStack, *heap.Object, int, bool) {
 	stack := frame.OperandStack()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
@@ -105,7 +105,7 @@ func _aloadPop(frame *rtda.Frame) (*rtda.OperandStack, *rtc.Object, int, bool) {
 		frame.Thread().ThrowNPE()
 		return nil, nil, 0, false
 	}
-	if index < 0 || index >= rtc.ArrayLength(arrRef) {
+	if index < 0 || index >= heap.ArrayLength(arrRef) {
 		frame.Thread().ThrowArrayIndexOutOfBoundsException(index)
 		return nil, nil, 0, false
 	}

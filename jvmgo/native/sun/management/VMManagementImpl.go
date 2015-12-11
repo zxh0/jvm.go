@@ -2,7 +2,7 @@ package management
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -13,7 +13,7 @@ func init() {
 }
 
 func _vmm(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("sun/management/VMManagementImpl", name, desc, method)
+	heap.RegisterNativeMethod("sun/management/VMManagementImpl", name, desc, method)
 }
 
 // private native long getUptime0();

@@ -2,7 +2,7 @@ package reflect
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -11,7 +11,7 @@ func init() {
 }
 
 func _cp(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("sun/reflect/ConstantPool", name, desc, method)
+	heap.RegisterNativeMethod("sun/reflect/ConstantPool", name, desc, method)
 }
 
 // private native long getLongAt0(Object o, int i);
@@ -26,16 +26,16 @@ func getLongAt0(frame *rtda.Frame) {
 // (Ljava/lang/Object;I)Ljava/lang/String;
 func getUTF8At0(frame *rtda.Frame) {
 	cp, index := _getPop(frame)
-	kUtf8 := cp.GetConstant(index).(*rtc.ConstantUtf8)
+	kUtf8 := cp.GetConstant(index).(*heap.ConstantUtf8)
 	goStr := kUtf8.Str()
 	jStr := rtda.JString(goStr)
 	frame.OperandStack().PushRef(jStr)
 }
 
-func _getPop(frame *rtda.Frame) (cp *rtc.ConstantPool, index uint) {
+func _getPop(frame *rtda.Frame) (cp *heap.ConstantPool, index uint) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
 	index = uint(vars.GetInt(2))
-	cp = this.Extra().(*rtc.ConstantPool)
+	cp = this.Extra().(*heap.ConstantPool)
 	return
 }

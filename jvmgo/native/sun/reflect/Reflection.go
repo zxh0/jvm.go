@@ -2,7 +2,7 @@ package reflect
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -11,7 +11,7 @@ func init() {
 }
 
 func _reflection(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("sun/reflect/Reflection", name, desc, method)
+	heap.RegisterNativeMethod("sun/reflect/Reflection", name, desc, method)
 }
 
 // public static native Class<?> getCallerClass(int i);
@@ -31,7 +31,7 @@ func getClassAccessFlags(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	_type := vars.GetRef(0)
 
-	goClass := _type.Extra().(*rtc.Class)
+	goClass := _type.Extra().(*heap.Class)
 	flags := goClass.GetAccessFlags()
 
 	stack := frame.OperandStack()

@@ -1,4 +1,4 @@
-package class
+package heap
 
 // todo
 // cannot use package 'native' because of cycle import!

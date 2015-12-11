@@ -1,7 +1,7 @@
 package rtda
 
 import (
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 var (
@@ -13,7 +13,7 @@ var (
 	_native_hack_return  = []byte{0xfe, 0xb1}
 )
 
-func newNativeFrame(thread *Thread, method *rtc.Method) *Frame {
+func newNativeFrame(thread *Thread, method *heap.Method) *Frame {
 	frame := &Frame{}
 	frame.thread = thread
 	frame.method = method
@@ -30,7 +30,7 @@ func newNativeFrame(thread *Thread, method *rtc.Method) *Frame {
 }
 
 func getHackCode(methodDescriptor string) []byte {
-	rd := rtc.GetReturnDescriptor(methodDescriptor)
+	rd := heap.GetReturnDescriptor(methodDescriptor)
 	switch rd[0] {
 	case 'V':
 		return _native_hack_return

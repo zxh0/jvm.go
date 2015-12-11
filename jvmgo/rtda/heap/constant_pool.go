@@ -1,4 +1,4 @@
-package class
+package heap
 
 import (
 	cf "github.com/zxh0/jvm.go/jvmgo/classfile"

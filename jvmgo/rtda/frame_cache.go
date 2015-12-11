@@ -1,7 +1,7 @@
 package rtda
 
 import (
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 type FrameCache struct {
@@ -19,7 +19,7 @@ func newFrameCache(thread *Thread, maxFrame uint) *FrameCache {
 	}
 }
 
-func (self *FrameCache) borrowFrame(method *rtc.Method) *Frame {
+func (self *FrameCache) borrowFrame(method *heap.Method) *Frame {
 	if self.frameCount > 0 {
 		for i, frame := range self.cachedFrames {
 			if frame != nil &&

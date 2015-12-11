@@ -5,7 +5,7 @@ import (
 
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 const (
@@ -33,7 +33,7 @@ func init() {
 }
 
 func _zf(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/util/zip/ZipFile", name, desc, method)
+	heap.RegisterNativeMethod("java/util/zip/ZipFile", name, desc, method)
 }
 
 // private static native void initIDs();
@@ -124,7 +124,7 @@ func getEntryBytes(frame *rtda.Frame) {
 
 	goBytes := _getEntryBytes(jzentry, _type)
 	jBytes := jutil.CastUint8sToInt8s(goBytes)
-	byteArr := rtc.NewByteArray(jBytes)
+	byteArr := heap.NewByteArray(jBytes)
 
 	stack := frame.OperandStack()
 	stack.PushRef(byteArr)

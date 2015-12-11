@@ -1,7 +1,7 @@
 package rtda
 
 import (
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 type OperandStack struct {
@@ -27,11 +27,11 @@ func (self *OperandStack) PushNull() {
 	self.size++
 }
 
-func (self *OperandStack) PushRef(ref *rtc.Object) {
+func (self *OperandStack) PushRef(ref *heap.Object) {
 	self.slots[self.size] = ref
 	self.size++
 }
-func (self *OperandStack) PopRef() *rtc.Object {
+func (self *OperandStack) PopRef() *heap.Object {
 	self.size--
 	top := self.slots[self.size]
 	self.slots[self.size] = nil
@@ -39,7 +39,7 @@ func (self *OperandStack) PopRef() *rtc.Object {
 	if top == nil {
 		return nil
 	} else {
-		return top.(*rtc.Object)
+		return top.(*heap.Object)
 	}
 }
 
@@ -138,12 +138,12 @@ func (self *OperandStack) PopTops(n uint) []interface{} {
 	return top
 }
 
-func (self *OperandStack) TopRef(n uint) *rtc.Object {
+func (self *OperandStack) TopRef(n uint) *heap.Object {
 	ref := self.slots[self.size-1-n]
 	if ref == nil {
 		return nil
 	} else {
-		return ref.(*rtc.Object)
+		return ref.(*heap.Object)
 	}
 }
 

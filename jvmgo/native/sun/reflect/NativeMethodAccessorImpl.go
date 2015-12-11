@@ -2,7 +2,7 @@ package reflect
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
@@ -11,7 +11,7 @@ func init() {
 }
 
 func _nmai(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("sun/reflect/NativeMethodAccessorImpl", name, desc, method)
+	heap.RegisterNativeMethod("sun/reflect/NativeMethodAccessorImpl", name, desc, method)
 }
 
 // private static native Object invoke0(Method method, Object o, Object[] os);
@@ -22,7 +22,7 @@ func invoke0(frame *rtda.Frame) {
 		frame.RevertNextPC()
 		_invokeMethod(frame)
 	} else {
-		returnType := frame.LocalVars().Get(0).(*rtc.FieldType)
+		returnType := frame.LocalVars().Get(0).(*heap.FieldType)
 		if returnType.IsBaseType() && !returnType.IsVoidType() {
 			primitiveDescriptor := returnType.Descriptor()[0]
 			box.Box(frame, primitiveDescriptor) // todo

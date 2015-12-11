@@ -3,7 +3,7 @@ package stores
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Store into reference array
@@ -118,12 +118,12 @@ func (self *SASTORE) Execute(frame *rtda.Frame) {
 	}
 }
 
-func _checkArrayAndIndex(frame *rtda.Frame, arrRef *rtc.Object, index int32) bool {
+func _checkArrayAndIndex(frame *rtda.Frame, arrRef *heap.Object, index int32) bool {
 	if arrRef == nil {
 		frame.Thread().ThrowNPE()
 		return false
 	}
-	if index < 0 || index >= rtc.ArrayLength(arrRef) {
+	if index < 0 || index >= heap.ArrayLength(arrRef) {
 		frame.Thread().ThrowArrayIndexOutOfBoundsException(index)
 		return false
 	}

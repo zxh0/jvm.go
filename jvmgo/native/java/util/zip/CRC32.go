@@ -4,7 +4,7 @@ import (
 	"hash/crc32"
 
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -12,7 +12,7 @@ func init() {
 }
 
 func _crc(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/util/zip/CRC32", name, desc, method)
+	heap.RegisterNativeMethod("java/util/zip/CRC32", name, desc, method)
 }
 
 // private native static int updateBytes(int crc, byte[] b, int off, int len);

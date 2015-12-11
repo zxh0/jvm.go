@@ -1,14 +1,14 @@
 package rtda
 
 import (
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // stack frame
 type Frame struct {
 	lower        *Frame // stack is implemented as linked list
 	thread       *Thread
-	method       *rtc.Method
+	method       *heap.Method
 	localVars    *LocalVars
 	operandStack *OperandStack
 	maxLocals    uint
@@ -17,7 +17,7 @@ type Frame struct {
 	onPopAction  func()
 }
 
-func newFrame(thread *Thread, method *rtc.Method) *Frame {
+func newFrame(thread *Thread, method *heap.Method) *Frame {
 	return &Frame{
 		thread:       thread,
 		method:       method,
@@ -28,7 +28,7 @@ func newFrame(thread *Thread, method *rtc.Method) *Frame {
 	}
 }
 
-func (self *Frame) reset(method *rtc.Method) {
+func (self *Frame) reset(method *heap.Method) {
 	self.method = method
 	self.nextPC = 0
 	self.lower = nil
@@ -45,7 +45,7 @@ func (self *Frame) reset(method *rtc.Method) {
 func (self *Frame) Thread() *Thread {
 	return self.thread
 }
-func (self *Frame) Method() *rtc.Method {
+func (self *Frame) Method() *heap.Method {
 	return self.method
 }
 func (self *Frame) LocalVars() *LocalVars {
@@ -69,9 +69,9 @@ func (self *Frame) RevertNextPC() {
 }
 
 // todo
-func (self *Frame) ClassLoader() *rtc.ClassLoader {
-	return rtc.BootLoader()
+func (self *Frame) ClassLoader() *heap.ClassLoader {
+	return heap.BootLoader()
 }
-func (self *Frame) ConstantPool() *rtc.ConstantPool {
+func (self *Frame) ConstantPool() *heap.ConstantPool {
 	return self.method.ConstantPool()
 }

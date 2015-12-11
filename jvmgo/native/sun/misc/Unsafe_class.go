@@ -2,7 +2,7 @@ package misc
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -19,7 +19,7 @@ func allocateInstance(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	classObj := vars.GetRef(1)
 
-	class := classObj.Extra().(*rtc.Class)
+	class := classObj.Extra().(*heap.Class)
 	obj := class.NewObj()
 
 	stack := frame.OperandStack()
@@ -39,7 +39,7 @@ func defineClass(frame *rtda.Frame) {
 	//pd := vars.GetRef(6)
 
 	name := rtda.GoString(nameObj)
-	name = rtc.DotToSlash(name)
+	name = heap.DotToSlash(name)
 	data := byteArr.GoBytes()
 	data = data[off : off+_len]
 
@@ -56,7 +56,7 @@ func ensureClassInitialized(frame *rtda.Frame) {
 	// this := vars.GetRef(0)
 	classObj := vars.GetRef(1)
 
-	goClass := classObj.Extra().(*rtc.Class)
+	goClass := classObj.Extra().(*heap.Class)
 	if goClass.InitializationNotStarted() {
 		// undo ensureClassInitialized()
 		frame.RevertNextPC()
@@ -92,12 +92,12 @@ func staticFieldBase(frame *rtda.Frame) {
 	stack.PushRef(obj)
 }
 
-func _getGoField(fieldObj *rtc.Object) *rtc.Field {
+func _getGoField(fieldObj *heap.Object) *heap.Field {
 	extra := fieldObj.Extra()
 	if extra != nil {
-		return extra.(*rtc.Field)
+		return extra.(*heap.Field)
 	}
 
-	root := fieldObj.GetFieldValue("root", "Ljava/lang/reflect/Field;").(*rtc.Object)
-	return root.Extra().(*rtc.Field)
+	root := fieldObj.GetFieldValue("root", "Ljava/lang/reflect/Field;").(*heap.Object)
+	return root.Extra().(*heap.Field)
 }

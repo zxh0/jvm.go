@@ -3,7 +3,7 @@ package lang
 import (
 	"github.com/zxh0/jvm.go/jvmgo/interpreter"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -15,7 +15,7 @@ func init() {
 }
 
 func _thread(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/lang/Thread", name, desc, method)
+	heap.RegisterNativeMethod("java/lang/Thread", name, desc, method)
 }
 
 // @Deprecated public native int countStackFrames();
@@ -62,7 +62,7 @@ func isAlive(frame *rtda.Frame) {
 	stack.PushBoolean(alive)
 }
 
-func _extraThread(threadObj *rtc.Object) *rtda.Thread {
+func _extraThread(threadObj *heap.Object) *rtda.Thread {
 	threadObj.RLockState()
 	defer threadObj.RUnlockState()
 

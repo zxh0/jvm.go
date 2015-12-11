@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 /*
@@ -33,12 +33,12 @@ func getDeclaredFields0(frame *rtda.Frame) {
 	classObj := vars.GetThis()
 	publicOnly := vars.GetBoolean(1)
 
-	class := classObj.Extra().(*rtc.Class)
+	class := classObj.Extra().(*heap.Class)
 	fields := class.GetFields(publicOnly)
 	fieldCount := uint(len(fields))
 
-	fieldClass := rtc.BootLoader().LoadClass("java/lang/reflect/Field")
-	fieldArr := rtc.NewRefArray(fieldClass, fieldCount)
+	fieldClass := heap.BootLoader().LoadClass("java/lang/reflect/Field")
+	fieldArr := heap.NewRefArray(fieldClass, fieldCount)
 
 	stack := frame.OperandStack()
 	stack.PushRef(fieldArr)

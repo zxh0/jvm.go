@@ -1,4 +1,4 @@
-package class
+package heap
 
 func (self *Method) ParameterTypes() []*Class {
 	if self.argSlotCount == 0 {

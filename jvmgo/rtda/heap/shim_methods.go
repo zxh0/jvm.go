@@ -1,4 +1,4 @@
-package class
+package heap
 
 var (
 	_shimClass  = &Class{name: "~shim"}

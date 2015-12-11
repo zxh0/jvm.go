@@ -1,4 +1,4 @@
-package class
+package heap
 
 func (self *Class) IsArray() bool {
 	return self.name[0] == '['

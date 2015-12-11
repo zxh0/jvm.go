@@ -2,7 +2,7 @@ package native
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/awt"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/io"
 	_ "github.com/zxh0/jvm.go/jvmgo/native/java/lang"
@@ -23,7 +23,7 @@ import (
 )
 
 func init() {
-	rtc.SetEmptyNativeMethod(emptyNativeMethod)
+	heap.SetEmptyNativeMethod(emptyNativeMethod)
 }
 
 func emptyNativeMethod(frame *rtda.Frame) {

@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 /*
@@ -35,11 +35,11 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 	classObj := vars.GetThis()
 	publicOnly := vars.GetBoolean(1)
 
-	class := classObj.Extra().(*rtc.Class)
+	class := classObj.Extra().(*heap.Class)
 	constructors := class.GetConstructors(publicOnly)
 	constructorCount := uint(len(constructors))
 
-	constructorClass := rtc.BootLoader().LoadClass("java/lang/reflect/Constructor")
+	constructorClass := heap.BootLoader().LoadClass("java/lang/reflect/Constructor")
 	constructorArr := constructorClass.NewArray(constructorCount)
 
 	stack := frame.OperandStack()

@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -12,7 +12,7 @@ func init() {
 }
 
 func _throwable(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
+	heap.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
 }
 
 type StackTraceElement struct {
@@ -35,7 +35,7 @@ func fillInStackTrace(frame *rtda.Frame) {
 	this.SetExtra(stes)
 }
 
-func createStackTraceElements(tObj *rtc.Object, frame *rtda.Frame) []*StackTraceElement {
+func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTraceElement {
 	thread := frame.Thread()
 	depth := thread.StackDepth()
 
@@ -96,7 +96,7 @@ func getStackTraceElement(frame *rtda.Frame) {
 	stack.PushRef(steObj)
 }
 
-func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) *rtc.Object {
+func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) *heap.Object {
 	declaringClass := rtda.JString(ste.declaringClass)
 	methodName := rtda.JString(ste.methodName)
 	fileName := rtda.JString(ste.fileName)

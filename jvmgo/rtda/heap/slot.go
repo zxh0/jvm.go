@@ -1,4 +1,4 @@
-package class
+package heap
 
 var EmptySlot = Slot{0, nil}
 

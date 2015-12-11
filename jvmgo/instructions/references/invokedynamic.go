@@ -5,7 +5,7 @@ import (
 
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Bytecode Behaviors for Method Handles
@@ -42,7 +42,7 @@ func (self *INVOKE_DYNAMIC) Execute(frame *rtda.Frame) {
 
 func (self *INVOKE_DYNAMIC) resolveCallSiteSpecifier(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
-	kIndy := cp.GetConstant(uint(self.index)).(*rtc.ConstantInvokeDynamic)
+	kIndy := cp.GetConstant(uint(self.index)).(*heap.ConstantInvokeDynamic)
 	//bmSpec := kIndy.BootstrapMethodSpecifier()
 
 	// Method Type and Method Handle Resolution

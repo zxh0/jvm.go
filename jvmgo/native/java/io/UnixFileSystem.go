@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -15,7 +15,7 @@ func init() {
 }
 
 func _ufs(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/io/UnixFileSystem", name, desc, method)
+	heap.RegisterNativeMethod("java/io/UnixFileSystem", name, desc, method)
 }
 
 // private native String canonicalize0(String path) throws IOException;
@@ -55,8 +55,8 @@ func getBooleanAttributes0(frame *rtda.Frame) {
 	stack.PushInt(int32(attributes0))
 }
 
-func _getPath(fileObj *rtc.Object) string {
-	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").(*rtc.Object)
+func _getPath(fileObj *heap.Object) string {
+	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").(*heap.Object)
 	return rtda.GoString(pathStr)
 }
 

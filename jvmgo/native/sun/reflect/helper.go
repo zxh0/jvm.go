@@ -1,33 +1,33 @@
 package reflect
 
 import (
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
-func getGoMethod(methodObj *rtc.Object) *rtc.Method {
+func getGoMethod(methodObj *heap.Object) *heap.Method {
 	return _getGoMethod(methodObj, false)
 }
-func getGoConstructor(constructorObj *rtc.Object) *rtc.Method {
+func getGoConstructor(constructorObj *heap.Object) *heap.Method {
 	return _getGoMethod(constructorObj, true)
 }
-func _getGoMethod(methodObj *rtc.Object, isConstructor bool) *rtc.Method {
+func _getGoMethod(methodObj *heap.Object, isConstructor bool) *heap.Method {
 	extra := methodObj.Extra()
 	if extra != nil {
-		return extra.(*rtc.Method)
+		return extra.(*heap.Method)
 	}
 
 	if isConstructor {
-		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").(*rtc.Object)
-		return root.Extra().(*rtc.Method)
+		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").(*heap.Object)
+		return root.Extra().(*heap.Method)
 	} else {
-		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Method;").(*rtc.Object)
-		return root.Extra().(*rtc.Method)
+		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Method;").(*heap.Object)
+		return root.Extra().(*heap.Method)
 	}
 }
 
 // Object[] -> []interface{}
-func convertArgs(this, argArr *rtc.Object, method *rtc.Method) []interface{} {
+func convertArgs(this, argArr *heap.Object, method *heap.Method) []interface{} {
 	if method.ArgSlotCount() == 0 {
 		return nil
 	}

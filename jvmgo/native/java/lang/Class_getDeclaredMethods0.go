@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 /*
@@ -39,11 +39,11 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 	classObj := vars.GetThis()
 	publicOnly := vars.GetBoolean(1)
 
-	class := classObj.Extra().(*rtc.Class)
+	class := classObj.Extra().(*heap.Class)
 	methods := class.GetMethods(publicOnly)
 	methodCount := uint(len(methods))
 
-	methodClass := rtc.BootLoader().LoadClass("java/lang/reflect/Method")
+	methodClass := heap.BootLoader().LoadClass("java/lang/reflect/Method")
 	methodArr := methodClass.NewArray(methodCount)
 
 	stack := frame.OperandStack()

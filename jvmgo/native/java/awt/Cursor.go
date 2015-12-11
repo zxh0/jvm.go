@@ -2,12 +2,12 @@ package awt
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
 }
 
 func _cursor(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/awt/Cursor", name, desc, method)
+	heap.RegisterNativeMethod("java/awt/Cursor", name, desc, method)
 }

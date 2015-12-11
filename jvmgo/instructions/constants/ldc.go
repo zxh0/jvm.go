@@ -4,7 +4,7 @@ import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Push item from run-time constant pool
@@ -34,8 +34,8 @@ func _ldc(frame *rtda.Frame, index uint) {
 	case string:
 		internedStr := rtda.JString(c.(string))
 		stack.PushRef(internedStr)
-	case *rtc.ConstantClass:
-		kClass := c.(*rtc.ConstantClass)
+	case *heap.ConstantClass:
+		kClass := c.(*heap.ConstantClass)
 		classObj := kClass.Class().JClass()
 		stack.PushRef(classObj)
 	default:

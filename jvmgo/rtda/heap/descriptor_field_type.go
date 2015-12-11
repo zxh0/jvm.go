@@ -1,4 +1,4 @@
-package class
+package heap
 
 var (
 	baseTypeB = &FieldType{"B"} // byte

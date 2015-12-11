@@ -6,7 +6,7 @@ import (
 
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -76,7 +76,7 @@ func compareAndSwapObject(frame *rtda.Frame) {
 		// object
 		swapped := _casObj(obj, anys, offset, expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
-	} else if objs, ok := fields.([]*rtc.Object); ok {
+	} else if objs, ok := fields.([]*heap.Object); ok {
 		// ref[]
 		swapped := _casArr(objs, offset, expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
@@ -85,7 +85,7 @@ func compareAndSwapObject(frame *rtda.Frame) {
 		panic("todo: compareAndSwapObject!")
 	}
 }
-func _casObj(obj *rtc.Object, fields []interface{}, offset int64, expected, newVal *rtc.Object) bool {
+func _casObj(obj *heap.Object, fields []interface{}, offset int64, expected, newVal *heap.Object) bool {
 	// todo
 	obj.LockState()
 	defer obj.UnlockState()
@@ -98,7 +98,7 @@ func _casObj(obj *rtc.Object, fields []interface{}, offset int64, expected, newV
 		return false
 	}
 }
-func _casArr(objs []*rtc.Object, offset int64, expected, newVal *rtc.Object) bool {
+func _casArr(objs []*heap.Object, offset int64, expected, newVal *heap.Object) bool {
 	// cast to []unsafe.Pointer
 	ps := *((*[]unsafe.Pointer)(unsafe.Pointer(&objs)))
 

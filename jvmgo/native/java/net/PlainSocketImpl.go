@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
@@ -25,7 +25,7 @@ func init() {
 }
 
 func _psi(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/net/PlainSocketImpl", name, desc, method)
+	heap.RegisterNativeMethod("java/net/PlainSocketImpl", name, desc, method)
 }
 
 func psi_initProto(frame *rtda.Frame) {
@@ -46,7 +46,7 @@ func psi_socketConnect(frame *rtda.Frame) {
 	address := vars.GetRef(1)
 	port := vars.Get(2)
 
-	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").(*rtc.Object)
+	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").(*heap.Object)
 
 	//fmt.Println(address.Class().GetInstanceMethod("getHostAddress", "()Ljava/lang/String;").NativeMethod())
 	add := holder.GetFieldValue("address", "I").(int32)
@@ -65,7 +65,7 @@ func psi_socketConnect(frame *rtda.Frame) {
 		conn.SetDeadline(time.Now().Add(time.Duration(_timeout) * time.Millisecond))
 	}
 
-	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Object)
+	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*heap.Object)
 	fdObj.SetExtra(conn)
 }
 
@@ -77,8 +77,8 @@ func psi_socketBind(frame *rtda.Frame) {
 	address := vars.GetRef(1)
 	port := vars.Get(2)
 
-	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").(*rtc.Object)
-	hostNameObj := holder.GetFieldValue("hostName", "Ljava/lang/String;").(*rtc.Object)
+	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").(*heap.Object)
+	hostNameObj := holder.GetFieldValue("hostName", "Ljava/lang/String;").(*heap.Object)
 	hostName := rtda.GoString(hostNameObj)
 	laddr := fmt.Sprintf("%s:%d", hostName, port)
 	listen, err := net.Listen("tcp", laddr)
@@ -99,7 +99,7 @@ func psi_socketAccept(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
 	s := vars.GetRef(1)
-	fdObj := s.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Object)
+	fdObj := s.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*heap.Object)
 	//goFd := fdObj.GetFieldValue("fd", "I").(int32)
 	listen := this.Extra().(net.Listener)
 	if conn, err := listen.Accept(); err != nil {
@@ -115,7 +115,7 @@ func psi_socketAccept(frame *rtda.Frame) {
 func psi_socketClose0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
-	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Object)
+	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*heap.Object)
 	if fdObj.Extra() != nil {
 		conn := fdObj.Extra().(net.Conn)
 		conn.Close()
@@ -127,7 +127,7 @@ func psi_socketClose0(frame *rtda.Frame) {
 func psi_socketAvailable(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
-	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Object)
+	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*heap.Object)
 	conn := fdObj.Extra().(net.Conn)
 	if r := conn.RemoteAddr(); r != nil {
 		frame.OperandStack().PushBoolean(true)
@@ -151,7 +151,7 @@ func psi_socketSetOption(frame *rtda.Frame) {
 	switch cmd {
 	case 0x1006: //timeout
 		_timeout := box.Unbox(value, "I").(int32)
-		fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*rtc.Object)
+		fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*heap.Object)
 		if fdObj.Extra() != nil {
 			conn := fdObj.Extra().(net.Conn)
 			conn.SetReadDeadline(time.Now().Add(time.Duration(_timeout) * time.Millisecond))

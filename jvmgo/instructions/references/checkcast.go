@@ -3,19 +3,19 @@ package references
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Check whether object is of given type
 type CHECK_CAST struct {
 	base.Index16Instruction
-	class *rtc.Class
+	class *heap.Class
 }
 
 func (self *CHECK_CAST) Execute(frame *rtda.Frame) {
 	if self.class == nil {
 		cp := frame.Method().Class().ConstantPool()
-		kClass := cp.GetConstant(self.Index).(*rtc.ConstantClass)
+		kClass := cp.GetConstant(self.Index).(*heap.ConstantClass)
 		self.class = kClass.Class()
 	}
 

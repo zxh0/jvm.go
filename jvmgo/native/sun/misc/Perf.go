@@ -2,7 +2,7 @@ package misc
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -10,7 +10,7 @@ func init() {
 }
 
 func _perf(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("sun/misc/Perf", name, desc, method)
+	heap.RegisterNativeMethod("sun/misc/Perf", name, desc, method)
 }
 
 // public native ByteBuffer createLong(String name, int variability, int units, long value);

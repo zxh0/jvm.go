@@ -1,4 +1,4 @@
-package class
+package heap
 
 func (self *Class) IsPrimitive() bool {
 	return isPrimitiveType(self.name)

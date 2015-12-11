@@ -2,7 +2,7 @@ package io
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -10,7 +10,7 @@ func init() {
 }
 
 func _fs(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/io/FileSystem", name, desc, method)
+	heap.RegisterNativeMethod("java/io/FileSystem", name, desc, method)
 }
 
 // public static native FileSystem getFileSystem()

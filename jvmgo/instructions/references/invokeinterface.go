@@ -3,7 +3,7 @@ package references
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Invoke interface method
@@ -13,7 +13,7 @@ type INVOKE_INTERFACE struct {
 	// zero uint8
 
 	// optimization
-	kMethodRef   *rtc.ConstantInterfaceMethodref
+	kMethodRef   *heap.ConstantInterfaceMethodref
 	argSlotCount uint
 }
 
@@ -26,7 +26,7 @@ func (self *INVOKE_INTERFACE) FetchOperands(reader *base.BytecodeReader) {
 func (self *INVOKE_INTERFACE) Execute(frame *rtda.Frame) {
 	if self.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
-		self.kMethodRef = cp.GetConstant(self.index).(*rtc.ConstantInterfaceMethodref)
+		self.kMethodRef = cp.GetConstant(self.index).(*heap.ConstantInterfaceMethodref)
 		self.argSlotCount = self.kMethodRef.ArgSlotCount()
 	}
 

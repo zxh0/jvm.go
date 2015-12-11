@@ -2,7 +2,7 @@ package reflect
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
@@ -14,7 +14,7 @@ func init() {
 }
 
 func _array(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/lang/reflect/Array", name, desc, method)
+	heap.RegisterNativeMethod("java/lang/reflect/Array", name, desc, method)
 }
 
 // public static native Object get(Object array, int index)
@@ -33,7 +33,7 @@ func get(frame *rtda.Frame) {
 		frame.Thread().ThrowIllegalArgumentException("Argument is not an array")
 		return
 	}
-	if index < 0 || index >= rtc.ArrayLength(arr) {
+	if index < 0 || index >= heap.ArrayLength(arr) {
 		frame.Thread().ThrowArrayIndexOutOfBoundsExceptionNoMsg()
 		return
 	}
@@ -88,7 +88,7 @@ func set(frame *rtda.Frame) {
 		return
 	}
 
-	if index < 0 || index >= rtc.ArrayLength(arr) {
+	if index < 0 || index >= heap.ArrayLength(arr) {
 		frame.Thread().ThrowArrayIndexOutOfBoundsExceptionNoMsg()
 		return
 	}
@@ -141,7 +141,7 @@ func getLength(frame *rtda.Frame) {
 	arr := vars.GetRef(0)
 
 	// todo IllegalArgumentException
-	_len := rtc.ArrayLength(arr)
+	_len := heap.ArrayLength(arr)
 	stack := frame.OperandStack()
 	stack.PushInt(_len)
 }
@@ -158,7 +158,7 @@ func newArray(frame *rtda.Frame) {
 		panic("NegativeArraySizeException")
 	}
 
-	componentClass := componentType.Extra().(*rtc.Class)
+	componentClass := componentType.Extra().(*heap.Class)
 	arrObj := componentClass.NewArray(uint(length))
 
 	stack := frame.OperandStack()

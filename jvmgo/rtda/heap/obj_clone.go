@@ -1,4 +1,4 @@
-package class
+package heap
 
 func (self *Object) Clone() *Object {
 	fields2 := self._cloneFields()

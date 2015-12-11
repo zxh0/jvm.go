@@ -1,4 +1,4 @@
-package class
+package heap
 
 type ClassMember struct {
 	AccessFlags

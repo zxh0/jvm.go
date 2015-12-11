@@ -2,12 +2,12 @@ package awt
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
 }
 
 func _comp(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/awt/Component", name, desc, method)
+	heap.RegisterNativeMethod("java/awt/Component", name, desc, method)
 }

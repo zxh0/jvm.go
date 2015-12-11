@@ -3,19 +3,19 @@ package references
 import (
 	"github.com/zxh0/jvm.go/jvmgo/instructions/base"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 // Create new object
 type NEW struct {
 	base.Index16Instruction
-	class *rtc.Class
+	class *heap.Class
 }
 
 func (self *NEW) Execute(frame *rtda.Frame) {
 	if self.class == nil {
 		cp := frame.ConstantPool()
-		kClass := cp.GetConstant(self.Index).(*rtc.ConstantClass)
+		kClass := cp.GetConstant(self.Index).(*heap.ConstantClass)
 		self.class = kClass.Class()
 	}
 

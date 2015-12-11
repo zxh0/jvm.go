@@ -2,7 +2,7 @@ package misc
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -383,7 +383,7 @@ func putObject(frame *rtda.Frame) {
 	if anys, ok := fields.([]interface{}); ok {
 		// object
 		anys[offset] = x
-	} else if objs, ok := fields.([]*rtc.Object); ok {
+	} else if objs, ok := fields.([]*heap.Object); ok {
 		// ref[]
 		objs[offset] = x
 	} else {
@@ -402,7 +402,7 @@ func getObject(frame *rtda.Frame) {
 		// object
 		x := _getObj(anys, offset)
 		frame.OperandStack().PushRef(x)
-	} else if objs, ok := fields.([]*rtc.Object); ok {
+	} else if objs, ok := fields.([]*heap.Object); ok {
 		// ref[]
 		x := objs[offset]
 		frame.OperandStack().PushRef(x)
@@ -410,10 +410,10 @@ func getObject(frame *rtda.Frame) {
 		panic("getObject!")
 	}
 }
-func _getObj(fields []interface{}, offset int64) *rtc.Object {
+func _getObj(fields []interface{}, offset int64) *heap.Object {
 	f := fields[offset]
 	if f != nil {
-		return f.(*rtc.Object)
+		return f.(*heap.Object)
 	} else {
 		return nil
 	}

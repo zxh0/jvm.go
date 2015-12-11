@@ -5,7 +5,7 @@ import (
 
 	cp "github.com/zxh0/jvm.go/jvmgo/classpath"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 func init() {
@@ -27,7 +27,7 @@ func init() {
 }
 
 func _class(method func(frame *rtda.Frame), name, desc string) {
-	rtc.RegisterNativeMethod("java/lang/Class", name, desc, method)
+	heap.RegisterNativeMethod("java/lang/Class", name, desc, method)
 }
 
 // native ClassLoader getClassLoader0();
@@ -42,7 +42,7 @@ func getClassLoader0(frame *rtda.Frame) {
 		return
 	}
 
-	clClass := rtc.BootLoader().LoadClass("java/lang/ClassLoader")
+	clClass := heap.BootLoader().LoadClass("java/lang/ClassLoader")
 	getSysCl := clClass.GetStaticMethod("getSystemClassLoader", "()Ljava/lang/ClassLoader;")
 	frame.Thread().InvokeMethod(getSysCl)
 }
@@ -62,7 +62,7 @@ func getComponentType(frame *rtda.Frame) {
 // ()Lsun/reflect/ConstantPool;
 func getConstantPool(frame *rtda.Frame) {
 	class := _popClass(frame)
-	cpClass := rtc.BootLoader().LoadClass("sun/reflect/ConstantPool")
+	cpClass := heap.BootLoader().LoadClass("sun/reflect/ConstantPool")
 	if cpClass.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread().InitClass(cpClass)
@@ -104,7 +104,7 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 	} else {
 		emInfo := class.EnclosingMethod()
 		emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
-		if emInfoObj == nil || rtc.ArrayLength(emInfoObj) == 0 {
+		if emInfoObj == nil || heap.ArrayLength(emInfoObj) == 0 {
 			frame.OperandStack().PushNull()
 		} else {
 			frame.OperandStack().PushRef(emInfoObj)
@@ -112,14 +112,14 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 	}
 }
 
-func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.EnclosingMethod) *rtc.Object {
+func _createEnclosintMethodInfo(classLoader *heap.ClassLoader, emInfo *heap.EnclosingMethod) *heap.Object {
 	if emInfo == nil {
 		return nil
 	}
 
 	enclosingClass := classLoader.LoadClass(emInfo.ClassName())
 	enclosingClassObj := enclosingClass.JClass()
-	var methodNameObj, methodDescriptorObj *rtc.Object
+	var methodNameObj, methodDescriptorObj *heap.Object
 	if emInfo.MethodName() != "" {
 		methodNameObj = rtda.JString(emInfo.MethodName())
 		methodDescriptorObj = rtda.JString(emInfo.MethodDescriptor())
@@ -127,8 +127,8 @@ func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.Enclos
 		methodNameObj, methodDescriptorObj = nil, nil
 	}
 
-	objs := []*rtc.Object{enclosingClassObj, methodNameObj, methodDescriptorObj}
-	return rtc.NewRefArray2(classLoader.JLObjectClass(), objs) // Object[]
+	objs := []*heap.Object{enclosingClassObj, methodNameObj, methodDescriptorObj}
+	return heap.NewRefArray2(classLoader.JLObjectClass(), objs) // Object[]
 }
 
 // private native Class<?>[] getInterfaces0();
@@ -136,13 +136,13 @@ func _createEnclosintMethodInfo(classLoader *rtc.ClassLoader, emInfo *rtc.Enclos
 func getInterfaces0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	interfaces := class.Interfaces()
-	interfaceObjs := make([]*rtc.Object, len(interfaces))
+	interfaceObjs := make([]*heap.Object, len(interfaces))
 	for i, iface := range interfaces {
 		interfaceObjs[i] = iface.JClass()
 	}
 
-	jlClassClass := rtc.BootLoader().JLClassClass()
-	interfaceArr := rtc.NewRefArray2(jlClassClass, interfaceObjs)
+	jlClassClass := heap.BootLoader().JLClassClass()
+	interfaceArr := heap.NewRefArray2(jlClassClass, interfaceObjs)
 
 	stack := frame.OperandStack()
 	stack.PushRef(interfaceArr)
@@ -190,8 +190,8 @@ func isAssignableFrom(frame *rtda.Frame) {
 	this := vars.GetThis()
 	cls := vars.GetRef(1)
 
-	thisClass := this.Extra().(*rtc.Class)
-	clsClass := cls.Extra().(*rtc.Class)
+	thisClass := this.Extra().(*heap.Class)
+	clsClass := cls.Extra().(*heap.Class)
 	ok := thisClass.IsAssignableFrom(clsClass)
 
 	stack := frame.OperandStack()
@@ -205,7 +205,7 @@ func isInstance(frame *rtda.Frame) {
 	this := vars.GetThis()
 	obj := vars.GetRef(1)
 
-	class := this.Extra().(*rtc.Class)
+	class := this.Extra().(*heap.Class)
 	ok := obj.IsInstanceOf(class)
 
 	stack := frame.OperandStack()
@@ -258,8 +258,8 @@ func getGenericSignature0(frame *rtda.Frame) {
 	frame.OperandStack().PushNull()
 }
 
-func _popClass(frame *rtda.Frame) *rtc.Class {
+func _popClass(frame *rtda.Frame) *heap.Class {
 	vars := frame.LocalVars()
 	this := vars.GetThis()
-	return this.Extra().(*rtc.Class)
+	return this.Extra().(*heap.Class)
 }

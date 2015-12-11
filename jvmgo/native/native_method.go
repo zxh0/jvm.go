@@ -2,7 +2,7 @@ package native
 
 import (
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
-	//rtc "github.com/zxh0/jvm.go/jvmgo/rtda/class"
+	//"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
 )
 
 type NativeMethod func(frame *rtda.Frame)

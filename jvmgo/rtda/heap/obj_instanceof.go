@@ -23,7 +23,7 @@ func _checkcast(s, t *Class) bool {
 			if !t.IsInterface() {
 				return t.isJlObject()
 			} else {
-				return t.isSuperInterfaceOf(t)
+				return t.isSuperInterfaceOf(s)
 			}
 		}
 	} else { // s is array

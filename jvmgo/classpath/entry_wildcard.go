@@ -15,6 +15,9 @@ func newWildcardEntry(path string) *WildcardEntry {
 	entry := &WildcardEntry{}
 
 	walkFn := func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
 		if info.IsDir() && path != baseDir {
 			return filepath.SkipDir
 		}

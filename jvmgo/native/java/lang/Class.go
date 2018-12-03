@@ -83,14 +83,14 @@ func getDeclaringClass0(frame *rtda.Frame) {
 		return
 	}
 
-	lastDollerIndex := strings.LastIndex(class.Name(), "$")
-	if lastDollerIndex < 0 {
+	lastDollarIndex := strings.LastIndex(class.Name(), "$")
+	if lastDollarIndex < 0 {
 		frame.OperandStack().PushRef(nil)
 		return
 	}
 
 	// todo
-	declaringClassName := class.Name()[:lastDollerIndex]
+	declaringClassName := class.Name()[:lastDollarIndex]
 	declaringClass := frame.ClassLoader().LoadClass(declaringClassName)
 	frame.OperandStack().PushRef(declaringClass.JClass())
 }

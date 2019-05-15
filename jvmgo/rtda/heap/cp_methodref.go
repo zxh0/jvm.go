@@ -1,21 +1,10 @@
 package heap
 
-import (
-	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
-)
-
 type ConstantMethodref struct {
 	ConstantMemberref
 	argSlotCount uint
 	method       *Method
 	vslot        int
-}
-
-func newConstantMethodref(refInfo *cf.ConstantMethodrefInfo) *ConstantMethodref {
-	ref := &ConstantMethodref{vslot: -1}
-	ref.copy(&refInfo.ConstantMemberrefInfo)
-	ref.argSlotCount = calcArgSlotCount(ref.descriptor)
-	return ref
 }
 
 func (self *ConstantMethodref) ArgSlotCount() uint {

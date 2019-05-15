@@ -10,6 +10,6 @@ type ConstantMethodType struct {
 
 func newConstantMethodType(mtInfo *cf.ConstantMethodTypeInfo) *ConstantMethodType {
 	return &ConstantMethodType{
-	// todo
+		// todo
 	}
 }

@@ -22,7 +22,7 @@ func (self *ConstantPool) read(reader *ClassReader) {
 		// table at index n, then the next usable item in the pool is located at index n+2.
 		// The constant_pool index n+1 must be valid but is considered unusable.
 		switch self.Infos[i].(type) {
-		case *ConstantLongInfo, *ConstantDoubleInfo:
+		case int64, float64:
 			i++
 		}
 	}
@@ -50,6 +50,5 @@ func (self *ConstantPool) getClassName(index uint16) string {
 }
 
 func (self *ConstantPool) getUtf8(index uint16) string {
-	utf8Info := self.getConstantInfo(index).(*ConstantUtf8Info)
-	return utf8Info.Str
+	return self.getConstantInfo(index).(string)
 }

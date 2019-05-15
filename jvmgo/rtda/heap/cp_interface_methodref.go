@@ -1,18 +1,7 @@
 package heap
 
-import (
-	cf "github.com/zxh0/jvm.go/jvmgo/classfile"
-)
-
 type ConstantInterfaceMethodref struct {
 	ConstantMethodref
-}
-
-func newConstantInterfaceMethodref(refInfo *cf.ConstantInterfaceMethodrefInfo) *ConstantInterfaceMethodref {
-	ref := &ConstantInterfaceMethodref{}
-	ref.copy(&refInfo.ConstantMemberrefInfo)
-	ref.argSlotCount = calcArgSlotCount(ref.descriptor)
-	return ref
 }
 
 // todo

@@ -28,7 +28,7 @@ type Class struct {
 	staticFieldCount   uint
 	staticFieldSlots   []interface{}
 	vtable             []*Method // virtual method table
-	jClass             *Object      // java.lang.Class instance
+	jClass             *Object   // java.lang.Class instance
 	superClass         *Class
 	interfaces         []*Class
 	loadedFrom         cp.Entry // todo

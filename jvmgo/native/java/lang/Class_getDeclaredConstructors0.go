@@ -55,14 +55,14 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 
 			// init constructorObj
 			thread.InvokeMethodWithShim(constructorInitMethod, []interface{}{
-				constructorObj, // this
-				classObj,       // declaringClass
-				getParameterTypeArr(constructor),    // parameterTypes
-				getExceptionTypeArr(constructor),    // checkedExceptions
-				int32(constructor.GetAccessFlags()), // modifiers
-				int32(0), // todo slot
-				getSignatureStr(constructor.Signature()),                    // signature
-				getAnnotationByteArr(constructor.AnnotationData()),          // annotations
+				constructorObj,                                     // this
+				classObj,                                           // declaringClass
+				getParameterTypeArr(constructor),                   // parameterTypes
+				getExceptionTypeArr(constructor),                   // checkedExceptions
+				int32(constructor.GetAccessFlags()),                // modifiers
+				int32(0),                                           // todo slot
+				getSignatureStr(constructor.Signature()),           // signature
+				getAnnotationByteArr(constructor.AnnotationData()), // annotations
 				getAnnotationByteArr(constructor.ParameterAnnotationData()), // parameterAnnotations
 			})
 		}

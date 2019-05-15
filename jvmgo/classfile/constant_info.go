@@ -28,48 +28,37 @@ cp_info {
     u1 info[];
 }
 */
-type ConstantInfo interface {
-	readInfo(reader *ClassReader)
-}
+type ConstantInfo interface{}
 
 func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 	tag := reader.readUint8()
-	c := newConstantInfo(tag, cp)
-	c.readInfo(reader)
-	return c
-}
-
-// todo ugly code
-func newConstantInfo(tag uint8, cp *ConstantPool) ConstantInfo {
 	switch tag {
 	case CONSTANT_Integer:
-		return &ConstantIntegerInfo{}
+		return readConstantIntegerInfo(reader)
 	case CONSTANT_Float:
-		return &ConstantFloatInfo{}
+		return readConstantFloatInfo(reader)
 	case CONSTANT_Long:
-		return &ConstantLongInfo{}
+		return readConstantLongInfo(reader)
 	case CONSTANT_Double:
-		return &ConstantDoubleInfo{}
+		return readConstantDoubleInfo(reader)
 	case CONSTANT_Utf8:
-		return &ConstantUtf8Info{}
+		return readConstantUtf8Info(reader)
 	case CONSTANT_String:
-		return &ConstantStringInfo{cp: cp}
+		return readConstantStringInfo(reader, cp)
 	case CONSTANT_Class:
-		return &ConstantClassInfo{cp: cp}
-	case CONSTANT_Fieldref:
-		return &ConstantFieldrefInfo{ConstantMemberrefInfo{cp: cp}}
-	case CONSTANT_Methodref:
-		return &ConstantMethodrefInfo{ConstantMemberrefInfo{cp: cp}}
-	case CONSTANT_InterfaceMethodref:
-		return &ConstantInterfaceMethodrefInfo{ConstantMemberrefInfo{cp: cp}}
+		return readConstantClassInfo(reader, cp)
+	case CONSTANT_Fieldref,
+		CONSTANT_Methodref,
+		CONSTANT_InterfaceMethodref:
+		return readConstantMemberrefInfo(reader, cp, tag)
 	case CONSTANT_NameAndType:
-		return &ConstantNameAndTypeInfo{}
+		return readConstantNameAndTypeInfo(reader)
 	case CONSTANT_MethodType:
-		return &ConstantMethodTypeInfo{}
+		return readConstantMethodTypeInfo(reader)
 	case CONSTANT_MethodHandle:
-		return &ConstantMethodHandleInfo{}
+		return readConstantMethodHandleInfo(reader)
 	case CONSTANT_InvokeDynamic:
-		return &ConstantInvokeDynamicInfo{cp: cp}
+		return readConstantInvokeDynamicInfo(reader, cp)
 	default: // todo
 		jutil.Panicf("BAD constant pool tag: %v", tag)
 		return nil

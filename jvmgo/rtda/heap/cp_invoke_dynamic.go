@@ -25,10 +25,6 @@ func newConstantInvokeDynamic(cp *ConstantPool, indyInfo *cf.ConstantInvokeDynam
 }
 
 func (self *ConstantInvokeDynamic) MethodHandle() {
-	println(2222)
-	println(self.bootstrapMethodRef)
 	kMH := self.cp.GetConstant(uint(self.bootstrapMethodRef)).(*ConstantMethodHandle)
-	println(kMH.referenceKind)
-	println(kMH.referenceIndex)
 	println(kMH)
 }

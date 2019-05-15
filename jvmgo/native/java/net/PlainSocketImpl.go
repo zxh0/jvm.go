@@ -6,9 +6,9 @@ import (
 	"net"
 	"time"
 
+	"github.com/zxh0/jvm.go/jvmgo/native/box"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
-	"github.com/zxh0/jvm.go/jvmgo/native/box"
 )
 
 func init() {

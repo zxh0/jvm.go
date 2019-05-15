@@ -13,9 +13,12 @@ type ConstantInvokeDynamicInfo struct {
 	nameAndTypeIndex         uint16
 }
 
-func (self *ConstantInvokeDynamicInfo) readInfo(reader *ClassReader) {
-	self.bootstrapMethodAttrIndex = reader.readUint16()
-	self.nameAndTypeIndex = reader.readUint16()
+func readConstantInvokeDynamicInfo(reader *ClassReader, cp *ConstantPool) *ConstantInvokeDynamicInfo {
+	return &ConstantInvokeDynamicInfo{
+		cp:                       cp,
+		bootstrapMethodAttrIndex: reader.readUint16(),
+		nameAndTypeIndex:         reader.readUint16(),
+	}
 }
 
 func (self *ConstantInvokeDynamicInfo) NameAndType() (string, string) {
@@ -42,9 +45,11 @@ type ConstantMethodHandleInfo struct {
 	ReferenceIndex uint16
 }
 
-func (self *ConstantMethodHandleInfo) readInfo(reader *ClassReader) {
-	self.ReferenceKind = reader.readUint8()
-	self.ReferenceIndex = reader.readUint16()
+func readConstantMethodHandleInfo(reader *ClassReader) *ConstantMethodHandleInfo {
+	return &ConstantMethodHandleInfo{
+		ReferenceKind:  reader.readUint8(),
+		ReferenceIndex: reader.readUint16(),
+	}
 }
 
 /*
@@ -57,6 +62,8 @@ type ConstantMethodTypeInfo struct {
 	descriptorIndex uint16
 }
 
-func (self *ConstantMethodTypeInfo) readInfo(reader *ClassReader) {
-	self.descriptorIndex = reader.readUint16()
+func readConstantMethodTypeInfo(reader *ClassReader) *ConstantMethodTypeInfo {
+	return &ConstantMethodTypeInfo{
+		descriptorIndex: reader.readUint16(),
+	}
 }

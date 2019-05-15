@@ -188,7 +188,7 @@ func (self *ClassLoader) parseClassData(name string, data []byte) *Class {
 	cf, err := classfile.Parse(data)
 	if err != nil {
 		// todo
-		panic("failed to parse class file: " + name + "!" + err.Error())
+		panic("failed to parse class file: " + name + "! " + err.Error())
 	}
 
 	return newClass(cf)

@@ -10,7 +10,7 @@ type ConstantUtf8 struct {
 
 func newConstantUtf8(utf8Info *cf.ConstantUtf8Info) *ConstantUtf8 {
 	return &ConstantUtf8{
-		str: utf8Info.Str(),
+		str: utf8Info.Str,
 	}
 }
 

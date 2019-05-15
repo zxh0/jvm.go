@@ -18,7 +18,7 @@ method_info {
 */
 type MemberInfo struct {
 	cp              *ConstantPool
-	accessFlags     uint16
+	AccessFlags     uint16
 	nameIndex       uint16
 	descriptorIndex uint16
 	AttributeTable
@@ -36,15 +36,12 @@ func readMembers(reader *ClassReader, cp *ConstantPool) []*MemberInfo {
 }
 
 func (self *MemberInfo) read(reader *ClassReader) {
-	self.accessFlags = reader.readUint16()
+	self.AccessFlags = reader.readUint16()
 	self.nameIndex = reader.readUint16()
 	self.descriptorIndex = reader.readUint16()
 	self.attributes = readAttributes(reader, self.cp)
 }
 
-func (self *MemberInfo) AccessFlags() uint16 {
-	return self.accessFlags
-}
 func (self *MemberInfo) Name() string {
 	return self.cp.getUtf8(self.nameIndex)
 }

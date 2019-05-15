@@ -108,7 +108,7 @@ func (self *AttributeTable) getUnparsedAttributeData(name string) []byte {
 		case *UnparsedAttribute:
 			unparsedAttr := attrInfo.(*UnparsedAttribute)
 			if unparsedAttr.name == name {
-				return unparsedAttr.info
+				return unparsedAttr.Info
 			}
 		}
 	}

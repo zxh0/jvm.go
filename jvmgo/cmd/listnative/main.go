@@ -73,7 +73,7 @@ func handleClass(f *zip.File) {
 }
 
 func handleClassfile(cf *classfile.ClassFile) {
-	for _, m := range cf.Methods() {
+	for _, m := range cf.Methods {
 		if isNative(m) {
 			if isStatic(m) {
 				fmt.Printf("%v.%v%v\n", cf.ClassName(), m.Name(), m.Descriptor())
@@ -85,8 +85,8 @@ func handleClassfile(cf *classfile.ClassFile) {
 }
 
 func isNative(m *classfile.MemberInfo) bool {
-	return m.AccessFlags()&0x0100 != 0
+	return m.AccessFlags&0x0100 != 0
 }
 func isStatic(m *classfile.MemberInfo) bool {
-	return m.AccessFlags()&0x0008 != 0
+	return m.AccessFlags&0x0008 != 0
 }

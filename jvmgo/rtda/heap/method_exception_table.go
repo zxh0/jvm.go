@@ -28,10 +28,10 @@ func (self *ExceptionTable) copyExceptionTable(entries []*cf.ExceptionTableEntry
 
 func newExceptionHandler(entry *cf.ExceptionTableEntry, rtCp *ConstantPool) *ExceptionHandler {
 	handler := &ExceptionHandler{}
-	handler.startPc = int(entry.StartPc())
-	handler.endPc = int(entry.EndPc())
-	handler.handlerPc = int(entry.HandlerPc())
-	catchType := uint(entry.CatchType())
+	handler.startPc = int(entry.StartPc)
+	handler.endPc = int(entry.EndPc)
+	handler.handlerPc = int(entry.HandlerPc)
+	catchType := uint(entry.CatchType)
 	if catchType == 0 {
 		handler.catchType = nil // catch all
 	} else {

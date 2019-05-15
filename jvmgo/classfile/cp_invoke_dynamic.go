@@ -38,19 +38,13 @@ CONSTANT_MethodHandle_info {
 }
 */
 type ConstantMethodHandleInfo struct {
-	referenceKind  uint8
-	referenceIndex uint16
+	ReferenceKind  uint8
+	ReferenceIndex uint16
 }
 
 func (self *ConstantMethodHandleInfo) readInfo(reader *ClassReader) {
-	self.referenceKind = reader.readUint8()
-	self.referenceIndex = reader.readUint16()
-}
-func (self *ConstantMethodHandleInfo) ReferenceKind() uint8 {
-	return self.referenceKind
-}
-func (self *ConstantMethodHandleInfo) ReferenceIndex() uint16 {
-	return self.referenceIndex
+	self.ReferenceKind = reader.readUint8()
+	self.ReferenceIndex = reader.readUint16()
 }
 
 /*

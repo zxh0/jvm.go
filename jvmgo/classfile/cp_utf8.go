@@ -13,17 +13,13 @@ CONSTANT_Utf8_info {
 }
 */
 type ConstantUtf8Info struct {
-	str string
+	Str string
 }
 
 func (self *ConstantUtf8Info) readInfo(reader *ClassReader) {
 	length := uint32(reader.readUint16())
 	bytes := reader.readBytes(length)
-	self.str = decodeMUTF8(bytes)
-}
-
-func (self *ConstantUtf8Info) Str() string {
-	return self.str
+	self.Str = decodeMUTF8(bytes)
 }
 
 /*

@@ -26,7 +26,7 @@ func (self *Method) ExceptionTypes() []*Class {
 		return nil
 	}
 
-	exIndexTable := self.exceptions.ExceptionIndexTable()
+	exIndexTable := self.exceptions.ExceptionIndexTable
 	exClasses := make([]*Class, len(exIndexTable))
 	cp := self.class.constantPool
 

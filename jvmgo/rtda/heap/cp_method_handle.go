@@ -11,7 +11,7 @@ type ConstantMethodHandle struct {
 
 func newConstantMethodHandle(mhInfo *cf.ConstantMethodHandleInfo) *ConstantMethodHandle {
 	return &ConstantMethodHandle{
-		referenceKind:  mhInfo.ReferenceKind(),
-		referenceIndex: mhInfo.ReferenceIndex(),
+		referenceKind:  mhInfo.ReferenceKind,
+		referenceIndex: mhInfo.ReferenceIndex,
 	}
 }

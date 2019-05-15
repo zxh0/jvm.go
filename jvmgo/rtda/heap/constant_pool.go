@@ -12,7 +12,7 @@ type ConstantPool struct {
 }
 
 func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
-	cpInfos := cfCp.Infos()
+	cpInfos := cfCp.Infos
 	consts := make([]Constant, len(cpInfos))
 	rtCp := &ConstantPool{owner, consts}
 
@@ -20,14 +20,14 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 		cpInfo := cpInfos[i]
 		switch cpInfo.(type) {
 		case *cf.ConstantIntegerInfo:
-			consts[i] = cpInfo.(*cf.ConstantIntegerInfo).Value()
+			consts[i] = cpInfo.(*cf.ConstantIntegerInfo).Value
 		case *cf.ConstantFloatInfo:
-			consts[i] = cpInfo.(*cf.ConstantFloatInfo).Value()
+			consts[i] = cpInfo.(*cf.ConstantFloatInfo).Value
 		case *cf.ConstantLongInfo:
-			consts[i] = cpInfo.(*cf.ConstantLongInfo).Value()
+			consts[i] = cpInfo.(*cf.ConstantLongInfo).Value
 			i++
 		case *cf.ConstantDoubleInfo:
-			consts[i] = cpInfo.(*cf.ConstantDoubleInfo).Value()
+			consts[i] = cpInfo.(*cf.ConstantDoubleInfo).Value
 			i++
 		case *cf.ConstantStringInfo:
 			consts[i] = cpInfo.(*cf.ConstantStringInfo).String()

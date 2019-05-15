@@ -24,13 +24,13 @@ type ClassFile struct {
 	//magic           uint32
 	minorVersion uint16
 	majorVersion uint16
-	constantPool *ConstantPool
-	accessFlags  uint16
+	ConstantPool *ConstantPool
+	AccessFlags  uint16
 	thisClass    uint16
 	superClass   uint16
 	interfaces   []uint16
-	fields       []*MemberInfo
-	methods      []*MemberInfo
+	Fields       []*MemberInfo
+	Methods      []*MemberInfo
 	AttributeTable
 }
 
@@ -38,13 +38,13 @@ func (self *ClassFile) read(reader *ClassReader) {
 	self.readAndCheckMagic(reader)
 	self.readVersions(reader)
 	self.readConstantPool(reader)
-	self.accessFlags = reader.readUint16()
+	self.AccessFlags = reader.readUint16()
 	self.thisClass = reader.readUint16()
 	self.superClass = reader.readUint16()
 	self.interfaces = reader.readUint16s()
-	self.fields = readMembers(reader, self.constantPool)
-	self.methods = readMembers(reader, self.constantPool)
-	self.attributes = readAttributes(reader, self.constantPool)
+	self.Fields = readMembers(reader, self.ConstantPool)
+	self.Methods = readMembers(reader, self.ConstantPool)
+	self.attributes = readAttributes(reader, self.ConstantPool)
 }
 
 func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
@@ -61,31 +61,17 @@ func (self *ClassFile) readVersions(reader *ClassReader) {
 }
 
 func (self *ClassFile) readConstantPool(reader *ClassReader) {
-	self.constantPool = &ConstantPool{cf: self}
-	self.constantPool.read(reader)
-}
-
-func (self *ClassFile) ConstantPool() *ConstantPool {
-	return self.constantPool
-}
-func (self *ClassFile) AccessFlags() uint16 {
-	return self.accessFlags
-}
-
-func (self *ClassFile) Fields() []*MemberInfo {
-	return self.fields
-}
-func (self *ClassFile) Methods() []*MemberInfo {
-	return self.methods
+	self.ConstantPool = &ConstantPool{cf: self}
+	self.ConstantPool.read(reader)
 }
 
 func (self *ClassFile) ClassName() string {
-	return self.constantPool.getClassName(self.thisClass)
+	return self.ConstantPool.getClassName(self.thisClass)
 }
 
 func (self *ClassFile) SuperClassName() string {
 	if self.superClass != 0 {
-		return self.constantPool.getClassName(self.superClass)
+		return self.ConstantPool.getClassName(self.superClass)
 	}
 	return ""
 }
@@ -93,7 +79,7 @@ func (self *ClassFile) SuperClassName() string {
 func (self *ClassFile) InterfaceNames() []string {
 	interfaceNames := make([]string, len(self.interfaces))
 	for i, cpIndex := range self.interfaces {
-		interfaceNames[i] = self.constantPool.getClassName(cpIndex)
+		interfaceNames[i] = self.ConstantPool.getClassName(cpIndex)
 	}
 	return interfaceNames
 }

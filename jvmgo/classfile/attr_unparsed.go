@@ -10,13 +10,9 @@ attribute_info {
 type UnparsedAttribute struct {
 	name   string
 	length uint32
-	info   []byte
+	Info   []byte
 }
 
 func (self *UnparsedAttribute) readInfo(reader *ClassReader) {
-	self.info = reader.readBytes(self.length)
-}
-
-func (self *UnparsedAttribute) Info() []byte {
-	return self.info
+	self.Info = reader.readBytes(self.length)
 }

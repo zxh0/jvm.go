@@ -3,8 +3,6 @@ package options
 import (
 	"os"
 	"path/filepath"
-
-	"github.com/zxh0/jvm.go/jvmgo/cmdline"
 )
 
 var (
@@ -14,10 +12,10 @@ var (
 	AbsJreLib       string // /path/to/jre/lib
 )
 
-func InitOptions(cmdOptions *cmdline.Options) {
-	VerboseClass = cmdOptions.VerboseClass()
-	ThreadStackSize = uint(cmdOptions.Xss)
-	initJavaHome(cmdOptions.XuseJavaHome)
+func InitOptions(verboseClass bool, xss int, useJavaHome bool) {
+	VerboseClass = verboseClass
+	ThreadStackSize = uint(xss)
+	initJavaHome(useJavaHome)
 }
 
 func initJavaHome(useOsEnv bool) {

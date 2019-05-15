@@ -1,4 +1,4 @@
-package cmdline
+package main
 
 import (
 	"fmt"

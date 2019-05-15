@@ -5,16 +5,15 @@ import (
 	"runtime/pprof"
 
 	"github.com/zxh0/jvm.go/jvmgo/classpath"
-	"github.com/zxh0/jvm.go/jvmgo/cmdline"
-	"github.com/zxh0/jvm.go/jvmgo/jutil"
 	"github.com/zxh0/jvm.go/jvmgo/interpreter"
+	"github.com/zxh0/jvm.go/jvmgo/jutil"
+	_ "github.com/zxh0/jvm.go/jvmgo/native"
 	"github.com/zxh0/jvm.go/jvmgo/options"
 	"github.com/zxh0/jvm.go/jvmgo/rtda"
 	"github.com/zxh0/jvm.go/jvmgo/rtda/heap"
-	_ "github.com/zxh0/jvm.go/jvmgo/native"
 )
 
-func startJVM(cmd *cmdline.Command) {
+func startJVM(cmd *Command) {
 	Xcpuprofile := cmd.Options().Xcpuprofile
 	if Xcpuprofile != "" {
 		f, err := os.Create(Xcpuprofile)
@@ -25,7 +24,7 @@ func startJVM(cmd *cmdline.Command) {
 		defer pprof.StopCPUProfile()
 	}
 
-	options.InitOptions(cmd.Options())
+	options.InitOptions(cmd.Options().VerboseClass(), cmd.Options().Xss, cmd.Options().XuseJavaHome)
 
 	cp := classpath.Parse(cmd.Options().Classpath())
 	heap.InitBootLoader(cp)

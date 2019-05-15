@@ -12,19 +12,20 @@ jvm.go is a toy JVM (which is far from complete) programmed in Go. The main purp
 
 # Build jvm.go
 ```sh
-go get github.com/zxh0/jvm.go/jvmgo
+git clone https://github.com/zxh0/jvm.go.git
+go build github.com/zxh0/jvm.go/jvmgo/cmd/java
 ```
 
 # Run jvm.go using your Java installation
 Ensure your Java version is 1.8.0_32 and JAVA_HOME env was set
 ```sh
-jvmgo -XuseJavaHome -cp path/to/jars:path/to/classes HelloWorld
+go run github.com/zxh0/jvm.go/jvmgo/cmd/java -XuseJavaHome -cp path/to/jars:path/to/classes HelloWorld
 ```
 
 # Run jvm.go using Zulu
 Download [zulu1.8.0_31-8.5.0.1-macosx.zip](http://www.azulsystems.com/products/zulu/downloads#mac) ([Zulu](http://www.azulsystems.com/products/zulu) is a certified build of OpenJDK that is fully compliant with the Java SE standard.) and unzip it to somewhere, Copy `jvmgo` from `$GOPATH/bin/` into unzipped folder 
 ```sh
 cd path/to/zulu1.8.0_31-8.5.0.1-macosx
-jvmgo -cp path/to/jars:path/to/classes HelloWorld
+go run github.com/zxh0/jvm.go/jvmgo/cmd/java -cp path/to/jars:path/to/classes HelloWorld
 ```
 

@@ -3,10 +3,11 @@ package main
 import (
 	"archive/zip"
 	"fmt"
-	"github.com/zxh0/jvm.go/jvmgo/classfile"
 	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/zxh0/jvm.go/jvmgo/classfile"
 )
 
 func main() {
@@ -83,9 +84,9 @@ func handleClassfile(cf *classfile.ClassFile) {
 	}
 }
 
-func isNative(m *classfile.MethodInfo) bool {
+func isNative(m *classfile.MemberInfo) bool {
 	return m.AccessFlags()&0x0100 != 0
 }
-func isStatic(m *classfile.MethodInfo) bool {
+func isStatic(m *classfile.MemberInfo) bool {
 	return m.AccessFlags()&0x0008 != 0
 }

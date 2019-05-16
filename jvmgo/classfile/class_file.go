@@ -21,16 +21,16 @@ ClassFile {
 }
 */
 type ClassFile struct {
-	//magic           uint32
+	//magic      uint32
 	minorVersion uint16
 	majorVersion uint16
-	ConstantPool *ConstantPool
+	ConstantPool ConstantPool
 	AccessFlags  uint16
 	thisClass    uint16
 	superClass   uint16
 	interfaces   []uint16
-	Fields       []*MemberInfo
-	Methods      []*MemberInfo
+	Fields       []MemberInfo
+	Methods      []MemberInfo
 	AttributeTable
 }
 
@@ -42,9 +42,9 @@ func (self *ClassFile) read(reader *ClassReader) {
 	self.thisClass = reader.readUint16()
 	self.superClass = reader.readUint16()
 	self.interfaces = reader.readUint16s()
-	self.Fields = readMembers(reader, self.ConstantPool)
-	self.Methods = readMembers(reader, self.ConstantPool)
-	self.attributes = readAttributes(reader, self.ConstantPool)
+	self.Fields = readMembers(reader, &self.ConstantPool)
+	self.Methods = readMembers(reader, &self.ConstantPool)
+	self.attributes = readAttributes(reader, &self.ConstantPool)
 }
 
 func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
@@ -61,7 +61,7 @@ func (self *ClassFile) readVersions(reader *ClassReader) {
 }
 
 func (self *ClassFile) readConstantPool(reader *ClassReader) {
-	self.ConstantPool = &ConstantPool{cf: self}
+	self.ConstantPool = ConstantPool{cf: self}
 	self.ConstantPool.read(reader)
 }
 

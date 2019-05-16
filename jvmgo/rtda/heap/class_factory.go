@@ -19,7 +19,7 @@ func newClass(cf *classfile.ClassFile) *Class {
 }
 
 func (self *Class) copyConstantPool(cf *classfile.ClassFile) {
-	self.constantPool = newConstantPool(self, cf.ConstantPool)
+	self.constantPool = newConstantPool(self, &cf.ConstantPool)
 }
 
 func (self *Class) copyClassNames(cf *classfile.ClassFile) {

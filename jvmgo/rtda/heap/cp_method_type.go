@@ -8,7 +8,7 @@ type ConstantMethodType struct {
 	// todo
 }
 
-func newConstantMethodType(mtInfo *cf.ConstantMethodTypeInfo) *ConstantMethodType {
+func newConstantMethodType(mtInfo cf.ConstantMethodTypeInfo) *ConstantMethodType {
 	return &ConstantMethodType{
 		// todo
 	}

@@ -19,14 +19,14 @@ type ExceptionTable struct {
 	handlers []*ExceptionHandler
 }
 
-func (self *ExceptionTable) copyExceptionTable(entries []*cf.ExceptionTableEntry, rtCp *ConstantPool) {
+func (self *ExceptionTable) copyExceptionTable(entries []cf.ExceptionTableEntry, rtCp *ConstantPool) {
 	self.handlers = make([]*ExceptionHandler, len(entries))
 	for i, entry := range entries {
 		self.handlers[i] = newExceptionHandler(entry, rtCp)
 	}
 }
 
-func newExceptionHandler(entry *cf.ExceptionTableEntry, rtCp *ConstantPool) *ExceptionHandler {
+func newExceptionHandler(entry cf.ExceptionTableEntry, rtCp *ConstantPool) *ExceptionHandler {
 	handler := &ExceptionHandler{}
 	handler.startPc = int(entry.StartPc)
 	handler.endPc = int(entry.EndPc)

@@ -8,8 +8,8 @@ type ClassReader struct {
 	data []byte
 }
 
-func newClassReader(data []byte) *ClassReader {
-	return &ClassReader{data}
+func newClassReader(data []byte) ClassReader {
+	return ClassReader{data}
 }
 
 // u1

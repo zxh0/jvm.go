@@ -23,7 +23,7 @@ type CodeAttribute struct {
 	MaxStack       uint16
 	MaxLocals      uint16
 	Code           []byte
-	ExceptionTable []*ExceptionTableEntry
+	ExceptionTable []ExceptionTableEntry
 	AttributeTable
 }
 
@@ -43,11 +43,11 @@ type ExceptionTableEntry struct {
 	CatchType uint16
 }
 
-func readExceptionTable(reader *ClassReader) []*ExceptionTableEntry {
-	exceptionTableLength := reader.readUint16()
-	exceptionTable := make([]*ExceptionTableEntry, exceptionTableLength)
+func readExceptionTable(reader *ClassReader) []ExceptionTableEntry {
+	tableLength := reader.readUint16()
+	exceptionTable := make([]ExceptionTableEntry, tableLength)
 	for i := range exceptionTable {
-		exceptionTable[i] = &ExceptionTableEntry{
+		exceptionTable[i] = ExceptionTableEntry{
 			StartPc:   reader.readUint16(),
 			EndPc:     reader.readUint16(),
 			HandlerPc: reader.readUint16(),

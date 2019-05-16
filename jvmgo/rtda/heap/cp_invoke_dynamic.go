@@ -12,7 +12,7 @@ type ConstantInvokeDynamic struct {
 	cp                 *ConstantPool
 }
 
-func newConstantInvokeDynamic(cp *ConstantPool, indyInfo *cf.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
+func newConstantInvokeDynamic(cp *ConstantPool, indyInfo cf.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
 	name, _type := indyInfo.NameAndType()
 	bootstrapMethodRef, bootstrapArguments := indyInfo.BootstrapMethodInfo()
 	return &ConstantInvokeDynamic{

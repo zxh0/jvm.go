@@ -9,7 +9,7 @@ type ConstantClass struct {
 	class *Class
 }
 
-func newConstantClass(classInfo *cf.ConstantClassInfo) *ConstantClass {
+func newConstantClass(classInfo cf.ConstantClassInfo) *ConstantClass {
 	return &ConstantClass{
 		name: classInfo.Name(),
 	}

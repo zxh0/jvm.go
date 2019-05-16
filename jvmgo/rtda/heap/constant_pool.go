@@ -24,18 +24,19 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 		case int64, float64:
 			consts[i] = cpInfo
 			i++
-		case *cf.ConstantStringInfo:
-			consts[i] = cpInfo.(*cf.ConstantStringInfo).String()
-		case *cf.ConstantClassInfo:
-			consts[i] = newConstantClass(cpInfo.(*cf.ConstantClassInfo))
-		case *cf.ConstantMemberrefInfo:
-			consts[i] = newConstantMemberref(cpInfo.(*cf.ConstantMemberrefInfo))
-		case *cf.ConstantInvokeDynamicInfo:
-			consts[i] = newConstantInvokeDynamic(rtCp, cpInfo.(*cf.ConstantInvokeDynamicInfo))
-		case *cf.ConstantMethodHandleInfo:
-			consts[i] = newConstantMethodHandle(cpInfo.(*cf.ConstantMethodHandleInfo))
-		case *cf.ConstantMethodTypeInfo:
-			consts[i] = newConstantMethodType(cpInfo.(*cf.ConstantMethodTypeInfo))
+		case cf.ConstantStringInfo:
+			strInfo := cpInfo.(cf.ConstantStringInfo)
+			consts[i] = strInfo.String()
+		case cf.ConstantClassInfo:
+			consts[i] = newConstantClass(cpInfo.(cf.ConstantClassInfo))
+		case cf.ConstantMemberrefInfo:
+			consts[i] = newConstantMemberref(cpInfo.(cf.ConstantMemberrefInfo))
+		case cf.ConstantInvokeDynamicInfo:
+			consts[i] = newConstantInvokeDynamic(rtCp, cpInfo.(cf.ConstantInvokeDynamicInfo))
+		case cf.ConstantMethodHandleInfo:
+			consts[i] = newConstantMethodHandle(cpInfo.(cf.ConstantMethodHandleInfo))
+		case cf.ConstantMethodTypeInfo:
+			consts[i] = newConstantMethodType(cpInfo.(cf.ConstantMethodTypeInfo))
 		default:
 			// todo
 			//fmt.Printf("%T \n", cpInfo)

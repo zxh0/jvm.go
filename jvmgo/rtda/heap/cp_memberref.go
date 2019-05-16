@@ -10,12 +10,7 @@ type ConstantMemberref struct {
 	descriptor string
 }
 
-func (self *ConstantMemberref) copy(refInfo *cf.ConstantMemberrefInfo) {
-	self.className = refInfo.ClassName()
-	self.name, self.descriptor = refInfo.NameAndDescriptor()
-}
-
-func newConstantMemberref(refInfo *cf.ConstantMemberrefInfo) Constant {
+func newConstantMemberref(refInfo cf.ConstantMemberrefInfo) Constant {
 	switch refInfo.Tag {
 	case cf.CONSTANT_Fieldref:
 		ref := &ConstantFieldref{}
@@ -34,4 +29,9 @@ func newConstantMemberref(refInfo *cf.ConstantMemberrefInfo) Constant {
 	default:
 		panic("unreachable!")
 	}
+}
+
+func (self *ConstantMemberref) copy(refInfo cf.ConstantMemberrefInfo) {
+	self.className = refInfo.ClassName()
+	self.name, self.descriptor = refInfo.NameAndDescriptor()
 }

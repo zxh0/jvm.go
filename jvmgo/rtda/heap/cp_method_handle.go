@@ -9,7 +9,7 @@ type ConstantMethodHandle struct {
 	referenceIndex uint16
 }
 
-func newConstantMethodHandle(mhInfo *cf.ConstantMethodHandleInfo) *ConstantMethodHandle {
+func newConstantMethodHandle(mhInfo cf.ConstantMethodHandleInfo) *ConstantMethodHandle {
 	return &ConstantMethodHandle{
 		referenceKind:  mhInfo.ReferenceKind,
 		referenceIndex: mhInfo.ReferenceIndex,

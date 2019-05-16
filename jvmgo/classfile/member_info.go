@@ -25,11 +25,11 @@ type MemberInfo struct {
 }
 
 // read field or method table
-func readMembers(reader *ClassReader, cp *ConstantPool) []*MemberInfo {
+func readMembers(reader *ClassReader, cp *ConstantPool) []MemberInfo {
 	memberCount := reader.readUint16()
-	members := make([]*MemberInfo, memberCount)
+	members := make([]MemberInfo, memberCount)
 	for i := range members {
-		members[i] = &MemberInfo{cp: cp}
+		members[i] = MemberInfo{cp: cp}
 		members[i].read(reader)
 	}
 	return members

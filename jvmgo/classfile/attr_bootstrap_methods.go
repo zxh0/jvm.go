@@ -12,14 +12,14 @@ BootstrapMethods_attribute {
 }
 */
 type BootstrapMethodsAttribute struct {
-	bootstrapMethods []*BootstrapMethod
+	bootstrapMethods []BootstrapMethod
 }
 
 func (self *BootstrapMethodsAttribute) readInfo(reader *ClassReader) {
 	numBootstrapMethods := reader.readUint16()
-	self.bootstrapMethods = make([]*BootstrapMethod, numBootstrapMethods)
+	self.bootstrapMethods = make([]BootstrapMethod, numBootstrapMethods)
 	for i := range self.bootstrapMethods {
-		self.bootstrapMethods[i] = &BootstrapMethod{
+		self.bootstrapMethods[i] = BootstrapMethod{
 			bootstrapMethodRef: reader.readUint16(),
 			bootstrapArguments: reader.readUint16s(),
 		}

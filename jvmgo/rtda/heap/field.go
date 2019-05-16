@@ -12,7 +12,7 @@ type Field struct {
 	_type           *Class
 }
 
-func newField(class *Class, fieldInfo *cf.MemberInfo) *Field {
+func newField(class *Class, fieldInfo cf.MemberInfo) *Field {
 	field := &Field{}
 	field.class = class
 	field.accessFlags = fieldInfo.AccessFlags

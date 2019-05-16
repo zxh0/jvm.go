@@ -13,7 +13,7 @@ InnerClasses_attribute {
 }
 */
 type InnerClassesAttribute struct {
-	classes []*InnerClassInfo
+	classes []InnerClassInfo
 }
 
 type InnerClassInfo struct {
@@ -25,9 +25,9 @@ type InnerClassInfo struct {
 
 func (self *InnerClassesAttribute) readInfo(reader *ClassReader) {
 	numberOfClasses := reader.readUint16()
-	self.classes = make([]*InnerClassInfo, numberOfClasses)
+	self.classes = make([]InnerClassInfo, numberOfClasses)
 	for i := range self.classes {
-		self.classes[i] = &InnerClassInfo{
+		self.classes[i] = InnerClassInfo{
 			innerClassInfoIndex:   reader.readUint16(),
 			outerClassInfoIndex:   reader.readUint16(),
 			innerNameIndex:        reader.readUint16(),

@@ -6,13 +6,13 @@ import (
 )
 
 func init() {
-	_fd(set, "set", "(I)J")
+	_fd(setErrorMode, "setErrorMode", "(J)J")
 }
 
 func _fd(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/io/FileDescriptor", name, desc, method)
+	heap.RegisterNativeMethod("sun/io/Win32ErrorMode", name, desc, method)
 }
 
-func set(frame *rtda.Frame)  {
+func setErrorMode(frame *rtda.Frame)  {
 	frame.OperandStack().PushLong(0)
 }

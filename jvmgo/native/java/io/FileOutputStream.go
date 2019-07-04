@@ -35,6 +35,8 @@ func writeBytes(frame *rtda.Frame) {
 			fdObj.SetExtra(os.Stdout)
 		case 2:
 			fdObj.SetExtra(os.Stderr)
+		default:
+			fdObj.SetExtra(os.Stdout)
 		}
 	}
 	goFile := fdObj.Extra().(*os.File)

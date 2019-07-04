@@ -3,6 +3,7 @@ package options
 import (
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -28,8 +29,13 @@ func initJavaHome(useOsEnv bool) {
 	}
 
 	if absJh, err := filepath.Abs(jh); err == nil {
-		AbsJavaHome = absJh
-		AbsJreLib = filepath.Join(absJh, "lib")
+		if strings.Contains(absJh, "jre") {
+			AbsJavaHome = absJh
+			AbsJreLib = filepath.Join(absJh, "lib")
+		} else {
+			AbsJavaHome = filepath.Join(absJh, "jre")
+			AbsJreLib = filepath.Join(absJh, "jre", "lib")
+		}
 	} else {
 		panic(err)
 	}

@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"errors"
@@ -27,7 +27,7 @@ type Command struct {
 	Args    []string
 }
 
-func parseCommand(osArgs []string) (Command, error) {
+func ParseCommand(osArgs []string) (Command, error) {
 	args := osArgs[1:]
 	options, err := parseOptions(&args)
 	if err != nil {

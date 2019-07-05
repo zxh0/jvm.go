@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/zxh0/jvm.go/jvmgo/cmd"
 	"os"
 	"runtime/pprof"
 
@@ -15,7 +16,7 @@ import (
 )
 
 func main() {
-	cmd, err := parseCommand(os.Args)
+	cmd, err := cmd.ParseCommand(os.Args)
 	if err != nil {
 		fmt.Println(err)
 		printUsage()
@@ -28,7 +29,7 @@ func printUsage() {
 	fmt.Println("usage: jvmgo [-options] class [args...]")
 }
 
-func startJVM(cmd Command) {
+func startJVM(cmd cmd.Command) {
 	Xcpuprofile := cmd.Options.Xcpuprofile
 	if Xcpuprofile != "" {
 		f, err := os.Create(Xcpuprofile)

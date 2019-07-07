@@ -29,6 +29,11 @@ func (self *AccessFlags) GetAccessFlags() uint16 {
 	return self.accessFlags
 }
 
+func NewAccessFlags(accessFlags uint16) *AccessFlags {
+	af := AccessFlags{accessFlags: accessFlags}
+	return &af
+}
+
 func (self *AccessFlags) IsPublic() bool {
 	return 0 != self.accessFlags&ACC_PUBLIC
 }

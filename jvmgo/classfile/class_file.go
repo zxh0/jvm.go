@@ -57,7 +57,16 @@ func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
 func (self *ClassFile) readVersions(reader *ClassReader) {
 	self.minorVersion = reader.readUint16()
 	self.majorVersion = reader.readUint16()
-	// todo check versions
+
+	switch self.majorVersion {
+	case 45:
+		return
+	case 46, 47, 48, 49, 50, 51, 52:
+		if self.minorVersion == 0 {
+			return
+		}
+	}
+	panic("java.lang.UnsupportedClassVersionError!")
 }
 
 func (self *ClassFile) readConstantPool(reader *ClassReader) {
@@ -68,6 +77,7 @@ func (self *ClassFile) readConstantPool(reader *ClassReader) {
 func (self *ClassFile) ClassName() string {
 	return self.ConstantPool.getClassName(self.thisClass)
 }
+
 
 func (self *ClassFile) SuperClassName() string {
 	if self.superClass != 0 {

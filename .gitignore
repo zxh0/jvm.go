@@ -9,3 +9,5 @@ jvmgo.sublime-workspace
 *.swp
 
 /java
+
+.idea

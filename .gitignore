@@ -1,9 +1,5 @@
-bin/
-pkg/
-jvmgo.sublime-workspace
-/testclasses/.gradle
-/testclasses/.nb-gradle/
-/testclasses/build/
+.gradle
+build
 
 .DS_Store
 *.swp

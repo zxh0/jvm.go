@@ -17,6 +17,14 @@ type Frame struct {
 	onPopAction  func()
 }
 
+// TODO
+func NewFrame(maxLocals, maxStack int) *Frame {
+	return &Frame{
+		localVars:    newLocalVars(uint(maxLocals)),
+		operandStack: newOperandStack(uint(maxStack)),
+	}
+}
+
 func newFrame(thread *Thread, method *heap.Method) *Frame {
 	return &Frame{
 		thread:       thread,

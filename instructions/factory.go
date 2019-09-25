@@ -19,122 +19,122 @@ import (
 // NoOperandsInstruction singletons
 var (
 	nop           = &NOP{}
-	aconst_null   = &ACONST_NULL{}
-	iconst_m1     = &ICONST_M1{}
-	iconst_0      = &ICONST_0{}
-	iconst_1      = &ICONST_1{}
-	iconst_2      = &ICONST_2{}
-	iconst_3      = &ICONST_3{}
-	iconst_4      = &ICONST_4{}
-	iconst_5      = &ICONST_5{}
-	lconst_0      = &LCONST_0{}
-	lconst_1      = &LCONST_1{}
-	fconst_0      = &FCONST_0{}
-	fconst_1      = &FCONST_1{}
-	fconst_2      = &FCONST_2{}
-	dconst_0      = &DCONST_0{}
-	dconst_1      = &DCONST_1{}
-	iload_0       = &ILOAD_0{}
-	iload_1       = &ILOAD_1{}
-	iload_2       = &ILOAD_2{}
-	iload_3       = &ILOAD_3{}
-	lload_0       = &LLOAD_0{}
-	lload_1       = &LLOAD_1{}
-	lload_2       = &LLOAD_2{}
-	lload_3       = &LLOAD_3{}
-	fload_0       = &FLOAD_0{}
-	fload_1       = &FLOAD_1{}
-	fload_2       = &FLOAD_2{}
-	fload_3       = &FLOAD_3{}
-	dload_0       = &DLOAD_0{}
-	dload_1       = &DLOAD_1{}
-	dload_2       = &DLOAD_2{}
-	dload_3       = &DLOAD_3{}
-	aload_0       = &ALOAD_0{}
-	aload_1       = &ALOAD_1{}
-	aload_2       = &ALOAD_2{}
-	aload_3       = &ALOAD_3{}
-	iaload        = &IALOAD{}
-	laload        = &LALOAD{}
-	faload        = &FALOAD{}
-	daload        = &DALOAD{}
-	aaload        = &AALOAD{}
-	baload        = &BALOAD{}
-	caload        = &CALOAD{}
-	saload        = &SALOAD{}
-	istore_0      = &ISTORE_0{}
-	istore_1      = &ISTORE_1{}
-	istore_2      = &ISTORE_2{}
-	istore_3      = &ISTORE_3{}
-	lstore_0      = &LSTORE_0{}
-	lstore_1      = &LSTORE_1{}
-	lstore_2      = &LSTORE_2{}
-	lstore_3      = &LSTORE_3{}
-	fstore_0      = &FSTORE_0{}
-	fstore_1      = &FSTORE_1{}
-	fstore_2      = &FSTORE_2{}
-	fstore_3      = &FSTORE_3{}
-	dstore_0      = &DSTORE_0{}
-	dstore_1      = &DSTORE_1{}
-	dstore_2      = &DSTORE_2{}
-	dstore_3      = &DSTORE_3{}
-	astore_0      = &ASTORE_0{}
-	astore_1      = &ASTORE_1{}
-	astore_2      = &ASTORE_2{}
-	astore_3      = &ASTORE_3{}
-	iastore       = &IASTORE{}
-	lastore       = &LASTORE{}
-	fastore       = &FASTORE{}
-	dastore       = &DASTORE{}
-	aastore       = &AASTORE{}
-	bastore       = &BASTORE{}
-	castore       = &CASTORE{}
-	sastore       = &SASTORE{}
-	pop           = &POP{}
-	pop2          = &POP2{}
-	dup           = &DUP{}
-	dup_x1        = &DUP_X1{}
-	dup_x2        = &DUP_X2{}
-	dup2          = &DUP2{}
-	dup2_x1       = &DUP2_X1{}
-	dup2_x2       = &DUP2_X2{}
-	swap          = &SWAP{}
-	iadd          = &IADD{}
-	ladd          = &LADD{}
-	fadd          = &FADD{}
-	dadd          = &DADD{}
-	isub          = &ISUB{}
-	lsub          = &LSUB{}
-	fsub          = &FSUB{}
-	dsub          = &DSUB{}
-	imul          = &IMUL{}
-	lmul          = &LMUL{}
-	fmul          = &FMUL{}
-	dmul          = &DMUL{}
-	idiv          = &IDIV{}
-	ldiv          = &LDIV{}
-	fdiv          = &FDIV{}
-	ddiv          = &DDIV{}
-	irem          = &IREM{}
-	lrem          = &LREM{}
-	frem          = &FREM{}
-	drem          = &DREM{}
-	ineg          = &INEG{}
-	lneg          = &LNEG{}
-	fneg          = &FNEG{}
-	dneg          = &DNEG{}
+	aconst_null   = &AConstNull{}
+	iconst_m1     = &IConst{Val: -1}
+	iconst_0      = &IConst{Val: 0}
+	iconst_1      = &IConst{Val: 1}
+	iconst_2      = &IConst{Val: 2}
+	iconst_3      = &IConst{Val: 3}
+	iconst_4      = &IConst{Val: 4}
+	iconst_5      = &IConst{Val: 5}
+	lconst_0      = &LConst{Val: 0}
+	lconst_1      = &LConst{Val: 1}
+	fconst_0      = &FConst{Val: 0.0}
+	fconst_1      = &FConst{Val: 1.0}
+	fconst_2      = &FConst{Val: 2.0}
+	dconst_0      = &DConst{Val: 0.0}
+	dconst_1      = &DConst{Val: 1.0}
+	iload_0       = &ILoad{Index8Instruction: base.Index8Instruction{Index: 0}}
+	iload_1       = &ILoad{Index8Instruction: base.Index8Instruction{Index: 1}}
+	iload_2       = &ILoad{Index8Instruction: base.Index8Instruction{Index: 2}}
+	iload_3       = &ILoad{Index8Instruction: base.Index8Instruction{Index: 3}}
+	lload_0       = &LLoad{Index8Instruction: base.Index8Instruction{Index: 0}}
+	lload_1       = &LLoad{Index8Instruction: base.Index8Instruction{Index: 1}}
+	lload_2       = &LLoad{Index8Instruction: base.Index8Instruction{Index: 2}}
+	lload_3       = &LLoad{Index8Instruction: base.Index8Instruction{Index: 3}}
+	fload_0       = &FLoad{Index8Instruction: base.Index8Instruction{Index: 0}}
+	fload_1       = &FLoad{Index8Instruction: base.Index8Instruction{Index: 1}}
+	fload_2       = &FLoad{Index8Instruction: base.Index8Instruction{Index: 2}}
+	fload_3       = &FLoad{Index8Instruction: base.Index8Instruction{Index: 3}}
+	dload_0       = &DLoad{Index8Instruction: base.Index8Instruction{Index: 0}}
+	dload_1       = &DLoad{Index8Instruction: base.Index8Instruction{Index: 1}}
+	dload_2       = &DLoad{Index8Instruction: base.Index8Instruction{Index: 2}}
+	dload_3       = &DLoad{Index8Instruction: base.Index8Instruction{Index: 3}}
+	aload_0       = &ALoad{Index8Instruction: base.Index8Instruction{Index: 0}}
+	aload_1       = &ALoad{Index8Instruction: base.Index8Instruction{Index: 1}}
+	aload_2       = &ALoad{Index8Instruction: base.Index8Instruction{Index: 2}}
+	aload_3       = &ALoad{Index8Instruction: base.Index8Instruction{Index: 3}}
+	iaload        = &IALoad{}
+	laload        = &LALoad{}
+	faload        = &FALoad{}
+	daload        = &DALoad{}
+	aaload        = &AALoad{}
+	baload        = &BALoad{}
+	caload        = &CALoad{}
+	saload        = &SALoad{}
+	istore_0      = &IStore{Index8Instruction: base.Index8Instruction{Index: 0}}
+	istore_1      = &IStore{Index8Instruction: base.Index8Instruction{Index: 1}}
+	istore_2      = &IStore{Index8Instruction: base.Index8Instruction{Index: 2}}
+	istore_3      = &IStore{Index8Instruction: base.Index8Instruction{Index: 3}}
+	lstore_0      = &LStore{Index8Instruction: base.Index8Instruction{Index: 0}}
+	lstore_1      = &LStore{Index8Instruction: base.Index8Instruction{Index: 1}}
+	lstore_2      = &LStore{Index8Instruction: base.Index8Instruction{Index: 2}}
+	lstore_3      = &LStore{Index8Instruction: base.Index8Instruction{Index: 3}}
+	fstore_0      = &FStore{Index8Instruction: base.Index8Instruction{Index: 0}}
+	fstore_1      = &FStore{Index8Instruction: base.Index8Instruction{Index: 1}}
+	fstore_2      = &FStore{Index8Instruction: base.Index8Instruction{Index: 2}}
+	fstore_3      = &FStore{Index8Instruction: base.Index8Instruction{Index: 3}}
+	dstore_0      = &DStore{Index8Instruction: base.Index8Instruction{Index: 0}}
+	dstore_1      = &DStore{Index8Instruction: base.Index8Instruction{Index: 1}}
+	dstore_2      = &DStore{Index8Instruction: base.Index8Instruction{Index: 2}}
+	dstore_3      = &DStore{Index8Instruction: base.Index8Instruction{Index: 3}}
+	astore_0      = &AStore{Index8Instruction: base.Index8Instruction{Index: 0}}
+	astore_1      = &AStore{Index8Instruction: base.Index8Instruction{Index: 1}}
+	astore_2      = &AStore{Index8Instruction: base.Index8Instruction{Index: 2}}
+	astore_3      = &AStore{Index8Instruction: base.Index8Instruction{Index: 3}}
+	iastore       = &IAStore{}
+	lastore       = &LAStore{}
+	fastore       = &FAStore{}
+	dastore       = &DAStore{}
+	aastore       = &AAStore{}
+	bastore       = &BAStore{}
+	castore       = &CAStore{}
+	sastore       = &SAStore{}
+	pop           = &Pop{}
+	pop2          = &Pop2{}
+	dup           = &Dup{}
+	dup_x1        = &DupX1{}
+	dup_x2        = &DupX2{}
+	dup2          = &Dup2{}
+	dup2_x1       = &Dup2X1{}
+	dup2_x2       = &Dup2X2{}
+	swap          = &Swap{}
+	iadd          = &IAdd{}
+	ladd          = &LAdd{}
+	fadd          = &FAdd{}
+	dadd          = &DAdd{}
+	isub          = &ISub{}
+	lsub          = &LSub{}
+	fsub          = &FSub{}
+	dsub          = &DSub{}
+	imul          = &IMul{}
+	lmul          = &LMul{}
+	fmul          = &FMul{}
+	dmul          = &DMul{}
+	idiv          = &IDiv{}
+	ldiv          = &LDiv{}
+	fdiv          = &FDiv{}
+	ddiv          = &DDiv{}
+	irem          = &IRem{}
+	lrem          = &LRem{}
+	frem          = &FRem{}
+	drem          = &DRem{}
+	ineg          = &INeg{}
+	lneg          = &LNeg{}
+	fneg          = &FNeg{}
+	dneg          = &DNeg{}
 	ishl          = &ISHL{}
 	lshl          = &LSHL{}
 	ishr          = &ISHR{}
 	lshr          = &LSHR{}
 	iushr         = &IUSHR{}
 	lushr         = &LUSHR{}
-	iand          = &IAND{}
-	land          = &LAND{}
-	ior           = &IOR{}
-	lor           = &LOR{}
-	ixor          = &IXOR{}
-	lxor          = &LXOR{}
+	iand          = &IAnd{}
+	land          = &LAnd{}
+	ior           = &IOr{}
+	lor           = &LOr{}
+	ixor          = &IXor{}
+	lxor          = &LXor{}
 	i2l           = &I2L{}
 	i2f           = &I2F{}
 	i2d           = &I2D{}
@@ -155,17 +155,17 @@ var (
 	fcmpg         = &FCMPG{}
 	dcmpl         = &DCMPL{}
 	dcmpg         = &DCMPG{}
-	ireturn       = &IRETURN{}
-	lreturn       = &LRETURN{}
-	freturn       = &FRETURN{}
-	dreturn       = &DRETURN{}
-	areturn       = &ARETURN{}
-	_return       = &RETURN{}
-	arraylength   = &ARRAY_LENGTH{}
-	athrow        = &ATHROW{}
-	monitorenter  = &MONITOR_ENTER{}
-	monitorexit   = &MONITOR_EXIT{}
-	invoke_native = &INVOKE_NATIVE{}
+	ireturn       = &IReturn{}
+	lreturn       = &LReturn{}
+	freturn       = &FReturn{}
+	dreturn       = &DReturn{}
+	areturn       = &AReturn{}
+	_return       = &Return{}
+	arraylength   = &ArrayLength{}
+	athrow        = &AThrow{}
+	monitorenter  = &MonitorEnter{}
+	monitorexit   = &MonitorExit{}
+	invoke_native = &InvokeNative{}
 )
 
 func newInstruction(opcode byte) base.Instruction {
@@ -203,9 +203,9 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0x0f:
 		return dconst_1
 	case 0x10:
-		return &BIPUSH{}
+		return &BIPush{}
 	case 0x11:
-		return &SIPUSH{}
+		return &SIPush{}
 	case 0x12:
 		return &LDC{}
 	case 0x13:
@@ -213,15 +213,15 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0x14:
 		return &LDC2_W{}
 	case 0x15:
-		return &ILOAD{}
+		return &ILoad{}
 	case 0x16:
-		return &LLOAD{}
+		return &LLoad{}
 	case 0x17:
-		return &FLOAD{}
+		return &FLoad{}
 	case 0x18:
-		return &DLOAD{}
+		return &DLoad{}
 	case 0x19:
-		return &ALOAD{}
+		return &ALoad{}
 	case 0x1a:
 		return iload_0
 	case 0x1b:
@@ -279,15 +279,15 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0x35:
 		return saload
 	case 0x36:
-		return &ISTORE{}
+		return &IStore{}
 	case 0x37:
-		return &LSTORE{}
+		return &LStore{}
 	case 0x38:
-		return &FSTORE{}
+		return &FStore{}
 	case 0x39:
-		return &DSTORE{}
+		return &DStore{}
 	case 0x3a:
-		return &ASTORE{}
+		return &AStore{}
 	case 0x3b:
 		return istore_0
 	case 0x3c:
@@ -527,27 +527,27 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xb1:
 		return _return
 	case 0xb2:
-		return &GET_STATIC{}
+		return &GetStatic{}
 	case 0xb3:
-		return &PUT_STATIC{}
+		return &PupStatic{}
 	case 0xb4:
-		return &GET_FIELD{}
+		return &GetField{}
 	case 0xb5:
-		return &PUT_FIELD{}
+		return &PutField{}
 	case 0xb6:
-		return &INVOKE_VIRTUAL{}
+		return &InvokeVirtual{}
 	case 0xb7:
-		return &INVOKE_SPECIAL{}
+		return &InvokeSpecial{}
 	case 0xb8:
-		return &INVOKE_STATIC{}
+		return &InvokeStatic{}
 	case 0xb9:
-		return &INVOKE_INTERFACE{}
+		return &InvokeInterface{}
 	case 0xba:
-		return &INVOKE_DYNAMIC{}
+		return &InvokeDynamic{}
 	case 0xbb:
-		return &NEW{}
+		return &New{}
 	case 0xbc:
-		return &NEW_ARRAY{}
+		return &NewArray{}
 	case 0xbd:
 		return &ANEW_ARRAY{}
 	case 0xbe:
@@ -555,9 +555,9 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xbf:
 		return athrow
 	case 0xc0:
-		return &CHECK_CAST{}
+		return &CheckCast{}
 	case 0xc1:
-		return &INSTANCE_OF{}
+		return &InstanceOf{}
 	case 0xc2:
 		return monitorenter
 	case 0xc3:

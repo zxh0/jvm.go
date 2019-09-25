@@ -6,9 +6,9 @@ import (
 )
 
 // Boolean XOR int
-type IXOR struct{ base.NoOperandsInstruction }
+type IXor struct{ base.NoOperandsInstruction }
 
-func (instr *IXOR) Execute(frame *rtda.Frame) {
+func (instr *IXor) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v1 := stack.PopInt()
 	v2 := stack.PopInt()
@@ -17,9 +17,9 @@ func (instr *IXOR) Execute(frame *rtda.Frame) {
 }
 
 // Boolean XOR long
-type LXOR struct{ base.NoOperandsInstruction }
+type LXor struct{ base.NoOperandsInstruction }
 
-func (instr *LXOR) Execute(frame *rtda.Frame) {
+func (instr *LXor) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v1 := stack.PopLong()
 	v2 := stack.PopLong()

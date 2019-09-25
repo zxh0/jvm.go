@@ -7,12 +7,12 @@ import (
 )
 
 // Set static field in class
-type PUT_STATIC struct {
+type PupStatic struct {
 	base.Index16Instruction
 	field *heap.Field
 }
 
-func (instr *PUT_STATIC) Execute(frame *rtda.Frame) {
+func (instr *PupStatic) Execute(frame *rtda.Frame) {
 	if instr.field == nil {
 		cp := frame.Method().Class().ConstantPool()
 		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldref)

@@ -18,43 +18,43 @@ func (instr *WIDE) FetchOperands(reader *base.BytecodeReader) {
 	opcode := reader.ReadUint8()
 	switch opcode {
 	case 0x15:
-		inst := &loads.ILOAD{}
+		inst := &loads.ILoad{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x16:
-		inst := &loads.LLOAD{}
+		inst := &loads.LLoad{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x17:
-		inst := &loads.FLOAD{}
+		inst := &loads.FLoad{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x18:
-		inst := &loads.DLOAD{}
+		inst := &loads.DLoad{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x19:
-		inst := &loads.ALOAD{}
+		inst := &loads.ALoad{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x36:
-		inst := &stores.ISTORE{}
+		inst := &stores.IStore{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x37:
-		inst := &stores.LSTORE{}
+		inst := &stores.LStore{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x38:
-		inst := &stores.FSTORE{}
+		inst := &stores.FStore{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x39:
-		inst := &stores.DSTORE{}
+		inst := &stores.DStore{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x3a:
-		inst := &stores.ASTORE{}
+		inst := &stores.AStore{}
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0xa9:

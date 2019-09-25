@@ -7,12 +7,12 @@ import (
 )
 
 // Check whether object is of given type
-type CHECK_CAST struct {
+type CheckCast struct {
 	base.Index16Instruction
 	class *heap.Class
 }
 
-func (instr *CHECK_CAST) Execute(frame *rtda.Frame) {
+func (instr *CheckCast) Execute(frame *rtda.Frame) {
 	if instr.class == nil {
 		cp := frame.Method().Class().ConstantPool()
 		kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)

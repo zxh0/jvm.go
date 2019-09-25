@@ -7,9 +7,9 @@ import (
 )
 
 // Get length of array
-type ARRAY_LENGTH struct{ base.NoOperandsInstruction }
+type ArrayLength struct{ base.NoOperandsInstruction }
 
-func (instr *ARRAY_LENGTH) Execute(frame *rtda.Frame) {
+func (instr *ArrayLength) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	arrRef := stack.PopRef()
 

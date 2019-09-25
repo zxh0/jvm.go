@@ -7,12 +7,12 @@ import (
 )
 
 // Create new object
-type NEW struct {
+type New struct {
 	base.Index16Instruction
 	class *heap.Class
 }
 
-func (instr *NEW) Execute(frame *rtda.Frame) {
+func (instr *New) Execute(frame *rtda.Frame) {
 	if instr.class == nil {
 		cp := frame.ConstantPool()
 		kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)

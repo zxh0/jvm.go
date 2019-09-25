@@ -6,27 +6,27 @@ import (
 )
 
 // Push byte
-type BIPUSH struct {
+type BIPush struct {
 	val int8
 }
 
-func (instr *BIPUSH) FetchOperands(reader *base.BytecodeReader) {
+func (instr *BIPush) FetchOperands(reader *base.BytecodeReader) {
 	instr.val = reader.ReadInt8()
 }
-func (instr *BIPUSH) Execute(frame *rtda.Frame) {
+func (instr *BIPush) Execute(frame *rtda.Frame) {
 	i := int32(instr.val)
 	frame.OperandStack().PushInt(i)
 }
 
 // Push short
-type SIPUSH struct {
+type SIPush struct {
 	val int16
 }
 
-func (instr *SIPUSH) FetchOperands(reader *base.BytecodeReader) {
+func (instr *SIPush) FetchOperands(reader *base.BytecodeReader) {
 	instr.val = reader.ReadInt16()
 }
-func (instr *SIPUSH) Execute(frame *rtda.Frame) {
+func (instr *SIPush) Execute(frame *rtda.Frame) {
 	i := int32(instr.val)
 	frame.OperandStack().PushInt(i)
 }

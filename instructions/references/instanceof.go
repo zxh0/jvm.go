@@ -7,9 +7,9 @@ import (
 )
 
 // Determine if object is of given type
-type INSTANCE_OF struct{ base.Index16Instruction }
+type InstanceOf struct{ base.Index16Instruction }
 
-func (instr *INSTANCE_OF) Execute(frame *rtda.Frame) {
+func (instr *InstanceOf) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	ref := stack.PopRef()
 

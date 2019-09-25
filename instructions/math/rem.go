@@ -8,9 +8,9 @@ import (
 )
 
 // Remainder double
-type DREM struct{ base.NoOperandsInstruction }
+type DRem struct{ base.NoOperandsInstruction }
 
-func (instr *DREM) Execute(frame *rtda.Frame) {
+func (instr *DRem) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopDouble()
 	v1 := stack.PopDouble()
@@ -19,9 +19,9 @@ func (instr *DREM) Execute(frame *rtda.Frame) {
 }
 
 // Remainder float
-type FREM struct{ base.NoOperandsInstruction }
+type FRem struct{ base.NoOperandsInstruction }
 
-func (instr *FREM) Execute(frame *rtda.Frame) {
+func (instr *FRem) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopFloat()
 	v1 := stack.PopFloat()
@@ -30,9 +30,9 @@ func (instr *FREM) Execute(frame *rtda.Frame) {
 }
 
 // Remainder int
-type IREM struct{ base.NoOperandsInstruction }
+type IRem struct{ base.NoOperandsInstruction }
 
-func (instr *IREM) Execute(frame *rtda.Frame) {
+func (instr *IRem) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -46,9 +46,9 @@ func (instr *IREM) Execute(frame *rtda.Frame) {
 }
 
 // Remainder long
-type LREM struct{ base.NoOperandsInstruction }
+type LRem struct{ base.NoOperandsInstruction }
 
-func (instr *LREM) Execute(frame *rtda.Frame) {
+func (instr *LRem) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopLong()
 	v1 := stack.PopLong()

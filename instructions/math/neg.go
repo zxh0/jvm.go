@@ -6,36 +6,36 @@ import (
 )
 
 // Negate double
-type DNEG struct{ base.NoOperandsInstruction }
+type DNeg struct{ base.NoOperandsInstruction }
 
-func (instr *DNEG) Execute(frame *rtda.Frame) {
+func (instr *DNeg) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopDouble()
 	stack.PushDouble(-val)
 }
 
 // Negate float
-type FNEG struct{ base.NoOperandsInstruction }
+type FNeg struct{ base.NoOperandsInstruction }
 
-func (instr *FNEG) Execute(frame *rtda.Frame) {
+func (instr *FNeg) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopFloat()
 	stack.PushFloat(-val)
 }
 
 // Negate int
-type INEG struct{ base.NoOperandsInstruction }
+type INeg struct{ base.NoOperandsInstruction }
 
-func (instr *INEG) Execute(frame *rtda.Frame) {
+func (instr *INeg) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopInt()
 	stack.PushInt(-val)
 }
 
 // Negate long
-type LNEG struct{ base.NoOperandsInstruction }
+type LNeg struct{ base.NoOperandsInstruction }
 
-func (instr *LNEG) Execute(frame *rtda.Frame) {
+func (instr *LNeg) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val := stack.PopLong()
 	stack.PushLong(-val)

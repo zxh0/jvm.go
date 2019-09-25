@@ -7,14 +7,14 @@ import (
 )
 
 // Create new array
-type NEW_ARRAY struct {
+type NewArray struct {
 	atype uint8
 }
 
-func (instr *NEW_ARRAY) FetchOperands(reader *base.BytecodeReader) {
+func (instr *NewArray) FetchOperands(reader *base.BytecodeReader) {
 	instr.atype = reader.ReadUint8()
 }
-func (instr *NEW_ARRAY) Execute(frame *rtda.Frame) {
+func (instr *NewArray) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	count := stack.PopInt()
 	if count < 0 {

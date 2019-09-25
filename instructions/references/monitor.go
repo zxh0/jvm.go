@@ -6,9 +6,9 @@ import (
 )
 
 // Enter monitor for object
-type MONITOR_ENTER struct{ base.NoOperandsInstruction }
+type MonitorEnter struct{ base.NoOperandsInstruction }
 
-func (instr *MONITOR_ENTER) Execute(frame *rtda.Frame) {
+func (instr *MonitorEnter) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	ref := frame.OperandStack().PopRef()
 	if ref == nil {
@@ -20,9 +20,9 @@ func (instr *MONITOR_ENTER) Execute(frame *rtda.Frame) {
 }
 
 // Exit monitor for object
-type MONITOR_EXIT struct{ base.NoOperandsInstruction }
+type MonitorExit struct{ base.NoOperandsInstruction }
 
-func (instr *MONITOR_EXIT) Execute(frame *rtda.Frame) {
+func (instr *MonitorExit) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	ref := frame.OperandStack().PopRef()
 	if ref == nil {

@@ -7,7 +7,7 @@ import (
 )
 
 // Invoke interface method
-type INVOKE_INTERFACE struct {
+type InvokeInterface struct {
 	index uint
 	// count uint8
 	// zero uint8
@@ -17,13 +17,13 @@ type INVOKE_INTERFACE struct {
 	argSlotCount uint
 }
 
-func (instr *INVOKE_INTERFACE) FetchOperands(reader *base.BytecodeReader) {
+func (instr *InvokeInterface) FetchOperands(reader *base.BytecodeReader) {
 	instr.index = uint(reader.ReadUint16())
 	reader.ReadUint8() // count
 	reader.ReadUint8() // must be 0
 }
 
-func (instr *INVOKE_INTERFACE) Execute(frame *rtda.Frame) {
+func (instr *InvokeInterface) Execute(frame *rtda.Frame) {
 	if instr.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
 		instr.kMethodRef = cp.GetConstant(instr.index).(*heap.ConstantInterfaceMethodref)

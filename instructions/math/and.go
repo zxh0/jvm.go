@@ -6,9 +6,9 @@ import (
 )
 
 // Boolean AND int
-type IAND struct{ base.NoOperandsInstruction }
+type IAnd struct{ base.NoOperandsInstruction }
 
-func (instr *IAND) Execute(frame *rtda.Frame) {
+func (instr *IAnd) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -17,9 +17,9 @@ func (instr *IAND) Execute(frame *rtda.Frame) {
 }
 
 // Boolean AND long
-type LAND struct{ base.NoOperandsInstruction }
+type LAnd struct{ base.NoOperandsInstruction }
 
-func (instr *LAND) Execute(frame *rtda.Frame) {
+func (instr *LAnd) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopLong()
 	v1 := stack.PopLong()

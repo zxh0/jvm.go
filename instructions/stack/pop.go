@@ -6,17 +6,17 @@ import (
 )
 
 // Pop the top operand stack value
-type POP struct{ base.NoOperandsInstruction }
+type Pop struct{ base.NoOperandsInstruction }
 
-func (instr *POP) Execute(frame *rtda.Frame) {
+func (instr *Pop) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	stack.PopSlot()
 }
 
 // Pop the top one or two operand stack values
-type POP2 struct{ base.NoOperandsInstruction }
+type Pop2 struct{ base.NoOperandsInstruction }
 
-func (instr *POP2) Execute(frame *rtda.Frame) {
+func (instr *Pop2) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	stack.PopSlot()
 	stack.PopSlot()

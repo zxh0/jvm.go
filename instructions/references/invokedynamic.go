@@ -22,25 +22,25 @@ const (
 )
 
 // Invoke dynamic method
-type INVOKE_DYNAMIC struct {
+type InvokeDynamic struct {
 	index uint16
 	// 0
 	// 0
 }
 
-func (instr *INVOKE_DYNAMIC) FetchOperands(reader *base.BytecodeReader) {
+func (instr *InvokeDynamic) FetchOperands(reader *base.BytecodeReader) {
 	instr.index = reader.ReadUint16()
 	reader.ReadUint8() // must be 0
 	reader.ReadUint8() // must be 0
 }
 
-func (instr *INVOKE_DYNAMIC) Execute(frame *rtda.Frame) {
+func (instr *InvokeDynamic) Execute(frame *rtda.Frame) {
 	instr.resolveCallSiteSpecifier(frame)
 	// todo
 	panic("todo invokedynamic")
 }
 
-func (instr *INVOKE_DYNAMIC) resolveCallSiteSpecifier(frame *rtda.Frame) {
+func (instr *InvokeDynamic) resolveCallSiteSpecifier(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
 	kIndy := cp.GetConstant(uint(instr.index)).(*heap.ConstantInvokeDynamic)
 	//bmSpec := kIndy.BootstrapMethodSpecifier()

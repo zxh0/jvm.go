@@ -11,65 +11,65 @@ type ConstantFieldref struct {
 	field *Field
 }
 
-func (self *ConstantFieldref) String() string {
+func (fr *ConstantFieldref) String() string {
 	return fmt.Sprintf("{ConstantFieldref className:%v name:%v descriptor:%v}",
-		self.className, self.name, self.descriptor)
+		fr.className, fr.name, fr.descriptor)
 }
 
-func (self *ConstantFieldref) InstanceField() *Field {
-	if self.field == nil {
-		self.resolveInstanceField()
+func (fr *ConstantFieldref) InstanceField() *Field {
+	if fr.field == nil {
+		fr.resolveInstanceField()
 	}
-	return self.field
+	return fr.field
 }
-func (self *ConstantFieldref) resolveInstanceField() {
-	fromClass := bootLoader.LoadClass(self.className)
+func (fr *ConstantFieldref) resolveInstanceField() {
+	fromClass := bootLoader.LoadClass(fr.className)
 
 	for class := fromClass; class != nil; class = class.superClass {
-		field := class.getField(self.name, self.descriptor, false)
+		field := class.getField(fr.name, fr.descriptor, false)
 		if field != nil {
-			self.field = field
+			fr.field = field
 			return
 		}
 	}
 
 	// todo
-	jutil.Panicf("instance field not found! %v", self)
+	jutil.Panicf("instance field not found! %v", fr)
 }
 
-func (self *ConstantFieldref) StaticField() *Field {
-	if self.field == nil {
-		self.resolveStaticField()
+func (fr *ConstantFieldref) StaticField() *Field {
+	if fr.field == nil {
+		fr.resolveStaticField()
 	}
-	return self.field
+	return fr.field
 }
-func (self *ConstantFieldref) resolveStaticField() {
-	fromClass := bootLoader.LoadClass(self.className)
+func (fr *ConstantFieldref) resolveStaticField() {
+	fromClass := bootLoader.LoadClass(fr.className)
 
 	for class := fromClass; class != nil; class = class.superClass {
-		field := class.getField(self.name, self.descriptor, true)
+		field := class.getField(fr.name, fr.descriptor, true)
 		if field != nil {
-			self.field = field
+			fr.field = field
 			return
 		}
-		if self._findInterfaceField(class) {
+		if fr._findInterfaceField(class) {
 			return
 		}
 	}
 
 	// todo
-	jutil.Panicf("static field not found! %v", self)
+	jutil.Panicf("static field not found! %v", fr)
 }
 
-func (self *ConstantFieldref) _findInterfaceField(class *Class) bool {
+func (fr *ConstantFieldref) _findInterfaceField(class *Class) bool {
 	for _, iface := range class.interfaces {
 		for _, f := range iface.fields {
-			if f.name == self.name && f.descriptor == self.descriptor {
-				self.field = f
+			if f.name == fr.name && f.descriptor == fr.descriptor {
+				fr.field = f
 				return true
 			}
 		}
-		if self._findInterfaceField(iface) {
+		if fr._findInterfaceField(iface) {
 			return true
 		}
 	}

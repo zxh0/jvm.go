@@ -38,69 +38,69 @@ type Class struct {
 	//classLoader        *ClassLoader      // defining class loader
 }
 
-func (self *Class) String() string {
-	return "{Class name:" + self.name + "}"
+func (class *Class) String() string {
+	return "{Class name:" + class.name + "}"
 }
 
 // getters
-func (self *Class) ConstantPool() *ConstantPool {
-	return self.constantPool
+func (class *Class) ConstantPool() *ConstantPool {
+	return class.constantPool
 }
-func (self *Class) Name() string {
-	return self.name
+func (class *Class) Name() string {
+	return class.name
 }
-func (self *Class) Methods() []*Method {
-	return self.methods
+func (class *Class) Methods() []*Method {
+	return class.methods
 }
-func (self *Class) Fields() []*Field {
-	return self.fields
+func (class *Class) Fields() []*Field {
+	return class.fields
 }
-func (self *Class) StaticFieldSlots() []interface{} {
-	return self.staticFieldSlots
+func (class *Class) StaticFieldSlots() []interface{} {
+	return class.staticFieldSlots
 }
-func (self *Class) JClass() *Object {
-	return self.jClass
+func (class *Class) JClass() *Object {
+	return class.jClass
 }
-func (self *Class) SuperClass() *Class {
-	return self.superClass
+func (class *Class) SuperClass() *Class {
+	return class.superClass
 }
-func (self *Class) Interfaces() []*Class {
-	return self.interfaces
+func (class *Class) Interfaces() []*Class {
+	return class.interfaces
 }
-func (self *Class) LoadedFrom() cp.Entry {
-	return self.loadedFrom
+func (class *Class) LoadedFrom() cp.Entry {
+	return class.loadedFrom
 }
-func (self *Class) InitCond() *sync.Cond {
-	return self.initCond
+func (class *Class) InitCond() *sync.Cond {
+	return class.initCond
 }
 
 // todo
-func (self *Class) NameJlsFormat() string {
-	return SlashToDot(self.name)
+func (class *Class) NameJlsFormat() string {
+	return SlashToDot(class.name)
 }
 
-func (self *Class) InitializationNotStarted() bool {
-	return self.initState < _beingInitialized // todo
+func (class *Class) InitializationNotStarted() bool {
+	return class.initState < _beingInitialized // todo
 }
-func (self *Class) IsBeingInitialized() (bool, uintptr) {
-	return self.initState == _beingInitialized, self.initThread
+func (class *Class) IsBeingInitialized() (bool, uintptr) {
+	return class.initState == _beingInitialized, class.initThread
 }
-func (self *Class) IsFullyInitialized() bool {
-	return self.initState == _fullyInitialized
+func (class *Class) IsFullyInitialized() bool {
+	return class.initState == _fullyInitialized
 }
-func (self *Class) IsInitializationFailed() bool {
-	return self.initState == _initFailed
+func (class *Class) IsInitializationFailed() bool {
+	return class.initState == _initFailed
 }
-func (self *Class) MarkBeingInitialized(thread uintptr) {
-	self.initState = _beingInitialized
-	self.initThread = thread
+func (class *Class) MarkBeingInitialized(thread uintptr) {
+	class.initState = _beingInitialized
+	class.initThread = thread
 }
-func (self *Class) MarkFullyInitialized() {
-	self.initState = _fullyInitialized
+func (class *Class) MarkFullyInitialized() {
+	class.initState = _fullyInitialized
 }
 
-func (self *Class) getField(name, descriptor string, isStatic bool) *Field {
-	for k := self; k != nil; k = k.superClass {
+func (class *Class) getField(name, descriptor string, isStatic bool) *Field {
+	for k := class; k != nil; k = k.superClass {
 		for _, field := range k.fields {
 			if field.IsStatic() == isStatic &&
 				field.name == name &&
@@ -113,8 +113,8 @@ func (self *Class) getField(name, descriptor string, isStatic bool) *Field {
 	// todo
 	return nil
 }
-func (self *Class) getMethod(name, descriptor string, isStatic bool) *Method {
-	for k := self; k != nil; k = k.superClass {
+func (class *Class) getMethod(name, descriptor string, isStatic bool) *Method {
+	for k := class; k != nil; k = k.superClass {
 		for _, method := range k.methods {
 			if method.IsStatic() == isStatic &&
 				method.name == name &&
@@ -129,8 +129,8 @@ func (self *Class) getMethod(name, descriptor string, isStatic bool) *Method {
 }
 
 // todo
-func (self *Class) _getMethod(name, descriptor string, isStatic bool) *Method {
-	for _, method := range self.methods {
+func (class *Class) _getMethod(name, descriptor string, isStatic bool) *Method {
+	for _, method := range class.methods {
 		if method.IsStatic() == isStatic &&
 			method.name == name &&
 			method.descriptor == descriptor {
@@ -141,66 +141,66 @@ func (self *Class) _getMethod(name, descriptor string, isStatic bool) *Method {
 	return nil
 }
 
-func (self *Class) GetStaticField(name, descriptor string) *Field {
-	return self.getField(name, descriptor, true)
+func (class *Class) GetStaticField(name, descriptor string) *Field {
+	return class.getField(name, descriptor, true)
 }
-func (self *Class) GetInstanceField(name, descriptor string) *Field {
-	return self.getField(name, descriptor, false)
-}
-
-func (self *Class) GetStaticMethod(name, descriptor string) *Method {
-	return self.getMethod(name, descriptor, true)
-}
-func (self *Class) GetInstanceMethod(name, descriptor string) *Method {
-	return self.getMethod(name, descriptor, false)
+func (class *Class) GetInstanceField(name, descriptor string) *Field {
+	return class.getField(name, descriptor, false)
 }
 
-func (self *Class) GetMainMethod() *Method {
-	return self.GetStaticMethod(mainMethodName, mainMethodDesc)
+func (class *Class) GetStaticMethod(name, descriptor string) *Method {
+	return class.getMethod(name, descriptor, true)
 }
-func (self *Class) GetClinitMethod() *Method {
-	return self._getMethod(clinitMethodName, clinitMethodDesc, true)
+func (class *Class) GetInstanceMethod(name, descriptor string) *Method {
+	return class.getMethod(name, descriptor, false)
 }
 
-func (self *Class) NewObjWithExtra(extra interface{}) *Object {
-	obj := self.NewObj()
+func (class *Class) GetMainMethod() *Method {
+	return class.GetStaticMethod(mainMethodName, mainMethodDesc)
+}
+func (class *Class) GetClinitMethod() *Method {
+	return class._getMethod(clinitMethodName, clinitMethodDesc, true)
+}
+
+func (class *Class) NewObjWithExtra(extra interface{}) *Object {
+	obj := class.NewObj()
 	obj.extra = extra
 	return obj
 }
-func (self *Class) NewObj() *Object {
-	if self.instanceFieldCount > 0 {
-		fields := make([]interface{}, self.instanceFieldCount)
-		obj := newObj(self, fields, nil)
+func (class *Class) NewObj() *Object {
+	if class.instanceFieldCount > 0 {
+		fields := make([]interface{}, class.instanceFieldCount)
+		obj := newObj(class, fields, nil)
 		obj.initFields()
 		return obj
 	} else {
-		return newObj(self, nil, nil)
+		return newObj(class, nil, nil)
 	}
 }
-func (self *Class) NewArray(count uint) *Object {
-	return NewRefArray(self, count)
+func (class *Class) NewArray(count uint) *Object {
+	return NewRefArray(class, count)
 }
 
-func (self *Class) isJlObject() bool {
-	return self == _jlObjectClass
+func (class *Class) isJlObject() bool {
+	return class == _jlObjectClass
 }
-func (self *Class) isJlCloneable() bool {
-	return self == _jlCloneableClass
+func (class *Class) isJlCloneable() bool {
+	return class == _jlCloneableClass
 }
-func (self *Class) isJioSerializable() bool {
-	return self == _ioSerializableClass
+func (class *Class) isJioSerializable() bool {
+	return class == _ioSerializableClass
 }
 
 // reflection
-func (self *Class) GetStaticValue(fieldName, fieldDescriptor string) interface{} {
-	field := self.GetStaticField(fieldName, fieldDescriptor)
+func (class *Class) GetStaticValue(fieldName, fieldDescriptor string) interface{} {
+	field := class.GetStaticField(fieldName, fieldDescriptor)
 	return field.GetStaticValue()
 }
-func (self *Class) SetStaticValue(fieldName, fieldDescriptor string, value interface{}) {
-	field := self.GetStaticField(fieldName, fieldDescriptor)
+func (class *Class) SetStaticValue(fieldName, fieldDescriptor string, value interface{}) {
+	field := class.GetStaticField(fieldName, fieldDescriptor)
 	field.PutStaticValue(value)
 }
 
-func (self *Class) AsObj() *Object {
-	return &Object{fields: self.staticFieldSlots}
+func (class *Class) AsObj() *Object {
+	return &Object{fields: class.staticFieldSlots}
 }

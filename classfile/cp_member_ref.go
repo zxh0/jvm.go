@@ -24,11 +24,11 @@ type ConstantMemberrefInfo struct {
 	nameAndTypeIndex uint16
 }
 
-func (self ConstantMemberrefInfo) ClassName() string {
-	return self.cp.getClassName(self.classIndex)
+func (c ConstantMemberrefInfo) ClassName() string {
+	return c.cp.getClassName(c.classIndex)
 }
-func (self ConstantMemberrefInfo) NameAndDescriptor() (string, string) {
-	return self.cp.getNameAndType(self.nameAndTypeIndex)
+func (c ConstantMemberrefInfo) NameAndDescriptor() (string, string) {
+	return c.cp.getNameAndType(c.nameAndTypeIndex)
 }
 
 func readConstantMemberrefInfo(reader *ClassReader,

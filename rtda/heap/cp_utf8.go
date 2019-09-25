@@ -10,6 +10,6 @@ func newConstantUtf8(utf8Str string) *ConstantUtf8 {
 	}
 }
 
-func (self *ConstantUtf8) Str() string {
-	return self.str
+func (utf8 *ConstantUtf8) Str() string {
+	return utf8.str
 }

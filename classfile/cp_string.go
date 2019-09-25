@@ -11,8 +11,8 @@ type ConstantStringInfo struct {
 	stringIndex uint16
 }
 
-func (self ConstantStringInfo) String() string {
-	return self.cp.getUtf8(self.stringIndex)
+func (c ConstantStringInfo) String() string {
+	return c.cp.getUtf8(c.stringIndex)
 }
 
 func readConstantStringInfo(reader *ClassReader,

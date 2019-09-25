@@ -13,7 +13,7 @@ type NoOperandsInstruction struct {
 	// empty
 }
 
-func (self *NoOperandsInstruction) FetchOperands(reader *BytecodeReader) {
+func (instr *NoOperandsInstruction) FetchOperands(reader *BytecodeReader) {
 	// nothing to do
 }
 
@@ -21,22 +21,22 @@ type BranchInstruction struct {
 	Offset int // todo target
 }
 
-func (self *BranchInstruction) FetchOperands(reader *BytecodeReader) {
-	self.Offset = int(reader.ReadInt16())
+func (instr *BranchInstruction) FetchOperands(reader *BytecodeReader) {
+	instr.Offset = int(reader.ReadInt16())
 }
 
 type Index8Instruction struct {
 	Index uint
 }
 
-func (self *Index8Instruction) FetchOperands(reader *BytecodeReader) {
-	self.Index = uint(reader.ReadUint8())
+func (instr *Index8Instruction) FetchOperands(reader *BytecodeReader) {
+	instr.Index = uint(reader.ReadUint8())
 }
 
 type Index16Instruction struct {
 	Index uint
 }
 
-func (self *Index16Instruction) FetchOperands(reader *BytecodeReader) {
-	self.Index = uint(reader.ReadUint16())
+func (instr *Index16Instruction) FetchOperands(reader *BytecodeReader) {
+	instr.Index = uint(reader.ReadUint16())
 }

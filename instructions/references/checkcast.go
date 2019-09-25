@@ -12,11 +12,11 @@ type CHECK_CAST struct {
 	class *heap.Class
 }
 
-func (self *CHECK_CAST) Execute(frame *rtda.Frame) {
-	if self.class == nil {
+func (instr *CHECK_CAST) Execute(frame *rtda.Frame) {
+	if instr.class == nil {
 		cp := frame.Method().Class().ConstantPool()
-		kClass := cp.GetConstant(self.Index).(*heap.ConstantClass)
-		self.class = kClass.Class()
+		kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
+		instr.class = kClass.Class()
 	}
 
 	stack := frame.OperandStack()
@@ -27,7 +27,7 @@ func (self *CHECK_CAST) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	if !ref.IsInstanceOf(self.class) {
-		frame.Thread().ThrowClassCastException(ref.Class(), self.class)
+	if !ref.IsInstanceOf(instr.class) {
+		frame.Thread().ThrowClassCastException(ref.Class(), instr.class)
 	}
 }

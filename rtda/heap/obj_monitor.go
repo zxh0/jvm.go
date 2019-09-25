@@ -20,65 +20,65 @@ func newMonitor() *Monitor {
 	return m
 }
 
-func (self *Monitor) Enter(thread interface{}) {
-	self.ownerLock.Lock()
-	if self.owner == thread {
-		self.entryCount++
-		self.ownerLock.Unlock()
+func (monitor *Monitor) Enter(thread interface{}) {
+	monitor.ownerLock.Lock()
+	if monitor.owner == thread {
+		monitor.entryCount++
+		monitor.ownerLock.Unlock()
 		return
 	} else {
-		self.ownerLock.Unlock()
+		monitor.ownerLock.Unlock()
 	}
 
-	self.lock.Lock()
+	monitor.lock.Lock()
 
-	self.ownerLock.Lock()
-	self.owner = thread
-	self.entryCount = 1
-	self.ownerLock.Unlock()
+	monitor.ownerLock.Lock()
+	monitor.owner = thread
+	monitor.entryCount = 1
+	monitor.ownerLock.Unlock()
 }
 
-func (self *Monitor) Exit(thread interface{}) {
-	self.ownerLock.Lock()
+func (monitor *Monitor) Exit(thread interface{}) {
+	monitor.ownerLock.Lock()
 	var _unlock bool
-	if self.owner == thread {
-		self.entryCount--
-		if self.entryCount == 0 {
-			self.owner = nil
+	if monitor.owner == thread {
+		monitor.entryCount--
+		if monitor.entryCount == 0 {
+			monitor.owner = nil
 			_unlock = true
 		}
 	}
-	self.ownerLock.Unlock()
+	monitor.ownerLock.Unlock()
 
 	if _unlock {
-		self.lock.Unlock()
+		monitor.lock.Unlock()
 	}
 }
 
-func (self *Monitor) HasOwner(thread interface{}) bool {
-	self.ownerLock.Lock()
-	isOwner := self.owner == thread
-	self.ownerLock.Unlock()
+func (monitor *Monitor) HasOwner(thread interface{}) bool {
+	monitor.ownerLock.Lock()
+	isOwner := monitor.owner == thread
+	monitor.ownerLock.Unlock()
 
 	return isOwner
 }
 
-func (self *Monitor) Wait() {
-	self.ownerLock.Lock()
-	oldEntryCount := self.entryCount
-	oldOwner := self.owner
-	self.entryCount = 0
-	self.owner = nil
-	self.ownerLock.Unlock()
+func (monitor *Monitor) Wait() {
+	monitor.ownerLock.Lock()
+	oldEntryCount := monitor.entryCount
+	oldOwner := monitor.owner
+	monitor.entryCount = 0
+	monitor.owner = nil
+	monitor.ownerLock.Unlock()
 
-	self.cond.Wait()
+	monitor.cond.Wait()
 
-	self.ownerLock.Lock()
-	self.entryCount = oldEntryCount
-	self.owner = oldOwner
-	self.ownerLock.Unlock()
+	monitor.ownerLock.Lock()
+	monitor.entryCount = oldEntryCount
+	monitor.owner = oldOwner
+	monitor.ownerLock.Unlock()
 }
 
-func (self *Monitor) NotifyAll() {
-	self.cond.Broadcast()
+func (monitor *Monitor) NotifyAll() {
+	monitor.cond.Broadcast()
 }

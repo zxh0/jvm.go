@@ -25,21 +25,21 @@ type LOOKUP_SWITCH struct {
 	matchOffsets  []int32
 }
 
-func (self *LOOKUP_SWITCH) FetchOperands(reader *base.BytecodeReader) {
+func (instr *LOOKUP_SWITCH) FetchOperands(reader *base.BytecodeReader) {
 	reader.SkipPadding()
-	self.defaultOffset = reader.ReadInt32()
-	self.npairs = reader.ReadInt32()
-	self.matchOffsets = reader.ReadInt32s(self.npairs * 2)
+	instr.defaultOffset = reader.ReadInt32()
+	instr.npairs = reader.ReadInt32()
+	instr.matchOffsets = reader.ReadInt32s(instr.npairs * 2)
 }
 
-func (self *LOOKUP_SWITCH) Execute(frame *rtda.Frame) {
+func (instr *LOOKUP_SWITCH) Execute(frame *rtda.Frame) {
 	key := frame.OperandStack().PopInt()
-	for i := int32(0); i < self.npairs*2; i += 2 {
-		if self.matchOffsets[i] == key {
-			offset := self.matchOffsets[i+1]
+	for i := int32(0); i < instr.npairs*2; i += 2 {
+		if instr.matchOffsets[i] == key {
+			offset := instr.matchOffsets[i+1]
 			base.Branch(frame, int(offset))
 			return
 		}
 	}
-	base.Branch(frame, int(self.defaultOffset))
+	base.Branch(frame, int(instr.defaultOffset))
 }

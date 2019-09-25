@@ -35,21 +35,21 @@ func readMembers(reader *ClassReader, cp *ConstantPool) []MemberInfo {
 	return members
 }
 
-func (self *MemberInfo) read(reader *ClassReader) {
-	self.AccessFlags = reader.readUint16()
-	self.nameIndex = reader.readUint16()
-	self.descriptorIndex = reader.readUint16()
-	self.attributes = readAttributes(reader, self.cp)
+func (mi *MemberInfo) read(reader *ClassReader) {
+	mi.AccessFlags = reader.readUint16()
+	mi.nameIndex = reader.readUint16()
+	mi.descriptorIndex = reader.readUint16()
+	mi.attributes = readAttributes(reader, mi.cp)
 }
 
-func (self *MemberInfo) Name() string {
-	return self.cp.getUtf8(self.nameIndex)
+func (mi *MemberInfo) Name() string {
+	return mi.cp.getUtf8(mi.nameIndex)
 }
-func (self *MemberInfo) Descriptor() string {
-	return self.cp.getUtf8(self.descriptorIndex)
+func (mi *MemberInfo) Descriptor() string {
+	return mi.cp.getUtf8(mi.descriptorIndex)
 }
-func (self *MemberInfo) Signature() string {
-	signatureAttr := self.SignatureAttribute()
+func (mi *MemberInfo) Signature() string {
+	signatureAttr := mi.SignatureAttribute()
 	if signatureAttr != nil {
 		return signatureAttr.Signature()
 	}

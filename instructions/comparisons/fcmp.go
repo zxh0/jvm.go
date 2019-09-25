@@ -8,13 +8,13 @@ import (
 // Compare float
 type FCMPG struct{ base.NoOperandsInstruction }
 
-func (self *FCMPG) Execute(frame *rtda.Frame) {
+func (instr *FCMPG) Execute(frame *rtda.Frame) {
 	_fcmp(frame, true)
 }
 
 type FCMPL struct{ base.NoOperandsInstruction }
 
-func (self *FCMPL) Execute(frame *rtda.Frame) {
+func (instr *FCMPL) Execute(frame *rtda.Frame) {
 	_fcmp(frame, false)
 }
 

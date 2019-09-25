@@ -13,20 +13,20 @@ type INVOKE_VIRTUAL struct {
 	argSlotCount uint
 }
 
-func (self *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
-	if self.kMethodRef == nil {
+func (instr *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
+	if instr.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
-		self.kMethodRef = cp.GetConstant(self.Index).(*heap.ConstantMethodref)
-		self.argSlotCount = self.kMethodRef.ArgSlotCount()
+		instr.kMethodRef = cp.GetConstant(instr.Index).(*heap.ConstantMethodref)
+		instr.argSlotCount = instr.kMethodRef.ArgSlotCount()
 	}
 
 	stack := frame.OperandStack()
-	ref := stack.TopRef(self.argSlotCount)
+	ref := stack.TopRef(instr.argSlotCount)
 	if ref == nil {
 		frame.Thread().ThrowNPE()
 		return
 	}
 
-	method := self.kMethodRef.GetVirtualMethod(ref)
+	method := instr.kMethodRef.GetVirtualMethod(ref)
 	frame.Thread().InvokeMethod(method)
 }

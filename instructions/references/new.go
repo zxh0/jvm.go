@@ -12,20 +12,20 @@ type NEW struct {
 	class *heap.Class
 }
 
-func (self *NEW) Execute(frame *rtda.Frame) {
-	if self.class == nil {
+func (instr *NEW) Execute(frame *rtda.Frame) {
+	if instr.class == nil {
 		cp := frame.ConstantPool()
-		kClass := cp.GetConstant(self.Index).(*heap.ConstantClass)
-		self.class = kClass.Class()
+		kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
+		instr.class = kClass.Class()
 	}
 
 	// init class
-	if self.class.InitializationNotStarted() {
+	if instr.class.InitializationNotStarted() {
 		frame.RevertNextPC() // undo new
-		frame.Thread().InitClass(self.class)
+		frame.Thread().InitClass(instr.class)
 		return
 	}
 
-	ref := self.class.NewObj()
+	ref := instr.class.NewObj()
 	frame.OperandStack().PushRef(ref)
 }

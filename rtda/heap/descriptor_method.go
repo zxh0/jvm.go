@@ -11,25 +11,25 @@ func parseMethodDescriptor(descriptor string) *MethodDescriptor {
 	return parser.parse()
 }
 
-func (self *MethodDescriptor) String() string {
-	return self.d
+func (md *MethodDescriptor) String() string {
+	return md.d
 }
 
-func (self *MethodDescriptor) ParameterTypes() []*FieldType {
-	return self.parameterTypes
+func (md *MethodDescriptor) ParameterTypes() []*FieldType {
+	return md.parameterTypes
 }
-func (self *MethodDescriptor) ReturnType() *FieldType {
-	return self.returnType
+func (md *MethodDescriptor) ReturnType() *FieldType {
+	return md.returnType
 }
 
 // parameterCount()
-func (self *MethodDescriptor) argCount() uint {
-	return uint(len(self.parameterTypes))
+func (md *MethodDescriptor) argCount() uint {
+	return uint(len(md.parameterTypes))
 }
 
-func (self *MethodDescriptor) argSlotCount() uint {
-	slotCount := self.argCount()
-	for _, paramType := range self.parameterTypes {
+func (md *MethodDescriptor) argSlotCount() uint {
+	slotCount := md.argCount()
+	for _, paramType := range md.parameterTypes {
 		if paramType.IsLongOrDouble() {
 			slotCount++
 		}
@@ -37,13 +37,13 @@ func (self *MethodDescriptor) argSlotCount() uint {
 	return slotCount
 }
 
-func (self *MethodDescriptor) addParameterType(t *FieldType) {
-	pLen := len(self.parameterTypes)
-	if pLen == cap(self.parameterTypes) {
+func (md *MethodDescriptor) addParameterType(t *FieldType) {
+	pLen := len(md.parameterTypes)
+	if pLen == cap(md.parameterTypes) {
 		s := make([]*FieldType, pLen, pLen+4)
-		copy(s, self.parameterTypes)
-		self.parameterTypes = s
+		copy(s, md.parameterTypes)
+		md.parameterTypes = s
 	}
 
-	self.parameterTypes = append(self.parameterTypes, t)
+	md.parameterTypes = append(md.parameterTypes, t)
 }

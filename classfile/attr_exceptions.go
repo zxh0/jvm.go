@@ -12,6 +12,6 @@ type ExceptionsAttribute struct {
 	ExceptionIndexTable []uint16
 }
 
-func (self *ExceptionsAttribute) readInfo(reader *ClassReader) {
-	self.ExceptionIndexTable = reader.readUint16s()
+func (attr *ExceptionsAttribute) readInfo(reader *ClassReader) {
+	attr.ExceptionIndexTable = reader.readUint16s()
 }

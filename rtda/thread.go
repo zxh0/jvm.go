@@ -45,61 +45,61 @@ func NewThread(jThread *heap.Object) *Thread {
 }
 
 // getters & setters
-func (self *Thread) PC() int {
-	return self.pc
+func (thread *Thread) PC() int {
+	return thread.pc
 }
-func (self *Thread) SetPC(pc int) {
-	self.pc = pc
+func (thread *Thread) SetPC(pc int) {
+	thread.pc = pc
 }
-func (self *Thread) JThread() *heap.Object {
-	return self.jThread
-}
-
-func (self *Thread) IsStackEmpty() bool {
-	return self.stack.isEmpty()
-}
-func (self *Thread) StackDepth() uint {
-	return self.stack.size
+func (thread *Thread) JThread() *heap.Object {
+	return thread.jThread
 }
 
-func (self *Thread) CurrentFrame() *Frame {
-	return self.stack.top()
+func (thread *Thread) IsStackEmpty() bool {
+	return thread.stack.isEmpty()
 }
-func (self *Thread) TopFrame() *Frame {
-	return self.stack.top()
-}
-func (self *Thread) TopFrameN(n uint) *Frame {
-	return self.stack.topN(n)
+func (thread *Thread) StackDepth() uint {
+	return thread.stack.size
 }
 
-func (self *Thread) PushFrame(frame *Frame) {
-	self.stack.push(frame)
+func (thread *Thread) CurrentFrame() *Frame {
+	return thread.stack.top()
 }
-func (self *Thread) PopFrame() *Frame {
-	top := self.stack.pop()
+func (thread *Thread) TopFrame() *Frame {
+	return thread.stack.top()
+}
+func (thread *Thread) TopFrameN(n uint) *Frame {
+	return thread.stack.topN(n)
+}
+
+func (thread *Thread) PushFrame(frame *Frame) {
+	thread.stack.push(frame)
+}
+func (thread *Thread) PopFrame() *Frame {
+	top := thread.stack.pop()
 	if top.onPopAction != nil {
 		// todo
 		top.onPopAction()
 	}
 
-	self.frameCache.returnFrame(top)
+	thread.frameCache.returnFrame(top)
 	return top
 }
 
-func (self *Thread) NewFrame(method *heap.Method) *Frame {
+func (thread *Thread) NewFrame(method *heap.Method) *Frame {
 	if method.IsNative() {
-		return newNativeFrame(self, method)
+		return newNativeFrame(thread, method)
 	} else {
-		return self.frameCache.borrowFrame(method)
-		//return newFrame(self, method)
+		return thread.frameCache.borrowFrame(method)
+		//return newFrame(thread, method)
 	}
 }
 
-func (self *Thread) InvokeMethod(method *heap.Method) {
-	//self._logInvoke(self.stack.size, method)
-	currentFrame := self.CurrentFrame()
-	newFrame := self.NewFrame(method)
-	self.PushFrame(newFrame)
+func (thread *Thread) InvokeMethod(method *heap.Method) {
+	//thread._logInvoke(thread.stack.size, method)
+	currentFrame := thread.CurrentFrame()
+	newFrame := thread.NewFrame(method)
+	thread.PushFrame(newFrame)
 	argSlotsCount := method.ArgSlotCount()
 	if argSlotsCount > 0 {
 		_passArgs(currentFrame.operandStack, newFrame.localVars, argSlotsCount)
@@ -115,9 +115,9 @@ func (self *Thread) InvokeMethod(method *heap.Method) {
 			monitor = thisObj.Monitor()
 		}
 
-		monitor.Enter(self)
+		monitor.Enter(thread)
 		newFrame.SetOnPopAction(func() {
-			monitor.Exit(self)
+			monitor.Exit(thread)
 		})
 	}
 }
@@ -129,51 +129,51 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argSlotsCount uint) {
 		vars.Set(i, arg)
 	}
 }
-func (self *Thread) _logInvoke(stackSize uint, method *heap.Method) {
+func (thread *Thread) _logInvoke(stackSize uint, method *heap.Method) {
 	space := strings.Repeat(" ", int(stackSize))
 	className := method.Class().Name()
 	methodName := method.Name()
 
 	if method.IsStatic() {
-		fmt.Printf("[method]%v thread:%p %v.%v()\n", space, self, className, methodName)
+		fmt.Printf("[method]%v thread:%p %v.%v()\n", space, thread, className, methodName)
 	} else {
-		fmt.Printf("[method]%v thread:%p %v#%v()\n", space, self, className, methodName)
+		fmt.Printf("[method]%v thread:%p %v#%v()\n", space, thread, className, methodName)
 	}
 }
 
-func (self *Thread) InvokeMethodWithShim(method *heap.Method, args []interface{}) {
-	shimFrame := newShimFrame(self, args)
-	self.PushFrame(shimFrame)
-	self.InvokeMethod(method)
+func (thread *Thread) InvokeMethodWithShim(method *heap.Method, args []interface{}) {
+	shimFrame := newShimFrame(thread, args)
+	thread.PushFrame(shimFrame)
+	thread.InvokeMethod(method)
 }
 
-func (self *Thread) InitClass(class *heap.Class) {
-	initClass(self, class)
+func (thread *Thread) InitClass(class *heap.Class) {
+	initClass(thread, class)
 }
 
-func (self *Thread) HandleUncaughtException(ex *heap.Object) {
-	self.stack.clear()
+func (thread *Thread) HandleUncaughtException(ex *heap.Object) {
+	thread.stack.clear()
 	sysClass := heap.BootLoader().LoadClass("java/lang/System")
 	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").(*heap.Object)
 	printStackTrace := ex.Class().GetInstanceMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
 
 	// call ex.printStackTrace(System.err)
-	newFrame := self.NewFrame(printStackTrace)
+	newFrame := thread.NewFrame(printStackTrace)
 	vars := newFrame.localVars
 	vars.SetRef(0, ex)
 	vars.SetRef(1, sysErr)
-	self.PushFrame(newFrame)
+	thread.PushFrame(newFrame)
 
 	//
 	// printString := sysErr.Class().GetInstanceMethod("print", "(Ljava/lang/String;)V")
-	// newFrame = self.NewFrame(printString)
+	// newFrame = thread.NewFrame(printString)
 	// vars = newFrame.localVars
 	// vars.SetRef(0, sysErr)
 	// vars.SetRef(1, JString("Exception in thread \"main\" ", newFrame))
-	// self.PushFrame(newFrame)
+	// thread.PushFrame(newFrame)
 }
 
 // hack
-func (self *Thread) HackSetJThread(jThread *heap.Object) {
-	self.jThread = jThread
+func (thread *Thread) HackSetJThread(jThread *heap.Object) {
+	thread.jThread = jThread
 }

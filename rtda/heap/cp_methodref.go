@@ -7,45 +7,45 @@ type ConstantMethodref struct {
 	vslot        int
 }
 
-func (self *ConstantMethodref) ArgSlotCount() uint {
-	return self.argSlotCount
+func (mr *ConstantMethodref) ArgSlotCount() uint {
+	return mr.argSlotCount
 }
 
-func (self *ConstantMethodref) StaticMethod() *Method {
-	if self.method == nil {
-		self.resolveStaticMethod()
+func (mr *ConstantMethodref) StaticMethod() *Method {
+	if mr.method == nil {
+		mr.resolveStaticMethod()
 	}
-	return self.method
+	return mr.method
 }
-func (self *ConstantMethodref) resolveStaticMethod() {
-	method := self.findMethod(true)
+func (mr *ConstantMethodref) resolveStaticMethod() {
+	method := mr.findMethod(true)
 	if method != nil {
-		self.method = method
+		mr.method = method
 	} else {
 		// todo
 		panic("static method not found!")
 	}
 }
 
-func (self *ConstantMethodref) SpecialMethod() *Method {
-	if self.method == nil {
-		self.resolveSpecialMethod()
+func (mr *ConstantMethodref) SpecialMethod() *Method {
+	if mr.method == nil {
+		mr.resolveSpecialMethod()
 	}
-	return self.method
+	return mr.method
 }
-func (self *ConstantMethodref) resolveSpecialMethod() {
-	method := self.findMethod(false)
+func (mr *ConstantMethodref) resolveSpecialMethod() {
+	method := mr.findMethod(false)
 	if method != nil {
-		self.method = method
+		mr.method = method
 		return
 	}
 
 	// todo
-	// class := self.cp.class.classLoader.LoadClass(self.className)
+	// class := mr.cp.class.classLoader.LoadClass(mr.className)
 	// if class.IsInterface() {
-	// 	method = self.findMethodInInterfaces(class)
+	// 	method = mr.findMethodInInterfaces(class)
 	// 	if method != nil {
-	// 		self.method = method
+	// 		mr.method = method
 	// 		return
 	// 	}
 	// }
@@ -54,23 +54,23 @@ func (self *ConstantMethodref) resolveSpecialMethod() {
 	panic("special method not found!")
 }
 
-func (self *ConstantMethodref) findMethod(isStatic bool) *Method {
-	class := bootLoader.LoadClass(self.className)
-	return class.getMethod(self.name, self.descriptor, isStatic)
+func (mr *ConstantMethodref) findMethod(isStatic bool) *Method {
+	class := bootLoader.LoadClass(mr.className)
+	return class.getMethod(mr.name, mr.descriptor, isStatic)
 }
 
 // todo
-/*func (self *ConstantMethodref) findMethodInInterfaces(iface *Class) *Method {
+/*func (mr *ConstantMethodref) findMethodInInterfaces(iface *Class) *Method {
 	for _, m := range iface.methods {
 		if !m.IsAbstract() {
-			if m.name == self.name && m.descriptor == self.descriptor {
+			if m.name == mr.name && m.descriptor == mr.descriptor {
 				return m
 			}
 		}
 	}
 
 	for _, superIface := range iface.interfaces {
-		if m := self.findMethodInInterfaces(superIface); m != nil {
+		if m := mr.findMethodInInterfaces(superIface); m != nil {
 			return m
 		}
 	}
@@ -78,9 +78,9 @@ func (self *ConstantMethodref) findMethod(isStatic bool) *Method {
 	return nil
 }*/
 
-func (self *ConstantMethodref) GetVirtualMethod(ref *Object) *Method {
-	if self.vslot < 0 {
-		self.vslot = getVslot(ref.class, self.name, self.descriptor)
+func (mr *ConstantMethodref) GetVirtualMethod(ref *Object) *Method {
+	if mr.vslot < 0 {
+		mr.vslot = getVslot(ref.class, mr.name, mr.descriptor)
 	}
-	return ref.class.vtable[self.vslot]
+	return ref.class.vtable[mr.vslot]
 }

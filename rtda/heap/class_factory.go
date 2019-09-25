@@ -18,36 +18,36 @@ func newClass(cf *classfile.ClassFile) *Class {
 	return class
 }
 
-func (self *Class) copyConstantPool(cf *classfile.ClassFile) {
-	self.constantPool = newConstantPool(self, &cf.ConstantPool)
+func (class *Class) copyConstantPool(cf *classfile.ClassFile) {
+	class.constantPool = newConstantPool(class, &cf.ConstantPool)
 }
 
-func (self *Class) copyClassNames(cf *classfile.ClassFile) {
-	self.name = cf.ClassName()
-	self.superClassName = cf.SuperClassName()
-	self.interfaceNames = cf.InterfaceNames()
+func (class *Class) copyClassNames(cf *classfile.ClassFile) {
+	class.name = cf.ClassName()
+	class.superClassName = cf.SuperClassName()
+	class.interfaceNames = cf.InterfaceNames()
 }
 
-func (self *Class) copyFields(cf *classfile.ClassFile) {
-	self.fields = make([]*Field, len(cf.Fields))
+func (class *Class) copyFields(cf *classfile.ClassFile) {
+	class.fields = make([]*Field, len(cf.Fields))
 	for i, fieldInfo := range cf.Fields {
-		self.fields[i] = newField(self, fieldInfo)
+		class.fields[i] = newField(class, fieldInfo)
 	}
 }
 
-func (self *Class) copyMethods(cf *classfile.ClassFile) {
-	self.methods = make([]*Method, len(cf.Methods))
+func (class *Class) copyMethods(cf *classfile.ClassFile) {
+	class.methods = make([]*Method, len(cf.Methods))
 	for i, methodInfo := range cf.Methods {
-		self.methods[i] = newMethod(self, methodInfo)
-		self.methods[i].slot = uint(i)
+		class.methods[i] = newMethod(class, methodInfo)
+		class.methods[i].slot = uint(i)
 	}
 }
 
-func (self *Class) copyAttributes(cf *classfile.ClassFile) {
-	self.sourceFile = getSourceFile(cf)
-	self.signature = getSignature(cf)
-	self.annotationData = cf.RuntimeVisibleAnnotationsAttributeData()
-	self.enclosingMethod = getEnclosingMethod(cf)
+func (class *Class) copyAttributes(cf *classfile.ClassFile) {
+	class.sourceFile = getSourceFile(cf)
+	class.signature = getSignature(cf)
+	class.annotationData = cf.RuntimeVisibleAnnotationsAttributeData()
+	class.enclosingMethod = getEnclosingMethod(cf)
 }
 
 func getSourceFile(cf *classfile.ClassFile) string {

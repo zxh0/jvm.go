@@ -13,14 +13,14 @@ type ConstantInvokeDynamicInfo struct {
 	nameAndTypeIndex         uint16
 }
 
-func (self ConstantInvokeDynamicInfo) NameAndType() (string, string) {
-	return self.cp.getNameAndType(self.nameAndTypeIndex)
+func (c ConstantInvokeDynamicInfo) NameAndType() (string, string) {
+	return c.cp.getNameAndType(c.nameAndTypeIndex)
 }
 
 // todo
-func (self ConstantInvokeDynamicInfo) BootstrapMethodInfo() (uint16, []uint16) {
-	bmAttr := self.cp.cf.BootstrapMethodsAttribute()
-	bm := bmAttr.bootstrapMethods[self.bootstrapMethodAttrIndex]
+func (c ConstantInvokeDynamicInfo) BootstrapMethodInfo() (uint16, []uint16) {
+	bmAttr := c.cp.cf.BootstrapMethodsAttribute()
+	bm := bmAttr.bootstrapMethods[c.bootstrapMethodAttrIndex]
 
 	return bm.bootstrapMethodRef, bm.bootstrapArguments
 }

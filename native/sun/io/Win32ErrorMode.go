@@ -13,6 +13,6 @@ func _fd(method func(frame *rtda.Frame), name, desc string) {
 	heap.RegisterNativeMethod("sun/io/Win32ErrorMode", name, desc, method)
 }
 
-func setErrorMode(frame *rtda.Frame)  {
+func setErrorMode(frame *rtda.Frame) {
 	frame.OperandStack().PushLong(0)
 }

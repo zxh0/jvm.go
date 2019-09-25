@@ -10,67 +10,67 @@ type MethodDescriptorParser struct {
 	md         *MethodDescriptor
 }
 
-func (self *MethodDescriptorParser) parse() *MethodDescriptor {
-	self.md = &MethodDescriptor{}
-	self.md.d = self.descriptor
-	self.startParams()
-	self.parseParamTypes()
-	self.endParams()
-	self.parseReturnType()
-	self.finish()
-	return self.md
+func (parser *MethodDescriptorParser) parse() *MethodDescriptor {
+	parser.md = &MethodDescriptor{}
+	parser.md.d = parser.descriptor
+	parser.startParams()
+	parser.parseParamTypes()
+	parser.endParams()
+	parser.parseReturnType()
+	parser.finish()
+	return parser.md
 }
 
-func (self *MethodDescriptorParser) startParams() {
-	if self.readUint8() != '(' {
-		self.causePanic()
+func (parser *MethodDescriptorParser) startParams() {
+	if parser.readUint8() != '(' {
+		parser.causePanic()
 	}
 }
-func (self *MethodDescriptorParser) endParams() {
-	if self.readUint8() != ')' {
-		self.causePanic()
+func (parser *MethodDescriptorParser) endParams() {
+	if parser.readUint8() != ')' {
+		parser.causePanic()
 	}
 }
-func (self *MethodDescriptorParser) finish() {
-	if self.offset != len(self.descriptor) {
-		self.causePanic()
+func (parser *MethodDescriptorParser) finish() {
+	if parser.offset != len(parser.descriptor) {
+		parser.causePanic()
 	}
 }
 
-func (self *MethodDescriptorParser) causePanic() {
-	panic("BAD descriptor: " + self.descriptor)
+func (parser *MethodDescriptorParser) causePanic() {
+	panic("BAD descriptor: " + parser.descriptor)
 }
 
-func (self *MethodDescriptorParser) readUint8() uint8 {
-	b := self.descriptor[self.offset]
-	self.offset++
+func (parser *MethodDescriptorParser) readUint8() uint8 {
+	b := parser.descriptor[parser.offset]
+	parser.offset++
 	return b
 }
-func (self *MethodDescriptorParser) unreadUint8() {
-	self.offset--
+func (parser *MethodDescriptorParser) unreadUint8() {
+	parser.offset--
 }
 
-func (self *MethodDescriptorParser) parseParamTypes() {
+func (parser *MethodDescriptorParser) parseParamTypes() {
 	for {
-		t := self.parseFieldType()
+		t := parser.parseFieldType()
 		if t != nil {
-			self.md.addParameterType(t)
+			parser.md.addParameterType(t)
 		} else {
 			break
 		}
 	}
 }
-func (self *MethodDescriptorParser) parseReturnType() {
-	t := self.parseFieldType()
+func (parser *MethodDescriptorParser) parseReturnType() {
+	t := parser.parseFieldType()
 	if t != nil {
-		self.md.returnType = t
+		parser.md.returnType = t
 	} else {
-		self.causePanic()
+		parser.causePanic()
 	}
 }
 
-func (self *MethodDescriptorParser) parseFieldType() *FieldType {
-	switch self.readUint8() {
+func (parser *MethodDescriptorParser) parseFieldType() *FieldType {
+	switch parser.readUint8() {
 	case 'B':
 		return baseTypeB
 	case 'C':
@@ -90,32 +90,32 @@ func (self *MethodDescriptorParser) parseFieldType() *FieldType {
 	case 'V':
 		return baseTypeV
 	case 'L':
-		return self.parseObjectType()
+		return parser.parseObjectType()
 	case '[':
-		return self.parseArrayType()
+		return parser.parseArrayType()
 	default:
-		self.unreadUint8()
+		parser.unreadUint8()
 		return nil
 	}
 }
-func (self *MethodDescriptorParser) parseObjectType() *FieldType {
-	unread := self.descriptor[self.offset:]
+func (parser *MethodDescriptorParser) parseObjectType() *FieldType {
+	unread := parser.descriptor[parser.offset:]
 	semicolonIndex := strings.IndexRune(unread, ';')
 	if semicolonIndex == -1 {
-		self.causePanic()
+		parser.causePanic()
 		return nil
 	} else {
-		objStart := self.offset - 1
-		objEnd := self.offset + semicolonIndex + 1
-		self.offset = objEnd
-		descriptor := self.descriptor[objStart:objEnd]
+		objStart := parser.offset - 1
+		objEnd := parser.offset + semicolonIndex + 1
+		parser.offset = objEnd
+		descriptor := parser.descriptor[objStart:objEnd]
 		return &FieldType{descriptor}
 	}
 }
-func (self *MethodDescriptorParser) parseArrayType() *FieldType {
-	arrStart := self.offset - 1
-	self.parseFieldType()
-	arrEnd := self.offset
-	descriptor := self.descriptor[arrStart:arrEnd]
+func (parser *MethodDescriptorParser) parseArrayType() *FieldType {
+	arrStart := parser.offset - 1
+	parser.parseFieldType()
+	arrEnd := parser.offset
+	descriptor := parser.descriptor[arrStart:arrEnd]
 	return &FieldType{descriptor}
 }

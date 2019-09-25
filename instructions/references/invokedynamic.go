@@ -28,21 +28,21 @@ type INVOKE_DYNAMIC struct {
 	// 0
 }
 
-func (self *INVOKE_DYNAMIC) FetchOperands(reader *base.BytecodeReader) {
-	self.index = reader.ReadUint16()
+func (instr *INVOKE_DYNAMIC) FetchOperands(reader *base.BytecodeReader) {
+	instr.index = reader.ReadUint16()
 	reader.ReadUint8() // must be 0
 	reader.ReadUint8() // must be 0
 }
 
-func (self *INVOKE_DYNAMIC) Execute(frame *rtda.Frame) {
-	self.resolveCallSiteSpecifier(frame)
+func (instr *INVOKE_DYNAMIC) Execute(frame *rtda.Frame) {
+	instr.resolveCallSiteSpecifier(frame)
 	// todo
 	panic("todo invokedynamic")
 }
 
-func (self *INVOKE_DYNAMIC) resolveCallSiteSpecifier(frame *rtda.Frame) {
+func (instr *INVOKE_DYNAMIC) resolveCallSiteSpecifier(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
-	kIndy := cp.GetConstant(uint(self.index)).(*heap.ConstantInvokeDynamic)
+	kIndy := cp.GetConstant(uint(instr.index)).(*heap.ConstantInvokeDynamic)
 	//bmSpec := kIndy.BootstrapMethodSpecifier()
 
 	// Method Type and Method Handle Resolution

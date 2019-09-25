@@ -19,38 +19,38 @@ func newField(class *Class, fieldInfo cf.MemberInfo) *Field {
 	field.name = fieldInfo.Name()
 	field.descriptor = fieldInfo.Descriptor()
 	field.signature = fieldInfo.Signature()
-	field.IsLongOrDouble = (field.descriptor == "J" || field.descriptor == "D")
+	field.IsLongOrDouble = field.descriptor == "J" || field.descriptor == "D"
 	if kValAttr := fieldInfo.ConstantValueAttribute(); kValAttr != nil {
 		field.constValueIndex = kValAttr.ConstantValueIndex
 	}
 	return field
 }
 
-func (self *Field) ConstValueIndex() uint16 {
-	return self.constValueIndex
+func (field *Field) ConstValueIndex() uint16 {
+	return field.constValueIndex
 }
-func (self *Field) SlotId() uint {
-	return self.slotId
+func (field *Field) SlotId() uint {
+	return field.slotId
 }
 
-func (self *Field) GetValue(ref *Object) interface{} {
+func (field *Field) GetValue(ref *Object) interface{} {
 	fields := ref.fields.([]interface{})
-	return fields[self.slotId]
+	return fields[field.slotId]
 }
-func (self *Field) PutValue(ref *Object, val interface{}) {
+func (field *Field) PutValue(ref *Object, val interface{}) {
 	fields := ref.fields.([]interface{})
-	fields[self.slotId] = val
+	fields[field.slotId] = val
 }
 
-func (self *Field) GetStaticValue() interface{} {
-	return self.class.staticFieldSlots[self.slotId]
+func (field *Field) GetStaticValue() interface{} {
+	return field.class.staticFieldSlots[field.slotId]
 }
-func (self *Field) PutStaticValue(val interface{}) {
-	self.class.staticFieldSlots[self.slotId] = val
+func (field *Field) PutStaticValue(val interface{}) {
+	field.class.staticFieldSlots[field.slotId] = val
 }
 
-func (self *Field) defaultValue() interface{} {
-	switch self.descriptor[0] {
+func (field *Field) defaultValue() interface{} {
+	switch field.descriptor[0] {
 	case 'Z': // boolean
 		return int32(0)
 	case 'B': // byte
@@ -72,19 +72,19 @@ func (self *Field) defaultValue() interface{} {
 	case '[': // Array
 		return nil
 	default:
-		panic("BAD field descriptor: " + self.descriptor)
+		panic("BAD field descriptor: " + field.descriptor)
 	}
 }
 
 // reflection
-func (self *Field) Type() *Class {
-	if self._type == nil {
-		self._type = self.resolveType()
+func (field *Field) Type() *Class {
+	if field._type == nil {
+		field._type = field.resolveType()
 	}
-	return self._type
+	return field._type
 }
-func (self *Field) resolveType() *Class {
-	descriptor := self.descriptor
+func (field *Field) resolveType() *Class {
+	descriptor := field.descriptor
 	if len(descriptor) == 1 {
 		switch descriptor[0] {
 		case 'B':

@@ -8,7 +8,7 @@ import (
 // Swap the top two operand stack values
 type SWAP struct{ base.NoOperandsInstruction }
 
-func (self *SWAP) Execute(frame *rtda.Frame) {
+func (instr *SWAP) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	val1 := stack.PopSlot()
 	val2 := stack.PopSlot()

@@ -6,8 +6,8 @@ type AttributeTable struct {
 
 /* group 1 */
 
-func (self *AttributeTable) ConstantValueAttribute() *ConstantValueAttribute {
-	for _, attrInfo := range self.attributes {
+func (at *AttributeTable) ConstantValueAttribute() *ConstantValueAttribute {
+	for _, attrInfo := range at.attributes {
 		switch attrInfo.(type) {
 		case *ConstantValueAttribute:
 			return attrInfo.(*ConstantValueAttribute)
@@ -16,8 +16,8 @@ func (self *AttributeTable) ConstantValueAttribute() *ConstantValueAttribute {
 	return nil
 }
 
-func (self *AttributeTable) CodeAttribute() *CodeAttribute {
-	for _, attrInfo := range self.attributes {
+func (at *AttributeTable) CodeAttribute() *CodeAttribute {
+	for _, attrInfo := range at.attributes {
 		switch attrInfo.(type) {
 		case *CodeAttribute:
 			return attrInfo.(*CodeAttribute)
@@ -26,8 +26,8 @@ func (self *AttributeTable) CodeAttribute() *CodeAttribute {
 	return nil
 }
 
-func (self *AttributeTable) ExceptionsAttribute() *ExceptionsAttribute {
-	for _, attrInfo := range self.attributes {
+func (at *AttributeTable) ExceptionsAttribute() *ExceptionsAttribute {
+	for _, attrInfo := range at.attributes {
 		switch attrInfo.(type) {
 		case *ExceptionsAttribute:
 			return attrInfo.(*ExceptionsAttribute)
@@ -36,8 +36,8 @@ func (self *AttributeTable) ExceptionsAttribute() *ExceptionsAttribute {
 	return nil
 }
 
-func (self *AttributeTable) BootstrapMethodsAttribute() *BootstrapMethodsAttribute {
-	for _, attrInfo := range self.attributes {
+func (at *AttributeTable) BootstrapMethodsAttribute() *BootstrapMethodsAttribute {
+	for _, attrInfo := range at.attributes {
 		switch attrInfo.(type) {
 		case *BootstrapMethodsAttribute:
 			return attrInfo.(*BootstrapMethodsAttribute)
@@ -48,8 +48,8 @@ func (self *AttributeTable) BootstrapMethodsAttribute() *BootstrapMethodsAttribu
 
 /* group 2 */
 
-func (self *AttributeTable) EnclosingMethodAttribute() *EnclosingMethodAttribute {
-	for _, attrInfo := range self.attributes {
+func (at *AttributeTable) EnclosingMethodAttribute() *EnclosingMethodAttribute {
+	for _, attrInfo := range at.attributes {
 		switch attrInfo.(type) {
 		case *EnclosingMethodAttribute:
 			return attrInfo.(*EnclosingMethodAttribute)
@@ -58,8 +58,8 @@ func (self *AttributeTable) EnclosingMethodAttribute() *EnclosingMethodAttribute
 	return nil
 }
 
-func (self *AttributeTable) SignatureAttribute() *SignatureAttribute {
-	for _, attrInfo := range self.attributes {
+func (at *AttributeTable) SignatureAttribute() *SignatureAttribute {
+	for _, attrInfo := range at.attributes {
 		switch attrInfo.(type) {
 		case *SignatureAttribute:
 			return attrInfo.(*SignatureAttribute)
@@ -70,8 +70,8 @@ func (self *AttributeTable) SignatureAttribute() *SignatureAttribute {
 
 /* group 3 */
 
-func (self *AttributeTable) SourceFileAttribute() *SourceFileAttribute {
-	for _, attrInfo := range self.attributes {
+func (at *AttributeTable) SourceFileAttribute() *SourceFileAttribute {
+	for _, attrInfo := range at.attributes {
 		switch attrInfo.(type) {
 		case *SourceFileAttribute:
 			return attrInfo.(*SourceFileAttribute)
@@ -80,8 +80,8 @@ func (self *AttributeTable) SourceFileAttribute() *SourceFileAttribute {
 	return nil
 }
 
-func (self *AttributeTable) LineNumberTableAttribute() *LineNumberTableAttribute {
-	for _, attrInfo := range self.attributes {
+func (at *AttributeTable) LineNumberTableAttribute() *LineNumberTableAttribute {
+	for _, attrInfo := range at.attributes {
 		switch attrInfo.(type) {
 		case *LineNumberTableAttribute:
 			return attrInfo.(*LineNumberTableAttribute)
@@ -92,18 +92,18 @@ func (self *AttributeTable) LineNumberTableAttribute() *LineNumberTableAttribute
 
 /* unparsed */
 
-func (self *AttributeTable) RuntimeVisibleAnnotationsAttributeData() []byte {
-	return self.getUnparsedAttributeData("RuntimeVisibleAnnotations")
+func (at *AttributeTable) RuntimeVisibleAnnotationsAttributeData() []byte {
+	return at.getUnparsedAttributeData("RuntimeVisibleAnnotations")
 }
-func (self *AttributeTable) RuntimeVisibleParameterAnnotationsAttributeData() []byte {
-	return self.getUnparsedAttributeData("RuntimeVisibleParameterAnnotationsAttribute")
+func (at *AttributeTable) RuntimeVisibleParameterAnnotationsAttributeData() []byte {
+	return at.getUnparsedAttributeData("RuntimeVisibleParameterAnnotationsAttribute")
 }
-func (self *AttributeTable) AnnotationDefaultAttributeData() []byte {
-	return self.getUnparsedAttributeData("AnnotationDefault")
+func (at *AttributeTable) AnnotationDefaultAttributeData() []byte {
+	return at.getUnparsedAttributeData("AnnotationDefault")
 }
 
-func (self *AttributeTable) getUnparsedAttributeData(name string) []byte {
-	for _, attrInfo := range self.attributes {
+func (at *AttributeTable) getUnparsedAttributeData(name string) []byte {
+	for _, attrInfo := range at.attributes {
 		switch attrInfo.(type) {
 		case *UnparsedAttribute:
 			unparsedAttr := attrInfo.(*UnparsedAttribute)

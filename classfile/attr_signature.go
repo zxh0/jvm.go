@@ -12,10 +12,10 @@ type SignatureAttribute struct {
 	signatureIndex uint16
 }
 
-func (self *SignatureAttribute) readInfo(reader *ClassReader) {
-	self.signatureIndex = reader.readUint16()
+func (attr *SignatureAttribute) readInfo(reader *ClassReader) {
+	attr.signatureIndex = reader.readUint16()
 }
 
-func (self *SignatureAttribute) Signature() string {
-	return self.cp.getUtf8(self.signatureIndex)
+func (attr *SignatureAttribute) Signature() string {
+	return attr.cp.getUtf8(attr.signatureIndex)
 }

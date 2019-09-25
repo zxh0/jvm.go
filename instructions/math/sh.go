@@ -8,7 +8,7 @@ import (
 // Shift left int
 type ISHL struct{ base.NoOperandsInstruction }
 
-func (self *ISHL) Execute(frame *rtda.Frame) {
+func (instr *ISHL) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -20,7 +20,7 @@ func (self *ISHL) Execute(frame *rtda.Frame) {
 // Arithmetic shift right int
 type ISHR struct{ base.NoOperandsInstruction }
 
-func (self *ISHR) Execute(frame *rtda.Frame) {
+func (instr *ISHR) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -32,7 +32,7 @@ func (self *ISHR) Execute(frame *rtda.Frame) {
 // Logical shift right int
 type IUSHR struct{ base.NoOperandsInstruction }
 
-func (self *IUSHR) Execute(frame *rtda.Frame) {
+func (instr *IUSHR) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -44,7 +44,7 @@ func (self *IUSHR) Execute(frame *rtda.Frame) {
 // Shift left long
 type LSHL struct{ base.NoOperandsInstruction }
 
-func (self *LSHL) Execute(frame *rtda.Frame) {
+func (instr *LSHL) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopLong()
@@ -56,7 +56,7 @@ func (self *LSHL) Execute(frame *rtda.Frame) {
 // Arithmetic shift right long
 type LSHR struct{ base.NoOperandsInstruction }
 
-func (self *LSHR) Execute(frame *rtda.Frame) {
+func (instr *LSHR) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopLong()
@@ -68,7 +68,7 @@ func (self *LSHR) Execute(frame *rtda.Frame) {
 // Logical shift right long
 type LUSHR struct{ base.NoOperandsInstruction }
 
-func (self *LUSHR) Execute(frame *rtda.Frame) {
+func (instr *LUSHR) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopLong()

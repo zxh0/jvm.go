@@ -61,7 +61,7 @@ func printClassInfo(cmd cmd.Command) {
 
 	fmt.Printf("%s %s", accessFlagsforClass(cf.AccessFlags), strings.ReplaceAll(cf.ClassName(), "/", "."))
 
-	superClassName :=  cf.SuperClassName()
+	superClassName := cf.SuperClassName()
 	interfaceNames := cf.InterfaceNames()
 
 	if superClassName != "" {
@@ -69,7 +69,7 @@ func printClassInfo(cmd cmd.Command) {
 	}
 
 	if len(interfaceNames) > 0 {
-		fmt.Printf( " implements %s", strings.ReplaceAll(strings.Join(interfaceNames, ","), "/", "."))
+		fmt.Printf(" implements %s", strings.ReplaceAll(strings.Join(interfaceNames, ","), "/", "."))
 	}
 
 	fmt.Println(" {")
@@ -109,7 +109,6 @@ func accessFlagsforClass(af uint16) string {
 	}
 	return strings.Join(result, " ")
 }
-
 
 func accessFlagsforField(af uint16) string {
 	var result []string
@@ -182,7 +181,7 @@ func descriptorToRealName(descriptor string) string {
 	}
 }
 
-func inputTypesToRealNames(inputTypes string) string{
+func inputTypesToRealNames(inputTypes string) string {
 	var result []string
 	for _, inputType := range strings.Split(inputTypes, ";") {
 		if inputType != "" {
@@ -203,10 +202,10 @@ func furtherSplit(inputTypes string) []string {
 	var result []string
 	for i := 0; i < len(inputTypes); i++ {
 		if inputTypes[i] == '[' {
-			result = append(result, inputTypes[i : i + 2])
+			result = append(result, inputTypes[i:i+2])
 			i++
 		} else {
-			result = append(result, inputTypes[i : i + 1])
+			result = append(result, inputTypes[i:i+1])
 		}
 	}
 	return result

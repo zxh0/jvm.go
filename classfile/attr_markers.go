@@ -2,7 +2,7 @@ package classfile
 
 type MarkerAttribute struct{}
 
-func (self *MarkerAttribute) readInfo(reader *ClassReader) {
+func (*MarkerAttribute) readInfo(reader *ClassReader) {
 	// read nothing
 }
 

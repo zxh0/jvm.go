@@ -28,50 +28,50 @@ func newFrame(thread *Thread, method *heap.Method) *Frame {
 	}
 }
 
-func (self *Frame) reset(method *heap.Method) {
-	self.method = method
-	self.nextPC = 0
-	self.lower = nil
-	self.onPopAction = nil
-	if self.maxLocals > 0 {
-		self.localVars.clear()
+func (frame *Frame) reset(method *heap.Method) {
+	frame.method = method
+	frame.nextPC = 0
+	frame.lower = nil
+	frame.onPopAction = nil
+	if frame.maxLocals > 0 {
+		frame.localVars.clear()
 	}
-	if self.maxStack > 0 {
-		self.operandStack.Clear()
+	if frame.maxStack > 0 {
+		frame.operandStack.Clear()
 	}
 }
 
 // getters & setters
-func (self *Frame) Thread() *Thread {
-	return self.thread
+func (frame *Frame) Thread() *Thread {
+	return frame.thread
 }
-func (self *Frame) Method() *heap.Method {
-	return self.method
+func (frame *Frame) Method() *heap.Method {
+	return frame.method
 }
-func (self *Frame) LocalVars() *LocalVars {
-	return self.localVars
+func (frame *Frame) LocalVars() *LocalVars {
+	return frame.localVars
 }
-func (self *Frame) OperandStack() *OperandStack {
-	return self.operandStack
+func (frame *Frame) OperandStack() *OperandStack {
+	return frame.operandStack
 }
-func (self *Frame) NextPC() int {
-	return self.nextPC
+func (frame *Frame) NextPC() int {
+	return frame.nextPC
 }
-func (self *Frame) SetNextPC(nextPC int) {
-	self.nextPC = nextPC
+func (frame *Frame) SetNextPC(nextPC int) {
+	frame.nextPC = nextPC
 }
-func (self *Frame) SetOnPopAction(f func()) {
-	self.onPopAction = f
+func (frame *Frame) SetOnPopAction(f func()) {
+	frame.onPopAction = f
 }
 
-func (self *Frame) RevertNextPC() {
-	self.nextPC = self.thread.pc
+func (frame *Frame) RevertNextPC() {
+	frame.nextPC = frame.thread.pc
 }
 
 // todo
-func (self *Frame) ClassLoader() *heap.ClassLoader {
+func (frame *Frame) ClassLoader() *heap.ClassLoader {
 	return heap.BootLoader()
 }
-func (self *Frame) ConstantPool() *heap.ConstantPool {
-	return self.method.ConstantPool()
+func (frame *Frame) ConstantPool() *heap.ConstantPool {
+	return frame.method.ConstantPool()
 }

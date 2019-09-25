@@ -20,26 +20,26 @@ func newCompositeEntry(pathList string) *CompositeEntry {
 	return compoundEntry
 }
 
-func (self *CompositeEntry) addEntry(entry Entry) {
-	self.entries = append(self.entries, entry)
+func (entry *CompositeEntry) addEntry(subEntry Entry) {
+	entry.entries = append(entry.entries, subEntry)
 }
 
-func (self *CompositeEntry) readClass(className string) (Entry, []byte, error) {
-	for _, entry := range self.entries {
-		entry, data, err := entry.readClass(className)
+func (entry *CompositeEntry) readClass(className string) (Entry, []byte, error) {
+	for _, subEntry := range entry.entries {
+		subEntry, data, err := subEntry.readClass(className)
 		if err == nil {
-			return entry, data, nil
+			return subEntry, data, nil
 		}
 	}
 
-	return self, nil, errors.New("class not found: " + className)
+	return entry, nil, errors.New("class not found: " + className)
 }
 
-func (self *CompositeEntry) String() string {
-	strs := make([]string, len(self.entries))
+func (entry *CompositeEntry) String() string {
+	strs := make([]string, len(entry.entries))
 
-	for i, entry := range self.entries {
-		strs[i] = entry.String()
+	for i, subEntry := range entry.entries {
+		strs[i] = subEntry.String()
 	}
 
 	return strings.Join(strs, pathListSeparator)

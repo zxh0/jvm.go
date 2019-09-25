@@ -12,20 +12,20 @@ type PUT_FIELD struct {
 	field *heap.Field
 }
 
-func (self *PUT_FIELD) Execute(frame *rtda.Frame) {
-	if self.field == nil {
+func (instr *PUT_FIELD) Execute(frame *rtda.Frame) {
+	if instr.field == nil {
 		cp := frame.Method().Class().ConstantPool()
-		kFieldRef := cp.GetConstant(self.Index).(*heap.ConstantFieldref)
-		self.field = kFieldRef.InstanceField()
+		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldref)
+		instr.field = kFieldRef.InstanceField()
 	}
 
 	stack := frame.OperandStack()
-	val := stack.PopField(self.field.IsLongOrDouble)
+	val := stack.PopField(instr.field.IsLongOrDouble)
 	ref := stack.PopRef()
 	if ref == nil {
 		frame.Thread().ThrowNPE()
 		return
 	}
 
-	self.field.PutValue(ref, val)
+	instr.field.PutValue(ref, val)
 }

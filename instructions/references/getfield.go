@@ -12,11 +12,11 @@ type GET_FIELD struct {
 	field *heap.Field
 }
 
-func (self *GET_FIELD) Execute(frame *rtda.Frame) {
-	if self.field == nil {
+func (instr *GET_FIELD) Execute(frame *rtda.Frame) {
+	if instr.field == nil {
 		cp := frame.Method().Class().ConstantPool()
-		kFieldRef := cp.GetConstant(self.Index).(*heap.ConstantFieldref)
-		self.field = kFieldRef.InstanceField()
+		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldref)
+		instr.field = kFieldRef.InstanceField()
 	}
 
 	stack := frame.OperandStack()
@@ -26,6 +26,6 @@ func (self *GET_FIELD) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	val := self.field.GetValue(ref)
-	stack.PushField(val, self.field.IsLongOrDouble)
+	val := instr.field.GetValue(ref)
+	stack.PushField(val, instr.field.IsLongOrDouble)
 }

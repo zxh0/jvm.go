@@ -43,100 +43,100 @@ func newMethod(class *Class, methodInfo cf.MemberInfo) *Method {
 	method.copyAttributes(methodInfo)
 	return method
 }
-func (self *Method) calcArgSlotCount() {
-	self.argSlotCount = self.md.argSlotCount()
-	if !self.IsStatic() {
-		self.argSlotCount++
+func (method *Method) calcArgSlotCount() {
+	method.argSlotCount = method.md.argSlotCount()
+	if !method.IsStatic() {
+		method.argSlotCount++
 	}
 }
-func (self *Method) copyAttributes(methodInfo cf.MemberInfo) {
+func (method *Method) copyAttributes(methodInfo cf.MemberInfo) {
 	if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
-		self.exceptions = methodInfo.ExceptionsAttribute()
-		self.signature = methodInfo.Signature()
-		self.code = codeAttr.Code
-		self.maxStack = uint(codeAttr.MaxStack)
-		self.maxLocals = uint(codeAttr.MaxLocals)
-		self.lineNumberTable = codeAttr.LineNumberTableAttribute()
+		method.exceptions = methodInfo.ExceptionsAttribute()
+		method.signature = methodInfo.Signature()
+		method.code = codeAttr.Code
+		method.maxStack = uint(codeAttr.MaxStack)
+		method.maxLocals = uint(codeAttr.MaxLocals)
+		method.lineNumberTable = codeAttr.LineNumberTableAttribute()
 		if len(codeAttr.ExceptionTable) > 0 {
-			rtCp := self.class.constantPool
-			self.copyExceptionTable(codeAttr.ExceptionTable, rtCp)
+			rtCp := method.class.constantPool
+			method.copyExceptionTable(codeAttr.ExceptionTable, rtCp)
 		}
 	}
-	self.annotationData = methodInfo.RuntimeVisibleAnnotationsAttributeData()
-	self.parameterAnnotationData = methodInfo.RuntimeVisibleParameterAnnotationsAttributeData()
-	self.annotationDefaultData = methodInfo.AnnotationDefaultAttributeData()
+	method.annotationData = methodInfo.RuntimeVisibleAnnotationsAttributeData()
+	method.parameterAnnotationData = methodInfo.RuntimeVisibleParameterAnnotationsAttributeData()
+	method.annotationDefaultData = methodInfo.AnnotationDefaultAttributeData()
 }
 
-func (self *Method) String() string {
-	return fmt.Sprintf("{Method name:%v descriptor:%v}", self.name, self.descriptor)
+func (method *Method) String() string {
+	return fmt.Sprintf("{Method name:%v descriptor:%v}", method.name, method.descriptor)
 }
 
 // getters & setters
-func (self *Method) MaxStack() uint {
-	return self.maxStack
+func (method *Method) MaxStack() uint {
+	return method.maxStack
 }
-func (self *Method) MaxLocals() uint {
-	return self.maxLocals
+func (method *Method) MaxLocals() uint {
+	return method.maxLocals
 }
-func (self *Method) ArgSlotCount() uint {
-	return self.argSlotCount
+func (method *Method) ArgSlotCount() uint {
+	return method.argSlotCount
 }
-func (self *Method) Slot() uint {
-	return self.slot
+func (method *Method) Slot() uint {
+	return method.slot
 }
-func (self *Method) Code() []byte {
-	return self.code
+func (method *Method) Code() []byte {
+	return method.code
 }
-func (self *Method) ParameterAnnotationData() []byte {
-	return self.parameterAnnotationData
+func (method *Method) ParameterAnnotationData() []byte {
+	return method.parameterAnnotationData
 }
-func (self *Method) AnnotationDefaultData() []byte {
-	return self.annotationDefaultData
+func (method *Method) AnnotationDefaultData() []byte {
+	return method.annotationDefaultData
 }
-func (self *Method) ParsedDescriptor() *MethodDescriptor {
-	return self.md
-}
-
-func (self *Method) HackSetCode(code []byte) {
-	self.code = code
+func (method *Method) ParsedDescriptor() *MethodDescriptor {
+	return method.md
 }
 
-func (self *Method) NativeMethod() interface{} {
-	if self.nativeMethod == nil {
-		self.nativeMethod = findNativeMethod(self)
+func (method *Method) HackSetCode(code []byte) {
+	method.code = code
+}
+
+func (method *Method) NativeMethod() interface{} {
+	if method.nativeMethod == nil {
+		method.nativeMethod = findNativeMethod(method)
 	}
-	return self.nativeMethod
+	return method.nativeMethod
 }
 
-func (self *Method) IsVoidReturnType() bool {
-	return strings.HasSuffix(self.descriptor, ")V")
+func (method *Method) IsVoidReturnType() bool {
+	return strings.HasSuffix(method.descriptor, ")V")
 }
 
-func (self *Method) isConstructor() bool {
-	return !self.IsStatic() && self.name == constructorName
+func (method *Method) isConstructor() bool {
+	return !method.IsStatic() && method.name == constructorName
 }
-func (self *Method) IsClinit() bool {
-	return self.IsStatic() &&
-		self.name == clinitMethodName &&
-		self.descriptor == clinitMethodDesc
+func (method *Method) IsClinit() bool {
+	return method.IsStatic() &&
+		method.name == clinitMethodName &&
+		method.descriptor == clinitMethodDesc
 }
-func (self *Method) IsRegisterNatives() bool {
-	return self.IsStatic() &&
-		self.name == "registerNatives" &&
-		self.descriptor == "()V"
+func (method *Method) IsRegisterNatives() bool {
+	return method.IsStatic() &&
+		method.name == "registerNatives" &&
+		method.descriptor == "()V"
 }
-func (self *Method) IsInitIDs() bool {
-	return self.IsStatic() &&
-		self.name == "initIDs" &&
-		self.descriptor == "()V"
+func (method *Method) IsInitIDs() bool {
+	return method.IsStatic() &&
+		method.name == "initIDs" &&
+		method.descriptor == "()V"
 }
 
-func (self *Method) GetLineNumber(pc int) int {
-	if self.IsNative() {
+func (method *Method) GetLineNumber(pc int) int {
+	if method.IsNative() {
 		return -2
 	}
-	if self.lineNumberTable != nil {
-		return self.lineNumberTable.GetLineNumber(pc)
+	if method.lineNumberTable != nil {
+		return method.lineNumberTable.GetLineNumber(pc)
 	}
 	return -1
 }

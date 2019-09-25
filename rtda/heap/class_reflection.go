@@ -1,13 +1,13 @@
 package heap
 
-func (self *Class) IsPrimitive() bool {
-	return isPrimitiveType(self.name)
+func (class *Class) IsPrimitive() bool {
+	return isPrimitiveType(class.name)
 }
 
-func (self *Class) GetFields(publicOnly bool) []*Field {
+func (class *Class) GetFields(publicOnly bool) []*Field {
 	if publicOnly {
-		publicFields := make([]*Field, 0, len(self.fields))
-		for _, field := range self.fields {
+		publicFields := make([]*Field, 0, len(class.fields))
+		for _, field := range class.fields {
 			if field.IsPublic() {
 				n := len(publicFields)
 				publicFields = publicFields[:n+1]
@@ -16,13 +16,13 @@ func (self *Class) GetFields(publicOnly bool) []*Field {
 		}
 		return publicFields
 	} else {
-		return self.fields
+		return class.fields
 	}
 }
 
-func (self *Class) GetMethods(publicOnly bool) []*Method {
-	result := make([]*Method, 0, len(self.methods))
-	for _, method := range self.methods {
+func (class *Class) GetMethods(publicOnly bool) []*Method {
+	result := make([]*Method, 0, len(class.methods))
+	for _, method := range class.methods {
 		if !method.IsClinit() && !method.isConstructor() {
 			if !publicOnly || method.IsPublic() {
 				n := len(result)
@@ -34,9 +34,9 @@ func (self *Class) GetMethods(publicOnly bool) []*Method {
 	return result
 }
 
-func (self *Class) GetConstructors(publicOnly bool) []*Method {
-	constructors := make([]*Method, 0, len(self.methods))
-	for _, method := range self.methods {
+func (class *Class) GetConstructors(publicOnly bool) []*Method {
+	constructors := make([]*Method, 0, len(class.methods))
+	for _, method := range class.methods {
 		if method.isConstructor() {
 			if !publicOnly || method.IsPublic() {
 				n := len(constructors)
@@ -48,10 +48,10 @@ func (self *Class) GetConstructors(publicOnly bool) []*Method {
 	return constructors
 }
 
-func (self *Class) GetConstructor(descriptor string) *Method {
-	return self._getMethod(constructorName, descriptor, false)
+func (class *Class) GetConstructor(descriptor string) *Method {
+	return class._getMethod(constructorName, descriptor, false)
 }
 
-func (self *Class) GetDefaultConstructor() *Method {
-	return self.GetConstructor("()V")
+func (class *Class) GetDefaultConstructor() *Method {
+	return class.GetConstructor("()V")
 }

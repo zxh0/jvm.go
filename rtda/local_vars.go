@@ -17,63 +17,63 @@ func newLocalVars(size uint) *LocalVars {
 	}
 }
 
-func (self *LocalVars) GetThis() *heap.Object {
-	return self.GetRef(0)
+func (lv *LocalVars) GetThis() *heap.Object {
+	return lv.GetRef(0)
 }
 
-func (self *LocalVars) GetRef(index uint) *heap.Object {
-	ref := self.slots[index]
+func (lv *LocalVars) GetRef(index uint) *heap.Object {
+	ref := lv.slots[index]
 	if ref == nil {
 		return nil
 	} else {
 		return ref.(*heap.Object)
 	}
 }
-func (self *LocalVars) SetRef(index uint, ref *heap.Object) {
-	self.slots[index] = ref
+func (lv *LocalVars) SetRef(index uint, ref *heap.Object) {
+	lv.slots[index] = ref
 }
 
-func (self *LocalVars) GetBoolean(index uint) bool {
-	return self.GetInt(index) == 1
+func (lv *LocalVars) GetBoolean(index uint) bool {
+	return lv.GetInt(index) == 1
 }
 
-func (self *LocalVars) GetInt(index uint) int32 {
-	return self.slots[index].(int32)
+func (lv *LocalVars) GetInt(index uint) int32 {
+	return lv.slots[index].(int32)
 }
-func (self *LocalVars) SetInt(index uint, val int32) {
-	self.slots[index] = val
-}
-
-func (self *LocalVars) GetLong(index uint) int64 {
-	return self.slots[index].(int64)
-}
-func (self *LocalVars) SetLong(index uint, val int64) {
-	self.slots[index] = val
+func (lv *LocalVars) SetInt(index uint, val int32) {
+	lv.slots[index] = val
 }
 
-func (self *LocalVars) GetFloat(index uint) float32 {
-	return self.slots[index].(float32)
+func (lv *LocalVars) GetLong(index uint) int64 {
+	return lv.slots[index].(int64)
 }
-func (self *LocalVars) SetFloat(index uint, val float32) {
-	self.slots[index] = val
-}
-
-func (self *LocalVars) GetDouble(index uint) float64 {
-	return self.slots[index].(float64)
-}
-func (self *LocalVars) SetDouble(index uint, val float64) {
-	self.slots[index] = val
+func (lv *LocalVars) SetLong(index uint, val int64) {
+	lv.slots[index] = val
 }
 
-func (self *LocalVars) Get(index uint) interface{} {
-	return self.slots[index]
+func (lv *LocalVars) GetFloat(index uint) float32 {
+	return lv.slots[index].(float32)
 }
-func (self *LocalVars) Set(index uint, any interface{}) {
-	self.slots[index] = any
+func (lv *LocalVars) SetFloat(index uint, val float32) {
+	lv.slots[index] = val
 }
 
-func (self *LocalVars) clear() {
-	for i := range self.slots {
-		self.slots[i] = nil
+func (lv *LocalVars) GetDouble(index uint) float64 {
+	return lv.slots[index].(float64)
+}
+func (lv *LocalVars) SetDouble(index uint, val float64) {
+	lv.slots[index] = val
+}
+
+func (lv *LocalVars) Get(index uint) interface{} {
+	return lv.slots[index]
+}
+func (lv *LocalVars) Set(index uint, any interface{}) {
+	lv.slots[index] = any
+}
+
+func (lv *LocalVars) clear() {
+	for i := range lv.slots {
+		lv.slots[i] = nil
 	}
 }

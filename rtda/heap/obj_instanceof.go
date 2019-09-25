@@ -1,7 +1,7 @@
 package heap
 
-func (self *Object) IsInstanceOf(class *Class) bool {
-	s, t := self.class, class
+func (obj *Object) IsInstanceOf(class *Class) bool {
+	s, t := obj.class, class
 	return _checkcast(s, t)
 }
 

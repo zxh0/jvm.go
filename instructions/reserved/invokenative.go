@@ -8,7 +8,7 @@ import (
 // Invoke native method
 type INVOKE_NATIVE struct{ base.NoOperandsInstruction }
 
-func (self *INVOKE_NATIVE) Execute(frame *rtda.Frame) {
+func (instr *INVOKE_NATIVE) Execute(frame *rtda.Frame) {
 	nativeMethod := frame.Method().NativeMethod().(func(*rtda.Frame))
 	nativeMethod(frame)
 }

@@ -19,34 +19,34 @@ func newFrameCache(thread *Thread, maxFrame uint) *FrameCache {
 	}
 }
 
-func (self *FrameCache) borrowFrame(method *heap.Method) *Frame {
-	if self.frameCount > 0 {
-		for i, frame := range self.cachedFrames {
+func (cache *FrameCache) borrowFrame(method *heap.Method) *Frame {
+	if cache.frameCount > 0 {
+		for i, frame := range cache.cachedFrames {
 			if frame != nil &&
 				frame.maxLocals >= method.MaxLocals() &&
 				frame.maxStack >= method.MaxStack() {
 
-				self.frameCount--
-				self.cachedFrames[i] = nil
+				cache.frameCount--
+				cache.cachedFrames[i] = nil
 				frame.reset(method)
 				return frame
 			}
 		}
 	}
-	return newFrame(self.thread, method)
+	return newFrame(cache.thread, method)
 }
 
-func (self *FrameCache) returnFrame(frame *Frame) {
-	if self.frameCount < self.maxFrame {
-		for i, cachedFrame := range self.cachedFrames {
+func (cache *FrameCache) returnFrame(frame *Frame) {
+	if cache.frameCount < cache.maxFrame {
+		for i, cachedFrame := range cache.cachedFrames {
 			if cachedFrame == nil {
-				self.cachedFrames[i] = frame
-				self.frameCount++
+				cache.cachedFrames[i] = frame
+				cache.frameCount++
 				return
 			}
 		}
 	} else {
-		for _, cachedFrame := range self.cachedFrames {
+		for _, cachedFrame := range cache.cachedFrames {
 			if frame.maxLocals > cachedFrame.maxLocals {
 				cachedFrame.maxLocals = frame.maxLocals
 				cachedFrame.localVars = frame.localVars

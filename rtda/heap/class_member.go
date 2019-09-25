@@ -9,25 +9,25 @@ type ClassMember struct {
 	class          *Class
 }
 
-func (self *ClassMember) Name() string {
-	return self.name
+func (member *ClassMember) Name() string {
+	return member.name
 }
-func (self *ClassMember) Descriptor() string {
-	return self.descriptor
+func (member *ClassMember) Descriptor() string {
+	return member.descriptor
 }
-func (self *ClassMember) Signature() string {
-	return self.signature
+func (member *ClassMember) Signature() string {
+	return member.signature
 }
-func (self *ClassMember) AnnotationData() []byte {
-	return self.annotationData
+func (member *ClassMember) AnnotationData() []byte {
+	return member.annotationData
 }
-func (self *ClassMember) Class() *Class {
-	return self.class
+func (member *ClassMember) Class() *Class {
+	return member.class
 }
 
-// func (self *ClassMember) ClassLoader() *ClassLoader {
-// 	return self.class.classLoader
+// func (member *ClassMember) ClassLoader() *ClassLoader {
+// 	return member.class.classLoader
 // }
-func (self *ClassMember) ConstantPool() *ConstantPool {
-	return self.class.constantPool
+func (member *ClassMember) ConstantPool() *ConstantPool {
+	return member.class.constantPool
 }

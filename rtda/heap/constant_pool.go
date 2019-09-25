@@ -47,7 +47,7 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 	return rtCp
 }
 
-func (self *ConstantPool) GetConstant(index uint) Constant {
+func (cp *ConstantPool) GetConstant(index uint) Constant {
 	// todo
-	return self.consts[index]
+	return cp.consts[index]
 }

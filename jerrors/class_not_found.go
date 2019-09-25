@@ -8,6 +8,6 @@ func NewClassNotFoundError(name string) ClassNotFoundError {
 	return ClassNotFoundError{name}
 }
 
-func (self ClassNotFoundError) Error() string {
-	return self.name
+func (err ClassNotFoundError) Error() string {
+	return err.name
 }

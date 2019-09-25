@@ -8,17 +8,17 @@ import (
 // Branch if reference comparison succeeds
 type IF_ACMPEQ struct{ base.BranchInstruction }
 
-func (self *IF_ACMPEQ) Execute(frame *rtda.Frame) {
+func (instr *IF_ACMPEQ) Execute(frame *rtda.Frame) {
 	if _acmp(frame) {
-		base.Branch(frame, self.Offset)
+		base.Branch(frame, instr.Offset)
 	}
 }
 
 type IF_ACMPNE struct{ base.BranchInstruction }
 
-func (self *IF_ACMPNE) Execute(frame *rtda.Frame) {
+func (instr *IF_ACMPNE) Execute(frame *rtda.Frame) {
 	if !_acmp(frame) {
-		base.Branch(frame, self.Offset)
+		base.Branch(frame, instr.Offset)
 	}
 }
 

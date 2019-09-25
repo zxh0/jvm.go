@@ -31,7 +31,7 @@ func newConstantMemberref(refInfo cf.ConstantMemberrefInfo) Constant {
 	}
 }
 
-func (self *ConstantMemberref) copy(refInfo cf.ConstantMemberrefInfo) {
-	self.className = refInfo.ClassName()
-	self.name, self.descriptor = refInfo.NameAndDescriptor()
+func (mr *ConstantMemberref) copy(refInfo cf.ConstantMemberrefInfo) {
+	mr.className = refInfo.ClassName()
+	mr.name, mr.descriptor = refInfo.NameAndDescriptor()
 }

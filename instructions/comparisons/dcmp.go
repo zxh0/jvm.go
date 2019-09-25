@@ -8,13 +8,13 @@ import (
 // Compare double
 type DCMPG struct{ base.NoOperandsInstruction }
 
-func (self *DCMPG) Execute(frame *rtda.Frame) {
+func (instr *DCMPG) Execute(frame *rtda.Frame) {
 	_dcmp(frame, true)
 }
 
 type DCMPL struct{ base.NoOperandsInstruction }
 
-func (self *DCMPL) Execute(frame *rtda.Frame) {
+func (instr *DCMPL) Execute(frame *rtda.Frame) {
 	_dcmp(frame, false)
 }
 

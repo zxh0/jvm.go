@@ -27,13 +27,13 @@ type CodeAttribute struct {
 	AttributeTable
 }
 
-func (self *CodeAttribute) readInfo(reader *ClassReader) {
-	self.MaxStack = reader.readUint16()
-	self.MaxLocals = reader.readUint16()
+func (attr *CodeAttribute) readInfo(reader *ClassReader) {
+	attr.MaxStack = reader.readUint16()
+	attr.MaxLocals = reader.readUint16()
 	codeLength := reader.readUint32()
-	self.Code = reader.readBytes(codeLength)
-	self.ExceptionTable = readExceptionTable(reader)
-	self.attributes = readAttributes(reader, self.cp)
+	attr.Code = reader.readBytes(codeLength)
+	attr.ExceptionTable = readExceptionTable(reader)
+	attr.attributes = readAttributes(reader, attr.cp)
 }
 
 type ExceptionTableEntry struct {

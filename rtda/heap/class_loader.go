@@ -54,118 +54,118 @@ func InitBootLoader(cp *classpath.ClassPath) {
 	bootLoader._init()
 }
 
-func (self *ClassLoader) _init() {
-	_jlObjectClass = self.LoadClass(jlObjectClassName)
-	_jlClassClass = self.LoadClass(jlClassClassName)
-	for _, class := range self.classMap {
+func (loader *ClassLoader) _init() {
+	_jlObjectClass = loader.LoadClass(jlObjectClassName)
+	_jlClassClass = loader.LoadClass(jlClassClassName)
+	for _, class := range loader.classMap {
 		if class.jClass == nil {
 			class.jClass = _jlClassClass.NewObj()
 			class.jClass.extra = class
 		}
 	}
-	_jlCloneableClass = self.LoadClass(jlCloneableClassName)
-	_ioSerializableClass = self.LoadClass(ioSerializableClassName)
-	_jlThreadClass = self.LoadClass(jlThreadClassName)
-	_jlStringClass = self.LoadClass(jlStringClassName)
-	self.loadPrimitiveClasses()
-	self.loadPrimitiveArrayClasses()
+	_jlCloneableClass = loader.LoadClass(jlCloneableClassName)
+	_ioSerializableClass = loader.LoadClass(ioSerializableClassName)
+	_jlThreadClass = loader.LoadClass(jlThreadClassName)
+	_jlStringClass = loader.LoadClass(jlStringClassName)
+	loader.loadPrimitiveClasses()
+	loader.loadPrimitiveArrayClasses()
 }
 
-func (self *ClassLoader) loadPrimitiveClasses() {
+func (loader *ClassLoader) loadPrimitiveClasses() {
 	for _, primitiveType := range PrimitiveTypes {
-		self.loadPrimitiveClass(primitiveType.Name)
+		loader.loadPrimitiveClass(primitiveType.Name)
 	}
 }
-func (self *ClassLoader) loadPrimitiveClass(className string) {
+func (loader *ClassLoader) loadPrimitiveClass(className string) {
 	class := &Class{name: className}
-	//class.classLoader = self
+	//class.classLoader = loader
 	class.jClass = _jlClassClass.NewObj()
 	class.jClass.extra = class
 	class.MarkFullyInitialized()
-	self.classMap[className] = class
+	loader.classMap[className] = class
 }
 
-func (self *ClassLoader) loadPrimitiveArrayClasses() {
+func (loader *ClassLoader) loadPrimitiveArrayClasses() {
 	for _, primitiveType := range PrimitiveTypes {
-		self.loadArrayClass(primitiveType.ArrayClassName)
+		loader.loadArrayClass(primitiveType.ArrayClassName)
 	}
 }
-func (self *ClassLoader) loadArrayClass(className string) *Class {
+func (loader *ClassLoader) loadArrayClass(className string) *Class {
 	class := &Class{name: className}
-	//class.classLoader = self
+	//class.classLoader = loader
 	class.superClass = _jlObjectClass
 	class.interfaces = []*Class{_jlCloneableClass, _ioSerializableClass}
 	class.jClass = _jlClassClass.NewObj()
 	class.jClass.extra = class
 	createVtable(class)
 	class.MarkFullyInitialized()
-	self.classMap[className] = class
+	loader.classMap[className] = class
 	return class
 }
 
-func (self *ClassLoader) getRefArrayClass(componentClass *Class) *Class {
+func (loader *ClassLoader) getRefArrayClass(componentClass *Class) *Class {
 	arrClassName := "[L" + componentClass.Name() + ";"
-	return self._getRefArrayClass(arrClassName)
+	return loader._getRefArrayClass(arrClassName)
 }
-func (self *ClassLoader) _getRefArrayClass(arrClassName string) *Class {
-	if arrClass, ok := self.classMap[arrClassName]; ok {
+func (loader *ClassLoader) _getRefArrayClass(arrClassName string) *Class {
+	if arrClass, ok := loader.classMap[arrClassName]; ok {
 		return arrClass
 	}
-	return self.loadArrayClass(arrClassName)
+	return loader.loadArrayClass(arrClassName)
 }
 
-func (self *ClassLoader) ClassPath() *classpath.ClassPath {
-	return self.classPath
+func (loader *ClassLoader) ClassPath() *classpath.ClassPath {
+	return loader.classPath
 }
 
-func (self *ClassLoader) JLObjectClass() *Class {
+func (loader *ClassLoader) JLObjectClass() *Class {
 	return _jlObjectClass
 }
-func (self *ClassLoader) JLClassClass() *Class {
+func (loader *ClassLoader) JLClassClass() *Class {
 	return _jlClassClass
 }
-func (self *ClassLoader) JLStringClass() *Class {
+func (loader *ClassLoader) JLStringClass() *Class {
 	return _jlStringClass
 }
-func (self *ClassLoader) JLThreadClass() *Class {
+func (loader *ClassLoader) JLThreadClass() *Class {
 	return _jlThreadClass
 }
 
 // todo
-func (self *ClassLoader) GetPrimitiveClass(name string) *Class {
-	return self.getClass(name)
+func (loader *ClassLoader) GetPrimitiveClass(name string) *Class {
+	return loader.getClass(name)
 }
 
-func (self *ClassLoader) FindLoadedClass(name string) *Class {
-	if class, ok := self.classMap[name]; ok {
+func (loader *ClassLoader) FindLoadedClass(name string) *Class {
+	if class, ok := loader.classMap[name]; ok {
 		return class
 	}
 	return nil
 }
 
 // todo dangerous
-func (self *ClassLoader) getClass(name string) *Class {
-	if class, ok := self.classMap[name]; ok {
+func (loader *ClassLoader) getClass(name string) *Class {
+	if class, ok := loader.classMap[name]; ok {
 		return class
 	}
 	panic("class not loaded! " + name)
 }
 
-func (self *ClassLoader) LoadClass(name string) *Class {
-	if class, ok := self.classMap[name]; ok {
+func (loader *ClassLoader) LoadClass(name string) *Class {
+	if class, ok := loader.classMap[name]; ok {
 		// already loaded
 		return class
 	} else if name[0] == '[' {
 		// array class
-		return self._getRefArrayClass(name)
+		return loader._getRefArrayClass(name)
 	} else {
-		return self.reallyLoadClass(name)
+		return loader.reallyLoadClass(name)
 	}
 }
 
-func (self *ClassLoader) reallyLoadClass(name string) *Class {
-	cpEntry, data := self.readClassData(name)
-	class := self._loadClass(name, data)
+func (loader *ClassLoader) reallyLoadClass(name string) *Class {
+	cpEntry, data := loader.readClassData(name)
+	class := loader._loadClass(name, data)
 	class.loadedFrom = cpEntry
 
 	if options.VerboseClass {
@@ -175,8 +175,8 @@ func (self *ClassLoader) reallyLoadClass(name string) *Class {
 	return class
 }
 
-func (self *ClassLoader) readClassData(name string) (classpath.Entry, []byte) {
-	cpEntry, classData, err := self.classPath.ReadClass(name)
+func (loader *ClassLoader) readClassData(name string) (classpath.Entry, []byte) {
+	cpEntry, classData, err := loader.classPath.ReadClass(name)
 	if err != nil {
 		panic(jerrors.NewClassNotFoundError(SlashToDot(name)))
 	}
@@ -184,7 +184,7 @@ func (self *ClassLoader) readClassData(name string) (classpath.Entry, []byte) {
 	return cpEntry, classData
 }
 
-func (self *ClassLoader) parseClassData(name string, data []byte) *Class {
+func (loader *ClassLoader) parseClassData(name string, data []byte) *Class {
 	cf, err := classfile.Parse(data)
 	if err != nil {
 		// todo
@@ -194,18 +194,18 @@ func (self *ClassLoader) parseClassData(name string, data []byte) *Class {
 	return newClass(cf)
 }
 
-func (self *ClassLoader) _loadClass(name string, data []byte) *Class {
-	class := self.parseClassData(name, data)
+func (loader *ClassLoader) _loadClass(name string, data []byte) *Class {
+	class := loader.parseClassData(name, data)
 	hackClass(class)
-	self.resolveSuperClass(class)
-	self.resolveInterfaces(class)
+	loader.resolveSuperClass(class)
+	loader.resolveInterfaces(class)
 	calcStaticFieldSlotIds(class)
 	calcInstanceFieldSlotIds(class)
 	createVtable(class)
 	prepare(class)
 	// todo
-	//class.classLoader = self
-	self.classMap[name] = class
+	//class.classLoader = loader
+	loader.classMap[name] = class
 
 	if _jlClassClass != nil {
 		class.jClass = _jlClassClass.NewObj()
@@ -224,17 +224,17 @@ func hackClass(class *Class) {
 }
 
 // todo
-func (self *ClassLoader) resolveSuperClass(class *Class) {
+func (loader *ClassLoader) resolveSuperClass(class *Class) {
 	if class.superClassName != "" {
-		class.superClass = self.LoadClass(class.superClassName)
+		class.superClass = loader.LoadClass(class.superClassName)
 	}
 }
-func (self *ClassLoader) resolveInterfaces(class *Class) {
+func (loader *ClassLoader) resolveInterfaces(class *Class) {
 	interfaceCount := len(class.interfaceNames)
 	if interfaceCount > 0 {
 		class.interfaces = make([]*Class, interfaceCount)
 		for i, interfaceName := range class.interfaceNames {
-			class.interfaces[i] = self.LoadClass(interfaceName)
+			class.interfaces[i] = loader.LoadClass(interfaceName)
 		}
 	}
 }
@@ -274,6 +274,6 @@ func prepare(class *Class) {
 }
 
 // todo
-func (self *ClassLoader) DefineClass(name string, data []byte) *Class {
-	return self._loadClass(name, data)
+func (loader *ClassLoader) DefineClass(name string, data []byte) *Class {
+	return loader._loadClass(name, data)
 }

@@ -11,10 +11,10 @@ type NEW_ARRAY struct {
 	atype uint8
 }
 
-func (self *NEW_ARRAY) FetchOperands(reader *base.BytecodeReader) {
-	self.atype = reader.ReadUint8()
+func (instr *NEW_ARRAY) FetchOperands(reader *base.BytecodeReader) {
+	instr.atype = reader.ReadUint8()
 }
-func (self *NEW_ARRAY) Execute(frame *rtda.Frame) {
+func (instr *NEW_ARRAY) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	count := stack.PopInt()
 	if count < 0 {
@@ -22,16 +22,16 @@ func (self *NEW_ARRAY) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	arr := heap.NewPrimitiveArray(self.atype, uint(count))
+	arr := heap.NewPrimitiveArray(instr.atype, uint(count))
 	stack.PushRef(arr)
 }
 
 // Create new array of reference
 type ANEW_ARRAY struct{ base.Index16Instruction }
 
-func (self *ANEW_ARRAY) Execute(frame *rtda.Frame) {
+func (instr *ANEW_ARRAY) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()
-	kClass := cp.GetConstant(self.Index).(*heap.ConstantClass)
+	kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
 	componentClass := kClass.Class()
 
 	if componentClass.InitializationNotStarted() {
@@ -49,7 +49,6 @@ func (self *ANEW_ARRAY) Execute(frame *rtda.Frame) {
 		arr := heap.NewRefArray(componentClass, uint(count))
 		stack.PushRef(arr)
 	}
-
 }
 
 // Create new multidimensional array
@@ -58,17 +57,17 @@ type MULTI_ANEW_ARRAY struct {
 	dimensions uint8
 }
 
-func (self *MULTI_ANEW_ARRAY) FetchOperands(reader *base.BytecodeReader) {
-	self.index = reader.ReadUint16()
-	self.dimensions = reader.ReadUint8()
+func (instr *MULTI_ANEW_ARRAY) FetchOperands(reader *base.BytecodeReader) {
+	instr.index = reader.ReadUint16()
+	instr.dimensions = reader.ReadUint8()
 }
-func (self *MULTI_ANEW_ARRAY) Execute(frame *rtda.Frame) {
+func (instr *MULTI_ANEW_ARRAY) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()
-	kClass := cp.GetConstant(uint(self.index)).(*heap.ConstantClass)
+	kClass := cp.GetConstant(uint(instr.index)).(*heap.ConstantClass)
 	arrClass := kClass.Class()
 
 	stack := frame.OperandStack()
-	counts := stack.PopTops(uint(self.dimensions))
+	counts := stack.PopTops(uint(instr.dimensions))
 	if !_checkCounts(counts) {
 		frame.Thread().ThrowNegativeArraySizeException()
 	} else {

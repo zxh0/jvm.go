@@ -34,62 +34,61 @@ type ClassFile struct {
 	AttributeTable
 }
 
-func (self *ClassFile) read(reader *ClassReader) {
-	self.readAndCheckMagic(reader)
-	self.readVersions(reader)
-	self.readConstantPool(reader)
-	self.AccessFlags = reader.readUint16()
-	self.thisClass = reader.readUint16()
-	self.superClass = reader.readUint16()
-	self.interfaces = reader.readUint16s()
-	self.Fields = readMembers(reader, &self.ConstantPool)
-	self.Methods = readMembers(reader, &self.ConstantPool)
-	self.attributes = readAttributes(reader, &self.ConstantPool)
+func (cf *ClassFile) read(reader *ClassReader) {
+	cf.readAndCheckMagic(reader)
+	cf.readVersions(reader)
+	cf.readConstantPool(reader)
+	cf.AccessFlags = reader.readUint16()
+	cf.thisClass = reader.readUint16()
+	cf.superClass = reader.readUint16()
+	cf.interfaces = reader.readUint16s()
+	cf.Fields = readMembers(reader, &cf.ConstantPool)
+	cf.Methods = readMembers(reader, &cf.ConstantPool)
+	cf.attributes = readAttributes(reader, &cf.ConstantPool)
 }
 
-func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
+func (cf *ClassFile) readAndCheckMagic(reader *ClassReader) {
 	magic := reader.readUint32()
 	if magic != 0xCAFEBABE {
 		panic("Bad magic!")
 	}
 }
 
-func (self *ClassFile) readVersions(reader *ClassReader) {
-	self.minorVersion = reader.readUint16()
-	self.majorVersion = reader.readUint16()
+func (cf *ClassFile) readVersions(reader *ClassReader) {
+	cf.minorVersion = reader.readUint16()
+	cf.majorVersion = reader.readUint16()
 
-	switch self.majorVersion {
+	switch cf.majorVersion {
 	case 45:
 		return
 	case 46, 47, 48, 49, 50, 51, 52:
-		if self.minorVersion == 0 {
+		if cf.minorVersion == 0 {
 			return
 		}
 	}
 	panic("java.lang.UnsupportedClassVersionError!")
 }
 
-func (self *ClassFile) readConstantPool(reader *ClassReader) {
-	self.ConstantPool = ConstantPool{cf: self}
-	self.ConstantPool.read(reader)
+func (cf *ClassFile) readConstantPool(reader *ClassReader) {
+	cf.ConstantPool = ConstantPool{cf: cf}
+	cf.ConstantPool.read(reader)
 }
 
-func (self *ClassFile) ClassName() string {
-	return self.ConstantPool.getClassName(self.thisClass)
+func (cf *ClassFile) ClassName() string {
+	return cf.ConstantPool.getClassName(cf.thisClass)
 }
 
-
-func (self *ClassFile) SuperClassName() string {
-	if self.superClass != 0 {
-		return self.ConstantPool.getClassName(self.superClass)
+func (cf *ClassFile) SuperClassName() string {
+	if cf.superClass != 0 {
+		return cf.ConstantPool.getClassName(cf.superClass)
 	}
 	return ""
 }
 
-func (self *ClassFile) InterfaceNames() []string {
-	interfaceNames := make([]string, len(self.interfaces))
-	for i, cpIndex := range self.interfaces {
-		interfaceNames[i] = self.ConstantPool.getClassName(cpIndex)
+func (cf *ClassFile) InterfaceNames() []string {
+	interfaceNames := make([]string, len(cf.interfaces))
+	for i, cpIndex := range cf.interfaces {
+		interfaceNames[i] = cf.ConstantPool.getClassName(cpIndex)
 	}
 	return interfaceNames
 }

@@ -8,7 +8,7 @@ import (
 // Return void from method
 type RETURN struct{ base.NoOperandsInstruction }
 
-func (self *RETURN) Execute(frame *rtda.Frame) {
+func (instr *RETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	thread.PopFrame()
 }
@@ -16,7 +16,7 @@ func (self *RETURN) Execute(frame *rtda.Frame) {
 // Return reference from method
 type ARETURN struct{ base.NoOperandsInstruction }
 
-func (self *ARETURN) Execute(frame *rtda.Frame) {
+func (instr *ARETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
@@ -27,7 +27,7 @@ func (self *ARETURN) Execute(frame *rtda.Frame) {
 // Return double from method
 type DRETURN struct{ base.NoOperandsInstruction }
 
-func (self *DRETURN) Execute(frame *rtda.Frame) {
+func (instr *DRETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
@@ -38,7 +38,7 @@ func (self *DRETURN) Execute(frame *rtda.Frame) {
 // Return float from method
 type FRETURN struct{ base.NoOperandsInstruction }
 
-func (self *FRETURN) Execute(frame *rtda.Frame) {
+func (instr *FRETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
@@ -49,7 +49,7 @@ func (self *FRETURN) Execute(frame *rtda.Frame) {
 // Return int from method
 type IRETURN struct{ base.NoOperandsInstruction }
 
-func (self *IRETURN) Execute(frame *rtda.Frame) {
+func (instr *IRETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
@@ -60,7 +60,7 @@ func (self *IRETURN) Execute(frame *rtda.Frame) {
 // Return double from method
 type LRETURN struct{ base.NoOperandsInstruction }
 
-func (self *LRETURN) Execute(frame *rtda.Frame) {
+func (instr *LRETURN) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()

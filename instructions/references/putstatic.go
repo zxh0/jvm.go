@@ -12,20 +12,20 @@ type PUT_STATIC struct {
 	field *heap.Field
 }
 
-func (self *PUT_STATIC) Execute(frame *rtda.Frame) {
-	if self.field == nil {
+func (instr *PUT_STATIC) Execute(frame *rtda.Frame) {
+	if instr.field == nil {
 		cp := frame.Method().Class().ConstantPool()
-		kFieldRef := cp.GetConstant(self.Index).(*heap.ConstantFieldref)
-		self.field = kFieldRef.StaticField()
+		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldref)
+		instr.field = kFieldRef.StaticField()
 	}
 
-	class := self.field.Class()
+	class := instr.field.Class()
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread().InitClass(class)
 		return
 	}
 
-	val := frame.OperandStack().PopField(self.field.IsLongOrDouble)
-	self.field.PutStaticValue(val)
+	val := frame.OperandStack().PopField(instr.field.IsLongOrDouble)
+	instr.field.PutStaticValue(val)
 }

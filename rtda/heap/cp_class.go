@@ -15,15 +15,15 @@ func newConstantClass(classInfo cf.ConstantClassInfo) *ConstantClass {
 	}
 }
 
-func (self *ConstantClass) Class() *Class {
-	if self.class == nil {
-		self.resolve()
+func (cc *ConstantClass) Class() *Class {
+	if cc.class == nil {
+		cc.resolve()
 	}
-	return self.class
+	return cc.class
 }
 
 // todo
-func (self *ConstantClass) resolve() {
+func (cc *ConstantClass) resolve() {
 	// load class
-	self.class = bootLoader.LoadClass(self.name)
+	cc.class = bootLoader.LoadClass(cc.name)
 }

@@ -7,17 +7,17 @@ type ClassAttributes struct {
 	enclosingMethod *EnclosingMethod
 }
 
-func (self *ClassAttributes) SourceFile() string {
-	return self.sourceFile
+func (attrs *ClassAttributes) SourceFile() string {
+	return attrs.sourceFile
 }
-func (self *ClassAttributes) Signature() string {
-	return self.signature
+func (attrs *ClassAttributes) Signature() string {
+	return attrs.signature
 }
-func (self *ClassAttributes) AnnotationData() []byte {
-	return self.annotationData
+func (attrs *ClassAttributes) AnnotationData() []byte {
+	return attrs.annotationData
 }
-func (self *ClassAttributes) EnclosingMethod() *EnclosingMethod {
-	return self.enclosingMethod
+func (attrs *ClassAttributes) EnclosingMethod() *EnclosingMethod {
+	return attrs.enclosingMethod
 }
 
 type EnclosingMethod struct {
@@ -26,12 +26,12 @@ type EnclosingMethod struct {
 	methodDescriptor string
 }
 
-func (self *EnclosingMethod) ClassName() string {
-	return self.className
+func (em *EnclosingMethod) ClassName() string {
+	return em.className
 }
-func (self *EnclosingMethod) MethodName() string {
-	return self.methodName
+func (em *EnclosingMethod) MethodName() string {
+	return em.methodName
 }
-func (self *EnclosingMethod) MethodDescriptor() string {
-	return self.methodDescriptor
+func (em *EnclosingMethod) MethodDescriptor() string {
+	return em.methodDescriptor
 }

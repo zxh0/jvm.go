@@ -12,21 +12,21 @@ type GET_STATIC struct {
 	field *heap.Field
 }
 
-func (self *GET_STATIC) Execute(frame *rtda.Frame) {
-	if self.field == nil {
+func (instr *GET_STATIC) Execute(frame *rtda.Frame) {
+	if instr.field == nil {
 		cp := frame.Method().Class().ConstantPool()
-		kFieldRef := cp.GetConstant(self.Index).(*heap.ConstantFieldref)
-		self.field = kFieldRef.StaticField()
+		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldref)
+		instr.field = kFieldRef.StaticField()
 	}
 
-	class := self.field.Class()
+	class := instr.field.Class()
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC() // undo getstatic
 		frame.Thread().InitClass(class)
 		return
 	}
 
-	val := self.field.GetStaticValue()
+	val := instr.field.GetStaticValue()
 	stack := frame.OperandStack()
-	stack.PushField(val, self.field.IsLongOrDouble)
+	stack.PushField(val, instr.field.IsLongOrDouble)
 }

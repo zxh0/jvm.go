@@ -18,31 +18,31 @@ func Parse(cpOption string) *ClassPath {
 	return cp
 }
 
-func (self *ClassPath) parseBootAndExtClassPath() {
+func (cp *ClassPath) parseBootAndExtClassPath() {
 	// jre/lib/*
 	jreLibPath := filepath.Join(options.AbsJavaHome, "lib", "*")
-	self.addEntry(newWildcardEntry(jreLibPath))
+	cp.addEntry(newWildcardEntry(jreLibPath))
 
 	// jre/lib/ext/*
 	jreExtPath := filepath.Join(options.AbsJavaHome, "lib", "ext", "*")
-	self.addEntry(newWildcardEntry(jreExtPath))
+	cp.addEntry(newWildcardEntry(jreExtPath))
 }
 
-func (self *ClassPath) parseUserClassPath(cpOption string) {
+func (cp *ClassPath) parseUserClassPath(cpOption string) {
 	if cpOption == "" {
 		cpOption = "."
 	}
-	self.addEntry(newEntry(cpOption))
+	cp.addEntry(newEntry(cpOption))
 }
 
 // className: fully/qualified/ClassName
-func (self *ClassPath) ReadClass(className string) (Entry, []byte, error) {
+func (cp *ClassPath) ReadClass(className string) (Entry, []byte, error) {
 	className = className + ".class"
-	return self.readClass(className)
+	return cp.readClass(className)
 }
 
-func (self *ClassPath) String() string {
-	userClassPath := self.CompositeEntry.entries[2]
+func (cp *ClassPath) String() string {
+	userClassPath := cp.CompositeEntry.entries[2]
 	return userClassPath.String()
 }
 

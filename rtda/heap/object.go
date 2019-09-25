@@ -18,30 +18,30 @@ func newObj(class *Class, fields, extra interface{}) *Object {
 	return &Object{class, fields, extra, newMonitor(), &sync.RWMutex{}}
 }
 
-func (self *Object) String() string {
+func (obj *Object) String() string {
 	return fmt.Sprintf("{Object@%p class:%v extra:%v}",
-		self, self.class, self.extra)
+		obj, obj.class, obj.extra)
 }
 
 // getters & setters
-func (self *Object) Class() *Class {
-	return self.class
+func (obj *Object) Class() *Class {
+	return obj.class
 }
-func (self *Object) Monitor() *Monitor {
-	return self.monitor
+func (obj *Object) Monitor() *Monitor {
+	return obj.monitor
 }
-func (self *Object) Fields() interface{} {
-	return self.fields
+func (obj *Object) Fields() interface{} {
+	return obj.fields
 }
-func (self *Object) Extra() interface{} {
-	return self.extra
+func (obj *Object) Extra() interface{} {
+	return obj.extra
 }
-func (self *Object) SetExtra(extra interface{}) {
-	self.extra = extra
+func (obj *Object) SetExtra(extra interface{}) {
+	obj.extra = extra
 }
 
-func (self *Object) GetPrimitiveDescriptor() string {
-	switch self.class.name {
+func (obj *Object) GetPrimitiveDescriptor() string {
+	switch obj.class.name {
 	case "java/lang/Boolean":
 		return "Z"
 	case "java/lang/Byte":
@@ -64,9 +64,9 @@ func (self *Object) GetPrimitiveDescriptor() string {
 }
 
 // todo
-func (self *Object) initFields() {
-	fields := self.fields.([]interface{})
-	for class := self.class; class != nil; class = class.superClass {
+func (obj *Object) initFields() {
+	fields := obj.fields.([]interface{})
+	for class := obj.class; class != nil; class = class.superClass {
 		for _, f := range class.fields {
 			if !f.IsStatic() {
 				fields[f.slotId] = f.defaultValue()
@@ -76,25 +76,25 @@ func (self *Object) initFields() {
 }
 
 // state lock
-func (self *Object) LockState() {
-	self.lock.Lock()
+func (obj *Object) LockState() {
+	obj.lock.Lock()
 }
-func (self *Object) UnlockState() {
-	self.lock.Unlock()
+func (obj *Object) UnlockState() {
+	obj.lock.Unlock()
 }
-func (self *Object) RLockState() {
-	self.lock.RLock()
+func (obj *Object) RLockState() {
+	obj.lock.RLock()
 }
-func (self *Object) RUnlockState() {
-	self.lock.RUnlock()
+func (obj *Object) RUnlockState() {
+	obj.lock.RUnlock()
 }
 
 // reflection
-func (self *Object) GetFieldValue(fieldName, fieldDescriptor string) interface{} {
-	field := self.class.GetInstanceField(fieldName, fieldDescriptor)
-	return field.GetValue(self)
+func (obj *Object) GetFieldValue(fieldName, fieldDescriptor string) interface{} {
+	field := obj.class.GetInstanceField(fieldName, fieldDescriptor)
+	return field.GetValue(obj)
 }
-func (self *Object) SetFieldValue(fieldName, fieldDescriptor string, value interface{}) {
-	field := self.class.GetInstanceField(fieldName, fieldDescriptor)
-	field.PutValue(self, value)
+func (obj *Object) SetFieldValue(fieldName, fieldDescriptor string, value interface{}) {
+	field := obj.class.GetInstanceField(fieldName, fieldDescriptor)
+	field.PutValue(obj, value)
 }

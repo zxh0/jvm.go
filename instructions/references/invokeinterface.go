@@ -17,25 +17,25 @@ type INVOKE_INTERFACE struct {
 	argSlotCount uint
 }
 
-func (self *INVOKE_INTERFACE) FetchOperands(reader *base.BytecodeReader) {
-	self.index = uint(reader.ReadUint16())
+func (instr *INVOKE_INTERFACE) FetchOperands(reader *base.BytecodeReader) {
+	instr.index = uint(reader.ReadUint16())
 	reader.ReadUint8() // count
 	reader.ReadUint8() // must be 0
 }
 
-func (self *INVOKE_INTERFACE) Execute(frame *rtda.Frame) {
-	if self.kMethodRef == nil {
+func (instr *INVOKE_INTERFACE) Execute(frame *rtda.Frame) {
+	if instr.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
-		self.kMethodRef = cp.GetConstant(self.index).(*heap.ConstantInterfaceMethodref)
-		self.argSlotCount = self.kMethodRef.ArgSlotCount()
+		instr.kMethodRef = cp.GetConstant(instr.index).(*heap.ConstantInterfaceMethodref)
+		instr.argSlotCount = instr.kMethodRef.ArgSlotCount()
 	}
 
 	stack := frame.OperandStack()
-	ref := stack.TopRef(self.argSlotCount)
+	ref := stack.TopRef(instr.argSlotCount)
 	if ref == nil {
 		panic("NPE") // todo
 	}
 
-	method := self.kMethodRef.FindInterfaceMethod(ref)
+	method := instr.kMethodRef.FindInterfaceMethod(ref)
 	frame.Thread().InvokeMethod(method)
 }

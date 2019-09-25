@@ -21,34 +21,34 @@ func newZipEntry(path string) *ZipEntry {
 	return &ZipEntry{absZip, nil}
 }
 
-func (self *ZipEntry) readClass(className string) (Entry, []byte, error) {
-	if self.zipRC == nil {
-		err := self.openJar()
+func (entry *ZipEntry) readClass(className string) (Entry, []byte, error) {
+	if entry.zipRC == nil {
+		err := entry.openJar()
 		if err != nil {
-			return self, nil, err
+			return entry, nil, err
 		}
 	}
 
-	classFile := self.findClass(className)
+	classFile := entry.findClass(className)
 	if classFile == nil {
-		return self, nil, errors.New("class not found: " + className)
+		return entry, nil, errors.New("class not found: " + className)
 	}
 
 	data, err := readClass(classFile)
-	return self, data, err
+	return entry, data, err
 }
 
 // todo: close zip
-func (self *ZipEntry) openJar() error {
-	r, err := zip.OpenReader(self.absZip) // func OpenReader(name string) (*ReadCloser, error)
+func (entry *ZipEntry) openJar() error {
+	r, err := zip.OpenReader(entry.absZip) // func OpenReader(name string) (*ReadCloser, error)
 	if err == nil {
-		self.zipRC = r
+		entry.zipRC = r
 	}
 	return err
 }
 
-func (self *ZipEntry) findClass(className string) *zip.File {
-	for _, f := range self.zipRC.File {
+func (entry *ZipEntry) findClass(className string) *zip.File {
+	for _, f := range entry.zipRC.File {
 		if f.Name == className {
 			return f
 		}
@@ -70,6 +70,6 @@ func readClass(classFile *zip.File) ([]byte, error) {
 	return data, nil
 }
 
-func (self *ZipEntry) String() string {
-	return self.absZip
+func (entry *ZipEntry) String() string {
+	return entry.absZip
 }

@@ -13,6 +13,6 @@ func _fd(method func(frame *rtda.Frame), name, desc string) {
 	heap.RegisterNativeMethod("java/io/FileDescriptor", name, desc, method)
 }
 
-func set(frame *rtda.Frame)  {
+func set(frame *rtda.Frame) {
 	frame.OperandStack().PushLong(0)
 }

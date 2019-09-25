@@ -11,18 +11,18 @@ type ExceptionHandler struct {
 	catchType *ConstantClass
 }
 
-func (self *ExceptionHandler) HandlerPc() int {
-	return self.handlerPc
+func (et *ExceptionHandler) HandlerPc() int {
+	return et.handlerPc
 }
 
 type ExceptionTable struct {
 	handlers []*ExceptionHandler
 }
 
-func (self *ExceptionTable) copyExceptionTable(entries []cf.ExceptionTableEntry, rtCp *ConstantPool) {
-	self.handlers = make([]*ExceptionHandler, len(entries))
+func (et *ExceptionTable) copyExceptionTable(entries []cf.ExceptionTableEntry, rtCp *ConstantPool) {
+	et.handlers = make([]*ExceptionHandler, len(entries))
 	for i, entry := range entries {
-		self.handlers[i] = newExceptionHandler(entry, rtCp)
+		et.handlers[i] = newExceptionHandler(entry, rtCp)
 	}
 }
 
@@ -40,8 +40,8 @@ func newExceptionHandler(entry cf.ExceptionTableEntry, rtCp *ConstantPool) *Exce
 	return handler
 }
 
-func (self *ExceptionTable) FindExceptionHandler(exClass *Class, pc int) *ExceptionHandler {
-	for _, handler := range self.handlers {
+func (et *ExceptionTable) FindExceptionHandler(exClass *Class, pc int) *ExceptionHandler {
+	for _, handler := range et.handlers {
 		// jvms: The start_pc is inclusive and end_pc is exclusive
 		if pc >= handler.startPc && pc < handler.endPc {
 			if handler.catchType == nil || // catch all

@@ -8,7 +8,7 @@ import (
 // Divide double
 type DDIV struct{ base.NoOperandsInstruction }
 
-func (self *DDIV) Execute(frame *rtda.Frame) {
+func (instr *DDIV) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopDouble()
 	v1 := stack.PopDouble()
@@ -19,7 +19,7 @@ func (self *DDIV) Execute(frame *rtda.Frame) {
 // Divide float
 type FDIV struct{ base.NoOperandsInstruction }
 
-func (self *FDIV) Execute(frame *rtda.Frame) {
+func (instr *FDIV) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopFloat()
 	v1 := stack.PopFloat()
@@ -30,7 +30,7 @@ func (self *FDIV) Execute(frame *rtda.Frame) {
 // Divide int
 type IDIV struct{ base.NoOperandsInstruction }
 
-func (self *IDIV) Execute(frame *rtda.Frame) {
+func (instr *IDIV) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
@@ -46,7 +46,7 @@ func (self *IDIV) Execute(frame *rtda.Frame) {
 // Divide long
 type LDIV struct{ base.NoOperandsInstruction }
 
-func (self *LDIV) Execute(frame *rtda.Frame) {
+func (instr *LDIV) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopLong()
 	v1 := stack.PopLong()

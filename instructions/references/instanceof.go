@@ -9,12 +9,12 @@ import (
 // Determine if object is of given type
 type INSTANCE_OF struct{ base.Index16Instruction }
 
-func (self *INSTANCE_OF) Execute(frame *rtda.Frame) {
+func (instr *INSTANCE_OF) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	ref := stack.PopRef()
 
 	cp := frame.ConstantPool()
-	kClass := cp.GetConstant(self.Index).(*heap.ConstantClass)
+	kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
 	class := kClass.Class()
 
 	if ref == nil {

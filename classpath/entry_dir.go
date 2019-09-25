@@ -17,15 +17,15 @@ func newDirEntry(path string) *DirEntry {
 	return &DirEntry{absDir}
 }
 
-func (self *DirEntry) readClass(className string) (Entry, []byte, error) {
-	fileName := filepath.Join(self.absDir, className)
+func (entry *DirEntry) readClass(className string) (Entry, []byte, error) {
+	fileName := filepath.Join(entry.absDir, className)
 	data, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		return self, nil, err
+		return entry, nil, err
 	}
-	return self, data, nil
+	return entry, data, nil
 }
 
-func (self *DirEntry) String() string {
-	return self.absDir
+func (entry *DirEntry) String() string {
+	return entry.absDir
 }

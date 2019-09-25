@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strings"
+
 	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/classpath"
 	"github.com/zxh0/jvm.go/cmd"
 	"github.com/zxh0/jvm.go/options"
 	"github.com/zxh0/jvm.go/rtda/heap"
-	"os"
-	"strings"
 )
 
 func main() {

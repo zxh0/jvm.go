@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/zxh0/jvm.go/cmd"
 	"os"
 	"runtime/pprof"
 
 	"github.com/zxh0/jvm.go/classpath"
+	"github.com/zxh0/jvm.go/cmd"
 	"github.com/zxh0/jvm.go/interpreter"
 	"github.com/zxh0/jvm.go/jutil"
 	_ "github.com/zxh0/jvm.go/native"

@@ -14,7 +14,7 @@ jvm.go is a toy JVM (which is far from complete) programmed in Go. The main purp
 ```sh
 git clone https://github.com/zxh0/jvm.go.git
 cd jvm.go
-go build github.com/zxh0/jvm.go/jvmgo/cmd/java
+go build github.com/zxh0/jvm.go/cmd/java
 ```
 
 # Run jvm.go using your Java installation

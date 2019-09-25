@@ -1,13 +1,13 @@
 package instructions
 
 import (
-	"github.com/zxh0/jvm.go/rtda/heap"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
+	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func TestAConst(t *testing.T) {

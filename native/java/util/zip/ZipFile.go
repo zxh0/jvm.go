@@ -49,7 +49,7 @@ func open(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	nameObj := vars.GetRef(0)
 
-	name := rtda.GoString(nameObj)
+	name := heap.GoString(nameObj)
 	jzfile, err := openZip(name)
 	if err != nil {
 		// todo

@@ -3,6 +3,7 @@ package lang
 import (
 	"github.com/zxh0/jvm.go/jutil"
 	"github.com/zxh0/jvm.go/rtda"
+	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -31,7 +32,7 @@ func forName0(frame *rtda.Frame) {
 	initialize := vars.GetBoolean(1)
 	//jLoader := vars.GetRef(2)
 
-	goName := rtda.GoString(jName)
+	goName := heap.GoString(jName)
 	goName = jutil.ReplaceAll(goName, ".", "/")
 	goClass := frame.ClassLoader().LoadClass(goName)
 	jClass := goClass.JClass()
@@ -54,7 +55,7 @@ func getPrimitiveClass(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	nameObj := vars.GetRef(0)
 
-	name := rtda.GoString(nameObj)
+	name := heap.GoString(nameObj)
 	classLoader := frame.ClassLoader()
 	class := classLoader.GetPrimitiveClass(name)
 	classObj := class.JClass()

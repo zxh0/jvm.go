@@ -25,17 +25,17 @@ func i6di_getHostByAddr(frame *rtda.Frame) {
 	buf := t.GoBytes()
 	address := fmt.Sprintf("%d.%d.%d.%d", buf[0], buf[1], buf[2], buf[3])
 	if name, err := net.LookupAddr(address); err == nil {
-		frame.OperandStack().PushRef(rtda.JString(name[0]))
+		frame.OperandStack().PushRef(heap.JString(name[0]))
 	} else {
 		panic("not found from lookupAllHostAddr")
-		frame.OperandStack().PushRef(rtda.JString(""))
+		frame.OperandStack().PushRef(heap.JString(""))
 	}
 }
 
 //(Ljava/lang/String;)[Ljava/net/InetAddress;
 func i6di_lookupAllHostAddr(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	host := rtda.GoString(vars.GetRef(1))
+	host := heap.GoString(vars.GetRef(1))
 	address, _ := net.LookupHost(host)
 	constructorCount := uint(len(address))
 
@@ -57,7 +57,7 @@ func i6di_lookupAllHostAddr(frame *rtda.Frame) {
 	//	fmt.Println(thread)
 	//	thread.InvokeMethodWithShim(inetAddressGetByNameMethod, []interface{}{
 	//		constructorObjs[0],
-	//		rtda.JString(host),
+	//		heap.JString(host),
 	//	})
 	//}
 }

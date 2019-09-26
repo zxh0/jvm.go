@@ -2,7 +2,6 @@ package lang
 
 import (
 	"github.com/zxh0/jvm.go/jutil"
-	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
@@ -55,7 +54,7 @@ func getAnnotationByteArr(goBytes []byte) *heap.Object {
 
 func getSignatureStr(signature string) *heap.Object {
 	if signature != "" {
-		return rtda.JString(signature)
+		return heap.JString(signature)
 	}
 	return nil
 }

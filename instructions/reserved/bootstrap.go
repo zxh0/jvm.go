@@ -93,7 +93,7 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 		initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
 		stack.PushRef(mainThreadObj)        // this
 		stack.PushRef(_mainThreadGroup)     // group
-		stack.PushRef(rtda.JString("main")) // name
+		stack.PushRef(heap.JString("main")) // name
 		thread.InvokeMethod(initMethod)
 		return true
 	}
@@ -135,7 +135,7 @@ func execMain(thread *rtda.Thread) {
 func createArgs() *heap.Object {
 	jArgs := make([]*heap.Object, len(_args))
 	for i, arg := range _args {
-		jArgs[i] = rtda.JString(arg)
+		jArgs[i] = heap.JString(arg)
 	}
 
 	return heap.NewRefArray2(_classLoader.JLStringClass(), jArgs)

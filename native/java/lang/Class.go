@@ -121,8 +121,8 @@ func _createEnclosintMethodInfo(classLoader *heap.ClassLoader, emInfo *heap.Encl
 	enclosingClassObj := enclosingClass.JClass()
 	var methodNameObj, methodDescriptorObj *heap.Object
 	if emInfo.MethodName() != "" {
-		methodNameObj = rtda.JString(emInfo.MethodName())
-		methodDescriptorObj = rtda.JString(emInfo.MethodDescriptor())
+		methodNameObj = heap.JString(emInfo.MethodName())
+		methodDescriptorObj = heap.JString(emInfo.MethodDescriptor())
 	} else {
 		methodNameObj, methodDescriptorObj = nil, nil
 	}
@@ -153,7 +153,7 @@ func getInterfaces0(frame *rtda.Frame) {
 func getName0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	name := class.NameJlsFormat()
-	nameObj := rtda.JString(name)
+	nameObj := heap.JString(name)
 
 	stack := frame.OperandStack()
 	stack.PushRef(nameObj)
@@ -250,7 +250,7 @@ func getGenericSignature0(frame *rtda.Frame) {
 		if signature == "" {
 			frame.OperandStack().PushNull()
 		} else {
-			frame.OperandStack().PushRef(rtda.JString(signature))
+			frame.OperandStack().PushRef(heap.JString(signature))
 		}
 		return
 	}

@@ -109,7 +109,7 @@ func initConstantStaticFields(class *heap.Class) {
 				case "D":
 					staticSlots[slotId] = cp.GetConstant(kValIndex).(float64)
 				case "Ljava/lang/String;":
-					staticSlots[slotId] = JString(cp.GetConstant(kValIndex).(string))
+					staticSlots[slotId] = heap.JString(cp.GetConstant(kValIndex).(string))
 				}
 			}
 		}

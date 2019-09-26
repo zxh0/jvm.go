@@ -21,7 +21,7 @@ func (thread *Thread) throwExceptionV(className string) {
 	thread.throwException(className, "()V")
 }
 func (thread *Thread) throwExceptionS(className, msg string) {
-	msgObj := JString(msg)
+	msgObj := heap.JString(msg)
 	thread.throwException(className, "(Ljava/lang/String;)V", msgObj)
 }
 

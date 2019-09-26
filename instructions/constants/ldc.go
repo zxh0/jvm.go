@@ -32,7 +32,7 @@ func _ldc(frame *rtda.Frame, index uint) {
 	case float32:
 		stack.PushFloat(c.(float32))
 	case string:
-		internedStr := rtda.JString(c.(string))
+		internedStr := heap.JString(c.(string))
 		stack.PushRef(internedStr)
 	case *heap.ConstantClass:
 		kClass := c.(*heap.ConstantClass)

@@ -19,8 +19,8 @@ func intern(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	jStr := vars.GetThis()
 
-	goStr := rtda.GoString(jStr)
-	internedStr := rtda.InternString(goStr, jStr)
+	goStr := heap.GoString(jStr)
+	internedStr := heap.InternString(goStr, jStr)
 
 	stack := frame.OperandStack()
 	stack.PushRef(internedStr)

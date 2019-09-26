@@ -40,14 +40,14 @@ func getSystemTimeZoneID(frame *rtda.Frame) {
 			continue
 		}
 		zone := strings.Split(line, "\t")
-		if zone[0] == rtda.GoString(countryObj) {
+		if zone[0] == heap.GoString(countryObj) {
 			timezone = zone[2]
 			break
 		}
 	}
 
 	location, _ := time.LoadLocation(timezone)
-	zoneID := rtda.JString(location.String())
+	zoneID := heap.JString(location.String())
 	stack := frame.OperandStack()
 	stack.PushRef(zoneID)
 }

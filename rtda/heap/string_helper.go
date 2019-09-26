@@ -1,29 +1,27 @@
-package rtda
+package heap
 
 import (
 	"unicode/utf16"
-
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 // todo: is there a better way to create String?
 // go string -> java.lang.String
-func JString(goStr string) *heap.Object {
+func JString(goStr string) *Object {
 	internedStr := getInternedString(goStr)
 	if internedStr != nil {
 		return internedStr
 	}
 
 	chars := _stringToUtf16(goStr)
-	charArr := heap.NewCharArray(chars)
-	jStr := heap.BootLoader().JLStringClass().NewObj()
+	charArr := NewCharArray(chars)
+	jStr := BootLoader().JLStringClass().NewObj()
 	jStr.SetFieldValue("value", "[C", charArr)
 	return InternString(goStr, jStr)
 }
 
 // java.lang.String -> go string
-func GoString(jStr *heap.Object) string {
-	charArr := jStr.GetFieldValue("value", "[C").(*heap.Object)
+func GoString(jStr *Object) string {
+	charArr := jStr.GetFieldValue("value", "[C").(*Object)
 	return _utf16ToString(charArr.Chars())
 }
 

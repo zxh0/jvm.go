@@ -62,7 +62,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 			thread.InvokeMethodWithShim(methodConstructor, []interface{}{
 				methodObj,                                              // this
 				classObj,                                               // declaringClass
-				rtda.JString(method.Name()),                            // name
+				heap.JString(method.Name()),                            // name
 				getParameterTypeArr(method),                            // parameterTypes
 				getReturnType(method),                                  // returnType
 				getExceptionTypeArr(method),                            // checkedExceptions

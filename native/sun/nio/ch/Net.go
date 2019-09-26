@@ -33,27 +33,27 @@ func _net(method func(frame *rtda.Frame), name, desc string) {
 }
 
 func net_isExclusiveBindAvailable(frame *rtda.Frame) {
-	frame.OperandStack().PushInt(-1)
+	frame.PushInt(-1)
 }
 
 func net_pollinValue(frame *rtda.Frame) {
-	frame.OperandStack().PushInt(1)
+	frame.PushInt(1)
 }
 
 // Tells whether dual-IPv4/IPv6 sockets should be used.
 func net_isIPv6Available(frame *rtda.Frame) {
-	frame.OperandStack().PushBoolean(true)
+	frame.PushBoolean(true)
 }
 
 // Due to oddities SO_REUSEADDR on windows reuse is ignored
 // private static native int socket0(boolean preferIPv6, boolean stream, boolean reuse);
 func net_socket0(frame *rtda.Frame) {
-	//vars := frame.LocalVars()
-	//preferIPv6 := vars.GetBoolean(0)
-	//stream := vars.GetBoolean(1)
-	//reuse := vars.GetBoolean(2)
+	//vars := frame.
+	//preferIPv6 := frame.GetBooleanVar(0)
+	//stream := frame.GetBooleanVar(1)
+	//reuse := frame.GetBooleanVar(2)
 
-	frame.OperandStack().PushInt(100)
+	frame.PushInt(100)
 }
 
 // private static native void setIntOption0(FileDescriptor fd, boolean mayNeedConversion, int level, int opt, int arg)
@@ -64,10 +64,9 @@ func net_setIntOption0(frame *rtda.Frame) {
 
 // private static native void bind0(FileDescriptor fd, boolean preferIPv6, boolean useExclBind, InetAddress addr,int port)
 func net_bind0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	address := vars.GetRef(3)
-	port := vars.Get(4)
+	this := frame.GetThis()
+	address := frame.GetRefVar(3)
+	port := frame.GetLocalVar(4)
 
 	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").Ref
 	hostNameObj := holder.GetFieldValue("hostName", "Ljava/lang/String;").Ref
@@ -87,15 +86,14 @@ func net_listen(frame *rtda.Frame) {
 
 // private static native InetAddress localInetAddress(FileDescriptor fd) throws IOException;
 func net_localInetAddress(frame *rtda.Frame) {
-	//vars := frame.LocalVars()
-	//this := vars.GetThis()
+	//vars := frame.
+	//this := frame.GetThis()
 	//listen := this.Extra().(net.Listener)
 
 	inetAddress := heap.BootLoader().LoadClass("java/net/InetAddress")
 	inetObj := inetAddress.NewObj()
 
-	stack := frame.OperandStack()
-	stack.PushRef(inetObj)
+	frame.PushRef(inetObj)
 
 	//fmt.Println(inetAddress)
 	//fmt.Println(listen.Addr().String())
@@ -105,15 +103,13 @@ func net_localInetAddress(frame *rtda.Frame) {
 }
 
 func net_localPort(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 	listen := this.Extra().(net.Listener)
 
 	//fmt.Println(inetAddress)
 	address := listen.Addr().String()
 	lastIndex := strings.LastIndex(address, ":")
 
-	stack := frame.OperandStack()
 	port, _ := strconv.Atoi(address[lastIndex+1:])
-	stack.PushInt(int32(port))
+	frame.PushInt(int32(port))
 }

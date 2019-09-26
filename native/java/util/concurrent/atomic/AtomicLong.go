@@ -16,6 +16,5 @@ func _al(method func(frame *rtda.Frame), name, desc string) {
 // private static native boolean VMSupportsCS8();
 // ()Z
 func VMSupportsCS8(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	stack.PushBoolean(false) // todo sync/atomic
+	frame.PushBoolean(false) // todo sync/atomic
 }

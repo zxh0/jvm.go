@@ -27,10 +27,9 @@ func _raf(method func(frame *rtda.Frame), name, desc string) {
 // private native void open(String name, int mode) throws FileNotFoundException;
 // (Ljava/lang/String;)V
 func raf_open(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	name := vars.GetRef(1)
-	mode := vars.GetInt(2) //flag
+	this := frame.GetThis()
+	name := frame.GetRefVar(1)
+	mode := frame.GetIntVar(2) //flag
 	flag := 0
 
 	if mode&1 > 0 {
@@ -62,8 +61,7 @@ func raf_open(frame *rtda.Frame) {
 // private native void close0() throws IOException;
 // ()V
 func raf_close0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	goFile := this.Extra().(*os.File)
 	if err := goFile.Close(); err != nil {
@@ -74,11 +72,10 @@ func raf_close0(frame *rtda.Frame) {
 // private native void writeBytes(byte b[], int off, int len) throws IOException;
 // ([BIIZ)V
 func raf_writeBytes(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()       // this
-	byteArrObj := vars.GetRef(1) // b
-	offset := vars.GetInt(2)     // off
-	length := vars.GetInt(3)     // len
+	this := frame.GetThis()          // this
+	byteArrObj := frame.GetRefVar(1) // b
+	offset := frame.GetIntVar(2)     // off
+	length := frame.GetIntVar(3)     // len
 
 	goFile := this.Extra().(*os.File)
 
@@ -90,9 +87,8 @@ func raf_writeBytes(frame *rtda.Frame) {
 // private native void write0(int b) throws IOException;
 // (I)V
 func raf_write0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	intObj := vars.GetInt(1) // b
+	this := frame.GetThis()
+	intObj := frame.GetIntVar(1) // b
 
 	goFile := this.Extra().(*os.File)
 	//b := make([]byte, 4)
@@ -105,11 +101,10 @@ func raf_write0(frame *rtda.Frame) {
 // private native int readBytes(byte b[], int off, int len) throws IOException;
 // ([BII)I
 func raf_readBytes(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	buf := vars.GetRef(1)
-	off := vars.GetInt(2)
-	_len := vars.GetInt(3)
+	this := frame.GetThis()
+	buf := frame.GetRefVar(1)
+	off := frame.GetIntVar(2)
+	_len := frame.GetIntVar(3)
 
 	goFile := this.Extra().(*os.File)
 	goBuf := buf.GoBytes()
@@ -117,7 +112,7 @@ func raf_readBytes(frame *rtda.Frame) {
 
 	n, err := goFile.Read(goBuf)
 	if err == nil || n > 0 {
-		frame.OperandStack().PushInt(int32(n))
+		frame.PushInt(int32(n))
 	} else {
 		frame.Thread().ThrowIOException(err.Error())
 	}
@@ -126,8 +121,7 @@ func raf_readBytes(frame *rtda.Frame) {
 // public native int read() throws IOException;
 // ()I
 func raf_read0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	goFile := this.Extra().(*os.File)
 
@@ -139,16 +133,15 @@ func raf_read0(frame *rtda.Frame) {
 		frame.Thread().ThrowIOException(err.Error())
 	}
 	//n := binary.BigEndian.Uint32(b)
-	//frame.OperandStack().PushInt(int32(n))
-	frame.OperandStack().PushInt(int32(b[0]))
+	//frame.PushInt(int32(n))
+	frame.PushInt(int32(b[0]))
 }
 
 // private native void seek0(long pos) throws IOException;
 // (J)V
 func raf_seek0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	pos := vars.GetLong(1)
+	this := frame.GetThis()
+	pos := frame.GetLongVar(1)
 
 	goFile := this.Extra().(*os.File)
 
@@ -164,15 +157,14 @@ func raf_seek0(frame *rtda.Frame) {
 //  public native long getFilePointer() throws IOException;
 //  ()J
 func raf_getFilePointer(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	goFile := this.Extra().(*os.File)
 
 	if pos, err := goFile.Seek(0, os.SEEK_CUR); err != nil {
 		frame.Thread().ThrowIOException("Seek failed")
 	} else {
-		frame.OperandStack().PushLong(pos)
+		frame.PushLong(pos)
 	}
 
 }
@@ -180,8 +172,7 @@ func raf_getFilePointer(frame *rtda.Frame) {
 // public native long length() throws IOException;
 // java/io/RandomAccessFile#length()J
 func raf_length(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	goFile := this.Extra().(*os.File)
 
@@ -199,15 +190,14 @@ func raf_length(frame *rtda.Frame) {
 		frame.Thread().ThrowIOException("Seek failed")
 	}
 
-	frame.OperandStack().PushLong(end)
+	frame.PushLong(end)
 }
 
 // public native void setLength(long newLength) throws IOException;
 // (J)V
 func raf_setLength(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	//length := vars.GetLong(1)
+	this := frame.GetThis()
+	//length := frame.GetLongVar(1)
 
 	goFile := this.Extra().(*os.File)
 

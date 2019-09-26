@@ -21,11 +21,9 @@ func _ac(method func(frame *rtda.Frame), name, desc string) {
 // public static native <T> T doPrivileged(PrivilegedAction<T> action);
 // (Ljava/security/PrivilegedAction;)Ljava/lang/Object;
 func doPrivileged(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	action := vars.GetRef(0)
+	action := frame.GetRefVar(0)
 
-	stack := frame.OperandStack()
-	stack.PushRef(action)
+	frame.PushRef(action)
 
 	method := action.Class().GetInstanceMethod("run", "()Ljava/lang/Object;") // todo
 	frame.Thread().InvokeMethod(method)
@@ -65,5 +63,5 @@ func doPrivileged4(frame *rtda.Frame) {
 // ()Ljava/security/AccessControlContext;
 func getStackAccessControlContext(frame *rtda.Frame) {
 	// todo
-	frame.OperandStack().PushRef(nil)
+	frame.PushRef(nil)
 }

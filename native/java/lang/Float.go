@@ -19,21 +19,17 @@ func _float(method func(frame *rtda.Frame), name, desc string) {
 // public static native int floatToRawIntBits(float value);
 // (F)I
 func floatToRawIntBits(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	value := vars.GetFloat(0)
+	value := frame.GetFloatVar(0)
 	bits := math.Float32bits(value)
 
-	stack := frame.OperandStack()
-	stack.PushInt(int32(bits)) // todo
+	frame.PushInt(int32(bits)) // todo
 }
 
 // public static native float intBitsToFloat(int bits);
 // (I)F
 func intBitsToFloat(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	bits := vars.GetInt(0)
+	bits := frame.GetIntVar(0)
 	value := math.Float32frombits(uint32(bits))
 
-	stack := frame.OperandStack()
-	stack.PushFloat(value)
+	frame.PushFloat(value)
 }

@@ -19,23 +19,19 @@ func _double(method func(frame *rtda.Frame), name, desc string) {
 // public static native long doubleToRawLongBits(double value);
 // (D)J
 func doubleToRawLongBits(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	value := vars.GetDouble(0)
+	value := frame.GetDoubleVar(0)
 
 	// todo
 	bits := math.Float64bits(value)
-	stack := frame.OperandStack()
-	stack.PushLong(int64(bits))
+	frame.PushLong(int64(bits))
 }
 
 // public static native double longBitsToDouble(long bits);
 // (J)D
 func longBitsToDouble(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	bits := vars.GetLong(0)
+	bits := frame.GetLongVar(0)
 
 	// todo
 	value := math.Float64frombits(uint64(bits))
-	stack := frame.OperandStack()
-	stack.PushDouble(value)
+	frame.PushDouble(value)
 }

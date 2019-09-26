@@ -16,6 +16,5 @@ func _urlcp(method func(frame *rtda.Frame), name, desc string) {
 // private static native URL[] getLookupCacheURLs(ClassLoader var0);
 // (Ljava/lang/ClassLoader;)[Ljava/net/URL;
 func getLookupCacheURLs(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	stack.PushNull()
+	frame.PushNull()
 }

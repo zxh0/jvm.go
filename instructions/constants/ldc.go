@@ -22,22 +22,21 @@ func (instr *LDC_W) Execute(frame *rtda.Frame) {
 }
 
 func _ldc(frame *rtda.Frame, index uint) {
-	stack := frame.OperandStack()
 	cp := frame.ConstantPool()
 	c := cp.GetConstant(index)
 
 	switch c.(type) {
 	case int32:
-		stack.PushInt(c.(int32))
+		frame.PushInt(c.(int32))
 	case float32:
-		stack.PushFloat(c.(float32))
+		frame.PushFloat(c.(float32))
 	case string:
 		internedStr := heap.JString(c.(string))
-		stack.PushRef(internedStr)
+		frame.PushRef(internedStr)
 	case *heap.ConstantClass:
 		kClass := c.(*heap.ConstantClass)
 		classObj := kClass.Class().JClass()
-		stack.PushRef(classObj)
+		frame.PushRef(classObj)
 	default:
 		// todo
 		// ref to MethodType or MethodHandle
@@ -49,15 +48,14 @@ func _ldc(frame *rtda.Frame, index uint) {
 type LDC2_W struct{ base.Index16Instruction }
 
 func (instr *LDC2_W) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
 	cp := frame.ConstantPool()
 	c := cp.GetConstant(instr.Index)
 
 	switch c.(type) {
 	case int64:
-		stack.PushLong(c.(int64))
+		frame.PushLong(c.(int64))
 	case float64:
-		stack.PushDouble(c.(float64))
+		frame.PushDouble(c.(float64))
 	default:
 		jutil.Panicf("ldc2_w! %v", c)
 	}

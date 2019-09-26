@@ -19,7 +19,7 @@ func _cp(method func(frame *rtda.Frame), name, desc string) {
 func getLongAt0(frame *rtda.Frame) {
 	cp, index := _getPop(frame)
 	val := cp.GetConstant(index).(int64)
-	frame.OperandStack().PushLong(val)
+	frame.PushLong(val)
 }
 
 // private native String getUTF8At0(Object o, int i);
@@ -29,13 +29,12 @@ func getUTF8At0(frame *rtda.Frame) {
 	kUtf8 := cp.GetConstant(index).(*heap.ConstantUtf8)
 	goStr := kUtf8.Str()
 	jStr := heap.JString(goStr)
-	frame.OperandStack().PushRef(jStr)
+	frame.PushRef(jStr)
 }
 
 func _getPop(frame *rtda.Frame) (cp *heap.ConstantPool, index uint) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	index = uint(vars.GetInt(2))
+	this := frame.GetThis()
+	index = uint(frame.GetIntVar(2))
 	cp = this.Extra().(*heap.ConstantPool)
 	return
 }

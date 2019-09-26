@@ -6,22 +6,22 @@ import (
 
 // stack frame
 type Frame struct {
-	lower        *Frame // stack is implemented as linked list
-	thread       *Thread
-	method       *heap.Method
-	localVars    *LocalVars
-	operandStack *OperandStack
-	maxLocals    uint
-	maxStack     uint
-	nextPC       int // the next instruction after the call
-	onPopAction  func()
+	LocalVars
+	OperandStack
+	lower       *Frame // stack is implemented as linked list
+	thread      *Thread
+	method      *heap.Method
+	maxLocals   uint
+	maxStack    uint
+	nextPC      int // the next instruction after the call
+	onPopAction func()
 }
 
 // TODO
 func NewFrame(maxLocals, maxStack int) *Frame {
 	return &Frame{
-		localVars:    newLocalVars(uint(maxLocals)),
-		operandStack: newOperandStack(uint(maxStack)),
+		LocalVars:    newLocalVars(uint(maxLocals)),
+		OperandStack: newOperandStack(uint(maxStack)),
 	}
 }
 
@@ -31,8 +31,8 @@ func newFrame(thread *Thread, method *heap.Method) *Frame {
 		method:       method,
 		maxLocals:    method.MaxLocals(),
 		maxStack:     method.MaxStack(),
-		localVars:    newLocalVars(method.MaxLocals()),
-		operandStack: newOperandStack(method.MaxStack()),
+		LocalVars:    newLocalVars(method.MaxLocals()),
+		OperandStack: newOperandStack(method.MaxStack()),
 	}
 }
 
@@ -42,10 +42,10 @@ func (frame *Frame) reset(method *heap.Method) {
 	frame.lower = nil
 	frame.onPopAction = nil
 	if frame.maxLocals > 0 {
-		frame.localVars.clear()
+		frame.clearLocalVars()
 	}
 	if frame.maxStack > 0 {
-		frame.operandStack.Clear()
+		frame.ClearStack()
 	}
 }
 
@@ -55,12 +55,6 @@ func (frame *Frame) Thread() *Thread {
 }
 func (frame *Frame) Method() *heap.Method {
 	return frame.method
-}
-func (frame *Frame) LocalVars() *LocalVars {
-	return frame.localVars
-}
-func (frame *Frame) OperandStack() *OperandStack {
-	return frame.operandStack
 }
 func (frame *Frame) NextPC() int {
 	return frame.nextPC
@@ -85,16 +79,16 @@ func (frame *Frame) ConstantPool() *heap.ConstantPool {
 }
 
 func (frame *Frame) Load(idx uint, isLongOrDouble bool) {
-	slot := frame.LocalVars().Get(idx)
-	frame.OperandStack().PushSlot(slot)
+	slot := frame.GetLocalVar(idx)
+	frame.Push(slot)
 	if isLongOrDouble {
-		frame.OperandStack().PushNull()
+		frame.PushNull()
 	}
 }
 func (frame *Frame) Store(idx uint, isLongOrDouble bool) {
 	if isLongOrDouble {
-		frame.OperandStack().PopSlot()
+		frame.Pop()
 	}
-	slot := frame.OperandStack().PopSlot()
-	frame.LocalVars().Set(idx, slot)
+	slot := frame.Pop()
+	frame.SetLocalVar(idx, slot)
 }

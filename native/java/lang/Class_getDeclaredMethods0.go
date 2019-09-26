@@ -35,9 +35,8 @@ func init() {
 // private native Method[] getDeclaredMethods0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Method;
 func getDeclaredMethods0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	classObj := vars.GetThis()
-	publicOnly := vars.GetBoolean(1)
+	classObj := frame.GetThis()
+	publicOnly := frame.GetBooleanVar(1)
 
 	class := classObj.Extra().(*heap.Class)
 	methods := class.GetMethods(publicOnly)
@@ -46,8 +45,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 	methodClass := heap.BootLoader().LoadClass("java/lang/reflect/Method")
 	methodArr := methodClass.NewArray(methodCount)
 
-	stack := frame.OperandStack()
-	stack.PushRef(methodArr)
+	frame.PushRef(methodArr)
 
 	// create method objs
 	if methodCount > 0 {

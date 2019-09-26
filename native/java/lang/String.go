@@ -16,12 +16,10 @@ func _string(method func(frame *rtda.Frame), name, desc string) {
 // public native String intern();
 // ()Ljava/lang/String;
 func intern(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jStr := vars.GetThis()
+	jStr := frame.GetThis()
 
 	goStr := heap.GoString(jStr)
 	internedStr := heap.InternString(goStr, jStr)
 
-	stack := frame.OperandStack()
-	stack.PushRef(internedStr)
+	frame.PushRef(internedStr)
 }

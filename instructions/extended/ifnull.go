@@ -9,7 +9,7 @@ import (
 type IfNull struct{ base.BranchInstruction }
 
 func (instr *IfNull) Execute(frame *rtda.Frame) {
-	ref := frame.OperandStack().PopRef()
+	ref := frame.PopRef()
 	if ref == nil {
 		base.Branch(frame, instr.Offset)
 	}
@@ -19,7 +19,7 @@ func (instr *IfNull) Execute(frame *rtda.Frame) {
 type IfNonNull struct{ base.BranchInstruction }
 
 func (instr *IfNonNull) Execute(frame *rtda.Frame) {
-	ref := frame.OperandStack().PopRef()
+	ref := frame.PopRef()
 	if ref != nil {
 		base.Branch(frame, instr.Offset)
 	}

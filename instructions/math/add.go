@@ -9,42 +9,38 @@ import (
 type DAdd struct{ base.NoOperandsInstruction }
 
 func (instr *DAdd) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v1 := stack.PopDouble()
-	v2 := stack.PopDouble()
+	v1 := frame.PopDouble()
+	v2 := frame.PopDouble()
 	result := v1 + v2
-	stack.PushDouble(result)
+	frame.PushDouble(result)
 }
 
 // Add float
 type FAdd struct{ base.NoOperandsInstruction }
 
 func (instr *FAdd) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopFloat()
-	v1 := stack.PopFloat()
+	v2 := frame.PopFloat()
+	v1 := frame.PopFloat()
 	result := v1 + v2
-	stack.PushFloat(result)
+	frame.PushFloat(result)
 }
 
 // Add int
 type IAdd struct{ base.NoOperandsInstruction }
 
 func (instr *IAdd) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopInt()
-	v1 := stack.PopInt()
+	v2 := frame.PopInt()
+	v1 := frame.PopInt()
 	result := v1 + v2
-	stack.PushInt(result)
+	frame.PushInt(result)
 }
 
 // Add long
 type LAdd struct{ base.NoOperandsInstruction }
 
 func (instr *LAdd) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopLong()
-	v1 := stack.PopLong()
+	v2 := frame.PopLong()
+	v1 := frame.PopLong()
 	result := v1 + v2
-	stack.PushLong(result)
+	frame.PushLong(result)
 }

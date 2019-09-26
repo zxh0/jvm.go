@@ -25,11 +25,9 @@ type StackTraceElement struct {
 // private native Throwable fillInStackTrace(int dummy);
 // (I)Ljava/lang/Throwable;
 func fillInStackTrace(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetRef(0)
+	this := frame.GetRefVar(0)
 
-	stack := frame.OperandStack()
-	stack.PushRef(this)
+	frame.PushRef(this)
 
 	stes := createStackTraceElements(this, frame)
 	this.SetExtra(stes)
@@ -71,29 +69,25 @@ func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTrac
 // native int getStackTraceDepth();
 // ()I
 func getStackTraceDepth(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetRef(0)
+	this := frame.GetRefVar(0)
 
 	stes := this.Extra().([]*StackTraceElement)
 	depth := int32(len(stes))
 
-	stack := frame.OperandStack()
-	stack.PushInt(depth)
+	frame.PushInt(depth)
 }
 
 // native StackTraceElement getStackTraceElement(int index);
 // (I)Ljava/lang/StackTraceElement;
 func getStackTraceElement(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetRef(0)
-	index := vars.GetInt(1)
+	this := frame.GetRefVar(0)
+	index := frame.GetIntVar(1)
 
 	stes := this.Extra().([]*StackTraceElement)
 	ste := stes[index]
 
 	steObj := createStackTraceElementObj(ste, frame)
-	stack := frame.OperandStack()
-	stack.PushRef(steObj)
+	frame.PushRef(steObj)
 }
 
 func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) *heap.Object {

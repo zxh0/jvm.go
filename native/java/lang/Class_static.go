@@ -16,9 +16,8 @@ func init() {
 // (Ljava/lang/Class;)Z
 func desiredAssertionStatus0(frame *rtda.Frame) {
 	// todo
-	stack := frame.OperandStack()
-	//stack.PopRef() // this
-	stack.PushBoolean(false)
+	//frame.PopRef() // this
+	frame.PushBoolean(false)
 }
 
 // private static native Class<?> forName0(String name, boolean initialize,
@@ -27,10 +26,9 @@ func desiredAssertionStatus0(frame *rtda.Frame) {
 //     throws ClassNotFoundException;
 // (Ljava/lang/String;ZLjava/lang/ClassLoader;Ljava/lang/Class;)Ljava/lang/Class;
 func forName0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jName := vars.GetRef(0)
-	initialize := vars.GetBoolean(1)
-	//jLoader := vars.GetRef(2)
+	jName := frame.GetRefVar(0)
+	initialize := frame.GetBooleanVar(1)
+	//jLoader := frame.GetRefVar(2)
 
 	goName := heap.GoString(jName)
 	goName = jutil.ReplaceAll(goName, ".", "/")
@@ -44,22 +42,19 @@ func forName0(frame *rtda.Frame) {
 		// init class
 		thread.InitClass(goClass)
 	} else {
-		stack := frame.OperandStack()
-		stack.PushRef(jClass)
+		frame.PushRef(jClass)
 	}
 }
 
 // static native Class<?> getPrimitiveClass(String name);
 // (Ljava/lang/String;)Ljava/lang/Class;
 func getPrimitiveClass(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	nameObj := vars.GetRef(0)
+	nameObj := frame.GetRefVar(0)
 
 	name := heap.GoString(nameObj)
 	classLoader := frame.ClassLoader()
 	class := classLoader.GetPrimitiveClass(name)
 	classObj := class.JClass()
 
-	stack := frame.OperandStack()
-	stack.PushRef(classObj)
+	frame.PushRef(classObj)
 }

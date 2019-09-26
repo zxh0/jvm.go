@@ -22,18 +22,16 @@ func getCallerClass(frame *rtda.Frame) {
 	// top2 is the caller of method
 	callerFrame := frame.Thread().TopFrameN(2)
 	callerClass := callerFrame.Method().Class().JClass()
-	frame.OperandStack().PushRef(callerClass)
+	frame.PushRef(callerClass)
 }
 
 // public static native int getClassAccessFlags(Class<?> type);
 // (Ljava/lang/Class;)I
 func getClassAccessFlags(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	_type := vars.GetRef(0)
+	_type := frame.GetRefVar(0)
 
 	goClass := _type.Extra().(*heap.Class)
 	flags := goClass.GetAccessFlags()
 
-	stack := frame.OperandStack()
-	stack.PushInt(int32(flags))
+	frame.PushInt(int32(flags))
 }

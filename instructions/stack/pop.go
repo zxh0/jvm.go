@@ -9,15 +9,13 @@ import (
 type Pop struct{ base.NoOperandsInstruction }
 
 func (instr *Pop) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	stack.PopSlot()
+	frame.Pop()
 }
 
 // Pop the top one or two operand stack values
 type Pop2 struct{ base.NoOperandsInstruction }
 
 func (instr *Pop2) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	stack.PopSlot()
-	stack.PopSlot()
+	frame.Pop()
+	frame.Pop()
 }

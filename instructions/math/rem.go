@@ -11,37 +11,34 @@ import (
 type DRem struct{ base.NoOperandsInstruction }
 
 func (instr *DRem) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopDouble()
-	v1 := stack.PopDouble()
+	v2 := frame.PopDouble()
+	v1 := frame.PopDouble()
 	result := math.Mod(v1, v2) // todo
-	stack.PushDouble(result)
+	frame.PushDouble(result)
 }
 
 // Remainder float
 type FRem struct{ base.NoOperandsInstruction }
 
 func (instr *FRem) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopFloat()
-	v1 := stack.PopFloat()
+	v2 := frame.PopFloat()
+	v1 := frame.PopFloat()
 	result := float32(math.Mod(float64(v1), float64(v2))) // todo
-	stack.PushFloat(result)
+	frame.PushFloat(result)
 }
 
 // Remainder int
 type IRem struct{ base.NoOperandsInstruction }
 
 func (instr *IRem) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopInt()
-	v1 := stack.PopInt()
+	v2 := frame.PopInt()
+	v1 := frame.PopInt()
 
 	if v2 == 0 {
 		frame.Thread().ThrowDivByZero()
 	} else {
 		result := v1 % v2
-		stack.PushInt(result)
+		frame.PushInt(result)
 	}
 }
 
@@ -49,14 +46,13 @@ func (instr *IRem) Execute(frame *rtda.Frame) {
 type LRem struct{ base.NoOperandsInstruction }
 
 func (instr *LRem) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopLong()
-	v1 := stack.PopLong()
+	v2 := frame.PopLong()
+	v1 := frame.PopLong()
 
 	if v2 == 0 {
 		frame.Thread().ThrowDivByZero()
 	} else {
 		result := v1 % v2
-		stack.PushLong(result)
+		frame.PushLong(result)
 	}
 }

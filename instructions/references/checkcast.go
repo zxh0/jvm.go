@@ -19,9 +19,8 @@ func (instr *CheckCast) Execute(frame *rtda.Frame) {
 		instr.class = kClass.Class()
 	}
 
-	stack := frame.OperandStack()
-	ref := stack.PopRef()
-	stack.PushRef(ref)
+	ref := frame.PopRef()
+	frame.PushRef(ref)
 
 	if ref == nil {
 		return

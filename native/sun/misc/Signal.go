@@ -17,23 +17,19 @@ func _signal(method func(frame *rtda.Frame), name, desc string) {
 // private static native int findSignal(String string);
 // (Ljava/lang/String;)I
 func findSignal(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	vars.GetRef(0) // name
+	frame.GetRefVar(0) // name
 
-	stack := frame.OperandStack()
-	stack.PushInt(0) // todo
+	frame.PushInt(0) // todo
 }
 
 // private static native long handle0(int i, long l);
 // (IJ)J
 func handle0(frame *rtda.Frame) {
 	// todo
-	vars := frame.LocalVars()
-	vars.GetInt(0)
-	vars.GetLong(1)
+	frame.GetIntVar(0)
+	frame.GetLongVar(1)
 
-	stack := frame.OperandStack()
-	stack.PushLong(0)
+	frame.PushLong(0)
 }
 
 // private static native void raise0(int i);

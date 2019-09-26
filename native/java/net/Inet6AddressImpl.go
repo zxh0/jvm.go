@@ -20,30 +20,27 @@ func _i6di(method func(frame *rtda.Frame), name, desc string) {
 //([B)Ljava/lang/String;
 //String getHostByAddr(byte[] var1) throws UnknownHostException
 func i6di_getHostByAddr(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	t := vars.GetRef(1)
+	t := frame.GetRefVar(1)
 	buf := t.GoBytes()
 	address := fmt.Sprintf("%d.%d.%d.%d", buf[0], buf[1], buf[2], buf[3])
 	if name, err := net.LookupAddr(address); err == nil {
-		frame.OperandStack().PushRef(heap.JString(name[0]))
+		frame.PushRef(heap.JString(name[0]))
 	} else {
 		panic("not found from lookupAllHostAddr")
-		frame.OperandStack().PushRef(heap.JString(""))
+		frame.PushRef(heap.JString(""))
 	}
 }
 
 //(Ljava/lang/String;)[Ljava/net/InetAddress;
 func i6di_lookupAllHostAddr(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	host := heap.GoString(vars.GetRef(1))
+	host := heap.GoString(frame.GetRefVar(1))
 	address, _ := net.LookupHost(host)
 	constructorCount := uint(len(address))
 
 	inetAddress := heap.BootLoader().LoadClass("java/net/InetAddress")
 	inetAddressArr := inetAddress.NewArray(constructorCount)
 
-	stack := frame.OperandStack()
-	stack.PushRef(inetAddressArr)
+	frame.PushRef(inetAddressArr)
 
 	//TODO
 	//getByName descriptor:(Ljava/lang/String;)Ljava/net/InetAddress;

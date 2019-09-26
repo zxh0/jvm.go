@@ -9,7 +9,7 @@ import (
 type AThrow struct{ base.NoOperandsInstruction }
 
 func (instr *AThrow) Execute(frame *rtda.Frame) {
-	ex := frame.OperandStack().PopRef()
+	ex := frame.PopRef()
 	if ex == nil {
 		frame.Thread().ThrowNPE()
 		return
@@ -22,9 +22,8 @@ func (instr *AThrow) Execute(frame *rtda.Frame) {
 
 		handler := frame.Method().FindExceptionHandler(ex.Class(), pc)
 		if handler != nil {
-			stack := frame.OperandStack()
-			stack.Clear()
-			stack.PushRef(ex)
+			frame.ClearStack()
+			frame.PushRef(ex)
 			frame.SetNextPC(handler.HandlerPc())
 			return
 		}

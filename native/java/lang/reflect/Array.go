@@ -21,9 +21,8 @@ func _array(method func(frame *rtda.Frame), name, desc string) {
 //         throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
 // (Ljava/lang/Object;I)Ljava/lang/Object;
 func get(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	arr := vars.GetRef(0)
-	index := vars.GetInt(1)
+	arr := frame.GetRefVar(0)
+	index := frame.GetIntVar(1)
 
 	if arr == nil {
 		frame.Thread().ThrowNPE()
@@ -40,30 +39,29 @@ func get(frame *rtda.Frame) {
 
 	if !arr.IsPrimitiveArray() {
 		obj := arr.Refs()[index]
-		frame.OperandStack().PushRef(obj)
+		frame.PushRef(obj)
 		return
 	}
 
 	// primitive array
-	stack := frame.OperandStack()
 	primitiveDescriptor := arr.Class().Name()[1]
 	switch primitiveDescriptor {
 	case 'Z':
-		stack.PushBoolean(arr.Booleans()[index] == 1)
+		frame.PushBoolean(arr.Booleans()[index] == 1)
 	case 'B':
-		stack.PushInt(int32(arr.Bytes()[index]))
+		frame.PushInt(int32(arr.Bytes()[index]))
 	case 'C':
-		stack.PushInt(int32(arr.Chars()[index]))
+		frame.PushInt(int32(arr.Chars()[index]))
 	case 'S':
-		stack.PushInt(int32(arr.Shorts()[index]))
+		frame.PushInt(int32(arr.Shorts()[index]))
 	case 'I':
-		stack.PushInt(arr.Ints()[index])
+		frame.PushInt(arr.Ints()[index])
 	case 'J':
-		stack.PushLong(arr.Longs()[index])
+		frame.PushLong(arr.Longs()[index])
 	case 'F':
-		stack.PushFloat(arr.Floats()[index])
+		frame.PushFloat(arr.Floats()[index])
 	case 'D':
-		stack.PushDouble(arr.Doubles()[index])
+		frame.PushDouble(arr.Doubles()[index])
 	}
 
 	// boxing
@@ -74,10 +72,9 @@ func get(frame *rtda.Frame) {
 //        throws IllegalArgumentException, ArrayIndexOutOfBoundsException;
 // (Ljava/lang/Object;ILjava/lang/Object;)V
 func set(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	arr := vars.GetRef(0)
-	index := vars.GetInt(1)
-	value := vars.GetRef(2)
+	arr := frame.GetRefVar(0)
+	index := frame.GetIntVar(1)
+	value := frame.GetRefVar(2)
 
 	if arr == nil {
 		frame.Thread().ThrowNPE()
@@ -137,22 +134,19 @@ func set(frame *rtda.Frame) {
 // public static native int getLength(Object array) throws IllegalArgumentException;
 // (Ljava/lang/Object;)I
 func getLength(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	arr := vars.GetRef(0)
+	arr := frame.GetRefVar(0)
 
 	// todo IllegalArgumentException
 	_len := heap.ArrayLength(arr)
-	stack := frame.OperandStack()
-	stack.PushInt(_len)
+	frame.PushInt(_len)
 }
 
 // private static native Object newArray(Class<?> componentType, int length)
 // throws NegativeArraySizeException;
 // (Ljava/lang/Class;I)Ljava/lang/Object;
 func newArray(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	componentType := vars.GetRef(0)
-	length := vars.GetInt(1)
+	componentType := frame.GetRefVar(0)
+	length := frame.GetIntVar(1)
 	if length < 0 {
 		// todo
 		panic("NegativeArraySizeException")
@@ -161,6 +155,5 @@ func newArray(frame *rtda.Frame) {
 	componentClass := componentType.Extra().(*heap.Class)
 	arrObj := componentClass.NewArray(uint(length))
 
-	stack := frame.OperandStack()
-	stack.PushRef(arrObj)
+	frame.PushRef(arrObj)
 }

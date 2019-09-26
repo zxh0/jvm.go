@@ -32,45 +32,39 @@ func init() {
 // public native long allocateMemory(long bytes);
 // (J)J
 func allocateMemory(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	// vars.GetRef(0) // this
-	bytes := vars.GetLong(1)
+	// frame.GetRefVar(0) // this
+	bytes := frame.GetLongVar(1)
 
 	address := allocate(bytes)
-	stack := frame.OperandStack()
-	stack.PushLong(address)
+	frame.PushLong(address)
 }
 
 // public native long reallocateMemory(long address, long bytes);
 // (JJ)J
 func reallocateMemory(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	// vars.GetRef(0) // this
-	address := vars.GetLong(1)
-	bytes := vars.GetLong(3)
+	// frame.GetRefVar(0) // this
+	address := frame.GetLongVar(1)
+	bytes := frame.GetLongVar(3)
 
 	newAddress := reallocate(address, bytes)
-	stack := frame.OperandStack()
-	stack.PushLong(newAddress)
+	frame.PushLong(newAddress)
 }
 
 // public native void freeMemory(long address);
 // (J)V
 func freeMemory(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	// vars.GetRef(0) // this
-	address := vars.GetLong(1)
+	// frame.GetRefVar(0) // this
+	address := frame.GetLongVar(1)
 	free(address)
 }
 
 // public native int addressSize();
 // ()I
 func addressSize(frame *rtda.Frame) {
-	// vars := frame.LocalVars()
-	// vars.GetRef(0) // this
+	// vars := frame.
+	// frame.GetRefVar(0) // this
 
-	stack := frame.OperandStack()
-	stack.PushInt(8) // todo unsafe.Sizeof(int)
+	frame.PushInt(8) // todo unsafe.Sizeof(int)
 }
 
 // public native void putAddress(long address, long x);
@@ -95,8 +89,8 @@ func mem_putByte(frame *rtda.Frame) {
 // public native byte getByte(long address);
 // (J)B
 func mem_getByte(frame *rtda.Frame) {
-	stack, mem := _get(frame)
-	stack.PushInt(int32(bigendian.Int8(mem)))
+	mem := _get(frame)
+	frame.PushInt(int32(bigendian.Int8(mem)))
 }
 
 // public native void putShort(long address, short x);
@@ -109,8 +103,8 @@ func mem_putShort(frame *rtda.Frame) {
 // public native short getShort(long address);
 // (J)S
 func mem_getShort(frame *rtda.Frame) {
-	stack, mem := _get(frame)
-	stack.PushInt(int32(bigendian.Int16(mem)))
+	mem := _get(frame)
+	frame.PushInt(int32(bigendian.Int16(mem)))
 }
 
 // public native void putChar(long address, char x);
@@ -123,8 +117,8 @@ func mem_putChar(frame *rtda.Frame) {
 // public native char getChar(long address);
 // (J)C
 func mem_getChar(frame *rtda.Frame) {
-	stack, mem := _get(frame)
-	stack.PushInt(int32(bigendian.Uint16(mem)))
+	mem := _get(frame)
+	frame.PushInt(int32(bigendian.Uint16(mem)))
 }
 
 // public native void putInt(long address, int x);
@@ -137,8 +131,8 @@ func mem_putInt(frame *rtda.Frame) {
 // public native int getInt(long address);
 // (J)I
 func mem_getInt(frame *rtda.Frame) {
-	stack, mem := _get(frame)
-	stack.PushInt(bigendian.Int32(mem))
+	mem := _get(frame)
+	frame.PushInt(bigendian.Int32(mem))
 }
 
 // public native void putLong(long address, long x);
@@ -151,8 +145,8 @@ func mem_putLong(frame *rtda.Frame) {
 // public native long getLong(long address);
 // (J)J
 func mem_getLong(frame *rtda.Frame) {
-	stack, mem := _get(frame)
-	stack.PushLong(bigendian.Int64(mem))
+	mem := _get(frame)
+	frame.PushLong(bigendian.Int64(mem))
 }
 
 // public native void putFloat(long address, float x);
@@ -165,8 +159,8 @@ func mem_putFloat(frame *rtda.Frame) {
 // public native float getFloat(long address);
 // (J)J
 func mem_getFloat(frame *rtda.Frame) {
-	stack, mem := _get(frame)
-	stack.PushFloat(bigendian.Float32(mem))
+	mem := _get(frame)
+	frame.PushFloat(bigendian.Float32(mem))
 }
 
 // public native void putDouble(long address, double x);
@@ -179,26 +173,21 @@ func mem_putDouble(frame *rtda.Frame) {
 // public native double getDouble(long address);
 // (J)J
 func mem_getDouble(frame *rtda.Frame) {
-	stack, mem := _get(frame)
-	stack.PushDouble(bigendian.Float64(mem))
+	mem := _get(frame)
+	frame.PushDouble(bigendian.Float64(mem))
 }
 
 func _put(frame *rtda.Frame) ([]byte, heap.Slot) {
-	vars := frame.LocalVars()
-	// vars.GetRef(0) // this
-	address := vars.GetLong(1)
-	value := vars.Get(3)
+	// frame.GetRefVar(0) // this
+	address := frame.GetLongVar(1)
+	value := frame.GetLocalVar(3)
 
 	mem := memoryAt(address)
 	return mem, value
 }
 
-func _get(frame *rtda.Frame) (*rtda.OperandStack, []byte) {
-	vars := frame.LocalVars()
-	// vars.GetRef(0) // this
-	address := vars.GetLong(1)
-
-	stack := frame.OperandStack()
-	mem := memoryAt(address)
-	return stack, mem
+func _get(frame *rtda.Frame) []byte {
+	// frame.GetRefVar(0) // this
+	address := frame.GetLongVar(1)
+	return memoryAt(address)
 }

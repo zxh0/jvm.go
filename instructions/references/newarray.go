@@ -15,15 +15,14 @@ func (instr *NewArray) FetchOperands(reader *base.BytecodeReader) {
 	instr.atype = reader.ReadUint8()
 }
 func (instr *NewArray) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	count := stack.PopInt()
+	count := frame.PopInt()
 	if count < 0 {
 		frame.Thread().ThrowNegativeArraySizeException()
 		return
 	}
 
 	arr := heap.NewPrimitiveArray(instr.atype, uint(count))
-	stack.PushRef(arr)
+	frame.PushRef(arr)
 }
 
 // Create new array of reference
@@ -41,13 +40,12 @@ func (instr *ANewArray) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	stack := frame.OperandStack()
-	count := stack.PopInt()
+	count := frame.PopInt()
 	if count < 0 {
 		frame.Thread().ThrowNegativeArraySizeException()
 	} else {
 		arr := heap.NewRefArray(componentClass, uint(count))
-		stack.PushRef(arr)
+		frame.PushRef(arr)
 	}
 }
 
@@ -66,13 +64,12 @@ func (instr *MultiANewArray) Execute(frame *rtda.Frame) {
 	kClass := cp.GetConstant(uint(instr.index)).(*heap.ConstantClass)
 	arrClass := kClass.Class()
 
-	stack := frame.OperandStack()
-	counts := stack.PopTops(uint(instr.dimensions))
+	counts := frame.PopTops(uint(instr.dimensions))
 	if !_checkCounts(counts) {
 		frame.Thread().ThrowNegativeArraySizeException()
 	} else {
 		arr := _newMultiArray(counts, arrClass)
-		stack.PushRef(arr)
+		frame.PushRef(arr)
 	}
 }
 

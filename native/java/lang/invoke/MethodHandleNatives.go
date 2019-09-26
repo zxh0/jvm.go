@@ -20,22 +20,20 @@ func _mhn(method func(frame *rtda.Frame), name, desc string) {
 // static native int getConstant(int which);
 // (I)I
 func getConstant(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	which := vars.GetInt(0)
+	which := frame.GetIntVar(0)
 
 	if which == 4 {
-		frame.OperandStack().PushInt(1)
+		frame.PushInt(1)
 	} else {
-		frame.OperandStack().PushInt(0)
+		frame.PushInt(0)
 	}
 }
 
 // static native void init(MemberName self, Object ref);
 // (Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V
 func mhn_init(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	mn := vars.GetRef(0)
-	ref := vars.GetRef(1)
+	mn := frame.GetRefVar(0)
+	ref := frame.GetRefVar(1)
 
 	if ref.Class().Name() == "java/lang/reflect/Method" {
 		classObj := ref.GetFieldValue("clazz", "Ljava/lang/Class;").Ref
@@ -55,11 +53,9 @@ func mhn_init(frame *rtda.Frame) {
 // static native MemberName resolve(MemberName self, Class<?> caller) throws LinkageError;
 // (Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;
 func resolve(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	mn := vars.GetRef(0)
-	// caller := vars.GetRef(1)
+	mn := frame.GetRefVar(0)
+	// caller := frame.GetRefVar(1)
 
 	// panic("todo resolve")
-	stack := frame.OperandStack()
-	stack.PushRef(mn)
+	frame.PushRef(mn)
 }

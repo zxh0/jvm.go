@@ -9,14 +9,13 @@ import (
 type LCMP struct{ base.NoOperandsInstruction }
 
 func (instr *LCMP) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopLong()
-	v1 := stack.PopLong()
+	v2 := frame.PopLong()
+	v1 := frame.PopLong()
 	if v1 > v2 {
-		stack.PushInt(1)
+		frame.PushInt(1)
 	} else if v1 == v2 {
-		stack.PushInt(0)
+		frame.PushInt(0)
 	} else {
-		stack.PushInt(-1)
+		frame.PushInt(-1)
 	}
 }

@@ -20,8 +20,7 @@ func (instr *InvokeVirtual) Execute(frame *rtda.Frame) {
 		instr.argSlotCount = instr.kMethodRef.ArgSlotCount()
 	}
 
-	stack := frame.OperandStack()
-	ref := stack.TopRef(instr.argSlotCount)
+	ref := frame.TopRef(instr.argSlotCount)
 	if ref == nil {
 		frame.Thread().ThrowNPE()
 		return

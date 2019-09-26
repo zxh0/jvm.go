@@ -27,6 +27,5 @@ func (instr *GetStatic) Execute(frame *rtda.Frame) {
 	}
 
 	val := instr.field.GetStaticValue()
-	stack := frame.OperandStack()
-	stack.PushField(val, instr.field.IsLongOrDouble)
+	frame.PushL(val, instr.field.IsLongOrDouble)
 }

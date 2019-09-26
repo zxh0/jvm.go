@@ -27,5 +27,5 @@ func (instr *New) Execute(frame *rtda.Frame) {
 	}
 
 	ref := instr.class.NewObj()
-	frame.OperandStack().PushRef(ref)
+	frame.PushRef(ref)
 }

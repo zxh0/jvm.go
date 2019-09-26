@@ -9,37 +9,34 @@ import (
 type DDiv struct{ base.NoOperandsInstruction }
 
 func (instr *DDiv) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopDouble()
-	v1 := stack.PopDouble()
+	v2 := frame.PopDouble()
+	v1 := frame.PopDouble()
 	result := v1 / v2
-	stack.PushDouble(result)
+	frame.PushDouble(result)
 }
 
 // Divide float
 type FDiv struct{ base.NoOperandsInstruction }
 
 func (instr *FDiv) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopFloat()
-	v1 := stack.PopFloat()
+	v2 := frame.PopFloat()
+	v1 := frame.PopFloat()
 	result := v1 / v2
-	stack.PushFloat(result)
+	frame.PushFloat(result)
 }
 
 // Divide int
 type IDiv struct{ base.NoOperandsInstruction }
 
 func (instr *IDiv) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopInt()
-	v1 := stack.PopInt()
+	v2 := frame.PopInt()
+	v1 := frame.PopInt()
 
 	if v2 == 0 {
 		frame.Thread().ThrowDivByZero()
 	} else {
 		result := v1 / v2
-		stack.PushInt(result)
+		frame.PushInt(result)
 	}
 }
 
@@ -47,14 +44,13 @@ func (instr *IDiv) Execute(frame *rtda.Frame) {
 type LDiv struct{ base.NoOperandsInstruction }
 
 func (instr *LDiv) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopLong()
-	v1 := stack.PopLong()
+	v2 := frame.PopLong()
+	v1 := frame.PopLong()
 
 	if v2 == 0 {
 		frame.Thread().ThrowDivByZero()
 	} else {
 		result := v1 / v2
-		stack.PushLong(result)
+		frame.PushLong(result)
 	}
 }

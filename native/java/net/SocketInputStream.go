@@ -25,16 +25,15 @@ func sis_init(frame *rtda.Frame) {
 //private native int socketRead0(FileDescriptor fd, byte b[], int off, int len, int timeout)
 // java/net/SocketInputStream~socketRead0~(Ljava/io/FileDescriptor;[BIII)I
 func sis_socketRead0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	//this := vars.GetThis()
-	fd := vars.GetRef(1)
-	buf := vars.GetRef(2)
-	off := vars.GetInt(3)
-	_len := vars.GetInt(4)
+	//this := frame.GetThis()
+	fd := frame.GetRefVar(1)
+	buf := frame.GetRefVar(2)
+	off := frame.GetIntVar(3)
+	_len := frame.GetIntVar(4)
 
 	conn := fd.Extra().(net.Conn)
 
-	_timeout := vars.GetInt(5)
+	_timeout := frame.GetIntVar(5)
 	if _timeout > 0 {
 		conn.SetDeadline(time.Now().Add(time.Duration(_timeout) * time.Millisecond))
 	}
@@ -44,7 +43,7 @@ func sis_socketRead0(frame *rtda.Frame) {
 
 	n, err := conn.Read(goBuf)
 	if err == nil || n > 0 || err == io.EOF {
-		frame.OperandStack().PushInt(int32(n))
+		frame.PushInt(int32(n))
 	} else {
 		// todo
 		panic(err.Error())

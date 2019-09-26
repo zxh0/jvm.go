@@ -19,5 +19,5 @@ func cge_initCocoa(frame *rtda.Frame) {
 }
 
 func cge_getMainDisplayID(frame *rtda.Frame) {
-	frame.OperandStack().PushInt(1)
+	frame.PushInt(1)
 }

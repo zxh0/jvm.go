@@ -21,9 +21,8 @@ func _tz(method func(frame *rtda.Frame), name, desc string) {
 // private static native String getSystemTimeZoneID(String javaHome, String country);
 // (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 func getSystemTimeZoneID(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	//javaHomeObj := vars.GetRef(0)
-	countryObj := vars.GetRef(1)
+	//javaHomeObj := frame.GetRefVar(0)
+	countryObj := frame.GetRefVar(1)
 
 	//for osx read system timezone
 	file, err := os.Open("/usr/share/zoneinfo/zone.tab")
@@ -48,6 +47,5 @@ func getSystemTimeZoneID(frame *rtda.Frame) {
 
 	location, _ := time.LoadLocation(timezone)
 	zoneID := heap.JString(location.String())
-	stack := frame.OperandStack()
-	stack.PushRef(zoneID)
+	frame.PushRef(zoneID)
 }

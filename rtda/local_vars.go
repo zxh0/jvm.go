@@ -8,65 +8,64 @@ type LocalVars struct {
 	slots []Slot
 }
 
-func newLocalVars(size uint) *LocalVars {
+func newLocalVars(size uint) LocalVars {
+	var slots []Slot = nil
 	if size > 0 {
-		slots := make([]Slot, size)
-		return &LocalVars{slots}
-	} else {
-		return nil
+		slots = make([]Slot, size)
 	}
+	return LocalVars{slots: slots}
 }
 
-func (lv *LocalVars) GetInt(index uint) int32 {
-	return lv.Get(index).IntValue()
+func (lv *LocalVars) GetIntVar(index uint) int32 {
+	return lv.GetLocalVar(index).IntValue()
 }
-func (lv *LocalVars) SetInt(index uint, val int32) {
-	lv.Set(index, heap.NewIntSlot(val))
-}
-
-func (lv *LocalVars) GetLong(index uint) int64 {
-	return lv.Get(index).LongValue()
-}
-func (lv *LocalVars) SetLong(index uint, val int64) {
-	lv.Set(index, heap.NewLongSlot(val))
+func (lv *LocalVars) SetIntVar(index uint, val int32) {
+	lv.SetLocalVar(index, heap.NewIntSlot(val))
 }
 
-func (lv *LocalVars) GetFloat(index uint) float32 {
-	return lv.Get(index).FloatValue()
+func (lv *LocalVars) GetLongVar(index uint) int64 {
+	return lv.GetLocalVar(index).LongValue()
 }
-func (lv *LocalVars) SetFloat(index uint, val float32) {
-	lv.Set(index, heap.NewFloatSlot(val))
-}
-
-func (lv *LocalVars) GetDouble(index uint) float64 {
-	return lv.Get(index).DoubleValue()
-}
-func (lv *LocalVars) SetDouble(index uint, val float64) {
-	lv.Set(index, heap.NewDoubleSlot(val))
+func (lv *LocalVars) SetLongVar(index uint, val int64) {
+	lv.SetLocalVar(index, heap.NewLongSlot(val))
 }
 
-func (lv *LocalVars) GetRef(index uint) *heap.Object {
-	return lv.Get(index).Ref
+func (lv *LocalVars) GetFloatVar(index uint) float32 {
+	return lv.GetLocalVar(index).FloatValue()
 }
-func (lv *LocalVars) SetRef(index uint, ref *heap.Object) {
-	lv.Set(index, heap.NewRefSlot(ref))
+func (lv *LocalVars) SetFloatVar(index uint, val float32) {
+	lv.SetLocalVar(index, heap.NewFloatSlot(val))
 }
 
-func (lv *LocalVars) Get(index uint) Slot {
+func (lv *LocalVars) GetDoubleVar(index uint) float64 {
+	return lv.GetLocalVar(index).DoubleValue()
+}
+func (lv *LocalVars) SetDoubleVar(index uint, val float64) {
+	lv.SetLocalVar(index, heap.NewDoubleSlot(val))
+}
+
+func (lv *LocalVars) GetRefVar(index uint) *heap.Object {
+	return lv.GetLocalVar(index).Ref
+}
+func (lv *LocalVars) SetRefVar(index uint, ref *heap.Object) {
+	lv.SetLocalVar(index, heap.NewRefSlot(ref))
+}
+
+func (lv *LocalVars) GetLocalVar(index uint) Slot {
 	return lv.slots[index]
 }
-func (lv *LocalVars) Set(index uint, slot Slot) {
+func (lv *LocalVars) SetLocalVar(index uint, slot Slot) {
 	lv.slots[index] = slot
 }
 
-func (lv *LocalVars) GetBoolean(index uint) bool {
-	return lv.GetInt(index) == 1
+func (lv *LocalVars) GetBooleanVar(index uint) bool {
+	return lv.GetIntVar(index) == 1
 }
 func (lv *LocalVars) GetThis() *heap.Object {
-	return lv.GetRef(0)
+	return lv.GetRefVar(0)
 }
 
-func (lv *LocalVars) clear() {
+func (lv *LocalVars) clearLocalVars() {
 	for i := range lv.slots {
 		lv.slots[i] = EmptySlot
 	}

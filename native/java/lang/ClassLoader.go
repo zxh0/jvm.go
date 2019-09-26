@@ -22,14 +22,13 @@ func _cl(method func(frame *rtda.Frame), name, desc string) {
 //                                      ProtectionDomain pd, String source);
 // (Ljava/lang/String;[BIILjava/security/ProtectionDomain;Ljava/lang/String;)Ljava/lang/Class;
 func defineClass1(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	name := vars.GetRef(1)
-	byteArr := vars.GetRef(2)
-	off := vars.GetInt(3)
-	_len := vars.GetInt(4)
-	// pd := vars.GetRef(5)
-	// source := vars.GetRef(6)
+	this := frame.GetThis()
+	name := frame.GetRefVar(1)
+	byteArr := frame.GetRefVar(2)
+	off := frame.GetIntVar(3)
+	_len := frame.GetIntVar(4)
+	// pd := frame.GetRefVar(5)
+	// source := frame.GetRefVar(6)
 
 	goBytes := byteArr.GoBytes()
 	goBytes = goBytes[off : off+_len]
@@ -46,44 +45,41 @@ func defineClass1(frame *rtda.Frame) {
 // private native Class<?> findBootstrapClass(String name);
 // (Ljava/lang/String;)Ljava/lang/Class;
 func findBootstrapClass(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	//this := vars.GetThis()
-	name := vars.GetRef(1)
+	//this := frame.GetThis()
+	name := frame.GetRefVar(1)
 
 	className := heap.DotToSlash(heap.GoString(name))
 	class := heap.BootLoader().LoadClass(className)
 
 	// todo: init class?
-	stack := frame.OperandStack()
-	stack.PushRef(class.JClass())
+	frame.PushRef(class.JClass())
 
 	// todo
 	if r := recover(); r != nil {
-		frame.OperandStack().PushRef(nil)
+		frame.PushRef(nil)
 	}
 }
 
 // private native final Class<?> findLoadedClass0(String name);
 // (Ljava/lang/String;)Ljava/lang/Class;
 func findLoadedClass0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	name := vars.GetRef(1)
+	this := frame.GetThis()
+	name := frame.GetRefVar(1)
 
 	className := heap.DotToSlash(heap.GoString(name))
 
 	if isAppClassLoader(this) {
 		class := heap.BootLoader().FindLoadedClass(className)
 		if class != nil {
-			frame.OperandStack().PushRef(class.JClass())
+			frame.PushRef(class.JClass())
 		} else {
-			frame.OperandStack().PushRef(nil)
+			frame.PushRef(nil)
 		}
 		return
 	}
 
 	// todo
-	frame.OperandStack().PushRef(nil)
+	frame.PushRef(nil)
 }
 
 // todo

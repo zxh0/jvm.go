@@ -37,9 +37,8 @@ func (instr *BOOTSTRAP) Execute(frame *rtda.Frame) {
 }
 
 func initVars(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	_mainClassName = vars.Get(0).GetHack().(string)
-	_args = vars.Get(1).GetHack().([]string)
+	_mainClassName = frame.GetLocalVar(0).GetHack().(string)
+	_args = frame.GetLocalVar(1).GetHack().([]string)
 	_bootClasses = []string{
 		"java/lang/Class",
 		"java/lang/String",
@@ -73,13 +72,13 @@ func mainClassNotReady(thread *rtda.Thread) bool {
 }
 
 func mainThreadNotReady(thread *rtda.Thread) bool {
-	stack := thread.CurrentFrame().OperandStack()
+	frame := thread.CurrentFrame()
 	if _mainThreadGroup == nil {
 		undoExec(thread)
 		threadGroupClass := _classLoader.LoadClass("java/lang/ThreadGroup")
 		_mainThreadGroup = threadGroupClass.NewObj()
 		initMethod := threadGroupClass.GetConstructor("()V")
-		stack.PushRef(_mainThreadGroup) // this
+		frame.PushRef(_mainThreadGroup) // this
 		thread.InvokeMethod(initMethod)
 		return true
 	}
@@ -91,9 +90,9 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 		thread.HackSetJThread(mainThreadObj)
 
 		initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
-		stack.PushRef(mainThreadObj)        // this
-		stack.PushRef(_mainThreadGroup)     // group
-		stack.PushRef(heap.JString("main")) // name
+		frame.PushRef(mainThreadObj)        // this
+		frame.PushRef(_mainThreadGroup)     // group
+		frame.PushRef(heap.JString("main")) // name
 		thread.InvokeMethod(initMethod)
 		return true
 	}
@@ -126,7 +125,7 @@ func execMain(thread *rtda.Thread) {
 		newFrame := thread.NewFrame(mainMethod)
 		thread.PushFrame(newFrame)
 		args := createArgs()
-		newFrame.LocalVars().SetRef(0, args)
+		newFrame.SetRefVar(0, args)
 	} else {
 		panic("no main method!") // todo
 	}

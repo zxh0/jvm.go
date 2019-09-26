@@ -33,10 +33,10 @@ func (instr *LoadN) Execute(frame *rtda.Frame) {
 type AALoad struct{ base.NoOperandsInstruction }
 
 func (instr *AALoad) Execute(frame *rtda.Frame) {
-	stack, arrRef, index, ok := _aLoadPop(frame)
+	arrRef, index, ok := _aLoadPop(frame)
 	if ok {
 		ref := arrRef.Refs()[index]
-		stack.PushRef(ref)
+		frame.PushRef(ref)
 	}
 }
 
@@ -44,10 +44,10 @@ func (instr *AALoad) Execute(frame *rtda.Frame) {
 type BALoad struct{ base.NoOperandsInstruction }
 
 func (instr *BALoad) Execute(frame *rtda.Frame) {
-	stack, arrRef, index, ok := _aLoadPop(frame)
+	arrRef, index, ok := _aLoadPop(frame)
 	if ok {
 		val := arrRef.Bytes()[index]
-		stack.PushInt(int32(val))
+		frame.PushInt(int32(val))
 	}
 }
 
@@ -55,10 +55,10 @@ func (instr *BALoad) Execute(frame *rtda.Frame) {
 type CALoad struct{ base.NoOperandsInstruction }
 
 func (instr *CALoad) Execute(frame *rtda.Frame) {
-	stack, arrRef, index, ok := _aLoadPop(frame)
+	arrRef, index, ok := _aLoadPop(frame)
 	if ok {
 		val := arrRef.Chars()[index]
-		stack.PushInt(int32(val))
+		frame.PushInt(int32(val))
 	}
 }
 
@@ -66,10 +66,10 @@ func (instr *CALoad) Execute(frame *rtda.Frame) {
 type DALoad struct{ base.NoOperandsInstruction }
 
 func (instr *DALoad) Execute(frame *rtda.Frame) {
-	stack, arrRef, index, ok := _aLoadPop(frame)
+	arrRef, index, ok := _aLoadPop(frame)
 	if ok {
 		val := arrRef.Doubles()[index]
-		stack.PushDouble(val)
+		frame.PushDouble(val)
 	}
 }
 
@@ -77,10 +77,10 @@ func (instr *DALoad) Execute(frame *rtda.Frame) {
 type FALoad struct{ base.NoOperandsInstruction }
 
 func (instr *FALoad) Execute(frame *rtda.Frame) {
-	stack, arrRef, index, ok := _aLoadPop(frame)
+	arrRef, index, ok := _aLoadPop(frame)
 	if ok {
 		val := arrRef.Floats()[index]
-		stack.PushFloat(val)
+		frame.PushFloat(val)
 	}
 }
 
@@ -88,10 +88,10 @@ func (instr *FALoad) Execute(frame *rtda.Frame) {
 type IALoad struct{ base.NoOperandsInstruction }
 
 func (instr *IALoad) Execute(frame *rtda.Frame) {
-	stack, arrRef, index, ok := _aLoadPop(frame)
+	arrRef, index, ok := _aLoadPop(frame)
 	if ok {
 		val := arrRef.Ints()[index]
-		stack.PushInt(val)
+		frame.PushInt(val)
 	}
 }
 
@@ -99,10 +99,10 @@ func (instr *IALoad) Execute(frame *rtda.Frame) {
 type LALoad struct{ base.NoOperandsInstruction }
 
 func (instr *LALoad) Execute(frame *rtda.Frame) {
-	stack, arrRef, index, ok := _aLoadPop(frame)
+	arrRef, index, ok := _aLoadPop(frame)
 	if ok {
 		val := arrRef.Longs()[index]
-		stack.PushLong(val)
+		frame.PushLong(val)
 	}
 }
 
@@ -110,26 +110,25 @@ func (instr *LALoad) Execute(frame *rtda.Frame) {
 type SALoad struct{ base.NoOperandsInstruction }
 
 func (instr *SALoad) Execute(frame *rtda.Frame) {
-	stack, arrRef, index, ok := _aLoadPop(frame)
+	arrRef, index, ok := _aLoadPop(frame)
 	if ok {
 		val := arrRef.Shorts()[index]
-		stack.PushInt(int32(val))
+		frame.PushInt(int32(val))
 	}
 }
 
-func _aLoadPop(frame *rtda.Frame) (*rtda.OperandStack, *heap.Object, int, bool) {
-	stack := frame.OperandStack()
-	index := stack.PopInt()
-	arrRef := stack.PopRef()
+func _aLoadPop(frame *rtda.Frame) (*heap.Object, int, bool) {
+	index := frame.PopInt()
+	arrRef := frame.PopRef()
 
 	if arrRef == nil {
 		frame.Thread().ThrowNPE()
-		return nil, nil, 0, false
+		return nil, 0, false
 	}
 	if index < 0 || index >= heap.ArrayLength(arrRef) {
 		frame.Thread().ThrowArrayIndexOutOfBoundsException(index)
-		return nil, nil, 0, false
+		return nil, 0, false
 	}
 
-	return stack, arrRef, int(index), true
+	return arrRef, int(index), true
 }

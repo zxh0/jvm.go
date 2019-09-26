@@ -21,8 +21,7 @@ func _ufs(method func(frame *rtda.Frame), name, desc string) {
 // private native String canonicalize0(String path) throws IOException;
 // (Ljava/lang/String;)Ljava/lang/String;
 func canonicalize0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	pathStr := vars.GetRef(1)
+	pathStr := frame.GetRefVar(1)
 
 	// todo
 	path := heap.GoString(pathStr)
@@ -31,15 +30,13 @@ func canonicalize0(frame *rtda.Frame) {
 		pathStr = heap.JString(path2)
 	}
 
-	stack := frame.OperandStack()
-	stack.PushRef(pathStr)
+	frame.PushRef(pathStr)
 }
 
 // public native int getBooleanAttributes0(File f);
 // (Ljava/io/File;)I
 func getBooleanAttributes0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	fileObj := vars.GetRef(1)
+	fileObj := frame.GetRefVar(1)
 	path := _getPath(fileObj)
 
 	// todo
@@ -51,8 +48,7 @@ func getBooleanAttributes0(frame *rtda.Frame) {
 		attributes0 |= 0x04
 	}
 
-	stack := frame.OperandStack()
-	stack.PushInt(int32(attributes0))
+	frame.PushInt(int32(attributes0))
 }
 
 func _getPath(fileObj *heap.Object) string {
@@ -85,14 +81,12 @@ func _isDir(path string) bool {
 // public native long getLastModifiedTime(File f);
 //
 func getLastModifiedTime(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	fileObj := vars.GetRef(1)
+	fileObj := frame.GetRefVar(1)
 
 	path := _getPath(fileObj)
 	t := _getLastModifiedTime(path)
 
-	stack := frame.OperandStack()
-	stack.PushLong(t)
+	frame.PushLong(t)
 }
 
 func _getLastModifiedTime(path string) int64 {

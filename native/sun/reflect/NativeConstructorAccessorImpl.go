@@ -17,9 +17,8 @@ func _ncai(method func(frame *rtda.Frame), name, desc string) {
 // throws InstantiationException, IllegalArgumentException, InvocationTargetException;
 // (Ljava/lang/reflect/Constructor;[Ljava/lang/Object;)Ljava/lang/Object;
 func newInstance0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	constructorObj := vars.GetRef(0)
-	argArrObj := vars.GetRef(1)
+	constructorObj := frame.GetRefVar(0)
+	argArrObj := frame.GetRefVar(1)
 
 	goConstructor := getGoConstructor(constructorObj)
 	goClass := goConstructor.Class()
@@ -30,8 +29,7 @@ func newInstance0(frame *rtda.Frame) {
 	}
 
 	obj := goClass.NewObj()
-	stack := frame.OperandStack()
-	stack.PushRef(obj)
+	frame.PushRef(obj)
 
 	// call <init>
 	args := convertArgs(obj, argArrObj, goConstructor)

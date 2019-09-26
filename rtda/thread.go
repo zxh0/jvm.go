@@ -102,7 +102,7 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 	thread.PushFrame(newFrame)
 	argSlotsCount := method.ArgSlotCount()
 	if argSlotsCount > 0 {
-		_passArgs(currentFrame.operandStack, newFrame.localVars, argSlotsCount)
+		_passArgs(&currentFrame.OperandStack, &newFrame.LocalVars, argSlotsCount)
 	}
 
 	if method.IsSynchronized() {
@@ -111,7 +111,7 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 			classObj := method.Class().JClass()
 			monitor = classObj.Monitor()
 		} else {
-			thisObj := newFrame.LocalVars().GetThis()
+			thisObj := newFrame.GetThis()
 			monitor = thisObj.Monitor()
 		}
 
@@ -126,7 +126,7 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argSlotsCount uint) {
 	for i := uint(0); i < argSlotsCount; i++ {
 		arg := args[i]
 		args[i] = EmptySlot
-		vars.Set(i, arg)
+		vars.SetLocalVar(i, arg)
 	}
 }
 func (thread *Thread) _logInvoke(stackSize uint, method *heap.Method) {
@@ -159,17 +159,16 @@ func (thread *Thread) HandleUncaughtException(ex *heap.Object) {
 
 	// call ex.printStackTrace(System.err)
 	newFrame := thread.NewFrame(printStackTrace)
-	vars := newFrame.localVars
-	vars.SetRef(0, ex)
-	vars.SetRef(1, sysErr)
+	newFrame.SetRefVar(0, ex)
+	newFrame.SetRefVar(1, sysErr)
 	thread.PushFrame(newFrame)
 
 	//
 	// printString := sysErr.Class().GetInstanceMethod("print", "(Ljava/lang/String;)V")
 	// newFrame = thread.NewFrame(printString)
 	// vars = newFrame.localVars
-	// vars.SetRef(0, sysErr)
-	// vars.SetRef(1, JString("Exception in thread \"main\" ", newFrame))
+	// vars.SetRefVar(0, sysErr)
+	// vars.SetRefVar(1, JString("Exception in thread \"main\" ", newFrame))
 	// thread.PushFrame(newFrame)
 }
 

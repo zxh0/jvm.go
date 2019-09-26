@@ -18,17 +18,15 @@ func _crc(method func(frame *rtda.Frame), name, desc string) {
 // private native static int updateBytes(int crc, byte[] b, int off, int len);
 // (I[BII)I
 func updateBytes(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	crc := uint32(vars.GetInt(0))
-	byteArr := vars.GetRef(1)
-	off := vars.GetInt(2)
-	_len := vars.GetInt(3)
+	crc := uint32(frame.GetIntVar(0))
+	byteArr := frame.GetRefVar(1)
+	off := frame.GetIntVar(2)
+	_len := frame.GetIntVar(3)
 
 	goBytes := byteArr.GoBytes()
 	goBytes = goBytes[off : off+_len]
 	// func Update(crc uint32, tab *Table, p []byte) uint32
 	crc = crc32.Update(crc, crc32.IEEETable, goBytes)
 
-	stack := frame.OperandStack()
-	stack.PushInt(int32(crc))
+	frame.PushInt(int32(crc))
 }

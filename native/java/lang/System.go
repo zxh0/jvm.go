@@ -28,12 +28,11 @@ func _system(method func(frame *rtda.Frame), name, desc string) {
 // public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
 // (Ljava/lang/Object;ILjava/lang/Object;II)V
 func arraycopy(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	src := vars.GetRef(0)
-	srcPos := vars.GetInt(1)
-	dest := vars.GetRef(2)
-	destPos := vars.GetInt(3)
-	length := vars.GetInt(4)
+	src := frame.GetRefVar(0)
+	srcPos := frame.GetIntVar(1)
+	dest := frame.GetRefVar(2)
+	destPos := frame.GetIntVar(3)
+	length := frame.GetIntVar(4)
 
 	// NullPointerException
 	if src == nil || dest == nil {
@@ -71,30 +70,25 @@ func checkArrayCopy(src, dest *heap.Object) bool {
 // ()J
 func currentTimeMillis(frame *rtda.Frame) {
 	millis := time.Now().UnixNano() / int64(time.Millisecond)
-	stack := frame.OperandStack()
-	stack.PushLong(millis)
+	frame.PushLong(millis)
 }
 
 // public static native int identityHashCode(Object x);
 // (Ljava/lang/Object;)I
 func identityHashCode(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	ref := vars.GetRef(0)
+	ref := frame.GetRefVar(0)
 
 	// todo
 	hashCode := int32(uintptr(unsafe.Pointer(ref)))
-	stack := frame.OperandStack()
-	stack.PushInt(hashCode)
+	frame.PushInt(hashCode)
 }
 
 // private static native Properties initProperties(Properties props);
 // (Ljava/util/Properties;)Ljava/util/Properties;
 func initProperties(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	props := vars.GetRef(0)
+	props := frame.GetRefVar(0)
 
-	stack := frame.OperandStack()
-	stack.PushRef(props)
+	frame.PushRef(props)
 
 	// public synchronized Object setProperty(String key, String value)
 	setPropMethod := props.Class().GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
@@ -136,15 +130,13 @@ func _sysProps() map[string]string {
 // ()J
 func nanoTime(frame *rtda.Frame) {
 	nanoTime := time.Now().UnixNano()
-	stack := frame.OperandStack()
-	stack.PushLong(nanoTime)
+	frame.PushLong(nanoTime)
 }
 
 // private static native void setErr0(PrintStream err);
 // (Ljava/io/PrintStream;)V
 func setErr0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	err := vars.GetRef(0) // TODO
+	err := frame.GetRefVar(0) // TODO
 
 	sysClass := frame.Method().Class()
 	sysClass.SetStaticValue("err", "Ljava/io/PrintStream;", heap.NewRefSlot(err))
@@ -153,8 +145,7 @@ func setErr0(frame *rtda.Frame) {
 // private static native void setIn0(InputStream in);
 // (Ljava/io/InputStream;)V
 func setIn0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	in := vars.GetRef(0) // TODO
+	in := frame.GetRefVar(0) // TODO
 
 	sysClass := frame.Method().Class()
 	sysClass.SetStaticValue("in", "Ljava/io/InputStream;", heap.NewRefSlot(in))
@@ -163,8 +154,7 @@ func setIn0(frame *rtda.Frame) {
 // private static native void setOut0(PrintStream out);
 // (Ljava/io/PrintStream;)V
 func setOut0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	out := vars.GetRef(0) // TODO
+	out := frame.GetRefVar(0) // TODO
 
 	sysClass := frame.Method().Class()
 	sysClass.SetStaticValue("out", "Ljava/io/PrintStream;", heap.NewRefSlot(out))

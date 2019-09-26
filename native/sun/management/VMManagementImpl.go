@@ -22,8 +22,7 @@ func getUptime0(frame *rtda.Frame) {
 	// todo
 	uptime := int64(0)
 
-	stack := frame.OperandStack()
-	stack.PushLong(uptime)
+	frame.PushLong(uptime)
 }
 
 // public native long getStartupTime();
@@ -32,8 +31,7 @@ func getStartupTime(frame *rtda.Frame) {
 	// todo
 	startupTime := int64(0)
 
-	stack := frame.OperandStack()
-	stack.PushLong(startupTime)
+	frame.PushLong(startupTime)
 }
 
 // private static native String getVersion0();
@@ -42,8 +40,7 @@ func getVersion0(frame *rtda.Frame) {
 	// todo
 	version := heap.JString("0")
 
-	stack := frame.OperandStack()
-	stack.PushRef(version)
+	frame.PushRef(version)
 }
 
 // private static native void initOptionalSupportFields();

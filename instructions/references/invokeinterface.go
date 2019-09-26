@@ -30,8 +30,7 @@ func (instr *InvokeInterface) Execute(frame *rtda.Frame) {
 		instr.argSlotCount = instr.kMethodRef.ArgSlotCount()
 	}
 
-	stack := frame.OperandStack()
-	ref := stack.TopRef(instr.argSlotCount)
+	ref := frame.TopRef(instr.argSlotCount)
 	if ref == nil {
 		panic("NPE") // todo
 	}

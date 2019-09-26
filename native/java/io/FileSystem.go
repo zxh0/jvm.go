@@ -24,12 +24,11 @@ func getFileSystem(frame *rtda.Frame) {
 		return
 	}
 
-	stack := frame.OperandStack()
 	unixFsObj := unixFsClass.NewObj()
-	stack.PushRef(unixFsObj)
+	frame.PushRef(unixFsObj)
 
 	// call <init>
-	stack.PushRef(unixFsObj) // this
+	frame.PushRef(unixFsObj) // this
 	constructor := unixFsClass.GetDefaultConstructor()
 	thread.InvokeMethod(constructor)
 }

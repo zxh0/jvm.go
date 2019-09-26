@@ -23,8 +23,7 @@ func (instr *IF_ACMPNE) Execute(frame *rtda.Frame) {
 }
 
 func _acmp(frame *rtda.Frame) bool {
-	stack := frame.OperandStack()
-	ref2 := stack.PopRef()
-	ref1 := stack.PopRef()
+	ref2 := frame.PopRef()
+	ref1 := frame.PopRef()
 	return ref1 == ref2 // todo
 }

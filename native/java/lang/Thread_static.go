@@ -20,14 +20,13 @@ func init() {
 // ()Ljava/lang/Thread;
 func currentThread(frame *rtda.Frame) {
 	jThread := frame.Thread().JThread()
-	frame.OperandStack().PushRef(jThread)
+	frame.PushRef(jThread)
 }
 
 // public static native void sleep(long millis) throws InterruptedException;
 // (J)V
 func sleep(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	millis := vars.GetLong(0)
+	millis := frame.GetLongVar(0)
 
 	thread := frame.Thread()
 	if millis < 0 {

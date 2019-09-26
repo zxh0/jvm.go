@@ -46,8 +46,7 @@ func zf_initIDs(frame *rtda.Frame) {
 //                                 boolean usemmap) throws IOException;
 // (Ljava/lang/String;IJZ)J
 func open(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	nameObj := vars.GetRef(0)
+	nameObj := frame.GetRefVar(0)
 
 	name := heap.GoString(nameObj)
 	jzfile, err := openZip(name)
@@ -56,41 +55,35 @@ func open(frame *rtda.Frame) {
 		panic("IOException!" + err.Error())
 	}
 
-	stack := frame.OperandStack()
-	stack.PushLong(jzfile)
+	frame.PushLong(jzfile)
 }
 
 // private static native boolean startsWithLOC(long jzfile);
 // (J)Z
 func startsWithLOC(frame *rtda.Frame) {
 	// todo
-	stack := frame.OperandStack()
-	stack.PushBoolean(true)
+	frame.PushBoolean(true)
 }
 
 // private static native int getTotal(long jzfile);
 // (J)I
 func getTotal(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jzfile := vars.GetLong(0)
+	jzfile := frame.GetLongVar(0)
 
 	total := getEntryCount(jzfile)
 
-	stack := frame.OperandStack()
-	stack.PushInt(total)
+	frame.PushInt(total)
 }
 
 // private static native long getNextEntry(long jzfile, int i);
 // (JI)J
 func getNextEntry(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jzfile := vars.GetLong(0)
-	i := vars.GetInt(2)
+	jzfile := frame.GetLongVar(0)
+	i := frame.GetIntVar(2)
 
 	jzentry := getJzentry(jzfile, i)
 
-	stack := frame.OperandStack()
-	stack.PushLong(jzentry)
+	frame.PushLong(jzentry)
 }
 
 // private static native void freeEntry(long jzfile, long jzentry);
@@ -102,32 +95,28 @@ func freeEntry(frame *rtda.Frame) {
 // private static native long getEntry(long jzfile, byte[] name, boolean addSlash);
 // (J[BZ)J
 func getEntry(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jzfile := vars.GetLong(0)
-	nameObj := vars.GetRef(2)
-	//addSlash := vars.GetBoolean(3)
+	jzfile := frame.GetLongVar(0)
+	nameObj := frame.GetRefVar(2)
+	//addSlash := frame.GetBooleanVar(3)
 
 	// todo
 	name := nameObj.GoBytes()
 	jzentry := getJzentry2(jzfile, name)
 
-	stack := frame.OperandStack()
-	stack.PushLong(jzentry)
+	frame.PushLong(jzentry)
 }
 
 // private static native byte[] getEntryBytes(long jzentry, int type);
 // (JI)[B
 func getEntryBytes(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	jzentry := vars.GetLong(0)
-	_type := vars.GetInt(2)
+	jzentry := frame.GetLongVar(0)
+	_type := frame.GetIntVar(2)
 
 	goBytes := _getEntryBytes(jzentry, _type)
 	jBytes := jutil.CastUint8sToInt8s(goBytes)
 	byteArr := heap.NewByteArray(jBytes)
 
-	stack := frame.OperandStack()
-	stack.PushRef(byteArr)
+	frame.PushRef(byteArr)
 }
 
 func _getEntryBytes(jzentry int64, _type int32) []byte {
@@ -150,8 +139,7 @@ func getEntryFlag(frame *rtda.Frame) {
 	entry := _getEntryPop(frame)
 	flag := int32(entry.Flags)
 
-	stack := frame.OperandStack()
-	stack.PushInt(flag)
+	frame.PushInt(flag)
 }
 
 // private static native long getEntryTime(long jzentry);
@@ -162,8 +150,7 @@ func getEntryTime(frame *rtda.Frame) {
 	modTime := entry.ModifiedTime
 	time := int64(modDate)<<16 | int64(modTime)
 
-	stack := frame.OperandStack()
-	stack.PushLong(time)
+	frame.PushLong(time)
 }
 
 // private static native long getEntryCrc(long jzentry);
@@ -172,8 +159,7 @@ func getEntryCrc(frame *rtda.Frame) {
 	entry := _getEntryPop(frame)
 	crc := int64(entry.CRC32)
 
-	stack := frame.OperandStack()
-	stack.PushLong(crc)
+	frame.PushLong(crc)
 }
 
 // private static native long getEntrySize(long jzentry);
@@ -182,8 +168,7 @@ func getEntrySize(frame *rtda.Frame) {
 	entry := _getEntryPop(frame)
 	size := int64(entry.UncompressedSize64)
 
-	stack := frame.OperandStack()
-	stack.PushLong(size)
+	frame.PushLong(size)
 }
 
 // private static native long getEntryCSize(long jzentry);
@@ -192,8 +177,8 @@ func getEntryCSize(frame *rtda.Frame) {
 	// entry := _getEntryPop(frame)
 	// size := int64(entry.CompressedSize64)
 
-	// stack := frame.OperandStack()
-	// stack.PushLong(size)
+	// stack := frame.
+	// frame.PushLong(size)
 
 	// todo
 	getEntrySize(frame)
@@ -206,13 +191,11 @@ func getEntryMethod(frame *rtda.Frame) {
 	// method := int32(entry.Method)
 
 	// todo
-	stack := frame.OperandStack()
-	stack.PushInt(0)
+	frame.PushInt(0)
 }
 
 func _getEntryPop(frame *rtda.Frame) *gozip.File {
-	vars := frame.LocalVars()
-	jzentry := vars.GetLong(0)
+	jzentry := frame.GetLongVar(0)
 
 	entry := getEntryFile(jzentry)
 	return entry
@@ -222,18 +205,16 @@ func _getEntryPop(frame *rtda.Frame) *gozip.File {
 //                                long pos, byte[] b, int off, int len);
 // (JJJ[BII)I
 func read(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	//jzfile := vars.GetLong(0)
-	jzentry := vars.GetLong(2)
-	pos := vars.GetLong(4)
-	byteArr := vars.GetRef(6)
-	off := vars.GetInt(7)
-	_len := vars.GetInt(8)
+	//jzfile := frame.GetLongVar(0)
+	jzentry := frame.GetLongVar(2)
+	pos := frame.GetLongVar(4)
+	byteArr := frame.GetRefVar(6)
+	off := frame.GetIntVar(7)
+	_len := frame.GetIntVar(8)
 
 	goBytes := byteArr.GoBytes()
 	goBytes = goBytes[off : off+_len]
 	n := readEntry(jzentry, pos, goBytes)
 
-	stack := frame.OperandStack()
-	stack.PushInt(int32(n))
+	frame.PushInt(int32(n))
 }

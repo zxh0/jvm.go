@@ -16,27 +16,24 @@ func init() {
 // public native Object allocateInstance(Class<?> type) throws InstantiationException;
 // (Ljava/lang/Class;)Ljava/lang/Object;
 func allocateInstance(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	classObj := vars.GetRef(1)
+	classObj := frame.GetRefVar(1)
 
 	class := classObj.Extra().(*heap.Class)
 	obj := class.NewObj()
 
-	stack := frame.OperandStack()
-	stack.PushRef(obj)
+	frame.PushRef(obj)
 }
 
 // public native Class defineClass(String name, byte[] b, int off, int len,
 //  		ClassLoader loader, ProtectionDomain protectionDomain)
 // (Ljava/lang/String;[BIILjava/lang/ClassLoader;Ljava/security/ProtectionDomain;)Ljava/lang/Class;
 func defineClass(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	nameObj := vars.GetRef(1)
-	byteArr := vars.GetRef(2)
-	off := vars.GetInt(3)
-	_len := vars.GetInt(4)
-	//loaderObj := vars.GetRef(5)
-	//pd := vars.GetRef(6)
+	nameObj := frame.GetRefVar(1)
+	byteArr := frame.GetRefVar(2)
+	off := frame.GetIntVar(3)
+	_len := frame.GetIntVar(4)
+	//loaderObj := frame.GetRefVar(5)
+	//pd := frame.GetRefVar(6)
 
 	name := heap.GoString(nameObj)
 	name = heap.DotToSlash(name)
@@ -45,16 +42,14 @@ func defineClass(frame *rtda.Frame) {
 
 	// todo
 	class := frame.ClassLoader().DefineClass(name, data)
-	stack := frame.OperandStack()
-	stack.PushRef(class.JClass())
+	frame.PushRef(class.JClass())
 }
 
 // public native void ensureClassInitialized(Class<?> c);
 // (Ljava/lang/Class;)V
 func ensureClassInitialized(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	// this := vars.GetRef(0)
-	classObj := vars.GetRef(1)
+	// this := frame.GetRefVar(0)
+	classObj := frame.GetRefVar(1)
 
 	goClass := classObj.Extra().(*heap.Class)
 	if goClass.InitializationNotStarted() {
@@ -68,28 +63,24 @@ func ensureClassInitialized(frame *rtda.Frame) {
 // public native long staticFieldOffset(Field f);
 // (Ljava/lang/reflect/Field;)J
 func staticFieldOffset(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	// vars.GetRef(0) // this
-	fieldObj := vars.GetRef(1)
+	// frame.GetRefVar(0) // this
+	fieldObj := frame.GetRefVar(1)
 
 	offset := fieldObj.GetFieldValue("slot", "I").IntValue()
-	stack := frame.OperandStack()
-	stack.PushLong(int64(offset))
+	frame.PushLong(int64(offset))
 }
 
 // public native Object staticFieldBase(Field f);
 // (Ljava/lang/reflect/Field;)Ljava/lang/Object;
 func staticFieldBase(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	// vars.GetRef(0) // this
-	fieldObj := vars.GetRef(1)
+	// frame.GetRefVar(0) // this
+	fieldObj := frame.GetRefVar(1)
 
 	goField := _getGoField(fieldObj)
 	goClass := goField.Class()
 	obj := goClass.AsObj()
 
-	stack := frame.OperandStack()
-	stack.PushRef(obj)
+	frame.PushRef(obj)
 }
 
 func _getGoField(fieldObj *heap.Object) *heap.Field {

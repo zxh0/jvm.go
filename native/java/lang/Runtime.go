@@ -21,8 +21,7 @@ func _runtime(method func(frame *rtda.Frame), name, desc string) {
 func availableProcessors(frame *rtda.Frame) {
 	numCPU := runtime.NumCPU()
 
-	stack := frame.OperandStack()
-	stack.PushInt(int32(numCPU))
+	frame.PushInt(int32(numCPU))
 }
 
 // public native long freeMemory();
@@ -32,8 +31,7 @@ func freeMemory(frame *rtda.Frame) {
 	runtime.ReadMemStats(&memStats)
 	frees := memStats.Frees
 
-	stack := frame.OperandStack()
-	stack.PushLong(int64(frees))
+	frame.PushLong(int64(frees))
 }
 
 // public native long totalMemory();

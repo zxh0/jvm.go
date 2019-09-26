@@ -20,8 +20,8 @@ func (instr *AReturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
-	ref := currentFrame.OperandStack().PopRef()
-	invokerFrame.OperandStack().PushRef(ref)
+	ref := currentFrame.PopRef()
+	invokerFrame.PushRef(ref)
 }
 
 // Return double from method
@@ -31,8 +31,8 @@ func (instr *DReturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
-	val := currentFrame.OperandStack().PopDouble()
-	invokerFrame.OperandStack().PushDouble(val)
+	val := currentFrame.PopDouble()
+	invokerFrame.PushDouble(val)
 }
 
 // Return float from method
@@ -42,8 +42,8 @@ func (instr *FReturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
-	val := currentFrame.OperandStack().PopFloat()
-	invokerFrame.OperandStack().PushFloat(val)
+	val := currentFrame.PopFloat()
+	invokerFrame.PushFloat(val)
 }
 
 // Return int from method
@@ -53,8 +53,8 @@ func (instr *IReturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
-	val := currentFrame.OperandStack().PopInt()
-	invokerFrame.OperandStack().PushInt(val)
+	val := currentFrame.PopInt()
+	invokerFrame.PushInt(val)
 }
 
 // Return double from method
@@ -64,6 +64,6 @@ func (instr *LReturn) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
-	val := currentFrame.OperandStack().PopLong()
-	invokerFrame.OperandStack().PushLong(val)
+	val := currentFrame.PopLong()
+	invokerFrame.PushLong(val)
 }

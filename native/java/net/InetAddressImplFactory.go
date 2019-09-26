@@ -16,5 +16,5 @@ func _iaif(method func(frame *rtda.Frame), name, desc string) {
 //static native boolean isIPv6Supported();
 // ()Z
 func iaif_isIPv6Supported(frame *rtda.Frame) {
-	frame.OperandStack().PushBoolean(true)
+	frame.PushBoolean(true)
 }

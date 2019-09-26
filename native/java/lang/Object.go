@@ -22,34 +22,28 @@ func _object(method func(frame *rtda.Frame), name, desc string) {
 // protected native Object clone() throws CloneNotSupportedException;
 // ()Ljava/lang/Object;
 func clone(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	// todo
-	stack := frame.OperandStack()
-	stack.PushRef(this.Clone())
+	frame.PushRef(this.Clone())
 }
 
 // public final native Class<?> getClass();
 // ()Ljava/lang/Class;
 func getClass(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	class := this.Class().JClass()
-	stack := frame.OperandStack()
-	stack.PushRef(class)
+	frame.PushRef(class)
 }
 
 // public native int hashCode();
 // ()I
 func hashCode(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	hash := int32(uintptr(unsafe.Pointer(this)))
-	stack := frame.OperandStack()
-	stack.PushInt(hash)
+	frame.PushInt(hash)
 }
 
 // public final native void notify();
@@ -57,8 +51,7 @@ func hashCode(frame *rtda.Frame) {
 // public final native void notifyAll();
 // ()V
 func notifyAll(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	thread := frame.Thread()
 	monitor := this.Monitor()
@@ -73,9 +66,8 @@ func notifyAll(frame *rtda.Frame) {
 // public final native void wait(long timeout) throws InterruptedException;
 // (J)V
 func wait(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	// timeout := vars.GetLong(1) // todo
+	this := frame.GetThis()
+	// timeout := frame.GetLongVar(1) // todo
 
 	thread := frame.Thread()
 	monitor := this.Monitor()

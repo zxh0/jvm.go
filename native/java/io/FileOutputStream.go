@@ -18,12 +18,11 @@ func _fos(method func(frame *rtda.Frame), name, desc string) {
 // private native void writeBytes(byte b[], int off, int len, boolean append) throws IOException;
 // ([BIIZ)V
 func writeBytes(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	fosObj := vars.GetRef(0)     // this
-	byteArrObj := vars.GetRef(1) // b
-	offset := vars.GetInt(2)     // off
-	length := vars.GetInt(3)     // len
-	//vars.GetBoolean(4) // append
+	fosObj := frame.GetRefVar(0)     // this
+	byteArrObj := frame.GetRefVar(1) // b
+	offset := frame.GetIntVar(2)     // off
+	length := frame.GetIntVar(3)     // len
+	//frame.GetBooleanVar(4) // append
 
 	fdObj := fosObj.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
 	if fdObj.Extra() == nil {

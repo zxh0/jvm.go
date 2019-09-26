@@ -36,9 +36,8 @@ func getClassLoader0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	from := class.LoadedFrom()
 
-	stack := frame.OperandStack()
 	if cp.IsBootClassPath(from) {
-		stack.PushRef(nil)
+		frame.PushRef(nil)
 		return
 	}
 
@@ -54,8 +53,7 @@ func getComponentType(frame *rtda.Frame) {
 	componentClass := class.ComponentClass()
 	componentClassObj := componentClass.JClass()
 
-	stack := frame.OperandStack()
-	stack.PushRef(componentClassObj)
+	frame.PushRef(componentClassObj)
 }
 
 // native ConstantPool getConstantPool();
@@ -71,7 +69,7 @@ func getConstantPool(frame *rtda.Frame) {
 
 	cp := class.ConstantPool()
 	cpObj := cpClass.NewObjWithExtra(cp) // todo init cpObj
-	frame.OperandStack().PushRef(cpObj)
+	frame.PushRef(cpObj)
 }
 
 // private native Class<?> getDeclaringClass0();
@@ -79,20 +77,20 @@ func getConstantPool(frame *rtda.Frame) {
 func getDeclaringClass0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	if class.IsArray() || class.IsPrimitive() {
-		frame.OperandStack().PushRef(nil)
+		frame.PushRef(nil)
 		return
 	}
 
 	lastDollarIndex := strings.LastIndex(class.Name(), "$")
 	if lastDollarIndex < 0 {
-		frame.OperandStack().PushRef(nil)
+		frame.PushRef(nil)
 		return
 	}
 
 	// todo
 	declaringClassName := class.Name()[:lastDollarIndex]
 	declaringClass := frame.ClassLoader().LoadClass(declaringClassName)
-	frame.OperandStack().PushRef(declaringClass.JClass())
+	frame.PushRef(declaringClass.JClass())
 }
 
 // private native Object[] getEnclosingMethod0();
@@ -100,14 +98,14 @@ func getDeclaringClass0(frame *rtda.Frame) {
 func getEnclosingMethod0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	if class.IsPrimitive() {
-		frame.OperandStack().PushNull()
+		frame.PushNull()
 	} else {
 		emInfo := class.EnclosingMethod()
 		emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
 		if emInfoObj == nil || heap.ArrayLength(emInfoObj) == 0 {
-			frame.OperandStack().PushNull()
+			frame.PushNull()
 		} else {
-			frame.OperandStack().PushRef(emInfoObj)
+			frame.PushRef(emInfoObj)
 		}
 	}
 }
@@ -144,8 +142,7 @@ func getInterfaces0(frame *rtda.Frame) {
 	jlClassClass := heap.BootLoader().JLClassClass()
 	interfaceArr := heap.NewRefArray2(jlClassClass, interfaceObjs)
 
-	stack := frame.OperandStack()
-	stack.PushRef(interfaceArr)
+	frame.PushRef(interfaceArr)
 }
 
 // private native String getName0();
@@ -155,8 +152,7 @@ func getName0(frame *rtda.Frame) {
 	name := class.NameJlsFormat()
 	nameObj := heap.JString(name)
 
-	stack := frame.OperandStack()
-	stack.PushRef(nameObj)
+	frame.PushRef(nameObj)
 }
 
 // public native int getModifiers();
@@ -165,8 +161,7 @@ func getModifiers(frame *rtda.Frame) {
 	class := _popClass(frame)
 	modifiers := class.GetAccessFlags()
 
-	stack := frame.OperandStack()
-	stack.PushInt(int32(modifiers))
+	frame.PushInt(int32(modifiers))
 }
 
 // public native Class<? super T> getSuperclass();
@@ -175,65 +170,57 @@ func getSuperclass(frame *rtda.Frame) {
 	class := _popClass(frame)
 	superClass := class.SuperClass()
 
-	stack := frame.OperandStack()
 	if superClass != nil {
-		stack.PushRef(superClass.JClass())
+		frame.PushRef(superClass.JClass())
 	} else {
-		stack.PushNull()
+		frame.PushNull()
 	}
 }
 
 // public native boolean isAssignableFrom(Class<?> cls);
 // (Ljava/lang/Class;)Z
 func isAssignableFrom(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	cls := vars.GetRef(1)
+	this := frame.GetThis()
+	cls := frame.GetRefVar(1)
 
 	thisClass := this.Extra().(*heap.Class)
 	clsClass := cls.Extra().(*heap.Class)
 	ok := thisClass.IsAssignableFrom(clsClass)
 
-	stack := frame.OperandStack()
-	stack.PushBoolean(ok)
+	frame.PushBoolean(ok)
 }
 
 // public native boolean isInstance(Object obj);
 // (Ljava/lang/Object;)Z
 func isInstance(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	obj := vars.GetRef(1)
+	this := frame.GetThis()
+	obj := frame.GetRefVar(1)
 
 	class := this.Extra().(*heap.Class)
 	ok := obj.IsInstanceOf(class)
 
-	stack := frame.OperandStack()
-	stack.PushBoolean(ok)
+	frame.PushBoolean(ok)
 }
 
 // public native boolean isArray();
 // ()Z
 func isArray(frame *rtda.Frame) {
 	class := _popClass(frame)
-	stack := frame.OperandStack()
-	stack.PushBoolean(class.IsArray())
+	frame.PushBoolean(class.IsArray())
 }
 
 // public native boolean isInterface();
 // ()Z
 func isInterface(frame *rtda.Frame) {
 	class := _popClass(frame)
-	stack := frame.OperandStack()
-	stack.PushBoolean(class.IsInterface())
+	frame.PushBoolean(class.IsInterface())
 }
 
 // public native boolean isPrimitive();
 // ()Z
 func isPrimitive(frame *rtda.Frame) {
 	class := _popClass(frame)
-	stack := frame.OperandStack()
-	stack.PushBoolean(class.IsPrimitive())
+	frame.PushBoolean(class.IsPrimitive())
 }
 
 // private native String getGenericSignature0();
@@ -248,18 +235,17 @@ func getGenericSignature0(frame *rtda.Frame) {
 	if !class.IsPrimitive() {
 		signature := class.Signature()
 		if signature == "" {
-			frame.OperandStack().PushNull()
+			frame.PushNull()
 		} else {
-			frame.OperandStack().PushRef(heap.JString(signature))
+			frame.PushRef(heap.JString(signature))
 		}
 		return
 	}
 
-	frame.OperandStack().PushNull()
+	frame.PushNull()
 }
 
 func _popClass(frame *rtda.Frame) *heap.Class {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 	return this.Extra().(*heap.Class)
 }

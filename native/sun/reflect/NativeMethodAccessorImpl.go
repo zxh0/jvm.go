@@ -17,12 +17,11 @@ func _nmai(method func(frame *rtda.Frame), name, desc string) {
 // private static native Object invoke0(Method method, Object o, Object[] os);
 // (Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
 func invoke0(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	if stack.IsEmpty() {
+	if frame.IsStackEmpty() {
 		frame.RevertNextPC()
 		_invokeMethod(frame)
 	} else {
-		returnType := frame.LocalVars().Get(0).GetHack().(*heap.FieldType)
+		returnType := frame.GetLocalVar(0).GetHack().(*heap.FieldType)
 		if returnType.IsBaseType() && !returnType.IsVoidType() {
 			primitiveDescriptor := returnType.Descriptor()[0]
 			box.Box(frame, primitiveDescriptor) // todo
@@ -31,10 +30,9 @@ func invoke0(frame *rtda.Frame) {
 }
 
 func _invokeMethod(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	methodObj := vars.GetRef(0)
-	obj := vars.GetRef(1)
-	argArrObj := vars.GetRef(2)
+	methodObj := frame.GetRefVar(0)
+	obj := frame.GetRefVar(1)
+	argArrObj := frame.GetRefVar(2)
 
 	goMethod := getGoMethod(methodObj)
 	if goMethod.IsStatic() {
@@ -52,24 +50,23 @@ func _invokeMethod(frame *rtda.Frame) {
 	args := convertArgs(obj, argArrObj, goMethod)
 	// remember return type
 	returnType := goMethod.ParsedDescriptor().ReturnType()
-	vars.Set(0, heap.NewHackSlot(returnType))
+	frame.SetLocalVar(0, heap.NewHackSlot(returnType))
 
-	stack := frame.OperandStack()
 	if len(args) > 1 {
-		stack.HackSetSlots(args)
+		frame.HackSetSlots(args)
 	} else if len(args) > 0 {
 		// make room for return value
-		stack.HackSetSlots([]heap.Slot{args[0], heap.EmptySlot})
-		stack.PopRef()
+		frame.HackSetSlots([]heap.Slot{args[0], heap.EmptySlot})
+		frame.PopRef()
 	} else {
 		// make room for return value
-		stack.HackSetSlots([]heap.Slot{heap.EmptySlot, heap.EmptySlot})
-		stack.PopRef()
-		stack.PopRef()
+		frame.HackSetSlots([]heap.Slot{heap.EmptySlot, heap.EmptySlot})
+		frame.PopRef()
+		frame.PopRef()
 	}
 
 	frame.Thread().InvokeMethod(goMethod)
 	if returnType.IsVoidType() {
-		stack.PushNull()
+		frame.PushNull()
 	}
 }

@@ -14,5 +14,5 @@ func _fd(method func(frame *rtda.Frame), name, desc string) {
 }
 
 func set(frame *rtda.Frame) {
-	frame.OperandStack().PushLong(0)
+	frame.PushLong(0)
 }

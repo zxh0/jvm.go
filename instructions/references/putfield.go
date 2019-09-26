@@ -19,9 +19,8 @@ func (instr *PutField) Execute(frame *rtda.Frame) {
 		instr.field = kFieldRef.InstanceField()
 	}
 
-	stack := frame.OperandStack()
-	val := stack.PopField(instr.field.IsLongOrDouble)
-	ref := stack.PopRef()
+	val := frame.PopL(instr.field.IsLongOrDouble)
+	ref := frame.PopRef()
 	if ref == nil {
 		frame.Thread().ThrowNPE()
 		return

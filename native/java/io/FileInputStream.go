@@ -23,15 +23,13 @@ func _fis(method func(frame *rtda.Frame), name, desc string) {
 // ()I
 func available(frame *rtda.Frame) {
 	// todo
-	stack := frame.OperandStack()
-	stack.PushInt(1)
+	frame.PushInt(1)
 }
 
 // private native void close0() throws IOException;
 // ()V
 func close0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	goFile := this.Extra().(*os.File)
 	err := goFile.Close()
@@ -44,9 +42,8 @@ func close0(frame *rtda.Frame) {
 // private native void open(String name) throws FileNotFoundException;
 // (Ljava/lang/String;)V
 func open(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	name := vars.GetRef(1)
+	this := frame.GetThis()
+	name := frame.GetRefVar(1)
 
 	goName := heap.GoString(name)
 	goFile, err := os.Open(goName)
@@ -61,11 +58,10 @@ func open(frame *rtda.Frame) {
 // private native int readBytes(byte b[], int off, int len) throws IOException;
 // ([BII)I
 func readBytes(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	buf := vars.GetRef(1)
-	off := vars.GetInt(2)
-	_len := vars.GetInt(3)
+	this := frame.GetThis()
+	buf := frame.GetRefVar(1)
+	off := frame.GetIntVar(2)
+	_len := frame.GetIntVar(3)
 
 	goFile := this.Extra().(*os.File)
 	goBuf := buf.GoBytes()
@@ -74,7 +70,7 @@ func readBytes(frame *rtda.Frame) {
 	// func (f *File) Read(b []byte) (n int, err error)
 	n, err := goFile.Read(goBuf)
 	if err == nil || n > 0 || err == io.EOF {
-		frame.OperandStack().PushInt(int32(n))
+		frame.PushInt(int32(n))
 	} else {
 		// todo
 		panic("IOException!" + err.Error())

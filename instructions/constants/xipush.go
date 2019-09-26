@@ -15,7 +15,7 @@ func (instr *BIPush) FetchOperands(reader *base.BytecodeReader) {
 }
 func (instr *BIPush) Execute(frame *rtda.Frame) {
 	i := int32(instr.val)
-	frame.OperandStack().PushInt(i)
+	frame.PushInt(i)
 }
 
 // Push short
@@ -28,5 +28,5 @@ func (instr *SIPush) FetchOperands(reader *base.BytecodeReader) {
 }
 func (instr *SIPush) Execute(frame *rtda.Frame) {
 	i := int32(instr.val)
-	frame.OperandStack().PushInt(i)
+	frame.PushInt(i)
 }

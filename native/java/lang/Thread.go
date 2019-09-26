@@ -27,8 +27,7 @@ func _thread(method func(frame *rtda.Frame), name, desc string) {
 // private native void interrupt0();
 // ()V
 func interrupt0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	thread := _extraThread(this)
 	thread.Interrupt()
@@ -37,29 +36,25 @@ func interrupt0(frame *rtda.Frame) {
 // private native boolean isInterrupted(boolean ClearInterrupted);
 // (Z)Z
 func isInterrupted(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	clearInterrupted := vars.GetBoolean(1)
+	this := frame.GetThis()
+	clearInterrupted := frame.GetBooleanVar(1)
 
 	// todo
 	thread := _extraThread(this)
 	interrupted := thread.IsInterrupted(clearInterrupted)
 
-	stack := frame.OperandStack()
-	stack.PushBoolean(interrupted)
+	frame.PushBoolean(interrupted)
 }
 
 // public final native boolean isAlive();
 // ()Z
 func isAlive(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	thread := _extraThread(this)
 	alive := thread != nil && !thread.IsStackEmpty()
 
-	stack := frame.OperandStack()
-	stack.PushBoolean(alive)
+	frame.PushBoolean(alive)
 }
 
 func _extraThread(threadObj *heap.Object) *rtda.Thread {
@@ -77,22 +72,21 @@ func _extraThread(threadObj *heap.Object) *rtda.Thread {
 // private native void setPriority0(int newPriority);
 // (I)V
 func setPriority0(frame *rtda.Frame) {
-	// vars := frame.LocalVars()
-	// this := vars.GetThis()
-	// newPriority := vars.GetInt(1))
+	// vars := frame.
+	// this := frame.GetThis()
+	// newPriority := frame.GetIntVar(1))
 	// todo
 }
 
 // private native void start0();
 // ()V
 func start0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	newThread := rtda.NewThread(this)
 	runMethod := this.Class().GetInstanceMethod("run", "()V")
 	newFrame := newThread.NewFrame(runMethod)
-	newFrame.LocalVars().SetRef(0, this)
+	newFrame.SetRefVar(0, this)
 	newThread.PushFrame(newFrame)
 
 	this.LockState()

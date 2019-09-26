@@ -9,28 +9,25 @@ import (
 type L2D struct{ base.NoOperandsInstruction }
 
 func (instr *L2D) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	l := stack.PopLong()
+	l := frame.PopLong()
 	d := float64(l)
-	stack.PushDouble(d)
+	frame.PushDouble(d)
 }
 
 // Convert long to float
 type L2F struct{ base.NoOperandsInstruction }
 
 func (instr *L2F) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	l := stack.PopLong()
+	l := frame.PopLong()
 	f := float32(l)
-	stack.PushFloat(f)
+	frame.PushFloat(f)
 }
 
 // Convert long to int
 type L2I struct{ base.NoOperandsInstruction }
 
 func (instr *L2I) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	l := stack.PopLong()
+	l := frame.PopLong()
 	i := int32(l)
-	stack.PushInt(i)
+	frame.PushInt(i)
 }

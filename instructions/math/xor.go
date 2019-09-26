@@ -9,20 +9,18 @@ import (
 type IXor struct{ base.NoOperandsInstruction }
 
 func (instr *IXor) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v1 := stack.PopInt()
-	v2 := stack.PopInt()
+	v1 := frame.PopInt()
+	v2 := frame.PopInt()
 	result := v1 ^ v2
-	stack.PushInt(result)
+	frame.PushInt(result)
 }
 
 // Boolean XOR long
 type LXor struct{ base.NoOperandsInstruction }
 
 func (instr *LXor) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v1 := stack.PopLong()
-	v2 := stack.PopLong()
+	v1 := frame.PopLong()
+	v2 := frame.PopLong()
 	result := v1 ^ v2
-	stack.PushLong(result)
+	frame.PushLong(result)
 }

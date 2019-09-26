@@ -17,13 +17,12 @@ func _proxy(method func(frame *rtda.Frame), name, desc string) {
 //                                             byte[] b, int off, int len);
 // (Ljava/lang/ClassLoader;Ljava/lang/String;[BII)Ljava/lang/Class;
 func defineClass0(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	if stack.IsEmpty() {
+	if frame.IsStackEmpty() {
 		_loadClass(frame)
 	}
 
 	// init class
-	class := stack.TopRef(0).Extra().(*heap.Class)
+	class := frame.TopRef(0).Extra().(*heap.Class)
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread().InitClass(class)
@@ -31,12 +30,11 @@ func defineClass0(frame *rtda.Frame) {
 }
 
 func _loadClass(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	//loader := vars.GetRef(0)
-	nameObj := vars.GetRef(1)
-	byteArr := vars.GetRef(2)
-	off := vars.GetInt(3)
-	_len := vars.GetInt(4)
+	//loader := frame.GetRefVar(0)
+	nameObj := frame.GetRefVar(1)
+	byteArr := frame.GetRefVar(2)
+	off := frame.GetIntVar(3)
+	_len := frame.GetIntVar(4)
 
 	name := heap.GoString(nameObj)
 	name = heap.DotToSlash(name)
@@ -45,6 +43,5 @@ func _loadClass(frame *rtda.Frame) {
 
 	// todo
 	class := frame.ClassLoader().DefineClass(name, data)
-	stack := frame.OperandStack()
-	stack.PushRef(class.JClass())
+	frame.PushRef(class.JClass())
 }

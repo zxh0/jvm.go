@@ -9,9 +9,8 @@ import (
 type Swap struct{ base.NoOperandsInstruction }
 
 func (instr *Swap) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	val1 := stack.PopSlot()
-	val2 := stack.PopSlot()
-	stack.PushSlot(val1)
-	stack.PushSlot(val2)
+	val1 := frame.Pop()
+	val2 := frame.Pop()
+	frame.Push(val1)
+	frame.Push(val2)
 }

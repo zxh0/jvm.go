@@ -19,15 +19,15 @@ func _ioUtil(method func(frame *rtda.Frame), name, desc string) {
 func iou_iovMax(frame *rtda.Frame) {
 	//read config _SC_IOV_MAX
 	//default = 16
-	frame.OperandStack().PushInt(16)
+	frame.PushInt(16)
 }
 
 //static native void setfdVal(FileDescriptor var0, int var1)
 // (Ljava/io/FileDescriptor;I)V
 func iou_setfdVal(frame *rtda.Frame) {
-	//vars := frame.LocalVars()
-	//fdVal := vars.GetInt(1)
-	//fd := vars.GetRef(0)
+	//vars := frame.
+	//fdVal := frame.GetIntVar(1)
+	//fd := frame.GetRefVar(0)
 	//fmt.Println(fd)
 	//fmt.Println(fdVal)
 }
@@ -35,7 +35,7 @@ func iou_setfdVal(frame *rtda.Frame) {
 //static native int fdVal(FileDescriptor fd);
 //(Ljava/io/FileDescriptor;)I
 func iou_fdVal(frame *rtda.Frame) {
-	frame.OperandStack().PushInt(100)
+	frame.PushInt(100)
 }
 
 //makePipe~(Z)J

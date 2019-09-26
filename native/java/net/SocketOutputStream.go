@@ -25,12 +25,11 @@ func sos_init(frame *rtda.Frame) {
 //                                     int len) throws IOException;
 // java/net/SocketOutputStream~socketWrite0~(Ljava/io/FileDescriptor;
 func sos_socketWrite0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	//this := vars.GetThis()
-	fd := vars.GetRef(1)
-	b := vars.GetRef(2)
-	offset := vars.GetInt(3)
-	length := vars.GetInt(4)
+	//this := frame.GetThis()
+	fd := frame.GetRefVar(1)
+	b := frame.GetRefVar(2)
+	offset := frame.GetIntVar(3)
+	length := frame.GetIntVar(4)
 	conn := fd.Extra().(net.Conn)
 	goBytes := b.GoBytes()
 	goBytes = goBytes[offset : offset+length]

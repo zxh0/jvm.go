@@ -14,8 +14,8 @@ type Const struct {
 }
 
 func (instr *Const) Execute(frame *rtda.Frame) {
-	frame.OperandStack().PushSlot(instr.K)
+	frame.Push(instr.K)
 	if instr.L {
-		frame.OperandStack().PushNull()
+		frame.PushNull()
 	}
 }

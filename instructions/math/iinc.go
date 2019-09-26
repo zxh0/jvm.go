@@ -17,8 +17,7 @@ func (instr *IINC) FetchOperands(reader *base.BytecodeReader) {
 }
 
 func (instr *IINC) Execute(frame *rtda.Frame) {
-	localVars := frame.LocalVars()
-	val := localVars.GetInt(instr.Index)
+	val := frame.GetIntVar(instr.Index)
 	val += instr.Const
-	localVars.SetInt(instr.Index, val)
+	frame.SetIntVar(instr.Index, val)
 }

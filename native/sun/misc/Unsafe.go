@@ -32,9 +32,8 @@ because unpark is, so it would be strange to place it
 elsewhere.
 */
 func park(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	isAbsolute := vars.GetBoolean(1)
-	var2 := vars.GetLong(2)
+	isAbsolute := frame.GetBooleanVar(1)
+	var2 := frame.GetLongVar(2)
 	var parkTime time.Duration
 
 	if isAbsolute {
@@ -55,8 +54,7 @@ func park(frame *rtda.Frame) {
 //  public native void unpark(Object thread);
 //  (Ljava/lang/Object;)V
 func unpark(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	threadObj := vars.GetRef(1)
+	threadObj := frame.GetRefVar(1)
 
 	thread := threadObj.Extra().(*rtda.Thread)
 	thread.Unpark()

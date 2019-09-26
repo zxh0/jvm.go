@@ -41,10 +41,9 @@ func psi_socketCreate(frame *rtda.Frame) {
 //  native void socketConnect(InetAddress address, int port, int timeout)
 //  throws IOException;
 func psi_socketConnect(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	address := vars.GetRef(1)
-	port := vars.Get(2)
+	this := frame.GetThis()
+	address := frame.GetRefVar(1)
+	port := frame.GetLocalVar(2)
 
 	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").Ref
 
@@ -60,7 +59,7 @@ func psi_socketConnect(frame *rtda.Frame) {
 		frame.Thread().ThrowIOException(err.Error())
 	}
 	//TODO what ? timeout how to implement ?
-	_timeout := vars.GetInt(3)
+	_timeout := frame.GetIntVar(3)
 	if _timeout > 0 {
 		conn.SetDeadline(time.Now().Add(time.Duration(_timeout) * time.Millisecond))
 	}
@@ -72,10 +71,9 @@ func psi_socketConnect(frame *rtda.Frame) {
 //  native void socketBind(InetAddress address, int port)
 //	throws IOException
 func psi_socketBind(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	address := vars.GetRef(1)
-	port := vars.Get(2)
+	this := frame.GetThis()
+	address := frame.GetRefVar(1)
+	port := frame.GetLocalVar(2)
 
 	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").Ref
 	hostNameObj := holder.GetFieldValue("hostName", "Ljava/lang/String;").Ref
@@ -96,9 +94,8 @@ func psi_socketListen(frame *rtda.Frame) {
 
 //  native void socketAccept(SocketImpl s)
 func psi_socketAccept(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	s := vars.GetRef(1)
+	this := frame.GetThis()
+	s := frame.GetRefVar(1)
 	fdObj := s.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
 	//goFd := fdObj.GetFieldValue("fd", "I").(int32)
 	listen := this.Extra().(net.Listener)
@@ -113,8 +110,7 @@ func psi_socketAccept(frame *rtda.Frame) {
 //        throws IOException;
 // java/net/PlainSocketImpl~socketClose0~(Z)V
 func psi_socketClose0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
 	if fdObj.Extra() != nil {
 		conn := fdObj.Extra().(net.Conn)
@@ -125,14 +121,13 @@ func psi_socketClose0(frame *rtda.Frame) {
 // native int socketAvailable() throws IOException;
 // ()I
 func psi_socketAvailable(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
 	conn := fdObj.Extra().(net.Conn)
 	if r := conn.RemoteAddr(); r != nil {
-		frame.OperandStack().PushBoolean(true)
+		frame.PushBoolean(true)
 	} else {
-		frame.OperandStack().PushBoolean(false)
+		frame.PushBoolean(false)
 	}
 
 }
@@ -142,11 +137,10 @@ func psi_socketAvailable(frame *rtda.Frame) {
 // abstract void socketSetOption(int cmd, boolean on, Object value)
 //  throws SocketException;
 func psi_socketSetOption(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
-	cmd := vars.GetInt(1)
-	//on := vars.GetBoolean(2)
-	value := vars.GetRef(3)
+	this := frame.GetThis()
+	cmd := frame.GetIntVar(1)
+	//on := frame.GetBooleanVar(2)
+	value := frame.GetRefVar(3)
 
 	switch cmd {
 	case 0x1006: //timeout

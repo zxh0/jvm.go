@@ -17,6 +17,5 @@ func _jf(method func(frame *rtda.Frame), name, desc string) {
 // ()[Ljava/lang/String;
 func getMetaInfEntryNames(frame *rtda.Frame) {
 	// todo
-	stack := frame.OperandStack()
-	stack.PushNull()
+	frame.PushNull()
 }

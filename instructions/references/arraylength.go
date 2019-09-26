@@ -10,8 +10,7 @@ import (
 type ArrayLength struct{ base.NoOperandsInstruction }
 
 func (instr *ArrayLength) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	arrRef := stack.PopRef()
+	arrRef := frame.PopRef()
 
 	if arrRef == nil {
 		frame.Thread().ThrowNPE()
@@ -19,5 +18,5 @@ func (instr *ArrayLength) Execute(frame *rtda.Frame) {
 	}
 
 	arrLen := heap.ArrayLength(arrRef)
-	stack.PushInt(arrLen)
+	frame.PushInt(arrLen)
 }

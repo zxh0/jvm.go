@@ -49,12 +49,12 @@ func (cache *FrameCache) returnFrame(frame *Frame) {
 		for _, cachedFrame := range cache.cachedFrames {
 			if frame.maxLocals > cachedFrame.maxLocals {
 				cachedFrame.maxLocals = frame.maxLocals
-				cachedFrame.localVars = frame.localVars
+				cachedFrame.LocalVars = frame.LocalVars
 				frame.maxLocals = 0
 			}
 			if frame.maxStack > cachedFrame.maxStack {
 				cachedFrame.maxStack = frame.maxStack
-				cachedFrame.operandStack = frame.operandStack
+				cachedFrame.OperandStack = frame.OperandStack
 				frame.maxStack = 0
 			}
 		}

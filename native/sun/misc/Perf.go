@@ -23,8 +23,7 @@ func createLong(frame *rtda.Frame) {
 		return
 	}
 
-	stack := frame.OperandStack()
-	stack.PushInt(8)
+	frame.PushInt(8)
 
 	allocate := bbClass.GetStaticMethod("allocate", "(I)Ljava/nio/ByteBuffer;")
 	frame.Thread().InvokeMethod(allocate)

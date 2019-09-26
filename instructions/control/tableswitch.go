@@ -41,7 +41,7 @@ func (instr *TABLE_SWITCH) FetchOperands(reader *base.BytecodeReader) {
 }
 
 func (instr *TABLE_SWITCH) Execute(frame *rtda.Frame) {
-	index := frame.OperandStack().PopInt()
+	index := frame.PopInt()
 
 	var offset int
 	if index >= instr.low && index <= instr.high {

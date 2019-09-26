@@ -19,13 +19,12 @@ func (instr *GetField) Execute(frame *rtda.Frame) {
 		instr.field = kFieldRef.InstanceField()
 	}
 
-	stack := frame.OperandStack()
-	ref := stack.PopRef()
+	ref := frame.PopRef()
 	if ref == nil {
 		frame.Thread().ThrowNPE()
 		return
 	}
 
 	val := instr.field.GetValue(ref)
-	stack.PushField(val, instr.field.IsLongOrDouble)
+	frame.PushL(val, instr.field.IsLongOrDouble)
 }

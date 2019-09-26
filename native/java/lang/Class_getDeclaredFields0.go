@@ -29,9 +29,8 @@ func init() {
 // private native Field[] getDeclaredFields0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Field;
 func getDeclaredFields0(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	classObj := vars.GetThis()
-	publicOnly := vars.GetBoolean(1)
+	classObj := frame.GetThis()
+	publicOnly := frame.GetBooleanVar(1)
 
 	class := classObj.Extra().(*heap.Class)
 	fields := class.GetFields(publicOnly)
@@ -40,8 +39,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
 	fieldClass := heap.BootLoader().LoadClass("java/lang/reflect/Field")
 	fieldArr := heap.NewRefArray(fieldClass, fieldCount)
 
-	stack := frame.OperandStack()
-	stack.PushRef(fieldArr)
+	frame.PushRef(fieldArr)
 
 	if fieldCount > 0 {
 		thread := frame.Thread()

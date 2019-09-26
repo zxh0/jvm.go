@@ -13,19 +13,18 @@ func init() {
 // native byte[] getRawAnnotations();
 // ()[B
 func getRawAnnotations(frame *rtda.Frame) {
-	vars := frame.LocalVars()
-	this := vars.GetThis()
+	this := frame.GetThis()
 
 	class := this.Extra().(*heap.Class)
 	goBytes := class.AnnotationData()
 	if goBytes != nil {
 		jBytes := jutil.CastUint8sToInt8s(goBytes)
 		byteArr := heap.NewByteArray(jBytes)
-		frame.OperandStack().PushRef(byteArr)
+		frame.PushRef(byteArr)
 		return
 	}
 
-	frame.OperandStack().PushRef(nil)
+	frame.PushRef(nil)
 }
 
 // native byte[] getRawTypeAnnotations();

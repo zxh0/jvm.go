@@ -12,15 +12,15 @@ func TestLocalVars(t *testing.T) {
 	lv := newLocalVars(16)
 	obj := &heap.Object{}
 
-	lv.SetInt(0, 123)
-	lv.SetLong(1, 456)
-	lv.SetFloat(2, 3.14)
-	lv.SetDouble(3, 2.71828)
-	lv.SetRef(4, obj)
+	lv.SetIntVar(0, 123)
+	lv.SetLongVar(1, 456)
+	lv.SetFloatVar(2, 3.14)
+	lv.SetDoubleVar(3, 2.71828)
+	lv.SetRefVar(4, obj)
 
-	require.Equal(t, int32(123), lv.GetInt(0))
-	require.Equal(t, int64(456), lv.GetLong(1))
-	require.Equal(t, float32(3.14), lv.GetFloat(2))
-	require.Equal(t, 2.71828, lv.GetDouble(3))
-	require.Equal(t, obj, lv.GetRef(4))
+	require.Equal(t, int32(123), lv.GetIntVar(0))
+	require.Equal(t, int64(456), lv.GetLongVar(1))
+	require.Equal(t, float32(3.14), lv.GetFloatVar(2))
+	require.Equal(t, 2.71828, lv.GetDoubleVar(3))
+	require.Equal(t, obj, lv.GetRefVar(4))
 }

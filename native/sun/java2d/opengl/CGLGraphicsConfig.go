@@ -15,5 +15,5 @@ func _cgl(method func(frame *rtda.Frame), name, desc string) {
 
 func cgl_initCGL(frame *rtda.Frame) {
 	//TODO
-	frame.OperandStack().PushBoolean(true)
+	frame.PushBoolean(true)
 }

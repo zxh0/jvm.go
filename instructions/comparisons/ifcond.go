@@ -9,7 +9,7 @@ import (
 type IFEQ struct{ base.BranchInstruction }
 
 func (instr *IFEQ) Execute(frame *rtda.Frame) {
-	val := frame.OperandStack().PopInt()
+	val := frame.PopInt()
 	if val == 0 {
 		base.Branch(frame, instr.Offset)
 	}
@@ -18,7 +18,7 @@ func (instr *IFEQ) Execute(frame *rtda.Frame) {
 type IFNE struct{ base.BranchInstruction }
 
 func (instr *IFNE) Execute(frame *rtda.Frame) {
-	val := frame.OperandStack().PopInt()
+	val := frame.PopInt()
 	if val != 0 {
 		base.Branch(frame, instr.Offset)
 	}
@@ -27,7 +27,7 @@ func (instr *IFNE) Execute(frame *rtda.Frame) {
 type IFLT struct{ base.BranchInstruction }
 
 func (instr *IFLT) Execute(frame *rtda.Frame) {
-	val := frame.OperandStack().PopInt()
+	val := frame.PopInt()
 	if val < 0 {
 		base.Branch(frame, instr.Offset)
 	}
@@ -36,7 +36,7 @@ func (instr *IFLT) Execute(frame *rtda.Frame) {
 type IFLE struct{ base.BranchInstruction }
 
 func (instr *IFLE) Execute(frame *rtda.Frame) {
-	val := frame.OperandStack().PopInt()
+	val := frame.PopInt()
 	if val <= 0 {
 		base.Branch(frame, instr.Offset)
 	}
@@ -45,7 +45,7 @@ func (instr *IFLE) Execute(frame *rtda.Frame) {
 type IFGT struct{ base.BranchInstruction }
 
 func (instr *IFGT) Execute(frame *rtda.Frame) {
-	val := frame.OperandStack().PopInt()
+	val := frame.PopInt()
 	if val > 0 {
 		base.Branch(frame, instr.Offset)
 	}
@@ -54,7 +54,7 @@ func (instr *IFGT) Execute(frame *rtda.Frame) {
 type IFGE struct{ base.BranchInstruction }
 
 func (instr *IFGE) Execute(frame *rtda.Frame) {
-	val := frame.OperandStack().PopInt()
+	val := frame.PopInt()
 	if val >= 0 {
 		base.Branch(frame, instr.Offset)
 	}

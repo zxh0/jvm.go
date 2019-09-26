@@ -9,42 +9,38 @@ import (
 type DSub struct{ base.NoOperandsInstruction }
 
 func (instr *DSub) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopDouble()
-	v1 := stack.PopDouble()
+	v2 := frame.PopDouble()
+	v1 := frame.PopDouble()
 	result := v1 - v2
-	stack.PushDouble(result)
+	frame.PushDouble(result)
 }
 
 // Subtract float
 type FSub struct{ base.NoOperandsInstruction }
 
 func (instr *FSub) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopFloat()
-	v1 := stack.PopFloat()
+	v2 := frame.PopFloat()
+	v1 := frame.PopFloat()
 	result := v1 - v2
-	stack.PushFloat(result)
+	frame.PushFloat(result)
 }
 
 // Subtract int
 type ISub struct{ base.NoOperandsInstruction }
 
 func (instr *ISub) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopInt()
-	v1 := stack.PopInt()
+	v2 := frame.PopInt()
+	v1 := frame.PopInt()
 	result := v1 - v2
-	stack.PushInt(result)
+	frame.PushInt(result)
 }
 
 // Subtract long
 type LSub struct{ base.NoOperandsInstruction }
 
 func (instr *LSub) Execute(frame *rtda.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopLong()
-	v1 := stack.PopLong()
+	v2 := frame.PopLong()
+	v1 := frame.PopLong()
 	result := v1 - v2
-	stack.PushLong(result)
+	frame.PushLong(result)
 }

@@ -33,7 +33,7 @@ func (instr *LOOKUP_SWITCH) FetchOperands(reader *base.BytecodeReader) {
 }
 
 func (instr *LOOKUP_SWITCH) Execute(frame *rtda.Frame) {
-	key := frame.OperandStack().PopInt()
+	key := frame.PopInt()
 	for i := int32(0); i < instr.npairs*2; i += 2 {
 		if instr.matchOffsets[i] == key {
 			offset := instr.matchOffsets[i+1]

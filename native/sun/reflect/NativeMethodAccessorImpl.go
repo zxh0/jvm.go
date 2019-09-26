@@ -22,7 +22,7 @@ func invoke0(frame *rtda.Frame) {
 		frame.RevertNextPC()
 		_invokeMethod(frame)
 	} else {
-		returnType := frame.LocalVars().Get(0).(*heap.FieldType)
+		returnType := frame.LocalVars().Get(0).GetHack().(*heap.FieldType)
 		if returnType.IsBaseType() && !returnType.IsVoidType() {
 			primitiveDescriptor := returnType.Descriptor()[0]
 			box.Box(frame, primitiveDescriptor) // todo
@@ -52,18 +52,18 @@ func _invokeMethod(frame *rtda.Frame) {
 	args := convertArgs(obj, argArrObj, goMethod)
 	// remember return type
 	returnType := goMethod.ParsedDescriptor().ReturnType()
-	vars.Set(0, returnType)
+	vars.Set(0, heap.NewHackSlot(returnType))
 
 	stack := frame.OperandStack()
 	if len(args) > 1 {
 		stack.HackSetSlots(args)
 	} else if len(args) > 0 {
 		// make room for return value
-		stack.HackSetSlots([]interface{}{args[0], nil})
+		stack.HackSetSlots([]heap.Slot{args[0], heap.EmptySlot})
 		stack.PopRef()
 	} else {
 		// make room for return value
-		stack.HackSetSlots([]interface{}{nil, nil})
+		stack.HackSetSlots([]heap.Slot{heap.EmptySlot, heap.EmptySlot})
 		stack.PopRef()
 		stack.PopRef()
 	}

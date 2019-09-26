@@ -26,7 +26,7 @@ type Class struct {
 	methods            []*Method
 	instanceFieldCount uint
 	staticFieldCount   uint
-	staticFieldSlots   []interface{}
+	staticFieldSlots   []Slot
 	vtable             []*Method // virtual method table
 	jClass             *Object   // java.lang.Class instance
 	superClass         *Class
@@ -55,7 +55,7 @@ func (class *Class) Methods() []*Method {
 func (class *Class) Fields() []*Field {
 	return class.fields
 }
-func (class *Class) StaticFieldSlots() []interface{} {
+func (class *Class) StaticFieldSlots() []Slot {
 	return class.staticFieldSlots
 }
 func (class *Class) JClass() *Object {
@@ -169,7 +169,7 @@ func (class *Class) NewObjWithExtra(extra interface{}) *Object {
 }
 func (class *Class) NewObj() *Object {
 	if class.instanceFieldCount > 0 {
-		fields := make([]interface{}, class.instanceFieldCount)
+		fields := make([]Slot, class.instanceFieldCount)
 		obj := newObj(class, fields, nil)
 		obj.initFields()
 		return obj
@@ -192,11 +192,11 @@ func (class *Class) isJioSerializable() bool {
 }
 
 // reflection
-func (class *Class) GetStaticValue(fieldName, fieldDescriptor string) interface{} {
+func (class *Class) GetStaticValue(fieldName, fieldDescriptor string) Slot {
 	field := class.GetStaticField(fieldName, fieldDescriptor)
 	return field.GetStaticValue()
 }
-func (class *Class) SetStaticValue(fieldName, fieldDescriptor string, value interface{}) {
+func (class *Class) SetStaticValue(fieldName, fieldDescriptor string, value Slot) {
 	field := class.GetStaticField(fieldName, fieldDescriptor)
 	field.PutStaticValue(value)
 }

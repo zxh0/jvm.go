@@ -265,10 +265,10 @@ func calcInstanceFieldSlotIds(class *Class) {
 }
 
 func prepare(class *Class) {
-	class.staticFieldSlots = make([]interface{}, class.staticFieldCount)
+	class.staticFieldSlots = make([]Slot, class.staticFieldCount)
 	for _, field := range class.fields {
 		if field.IsStatic() {
-			class.staticFieldSlots[field.slotId] = field.defaultValue()
+			class.staticFieldSlots[field.slotId] = EmptySlot // TODO
 		}
 	}
 }

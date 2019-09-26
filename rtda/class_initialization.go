@@ -101,15 +101,15 @@ func initConstantStaticFields(class *heap.Class) {
 				staticSlots := class.StaticFieldSlots()
 				switch field.Descriptor() {
 				case "Z", "B", "C", "S", "I":
-					staticSlots[slotId] = cp.GetConstant(kValIndex).(int32)
+					staticSlots[slotId] = heap.NewIntSlot(cp.GetConstant(kValIndex).(int32))
 				case "J":
-					staticSlots[slotId] = cp.GetConstant(kValIndex).(int64)
+					staticSlots[slotId] = heap.NewLongSlot(cp.GetConstant(kValIndex).(int64))
 				case "F":
-					staticSlots[slotId] = cp.GetConstant(kValIndex).(float32)
+					staticSlots[slotId] = heap.NewFloatSlot(cp.GetConstant(kValIndex).(float32))
 				case "D":
-					staticSlots[slotId] = cp.GetConstant(kValIndex).(float64)
+					staticSlots[slotId] = heap.NewDoubleSlot(cp.GetConstant(kValIndex).(float64))
 				case "Ljava/lang/String;":
-					staticSlots[slotId] = heap.JString(cp.GetConstant(kValIndex).(string))
+					staticSlots[slotId] = heap.NewRefSlot(heap.JString(cp.GetConstant(kValIndex).(string)))
 				}
 			}
 		}

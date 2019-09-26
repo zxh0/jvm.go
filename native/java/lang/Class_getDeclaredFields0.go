@@ -52,15 +52,15 @@ func getDeclaredFields0(frame *rtda.Frame) {
 			fieldObjs[i] = fieldObj
 
 			// init fieldObj
-			thread.InvokeMethodWithShim(fieldConstructor, []interface{}{
-				fieldObj,                                       // this
-				classObj,                                       // declaringClass
-				heap.JString(goField.Name()),                   // name
-				goField.Type().JClass(),                        // type
-				int32(goField.GetAccessFlags()),                // modifiers
-				int32(goField.SlotId()),                        // slot
-				getSignatureStr(goField.Signature()),           // signature
-				getAnnotationByteArr(goField.AnnotationData()), // annotations
+			thread.InvokeMethodWithShim(fieldConstructor, []heap.Slot{
+				heap.NewRefSlot(fieldObj),                                       // this
+				heap.NewRefSlot(classObj),                                       // declaringClass
+				heap.NewRefSlot(heap.JString(goField.Name())),                   // name
+				heap.NewRefSlot(goField.Type().JClass()),                        // type
+				heap.NewIntSlot(int32(goField.GetAccessFlags())),                // modifiers
+				heap.NewIntSlot(int32(goField.SlotId())),                        // slot
+				heap.NewRefSlot(getSignatureStr(goField.Signature())),           // signature
+				heap.NewRefSlot(getAnnotationByteArr(goField.AnnotationData())), // annotations
 			})
 		}
 	}

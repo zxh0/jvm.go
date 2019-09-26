@@ -33,47 +33,20 @@ func (field *Field) SlotId() uint {
 	return field.slotId
 }
 
-func (field *Field) GetValue(ref *Object) interface{} {
-	fields := ref.fields.([]interface{})
+func (field *Field) GetValue(ref *Object) Slot {
+	fields := ref.fields.([]Slot)
 	return fields[field.slotId]
 }
-func (field *Field) PutValue(ref *Object, val interface{}) {
-	fields := ref.fields.([]interface{})
+func (field *Field) PutValue(ref *Object, val Slot) {
+	fields := ref.fields.([]Slot)
 	fields[field.slotId] = val
 }
 
-func (field *Field) GetStaticValue() interface{} {
+func (field *Field) GetStaticValue() Slot {
 	return field.class.staticFieldSlots[field.slotId]
 }
-func (field *Field) PutStaticValue(val interface{}) {
+func (field *Field) PutStaticValue(val Slot) {
 	field.class.staticFieldSlots[field.slotId] = val
-}
-
-func (field *Field) defaultValue() interface{} {
-	switch field.descriptor[0] {
-	case 'Z': // boolean
-		return int32(0)
-	case 'B': // byte
-		return int32(0)
-	case 'S': // short
-		return int32(0)
-	case 'C': // char
-		return int32(0)
-	case 'I': // int
-		return int32(0)
-	case 'J': // long
-		return int64(0)
-	case 'F': // float
-		return float32(0)
-	case 'D': // double
-		return float64(0)
-	case 'L': // Object
-		return nil
-	case '[': // Array
-		return nil
-	default:
-		panic("BAD field descriptor: " + field.descriptor)
-	}
 }
 
 // reflection

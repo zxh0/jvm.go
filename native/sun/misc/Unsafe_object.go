@@ -62,7 +62,7 @@ func objectFieldOffset(frame *rtda.Frame) {
 	vars := frame.LocalVars()
 	jField := vars.GetRef(1)
 
-	offset := jField.GetFieldValue("slot", "I").(int32)
+	offset := jField.GetFieldValue("slot", "I").IntValue()
 
 	stack := frame.OperandStack()
 	stack.PushLong(int64(offset))
@@ -76,9 +76,9 @@ func getBoolean(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		stack.PushBoolean(anys[offset].(int32) == 1)
+		stack.PushBoolean(slots[offset].IntValue() == 1)
 	} else if bytes, ok := fields.([]int8); ok {
 		// byte[]
 		stack.PushBoolean(bytes[offset] == 1)
@@ -95,9 +95,9 @@ func putBoolean(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		anys[offset] = x
+		slots[offset] = heap.NewIntSlot(x) // TODO
 	} else if bytes, ok := fields.([]int8); ok {
 		// byte[]
 		bytes[offset] = int8(x)
@@ -114,9 +114,9 @@ func getByte(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		stack.PushInt(anys[offset].(int32))
+		stack.PushInt(slots[offset].IntValue())
 	} else if bytes, ok := fields.([]int8); ok {
 		// byte[]
 		stack.PushInt(int32(bytes[offset]))
@@ -133,9 +133,9 @@ func putByte(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		anys[offset] = x
+		slots[offset] = heap.NewIntSlot(x)
 	} else if bytes, ok := fields.([]int8); ok {
 		// byte[]
 		bytes[offset] = int8(x)
@@ -152,9 +152,9 @@ func getChar(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		stack.PushInt(anys[offset].(int32))
+		stack.PushInt(slots[offset].IntValue())
 	} else if chars, ok := fields.([]uint16); ok {
 		// char[]
 		stack.PushInt(int32(chars[offset]))
@@ -171,9 +171,9 @@ func putChar(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		anys[offset] = x
+		slots[offset] = heap.NewIntSlot(x)
 	} else if chars, ok := fields.([]uint16); ok {
 		// char[]
 		chars[offset] = uint16(x)
@@ -190,9 +190,9 @@ func getShort(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		stack.PushInt(anys[offset].(int32))
+		stack.PushInt(slots[offset].IntValue()) // TODO
 	} else if shorts, ok := fields.([]int16); ok {
 		// short[]
 		stack.PushInt(int32(shorts[offset]))
@@ -209,9 +209,9 @@ func putShort(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		anys[offset] = x
+		slots[offset] = heap.NewIntSlot(x)
 	} else if shorts, ok := fields.([]int16); ok {
 		// short[]
 		shorts[offset] = int16(x)
@@ -228,9 +228,9 @@ func getInt(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		stack.PushInt(anys[offset].(int32))
+		stack.PushInt(slots[offset].IntValue())
 	} else if shorts, ok := fields.([]int32); ok {
 		// int[]
 		stack.PushInt(int32(shorts[offset]))
@@ -247,9 +247,9 @@ func putInt(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetInt(4)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		anys[offset] = x
+		slots[offset] = heap.NewIntSlot(x)
 	} else if shorts, ok := fields.([]int32); ok {
 		// int[]
 		shorts[offset] = x
@@ -266,9 +266,9 @@ func getLong(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		stack.PushLong(anys[offset].(int64))
+		stack.PushLong(slots[offset].LongValue())
 	} else if longs, ok := fields.([]int64); ok {
 		// long[]
 		stack.PushLong(longs[offset])
@@ -285,9 +285,9 @@ func putLong(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetLong(4)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		anys[offset] = x
+		slots[offset] = heap.NewLongSlot(x)
 	} else if longs, ok := fields.([]int64); ok {
 		// long[]
 		longs[offset] = x
@@ -304,9 +304,9 @@ func getFloat(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		stack.PushFloat(anys[offset].(float32))
+		stack.PushFloat(slots[offset].FloatValue())
 	} else if floats, ok := fields.([]float32); ok {
 		// float[]
 		stack.PushFloat(floats[offset])
@@ -323,9 +323,9 @@ func putFloat(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetFloat(4)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		anys[offset] = x
+		slots[offset] = heap.NewFloatSlot(x)
 	} else if floats, ok := fields.([]float32); ok {
 		// float[]
 		floats[offset] = x
@@ -342,9 +342,9 @@ func getDouble(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 
 	stack := frame.OperandStack()
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		stack.PushDouble(anys[offset].(float64))
+		stack.PushDouble(slots[offset].DoubleValue())
 	} else if doubles, ok := fields.([]float64); ok {
 		// double[]
 		stack.PushDouble(doubles[offset])
@@ -361,9 +361,9 @@ func putDouble(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetDouble(4)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		anys[offset] = x
+		slots[offset] = heap.NewDoubleSlot(x)
 	} else if doubles, ok := fields.([]float64); ok {
 		// double[]
 		doubles[offset] = x
@@ -380,9 +380,9 @@ func putObject(frame *rtda.Frame) {
 	offset := vars.GetLong(2)
 	x := vars.GetRef(4)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		anys[offset] = x
+		slots[offset] = heap.NewRefSlot(x)
 	} else if objs, ok := fields.([]*heap.Object); ok {
 		// ref[]
 		objs[offset] = x
@@ -398,9 +398,9 @@ func getObject(frame *rtda.Frame) {
 	fields := vars.GetRef(1).Fields()
 	offset := vars.GetLong(2)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		x := _getObj(anys, offset)
+		x := slots[offset].Ref
 		frame.OperandStack().PushRef(x)
 	} else if objs, ok := fields.([]*heap.Object); ok {
 		// ref[]
@@ -408,13 +408,5 @@ func getObject(frame *rtda.Frame) {
 		frame.OperandStack().PushRef(x)
 	} else {
 		panic("getObject!")
-	}
-}
-func _getObj(fields []interface{}, offset int64) *heap.Object {
-	f := fields[offset]
-	if f != nil {
-		return f.(*heap.Object)
-	} else {
-		return nil
 	}
 }

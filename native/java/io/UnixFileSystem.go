@@ -56,7 +56,7 @@ func getBooleanAttributes0(frame *rtda.Frame) {
 }
 
 func _getPath(fileObj *heap.Object) string {
-	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").(*heap.Object)
+	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").Ref
 	return heap.GoString(pathStr)
 }
 

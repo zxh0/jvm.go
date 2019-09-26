@@ -4,7 +4,7 @@ import (
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
-func newShimFrame(thread *Thread, args []interface{}) *Frame {
+func newShimFrame(thread *Thread, args []Slot) *Frame {
 	frame := &Frame{}
 	frame.thread = thread
 	frame.method = heap.ReturnMethod()
@@ -15,11 +15,11 @@ func newShimFrame(thread *Thread, args []interface{}) *Frame {
 	return frame
 }
 
-func newAthrowFrame(thread *Thread, ex *heap.Object, initArgs []interface{}) *Frame {
+func newAthrowFrame(thread *Thread, ex *heap.Object, initArgs []Slot) *Frame {
 	// stackSlots := [ex, ex, initArgs]
-	stackSlots := make([]interface{}, len(initArgs)+2)
-	stackSlots[0] = ex
-	stackSlots[1] = ex
+	stackSlots := make([]Slot, len(initArgs)+2)
+	stackSlots[0] = heap.NewRefSlot(ex)
+	stackSlots[1] = heap.NewRefSlot(ex)
 	copy(stackSlots[2:], initArgs)
 
 	frame := &Frame{}

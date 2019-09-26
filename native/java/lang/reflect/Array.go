@@ -116,21 +116,21 @@ func set(frame *rtda.Frame) {
 	primitiveDescriptor := arr.Class().Name()[1]
 	switch primitiveDescriptor {
 	case 'Z':
-		arr.Booleans()[index] = int8(unboxed.(int32))
+		arr.Booleans()[index] = int8(unboxed.IntValue())
 	case 'B':
-		arr.Bytes()[index] = int8(unboxed.(int32))
+		arr.Bytes()[index] = int8(unboxed.IntValue())
 	case 'C':
-		arr.Chars()[index] = uint16(unboxed.(int32))
+		arr.Chars()[index] = uint16(unboxed.IntValue())
 	case 'S':
-		arr.Shorts()[index] = int16(unboxed.(int32))
+		arr.Shorts()[index] = int16(unboxed.IntValue())
 	case 'I':
-		arr.Ints()[index] = unboxed.(int32)
+		arr.Ints()[index] = unboxed.IntValue()
 	case 'J':
-		arr.Longs()[index] = unboxed.(int64)
+		arr.Longs()[index] = unboxed.LongValue()
 	case 'F':
-		arr.Floats()[index] = unboxed.(float32)
+		arr.Floats()[index] = unboxed.FloatValue()
 	case 'D':
-		arr.Doubles()[index] = unboxed.(float64)
+		arr.Doubles()[index] = unboxed.DoubleValue()
 	}
 }
 

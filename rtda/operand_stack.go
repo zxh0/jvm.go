@@ -5,13 +5,13 @@ import (
 )
 
 type OperandStack struct {
-	size  uint
-	slots []interface{}
+	size  uint // TODO: change to int
+	slots []Slot
 }
 
 func newOperandStack(size uint) *OperandStack {
 	if size > 0 {
-		slots := make([]interface{}, size)
+		slots := make([]Slot, size)
 		return &OperandStack{0, slots}
 	} else {
 		return nil
@@ -23,24 +23,7 @@ func (stack *OperandStack) IsEmpty() bool {
 }
 
 func (stack *OperandStack) PushNull() {
-	stack.slots[stack.size] = nil
-	stack.size++
-}
-
-func (stack *OperandStack) PushRef(ref *heap.Object) {
-	stack.slots[stack.size] = ref
-	stack.size++
-}
-func (stack *OperandStack) PopRef() *heap.Object {
-	stack.size--
-	top := stack.slots[stack.size]
-	stack.slots[stack.size] = nil
-
-	if top == nil {
-		return nil
-	} else {
-		return top.(*heap.Object)
-	}
+	stack.PushSlot(EmptySlot)
 }
 
 func (stack *OperandStack) PushBoolean(val bool) {
@@ -55,82 +38,71 @@ func (stack *OperandStack) PopBoolean() bool {
 }
 
 func (stack *OperandStack) PushInt(val int32) {
-	stack.slots[stack.size] = val
-	stack.size++
+	stack.PushSlot(heap.NewIntSlot(val))
 }
 func (stack *OperandStack) PopInt() int32 {
-	stack.size--
-	top := stack.slots[stack.size]
-	stack.slots[stack.size] = nil
-	return top.(int32)
+	return stack.PopSlot().IntValue()
 }
 
 // long consumes two slots
 func (stack *OperandStack) PushLong(val int64) {
-	stack.slots[stack.size] = val
-	stack.size += 2
+	stack.PushSlot(heap.NewLongSlot(val))
+	stack.size++
 }
 func (stack *OperandStack) PopLong() int64 {
-	stack.size -= 2
-	top := stack.slots[stack.size]
-	stack.slots[stack.size] = nil
-	return top.(int64)
+	stack.size--
+	return stack.PopSlot().LongValue()
 }
 
 func (stack *OperandStack) PushFloat(val float32) {
-	stack.slots[stack.size] = val
-	stack.size++
+	stack.PushSlot(heap.NewFloatSlot(val))
 }
 func (stack *OperandStack) PopFloat() float32 {
-	stack.size--
-	top := stack.slots[stack.size]
-	stack.slots[stack.size] = nil
-	return top.(float32)
+	return stack.PopSlot().FloatValue()
 }
 
 // double consumes two slots
 func (stack *OperandStack) PushDouble(val float64) {
-	stack.slots[stack.size] = val
-	stack.size += 2
-}
-func (stack *OperandStack) PopDouble() float64 {
-	stack.size -= 2
-	top := stack.slots[stack.size]
-	stack.slots[stack.size] = nil
-	return top.(float64)
-}
-
-func (stack *OperandStack) PushSlot(any interface{}) {
-	stack.slots[stack.size] = any
+	stack.PushSlot(heap.NewDoubleSlot(val))
 	stack.size++
 }
-func (stack *OperandStack) PopSlot() interface{} {
+func (stack *OperandStack) PopDouble() float64 {
+	stack.size--
+	return stack.PopSlot().DoubleValue()
+}
+
+func (stack *OperandStack) PushRef(ref *heap.Object) {
+	stack.PushSlot(heap.NewRefSlot(ref))
+}
+func (stack *OperandStack) PopRef() *heap.Object {
+	return stack.PopSlot().Ref
+}
+
+func (stack *OperandStack) PushSlot(slot Slot) {
+	stack.slots[stack.size] = slot
+	stack.size++
+}
+func (stack *OperandStack) PopSlot() Slot {
 	stack.size--
 	top := stack.slots[stack.size]
-	stack.slots[stack.size] = nil
+	stack.slots[stack.size] = EmptySlot // help GC
 	return top
 }
 
-func (stack *OperandStack) PushField(any interface{}, isLongOrDouble bool) {
-	stack.slots[stack.size] = any
+func (stack *OperandStack) PushField(slot Slot, isLongOrDouble bool) {
+	stack.PushSlot(slot)
 	if isLongOrDouble {
-		stack.size += 2
-	} else {
 		stack.size++
 	}
 }
-func (stack *OperandStack) PopField(isLongOrDouble bool) interface{} {
+func (stack *OperandStack) PopField(isLongOrDouble bool) Slot {
 	if isLongOrDouble {
-		stack.size -= 2
-	} else {
 		stack.size--
 	}
-	top := stack.slots[stack.size]
-	stack.slots[stack.size] = nil
-	return top
+	return stack.PopSlot()
 }
 
-func (stack *OperandStack) PopTops(n uint) []interface{} {
+func (stack *OperandStack) PopTops(n uint) []Slot {
 	start := stack.size - n
 	end := stack.size
 	top := stack.slots[start:end]
@@ -139,23 +111,18 @@ func (stack *OperandStack) PopTops(n uint) []interface{} {
 }
 
 func (stack *OperandStack) TopRef(n uint) *heap.Object {
-	ref := stack.slots[stack.size-1-n]
-	if ref == nil {
-		return nil
-	} else {
-		return ref.(*heap.Object)
-	}
+	return stack.slots[stack.size-1-n].Ref
 }
 
 func (stack *OperandStack) Clear() {
 	stack.size = 0
 	for i := range stack.slots {
-		stack.slots[i] = nil
+		stack.slots[i] = EmptySlot
 	}
 }
 
 // only used by native methods
-func (stack *OperandStack) HackSetSlots(slots []interface{}) {
+func (stack *OperandStack) HackSetSlots(slots []Slot) {
 	stack.slots = slots
 	stack.size = uint(len(slots))
 }

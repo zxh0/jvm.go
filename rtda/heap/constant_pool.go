@@ -4,7 +4,7 @@ import (
 	cf "github.com/zxh0/jvm.go/classfile"
 )
 
-type Constant interface{}
+type Constant interface{} // TODO: change to Slot ?
 
 type ConstantPool struct {
 	class  *Class

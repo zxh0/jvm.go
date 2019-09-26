@@ -4,7 +4,6 @@ import (
 	"sync/atomic"
 	"unsafe"
 
-	"github.com/zxh0/jvm.go/jutil"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -24,9 +23,9 @@ func compareAndSwapInt(frame *rtda.Frame) {
 	expected := vars.GetInt(4)
 	newVal := vars.GetInt(5)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		swapped := jutil.CasInt32(anys[offset], expected, newVal)
+		swapped := atomic.CompareAndSwapInt64(&(slots[offset].Val), int64(expected), int64(newVal))
 		frame.OperandStack().PushBoolean(swapped)
 	} else if ints, ok := fields.([]int32); ok {
 		// int[]
@@ -47,9 +46,9 @@ func compareAndSwapLong(frame *rtda.Frame) {
 	expected := vars.GetLong(4)
 	newVal := vars.GetLong(6)
 
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		swapped := jutil.CasInt64(anys[offset], expected, newVal)
+		swapped := atomic.CompareAndSwapInt64(&(slots[offset].Val), expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
 	} else if ints, ok := fields.([]int64); ok {
 		// long[]
@@ -72,9 +71,9 @@ func compareAndSwapObject(frame *rtda.Frame) {
 	newVal := vars.GetRef(5)
 
 	// todo
-	if anys, ok := fields.([]interface{}); ok {
+	if slots, ok := fields.([]heap.Slot); ok {
 		// object
-		swapped := _casObj(obj, anys, offset, expected, newVal)
+		swapped := _casObj(obj, slots, offset, expected, newVal)
 		frame.OperandStack().PushBoolean(swapped)
 	} else if objs, ok := fields.([]*heap.Object); ok {
 		// ref[]
@@ -85,14 +84,14 @@ func compareAndSwapObject(frame *rtda.Frame) {
 		panic("todo: compareAndSwapObject!")
 	}
 }
-func _casObj(obj *heap.Object, fields []interface{}, offset int64, expected, newVal *heap.Object) bool {
+func _casObj(obj *heap.Object, fields []heap.Slot, offset int64, expected, newVal *heap.Object) bool {
 	// todo
 	obj.LockState()
 	defer obj.UnlockState()
 
-	current := _getObj(fields, offset)
+	current := fields[offset].Ref
 	if current == expected {
-		fields[offset] = newVal
+		fields[offset].Ref = newVal
 		return true
 	} else {
 		return false

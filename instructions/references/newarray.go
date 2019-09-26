@@ -76,17 +76,17 @@ func (instr *MultiANewArray) Execute(frame *rtda.Frame) {
 	}
 }
 
-func _checkCounts(counts []interface{}) bool {
+func _checkCounts(counts []heap.Slot) bool {
 	for _, c := range counts {
-		if c.(int32) < 0 {
+		if c.IntValue() < 0 {
 			return false
 		}
 	}
 	return true
 }
 
-func _newMultiArray(counts []interface{}, arrClass *heap.Class) *heap.Object {
-	count := uint(counts[0].(int32))
+func _newMultiArray(counts []heap.Slot, arrClass *heap.Class) *heap.Object {
+	count := uint(counts[0].IntValue())
 	arr := heap.NewArray(arrClass, count)
 
 	if len(counts) > 1 {

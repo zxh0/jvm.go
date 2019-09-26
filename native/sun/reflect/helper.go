@@ -18,30 +18,30 @@ func _getGoMethod(methodObj *heap.Object, isConstructor bool) *heap.Method {
 	}
 
 	if isConstructor {
-		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").(*heap.Object)
+		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").Ref
 		return root.Extra().(*heap.Method)
 	} else {
-		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Method;").(*heap.Object)
+		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Method;").Ref
 		return root.Extra().(*heap.Method)
 	}
 }
 
-// Object[] -> []interface{}
-func convertArgs(this, argArr *heap.Object, method *heap.Method) []interface{} {
+// Object[] -> []Slot
+func convertArgs(this, argArr *heap.Object, method *heap.Method) []heap.Slot {
 	if method.ArgSlotCount() == 0 {
 		return nil
 	}
 	if method.ArgSlotCount() == 1 && !method.IsStatic() {
-		return []interface{}{this}
+		return []heap.Slot{heap.NewRefSlot(this)}
 	}
 
 	argObjs := argArr.Refs()
 	argTypes := method.ParsedDescriptor().ParameterTypes()
 
-	args := make([]interface{}, method.ArgSlotCount())
+	args := make([]heap.Slot, method.ArgSlotCount())
 	j := 0
 	if !method.IsStatic() {
-		args[0] = this
+		args[0] = heap.NewRefSlot(this)
 		j = 1
 	}
 
@@ -56,7 +56,7 @@ func convertArgs(this, argArr *heap.Object, method *heap.Method) []interface{} {
 				j++
 			}
 		} else {
-			args[i+j] = argObj
+			args[i+j] = heap.NewRefSlot(argObj)
 		}
 	}
 

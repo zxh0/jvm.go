@@ -59,19 +59,19 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 			methodObjs[i] = methodObj
 
 			// init methodObj
-			thread.InvokeMethodWithShim(methodConstructor, []interface{}{
-				methodObj,                                              // this
-				classObj,                                               // declaringClass
-				heap.JString(method.Name()),                            // name
-				getParameterTypeArr(method),                            // parameterTypes
-				getReturnType(method),                                  // returnType
-				getExceptionTypeArr(method),                            // checkedExceptions
-				int32(method.GetAccessFlags()),                         // modifiers
-				int32(method.Slot()),                                   // slot
-				getSignatureStr(method.Signature()),                    // signature
-				getAnnotationByteArr(method.AnnotationData()),          // annotations
-				getAnnotationByteArr(method.ParameterAnnotationData()), // parameterAnnotations
-				getAnnotationByteArr(method.AnnotationDefaultData()),   // annotationDefault
+			thread.InvokeMethodWithShim(methodConstructor, []heap.Slot{
+				heap.NewRefSlot(methodObj),                                              // this
+				heap.NewRefSlot(classObj),                                               // declaringClass
+				heap.NewRefSlot(heap.JString(method.Name())),                            // name
+				heap.NewRefSlot(getParameterTypeArr(method)),                            // parameterTypes
+				heap.NewRefSlot(getReturnType(method)),                                  // returnType
+				heap.NewRefSlot(getExceptionTypeArr(method)),                            // checkedExceptions
+				heap.NewIntSlot(int32(method.GetAccessFlags())),                         // modifiers
+				heap.NewIntSlot(int32(method.Slot())),                                   // slot
+				heap.NewRefSlot(getSignatureStr(method.Signature())),                    // signature
+				heap.NewRefSlot(getAnnotationByteArr(method.AnnotationData())),          // annotations
+				heap.NewRefSlot(getAnnotationByteArr(method.ParameterAnnotationData())), // parameterAnnotations
+				heap.NewRefSlot(getAnnotationByteArr(method.AnnotationDefaultData())),   // annotationDefault
 			})
 		}
 	}

@@ -3,6 +3,7 @@ package misc
 import (
 	"github.com/zxh0/jvm.go/jutil/bigendian"
 	"github.com/zxh0/jvm.go/rtda"
+	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -88,7 +89,7 @@ func getAddress(frame *rtda.Frame) {
 // (JB)V
 func mem_putByte(frame *rtda.Frame) {
 	mem, value := _put(frame)
-	bigendian.PutInt8(mem, int8(value.(int32)))
+	bigendian.PutInt8(mem, int8(value.IntValue()))
 }
 
 // public native byte getByte(long address);
@@ -102,7 +103,7 @@ func mem_getByte(frame *rtda.Frame) {
 // (JS)V
 func mem_putShort(frame *rtda.Frame) {
 	mem, value := _put(frame)
-	bigendian.PutInt16(mem, int16(value.(int32)))
+	bigendian.PutInt16(mem, int16(value.IntValue()))
 }
 
 // public native short getShort(long address);
@@ -116,7 +117,7 @@ func mem_getShort(frame *rtda.Frame) {
 // (JC)V
 func mem_putChar(frame *rtda.Frame) {
 	mem, value := _put(frame)
-	bigendian.PutUint16(mem, uint16(value.(int32)))
+	bigendian.PutUint16(mem, uint16(value.IntValue()))
 }
 
 // public native char getChar(long address);
@@ -130,7 +131,7 @@ func mem_getChar(frame *rtda.Frame) {
 // (JI)V
 func mem_putInt(frame *rtda.Frame) {
 	mem, value := _put(frame)
-	bigendian.PutInt32(mem, value.(int32))
+	bigendian.PutInt32(mem, value.IntValue())
 }
 
 // public native int getInt(long address);
@@ -144,7 +145,7 @@ func mem_getInt(frame *rtda.Frame) {
 // (JJ)V
 func mem_putLong(frame *rtda.Frame) {
 	mem, value := _put(frame)
-	bigendian.PutInt64(mem, value.(int64))
+	bigendian.PutInt64(mem, value.LongValue())
 }
 
 // public native long getLong(long address);
@@ -158,7 +159,7 @@ func mem_getLong(frame *rtda.Frame) {
 // (JJ)V
 func mem_putFloat(frame *rtda.Frame) {
 	mem, value := _put(frame)
-	bigendian.PutFloat32(mem, value.(float32))
+	bigendian.PutFloat32(mem, value.FloatValue())
 }
 
 // public native float getFloat(long address);
@@ -172,7 +173,7 @@ func mem_getFloat(frame *rtda.Frame) {
 // (JJ)V
 func mem_putDouble(frame *rtda.Frame) {
 	mem, value := _put(frame)
-	bigendian.PutFloat64(mem, value.(float64))
+	bigendian.PutFloat64(mem, value.DoubleValue())
 }
 
 // public native double getDouble(long address);
@@ -182,7 +183,7 @@ func mem_getDouble(frame *rtda.Frame) {
 	stack.PushDouble(bigendian.Float64(mem))
 }
 
-func _put(frame *rtda.Frame) ([]byte, interface{}) {
+func _put(frame *rtda.Frame) ([]byte, heap.Slot) {
 	vars := frame.LocalVars()
 	// vars.GetRef(0) // this
 	address := vars.GetLong(1)

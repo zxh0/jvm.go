@@ -6,7 +6,7 @@ import (
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
-func Unbox(obj *heap.Object, primitiveDescriptor string) interface{} {
+func Unbox(obj *heap.Object, primitiveDescriptor string) heap.Slot {
 	return obj.GetFieldValue("value", primitiveDescriptor)
 }
 

@@ -102,7 +102,7 @@ func initProperties(frame *rtda.Frame) {
 	for key, val := range _sysProps() {
 		jKey := heap.JString(key)
 		jVal := heap.JString(val)
-		args := []interface{}{props, jKey, jVal}
+		args := []heap.Slot{heap.NewRefSlot(props), heap.NewRefSlot(jKey), heap.NewRefSlot(jVal)}
 		thread.InvokeMethodWithShim(setPropMethod, args)
 	}
 }
@@ -144,28 +144,28 @@ func nanoTime(frame *rtda.Frame) {
 // (Ljava/io/PrintStream;)V
 func setErr0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	err := vars.GetRef(0)
+	err := vars.GetRef(0) // TODO
 
 	sysClass := frame.Method().Class()
-	sysClass.SetStaticValue("err", "Ljava/io/PrintStream;", err)
+	sysClass.SetStaticValue("err", "Ljava/io/PrintStream;", heap.NewRefSlot(err))
 }
 
 // private static native void setIn0(InputStream in);
 // (Ljava/io/InputStream;)V
 func setIn0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	in := vars.GetRef(0)
+	in := vars.GetRef(0) // TODO
 
 	sysClass := frame.Method().Class()
-	sysClass.SetStaticValue("in", "Ljava/io/InputStream;", in)
+	sysClass.SetStaticValue("in", "Ljava/io/InputStream;", heap.NewRefSlot(in))
 }
 
 // private static native void setOut0(PrintStream out);
 // (Ljava/io/PrintStream;)V
 func setOut0(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	out := vars.GetRef(0)
+	out := vars.GetRef(0) // TODO
 
 	sysClass := frame.Method().Class()
-	sysClass.SetStaticValue("out", "Ljava/io/PrintStream;", out)
+	sysClass.SetStaticValue("out", "Ljava/io/PrintStream;", heap.NewRefSlot(out))
 }

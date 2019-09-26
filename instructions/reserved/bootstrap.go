@@ -38,8 +38,8 @@ func (instr *BOOTSTRAP) Execute(frame *rtda.Frame) {
 
 func initVars(frame *rtda.Frame) {
 	vars := frame.LocalVars()
-	_mainClassName = vars.Get(0).(string)
-	_args = vars.Get(1).([]string)
+	_mainClassName = vars.Get(0).GetHack().(string)
+	_args = vars.Get(1).GetHack().([]string)
 	_bootClasses = []string{
 		"java/lang/Class",
 		"java/lang/String",
@@ -87,7 +87,7 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 		undoExec(thread)
 		threadClass := _classLoader.LoadClass("java/lang/Thread")
 		mainThreadObj := threadClass.NewObjWithExtra(thread)
-		mainThreadObj.SetFieldValue("priority", "I", int32(1))
+		mainThreadObj.SetFieldValue("priority", "I", heap.NewIntSlot(1))
 		thread.HackSetJThread(mainThreadObj)
 
 		initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
@@ -103,7 +103,7 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 func jlSystemNotReady(thread *rtda.Thread) bool {
 	sysClass := _classLoader.LoadClass("java/lang/System")
 	propsField := sysClass.GetStaticField("props", "Ljava/util/Properties;")
-	props := propsField.GetStaticValue()
+	props := propsField.GetStaticValue().Ref
 	if props == nil {
 		undoExec(thread)
 		initSys := sysClass.GetStaticMethod("initializeSystemClass", "()V")

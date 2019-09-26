@@ -15,13 +15,13 @@ func JString(goStr string) *Object {
 	chars := _stringToUtf16(goStr)
 	charArr := NewCharArray(chars)
 	jStr := BootLoader().JLStringClass().NewObj()
-	jStr.SetFieldValue("value", "[C", charArr)
+	jStr.SetFieldValue("value", "[C", NewRefSlot(charArr))
 	return InternString(goStr, jStr)
 }
 
 // java.lang.String -> go string
 func GoString(jStr *Object) string {
-	charArr := jStr.GetFieldValue("value", "[C").(*Object)
+	charArr := jStr.GetFieldValue("value", "[C").Ref
 	return _utf16ToString(charArr.Chars())
 }
 

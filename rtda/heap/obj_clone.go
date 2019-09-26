@@ -49,9 +49,9 @@ func (obj *Object) _cloneFields() interface{} {
 		fields2 := make([]*Object, len(fields))
 		copy(fields2, fields)
 		return fields2
-	default: // []interface{}
-		fields := obj.fields.([]interface{})
-		fields2 := make([]interface{}, len(fields))
+	default: // []Slot
+		fields := obj.fields.([]Slot)
+		fields2 := make([]Slot, len(fields))
 		copy(fields2, fields)
 		return fields2
 	}

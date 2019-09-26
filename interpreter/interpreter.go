@@ -11,7 +11,7 @@ import (
 // todo
 func Loop(thread *rtda.Thread) {
 	threadObj := thread.JThread()
-	isDaemon := threadObj != nil && threadObj.GetFieldValue("daemon", "Z").(int32) == 1
+	isDaemon := threadObj != nil && threadObj.GetFieldValue("daemon", "Z").IntValue() == 1
 	if !isDaemon {
 		nonDaemonThreadStart()
 	}

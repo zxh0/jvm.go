@@ -8,8 +8,8 @@ import (
 // object
 type Object struct {
 	class   *Class
-	fields  interface{} // []interface{} for Object, []int32 for int[] ...
-	extra   interface{} // remember some important things from golnag
+	fields  interface{} // []Slot for Object, []int32 for int[] ...
+	extra   interface{} // remember some important things from Golang
 	monitor *Monitor
 	lock    *sync.RWMutex // state lock
 }
@@ -65,11 +65,11 @@ func (obj *Object) GetPrimitiveDescriptor() string {
 
 // todo
 func (obj *Object) initFields() {
-	fields := obj.fields.([]interface{})
+	fields := obj.fields.([]Slot)
 	for class := obj.class; class != nil; class = class.superClass {
 		for _, f := range class.fields {
 			if !f.IsStatic() {
-				fields[f.slotId] = f.defaultValue()
+				fields[f.slotId] = EmptySlot // TODO
 			}
 		}
 	}
@@ -90,11 +90,11 @@ func (obj *Object) RUnlockState() {
 }
 
 // reflection
-func (obj *Object) GetFieldValue(fieldName, fieldDescriptor string) interface{} {
+func (obj *Object) GetFieldValue(fieldName, fieldDescriptor string) Slot {
 	field := obj.class.GetInstanceField(fieldName, fieldDescriptor)
 	return field.GetValue(obj)
 }
-func (obj *Object) SetFieldValue(fieldName, fieldDescriptor string, value interface{}) {
+func (obj *Object) SetFieldValue(fieldName, fieldDescriptor string, value Slot) {
 	field := obj.class.GetInstanceField(fieldName, fieldDescriptor)
 	field.PutValue(obj, value)
 }

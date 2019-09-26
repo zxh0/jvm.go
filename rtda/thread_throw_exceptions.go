@@ -6,7 +6,7 @@ import (
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
-func (thread *Thread) throwException(className, initDesc string, initArgs ...interface{}) {
+func (thread *Thread) throwException(className, initDesc string, initArgs ...Slot) {
 	class := heap.BootLoader().LoadClass(className)
 	exObj := class.NewObj()
 	athrowFrame := newAthrowFrame(thread, exObj, initArgs)
@@ -22,7 +22,7 @@ func (thread *Thread) throwExceptionV(className string) {
 }
 func (thread *Thread) throwExceptionS(className, msg string) {
 	msgObj := heap.JString(msg)
-	thread.throwException(className, "(Ljava/lang/String;)V", msgObj)
+	thread.throwException(className, "(Ljava/lang/String;)V", heap.NewRefSlot(msgObj))
 }
 
 func (thread *Thread) ThrowNPE() {

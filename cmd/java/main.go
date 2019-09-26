@@ -54,7 +54,7 @@ func startJVM(cmd cmd.Command) {
 func createMainThread(className string, args []string) *rtda.Thread {
 	mainThread := rtda.NewThread(nil)
 	bootMethod := heap.BootstrapMethod()
-	bootArgs := []interface{}{className, args}
+	bootArgs := []heap.Slot{heap.NewHackSlot(className), heap.NewHackSlot(args)}
 	mainThread.InvokeMethodWithShim(bootMethod, bootArgs)
 	return mainThread
 }

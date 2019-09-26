@@ -109,10 +109,10 @@ func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) *heap
 	steClass := frame.ClassLoader().LoadClass("java/lang/StackTraceElement")
 	steObj := steClass.NewObj()
 	// todo: call <init>
-	steObj.SetFieldValue("declaringClass", "Ljava/lang/String;", declaringClass)
-	steObj.SetFieldValue("methodName", "Ljava/lang/String;", methodName)
-	steObj.SetFieldValue("fileName", "Ljava/lang/String;", fileName)
-	steObj.SetFieldValue("lineNumber", "I", lineNumber)
+	steObj.SetFieldValue("declaringClass", "Ljava/lang/String;", heap.NewRefSlot(declaringClass))
+	steObj.SetFieldValue("methodName", "Ljava/lang/String;", heap.NewRefSlot(methodName))
+	steObj.SetFieldValue("fileName", "Ljava/lang/String;", heap.NewRefSlot(fileName))
+	steObj.SetFieldValue("lineNumber", "I", heap.NewIntSlot(lineNumber))
 
 	return steObj
 }

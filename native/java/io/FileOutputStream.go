@@ -25,9 +25,9 @@ func writeBytes(frame *rtda.Frame) {
 	length := vars.GetInt(3)     // len
 	//vars.GetBoolean(4) // append
 
-	fdObj := fosObj.GetFieldValue("fd", "Ljava/io/FileDescriptor;").(*heap.Object)
+	fdObj := fosObj.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
 	if fdObj.Extra() == nil {
-		goFd := fdObj.GetFieldValue("fd", "I").(int32)
+		goFd := fdObj.GetFieldValue("fd", "I").IntValue()
 		switch goFd {
 		case 0:
 			fdObj.SetExtra(os.Stdin)

@@ -72,7 +72,7 @@ func staticFieldOffset(frame *rtda.Frame) {
 	// vars.GetRef(0) // this
 	fieldObj := vars.GetRef(1)
 
-	offset := fieldObj.GetFieldValue("slot", "I").(int32)
+	offset := fieldObj.GetFieldValue("slot", "I").IntValue()
 	stack := frame.OperandStack()
 	stack.PushLong(int64(offset))
 }
@@ -98,6 +98,6 @@ func _getGoField(fieldObj *heap.Object) *heap.Field {
 		return extra.(*heap.Field)
 	}
 
-	root := fieldObj.GetFieldValue("root", "Ljava/lang/reflect/Field;").(*heap.Object)
+	root := fieldObj.GetFieldValue("root", "Ljava/lang/reflect/Field;").Ref
 	return root.Extra().(*heap.Field)
 }

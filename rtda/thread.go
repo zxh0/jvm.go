@@ -125,7 +125,7 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argSlotsCount uint) {
 	args := stack.PopTops(argSlotsCount)
 	for i := uint(0); i < argSlotsCount; i++ {
 		arg := args[i]
-		args[i] = nil
+		args[i] = EmptySlot
 		vars.Set(i, arg)
 	}
 }
@@ -141,7 +141,7 @@ func (thread *Thread) _logInvoke(stackSize uint, method *heap.Method) {
 	}
 }
 
-func (thread *Thread) InvokeMethodWithShim(method *heap.Method, args []interface{}) {
+func (thread *Thread) InvokeMethodWithShim(method *heap.Method, args []Slot) {
 	shimFrame := newShimFrame(thread, args)
 	thread.PushFrame(shimFrame)
 	thread.InvokeMethod(method)
@@ -154,7 +154,7 @@ func (thread *Thread) InitClass(class *heap.Class) {
 func (thread *Thread) HandleUncaughtException(ex *heap.Object) {
 	thread.stack.clear()
 	sysClass := heap.BootLoader().LoadClass("java/lang/System")
-	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").(*heap.Object)
+	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").Ref
 	printStackTrace := ex.Class().GetInstanceMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
 
 	// call ex.printStackTrace(System.err)

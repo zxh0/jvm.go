@@ -83,3 +83,18 @@ func (frame *Frame) ClassLoader() *heap.ClassLoader {
 func (frame *Frame) ConstantPool() *heap.ConstantPool {
 	return frame.method.ConstantPool()
 }
+
+func (frame *Frame) Load(idx uint, isLongOrDouble bool) {
+	slot := frame.LocalVars().Get(idx)
+	frame.OperandStack().PushSlot(slot)
+	if isLongOrDouble {
+		frame.OperandStack().PushNull()
+	}
+}
+func (frame *Frame) Store(idx uint, isLongOrDouble bool) {
+	if isLongOrDouble {
+		frame.OperandStack().PopSlot()
+	}
+	slot := frame.OperandStack().PopSlot()
+	frame.LocalVars().Set(idx, slot)
+}

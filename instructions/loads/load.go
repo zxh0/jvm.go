@@ -6,7 +6,28 @@ import (
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
-//type Ref *rtda.Object
+// type Ref = *rtda.Object
+
+// xload: Load XXX from local variable
+type Load struct {
+	base.Index8Instruction
+	L bool
+}
+
+func (instr *Load) Execute(frame *rtda.Frame) {
+	frame.Load(instr.Index, instr.L)
+}
+
+// xload_n: Load XXX from local variable
+type LoadN struct {
+	base.NoOperandsInstruction
+	N uint
+	L bool
+}
+
+func (instr *LoadN) Execute(frame *rtda.Frame) {
+	frame.Load(instr.N, instr.L)
+}
 
 // Load reference from array
 type AALoad struct{ base.NoOperandsInstruction }

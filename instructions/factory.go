@@ -14,46 +14,47 @@ import (
 	. "github.com/zxh0/jvm.go/instructions/stack"
 	. "github.com/zxh0/jvm.go/instructions/stores"
 	"github.com/zxh0/jvm.go/jutil"
+	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 // NoOperandsInstruction singletons
 var (
 	nop           = &NOP{}
-	aconst_null   = &AConstNull{}
-	iconst_m1     = &IConst{Val: -1}
-	iconst_0      = &IConst{Val: 0}
-	iconst_1      = &IConst{Val: 1}
-	iconst_2      = &IConst{Val: 2}
-	iconst_3      = &IConst{Val: 3}
-	iconst_4      = &IConst{Val: 4}
-	iconst_5      = &IConst{Val: 5}
-	lconst_0      = &LConst{Val: 0}
-	lconst_1      = &LConst{Val: 1}
-	fconst_0      = &FConst{Val: 0.0}
-	fconst_1      = &FConst{Val: 1.0}
-	fconst_2      = &FConst{Val: 2.0}
-	dconst_0      = &DConst{Val: 0.0}
-	dconst_1      = &DConst{Val: 1.0}
-	iload_0       = &ILoad0{}
-	iload_1       = &ILoad1{}
-	iload_2       = &ILoad2{}
-	iload_3       = &ILoad3{}
-	lload_0       = &LLoad0{}
-	lload_1       = &LLoad1{}
-	lload_2       = &LLoad2{}
-	lload_3       = &LLoad3{}
-	fload_0       = &FLoad0{}
-	fload_1       = &FLoad1{}
-	fload_2       = &FLoad2{}
-	fload_3       = &FLoad3{}
-	dload_0       = &DLoad0{}
-	dload_1       = &DLoad1{}
-	dload_2       = &DLoad2{}
-	dload_3       = &DLoad3{}
-	aload_0       = &ALoad0{}
-	aload_1       = &ALoad1{}
-	aload_2       = &ALoad2{}
-	aload_3       = &ALoad3{}
+	aconst_null   = &Const{K: heap.EmptySlot}
+	iconst_m1     = &Const{K: heap.NewIntSlot(-1)}
+	iconst_0      = &Const{K: heap.NewIntSlot(0)}
+	iconst_1      = &Const{K: heap.NewIntSlot(1)}
+	iconst_2      = &Const{K: heap.NewIntSlot(2)}
+	iconst_3      = &Const{K: heap.NewIntSlot(3)}
+	iconst_4      = &Const{K: heap.NewIntSlot(4)}
+	iconst_5      = &Const{K: heap.NewIntSlot(5)}
+	lconst_0      = &Const{K: heap.NewLongSlot(0), L: true}
+	lconst_1      = &Const{K: heap.NewLongSlot(1), L: true}
+	fconst_0      = &Const{K: heap.NewFloatSlot(0.0)}
+	fconst_1      = &Const{K: heap.NewFloatSlot(1.0)}
+	fconst_2      = &Const{K: heap.NewFloatSlot(2.0)}
+	dconst_0      = &Const{K: heap.NewDoubleSlot(0.0), L: true}
+	dconst_1      = &Const{K: heap.NewDoubleSlot(1.0), L: true}
+	iload_0       = &LoadN{N: 0}
+	iload_1       = &LoadN{N: 1}
+	iload_2       = &LoadN{N: 2}
+	iload_3       = &LoadN{N: 3}
+	lload_0       = &LoadN{N: 0, L: true}
+	lload_1       = &LoadN{N: 1, L: true}
+	lload_2       = &LoadN{N: 2, L: true}
+	lload_3       = &LoadN{N: 3, L: true}
+	fload_0       = &LoadN{N: 0}
+	fload_1       = &LoadN{N: 1}
+	fload_2       = &LoadN{N: 2}
+	fload_3       = &LoadN{N: 3}
+	dload_0       = &LoadN{N: 0, L: true}
+	dload_1       = &LoadN{N: 1, L: true}
+	dload_2       = &LoadN{N: 2, L: true}
+	dload_3       = &LoadN{N: 3, L: true}
+	aload_0       = &LoadN{N: 0}
+	aload_1       = &LoadN{N: 1}
+	aload_2       = &LoadN{N: 2}
+	aload_3       = &LoadN{N: 3}
 	iaload        = &IALoad{}
 	laload        = &LALoad{}
 	faload        = &FALoad{}
@@ -62,26 +63,26 @@ var (
 	baload        = &BALoad{}
 	caload        = &CALoad{}
 	saload        = &SALoad{}
-	istore_0      = &IStore0{}
-	istore_1      = &IStore1{}
-	istore_2      = &IStore2{}
-	istore_3      = &IStore3{}
-	lstore_0      = &LStore0{}
-	lstore_1      = &LStore1{}
-	lstore_2      = &LStore2{}
-	lstore_3      = &LStore3{}
-	fstore_0      = &FStore0{}
-	fstore_1      = &FStore1{}
-	fstore_2      = &FStore2{}
-	fstore_3      = &FStore3{}
-	dstore_0      = &DStore0{}
-	dstore_1      = &DStore1{}
-	dstore_2      = &DStore2{}
-	dstore_3      = &DStore3{}
-	astore_0      = &AStore0{}
-	astore_1      = &AStore1{}
-	astore_2      = &AStore2{}
-	astore_3      = &AStore3{}
+	istore_0      = &StoreN{N: 0}
+	istore_1      = &StoreN{N: 1}
+	istore_2      = &StoreN{N: 2}
+	istore_3      = &StoreN{N: 3}
+	lstore_0      = &StoreN{N: 0, L: true}
+	lstore_1      = &StoreN{N: 1, L: true}
+	lstore_2      = &StoreN{N: 2, L: true}
+	lstore_3      = &StoreN{N: 3, L: true}
+	fstore_0      = &StoreN{N: 0}
+	fstore_1      = &StoreN{N: 1}
+	fstore_2      = &StoreN{N: 2}
+	fstore_3      = &StoreN{N: 3}
+	dstore_0      = &StoreN{N: 0, L: true}
+	dstore_1      = &StoreN{N: 1, L: true}
+	dstore_2      = &StoreN{N: 2, L: true}
+	dstore_3      = &StoreN{N: 3, L: true}
+	astore_0      = &StoreN{N: 0}
+	astore_1      = &StoreN{N: 1}
+	astore_2      = &StoreN{N: 2}
+	astore_3      = &StoreN{N: 3}
 	iastore       = &IAStore{}
 	lastore       = &LAStore{}
 	fastore       = &FAStore{}
@@ -213,15 +214,15 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0x14:
 		return &LDC2_W{}
 	case 0x15:
-		return &ILoad{}
+		return &Load{}
 	case 0x16:
-		return &LLoad{}
+		return &Load{L: true}
 	case 0x17:
-		return &FLoad{}
+		return &Load{}
 	case 0x18:
-		return &DLoad{}
+		return &Load{L: true}
 	case 0x19:
-		return &ALoad{}
+		return &Load{}
 	case 0x1a:
 		return iload_0
 	case 0x1b:
@@ -279,15 +280,15 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0x35:
 		return saload
 	case 0x36:
-		return &IStore{}
+		return &Store{}
 	case 0x37:
-		return &LStore{}
+		return &Store{L: true}
 	case 0x38:
-		return &FStore{}
+		return &Store{}
 	case 0x39:
-		return &DStore{}
+		return &Store{L: true}
 	case 0x3a:
-		return &AStore{}
+		return &Store{}
 	case 0x3b:
 		return istore_0
 	case 0x3c:

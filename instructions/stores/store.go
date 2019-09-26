@@ -6,6 +6,27 @@ import (
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
+// xstore: Store XXX into local variable
+type Store struct {
+	base.Index8Instruction
+	L bool
+}
+
+func (instr *Store) Execute(frame *rtda.Frame) {
+	frame.Store(instr.Index, instr.L)
+}
+
+// xstore_n: Store XXX into local variable
+type StoreN struct {
+	base.NoOperandsInstruction
+	N uint
+	L bool
+}
+
+func (instr *StoreN) Execute(frame *rtda.Frame) {
+	frame.Store(instr.N, instr.L)
+}
+
 // Store into reference array
 type AAStore struct{ base.NoOperandsInstruction }
 

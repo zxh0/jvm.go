@@ -16,7 +16,7 @@ func TestAConst(t *testing.T) {
 }
 
 func TestDConst(t *testing.T) {
-	frame := rtda.NewFrame(0, 1)
+	frame := rtda.NewFrame(0, 2)
 	dconst_0.Execute(frame)
 	require.Equal(t, 0.0, frame.OperandStack().PopDouble())
 	dconst_1.Execute(frame)
@@ -52,7 +52,7 @@ func TestIConst(t *testing.T) {
 }
 
 func TestLConst(t *testing.T) {
-	frame := rtda.NewFrame(0, 1)
+	frame := rtda.NewFrame(0, 2)
 	lconst_0.Execute(frame)
 	require.Equal(t, int64(0), frame.OperandStack().PopLong())
 	lconst_1.Execute(frame)
@@ -70,7 +70,7 @@ func TestILoad(t *testing.T) {
 }
 
 func TestLLoad(t *testing.T) {
-	frame := rtda.NewFrame(8, 1)
+	frame := rtda.NewFrame(8, 2)
 	instrs := []base.Instruction{lload_0, lload_1, lload_2, lload_3}
 	for i, instr := range instrs {
 		frame.LocalVars().SetLong(uint(i), 100)
@@ -90,7 +90,7 @@ func TestFLoad(t *testing.T) {
 }
 
 func TestDLoad(t *testing.T) {
-	frame := rtda.NewFrame(8, 1)
+	frame := rtda.NewFrame(8, 2)
 	instrs := []base.Instruction{dload_0, dload_1, dload_2, dload_3}
 	for i, instr := range instrs {
 		frame.LocalVars().SetDouble(uint(i), 100)
@@ -121,7 +121,7 @@ func TestIStore(t *testing.T) {
 }
 
 func TestLStore(t *testing.T) {
-	frame := rtda.NewFrame(8, 1)
+	frame := rtda.NewFrame(8, 2)
 	instrs := []base.Instruction{lstore_0, lstore_1, lstore_2, lstore_3}
 	for i, instr := range instrs {
 		frame.OperandStack().PushLong(100)
@@ -141,7 +141,7 @@ func TestFStore(t *testing.T) {
 }
 
 func TestDStore(t *testing.T) {
-	frame := rtda.NewFrame(8, 1)
+	frame := rtda.NewFrame(8, 2)
 	instrs := []base.Instruction{dstore_0, dstore_1, dstore_2, dstore_3}
 	for i, instr := range instrs {
 		frame.OperandStack().PushDouble(100)

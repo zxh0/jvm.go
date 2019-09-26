@@ -27,9 +27,9 @@ func (instr *NewArray) Execute(frame *rtda.Frame) {
 }
 
 // Create new array of reference
-type ANEW_ARRAY struct{ base.Index16Instruction }
+type ANewArray struct{ base.Index16Instruction }
 
-func (instr *ANEW_ARRAY) Execute(frame *rtda.Frame) {
+func (instr *ANewArray) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()
 	kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
 	componentClass := kClass.Class()
@@ -52,16 +52,16 @@ func (instr *ANEW_ARRAY) Execute(frame *rtda.Frame) {
 }
 
 // Create new multidimensional array
-type MULTI_ANEW_ARRAY struct {
+type MultiANewArray struct {
 	index      uint16
 	dimensions uint8
 }
 
-func (instr *MULTI_ANEW_ARRAY) FetchOperands(reader *base.BytecodeReader) {
+func (instr *MultiANewArray) FetchOperands(reader *base.BytecodeReader) {
 	instr.index = reader.ReadUint16()
 	instr.dimensions = reader.ReadUint8()
 }
-func (instr *MULTI_ANEW_ARRAY) Execute(frame *rtda.Frame) {
+func (instr *MultiANewArray) Execute(frame *rtda.Frame) {
 	cp := frame.ConstantPool()
 	kClass := cp.GetConstant(uint(instr.index)).(*heap.ConstantClass)
 	arrClass := kClass.Class()

@@ -10,11 +10,11 @@ import (
 )
 
 // Extend local variable index by additional bytes
-type WIDE struct {
+type Wide struct {
 	modifiedInstruction base.Instruction
 }
 
-func (instr *WIDE) FetchOperands(reader *base.BytecodeReader) {
+func (instr *Wide) FetchOperands(reader *base.BytecodeReader) {
 	opcode := reader.ReadUint8()
 	switch opcode {
 	case 0x15:
@@ -69,6 +69,6 @@ func (instr *WIDE) FetchOperands(reader *base.BytecodeReader) {
 	}
 }
 
-func (instr *WIDE) Execute(frame *rtda.Frame) {
+func (instr *Wide) Execute(frame *rtda.Frame) {
 	instr.modifiedInstruction.Execute(frame)
 }

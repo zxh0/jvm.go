@@ -505,7 +505,7 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xa6:
 		return &IF_ACMPNE{}
 	case 0xa7:
-		return &GOTO{}
+		return &Goto{}
 	case 0xa8:
 		return &JSR{}
 	case 0xa9:
@@ -549,7 +549,7 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xbc:
 		return &NewArray{}
 	case 0xbd:
-		return &ANEW_ARRAY{}
+		return &ANewArray{}
 	case 0xbe:
 		return arraylength
 	case 0xbf:
@@ -563,15 +563,15 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xc3:
 		return monitorexit
 	case 0xc4:
-		return &WIDE{}
+		return &Wide{}
 	case 0xc5:
-		return &MULTI_ANEW_ARRAY{}
+		return &MultiANewArray{}
 	case 0xc6:
-		return &IFNULL{}
+		return &IfNull{}
 	case 0xc7:
-		return &IFNONNULL{}
+		return &IfNonNull{}
 	case 0xc8:
-		return &GOTO_W{}
+		return &GotoW{}
 	case 0xc9:
 		return &JSR_W{}
 	//case 0xca: todo breakpoint

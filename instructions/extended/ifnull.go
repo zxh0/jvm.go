@@ -6,9 +6,9 @@ import (
 )
 
 // Branch if reference is null
-type IFNULL struct{ base.BranchInstruction }
+type IfNull struct{ base.BranchInstruction }
 
-func (instr *IFNULL) Execute(frame *rtda.Frame) {
+func (instr *IfNull) Execute(frame *rtda.Frame) {
 	ref := frame.OperandStack().PopRef()
 	if ref == nil {
 		base.Branch(frame, instr.Offset)
@@ -16,9 +16,9 @@ func (instr *IFNULL) Execute(frame *rtda.Frame) {
 }
 
 // Branch if reference not null
-type IFNONNULL struct{ base.BranchInstruction }
+type IfNonNull struct{ base.BranchInstruction }
 
-func (instr *IFNONNULL) Execute(frame *rtda.Frame) {
+func (instr *IfNonNull) Execute(frame *rtda.Frame) {
 	ref := frame.OperandStack().PopRef()
 	if ref != nil {
 		base.Branch(frame, instr.Offset)

@@ -2,8 +2,6 @@ package heap
 
 import (
 	"fmt"
-
-	"github.com/zxh0/jvm.go/jutil"
 )
 
 type ConstantFieldref struct {
@@ -34,7 +32,7 @@ func (fr *ConstantFieldref) resolveInstanceField() {
 	}
 
 	// todo
-	jutil.Panicf("instance field not found! %v", fr)
+	panic(fmt.Errorf("instance field not found! %v", fr))
 }
 
 func (fr *ConstantFieldref) StaticField() *Field {
@@ -58,7 +56,7 @@ func (fr *ConstantFieldref) resolveStaticField() {
 	}
 
 	// todo
-	jutil.Panicf("static field not found! %v", fr)
+	panic(fmt.Errorf("static field not found! %v", fr))
 }
 
 func (fr *ConstantFieldref) _findInterfaceField(class *Class) bool {

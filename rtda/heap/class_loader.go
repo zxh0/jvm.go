@@ -5,8 +5,8 @@ import (
 
 	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/classpath"
-	"github.com/zxh0/jvm.go/jerrors"
 	"github.com/zxh0/jvm.go/options"
+	"github.com/zxh0/jvm.go/vmerrors"
 )
 
 const (
@@ -178,7 +178,7 @@ func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 func (loader *ClassLoader) readClassData(name string) (classpath.Entry, []byte) {
 	cpEntry, classData, err := loader.classPath.ReadClass(name)
 	if err != nil {
-		panic(jerrors.NewClassNotFoundError(SlashToDot(name)))
+		panic(vmerrors.NewClassNotFoundError(SlashToDot(name)))
 	}
 
 	return cpEntry, classData

@@ -1,7 +1,9 @@
 package misc
 
 import (
-	"github.com/zxh0/jvm.go/jutil/bigendian"
+	"encoding/binary"
+	"math"
+
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -13,20 +15,20 @@ func init() {
 	_unsafe(addressSize, "addressSize", "()I")
 	_unsafe(putAddress, "putAddress", "(JJ)V")
 	_unsafe(getAddress, "getAddress", "(J)J")
-	_unsafe(mem_putByte, "putByte", "(JB)V")
-	_unsafe(mem_getByte, "getByte", "(J)B")
-	_unsafe(mem_putShort, "putShort", "(JS)V")
-	_unsafe(mem_getShort, "getShort", "(J)S")
-	_unsafe(mem_putChar, "putChar", "(JC)V")
-	_unsafe(mem_getChar, "getChar", "(J)C")
-	_unsafe(mem_putInt, "putInt", "(JI)V")
-	_unsafe(mem_getInt, "getInt", "(J)I")
-	_unsafe(mem_putLong, "putLong", "(JJ)V")
-	_unsafe(mem_getLong, "getLong", "(J)J")
-	_unsafe(mem_putFloat, "putFloat", "(JF)V")
-	_unsafe(mem_getFloat, "getFloat", "(J)F")
-	_unsafe(mem_putDouble, "putDouble", "(JD)V")
-	_unsafe(mem_getDouble, "getDouble", "(J)D")
+	_unsafe(memPutByte, "putByte", "(JB)V")
+	_unsafe(memGetByte, "getByte", "(J)B")
+	_unsafe(memPutShort, "putShort", "(JS)V")
+	_unsafe(memGetShort, "getShort", "(J)S")
+	_unsafe(memPutChar, "putChar", "(JC)V")
+	_unsafe(memGetChar, "getChar", "(J)C")
+	_unsafe(memPutInt, "putInt", "(JI)V")
+	_unsafe(memGetInt, "getInt", "(J)I")
+	_unsafe(memPutLong, "putLong", "(JJ)V")
+	_unsafe(memGetLong, "getLong", "(J)J")
+	_unsafe(memPutFloat, "putFloat", "(JF)V")
+	_unsafe(memGetFloat, "getFloat", "(J)F")
+	_unsafe(memPutDouble, "putDouble", "(JD)V")
+	_unsafe(memGetDouble, "getDouble", "(J)D")
 }
 
 // public native long allocateMemory(long bytes);
@@ -70,123 +72,122 @@ func addressSize(frame *rtda.Frame) {
 // public native void putAddress(long address, long x);
 // (JJ)V
 func putAddress(frame *rtda.Frame) {
-	mem_putLong(frame)
+	memPutLong(frame)
 }
 
 // public native long getAddress(long address);
 // (J)J
 func getAddress(frame *rtda.Frame) {
-	mem_getLong(frame)
+	memGetLong(frame)
 }
 
 // public native void putByte(long address, byte x);
 // (JB)V
-func mem_putByte(frame *rtda.Frame) {
-	mem, value := _put(frame)
-	bigendian.PutInt8(mem, int8(value.IntValue()))
+func memPutByte(frame *rtda.Frame) {
+	mem, slot := _memPut(frame)
+	mem[0] = uint8(slot.IntValue())
 }
 
 // public native byte getByte(long address);
 // (J)B
-func mem_getByte(frame *rtda.Frame) {
-	mem := _get(frame)
-	frame.PushInt(int32(bigendian.Int8(mem)))
+func memGetByte(frame *rtda.Frame) {
+	mem := _memGet(frame)
+	frame.PushInt(int32(mem[0]))
 }
 
 // public native void putShort(long address, short x);
 // (JS)V
-func mem_putShort(frame *rtda.Frame) {
-	mem, value := _put(frame)
-	bigendian.PutInt16(mem, int16(value.IntValue()))
+func memPutShort(frame *rtda.Frame) {
+	mem, slot := _memPut(frame)
+	binary.BigEndian.PutUint16(mem, uint16(slot.IntValue()))
 }
 
 // public native short getShort(long address);
 // (J)S
-func mem_getShort(frame *rtda.Frame) {
-	mem := _get(frame)
-	frame.PushInt(int32(bigendian.Int16(mem)))
+func memGetShort(frame *rtda.Frame) {
+	mem := _memGet(frame)
+	frame.PushInt(int32(binary.BigEndian.Uint16(mem)))
 }
 
 // public native void putChar(long address, char x);
 // (JC)V
-func mem_putChar(frame *rtda.Frame) {
-	mem, value := _put(frame)
-	bigendian.PutUint16(mem, uint16(value.IntValue()))
+func memPutChar(frame *rtda.Frame) {
+	mem, slot := _memPut(frame)
+	binary.BigEndian.PutUint16(mem, uint16(slot.IntValue()))
 }
 
 // public native char getChar(long address);
 // (J)C
-func mem_getChar(frame *rtda.Frame) {
-	mem := _get(frame)
-	frame.PushInt(int32(bigendian.Uint16(mem)))
+func memGetChar(frame *rtda.Frame) {
+	mem := _memGet(frame)
+	frame.PushInt(int32(binary.BigEndian.Uint16(mem)))
 }
 
 // public native void putInt(long address, int x);
 // (JI)V
-func mem_putInt(frame *rtda.Frame) {
-	mem, value := _put(frame)
-	bigendian.PutInt32(mem, value.IntValue())
+func memPutInt(frame *rtda.Frame) {
+	mem, slot := _memPut(frame)
+	binary.BigEndian.PutUint32(mem, uint32(slot.IntValue()))
 }
 
 // public native int getInt(long address);
 // (J)I
-func mem_getInt(frame *rtda.Frame) {
-	mem := _get(frame)
-	frame.PushInt(bigendian.Int32(mem))
+func memGetInt(frame *rtda.Frame) {
+	mem := _memGet(frame)
+	frame.PushInt(int32(binary.BigEndian.Uint32(mem)))
 }
 
 // public native void putLong(long address, long x);
 // (JJ)V
-func mem_putLong(frame *rtda.Frame) {
-	mem, value := _put(frame)
-	bigendian.PutInt64(mem, value.LongValue())
+func memPutLong(frame *rtda.Frame) {
+	mem, slot := _memPut(frame)
+	binary.BigEndian.PutUint64(mem, uint64(slot.LongValue()))
 }
 
 // public native long getLong(long address);
 // (J)J
-func mem_getLong(frame *rtda.Frame) {
-	mem := _get(frame)
-	frame.PushLong(bigendian.Int64(mem))
+func memGetLong(frame *rtda.Frame) {
+	mem := _memGet(frame)
+	frame.PushLong(int64(binary.BigEndian.Uint64(mem)))
 }
 
 // public native void putFloat(long address, float x);
 // (JJ)V
-func mem_putFloat(frame *rtda.Frame) {
-	mem, value := _put(frame)
-	bigendian.PutFloat32(mem, value.FloatValue())
+func memPutFloat(frame *rtda.Frame) {
+	mem, slot := _memPut(frame)
+	binary.BigEndian.PutUint32(mem, uint32(slot.IntValue()))
 }
 
 // public native float getFloat(long address);
 // (J)J
-func mem_getFloat(frame *rtda.Frame) {
-	mem := _get(frame)
-	frame.PushFloat(bigendian.Float32(mem))
+func memGetFloat(frame *rtda.Frame) {
+	mem := _memGet(frame)
+	frame.PushFloat(math.Float32frombits(binary.BigEndian.Uint32(mem)))
 }
 
 // public native void putDouble(long address, double x);
 // (JJ)V
-func mem_putDouble(frame *rtda.Frame) {
-	mem, value := _put(frame)
-	bigendian.PutFloat64(mem, value.DoubleValue())
+func memPutDouble(frame *rtda.Frame) {
+	mem, slot := _memPut(frame)
+	binary.BigEndian.PutUint64(mem, uint64(slot.LongValue()))
 }
 
 // public native double getDouble(long address);
 // (J)J
-func mem_getDouble(frame *rtda.Frame) {
-	mem := _get(frame)
-	frame.PushDouble(bigendian.Float64(mem))
+func memGetDouble(frame *rtda.Frame) {
+	mem := _memGet(frame)
+	frame.PushDouble(math.Float64frombits(binary.BigEndian.Uint64(mem)))
 }
 
-func _put(frame *rtda.Frame) ([]byte, heap.Slot) {
+func _memPut(frame *rtda.Frame) ([]byte, heap.Slot) {
 	// frame.GetRefVar(0) // this
 	address := frame.GetLongVar(1)
-	value := frame.GetLocalVar(3)
-
+	slot := frame.GetLocalVar(3)
 	mem := memoryAt(address)
-	return mem, value
+	return mem, slot
 }
 
-func _get(frame *rtda.Frame) []byte {
+func _memGet(frame *rtda.Frame) []byte {
 	// frame.GetRefVar(0) // this
 	address := frame.GetLongVar(1)
 	return memoryAt(address)

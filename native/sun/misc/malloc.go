@@ -1,7 +1,7 @@
 package misc
 
 import (
-	"github.com/zxh0/jvm.go/jutil"
+	"fmt"
 )
 
 var _allocated = map[int64][]byte{}
@@ -38,7 +38,7 @@ func free(address int64) {
 	if _, ok := _allocated[address]; ok {
 		delete(_allocated, address)
 	} else {
-		jutil.Panicf("memory was not allocated: %v", address)
+		panic(fmt.Errorf("memory was not allocated: %v", address))
 	}
 }
 
@@ -50,6 +50,5 @@ func memoryAt(address int64) []byte {
 			return mem[offset:]
 		}
 	}
-	jutil.Panicf("invalid address: %v", address)
-	return nil
+	panic(fmt.Errorf("invalid address: %v", address))
 }

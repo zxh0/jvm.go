@@ -1,6 +1,8 @@
 package instructions
 
 import (
+	"fmt"
+
 	"github.com/zxh0/jvm.go/instructions/base"
 	. "github.com/zxh0/jvm.go/instructions/comparisons"
 	. "github.com/zxh0/jvm.go/instructions/constants"
@@ -13,7 +15,6 @@ import (
 	. "github.com/zxh0/jvm.go/instructions/reserved"
 	. "github.com/zxh0/jvm.go/instructions/stack"
 	. "github.com/zxh0/jvm.go/instructions/stores"
-	"github.com/zxh0/jvm.go/jutil"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
@@ -581,7 +582,6 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xff:
 		return &BOOTSTRAP{} // impdep2
 	default:
-		jutil.Panicf("BAD opcode: %v!", opcode)
-		return nil
+		panic(fmt.Errorf("invalid opcode: %v", opcode))
 	}
 }

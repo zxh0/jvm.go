@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/zxh0/jvm.go/instructions/base"
-	"github.com/zxh0/jvm.go/jerrors"
 	"github.com/zxh0/jvm.go/rtda"
+	"github.com/zxh0/jvm.go/vmerrors"
 )
 
 // todo
@@ -87,7 +87,7 @@ func _loop(thread *rtda.Thread) {
 // todo
 func _catchErr(thread *rtda.Thread) {
 	if r := recover(); r != nil {
-		if err, ok := r.(jerrors.ClassNotFoundError); ok {
+		if err, ok := r.(vmerrors.ClassNotFoundError); ok {
 			thread.ThrowClassNotFoundException(err.Error())
 			_loop(thread)
 			return

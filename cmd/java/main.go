@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 	"runtime/pprof"
+	"strings"
 
 	"github.com/zxh0/jvm.go/classpath"
 	"github.com/zxh0/jvm.go/cmd"
 	"github.com/zxh0/jvm.go/interpreter"
-	"github.com/zxh0/jvm.go/jutil"
 	_ "github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/options"
 	"github.com/zxh0/jvm.go/rtda"
@@ -45,7 +45,7 @@ func startJVM(cmd cmd.Command) {
 	cp := classpath.Parse(cmd.Options.Classpath)
 	heap.InitBootLoader(cp)
 
-	mainClassName := jutil.ReplaceAll(cmd.Class, ".", "/")
+	mainClassName := strings.ReplaceAll(cmd.Class, ".", "/")
 	mainThread := createMainThread(mainClassName, cmd.Args)
 	interpreter.Loop(mainThread)
 	interpreter.KeepAlive()

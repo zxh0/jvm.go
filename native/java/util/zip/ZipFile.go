@@ -2,10 +2,11 @@ package zip
 
 import (
 	gozip "archive/zip"
+	"fmt"
 
-	"github.com/zxh0/jvm.go/jutil"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/utils"
 )
 
 const (
@@ -113,7 +114,7 @@ func getEntryBytes(frame *rtda.Frame) {
 	_type := frame.GetIntVar(2)
 
 	goBytes := _getEntryBytes(jzentry, _type)
-	jBytes := jutil.CastUint8sToInt8s(goBytes)
+	jBytes := utils.CastUint8sToInt8s(goBytes)
 	byteArr := heap.NewByteArray(jBytes)
 
 	frame.PushRef(byteArr)
@@ -129,8 +130,7 @@ func _getEntryBytes(jzentry int64, _type int32) []byte {
 	case JZENTRY_COMMENT:
 		return []byte(entry.Comment)
 	}
-	jutil.Panicf("BAD type: %v", _type)
-	return nil
+	panic(fmt.Errorf("invalid type: %v", _type))
 }
 
 // private static native int getEntryFlag(long jzentry);

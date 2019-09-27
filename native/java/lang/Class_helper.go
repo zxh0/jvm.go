@@ -1,8 +1,8 @@
 package lang
 
 import (
-	"github.com/zxh0/jvm.go/jutil"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/utils"
 )
 
 func getParameterTypeArr(method *heap.Method) *heap.Object {
@@ -46,7 +46,7 @@ func getExceptionTypeArr(method *heap.Method) *heap.Object {
 
 func getAnnotationByteArr(goBytes []byte) *heap.Object {
 	if goBytes != nil {
-		jBytes := jutil.CastUint8sToInt8s(goBytes)
+		jBytes := utils.CastUint8sToInt8s(goBytes)
 		return heap.NewByteArray(jBytes)
 	}
 	return nil

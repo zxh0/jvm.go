@@ -1,14 +1,14 @@
 package heap
 
 import (
-	"github.com/zxh0/jvm.go/jutil"
+	"strings"
 )
 
 func DotToSlash(name string) string {
-	return jutil.ReplaceAll(name, ".", "/")
+	return strings.ReplaceAll(name, ".", "/")
 }
 func SlashToDot(name string) string {
-	return jutil.ReplaceAll(name, "/", ".")
+	return strings.ReplaceAll(name, "/", ".")
 }
 
 // [XXX -> [[XXX

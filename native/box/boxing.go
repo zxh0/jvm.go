@@ -1,7 +1,8 @@
 package box
 
 import (
-	"github.com/zxh0/jvm.go/jutil"
+	"fmt"
+
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -31,7 +32,7 @@ func Box(frame *rtda.Frame, primitiveDescriptor byte) {
 	case 'D':
 		_callValueOf(frame, "D", "java/lang/Double")
 	default:
-		jutil.Panicf("Not primitive type: %v", primitiveDescriptor)
+		panic(fmt.Errorf("not primitive type: %v", primitiveDescriptor))
 	}
 }
 

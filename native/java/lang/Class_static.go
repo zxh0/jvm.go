@@ -1,7 +1,8 @@
 package lang
 
 import (
-	"github.com/zxh0/jvm.go/jutil"
+	"strings"
+
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -31,7 +32,7 @@ func forName0(frame *rtda.Frame) {
 	//jLoader := frame.GetRefVar(2)
 
 	goName := heap.GoString(jName)
-	goName = jutil.ReplaceAll(goName, ".", "/")
+	goName = strings.ReplaceAll(goName, ".", "/")
 	goClass := frame.ClassLoader().LoadClass(goName)
 	jClass := goClass.JClass()
 

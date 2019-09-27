@@ -1,8 +1,9 @@
 package constants
 
 import (
+	"fmt"
+
 	"github.com/zxh0/jvm.go/instructions/base"
-	"github.com/zxh0/jvm.go/jutil"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -40,7 +41,7 @@ func _ldc(frame *rtda.Frame, index uint) {
 	default:
 		// todo
 		// ref to MethodType or MethodHandle
-		jutil.Panicf("todo: ldc! %v", c)
+		panic(fmt.Errorf("todo: ldc! %v", c))
 	}
 }
 
@@ -57,6 +58,6 @@ func (instr *LDC2_W) Execute(frame *rtda.Frame) {
 	case float64:
 		frame.PushDouble(c.(float64))
 	default:
-		jutil.Panicf("ldc2_w! %v", c)
+		panic(fmt.Errorf("ldc2_w! %v", c))
 	}
 }

@@ -1,7 +1,7 @@
 package classfile
 
 import (
-	"github.com/zxh0/jvm.go/jutil"
+	"fmt"
 )
 
 // Constant pool tags
@@ -60,7 +60,7 @@ func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 	case CONSTANT_InvokeDynamic:
 		return readConstantInvokeDynamicInfo(reader, cp)
 	default: // todo
-		jutil.Panicf("BAD constant pool tag: %v", tag)
+		panic(fmt.Errorf("invalid constant pool tag: %v", tag))
 		return nil
 	}
 }

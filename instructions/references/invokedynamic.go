@@ -28,7 +28,7 @@ type InvokeDynamic struct {
 	// 0
 }
 
-func (instr *InvokeDynamic) FetchOperands(reader *base.BytecodeReader) {
+func (instr *InvokeDynamic) FetchOperands(reader *base.CodeReader) {
 	instr.index = reader.ReadUint16()
 	reader.ReadUint8() // must be 0
 	reader.ReadUint8() // must be 0

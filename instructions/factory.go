@@ -437,7 +437,7 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0x83:
 		return lxor
 	case 0x84:
-		return &IINC{}
+		return &IInc{}
 	case 0x85:
 		return i2l
 	case 0x86:
@@ -479,33 +479,33 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0x98:
 		return dcmpg
 	case 0x99:
-		return &IFEQ{}
+		return &IfEQ{}
 	case 0x9a:
-		return &IFNE{}
+		return &IfNE{}
 	case 0x9b:
-		return &IFLT{}
+		return &IfLT{}
 	case 0x9c:
-		return &IFGE{}
+		return &IfGE{}
 	case 0x9d:
-		return &IFGT{}
+		return &IfGT{}
 	case 0x9e:
-		return &IFLE{}
+		return &IfLE{}
 	case 0x9f:
-		return &IF_ICMPEQ{}
+		return &IfICmpEQ{}
 	case 0xa0:
-		return &IF_ICMPNE{}
+		return &IfICmpNE{}
 	case 0xa1:
-		return &IF_ICMPLT{}
+		return &IfICmpLT{}
 	case 0xa2:
-		return &IF_ICMPGE{}
+		return &IfICmpGE{}
 	case 0xa3:
-		return &IF_ICMPGT{}
+		return &IfICmpGT{}
 	case 0xa4:
-		return &IF_ICMPLE{}
+		return &IfICmpLE{}
 	case 0xa5:
-		return &IF_ACMPEQ{}
+		return &IfACmpEQ{}
 	case 0xa6:
-		return &IF_ACMPNE{}
+		return &IfACmpNE{}
 	case 0xa7:
 		return &Goto{}
 	case 0xa8:
@@ -513,9 +513,9 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xa9:
 		return &RET{}
 	case 0xaa:
-		return &TABLE_SWITCH{}
+		return &TableSwitch{}
 	case 0xab:
-		return &LOOKUP_SWITCH{}
+		return &LookupSwitch{}
 	case 0xac:
 		return ireturn
 	case 0xad:
@@ -580,7 +580,7 @@ func newInstruction(opcode byte) base.Instruction {
 	case 0xfe:
 		return invoke_native // impdep1
 	case 0xff:
-		return &BOOTSTRAP{} // impdep2
+		return &Bootstrap{} // impdep2
 	default:
 		panic(fmt.Errorf("invalid opcode: %v", opcode))
 	}

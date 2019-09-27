@@ -17,7 +17,7 @@ type InvokeInterface struct {
 	argSlotCount uint
 }
 
-func (instr *InvokeInterface) FetchOperands(reader *base.BytecodeReader) {
+func (instr *InvokeInterface) FetchOperands(reader *base.CodeReader) {
 	instr.index = uint(reader.ReadUint16())
 	reader.ReadUint8() // count
 	reader.ReadUint8() // must be 0

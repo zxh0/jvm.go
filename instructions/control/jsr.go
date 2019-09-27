@@ -17,7 +17,7 @@ type JSR_W struct {
 	offset int
 }
 
-func (instr *JSR_W) FetchOperands(reader *base.BytecodeReader) {
+func (instr *JSR_W) FetchOperands(reader *base.CodeReader) {
 	instr.offset = int(reader.ReadInt32())
 }
 func (instr *JSR_W) Execute(frame *rtda.Frame) {

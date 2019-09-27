@@ -24,14 +24,14 @@ highbyte4
 jump offsets...
 */
 // Access jump table by index and jump
-type TABLE_SWITCH struct {
+type TableSwitch struct { // TODO
 	defaultOffset int32
 	low           int32
 	high          int32
 	jumpOffsets   []int32
 }
 
-func (instr *TABLE_SWITCH) FetchOperands(reader *base.BytecodeReader) {
+func (instr *TableSwitch) FetchOperands(reader *base.CodeReader) {
 	reader.SkipPadding()
 	instr.defaultOffset = reader.ReadInt32()
 	instr.low = reader.ReadInt32()
@@ -40,7 +40,7 @@ func (instr *TABLE_SWITCH) FetchOperands(reader *base.BytecodeReader) {
 	instr.jumpOffsets = reader.ReadInt32s(jumpOffsetsCount)
 }
 
-func (instr *TABLE_SWITCH) Execute(frame *rtda.Frame) {
+func (instr *TableSwitch) Execute(frame *rtda.Frame) {
 	index := frame.PopInt()
 
 	var offset int

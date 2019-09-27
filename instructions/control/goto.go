@@ -17,7 +17,7 @@ type GotoW struct {
 	offset int
 }
 
-func (instr *GotoW) FetchOperands(reader *base.BytecodeReader) {
+func (instr *GotoW) FetchOperands(reader *base.CodeReader) {
 	instr.offset = int(reader.ReadInt32())
 }
 func (instr *GotoW) Execute(frame *rtda.Frame) {

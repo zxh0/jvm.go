@@ -4,20 +4,22 @@ import (
 	"github.com/zxh0/jvm.go/instructions/base"
 )
 
-type Decoder base.BytecodeReader
+func Decode(code []byte) []base.Instruction {
+	reader := base.NewCodeReader(code)
+	decoded := make([]base.Instruction, len(code))
 
-func NewDecoder() *Decoder {
-	return &Decoder{}
+	pc := 0
+	for pc < len(code) {
+		instr := decodeInstruction(reader)
+		decoded[pc], pc = instr, reader.PC()
+	}
+
+	return decoded
 }
 
-func (decoder *Decoder) Decode(code []byte, pc int) (inst base.Instruction, nextPC int) {
-	reader := (*base.BytecodeReader)(decoder)
-	reader.Init(code, pc)
-
+func decodeInstruction(reader *base.CodeReader) base.Instruction {
 	opcode := reader.ReadUint8()
-	inst = newInstruction(opcode)
-	inst.FetchOperands(reader)
-	nextPC = reader.PC()
-
-	return
+	instr := newInstruction(opcode)
+	instr.FetchOperands(reader)
+	return instr
 }

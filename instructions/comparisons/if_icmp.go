@@ -6,49 +6,49 @@ import (
 )
 
 // Branch if int comparison succeeds
-type IF_ICMPEQ struct{ base.BranchInstruction }
+type IfICmpEQ struct{ base.BranchInstruction }
 
-func (instr *IF_ICMPEQ) Execute(frame *rtda.Frame) {
+func (instr *IfICmpEQ) Execute(frame *rtda.Frame) {
 	if val1, val2 := _icmpPop(frame); val1 == val2 {
 		base.Branch(frame, instr.Offset)
 	}
 }
 
-type IF_ICMPNE struct{ base.BranchInstruction }
+type IfICmpNE struct{ base.BranchInstruction }
 
-func (instr *IF_ICMPNE) Execute(frame *rtda.Frame) {
+func (instr *IfICmpNE) Execute(frame *rtda.Frame) {
 	if val1, val2 := _icmpPop(frame); val1 != val2 {
 		base.Branch(frame, instr.Offset)
 	}
 }
 
-type IF_ICMPLT struct{ base.BranchInstruction }
+type IfICmpLT struct{ base.BranchInstruction }
 
-func (instr *IF_ICMPLT) Execute(frame *rtda.Frame) {
+func (instr *IfICmpLT) Execute(frame *rtda.Frame) {
 	if val1, val2 := _icmpPop(frame); val1 < val2 {
 		base.Branch(frame, instr.Offset)
 	}
 }
 
-type IF_ICMPLE struct{ base.BranchInstruction }
+type IfICmpLE struct{ base.BranchInstruction }
 
-func (instr *IF_ICMPLE) Execute(frame *rtda.Frame) {
+func (instr *IfICmpLE) Execute(frame *rtda.Frame) {
 	if val1, val2 := _icmpPop(frame); val1 <= val2 {
 		base.Branch(frame, instr.Offset)
 	}
 }
 
-type IF_ICMPGT struct{ base.BranchInstruction }
+type IfICmpGT struct{ base.BranchInstruction }
 
-func (instr *IF_ICMPGT) Execute(frame *rtda.Frame) {
+func (instr *IfICmpGT) Execute(frame *rtda.Frame) {
 	if val1, val2 := _icmpPop(frame); val1 > val2 {
 		base.Branch(frame, instr.Offset)
 	}
 }
 
-type IF_ICMPGE struct{ base.BranchInstruction }
+type IfICmpGE struct{ base.BranchInstruction }
 
-func (instr *IF_ICMPGE) Execute(frame *rtda.Frame) {
+func (instr *IfICmpGE) Execute(frame *rtda.Frame) {
 	if val1, val2 := _icmpPop(frame); val1 >= val2 {
 		base.Branch(frame, instr.Offset)
 	}

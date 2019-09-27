@@ -2,6 +2,7 @@ package interpreter
 
 import (
 	"fmt"
+	"github.com/zxh0/jvm.go/instructions"
 
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
@@ -60,7 +61,7 @@ func _loop(thread *rtda.Thread) {
 		// fetch instruction
 		method := frame.Method()
 		if method.Instructions == nil {
-			method.Instructions = decodeMethod(method.Code())
+			method.Instructions = instructions.Decode(method.Code())
 		}
 		insts := method.Instructions.([]base.Instruction)
 		inst := insts[pc]

@@ -11,7 +11,7 @@ type NewArray struct {
 	atype uint8
 }
 
-func (instr *NewArray) FetchOperands(reader *base.BytecodeReader) {
+func (instr *NewArray) FetchOperands(reader *base.CodeReader) {
 	instr.atype = reader.ReadUint8()
 }
 func (instr *NewArray) Execute(frame *rtda.Frame) {
@@ -55,7 +55,7 @@ type MultiANewArray struct {
 	dimensions uint8
 }
 
-func (instr *MultiANewArray) FetchOperands(reader *base.BytecodeReader) {
+func (instr *MultiANewArray) FetchOperands(reader *base.CodeReader) {
 	instr.index = reader.ReadUint16()
 	instr.dimensions = reader.ReadUint8()
 }

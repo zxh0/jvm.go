@@ -14,7 +14,7 @@ type Wide struct {
 	modifiedInstruction base.Instruction
 }
 
-func (instr *Wide) FetchOperands(reader *base.BytecodeReader) {
+func (instr *Wide) FetchOperands(reader *base.CodeReader) {
 	opcode := reader.ReadUint8()
 	switch opcode {
 	case 0x15, 0x17, 0x19:
@@ -38,7 +38,7 @@ func (instr *Wide) FetchOperands(reader *base.BytecodeReader) {
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x84:
-		inst := &math.IINC{}
+		inst := &math.IInc{}
 		inst.Index = uint(reader.ReadUint16())
 		inst.Const = int32(reader.ReadInt16())
 		instr.modifiedInstruction = inst

@@ -16,9 +16,9 @@ var (
 )
 
 // Fake instruction to load and execute main class
-type BOOTSTRAP struct{ base.NoOperandsInstruction }
+type Bootstrap struct{ base.NoOperandsInstruction } // TODO
 
-func (instr *BOOTSTRAP) Execute(frame *rtda.Frame) {
+func (instr *Bootstrap) Execute(frame *rtda.Frame) {
 	thread := frame.Thread()
 
 	if _classLoader == nil {

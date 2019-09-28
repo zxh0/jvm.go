@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/zxh0/jvm.go/classpath"
-	"github.com/zxh0/jvm.go/cmd"
 	"github.com/zxh0/jvm.go/interpreter"
 	_ "github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/options"
@@ -16,43 +15,46 @@ import (
 )
 
 func main() {
-	cmd, err := cmd.ParseCommand(os.Args)
-	if err != nil {
-		fmt.Println(err)
+	opts, args := options.Parse()
+	if opts.HelpFlag || len(args) == 0 {
 		printUsage()
+	} else if opts.VersionFlag {
+		printVersion()
 	} else {
-		startJVM(cmd)
+		startJVM(opts, args[0], args[1:])
 	}
 }
 
 func printUsage() {
-	fmt.Println("usage: jvmgo [-options] class [args...]")
+	fmt.Printf("usage: %s [-options] class [args...]\n", os.Args[0])
+	options.PrintDefaults()
 }
 
-func startJVM(cmd cmd.Command) {
-	Xcpuprofile := cmd.Options.Xcpuprofile
-	if Xcpuprofile != "" {
-		f, err := os.Create(Xcpuprofile)
+func printVersion() {
+	fmt.Println("jvm.go 0.1.8.0")
+}
+
+func startJVM(opts options.Options, mainClass string, args []string) {
+	if opts.XCPUProfile != "" {
+		f, err := os.Create(opts.XCPUProfile)
 		if err != nil {
 			panic(err)
 		}
-		pprof.StartCPUProfile(f)
+		_ = pprof.StartCPUProfile(f)
 		defer pprof.StopCPUProfile()
 	}
 
-	options.InitOptions(cmd.Options.VerboseClass, cmd.Options.Xss, cmd.Options.XuseJavaHome)
+	cp := classpath.Parse(opts)
+	heap.InitBootLoader(cp, opts.VerboseClass)
 
-	cp := classpath.Parse(cmd.Options.Classpath)
-	heap.InitBootLoader(cp)
-
-	mainClassName := strings.ReplaceAll(cmd.Class, ".", "/")
-	mainThread := createMainThread(mainClassName, cmd.Args)
+	mainClass = strings.ReplaceAll(mainClass, ".", "/")
+	mainThread := createMainThread(opts, mainClass, args)
 	interpreter.Loop(mainThread)
 	interpreter.KeepAlive()
 }
 
-func createMainThread(className string, args []string) *rtda.Thread {
-	mainThread := rtda.NewThread(nil)
+func createMainThread(opts options.Options, className string, args []string) *rtda.Thread {
+	mainThread := rtda.NewThread(nil, opts)
 	bootMethod := heap.BootstrapMethod()
 	bootArgs := []heap.Slot{heap.NewHackSlot(className), heap.NewHackSlot(args)}
 	mainThread.InvokeMethodWithShim(bootMethod, bootArgs)

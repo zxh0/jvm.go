@@ -29,16 +29,18 @@ type Thread struct {
 	interruptedFlag bool
 	parkingFlag     bool // used by Unsafe
 	unparkedFlag    bool // used by Unsafe
+	VMOptions       options.Options
 	// todo
 }
 
-func NewThread(jThread *heap.Object) *Thread {
-	stack := newStack(options.ThreadStackSize)
+func NewThread(jThread *heap.Object, opts options.Options) *Thread {
+	stack := newStack(uint(opts.ThreadStackSize))
 	thread := &Thread{
-		stack:   stack,
-		jThread: jThread,
-		lock:    &sync.Mutex{},
-		ch:      make(chan int),
+		stack:     stack,
+		jThread:   jThread,
+		lock:      &sync.Mutex{},
+		ch:        make(chan int),
+		VMOptions: opts,
 	}
 	thread.frameCache = newFrameCache(thread, 16) // todo
 	return thread

@@ -2,7 +2,7 @@ package lang
 
 import (
 	"github.com/zxh0/jvm.go/rtda/heap"
-	"github.com/zxh0/jvm.go/utils"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 func getParameterTypeArr(method *heap.Method) *heap.Object {
@@ -46,7 +46,7 @@ func getExceptionTypeArr(method *heap.Method) *heap.Object {
 
 func getAnnotationByteArr(goBytes []byte) *heap.Object {
 	if goBytes != nil {
-		jBytes := utils.CastUint8sToInt8s(goBytes)
+		jBytes := vmutils.CastUint8sToInt8s(goBytes)
 		return heap.NewByteArray(jBytes)
 	}
 	return nil

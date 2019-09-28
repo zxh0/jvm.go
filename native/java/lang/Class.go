@@ -36,7 +36,7 @@ func getClassLoader0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	from := class.LoadedFrom()
 
-	if cp.IsBootClassPath(from) {
+	if cp.IsBootClassPath(from, frame.Thread().VMOptions.AbsJreLib) {
 		frame.PushRef(nil)
 		return
 	}

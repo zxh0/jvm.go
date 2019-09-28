@@ -2,23 +2,20 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/classpath"
-	"github.com/zxh0/jvm.go/cmd"
 	"github.com/zxh0/jvm.go/options"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func main() {
-	cmd, err := cmd.ParseCommand(os.Args)
-	if err != nil {
-		fmt.Println(err)
+	opts, args := options.Parse()
+	if opts.HelpFlag || len(args) == 0 {
 		printUsage()
 	}
-	printClassInfo(cmd)
+	printClassInfo(opts, args[0])
 }
 
 var (
@@ -47,11 +44,9 @@ func printUsage() {
 	fmt.Println("usage: javap [-options] class [args...]")
 }
 
-func printClassInfo(cmd cmd.Command) {
-	options.InitOptions(cmd.Options.VerboseClass, cmd.Options.Xss, cmd.Options.XuseJavaHome)
-
-	cp := classpath.Parse(cmd.Options.Classpath)
-	_, classData, err := cp.ReadClass(cmd.Class)
+func printClassInfo(opts options.Options, className string) {
+	cp := classpath.Parse(opts)
+	_, classData, err := cp.ReadClass(className)
 
 	if err != nil {
 		panic(err)

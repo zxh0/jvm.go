@@ -5,7 +5,6 @@ import (
 
 	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/classpath"
-	"github.com/zxh0/jvm.go/options"
 	"github.com/zxh0/jvm.go/vmerrors"
 )
 
@@ -40,16 +39,18 @@ class names:
 type ClassLoader struct {
 	classPath *classpath.ClassPath
 	classMap  map[string]*Class
+	verbose   bool
 }
 
 func BootLoader() *ClassLoader {
 	return bootLoader
 }
 
-func InitBootLoader(cp *classpath.ClassPath) {
+func InitBootLoader(cp *classpath.ClassPath, verbose bool) {
 	bootLoader = &ClassLoader{
 		classPath: cp,
 		classMap:  map[string]*Class{},
+		verbose:   verbose,
 	}
 	bootLoader._init()
 }
@@ -168,7 +169,7 @@ func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 	class := loader._loadClass(name, data)
 	class.loadedFrom = cpEntry
 
-	if options.VerboseClass {
+	if loader.verbose {
 		fmt.Printf("[Loaded %s from %s]\n", name, cpEntry)
 	}
 

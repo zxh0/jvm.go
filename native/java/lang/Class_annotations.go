@@ -3,7 +3,7 @@ package lang
 import (
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
-	"github.com/zxh0/jvm.go/utils"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 func init() {
@@ -18,7 +18,7 @@ func getRawAnnotations(frame *rtda.Frame) {
 	class := this.Extra().(*heap.Class)
 	goBytes := class.AnnotationData()
 	if goBytes != nil {
-		jBytes := utils.CastUint8sToInt8s(goBytes)
+		jBytes := vmutils.CastUint8sToInt8s(goBytes)
 		byteArr := heap.NewByteArray(jBytes)
 		frame.PushRef(byteArr)
 		return

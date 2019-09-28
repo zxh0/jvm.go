@@ -1,7 +1,7 @@
 package heap
 
 import (
-	"github.com/zxh0/jvm.go/utils"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 func (obj *Object) IsArray() bool {
@@ -49,5 +49,5 @@ func (obj *Object) Doubles() []float64 {
 
 func (obj *Object) GoBytes() []byte {
 	s := obj.fields.([]int8)
-	return utils.CastInt8sToUint8s(s)
+	return vmutils.CastInt8sToUint8s(s)
 }

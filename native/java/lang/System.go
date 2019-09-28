@@ -5,7 +5,6 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/zxh0/jvm.go/options"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -93,7 +92,7 @@ func initProperties(frame *rtda.Frame) {
 	// public synchronized Object setProperty(String key, String value)
 	setPropMethod := props.Class().GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
 	thread := frame.Thread()
-	for key, val := range _sysProps() {
+	for key, val := range _sysProps(thread.VMOptions.AbsJavaHome) {
 		jKey := heap.JString(key)
 		jVal := heap.JString(val)
 		args := []heap.Slot{heap.NewRefSlot(props), heap.NewRefSlot(jKey), heap.NewRefSlot(jVal)}
@@ -101,12 +100,12 @@ func initProperties(frame *rtda.Frame) {
 	}
 }
 
-func _sysProps() map[string]string {
+func _sysProps(absJavaHome string) map[string]string {
 	return map[string]string{
 		"java.version":         "1.8.0",
 		"java.vendor":          "jvm.go",
 		"java.vendor.url":      "https://github.com/zxh0/jvm.go",
-		"java.home":            options.AbsJavaHome,
+		"java.home":            absJavaHome,
 		"java.class.version":   "52.0",
 		"java.class.path":      heap.BootLoader().ClassPath().String(),
 		"java.awt.graphicsenv": "sun.awt.CGraphicsEnvironment",

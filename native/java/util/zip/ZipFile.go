@@ -6,7 +6,7 @@ import (
 
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
-	"github.com/zxh0/jvm.go/utils"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 const (
@@ -114,7 +114,7 @@ func getEntryBytes(frame *rtda.Frame) {
 	_type := frame.GetIntVar(2)
 
 	goBytes := _getEntryBytes(jzentry, _type)
-	jBytes := utils.CastUint8sToInt8s(goBytes)
+	jBytes := vmutils.CastUint8sToInt8s(goBytes)
 	byteArr := heap.NewByteArray(jBytes)
 
 	frame.PushRef(byteArr)

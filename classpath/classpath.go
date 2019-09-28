@@ -11,20 +11,20 @@ type ClassPath struct {
 	CompositeEntry
 }
 
-func Parse(cpOption string) *ClassPath {
+func Parse(opts options.Options) *ClassPath {
 	cp := &ClassPath{}
-	cp.parseBootAndExtClassPath()
-	cp.parseUserClassPath(cpOption)
+	cp.parseBootAndExtClassPath(opts.AbsJavaHome)
+	cp.parseUserClassPath(opts.Classpath)
 	return cp
 }
 
-func (cp *ClassPath) parseBootAndExtClassPath() {
+func (cp *ClassPath) parseBootAndExtClassPath(absJavaHome string) {
 	// jre/lib/*
-	jreLibPath := filepath.Join(options.AbsJavaHome, "lib", "*")
+	jreLibPath := filepath.Join(absJavaHome, "lib", "*")
 	cp.addEntry(newWildcardEntry(jreLibPath))
 
 	// jre/lib/ext/*
-	jreExtPath := filepath.Join(options.AbsJavaHome, "lib", "ext", "*")
+	jreExtPath := filepath.Join(absJavaHome, "lib", "ext", "*")
 	cp.addEntry(newWildcardEntry(jreExtPath))
 }
 
@@ -46,11 +46,11 @@ func (cp *ClassPath) String() string {
 	return userClassPath.String()
 }
 
-func IsBootClassPath(entry Entry) bool {
+func IsBootClassPath(entry Entry, absJreLib string) bool {
 	if entry == nil {
 		// todo
 		return true
 	}
 
-	return strings.HasPrefix(entry.String(), options.AbsJreLib)
+	return strings.HasPrefix(entry.String(), absJreLib)
 }

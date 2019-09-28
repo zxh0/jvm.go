@@ -59,29 +59,40 @@ func printClassInfo(cmd cmd.Command) {
 
 	cf, err := classfile.Parse(classData)
 
-	fmt.Printf("%s %s", accessFlagsforClass(cf.AccessFlags), strings.ReplaceAll(cf.ClassName(), "/", "."))
+	fmt.Printf("%s %s",
+		accessFlagsforClass(cf.AccessFlags),
+		strings.ReplaceAll(cf.GetClassName(), "/", "."))
 
-	superClassName := cf.SuperClassName()
-	interfaceNames := cf.InterfaceNames()
+	superClassName := cf.GetSuperClassName()
+	interfaceNames := cf.GetInterfaceNames()
 
 	if superClassName != "" {
-		fmt.Printf(" extends %s", strings.ReplaceAll(superClassName, "/", "."))
+		fmt.Printf(" extends %s",
+			strings.ReplaceAll(superClassName, "/", "."))
 	}
 
 	if len(interfaceNames) > 0 {
-		fmt.Printf(" implements %s", strings.ReplaceAll(strings.Join(interfaceNames, ","), "/", "."))
+		fmt.Printf(" implements %s",
+			strings.ReplaceAll(strings.Join(interfaceNames, ","), "/", "."))
 	}
 
 	fmt.Println(" {")
 
 	for _, f := range cf.Fields {
-		fmt.Printf(" %s %s %s\n", accessFlagsforField(f.AccessFlags), descriptorToRealName(f.Descriptor()), f.Name())
+		fmt.Printf(" %s %s %s\n",
+			accessFlagsforField(f.AccessFlags),
+			descriptorToRealName(cf.GetUTF8(f.DescriptorIndex)),
+			cf.GetUTF8(f.NameIndex))
 	}
 
 	for _, m := range cf.Methods {
-		returnType := strings.Split(m.Descriptor(), ")")[1]
-		inputTypes := strings.Split(m.Descriptor(), ")")[0][1:]
-		fmt.Printf(" %s %s %s(%s)\n", accessFlagsforMethod(m.AccessFlags), descriptorToRealName(returnType), m.Name(), inputTypesToRealNames(inputTypes))
+		returnType := strings.Split(cf.GetUTF8(m.DescriptorIndex), ")")[1]
+		inputTypes := strings.Split(cf.GetUTF8(m.DescriptorIndex), ")")[0][1:]
+		fmt.Printf(" %s %s %s(%s)\n",
+			accessFlagsforMethod(m.AccessFlags),
+			descriptorToRealName(returnType),
+			cf.GetUTF8(m.NameIndex),
+			inputTypesToRealNames(inputTypes))
 	}
 	fmt.Println("}")
 }

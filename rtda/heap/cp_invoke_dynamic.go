@@ -1,7 +1,7 @@
 package heap
 
 import (
-	cf "github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/classfile"
 )
 
 type ConstantInvokeDynamic struct {
@@ -12,14 +12,14 @@ type ConstantInvokeDynamic struct {
 	cp                 *ConstantPool
 }
 
-func newConstantInvokeDynamic(cp *ConstantPool, indyInfo cf.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
-	name, _type := indyInfo.NameAndType()
-	bootstrapMethodRef, bootstrapArguments := indyInfo.BootstrapMethodInfo()
+func newConstantInvokeDynamic(cf *classfile.ClassFile, cp *ConstantPool, indyInfo classfile.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
+	name, _type := getNameAndType(cf, indyInfo.NameAndTypeIndex)
+	bm := cf.GetBootstrapMethods()[indyInfo.BootstrapMethodAttrIndex]
 	return &ConstantInvokeDynamic{
 		name:               name,
 		_type:              _type,
-		bootstrapMethodRef: bootstrapMethodRef,
-		bootstrapArguments: bootstrapArguments,
+		bootstrapMethodRef: bm.BootstrapMethodRef,
+		bootstrapArguments: bm.BootstrapArguments,
 		cp:                 cp,
 	}
 }

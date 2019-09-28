@@ -6,10 +6,11 @@ import (
 
 type ClassReader struct {
 	data []byte
+	cp   ConstantPool
 }
 
 func newClassReader(data []byte) ClassReader {
-	return ClassReader{data}
+	return ClassReader{data: data}
 }
 
 // u1

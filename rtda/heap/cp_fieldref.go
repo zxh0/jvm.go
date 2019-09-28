@@ -4,23 +4,23 @@ import (
 	"fmt"
 )
 
-type ConstantFieldref struct {
-	ConstantMemberref
+type ConstantFieldRef struct {
+	ConstantMemberRef
 	field *Field
 }
 
-func (fr *ConstantFieldref) String() string {
+func (fr *ConstantFieldRef) String() string {
 	return fmt.Sprintf("{ConstantFieldref className:%v name:%v descriptor:%v}",
 		fr.className, fr.name, fr.descriptor)
 }
 
-func (fr *ConstantFieldref) InstanceField() *Field {
+func (fr *ConstantFieldRef) InstanceField() *Field {
 	if fr.field == nil {
 		fr.resolveInstanceField()
 	}
 	return fr.field
 }
-func (fr *ConstantFieldref) resolveInstanceField() {
+func (fr *ConstantFieldRef) resolveInstanceField() {
 	fromClass := bootLoader.LoadClass(fr.className)
 
 	for class := fromClass; class != nil; class = class.superClass {
@@ -35,13 +35,13 @@ func (fr *ConstantFieldref) resolveInstanceField() {
 	panic(fmt.Errorf("instance field not found! %v", fr))
 }
 
-func (fr *ConstantFieldref) StaticField() *Field {
+func (fr *ConstantFieldRef) StaticField() *Field {
 	if fr.field == nil {
 		fr.resolveStaticField()
 	}
 	return fr.field
 }
-func (fr *ConstantFieldref) resolveStaticField() {
+func (fr *ConstantFieldRef) resolveStaticField() {
 	fromClass := bootLoader.LoadClass(fr.className)
 
 	for class := fromClass; class != nil; class = class.superClass {
@@ -59,7 +59,7 @@ func (fr *ConstantFieldref) resolveStaticField() {
 	panic(fmt.Errorf("static field not found! %v", fr))
 }
 
-func (fr *ConstantFieldref) _findInterfaceField(class *Class) bool {
+func (fr *ConstantFieldRef) _findInterfaceField(class *Class) bool {
 	for _, iface := range class.interfaces {
 		for _, f := range iface.fields {
 			if f.name == fr.name && f.descriptor == fr.descriptor {

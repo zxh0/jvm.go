@@ -13,7 +13,7 @@ type InvokeInterface struct {
 	// zero uint8
 
 	// optimization
-	kMethodRef   *heap.ConstantInterfaceMethodref
+	kMethodRef   *heap.ConstantInterfaceMethodRef
 	argSlotCount uint
 }
 
@@ -26,7 +26,7 @@ func (instr *InvokeInterface) FetchOperands(reader *base.CodeReader) {
 func (instr *InvokeInterface) Execute(frame *rtda.Frame) {
 	if instr.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
-		instr.kMethodRef = cp.GetConstant(instr.index).(*heap.ConstantInterfaceMethodref)
+		instr.kMethodRef = cp.GetConstant(instr.index).(*heap.ConstantInterfaceMethodRef)
 		instr.argSlotCount = instr.kMethodRef.ArgSlotCount()
 	}
 

@@ -8,14 +8,11 @@ Signature_attribute {
 }
 */
 type SignatureAttribute struct {
-	cp             *ConstantPool
-	signatureIndex uint16
+	SignatureIndex uint16
 }
 
-func (attr *SignatureAttribute) readInfo(reader *ClassReader) {
-	attr.signatureIndex = reader.readUint16()
-}
-
-func (attr *SignatureAttribute) Signature() string {
-	return attr.cp.getUtf8(attr.signatureIndex)
+func readSignatureAttribute(reader *ClassReader) SignatureAttribute {
+	return SignatureAttribute{
+		SignatureIndex: reader.readUint16(),
+	}
 }

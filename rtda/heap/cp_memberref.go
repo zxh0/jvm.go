@@ -1,29 +1,29 @@
 package heap
 
 import (
-	cf "github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/classfile"
 )
 
-type ConstantMemberref struct {
+type ConstantMemberRef struct {
 	className  string
 	name       string
 	descriptor string
 }
 
-func newConstantMemberref(refInfo cf.ConstantMemberrefInfo) Constant {
+func newConstantMemberRef(cf *classfile.ClassFile, refInfo classfile.ConstantMemberRefInfo) Constant {
 	switch refInfo.Tag {
-	case cf.CONSTANT_Fieldref:
-		ref := &ConstantFieldref{}
-		ref.copy(refInfo)
+	case classfile.ConstantFieldRef:
+		ref := &ConstantFieldRef{}
+		ref.copy(cf, refInfo)
 		return ref
-	case cf.CONSTANT_Methodref:
-		ref := &ConstantMethodref{vslot: -1}
-		ref.copy(refInfo)
+	case classfile.ConstantMethodRef:
+		ref := &ConstantMethodRef{vslot: -1}
+		ref.copy(cf, refInfo)
 		ref.argSlotCount = calcArgSlotCount(ref.descriptor)
 		return ref
-	case cf.CONSTANT_InterfaceMethodref:
-		ref := &ConstantInterfaceMethodref{}
-		ref.copy(refInfo)
+	case classfile.ConstantInterfaceMethodRef:
+		ref := &ConstantInterfaceMethodRef{}
+		ref.copy(cf, refInfo)
 		ref.argSlotCount = calcArgSlotCount(ref.descriptor)
 		return ref
 	default:
@@ -31,7 +31,7 @@ func newConstantMemberref(refInfo cf.ConstantMemberrefInfo) Constant {
 	}
 }
 
-func (mr *ConstantMemberref) copy(refInfo cf.ConstantMemberrefInfo) {
-	mr.className = refInfo.ClassName()
-	mr.name, mr.descriptor = refInfo.NameAndDescriptor()
+func (mr *ConstantMemberRef) copy(cf *classfile.ClassFile, refInfo classfile.ConstantMemberRefInfo) {
+	mr.className = cf.GetClassNameOf(refInfo.ClassIndex)
+	mr.name, mr.descriptor = getNameAndType(cf, refInfo.NameAndTypeIndex)
 }

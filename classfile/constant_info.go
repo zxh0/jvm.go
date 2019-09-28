@@ -6,20 +6,20 @@ import (
 
 // Constant pool tags
 const (
-	CONSTANT_Class              = 7
-	CONSTANT_Fieldref           = 9
-	CONSTANT_Methodref          = 10
-	CONSTANT_InterfaceMethodref = 11
-	CONSTANT_String             = 8
-	CONSTANT_Integer            = 3
-	CONSTANT_Float              = 4
-	CONSTANT_Long               = 5
-	CONSTANT_Double             = 6
-	CONSTANT_NameAndType        = 12
-	CONSTANT_Utf8               = 1
-	CONSTANT_MethodHandle       = 15
-	CONSTANT_MethodType         = 16
-	CONSTANT_InvokeDynamic      = 18
+	ConstantClass              = 7
+	ConstantFieldRef           = 9
+	ConstantMethodRef          = 10
+	ConstantInterfaceMethodRef = 11
+	ConstantString             = 8
+	ConstantInteger            = 3
+	ConstantFloat              = 4
+	ConstantLong               = 5
+	ConstantDouble             = 6
+	ConstantNameAndType        = 12
+	ConstantUtf8               = 1
+	ConstantMethodHandle       = 15
+	ConstantMethodType         = 16
+	ConstantInvokeDynamic      = 18
 )
 
 /*
@@ -30,37 +30,36 @@ cp_info {
 */
 type ConstantInfo interface{}
 
-func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
+func readConstantInfo(reader *ClassReader) ConstantInfo {
 	tag := reader.readUint8()
 	switch tag {
-	case CONSTANT_Integer:
+	case ConstantInteger:
 		return readConstantIntegerInfo(reader)
-	case CONSTANT_Float:
+	case ConstantFloat:
 		return readConstantFloatInfo(reader)
-	case CONSTANT_Long:
+	case ConstantLong:
 		return readConstantLongInfo(reader)
-	case CONSTANT_Double:
+	case ConstantDouble:
 		return readConstantDoubleInfo(reader)
-	case CONSTANT_Utf8:
+	case ConstantUtf8:
 		return readConstantUtf8Info(reader)
-	case CONSTANT_String:
-		return readConstantStringInfo(reader, cp)
-	case CONSTANT_Class:
-		return readConstantClassInfo(reader, cp)
-	case CONSTANT_Fieldref,
-		CONSTANT_Methodref,
-		CONSTANT_InterfaceMethodref:
-		return readConstantMemberrefInfo(reader, cp, tag)
-	case CONSTANT_NameAndType:
+	case ConstantString:
+		return readConstantStringInfo(reader)
+	case ConstantClass:
+		return readConstantClassInfo(reader)
+	case ConstantFieldRef,
+		ConstantMethodRef,
+		ConstantInterfaceMethodRef:
+		return readConstantMemberRefInfo(reader, tag)
+	case ConstantNameAndType:
 		return readConstantNameAndTypeInfo(reader)
-	case CONSTANT_MethodType:
+	case ConstantMethodType:
 		return readConstantMethodTypeInfo(reader)
-	case CONSTANT_MethodHandle:
+	case ConstantMethodHandle:
 		return readConstantMethodHandleInfo(reader)
-	case CONSTANT_InvokeDynamic:
-		return readConstantInvokeDynamicInfo(reader, cp)
-	default: // todo
-		panic(fmt.Errorf("invalid constant pool tag: %v", tag))
-		return nil
+	case ConstantInvokeDynamic:
+		return readConstantInvokeDynamicInfo(reader)
+	default: // TODO
+		panic(fmt.Errorf("invalid constant pool tag: %d", tag))
 	}
 }

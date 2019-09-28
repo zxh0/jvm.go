@@ -11,31 +11,24 @@ LineNumberTable_attribute {
 }
 */
 type LineNumberTableAttribute struct {
-	lineNumberTable []LineNumberTableEntry
+	LineNumberTable []LineNumberTableEntry
 }
 
 type LineNumberTableEntry struct {
-	startPc    uint16
-	lineNumber uint16
+	StartPC    uint16
+	LineNumber uint16
 }
 
-func (attr *LineNumberTableAttribute) readInfo(reader *ClassReader) {
+func readLineNumberTableAttribute(reader *ClassReader) LineNumberTableAttribute {
 	tableLength := reader.readUint16()
-	attr.lineNumberTable = make([]LineNumberTableEntry, tableLength)
-	for i := range attr.lineNumberTable {
-		attr.lineNumberTable[i] = LineNumberTableEntry{
-			startPc:    reader.readUint16(),
-			lineNumber: reader.readUint16(),
+	lineNumberTable := make([]LineNumberTableEntry, tableLength)
+	for i := range lineNumberTable {
+		lineNumberTable[i] = LineNumberTableEntry{
+			StartPC:    reader.readUint16(),
+			LineNumber: reader.readUint16(),
 		}
 	}
-}
-
-func (attr *LineNumberTableAttribute) GetLineNumber(pc int) int {
-	for i := len(attr.lineNumberTable) - 1; i >= 0; i-- {
-		entry := attr.lineNumberTable[i]
-		if pc >= int(entry.startPc) {
-			return int(entry.lineNumber)
-		}
+	return LineNumberTableAttribute{
+		LineNumberTable: lineNumberTable,
 	}
-	return -1
 }

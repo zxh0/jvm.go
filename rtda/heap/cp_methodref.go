@@ -1,23 +1,23 @@
 package heap
 
-type ConstantMethodref struct {
-	ConstantMemberref
+type ConstantMethodRef struct {
+	ConstantMemberRef
 	argSlotCount uint
 	method       *Method
 	vslot        int
 }
 
-func (mr *ConstantMethodref) ArgSlotCount() uint {
+func (mr *ConstantMethodRef) ArgSlotCount() uint {
 	return mr.argSlotCount
 }
 
-func (mr *ConstantMethodref) StaticMethod() *Method {
+func (mr *ConstantMethodRef) StaticMethod() *Method {
 	if mr.method == nil {
 		mr.resolveStaticMethod()
 	}
 	return mr.method
 }
-func (mr *ConstantMethodref) resolveStaticMethod() {
+func (mr *ConstantMethodRef) resolveStaticMethod() {
 	method := mr.findMethod(true)
 	if method != nil {
 		mr.method = method
@@ -27,13 +27,13 @@ func (mr *ConstantMethodref) resolveStaticMethod() {
 	}
 }
 
-func (mr *ConstantMethodref) SpecialMethod() *Method {
+func (mr *ConstantMethodRef) SpecialMethod() *Method {
 	if mr.method == nil {
 		mr.resolveSpecialMethod()
 	}
 	return mr.method
 }
-func (mr *ConstantMethodref) resolveSpecialMethod() {
+func (mr *ConstantMethodRef) resolveSpecialMethod() {
 	method := mr.findMethod(false)
 	if method != nil {
 		mr.method = method
@@ -54,7 +54,7 @@ func (mr *ConstantMethodref) resolveSpecialMethod() {
 	panic("special method not found!")
 }
 
-func (mr *ConstantMethodref) findMethod(isStatic bool) *Method {
+func (mr *ConstantMethodRef) findMethod(isStatic bool) *Method {
 	class := bootLoader.LoadClass(mr.className)
 	return class.getMethod(mr.name, mr.descriptor, isStatic)
 }
@@ -78,7 +78,7 @@ func (mr *ConstantMethodref) findMethod(isStatic bool) *Method {
 	return nil
 }*/
 
-func (mr *ConstantMethodref) GetVirtualMethod(ref *Object) *Method {
+func (mr *ConstantMethodRef) GetVirtualMethod(ref *Object) *Method {
 	if mr.vslot < 0 {
 		mr.vslot = getVslot(ref.class, mr.name, mr.descriptor)
 	}

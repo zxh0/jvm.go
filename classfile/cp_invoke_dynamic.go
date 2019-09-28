@@ -8,30 +8,14 @@ CONSTANT_InvokeDynamic_info {
 }
 */
 type ConstantInvokeDynamicInfo struct {
-	cp                       *ConstantPool
-	bootstrapMethodAttrIndex uint16
-	nameAndTypeIndex         uint16
+	BootstrapMethodAttrIndex uint16
+	NameAndTypeIndex         uint16
 }
 
-func (c ConstantInvokeDynamicInfo) NameAndType() (string, string) {
-	return c.cp.getNameAndType(c.nameAndTypeIndex)
-}
-
-// todo
-func (c ConstantInvokeDynamicInfo) BootstrapMethodInfo() (uint16, []uint16) {
-	bmAttr := c.cp.cf.BootstrapMethodsAttribute()
-	bm := bmAttr.bootstrapMethods[c.bootstrapMethodAttrIndex]
-
-	return bm.bootstrapMethodRef, bm.bootstrapArguments
-}
-
-func readConstantInvokeDynamicInfo(reader *ClassReader,
-	cp *ConstantPool) ConstantInvokeDynamicInfo {
-
+func readConstantInvokeDynamicInfo(reader *ClassReader) ConstantInvokeDynamicInfo {
 	return ConstantInvokeDynamicInfo{
-		cp:                       cp,
-		bootstrapMethodAttrIndex: reader.readUint16(),
-		nameAndTypeIndex:         reader.readUint16(),
+		BootstrapMethodAttrIndex: reader.readUint16(),
+		NameAndTypeIndex:         reader.readUint16(),
 	}
 }
 
@@ -61,11 +45,11 @@ CONSTANT_MethodType_info {
 }
 */
 type ConstantMethodTypeInfo struct {
-	descriptorIndex uint16
+	DescriptorIndex uint16
 }
 
 func readConstantMethodTypeInfo(reader *ClassReader) ConstantMethodTypeInfo {
 	return ConstantMethodTypeInfo{
-		descriptorIndex: reader.readUint16(),
+		DescriptorIndex: reader.readUint16(),
 	}
 }

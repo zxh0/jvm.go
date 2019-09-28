@@ -1,7 +1,7 @@
 package heap
 
 import (
-	cf "github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/classfile"
 )
 
 type Constant interface{} // TODO: change to Slot ?
@@ -11,7 +11,8 @@ type ConstantPool struct {
 	consts []Constant
 }
 
-func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
+func newConstantPool(owner *Class, cf *classfile.ClassFile) *ConstantPool {
+	cfCp := cf.ConstantPool
 	cpInfos := cfCp.Infos
 	consts := make([]Constant, len(cpInfos))
 	rtCp := &ConstantPool{owner, consts}
@@ -24,19 +25,19 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 		case int64, float64:
 			consts[i] = cpInfo
 			i++
-		case cf.ConstantStringInfo:
-			strInfo := cpInfo.(cf.ConstantStringInfo)
-			consts[i] = strInfo.String()
-		case cf.ConstantClassInfo:
-			consts[i] = newConstantClass(cpInfo.(cf.ConstantClassInfo))
-		case cf.ConstantMemberrefInfo:
-			consts[i] = newConstantMemberref(cpInfo.(cf.ConstantMemberrefInfo))
-		case cf.ConstantInvokeDynamicInfo:
-			consts[i] = newConstantInvokeDynamic(rtCp, cpInfo.(cf.ConstantInvokeDynamicInfo))
-		case cf.ConstantMethodHandleInfo:
-			consts[i] = newConstantMethodHandle(cpInfo.(cf.ConstantMethodHandleInfo))
-		case cf.ConstantMethodTypeInfo:
-			consts[i] = newConstantMethodType(cpInfo.(cf.ConstantMethodTypeInfo))
+		case classfile.ConstantStringInfo:
+			strInfo := cpInfo.(classfile.ConstantStringInfo)
+			consts[i] = cf.GetUTF8(strInfo.StringIndex)
+		case classfile.ConstantClassInfo:
+			consts[i] = newConstantClass(cf, cpInfo.(classfile.ConstantClassInfo))
+		case classfile.ConstantMemberRefInfo:
+			consts[i] = newConstantMemberRef(cf, cpInfo.(classfile.ConstantMemberRefInfo))
+		case classfile.ConstantInvokeDynamicInfo:
+			consts[i] = newConstantInvokeDynamic(cf, rtCp, cpInfo.(classfile.ConstantInvokeDynamicInfo))
+		case classfile.ConstantMethodHandleInfo:
+			consts[i] = newConstantMethodHandle(cpInfo.(classfile.ConstantMethodHandleInfo))
+		case classfile.ConstantMethodTypeInfo:
+			consts[i] = newConstantMethodType(cpInfo.(classfile.ConstantMethodTypeInfo))
 		default:
 			// todo
 			//fmt.Printf("%T \n", cpInfo)

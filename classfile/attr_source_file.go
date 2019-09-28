@@ -8,14 +8,9 @@ SourceFile_attribute {
 }
 */
 type SourceFileAttribute struct {
-	cp              *ConstantPool
-	sourceFileIndex uint16
+	SourceFileIndex uint16
 }
 
-func (attr *SourceFileAttribute) readInfo(reader *ClassReader) {
-	attr.sourceFileIndex = reader.readUint16()
-}
-
-func (attr *SourceFileAttribute) FileName() string {
-	return attr.cp.getUtf8(attr.sourceFileIndex)
+func readSourceFileAttribute(reader *ClassReader) SourceFileAttribute {
+	return SourceFileAttribute{SourceFileIndex: reader.readUint16()}
 }

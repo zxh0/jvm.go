@@ -7,19 +7,11 @@ CONSTANT_String_info {
 }
 */
 type ConstantStringInfo struct {
-	cp          *ConstantPool
-	stringIndex uint16
+	StringIndex uint16
 }
 
-func (c ConstantStringInfo) String() string {
-	return c.cp.getUtf8(c.stringIndex)
-}
-
-func readConstantStringInfo(reader *ClassReader,
-	cp *ConstantPool) ConstantStringInfo {
-
+func readConstantStringInfo(reader *ClassReader) ConstantStringInfo {
 	return ConstantStringInfo{
-		cp:          cp,
-		stringIndex: reader.readUint16(),
+		StringIndex: reader.readUint16(),
 	}
 }

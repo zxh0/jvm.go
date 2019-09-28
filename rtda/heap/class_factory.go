@@ -19,56 +19,42 @@ func newClass(cf *classfile.ClassFile) *Class {
 }
 
 func (class *Class) copyConstantPool(cf *classfile.ClassFile) {
-	class.constantPool = newConstantPool(class, &cf.ConstantPool)
+	class.constantPool = newConstantPool(class, cf)
 }
 
 func (class *Class) copyClassNames(cf *classfile.ClassFile) {
-	class.name = cf.ClassName()
-	class.superClassName = cf.SuperClassName()
-	class.interfaceNames = cf.InterfaceNames()
+	class.name = cf.GetClassName()
+	class.superClassName = cf.GetSuperClassName()
+	class.interfaceNames = cf.GetInterfaceNames()
 }
 
 func (class *Class) copyFields(cf *classfile.ClassFile) {
 	class.fields = make([]*Field, len(cf.Fields))
 	for i, fieldInfo := range cf.Fields {
-		class.fields[i] = newField(class, fieldInfo)
+		class.fields[i] = newField(class, cf, fieldInfo)
 	}
 }
 
 func (class *Class) copyMethods(cf *classfile.ClassFile) {
 	class.methods = make([]*Method, len(cf.Methods))
 	for i, methodInfo := range cf.Methods {
-		class.methods[i] = newMethod(class, methodInfo)
+		class.methods[i] = newMethod(class, cf, methodInfo)
 		class.methods[i].slot = uint(i)
 	}
 }
 
 func (class *Class) copyAttributes(cf *classfile.ClassFile) {
-	class.sourceFile = getSourceFile(cf)
-	class.signature = getSignature(cf)
-	class.annotationData = cf.RuntimeVisibleAnnotationsAttributeData()
+	class.sourceFile = cf.GetUTF8(cf.GetSourceFileIndex()) // TODO
+	class.signature = cf.GetUTF8(cf.GetSignatureIndex())
+	class.annotationData = cf.GetRuntimeVisibleAnnotationsAttributeData()
 	class.enclosingMethod = getEnclosingMethod(cf)
 }
 
-func getSourceFile(cf *classfile.ClassFile) string {
-	if sfAttr := cf.SourceFileAttribute(); sfAttr != nil {
-		return sfAttr.FileName()
-	}
-	return "Unknown" // todo
-}
-
-func getSignature(cf *classfile.ClassFile) string {
-	if sigAttr := cf.SignatureAttribute(); sigAttr != nil {
-		return sigAttr.Signature()
-	}
-	return ""
-}
-
 func getEnclosingMethod(cf *classfile.ClassFile) *EnclosingMethod {
-	if emAttr := cf.EnclosingMethodAttribute(); emAttr != nil {
-		methodName, methodDescriptor := emAttr.MethodNameAndDescriptor()
+	if emAttr, found := cf.GetEnclosingMethodAttribute(); found {
+		methodName, methodDescriptor := getNameAndType(cf, emAttr.MethodIndex)
 		return &EnclosingMethod{
-			className:        emAttr.ClassName(),
+			className:        cf.GetClassNameOf(emAttr.ClassIndex),
 			methodName:       methodName,
 			methodDescriptor: methodDescriptor,
 		}

@@ -2,8 +2,8 @@ package interpreter
 
 import (
 	"fmt"
-	"github.com/zxh0/jvm.go/instructions"
 
+	"github.com/zxh0/jvm.go/instructions"
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/vmerrors"

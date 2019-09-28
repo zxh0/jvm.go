@@ -17,27 +17,16 @@ CONSTANT_InterfaceMethodref_info {
     u2 name_and_type_index;
 }
 */
-type ConstantMemberrefInfo struct {
+type ConstantMemberRefInfo struct {
 	Tag              uint8
-	cp               *ConstantPool
-	classIndex       uint16
-	nameAndTypeIndex uint16
+	ClassIndex       uint16
+	NameAndTypeIndex uint16
 }
 
-func (c ConstantMemberrefInfo) ClassName() string {
-	return c.cp.getClassName(c.classIndex)
-}
-func (c ConstantMemberrefInfo) NameAndDescriptor() (string, string) {
-	return c.cp.getNameAndType(c.nameAndTypeIndex)
-}
-
-func readConstantMemberrefInfo(reader *ClassReader,
-	cp *ConstantPool, tag uint8) ConstantMemberrefInfo {
-
-	return ConstantMemberrefInfo{
+func readConstantMemberRefInfo(reader *ClassReader, tag uint8) ConstantMemberRefInfo {
+	return ConstantMemberRefInfo{
 		Tag:              tag,
-		cp:               cp,
-		classIndex:       reader.readUint16(),
-		nameAndTypeIndex: reader.readUint16(),
+		ClassIndex:       reader.readUint16(),
+		NameAndTypeIndex: reader.readUint16(),
 	}
 }

@@ -22,13 +22,13 @@ ClassFile {
 */
 type ClassFile struct {
 	//magic      uint32
-	minorVersion uint16
-	majorVersion uint16
+	MinorVersion uint16
+	MajorVersion uint16
 	ConstantPool ConstantPool
 	AccessFlags  uint16
-	thisClass    uint16
-	superClass   uint16
-	interfaces   []uint16
+	ThisClass    uint16
+	SuperClass   uint16
+	Interfaces   []uint16
 	Fields       []MemberInfo
 	Methods      []MemberInfo
 	AttributeTable
@@ -36,59 +36,66 @@ type ClassFile struct {
 
 func (cf *ClassFile) read(reader *ClassReader) {
 	cf.readAndCheckMagic(reader)
-	cf.readVersions(reader)
-	cf.readConstantPool(reader)
+	cf.readAndCheckVersions(reader)
+	cf.ConstantPool = readConstantPool(reader)
+	reader.cp = cf.ConstantPool
 	cf.AccessFlags = reader.readUint16()
-	cf.thisClass = reader.readUint16()
-	cf.superClass = reader.readUint16()
-	cf.interfaces = reader.readUint16s()
-	cf.Fields = readMembers(reader, &cf.ConstantPool)
-	cf.Methods = readMembers(reader, &cf.ConstantPool)
-	cf.attributes = readAttributes(reader, &cf.ConstantPool)
+	cf.ThisClass = reader.readUint16()
+	cf.SuperClass = reader.readUint16()
+	cf.Interfaces = reader.readUint16s()
+	cf.Fields = readMembers(reader)
+	cf.Methods = readMembers(reader)
+	cf.attributes = readAttributes(reader)
 }
 
 func (cf *ClassFile) readAndCheckMagic(reader *ClassReader) {
 	magic := reader.readUint32()
 	if magic != 0xCAFEBABE {
-		panic("Bad magic!")
+		panic("Bad magic!") // TODO
 	}
 }
 
-func (cf *ClassFile) readVersions(reader *ClassReader) {
-	cf.minorVersion = reader.readUint16()
-	cf.majorVersion = reader.readUint16()
+func (cf *ClassFile) readAndCheckVersions(reader *ClassReader) {
+	cf.MinorVersion = reader.readUint16()
+	cf.MajorVersion = reader.readUint16()
 
-	switch cf.majorVersion {
+	switch cf.MajorVersion {
 	case 45:
 		return
 	case 46, 47, 48, 49, 50, 51, 52:
-		if cf.minorVersion == 0 {
+		if cf.MinorVersion == 0 {
 			return
 		}
 	}
 	panic("java.lang.UnsupportedClassVersionError!")
 }
 
-func (cf *ClassFile) readConstantPool(reader *ClassReader) {
-	cf.ConstantPool = ConstantPool{cf: cf}
-	cf.ConstantPool.read(reader)
+func (cf *ClassFile) GetClassName() string {
+	return cf.GetClassNameOf(cf.ThisClass)
 }
-
-func (cf *ClassFile) ClassName() string {
-	return cf.ConstantPool.getClassName(cf.thisClass)
+func (cf *ClassFile) GetSuperClassName() string {
+	return cf.GetClassNameOf(cf.SuperClass)
 }
-
-func (cf *ClassFile) SuperClassName() string {
-	if cf.superClass != 0 {
-		return cf.ConstantPool.getClassName(cf.superClass)
-	}
-	return ""
-}
-
-func (cf *ClassFile) InterfaceNames() []string {
-	interfaceNames := make([]string, len(cf.interfaces))
-	for i, cpIndex := range cf.interfaces {
-		interfaceNames[i] = cf.ConstantPool.getClassName(cpIndex)
+func (cf *ClassFile) GetInterfaceNames() []string {
+	interfaceNames := make([]string, len(cf.Interfaces))
+	for i, cpIndex := range cf.Interfaces {
+		interfaceNames[i] = cf.GetClassNameOf(cpIndex)
 	}
 	return interfaceNames
+}
+
+func (cf *ClassFile) GetUTF8(index uint16) string {
+	return cf.ConstantPool.getUtf8(index)
+}
+func (cf *ClassFile) GetConstantInfo(index uint16) ConstantInfo {
+	return cf.ConstantPool.getConstantInfo(index)
+}
+
+func (cf *ClassFile) GetClassNameOf(cpIndex uint16) string {
+	if cpIndex == 0 {
+		return ""
+	}
+	cp := cf.ConstantPool
+	classInfo := cp.getConstantInfo(cpIndex).(ConstantClassInfo)
+	return cp.getUtf8(classInfo.NameIndex)
 }

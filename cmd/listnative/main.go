@@ -76,9 +76,15 @@ func handleClassfile(cf *classfile.ClassFile) {
 	for _, m := range cf.Methods {
 		if isNative(m) {
 			if isStatic(m) {
-				fmt.Printf("%v.%v%v\n", cf.ClassName(), m.Name(), m.Descriptor())
+				fmt.Printf("%v.%v%v\n",
+					cf.GetClassName(),
+					cf.GetUTF8(m.NameIndex),
+					cf.GetUTF8(m.DescriptorIndex))
 			} else {
-				fmt.Printf("%v#%v%v\n", cf.ClassName(), m.Name(), m.Descriptor())
+				fmt.Printf("%v#%v%v\n",
+					cf.GetClassName(),
+					cf.GetUTF8(m.NameIndex),
+					cf.GetUTF8(m.DescriptorIndex))
 			}
 		}
 	}

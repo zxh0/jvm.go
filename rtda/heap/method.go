@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	cf "github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/classfile"
 )
 
 const (
@@ -26,21 +26,21 @@ type Method struct {
 	code                    []byte
 	parameterAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
 	annotationDefaultData   []byte // AnnotationDefault_attribute
-	lineNumberTable         *cf.LineNumberTableAttribute
-	exceptions              *cf.ExceptionsAttribute
+	lineNumberTable         []classfile.LineNumberTableEntry
+	exIndexTable            []uint16    // TODO: rename
 	nativeMethod            interface{} // cannot use package 'native' because of cycle import!
 	Instructions            interface{} // []instructions.Instruction
 }
 
-func newMethod(class *Class, methodInfo cf.MemberInfo) *Method {
+func newMethod(class *Class, cf *classfile.ClassFile, methodInfo classfile.MemberInfo) *Method {
 	method := &Method{}
 	method.class = class
 	method.accessFlags = methodInfo.AccessFlags
-	method.name = methodInfo.Name()
-	method.descriptor = methodInfo.Descriptor()
+	method.name = cf.GetUTF8(methodInfo.NameIndex)
+	method.descriptor = cf.GetUTF8(methodInfo.DescriptorIndex)
 	method.md = parseMethodDescriptor(method.descriptor)
 	method.calcArgSlotCount()
-	method.copyAttributes(methodInfo)
+	method.copyAttributes(cf, methodInfo)
 	return method
 }
 func (method *Method) calcArgSlotCount() {
@@ -49,22 +49,22 @@ func (method *Method) calcArgSlotCount() {
 		method.argSlotCount++
 	}
 }
-func (method *Method) copyAttributes(methodInfo cf.MemberInfo) {
-	if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
-		method.exceptions = methodInfo.ExceptionsAttribute()
-		method.signature = methodInfo.Signature()
+func (method *Method) copyAttributes(cf *classfile.ClassFile, methodInfo classfile.MemberInfo) {
+	if codeAttr := methodInfo.GetCodeAttribute(); codeAttr != nil {
+		method.exIndexTable = methodInfo.GetExceptionIndexTable()
+		method.signature = cf.GetUTF8(methodInfo.GetSignatureIndex())
 		method.code = codeAttr.Code
 		method.maxStack = uint(codeAttr.MaxStack)
 		method.maxLocals = uint(codeAttr.MaxLocals)
-		method.lineNumberTable = codeAttr.LineNumberTableAttribute()
+		method.lineNumberTable = codeAttr.GetLineNumberTable()
 		if len(codeAttr.ExceptionTable) > 0 {
 			rtCp := method.class.constantPool
 			method.copyExceptionTable(codeAttr.ExceptionTable, rtCp)
 		}
 	}
-	method.annotationData = methodInfo.RuntimeVisibleAnnotationsAttributeData()
-	method.parameterAnnotationData = methodInfo.RuntimeVisibleParameterAnnotationsAttributeData()
-	method.annotationDefaultData = methodInfo.AnnotationDefaultAttributeData()
+	method.annotationData = methodInfo.GetRuntimeVisibleAnnotationsAttributeData()
+	method.parameterAnnotationData = methodInfo.GetRuntimeVisibleParameterAnnotationsAttributeData()
+	method.annotationDefaultData = methodInfo.GetAnnotationDefaultAttributeData()
 }
 
 func (method *Method) String() string {
@@ -135,8 +135,11 @@ func (method *Method) GetLineNumber(pc int) int {
 	if method.IsNative() {
 		return -2
 	}
-	if method.lineNumberTable != nil {
-		return method.lineNumberTable.GetLineNumber(pc)
+	for i := len(method.lineNumberTable) - 1; i >= 0; i-- {
+		entry := method.lineNumberTable[i]
+		if pc >= int(entry.StartPC) {
+			return int(entry.LineNumber)
+		}
 	}
 	return -1
 }

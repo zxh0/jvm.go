@@ -12,21 +12,24 @@ BootstrapMethods_attribute {
 }
 */
 type BootstrapMethodsAttribute struct {
-	bootstrapMethods []BootstrapMethod
+	BootstrapMethods []BootstrapMethod
 }
 
-func (attr *BootstrapMethodsAttribute) readInfo(reader *ClassReader) {
+func readBootstrapMethodsAttribute(reader *ClassReader) BootstrapMethodsAttribute {
 	numBootstrapMethods := reader.readUint16()
-	attr.bootstrapMethods = make([]BootstrapMethod, numBootstrapMethods)
-	for i := range attr.bootstrapMethods {
-		attr.bootstrapMethods[i] = BootstrapMethod{
-			bootstrapMethodRef: reader.readUint16(),
-			bootstrapArguments: reader.readUint16s(),
+	bootstrapMethods := make([]BootstrapMethod, numBootstrapMethods)
+	for i := range bootstrapMethods {
+		bootstrapMethods[i] = BootstrapMethod{
+			BootstrapMethodRef: reader.readUint16(),
+			BootstrapArguments: reader.readUint16s(),
 		}
+	}
+	return BootstrapMethodsAttribute{
+		BootstrapMethods: bootstrapMethods,
 	}
 }
 
 type BootstrapMethod struct {
-	bootstrapMethodRef uint16
-	bootstrapArguments []uint16
+	BootstrapMethodRef uint16
+	BootstrapArguments []uint16
 }

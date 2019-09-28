@@ -1,14 +1,14 @@
 package heap
 
 import (
-	cf "github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/classfile"
 )
 
 type ConstantMethodType struct {
 	// todo
 }
 
-func newConstantMethodType(mtInfo cf.ConstantMethodTypeInfo) *ConstantMethodType {
+func newConstantMethodType(mtInfo classfile.ConstantMethodTypeInfo) *ConstantMethodType {
 	return &ConstantMethodType{
 		// todo
 	}

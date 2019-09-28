@@ -9,24 +9,13 @@ EnclosingMethod_attribute {
 }
 */
 type EnclosingMethodAttribute struct {
-	cp          *ConstantPool
-	classIndex  uint16
-	methodIndex uint16
+	ClassIndex  uint16
+	MethodIndex uint16
 }
 
-func (attr *EnclosingMethodAttribute) readInfo(reader *ClassReader) {
-	attr.classIndex = reader.readUint16()
-	attr.methodIndex = reader.readUint16()
-}
-
-func (attr *EnclosingMethodAttribute) ClassName() string {
-	return attr.cp.getClassName(attr.classIndex)
-}
-
-func (attr *EnclosingMethodAttribute) MethodNameAndDescriptor() (string, string) {
-	if attr.methodIndex > 0 {
-		return attr.cp.getNameAndType(attr.methodIndex)
-	} else {
-		return "", ""
+func readEnclosingMethodAttribute(reader *ClassReader) EnclosingMethodAttribute {
+	return EnclosingMethodAttribute{
+		ClassIndex:  reader.readUint16(),
+		MethodIndex: reader.readUint16(),
 	}
 }

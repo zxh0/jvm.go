@@ -15,7 +15,7 @@ type GetField struct {
 func (instr *GetField) Execute(frame *rtda.Frame) {
 	if instr.field == nil {
 		cp := frame.Method().Class().ConstantPool()
-		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldref)
+		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldRef)
 		instr.field = kFieldRef.InstanceField()
 	}
 

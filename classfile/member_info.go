@@ -17,19 +17,18 @@ method_info {
 }
 */
 type MemberInfo struct {
-	cp              *ConstantPool
 	AccessFlags     uint16
-	nameIndex       uint16
-	descriptorIndex uint16
+	NameIndex       uint16
+	DescriptorIndex uint16
 	AttributeTable
 }
 
 // read field or method table
-func readMembers(reader *ClassReader, cp *ConstantPool) []MemberInfo {
+func readMembers(reader *ClassReader) []MemberInfo {
 	memberCount := reader.readUint16()
 	members := make([]MemberInfo, memberCount)
 	for i := range members {
-		members[i] = MemberInfo{cp: cp}
+		members[i] = MemberInfo{}
 		members[i].read(reader)
 	}
 	return members
@@ -37,21 +36,7 @@ func readMembers(reader *ClassReader, cp *ConstantPool) []MemberInfo {
 
 func (mi *MemberInfo) read(reader *ClassReader) {
 	mi.AccessFlags = reader.readUint16()
-	mi.nameIndex = reader.readUint16()
-	mi.descriptorIndex = reader.readUint16()
-	mi.attributes = readAttributes(reader, mi.cp)
-}
-
-func (mi *MemberInfo) Name() string {
-	return mi.cp.getUtf8(mi.nameIndex)
-}
-func (mi *MemberInfo) Descriptor() string {
-	return mi.cp.getUtf8(mi.descriptorIndex)
-}
-func (mi *MemberInfo) Signature() string {
-	signatureAttr := mi.SignatureAttribute()
-	if signatureAttr != nil {
-		return signatureAttr.Signature()
-	}
-	return ""
+	mi.NameIndex = reader.readUint16()
+	mi.DescriptorIndex = reader.readUint16()
+	mi.attributes = readAttributes(reader)
 }

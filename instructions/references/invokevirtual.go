@@ -9,14 +9,14 @@ import (
 // Invoke instance method; dispatch based on class
 type InvokeVirtual struct {
 	base.Index16Instruction
-	kMethodRef   *heap.ConstantMethodref
+	kMethodRef   *heap.ConstantMethodRef
 	argSlotCount uint
 }
 
 func (instr *InvokeVirtual) Execute(frame *rtda.Frame) {
 	if instr.kMethodRef == nil {
 		cp := frame.Method().ConstantPool()
-		instr.kMethodRef = cp.GetConstant(instr.Index).(*heap.ConstantMethodref)
+		instr.kMethodRef = cp.GetConstant(instr.Index).(*heap.ConstantMethodRef)
 		instr.argSlotCount = instr.kMethodRef.ArgSlotCount()
 	}
 

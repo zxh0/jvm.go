@@ -1,7 +1,7 @@
 package heap
 
 import (
-	cf "github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/classfile"
 )
 
 type ConstantClass struct {
@@ -9,9 +9,9 @@ type ConstantClass struct {
 	class *Class
 }
 
-func newConstantClass(classInfo cf.ConstantClassInfo) *ConstantClass {
+func newConstantClass(cf *classfile.ClassFile, classInfo classfile.ConstantClassInfo) *ConstantClass {
 	return &ConstantClass{
-		name: classInfo.Name(),
+		name: cf.GetUTF8(classInfo.NameIndex),
 	}
 }
 

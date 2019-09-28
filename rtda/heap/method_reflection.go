@@ -22,15 +22,14 @@ func (method *Method) ReturnType() *Class {
 }
 
 func (method *Method) ExceptionTypes() []*Class {
-	if method.exceptions == nil {
+	if method.exIndexTable == nil {
 		return nil
 	}
 
-	exIndexTable := method.exceptions.ExceptionIndexTable
-	exClasses := make([]*Class, len(exIndexTable))
+	exClasses := make([]*Class, len(method.exIndexTable))
 	cp := method.class.constantPool
 
-	for i, exIndex := range exIndexTable {
+	for i, exIndex := range method.exIndexTable {
 		kClass := cp.GetConstant(uint(exIndex)).(*ConstantClass)
 		exClasses[i] = kClass.Class()
 	}

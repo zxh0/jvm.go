@@ -2,10 +2,6 @@ package classfile
 
 type MarkerAttribute struct{}
 
-func (*MarkerAttribute) readInfo(reader *ClassReader) {
-	// read nothing
-}
-
 /*
 Deprecated_attribute {
     u2 attribute_name_index;

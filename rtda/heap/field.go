@@ -1,7 +1,7 @@
 package heap
 
 import (
-	cf "github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/classfile"
 )
 
 type Field struct {
@@ -12,17 +12,15 @@ type Field struct {
 	_type           *Class
 }
 
-func newField(class *Class, fieldInfo cf.MemberInfo) *Field {
+func newField(class *Class, cf *classfile.ClassFile, fieldInfo classfile.MemberInfo) *Field {
 	field := &Field{}
 	field.class = class
 	field.accessFlags = fieldInfo.AccessFlags
-	field.name = fieldInfo.Name()
-	field.descriptor = fieldInfo.Descriptor()
-	field.signature = fieldInfo.Signature()
+	field.name = cf.GetUTF8(fieldInfo.NameIndex)
+	field.descriptor = cf.GetUTF8(fieldInfo.DescriptorIndex)
+	field.signature = cf.GetUTF8(fieldInfo.GetSignatureIndex())
 	field.IsLongOrDouble = field.descriptor == "J" || field.descriptor == "D"
-	if kValAttr := fieldInfo.ConstantValueAttribute(); kValAttr != nil {
-		field.constValueIndex = kValAttr.ConstantValueIndex
-	}
+	field.constValueIndex = fieldInfo.GetConstantValueIndex()
 	return field
 }
 

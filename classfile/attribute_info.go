@@ -1,10 +1,5 @@
 package classfile
 
-var (
-	_attrDeprecated = &DeprecatedAttribute{}
-	_attrSynthetic  = &SyntheticAttribute{}
-)
-
 /*
 attribute_info {
     u2 attribute_name_index;
@@ -12,58 +7,50 @@ attribute_info {
     u1 info[attribute_length];
 }
 */
-type AttributeInfo interface {
-	readInfo(reader *ClassReader)
+type AttributeInfo interface{}
+
+type UnparsedAttribute struct {
+	Name   string
+	Length uint32
+	Info   []byte
 }
 
-func readAttributes(reader *ClassReader, cp *ConstantPool) []AttributeInfo {
+func readAttributes(reader *ClassReader) []AttributeInfo {
 	attributesCount := reader.readUint16()
 	attributes := make([]AttributeInfo, attributesCount)
 	for i := range attributes {
-		attributes[i] = readAttribute(reader, cp)
+		attributes[i] = readAttributeInfo(reader)
 	}
 	return attributes
 }
 
-func readAttribute(reader *ClassReader, cp *ConstantPool) AttributeInfo {
+func readAttributeInfo(reader *ClassReader) AttributeInfo {
 	attrNameIndex := reader.readUint16()
 	attrLen := reader.readUint32()
-	attrName := cp.getUtf8(attrNameIndex)
-	attrInfo := newAttributeInfo(attrName, cp)
-	if attrInfo == nil {
-		attrInfo = &UnparsedAttribute{
-			name:   attrName,
-			length: attrLen,
-		}
-	}
+	attrName := reader.cp.getUtf8(attrNameIndex)
 
-	attrInfo.readInfo(reader)
-	return attrInfo
-}
-
-func newAttributeInfo(attrName string, cp *ConstantPool) AttributeInfo {
 	switch attrName {
 	// case "AnnotationDefault":
 	case "BootstrapMethods":
-		return &BootstrapMethodsAttribute{}
+		return readBootstrapMethodsAttribute(reader)
 	case "Code":
-		return &CodeAttribute{cp: cp}
+		return readCodeAttribute(reader)
 	case "ConstantValue":
-		return &ConstantValueAttribute{}
+		return readConstantValueAttribute(reader)
 	case "Deprecated":
-		return _attrDeprecated
+		return DeprecatedAttribute{}
 	case "EnclosingMethod":
-		return &EnclosingMethodAttribute{cp: cp}
+		return readEnclosingMethodAttribute(reader)
 	case "Exceptions":
-		return &ExceptionsAttribute{}
+		return readExceptionsAttribute(reader)
 	case "InnerClasses":
-		return &InnerClassesAttribute{}
+		return readInnerClassesAttribute(reader)
 	case "LineNumberTable":
-		return &LineNumberTableAttribute{}
+		return readLineNumberTableAttribute(reader)
 	case "LocalVariableTable":
-		return &LocalVariableTableAttribute{}
+		return readLocalVariableTableAttribute(reader)
 	case "LocalVariableTypeTable":
-		return &LocalVariableTypeTableAttribute{}
+		return readLocalVariableTypeTableAttribute(reader)
 	// case "MethodParameters":
 	// case "RuntimeInvisibleAnnotations":
 	// case "RuntimeInvisibleParameterAnnotations":
@@ -72,14 +59,19 @@ func newAttributeInfo(attrName string, cp *ConstantPool) AttributeInfo {
 	// case "RuntimeVisibleParameterAnnotations":
 	// case "RuntimeVisibleTypeAnnotations":
 	case "Signature":
-		return &SignatureAttribute{cp: cp}
+		return readSignatureAttribute(reader)
 	case "SourceFile":
-		return &SourceFileAttribute{cp: cp}
+		return readSourceFileAttribute(reader)
 	// case "SourceDebugExtension":
 	// case "StackMapTable":
 	case "Synthetic":
-		return _attrSynthetic
+		return SyntheticAttribute{}
 	default:
-		return nil // undefined attr
+		// undefined attr
+		return UnparsedAttribute{
+			Name:   attrName,
+			Length: attrLen,
+			Info:   reader.readBytes(attrLen),
+		}
 	}
 }

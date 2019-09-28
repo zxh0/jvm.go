@@ -1,7 +1,7 @@
 package heap
 
 import (
-	cf "github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/classfile"
 )
 
 type ConstantMethodHandle struct {
@@ -9,7 +9,7 @@ type ConstantMethodHandle struct {
 	referenceIndex uint16
 }
 
-func newConstantMethodHandle(mhInfo cf.ConstantMethodHandleInfo) *ConstantMethodHandle {
+func newConstantMethodHandle(mhInfo classfile.ConstantMethodHandleInfo) *ConstantMethodHandle {
 	return &ConstantMethodHandle{
 		referenceKind:  mhInfo.ReferenceKind,
 		referenceIndex: mhInfo.ReferenceIndex,

@@ -19,7 +19,6 @@ Code_attribute {
 }
 */
 type CodeAttribute struct {
-	cp             *ConstantPool
 	MaxStack       uint16
 	MaxLocals      uint16
 	Code           []byte
@@ -27,13 +26,16 @@ type CodeAttribute struct {
 	AttributeTable
 }
 
-func (attr *CodeAttribute) readInfo(reader *ClassReader) {
-	attr.MaxStack = reader.readUint16()
-	attr.MaxLocals = reader.readUint16()
-	codeLength := reader.readUint32()
-	attr.Code = reader.readBytes(codeLength)
-	attr.ExceptionTable = readExceptionTable(reader)
-	attr.attributes = readAttributes(reader, attr.cp)
+func readCodeAttribute(reader *ClassReader) CodeAttribute {
+	return CodeAttribute{
+		MaxStack:       reader.readUint16(),
+		MaxLocals:      reader.readUint16(),
+		Code:           reader.readBytes(reader.readUint32()),
+		ExceptionTable: readExceptionTable(reader),
+		AttributeTable: AttributeTable{
+			readAttributes(reader),
+		},
+	}
 }
 
 type ExceptionTableEntry struct {

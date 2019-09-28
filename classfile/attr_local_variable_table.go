@@ -14,27 +14,30 @@ LocalVariableTable_attribute {
 }
 */
 type LocalVariableTableAttribute struct {
-	localVariableTable []LocalVariableTableEntry
+	LocalVariableTable []LocalVariableTableEntry
 }
 
 type LocalVariableTableEntry struct {
-	startPc         uint16
-	length          uint16
-	nameIndex       uint16
-	descriptorIndex uint16
-	index           uint16
+	StartPc         uint16
+	Length          uint16
+	NameIndex       uint16
+	DescriptorIndex uint16
+	Index           uint16
 }
 
-func (attr *LocalVariableTableAttribute) readInfo(reader *ClassReader) {
+func readLocalVariableTableAttribute(reader *ClassReader) LocalVariableTableAttribute {
 	tableLength := reader.readUint16()
-	attr.localVariableTable = make([]LocalVariableTableEntry, tableLength)
-	for i := range attr.localVariableTable {
-		attr.localVariableTable[i] = LocalVariableTableEntry{
-			startPc:         reader.readUint16(),
-			length:          reader.readUint16(),
-			nameIndex:       reader.readUint16(),
-			descriptorIndex: reader.readUint16(),
-			index:           reader.readUint16(),
+	localVariableTable := make([]LocalVariableTableEntry, tableLength)
+	for i := range localVariableTable {
+		localVariableTable[i] = LocalVariableTableEntry{
+			StartPc:         reader.readUint16(),
+			Length:          reader.readUint16(),
+			NameIndex:       reader.readUint16(),
+			DescriptorIndex: reader.readUint16(),
+			Index:           reader.readUint16(),
 		}
+	}
+	return LocalVariableTableAttribute{
+		LocalVariableTable: localVariableTable,
 	}
 }

@@ -35,7 +35,7 @@ type Method struct {
 func newMethod(class *Class, cf *classfile.ClassFile, methodInfo classfile.MemberInfo) *Method {
 	method := &Method{}
 	method.class = class
-	method.accessFlags = methodInfo.AccessFlags
+	method.AccessFlags = AccessFlags(methodInfo.AccessFlags)
 	method.name = cf.GetUTF8(methodInfo.NameIndex)
 	method.descriptor = cf.GetUTF8(methodInfo.DescriptorIndex)
 	method.md = parseMethodDescriptor(method.descriptor)

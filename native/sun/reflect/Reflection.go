@@ -29,9 +29,6 @@ func getCallerClass(frame *rtda.Frame) {
 // (Ljava/lang/Class;)I
 func getClassAccessFlags(frame *rtda.Frame) {
 	_type := frame.GetRefVar(0)
-
 	goClass := _type.Extra().(*heap.Class)
-	flags := goClass.GetAccessFlags()
-
-	frame.PushInt(int32(flags))
+	frame.PushInt(int32(goClass.AccessFlags))
 }

@@ -7,7 +7,7 @@ var (
 
 	_returnMethod = &Method{
 		ClassMember: ClassMember{
-			AccessFlags: AccessFlags{ACC_STATIC},
+			AccessFlags: AccessFlags(AccStatic),
 			name:        "<return>",
 			class:       _shimClass,
 		},
@@ -16,7 +16,7 @@ var (
 
 	_athrowMethod = &Method{
 		ClassMember: ClassMember{
-			AccessFlags: AccessFlags{ACC_STATIC},
+			AccessFlags: AccessFlags(AccStatic),
 			name:        "<athrow>",
 			class:       _shimClass,
 		},
@@ -36,7 +36,7 @@ func BootstrapMethod() *Method {
 	method := &Method{}
 	method.class = &Class{name: "~shim"}
 	method.name = "<bootstrap>"
-	method.accessFlags = ACC_STATIC
+	method.AccessFlags = AccStatic
 	method.maxStack = 8
 	method.maxLocals = 8
 	method.argSlotCount = 2

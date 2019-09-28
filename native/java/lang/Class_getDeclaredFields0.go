@@ -55,7 +55,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
 				heap.NewRefSlot(classObj),                                       // declaringClass
 				heap.NewRefSlot(heap.JString(goField.Name())),                   // name
 				heap.NewRefSlot(goField.Type().JClass()),                        // type
-				heap.NewIntSlot(int32(goField.GetAccessFlags())),                // modifiers
+				heap.NewIntSlot(int32(goField.AccessFlags)),                     // modifiers
 				heap.NewIntSlot(int32(goField.SlotId())),                        // slot
 				heap.NewRefSlot(getSignatureStr(goField.Signature())),           // signature
 				heap.NewRefSlot(getAnnotationByteArr(goField.AnnotationData())), // annotations

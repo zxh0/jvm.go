@@ -1,90 +1,79 @@
 package heap
 
 const (
-	ACC_PUBLIC       = 0x0001
-	ACC_PRIVATE      = 0x0002
-	ACC_PROTECTED    = 0x0004
-	ACC_STATIC       = 0x0008
-	ACC_FINAL        = 0x0010
-	ACC_SUPER        = 0x0020
-	ACC_SYNCHRONIZED = 0x0020
-	ACC_VOLATILE     = 0x0040
-	ACC_BRIDGE       = 0x0040
-	ACC_TRANSIENT    = 0x0080
-	ACC_VARARGS      = 0x0080
-	ACC_NATIVE       = 0x0100
-	ACC_INTERFACE    = 0x0200
-	ACC_ABSTRACT     = 0x0400
-	ACC_STRICT       = 0x0800
-	ACC_SYNTHETIC    = 0x1000
-	ACC_ANNOTATION   = 0x2000
-	ACC_ENUM         = 0x4000
+	AccPublic       = 0x0001
+	AccPrivate      = 0x0002
+	AccProtected    = 0x0004
+	AccStatic       = 0x0008
+	AccFinal        = 0x0010
+	AccSuper        = 0x0020
+	AccSynchronized = 0x0020
+	AccVolatile     = 0x0040
+	AccBridge       = 0x0040
+	AccTransient    = 0x0080
+	AccVarargs      = 0x0080
+	AccNative       = 0x0100
+	AccInterface    = 0x0200
+	AccAbstract     = 0x0400
+	AccStrict       = 0x0800
+	AccSynthetic    = 0x1000
+	AccAnnotation   = 0x2000
+	AccEnum         = 0x4000
 )
 
-type AccessFlags struct {
-	accessFlags uint16
-}
+type AccessFlags uint16
 
-func (flags *AccessFlags) GetAccessFlags() uint16 {
-	return flags.accessFlags
+func (flags AccessFlags) IsPublic() bool {
+	return flags&AccPublic != 0
 }
-
-func NewAccessFlags(accessFlags uint16) *AccessFlags {
-	af := AccessFlags{accessFlags: accessFlags}
-	return &af
+func (flags AccessFlags) IsPrivate() bool {
+	return flags&AccPrivate != 0
 }
-
-func (flags *AccessFlags) IsPublic() bool {
-	return 0 != flags.accessFlags&ACC_PUBLIC
+func (flags AccessFlags) IsProtected() bool {
+	return flags&AccProtected != 0
 }
-func (flags *AccessFlags) IsPrivate() bool {
-	return 0 != flags.accessFlags&ACC_PRIVATE
+func (flags AccessFlags) IsStatic() bool {
+	return flags&AccStatic != 0
 }
-func (flags *AccessFlags) IsProtected() bool {
-	return 0 != flags.accessFlags&ACC_PROTECTED
+func (flags AccessFlags) IsFinal() bool {
+	return flags&AccFinal != 0
 }
-func (flags *AccessFlags) IsStatic() bool {
-	return 0 != flags.accessFlags&ACC_STATIC
+func (flags AccessFlags) IsSuper() bool {
+	return flags&AccSuper != 0
 }
-func (flags *AccessFlags) IsFinal() bool {
-	return 0 != flags.accessFlags&ACC_FINAL
+func (flags AccessFlags) IsSynchronized() bool {
+	return flags&AccSynchronized != 0
 }
-func (flags *AccessFlags) IsSuper() bool {
-	return 0 != flags.accessFlags&ACC_SUPER
+func (flags AccessFlags) IsVolatile() bool {
+	return flags&AccVolatile != 0
 }
-func (flags *AccessFlags) IsSynchronized() bool {
-	return 0 != flags.accessFlags&ACC_SYNCHRONIZED
+func (flags AccessFlags) IsBridge() bool {
+	return flags&AccBridge != 0
 }
-func (flags *AccessFlags) IsVolatile() bool {
-	return 0 != flags.accessFlags&ACC_VOLATILE
+func (flags AccessFlags) IsTransient() bool {
+	return flags&AccTransient != 0
 }
-func (flags *AccessFlags) IsBridge() bool {
-	return 0 != flags.accessFlags&ACC_BRIDGE
+func (flags AccessFlags) IsVarargs() bool {
+	return flags&AccVarargs != 0
 }
-func (flags *AccessFlags) IsTransient() bool {
-	return 0 != flags.accessFlags&ACC_TRANSIENT
+func (flags AccessFlags) IsNative() bool {
+	return flags&AccNative != 0
 }
-func (flags *AccessFlags) IsVarargs() bool {
-	return 0 != flags.accessFlags&ACC_VARARGS
+func (flags AccessFlags) IsInterface() bool {
+	return flags&AccInterface != 0
 }
-func (flags *AccessFlags) IsNative() bool {
-	return 0 != flags.accessFlags&ACC_NATIVE
+func (flags AccessFlags) IsAbstract() bool {
+	return flags&AccAbstract != 0
 }
-func (flags *AccessFlags) IsInterface() bool {
-	return 0 != flags.accessFlags&ACC_INTERFACE
+func (flags AccessFlags) IsStrict() bool {
+	return flags&AccStrict != 0
 }
-func (flags *AccessFlags) IsAbstract() bool {
-	return 0 != flags.accessFlags&ACC_ABSTRACT
+func (flags AccessFlags) IsSynthetic() bool {
+	return flags&AccSynthetic != 0
 }
-func (flags *AccessFlags) IsStrict() bool {
-	return 0 != flags.accessFlags&ACC_STRICT
+func (flags AccessFlags) IsAnnotation() bool {
+	return flags&AccAnnotation != 0
 }
-func (flags *AccessFlags) IsSynthetic() bool {
-	return 0 != flags.accessFlags&ACC_SYNTHETIC
-}
-func (flags *AccessFlags) IsAnnotation() bool {
-	return 0 != flags.accessFlags&ACC_ANNOTATION
-}
-func (flags *AccessFlags) IsEnum() bool {
-	return 0 != flags.accessFlags&ACC_ENUM
+func (flags AccessFlags) IsEnum() bool {
+	return flags&AccEnum != 0
 }

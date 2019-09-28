@@ -9,7 +9,7 @@ import (
 func newClass(cf *classfile.ClassFile) *Class {
 	class := &Class{}
 	class.initCond = sync.NewCond(&sync.Mutex{})
-	class.accessFlags = cf.AccessFlags
+	class.AccessFlags = AccessFlags(cf.AccessFlags)
 	class.copyConstantPool(cf)
 	class.copyClassNames(cf)
 	class.copyFields(cf)

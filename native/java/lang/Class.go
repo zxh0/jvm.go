@@ -159,9 +159,7 @@ func getName0(frame *rtda.Frame) {
 // ()I
 func getModifiers(frame *rtda.Frame) {
 	class := _popClass(frame)
-	modifiers := class.GetAccessFlags()
-
-	frame.PushInt(int32(modifiers))
+	frame.PushInt(int32(class.AccessFlags))
 }
 
 // public native Class<? super T> getSuperclass();

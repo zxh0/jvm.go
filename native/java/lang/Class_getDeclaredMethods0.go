@@ -64,7 +64,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 				heap.NewRefSlot(getParameterTypeArr(method)),                            // parameterTypes
 				heap.NewRefSlot(getReturnType(method)),                                  // returnType
 				heap.NewRefSlot(getExceptionTypeArr(method)),                            // checkedExceptions
-				heap.NewIntSlot(int32(method.GetAccessFlags())),                         // modifiers
+				heap.NewIntSlot(int32(method.AccessFlags)),                              // modifiers
 				heap.NewIntSlot(int32(method.Slot())),                                   // slot
 				heap.NewRefSlot(getSignatureStr(method.Signature())),                    // signature
 				heap.NewRefSlot(getAnnotationByteArr(method.AnnotationData())),          // annotations

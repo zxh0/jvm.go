@@ -60,7 +60,7 @@ func printClassInfo(cmd cmd.Command) {
 	cf, err := classfile.Parse(classData)
 
 	fmt.Printf("%s %s",
-		accessFlagsforClass(cf.AccessFlags),
+		accessFlagsForClass(cf.AccessFlags),
 		strings.ReplaceAll(cf.GetClassName(), "/", "."))
 
 	superClassName := cf.GetSuperClassName()
@@ -80,7 +80,7 @@ func printClassInfo(cmd cmd.Command) {
 
 	for _, f := range cf.Fields {
 		fmt.Printf(" %s %s %s\n",
-			accessFlagsforField(f.AccessFlags),
+			accessFlagsForField(f.AccessFlags),
 			descriptorToRealName(cf.GetUTF8(f.DescriptorIndex)),
 			cf.GetUTF8(f.NameIndex))
 	}
@@ -89,7 +89,7 @@ func printClassInfo(cmd cmd.Command) {
 		returnType := strings.Split(cf.GetUTF8(m.DescriptorIndex), ")")[1]
 		inputTypes := strings.Split(cf.GetUTF8(m.DescriptorIndex), ")")[0][1:]
 		fmt.Printf(" %s %s %s(%s)\n",
-			accessFlagsforMethod(m.AccessFlags),
+			accessFlagsForMethod(m.AccessFlags),
 			descriptorToRealName(returnType),
 			cf.GetUTF8(m.NameIndex),
 			inputTypesToRealNames(inputTypes))
@@ -97,10 +97,10 @@ func printClassInfo(cmd cmd.Command) {
 	fmt.Println("}")
 }
 
-func accessFlagsforClass(af uint16) string {
+func accessFlagsForClass(af uint16) string {
 	var result []string
 
-	accessFlags := heap.NewAccessFlags(af)
+	accessFlags := heap.AccessFlags(af)
 	if accessFlags.IsPublic() {
 		result = append(result, "public")
 	}
@@ -121,10 +121,10 @@ func accessFlagsforClass(af uint16) string {
 	return strings.Join(result, " ")
 }
 
-func accessFlagsforField(af uint16) string {
+func accessFlagsForField(af uint16) string {
 	var result []string
 
-	accessFlags := heap.NewAccessFlags(af)
+	accessFlags := heap.AccessFlags(af)
 	if accessFlags.IsPublic() {
 		result = append(result, "public")
 	}
@@ -152,10 +152,10 @@ func accessFlagsforField(af uint16) string {
 	return strings.Join(result, " ")
 }
 
-func accessFlagsforMethod(af uint16) string {
+func accessFlagsForMethod(af uint16) string {
 	var result []string
 
-	accessFlags := heap.NewAccessFlags(af)
+	accessFlags := heap.AccessFlags(af)
 	if accessFlags.IsPublic() {
 		result = append(result, "public")
 	}

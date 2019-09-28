@@ -15,7 +15,7 @@ type Field struct {
 func newField(class *Class, cf *classfile.ClassFile, fieldInfo classfile.MemberInfo) *Field {
 	field := &Field{}
 	field.class = class
-	field.accessFlags = fieldInfo.AccessFlags
+	field.AccessFlags = AccessFlags(fieldInfo.AccessFlags)
 	field.name = cf.GetUTF8(fieldInfo.NameIndex)
 	field.descriptor = cf.GetUTF8(fieldInfo.DescriptorIndex)
 	field.signature = cf.GetUTF8(fieldInfo.GetSignatureIndex())

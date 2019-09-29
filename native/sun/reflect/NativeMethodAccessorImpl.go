@@ -21,7 +21,7 @@ func invoke0(frame *rtda.Frame) {
 		frame.RevertNextPC()
 		_invokeMethod(frame)
 	} else {
-		returnType := frame.GetLocalVar(0).GetHack().(heap.FieldType)
+		returnType := frame.GetLocalVar(0).GetHack().(heap.FieldOrReturnType)
 		if returnType.IsBaseType() && !returnType.IsVoidType() {
 			primitiveDescriptor := returnType[0]
 			box.Box(frame, primitiveDescriptor) // todo

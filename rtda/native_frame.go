@@ -1,6 +1,8 @@
 package rtda
 
 import (
+	"strings"
+
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
@@ -28,8 +30,8 @@ func newNativeFrame(thread *Thread, method *heap.Method) *Frame {
 }
 
 func getHackCode(methodDescriptor string) []byte {
-	rd := heap.GetReturnDescriptor(methodDescriptor)
-	switch rd[0] {
+	returnType := strings.Split(methodDescriptor, ")")[1]
+	switch returnType[0] {
 	case 'V':
 		return _native_hack_return
 	case 'L', '[':

@@ -22,7 +22,7 @@ type Method struct {
 	MaxLocals               uint
 	ArgSlotCount            uint
 	Slot                    uint
-	ParsedDescriptor        *MethodDescriptor
+	ParsedDescriptor        MethodDescriptor
 	Code                    []byte
 	ParameterAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
 	AnnotationDefaultData   []byte // AnnotationDefault_attribute

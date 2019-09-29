@@ -1,119 +1,88 @@
 package heap
 
-import (
-	"strings"
-)
-
 type MethodDescriptorParser struct {
-	descriptor string
-	offset     int
-	md         *MethodDescriptor
+	d string
 }
 
-func (parser *MethodDescriptorParser) parse() *MethodDescriptor {
-	parser.md = &MethodDescriptor{}
-	parser.md.d = parser.descriptor
-	parser.startParams()
-	parser.parseParamTypes()
-	parser.endParams()
-	parser.parseReturnType()
-	parser.finish()
-	return parser.md
+func calcArgSlotCount(descriptor string) uint {
+	return parseMethodDescriptor(descriptor).argSlotCount()
 }
 
-func (parser *MethodDescriptorParser) startParams() {
-	if parser.readUint8() != '(' {
-		parser.causePanic()
+func parseMethodDescriptor(descriptor string) MethodDescriptor {
+	parser := &MethodDescriptorParser{descriptor}
+	return parser.parse()
+}
+
+func (parser *MethodDescriptorParser) parse() MethodDescriptor {
+	if paramTypes, ok := parser.parseParamTypes(); ok {
+		if returnType, ok := parser.parseReturnType(); ok {
+			return MethodDescriptor{
+				ParameterTypes: paramTypes,
+				ReturnType:     returnType,
+			}
+		}
 	}
+	panic("invalid descriptor: " + parser.d) // TODO
 }
-func (parser *MethodDescriptorParser) endParams() {
-	if parser.readUint8() != ')' {
-		parser.causePanic()
+
+func (parser *MethodDescriptorParser) parseReturnType() (FieldOrReturnType, bool) {
+	if t, ok := parser.parseFieldType(); ok {
+		return t, len(parser.d) == 0
 	}
+	return "V", parser.d == "V"
 }
-func (parser *MethodDescriptorParser) finish() {
-	if parser.offset != len(parser.descriptor) {
-		parser.causePanic()
+
+func (parser *MethodDescriptorParser) parseParamTypes() ([]FieldOrReturnType, bool) {
+	if len(parser.d) == 0 && parser.d[0] != '(' {
+		return nil, false
 	}
-}
+	parser.d = parser.d[1:]
 
-func (parser *MethodDescriptorParser) causePanic() {
-	panic("invalid descriptor: " + parser.descriptor)
-}
-
-func (parser *MethodDescriptorParser) readUint8() uint8 {
-	b := parser.descriptor[parser.offset]
-	parser.offset++
-	return b
-}
-func (parser *MethodDescriptorParser) unreadUint8() {
-	parser.offset--
-}
-
-func (parser *MethodDescriptorParser) parseParamTypes() {
+	var ts []FieldOrReturnType = nil
 	for {
-		if t := parser.parseFieldType(); t != "" {
-			parser.md.addParameterType(t)
+		if t, ok := parser.parseFieldType(); ok {
+			ts = append(ts, t)
 		} else {
 			break
 		}
 	}
-}
-func (parser *MethodDescriptorParser) parseReturnType() {
-	if t := parser.parseFieldType(); t != "" {
-		parser.md.ReturnType = t
-	} else {
-		parser.causePanic()
+
+	if len(parser.d) == 0 && parser.d[0] != ')' {
+		return nil, false
 	}
+	parser.d = parser.d[1:]
+	return ts, true
 }
 
-func (parser *MethodDescriptorParser) parseFieldType() FieldType {
-	switch parser.readUint8() {
-	case 'B':
-		return "B"
-	case 'C':
-		return "C"
-	case 'D':
-		return "D"
-	case 'F':
-		return "F"
-	case 'I':
-		return "I"
-	case 'J':
-		return "J"
-	case 'S':
-		return "S"
-	case 'Z':
-		return "Z"
-	case 'V':
-		return "V"
-	case 'L':
-		return parser.parseObjectType()
-	case '[':
-		return parser.parseArrayType()
-	default:
-		parser.unreadUint8()
-		return ""
+func (parser *MethodDescriptorParser) parseFieldType() (FieldOrReturnType, bool) {
+	if len(parser.d) > 0 {
+		switch parser.d[0] {
+		case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z':
+			t := parser.d[0:1]
+			parser.d = parser.d[1:]
+			return FieldOrReturnType(t), true
+		case 'L':
+			return parser.parseObjectType()
+		case '[':
+			return parser.parseArrayType()
+		}
 	}
+	return "", false
 }
-func (parser *MethodDescriptorParser) parseObjectType() FieldType {
-	unread := parser.descriptor[parser.offset:]
-	semicolonIndex := strings.IndexRune(unread, ';')
-	if semicolonIndex == -1 {
-		parser.causePanic()
-		return ""
-	} else {
-		objStart := parser.offset - 1
-		objEnd := parser.offset + semicolonIndex + 1
-		parser.offset = objEnd
-		descriptor := parser.descriptor[objStart:objEnd]
-		return FieldType(descriptor)
+
+func (parser *MethodDescriptorParser) parseObjectType() (FieldOrReturnType, bool) {
+	for i := 0; i < len(parser.d); i++ {
+		if parser.d[i] == ';' {
+			t := parser.d[:i+1]
+			parser.d = parser.d[i+1:]
+			return FieldOrReturnType(t), true
+		}
 	}
+	return "", false
 }
-func (parser *MethodDescriptorParser) parseArrayType() FieldType {
-	arrStart := parser.offset - 1
-	parser.parseFieldType()
-	arrEnd := parser.offset
-	descriptor := parser.descriptor[arrStart:arrEnd]
-	return FieldType(descriptor)
+
+func (parser *MethodDescriptorParser) parseArrayType() (FieldOrReturnType, bool) {
+	parser.d = parser.d[1:]
+	t, ok := parser.parseFieldType()
+	return "[" + t, ok
 }

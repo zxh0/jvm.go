@@ -21,7 +21,7 @@ func getCallerClass(frame *rtda.Frame) {
 	// top1 is the caller of getCallerClass()
 	// top2 is the caller of method
 	callerFrame := frame.Thread().TopFrameN(2)
-	callerClass := callerFrame.Method().Class().JClass()
+	callerClass := callerFrame.Method().Class.JClass
 	frame.PushRef(callerClass)
 }
 

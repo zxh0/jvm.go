@@ -24,7 +24,7 @@ func (instr *AThrow) Execute(frame *rtda.Frame) {
 		if handler != nil {
 			frame.ClearStack()
 			frame.PushRef(ex)
-			frame.SetNextPC(handler.HandlerPc())
+			frame.SetNextPC(handler.HandlerPc)
 			return
 		}
 

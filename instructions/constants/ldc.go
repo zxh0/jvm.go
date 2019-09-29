@@ -23,8 +23,7 @@ func (instr *LDC_W) Execute(frame *rtda.Frame) {
 }
 
 func _ldc(frame *rtda.Frame, index uint) {
-	cp := frame.ConstantPool()
-	c := cp.GetConstant(index)
+	c := frame.GetConstantPool().GetConstant(index)
 
 	switch c.(type) {
 	case int32:
@@ -36,7 +35,7 @@ func _ldc(frame *rtda.Frame, index uint) {
 		frame.PushRef(internedStr)
 	case *heap.ConstantClass:
 		kClass := c.(*heap.ConstantClass)
-		classObj := kClass.Class().JClass()
+		classObj := kClass.Class().JClass
 		frame.PushRef(classObj)
 	default:
 		// todo
@@ -49,8 +48,7 @@ func _ldc(frame *rtda.Frame, index uint) {
 type LDC2_W struct{ base.Index16Instruction }
 
 func (instr *LDC2_W) Execute(frame *rtda.Frame) {
-	cp := frame.ConstantPool()
-	c := cp.GetConstant(instr.Index)
+	c := frame.GetConstantPool().GetConstant(instr.Index)
 
 	switch c.(type) {
 	case int64:

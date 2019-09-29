@@ -61,7 +61,7 @@ func _loop(thread *rtda.Thread) {
 		// fetch instruction
 		method := frame.Method()
 		if method.Instructions == nil {
-			method.Instructions = instructions.Decode(method.Code())
+			method.Instructions = instructions.Decode(method.Code)
 		}
 		insts := method.Instructions.([]base.Instruction)
 		inst := insts[pc]
@@ -110,25 +110,24 @@ func _logFrames(thread *rtda.Thread) {
 	for !thread.IsStackEmpty() {
 		frame := thread.PopFrame()
 		method := frame.Method()
-		className := method.Class().Name()
+		className := method.Class.Name
 		lineNum := method.GetLineNumber(frame.NextPC())
 		fmt.Printf(">> line:%4d pc:%4d %v.%v%v \n",
-			lineNum, frame.NextPC(), className, method.Name(), method.Descriptor())
+			lineNum, frame.NextPC(), className, method.Name, method.Descriptor)
 	}
 }
 
 func _logInstruction(frame *rtda.Frame, inst base.Instruction) {
 	thread := frame.Thread()
 	method := frame.Method()
-	className := method.Class().Name()
-	methodName := method.Name()
+	className := method.Class.Name
 	pc := thread.PC()
 
 	if method.IsStatic() {
 		fmt.Printf("[instruction] thread:%p %v.%v() #%v %T %v\n",
-			thread, className, methodName, pc, inst, inst)
+			thread, className, method.Name, pc, inst, inst)
 	} else {
 		fmt.Printf("[instruction] thread:%p %v#%v() #%v %T %v\n",
-			thread, className, methodName, pc, inst, inst)
+			thread, className, method.Name, pc, inst, inst)
 	}
 }

@@ -41,7 +41,7 @@ func (instr *InvokeDynamic) Execute(frame *rtda.Frame) {
 }
 
 func (instr *InvokeDynamic) resolveCallSiteSpecifier(frame *rtda.Frame) {
-	cp := frame.Method().Class().ConstantPool()
+	cp := frame.GetConstantPool()
 	kIndy := cp.GetConstant(uint(instr.index)).(*heap.ConstantInvokeDynamic)
 	//bmSpec := kIndy.BootstrapMethodSpecifier()
 

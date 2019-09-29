@@ -12,7 +12,7 @@ type InstanceOf struct{ base.Index16Instruction }
 func (instr *InstanceOf) Execute(frame *rtda.Frame) {
 	ref := frame.PopRef()
 
-	cp := frame.ConstantPool()
+	cp := frame.GetConstantPool()
 	kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
 	class := kClass.Class()
 

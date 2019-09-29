@@ -8,8 +8,8 @@ func (class *Class) IsAssignableFrom(cls *Class) bool {
 
 // class implements iface
 func (class *Class) isImplements(iface *Class) bool {
-	for k := class; k != nil; k = k.superClass {
-		for _, i := range k.interfaces {
+	for k := class; k != nil; k = k.SuperClass {
+		for _, i := range k.Interfaces {
 			if i == iface || i.isSubInterfaceOf(iface) {
 				return true
 			}
@@ -25,7 +25,7 @@ func (class *Class) isSuperInterfaceOf(iface *Class) bool {
 
 // class extends iface
 func (class *Class) isSubInterfaceOf(iface *Class) bool {
-	for _, superInterface := range class.interfaces {
+	for _, superInterface := range class.Interfaces {
 		if superInterface == iface || superInterface.isSubInterfaceOf(iface) {
 			return true
 		}
@@ -40,7 +40,7 @@ func (class *Class) isSuperClassOf(c *Class) bool {
 
 // class extends c
 func (class *Class) isSubClassOf(c *Class) bool {
-	for k := class.superClass; k != nil; k = k.superClass {
+	for k := class.SuperClass; k != nil; k = k.SuperClass {
 		if k == c {
 			return true
 		}

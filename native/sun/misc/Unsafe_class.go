@@ -42,7 +42,7 @@ func defineClass(frame *rtda.Frame) {
 
 	// todo
 	class := frame.ClassLoader().DefineClass(name, data)
-	frame.PushRef(class.JClass())
+	frame.PushRef(class.JClass)
 }
 
 // public native void ensureClassInitialized(Class<?> c);
@@ -77,8 +77,7 @@ func staticFieldBase(frame *rtda.Frame) {
 	fieldObj := frame.GetRefVar(1)
 
 	goField := _getGoField(fieldObj)
-	goClass := goField.Class()
-	obj := goClass.AsObj()
+	obj := goField.Class.AsObj()
 
 	frame.PushRef(obj)
 }

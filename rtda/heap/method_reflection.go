@@ -1,13 +1,13 @@
 package heap
 
 func (method *Method) ParameterTypes() []*Class {
-	if method.argSlotCount == 0 {
+	if method.ArgSlotCount == 0 {
 		return nil
 	}
 
-	paramClasses := make([]*Class, 0, method.argSlotCount)
-	for _, paramType := range method.md.parameterTypes {
-		paramClassName := getClassName(paramType.descriptor)
+	paramClasses := make([]*Class, 0, method.ArgSlotCount)
+	for _, paramType := range method.ParsedDescriptor.ParameterTypes {
+		paramClassName := getClassName(string(paramType))
 		paramClasses = append(paramClasses, bootLoader.LoadClass(paramClassName))
 	}
 
@@ -15,8 +15,8 @@ func (method *Method) ParameterTypes() []*Class {
 }
 
 func (method *Method) ReturnType() *Class {
-	returnDescriptor := method.md.returnType.descriptor
-	returnClassName := getClassName(returnDescriptor)
+	returnDescriptor := method.ParsedDescriptor.ReturnType
+	returnClassName := getClassName(string(returnDescriptor))
 	returnClass := bootLoader.LoadClass(returnClassName)
 	return returnClass
 }
@@ -27,7 +27,7 @@ func (method *Method) ExceptionTypes() []*Class {
 	}
 
 	exClasses := make([]*Class, len(method.exIndexTable))
-	cp := method.class.constantPool
+	cp := method.Class.ConstantPool
 
 	for i, exIndex := range method.exIndexTable {
 		kClass := cp.GetConstant(uint(exIndex)).(*ConstantClass)

@@ -1,26 +1,26 @@
 package heap
 
 var (
-	_shimClass  = &Class{name: "~shim"}
+	_shimClass  = &Class{Name: "~shim"}
 	_returnCode = []byte{0xb1} // return
 	_athrowCode = []byte{0xbf} // athrow
 
 	_returnMethod = &Method{
 		ClassMember: ClassMember{
 			AccessFlags: AccessFlags(AccStatic),
-			name:        "<return>",
-			class:       _shimClass,
+			Name:        "<return>",
+			Class:       _shimClass,
 		},
-		code: _returnCode,
+		Code: _returnCode,
 	}
 
 	_athrowMethod = &Method{
 		ClassMember: ClassMember{
 			AccessFlags: AccessFlags(AccStatic),
-			name:        "<athrow>",
-			class:       _shimClass,
+			Name:        "<athrow>",
+			Class:       _shimClass,
 		},
-		code: _athrowCode,
+		Code: _athrowCode,
 	}
 )
 
@@ -34,12 +34,12 @@ func AthrowMethod() *Method {
 
 func BootstrapMethod() *Method {
 	method := &Method{}
-	method.class = &Class{name: "~shim"}
-	method.name = "<bootstrap>"
+	method.Class = &Class{Name: "~shim"}
+	method.Name = "<bootstrap>"
 	method.AccessFlags = AccStatic
-	method.maxStack = 8
-	method.maxLocals = 8
-	method.argSlotCount = 2
-	method.code = []byte{0xff, 0xb1} // bootstrap, return
+	method.MaxStack = 8
+	method.MaxLocals = 8
+	method.ArgSlotCount = 2
+	method.Code = []byte{0xff, 0xb1} // bootstrap, return
 	return method
 }

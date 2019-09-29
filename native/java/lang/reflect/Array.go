@@ -44,7 +44,7 @@ func get(frame *rtda.Frame) {
 	}
 
 	// primitive array
-	primitiveDescriptor := arr.Class().Name()[1]
+	primitiveDescriptor := arr.Class().Name[1]
 	switch primitiveDescriptor {
 	case 'Z':
 		frame.PushBoolean(arr.Booleans()[index] == 1)
@@ -102,7 +102,7 @@ func set(frame *rtda.Frame) {
 	// frame.Thread().ThrowIllegalArgumentException("argument type mismatch")
 
 	// primitive array
-	primitiveDescriptorStr := arr.Class().Name()[1:]
+	primitiveDescriptorStr := arr.Class().Name[1:]
 	if primitiveDescriptorStr != value.GetPrimitiveDescriptor() {
 		frame.Thread().ThrowIllegalArgumentException("argument type mismatch")
 		return
@@ -110,7 +110,7 @@ func set(frame *rtda.Frame) {
 
 	unboxed := box.Unbox(value, primitiveDescriptorStr)
 
-	primitiveDescriptor := arr.Class().Name()[1]
+	primitiveDescriptor := arr.Class().Name[1]
 	switch primitiveDescriptor {
 	case 'Z':
 		arr.Booleans()[index] = int8(unboxed.IntValue())

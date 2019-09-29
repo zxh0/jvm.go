@@ -18,65 +18,33 @@ const (
 type Class struct {
 	AccessFlags
 	ClassAttributes
-	constantPool       *ConstantPool
-	name               string // thisClassName
+	ConstantPool       *ConstantPool
+	Name               string // thisClassName
 	superClassName     string
 	interfaceNames     []string
-	fields             []*Field
-	methods            []*Method
+	Fields             []*Field
+	Methods            []*Method
 	instanceFieldCount uint
 	staticFieldCount   uint
-	staticFieldSlots   []Slot
+	StaticFieldSlots   []Slot
 	vtable             []*Method // virtual method table
-	jClass             *Object   // java.lang.Class instance
-	superClass         *Class
-	interfaces         []*Class
-	loadedFrom         cp.Entry // todo
+	JClass             *Object   // java.lang.Class instance
+	SuperClass         *Class
+	Interfaces         []*Class
+	LoadedFrom         cp.Entry // todo
 	initState          int
-	initCond           *sync.Cond
+	InitCond           *sync.Cond
 	initThread         uintptr
 	//classLoader        *ClassLoader      // defining class loader
 }
 
 func (class *Class) String() string {
-	return "{Class name:" + class.name + "}"
-}
-
-// getters
-func (class *Class) ConstantPool() *ConstantPool {
-	return class.constantPool
-}
-func (class *Class) Name() string {
-	return class.name
-}
-func (class *Class) Methods() []*Method {
-	return class.methods
-}
-func (class *Class) Fields() []*Field {
-	return class.fields
-}
-func (class *Class) StaticFieldSlots() []Slot {
-	return class.staticFieldSlots
-}
-func (class *Class) JClass() *Object {
-	return class.jClass
-}
-func (class *Class) SuperClass() *Class {
-	return class.superClass
-}
-func (class *Class) Interfaces() []*Class {
-	return class.interfaces
-}
-func (class *Class) LoadedFrom() cp.Entry {
-	return class.loadedFrom
-}
-func (class *Class) InitCond() *sync.Cond {
-	return class.initCond
+	return "{Class name:" + class.Name + "}"
 }
 
 // todo
 func (class *Class) NameJlsFormat() string {
-	return SlashToDot(class.name)
+	return SlashToDot(class.Name)
 }
 
 func (class *Class) InitializationNotStarted() bool {
@@ -100,11 +68,11 @@ func (class *Class) MarkFullyInitialized() {
 }
 
 func (class *Class) getField(name, descriptor string, isStatic bool) *Field {
-	for k := class; k != nil; k = k.superClass {
-		for _, field := range k.fields {
+	for k := class; k != nil; k = k.SuperClass {
+		for _, field := range k.Fields {
 			if field.IsStatic() == isStatic &&
-				field.name == name &&
-				field.descriptor == descriptor {
+				field.Name == name &&
+				field.Descriptor == descriptor {
 
 				return field
 			}
@@ -114,11 +82,11 @@ func (class *Class) getField(name, descriptor string, isStatic bool) *Field {
 	return nil
 }
 func (class *Class) getMethod(name, descriptor string, isStatic bool) *Method {
-	for k := class; k != nil; k = k.superClass {
-		for _, method := range k.methods {
+	for k := class; k != nil; k = k.SuperClass {
+		for _, method := range k.Methods {
 			if method.IsStatic() == isStatic &&
-				method.name == name &&
-				method.descriptor == descriptor {
+				method.Name == name &&
+				method.Descriptor == descriptor {
 
 				return method
 			}
@@ -130,10 +98,10 @@ func (class *Class) getMethod(name, descriptor string, isStatic bool) *Method {
 
 // todo
 func (class *Class) _getMethod(name, descriptor string, isStatic bool) *Method {
-	for _, method := range class.methods {
+	for _, method := range class.Methods {
 		if method.IsStatic() == isStatic &&
-			method.name == name &&
-			method.descriptor == descriptor {
+			method.Name == name &&
+			method.Descriptor == descriptor {
 
 			return method
 		}
@@ -202,5 +170,5 @@ func (class *Class) SetStaticValue(fieldName, fieldDescriptor string, value Slot
 }
 
 func (class *Class) AsObj() *Object {
-	return &Object{fields: class.staticFieldSlots}
+	return &Object{fields: class.StaticFieldSlots}
 }

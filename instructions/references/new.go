@@ -14,7 +14,7 @@ type New struct {
 
 func (instr *New) Execute(frame *rtda.Frame) {
 	if instr.class == nil {
-		cp := frame.ConstantPool()
+		cp := frame.GetConstantPool()
 		kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
 		instr.class = kClass.Class()
 	}

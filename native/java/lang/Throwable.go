@@ -39,10 +39,10 @@ func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTrac
 
 	// skip unrelated frames
 	i := uint(1)
-	for k := tObj.Class(); k != nil; k = k.SuperClass() {
+	for k := tObj.Class(); k != nil; k = k.SuperClass {
 		i++
 	}
-	if thread.TopFrameN(i).Method().Name() == "<athrow>" {
+	if thread.TopFrameN(i).Method().Name == "<athrow>" {
 		i++
 	}
 
@@ -50,12 +50,12 @@ func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTrac
 	for ; i < depth; i++ {
 		frameN := thread.TopFrameN(i)
 		methodN := frameN.Method()
-		classN := methodN.Class()
-		if classN.Name() != "~shim" { // skip shim frame
+		classN := methodN.Class
+		if classN.Name != "~shim" { // skip shim frame
 			lineNumber := methodN.GetLineNumber(frameN.NextPC() - 1)
 			ste := &StackTraceElement{
 				declaringClass: classN.NameJlsFormat(),
-				methodName:     methodN.Name(),
+				methodName:     methodN.Name,
 				fileName:       classN.SourceFile(),
 				lineNumber:     lineNumber,
 			}

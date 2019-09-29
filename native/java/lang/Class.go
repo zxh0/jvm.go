@@ -34,7 +34,7 @@ func _class(method func(frame *rtda.Frame), name, desc string) {
 // ()Ljava/lang/ClassLoader;
 func getClassLoader0(frame *rtda.Frame) {
 	class := _popClass(frame)
-	from := class.LoadedFrom()
+	from := class.LoadedFrom
 
 	if cp.IsBootClassPath(from, frame.Thread().VMOptions.AbsJreLib) {
 		frame.PushRef(nil)
@@ -51,7 +51,7 @@ func getClassLoader0(frame *rtda.Frame) {
 func getComponentType(frame *rtda.Frame) {
 	class := _popClass(frame)
 	componentClass := class.ComponentClass()
-	componentClassObj := componentClass.JClass()
+	componentClassObj := componentClass.JClass
 
 	frame.PushRef(componentClassObj)
 }
@@ -67,8 +67,7 @@ func getConstantPool(frame *rtda.Frame) {
 		return
 	}
 
-	cp := class.ConstantPool()
-	cpObj := cpClass.NewObjWithExtra(cp) // todo init cpObj
+	cpObj := cpClass.NewObjWithExtra(class.ConstantPool) // todo init cpObj
 	frame.PushRef(cpObj)
 }
 
@@ -81,16 +80,16 @@ func getDeclaringClass0(frame *rtda.Frame) {
 		return
 	}
 
-	lastDollarIndex := strings.LastIndex(class.Name(), "$")
+	lastDollarIndex := strings.LastIndex(class.Name, "$")
 	if lastDollarIndex < 0 {
 		frame.PushRef(nil)
 		return
 	}
 
 	// todo
-	declaringClassName := class.Name()[:lastDollarIndex]
+	declaringClassName := class.Name[:lastDollarIndex]
 	declaringClass := frame.ClassLoader().LoadClass(declaringClassName)
-	frame.PushRef(declaringClass.JClass())
+	frame.PushRef(declaringClass.JClass)
 }
 
 // private native Object[] getEnclosingMethod0();
@@ -116,7 +115,7 @@ func _createEnclosintMethodInfo(classLoader *heap.ClassLoader, emInfo *heap.Encl
 	}
 
 	enclosingClass := classLoader.LoadClass(emInfo.ClassName())
-	enclosingClassObj := enclosingClass.JClass()
+	enclosingClassObj := enclosingClass.JClass
 	var methodNameObj, methodDescriptorObj *heap.Object
 	if emInfo.MethodName() != "" {
 		methodNameObj = heap.JString(emInfo.MethodName())
@@ -133,10 +132,10 @@ func _createEnclosintMethodInfo(classLoader *heap.ClassLoader, emInfo *heap.Encl
 // ()[Ljava/lang/Class;
 func getInterfaces0(frame *rtda.Frame) {
 	class := _popClass(frame)
-	interfaces := class.Interfaces()
+	interfaces := class.Interfaces
 	interfaceObjs := make([]*heap.Object, len(interfaces))
 	for i, iface := range interfaces {
-		interfaceObjs[i] = iface.JClass()
+		interfaceObjs[i] = iface.JClass
 	}
 
 	jlClassClass := heap.BootLoader().JLClassClass()
@@ -166,10 +165,10 @@ func getModifiers(frame *rtda.Frame) {
 // ()Ljava/lang/Class;
 func getSuperclass(frame *rtda.Frame) {
 	class := _popClass(frame)
-	superClass := class.SuperClass()
+	superClass := class.SuperClass
 
 	if superClass != nil {
-		frame.PushRef(superClass.JClass())
+		frame.PushRef(superClass.JClass)
 	} else {
 		frame.PushNull()
 	}

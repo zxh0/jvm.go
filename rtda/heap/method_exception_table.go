@@ -7,12 +7,8 @@ import (
 type ExceptionHandler struct {
 	startPc   int
 	endPc     int
-	handlerPc int
+	HandlerPc int
 	catchType *ConstantClass
-}
-
-func (et *ExceptionHandler) HandlerPc() int {
-	return et.handlerPc
 }
 
 type ExceptionTable struct {
@@ -30,7 +26,7 @@ func newExceptionHandler(entry classfile.ExceptionTableEntry, rtCp *ConstantPool
 	handler := &ExceptionHandler{}
 	handler.startPc = int(entry.StartPc)
 	handler.endPc = int(entry.EndPc)
-	handler.handlerPc = int(entry.HandlerPc)
+	handler.HandlerPc = int(entry.HandlerPc)
 	catchType := uint(entry.CatchType)
 	if catchType == 0 {
 		handler.catchType = nil // catch all

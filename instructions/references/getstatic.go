@@ -14,12 +14,12 @@ type GetStatic struct {
 
 func (instr *GetStatic) Execute(frame *rtda.Frame) {
 	if instr.field == nil {
-		cp := frame.Method().Class().ConstantPool()
+		cp := frame.GetConstantPool()
 		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldRef)
 		instr.field = kFieldRef.StaticField()
 	}
 
-	class := instr.field.Class()
+	class := instr.field.Class
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC() // undo getstatic
 		frame.Thread().InitClass(class)

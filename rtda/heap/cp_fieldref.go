@@ -23,7 +23,7 @@ func (fr *ConstantFieldRef) InstanceField() *Field {
 func (fr *ConstantFieldRef) resolveInstanceField() {
 	fromClass := bootLoader.LoadClass(fr.className)
 
-	for class := fromClass; class != nil; class = class.superClass {
+	for class := fromClass; class != nil; class = class.SuperClass {
 		field := class.getField(fr.name, fr.descriptor, false)
 		if field != nil {
 			fr.field = field
@@ -44,7 +44,7 @@ func (fr *ConstantFieldRef) StaticField() *Field {
 func (fr *ConstantFieldRef) resolveStaticField() {
 	fromClass := bootLoader.LoadClass(fr.className)
 
-	for class := fromClass; class != nil; class = class.superClass {
+	for class := fromClass; class != nil; class = class.SuperClass {
 		field := class.getField(fr.name, fr.descriptor, true)
 		if field != nil {
 			fr.field = field
@@ -60,9 +60,9 @@ func (fr *ConstantFieldRef) resolveStaticField() {
 }
 
 func (fr *ConstantFieldRef) _findInterfaceField(class *Class) bool {
-	for _, iface := range class.interfaces {
-		for _, f := range iface.fields {
-			if f.name == fr.name && f.descriptor == fr.descriptor {
+	for _, iface := range class.Interfaces {
+		for _, f := range iface.Fields {
+			if f.Name == fr.name && f.Descriptor == fr.descriptor {
 				fr.field = f
 				return true
 			}

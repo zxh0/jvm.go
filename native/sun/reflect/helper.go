@@ -28,17 +28,17 @@ func _getGoMethod(methodObj *heap.Object, isConstructor bool) *heap.Method {
 
 // Object[] -> []Slot
 func convertArgs(this, argArr *heap.Object, method *heap.Method) []heap.Slot {
-	if method.ArgSlotCount() == 0 {
+	if method.ArgSlotCount == 0 {
 		return nil
 	}
-	if method.ArgSlotCount() == 1 && !method.IsStatic() {
+	if method.ArgSlotCount == 1 && !method.IsStatic() {
 		return []heap.Slot{heap.NewRefSlot(this)}
 	}
 
 	argObjs := argArr.Refs()
-	argTypes := method.ParsedDescriptor().ParameterTypes()
+	argTypes := method.ParsedDescriptor.ParameterTypes
 
-	args := make([]heap.Slot, method.ArgSlotCount())
+	args := make([]heap.Slot, method.ArgSlotCount)
 	j := 0
 	if !method.IsStatic() {
 		args[0] = heap.NewRefSlot(this)
@@ -50,7 +50,7 @@ func convertArgs(this, argArr *heap.Object, method *heap.Method) []heap.Slot {
 
 		if argType.IsBaseType() {
 			// todo
-			unboxed := box.Unbox(argObj, argType.Descriptor())
+			unboxed := box.Unbox(argObj, string(argType))
 			args[i+j] = unboxed
 			if argType.IsLongOrDouble() {
 				j++

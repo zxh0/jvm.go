@@ -8,7 +8,7 @@ import (
 
 func newClass(cf *classfile.ClassFile) *Class {
 	class := &Class{}
-	class.initCond = sync.NewCond(&sync.Mutex{})
+	class.InitCond = sync.NewCond(&sync.Mutex{})
 	class.AccessFlags = AccessFlags(cf.AccessFlags)
 	class.copyConstantPool(cf)
 	class.copyClassNames(cf)
@@ -19,27 +19,27 @@ func newClass(cf *classfile.ClassFile) *Class {
 }
 
 func (class *Class) copyConstantPool(cf *classfile.ClassFile) {
-	class.constantPool = newConstantPool(class, cf)
+	class.ConstantPool = newConstantPool(class, cf)
 }
 
 func (class *Class) copyClassNames(cf *classfile.ClassFile) {
-	class.name = cf.GetClassName()
+	class.Name = cf.GetClassName()
 	class.superClassName = cf.GetSuperClassName()
 	class.interfaceNames = cf.GetInterfaceNames()
 }
 
 func (class *Class) copyFields(cf *classfile.ClassFile) {
-	class.fields = make([]*Field, len(cf.Fields))
+	class.Fields = make([]*Field, len(cf.Fields))
 	for i, fieldInfo := range cf.Fields {
-		class.fields[i] = newField(class, cf, fieldInfo)
+		class.Fields[i] = newField(class, cf, fieldInfo)
 	}
 }
 
 func (class *Class) copyMethods(cf *classfile.ClassFile) {
-	class.methods = make([]*Method, len(cf.Methods))
+	class.Methods = make([]*Method, len(cf.Methods))
 	for i, methodInfo := range cf.Methods {
-		class.methods[i] = newMethod(class, cf, methodInfo)
-		class.methods[i].slot = uint(i)
+		class.Methods[i] = newMethod(class, cf, methodInfo)
+		class.Methods[i].Slot = uint(i)
 	}
 }
 

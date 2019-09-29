@@ -41,7 +41,7 @@ func (obj *Object) SetExtra(extra interface{}) {
 }
 
 func (obj *Object) GetPrimitiveDescriptor() string {
-	switch obj.class.name {
+	switch obj.class.Name {
 	case "java/lang/Boolean":
 		return "Z"
 	case "java/lang/Byte":
@@ -66,10 +66,10 @@ func (obj *Object) GetPrimitiveDescriptor() string {
 // todo
 func (obj *Object) initFields() {
 	fields := obj.fields.([]Slot)
-	for class := obj.class; class != nil; class = class.superClass {
-		for _, f := range class.fields {
+	for class := obj.class; class != nil; class = class.SuperClass {
+		for _, f := range class.Fields {
 			if !f.IsStatic() {
-				fields[f.slotId] = EmptySlot // TODO
+				fields[f.SlotId] = EmptySlot // TODO
 			}
 		}
 	}

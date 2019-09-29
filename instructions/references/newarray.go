@@ -29,7 +29,7 @@ func (instr *NewArray) Execute(frame *rtda.Frame) {
 type ANewArray struct{ base.Index16Instruction }
 
 func (instr *ANewArray) Execute(frame *rtda.Frame) {
-	cp := frame.ConstantPool()
+	cp := frame.GetConstantPool()
 	kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
 	componentClass := kClass.Class()
 
@@ -60,7 +60,7 @@ func (instr *MultiANewArray) FetchOperands(reader *base.CodeReader) {
 	instr.dimensions = reader.ReadUint8()
 }
 func (instr *MultiANewArray) Execute(frame *rtda.Frame) {
-	cp := frame.ConstantPool()
+	cp := frame.GetConstantPool()
 	kClass := cp.GetConstant(uint(instr.index)).(*heap.ConstantClass)
 	arrClass := kClass.Class()
 

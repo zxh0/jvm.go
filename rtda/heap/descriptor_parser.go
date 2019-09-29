@@ -38,7 +38,7 @@ func (parser *MethodDescriptorParser) finish() {
 }
 
 func (parser *MethodDescriptorParser) causePanic() {
-	panic("BAD descriptor: " + parser.descriptor)
+	panic("invalid descriptor: " + parser.descriptor)
 }
 
 func (parser *MethodDescriptorParser) readUint8() uint8 {
@@ -52,8 +52,7 @@ func (parser *MethodDescriptorParser) unreadUint8() {
 
 func (parser *MethodDescriptorParser) parseParamTypes() {
 	for {
-		t := parser.parseFieldType()
-		if t != nil {
+		if t := parser.parseFieldType(); t != "" {
 			parser.md.addParameterType(t)
 		} else {
 			break
@@ -61,61 +60,60 @@ func (parser *MethodDescriptorParser) parseParamTypes() {
 	}
 }
 func (parser *MethodDescriptorParser) parseReturnType() {
-	t := parser.parseFieldType()
-	if t != nil {
-		parser.md.returnType = t
+	if t := parser.parseFieldType(); t != "" {
+		parser.md.ReturnType = t
 	} else {
 		parser.causePanic()
 	}
 }
 
-func (parser *MethodDescriptorParser) parseFieldType() *FieldType {
+func (parser *MethodDescriptorParser) parseFieldType() FieldType {
 	switch parser.readUint8() {
 	case 'B':
-		return baseTypeB
+		return "B"
 	case 'C':
-		return baseTypeC
+		return "C"
 	case 'D':
-		return baseTypeD
+		return "D"
 	case 'F':
-		return baseTypeF
+		return "F"
 	case 'I':
-		return baseTypeI
+		return "I"
 	case 'J':
-		return baseTypeJ
+		return "J"
 	case 'S':
-		return baseTypeS
+		return "S"
 	case 'Z':
-		return baseTypeZ
+		return "Z"
 	case 'V':
-		return baseTypeV
+		return "V"
 	case 'L':
 		return parser.parseObjectType()
 	case '[':
 		return parser.parseArrayType()
 	default:
 		parser.unreadUint8()
-		return nil
+		return ""
 	}
 }
-func (parser *MethodDescriptorParser) parseObjectType() *FieldType {
+func (parser *MethodDescriptorParser) parseObjectType() FieldType {
 	unread := parser.descriptor[parser.offset:]
 	semicolonIndex := strings.IndexRune(unread, ';')
 	if semicolonIndex == -1 {
 		parser.causePanic()
-		return nil
+		return ""
 	} else {
 		objStart := parser.offset - 1
 		objEnd := parser.offset + semicolonIndex + 1
 		parser.offset = objEnd
 		descriptor := parser.descriptor[objStart:objEnd]
-		return &FieldType{descriptor}
+		return FieldType(descriptor)
 	}
 }
-func (parser *MethodDescriptorParser) parseArrayType() *FieldType {
+func (parser *MethodDescriptorParser) parseArrayType() FieldType {
 	arrStart := parser.offset - 1
 	parser.parseFieldType()
 	arrEnd := parser.offset
 	descriptor := parser.descriptor[arrStart:arrEnd]
-	return &FieldType{descriptor}
+	return FieldType(descriptor)
 }

@@ -15,9 +15,9 @@ type InvokeVirtual struct {
 
 func (instr *InvokeVirtual) Execute(frame *rtda.Frame) {
 	if instr.kMethodRef == nil {
-		cp := frame.Method().ConstantPool()
+		cp := frame.GetConstantPool()
 		instr.kMethodRef = cp.GetConstant(instr.Index).(*heap.ConstantMethodRef)
-		instr.argSlotCount = instr.kMethodRef.ArgSlotCount()
+		instr.argSlotCount = instr.kMethodRef.ArgSlotCount
 	}
 
 	ref := frame.TopRef(instr.argSlotCount)

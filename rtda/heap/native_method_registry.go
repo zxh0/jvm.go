@@ -20,7 +20,7 @@ func RegisterNativeMethod(className, methodName, methodDescriptor string, method
 }
 
 func findNativeMethod(method *Method) interface{} {
-	key := method.class.name + "~" + method.name + "~" + method.descriptor
+	key := method.Class.Name + "~" + method.Name + "~" + method.Descriptor
 	if method, ok := registry[key]; ok {
 		return method
 	}

@@ -21,9 +21,9 @@ func invoke0(frame *rtda.Frame) {
 		frame.RevertNextPC()
 		_invokeMethod(frame)
 	} else {
-		returnType := frame.GetLocalVar(0).GetHack().(*heap.FieldType)
+		returnType := frame.GetLocalVar(0).GetHack().(heap.FieldType)
 		if returnType.IsBaseType() && !returnType.IsVoidType() {
-			primitiveDescriptor := returnType.Descriptor()[0]
+			primitiveDescriptor := returnType[0]
 			box.Box(frame, primitiveDescriptor) // todo
 		}
 	}
@@ -36,20 +36,20 @@ func _invokeMethod(frame *rtda.Frame) {
 
 	goMethod := getGoMethod(methodObj)
 	if goMethod.IsStatic() {
-		if goMethod.Class().InitializationNotStarted() {
+		if goMethod.Class.InitializationNotStarted() {
 			frame.RevertNextPC()
-			frame.Thread().InitClass(goMethod.Class())
+			frame.Thread().InitClass(goMethod.Class)
 			return
 		}
 	}
 
 	if goMethod.IsAbstract() {
-		goMethod = obj.Class().GetInstanceMethod(goMethod.Name(), goMethod.Descriptor())
+		goMethod = obj.Class().GetInstanceMethod(goMethod.Name, goMethod.Descriptor)
 	}
 
 	args := convertArgs(obj, argArrObj, goMethod)
 	// remember return type
-	returnType := goMethod.ParsedDescriptor().ReturnType()
+	returnType := goMethod.ParsedDescriptor.ReturnType
 	frame.SetLocalVar(0, heap.NewHackSlot(returnType))
 
 	if len(args) > 1 {

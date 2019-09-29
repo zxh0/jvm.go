@@ -137,7 +137,7 @@ func nanoTime(frame *rtda.Frame) {
 func setErr0(frame *rtda.Frame) {
 	err := frame.GetRefVar(0) // TODO
 
-	sysClass := frame.Method().Class()
+	sysClass := frame.Method().Class
 	sysClass.SetStaticValue("err", "Ljava/io/PrintStream;", heap.NewRefSlot(err))
 }
 
@@ -146,7 +146,7 @@ func setErr0(frame *rtda.Frame) {
 func setIn0(frame *rtda.Frame) {
 	in := frame.GetRefVar(0) // TODO
 
-	sysClass := frame.Method().Class()
+	sysClass := frame.Method().Class
 	sysClass.SetStaticValue("in", "Ljava/io/InputStream;", heap.NewRefSlot(in))
 }
 
@@ -155,6 +155,6 @@ func setIn0(frame *rtda.Frame) {
 func setOut0(frame *rtda.Frame) {
 	out := frame.GetRefVar(0) // TODO
 
-	sysClass := frame.Method().Class()
+	sysClass := frame.Method().Class
 	sysClass.SetStaticValue("out", "Ljava/io/PrintStream;", heap.NewRefSlot(out))
 }

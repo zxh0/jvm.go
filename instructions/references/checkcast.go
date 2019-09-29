@@ -14,7 +14,7 @@ type CheckCast struct {
 
 func (instr *CheckCast) Execute(frame *rtda.Frame) {
 	if instr.class == nil {
-		cp := frame.Method().Class().ConstantPool()
+		cp := frame.GetConstantPool()
 		kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
 		instr.class = kClass.Class()
 	}

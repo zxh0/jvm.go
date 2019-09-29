@@ -10,7 +10,7 @@ import (
 // http://docs.oracle.com/javase/specs/jls/se8/html/jls-12.html#jls-12.4.2
 func initClass(thread *Thread, class *heap.Class) {
 	// step 1
-	initCond := class.InitCond()
+	initCond := class.InitCond
 	initCond.L.Lock()
 
 	// step 2 & 3
@@ -57,7 +57,7 @@ func initClass(thread *Thread, class *heap.Class) {
 
 func initSuperClass(thread *Thread, class *heap.Class) {
 	if !class.IsInterface() {
-		superClass := class.SuperClass()
+		superClass := class.SuperClass
 		if superClass != nil && superClass.InitializationNotStarted() {
 			initClass(thread, superClass)
 		}
@@ -81,25 +81,25 @@ func callClinit(thread *Thread, class *heap.Class) {
 
 // step 10
 func initSucceeded(class *heap.Class) {
-	initCond := class.InitCond()
+	initCond := class.InitCond
 	initCond.L.Lock()
 	defer initCond.L.Unlock()
 
 	class.MarkFullyInitialized()
-	class.InitCond().Broadcast()
+	class.InitCond.Broadcast()
 }
 
 // todo
 func initConstantStaticFields(class *heap.Class) {
-	cp := class.ConstantPool()
+	cp := class.ConstantPool
 
-	for _, field := range class.Fields() {
+	for _, field := range class.Fields {
 		if field.IsStatic() && field.IsFinal() {
-			kValIndex := uint(field.ConstValueIndex())
+			kValIndex := uint(field.ConstValueIndex)
 			if kValIndex > 0 {
-				slotId := field.SlotId()
-				staticSlots := class.StaticFieldSlots()
-				switch field.Descriptor() {
+				slotId := field.SlotId
+				staticSlots := class.StaticFieldSlots
+				switch field.Descriptor {
 				case "Z", "B", "C", "S", "I":
 					staticSlots[slotId] = heap.NewIntSlot(cp.GetConstant(kValIndex).(int32))
 				case "J":

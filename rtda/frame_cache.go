@@ -23,8 +23,8 @@ func (cache *FrameCache) borrowFrame(method *heap.Method) *Frame {
 	if cache.frameCount > 0 {
 		for i, frame := range cache.cachedFrames {
 			if frame != nil &&
-				frame.maxLocals >= method.MaxLocals() &&
-				frame.maxStack >= method.MaxStack() {
+				frame.maxLocals >= method.MaxLocals &&
+				frame.maxStack >= method.MaxStack {
 
 				cache.frameCount--
 				cache.cachedFrames[i] = nil

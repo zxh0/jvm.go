@@ -11,7 +11,7 @@ import (
 type InvokeSpecial struct{ base.Index16Instruction }
 
 func (instr *InvokeSpecial) Execute(frame *rtda.Frame) {
-	cp := frame.Method().Class().ConstantPool()
+	cp := frame.GetConstantPool()
 	k := cp.GetConstant(instr.Index)
 	if kMethodRef, ok := k.(*heap.ConstantMethodRef); ok {
 		method := kMethodRef.SpecialMethod()

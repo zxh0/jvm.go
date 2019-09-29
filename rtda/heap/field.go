@@ -7,44 +7,37 @@ import (
 type Field struct {
 	ClassMember
 	IsLongOrDouble  bool
-	constValueIndex uint16
-	slotId          uint
+	ConstValueIndex uint16
+	SlotId          uint
 	_type           *Class
 }
 
 func newField(class *Class, cf *classfile.ClassFile, fieldInfo classfile.MemberInfo) *Field {
 	field := &Field{}
-	field.class = class
+	field.Class = class
 	field.AccessFlags = AccessFlags(fieldInfo.AccessFlags)
-	field.name = cf.GetUTF8(fieldInfo.NameIndex)
-	field.descriptor = cf.GetUTF8(fieldInfo.DescriptorIndex)
-	field.signature = cf.GetUTF8(fieldInfo.GetSignatureIndex())
-	field.IsLongOrDouble = field.descriptor == "J" || field.descriptor == "D"
-	field.constValueIndex = fieldInfo.GetConstantValueIndex()
+	field.Name = cf.GetUTF8(fieldInfo.NameIndex)
+	field.Descriptor = cf.GetUTF8(fieldInfo.DescriptorIndex)
+	field.Signature = cf.GetUTF8(fieldInfo.GetSignatureIndex())
+	field.IsLongOrDouble = field.Descriptor == "J" || field.Descriptor == "D"
+	field.ConstValueIndex = fieldInfo.GetConstantValueIndex()
 	return field
-}
-
-func (field *Field) ConstValueIndex() uint16 {
-	return field.constValueIndex
-}
-func (field *Field) SlotId() uint {
-	return field.slotId
 }
 
 func (field *Field) GetValue(ref *Object) Slot {
 	fields := ref.fields.([]Slot)
-	return fields[field.slotId]
+	return fields[field.SlotId]
 }
 func (field *Field) PutValue(ref *Object, val Slot) {
 	fields := ref.fields.([]Slot)
-	fields[field.slotId] = val
+	fields[field.SlotId] = val
 }
 
 func (field *Field) GetStaticValue() Slot {
-	return field.class.staticFieldSlots[field.slotId]
+	return field.Class.StaticFieldSlots[field.SlotId]
 }
 func (field *Field) PutStaticValue(val Slot) {
-	field.class.staticFieldSlots[field.slotId] = val
+	field.Class.StaticFieldSlots[field.SlotId] = val
 }
 
 // reflection
@@ -55,7 +48,7 @@ func (field *Field) Type() *Class {
 	return field._type
 }
 func (field *Field) resolveType() *Class {
-	descriptor := field.descriptor
+	descriptor := field.Descriptor
 	if len(descriptor) == 1 {
 		switch descriptor[0] {
 		case 'B':

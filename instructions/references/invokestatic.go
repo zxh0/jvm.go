@@ -14,7 +14,7 @@ type InvokeStatic struct {
 
 func (instr *InvokeStatic) Execute(frame *rtda.Frame) {
 	if instr.method == nil {
-		cp := frame.Method().Class().ConstantPool()
+		cp := frame.GetConstantPool()
 		k := cp.GetConstant(instr.Index)
 		if kMethodRef, ok := k.(*heap.ConstantMethodRef); ok {
 			instr.method = kMethodRef.StaticMethod()
@@ -24,7 +24,7 @@ func (instr *InvokeStatic) Execute(frame *rtda.Frame) {
 	}
 
 	// init class
-	class := instr.method.Class()
+	class := instr.method.Class
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread().InitClass(class)

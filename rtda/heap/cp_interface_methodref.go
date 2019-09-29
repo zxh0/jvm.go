@@ -6,14 +6,14 @@ type ConstantInterfaceMethodRef struct {
 
 // todo
 func (imr *ConstantInterfaceMethodRef) FindInterfaceMethod(ref *Object) *Method {
-	for class := ref.class; class != nil; class = class.superClass {
+	for class := ref.class; class != nil; class = class.SuperClass {
 		method := class.getMethod(imr.name, imr.descriptor, false)
 		if method != nil {
 			return method
 		}
 	}
 
-	if method := findInterfaceMethod(ref.class.interfaces, imr.name, imr.descriptor); method != nil {
+	if method := findInterfaceMethod(ref.class.Interfaces, imr.name, imr.descriptor); method != nil {
 		return method
 	} else {
 		//TODO
@@ -23,7 +23,7 @@ func (imr *ConstantInterfaceMethodRef) FindInterfaceMethod(ref *Object) *Method 
 
 func findInterfaceMethod(interfaces []*Class, name, descriptor string) *Method {
 	for i := 0; i < len(interfaces); i++ {
-		if method := findInterfaceMethod(interfaces[i].interfaces, name, descriptor); method != nil {
+		if method := findInterfaceMethod(interfaces[i].Interfaces, name, descriptor); method != nil {
 			return method
 		}
 		method := interfaces[i].getMethod(name, descriptor, false)

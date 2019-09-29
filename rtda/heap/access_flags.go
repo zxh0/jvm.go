@@ -23,57 +23,21 @@ const (
 
 type AccessFlags uint16
 
-func (flags AccessFlags) IsPublic() bool {
-	return flags&AccPublic != 0
-}
-func (flags AccessFlags) IsPrivate() bool {
-	return flags&AccPrivate != 0
-}
-func (flags AccessFlags) IsProtected() bool {
-	return flags&AccProtected != 0
-}
-func (flags AccessFlags) IsStatic() bool {
-	return flags&AccStatic != 0
-}
-func (flags AccessFlags) IsFinal() bool {
-	return flags&AccFinal != 0
-}
-func (flags AccessFlags) IsSuper() bool {
-	return flags&AccSuper != 0
-}
-func (flags AccessFlags) IsSynchronized() bool {
-	return flags&AccSynchronized != 0
-}
-func (flags AccessFlags) IsVolatile() bool {
-	return flags&AccVolatile != 0
-}
-func (flags AccessFlags) IsBridge() bool {
-	return flags&AccBridge != 0
-}
-func (flags AccessFlags) IsTransient() bool {
-	return flags&AccTransient != 0
-}
-func (flags AccessFlags) IsVarargs() bool {
-	return flags&AccVarargs != 0
-}
-func (flags AccessFlags) IsNative() bool {
-	return flags&AccNative != 0
-}
-func (flags AccessFlags) IsInterface() bool {
-	return flags&AccInterface != 0
-}
-func (flags AccessFlags) IsAbstract() bool {
-	return flags&AccAbstract != 0
-}
-func (flags AccessFlags) IsStrict() bool {
-	return flags&AccStrict != 0
-}
-func (flags AccessFlags) IsSynthetic() bool {
-	return flags&AccSynthetic != 0
-}
-func (flags AccessFlags) IsAnnotation() bool {
-	return flags&AccAnnotation != 0
-}
-func (flags AccessFlags) IsEnum() bool {
-	return flags&AccEnum != 0
-}
+func (flags AccessFlags) IsPublic() bool       { return flags&AccPublic != 0 }
+func (flags AccessFlags) IsPrivate() bool      { return flags&AccPrivate != 0 }
+func (flags AccessFlags) IsProtected() bool    { return flags&AccProtected != 0 }
+func (flags AccessFlags) IsStatic() bool       { return flags&AccStatic != 0 }
+func (flags AccessFlags) IsFinal() bool        { return flags&AccFinal != 0 }
+func (flags AccessFlags) IsSuper() bool        { return flags&AccSuper != 0 }
+func (flags AccessFlags) IsSynchronized() bool { return flags&AccSynchronized != 0 }
+func (flags AccessFlags) IsVolatile() bool     { return flags&AccVolatile != 0 }
+func (flags AccessFlags) IsBridge() bool       { return flags&AccBridge != 0 }
+func (flags AccessFlags) IsTransient() bool    { return flags&AccTransient != 0 }
+func (flags AccessFlags) IsVarargs() bool      { return flags&AccVarargs != 0 }
+func (flags AccessFlags) IsNative() bool       { return flags&AccNative != 0 }
+func (flags AccessFlags) IsInterface() bool    { return flags&AccInterface != 0 }
+func (flags AccessFlags) IsAbstract() bool     { return flags&AccAbstract != 0 }
+func (flags AccessFlags) IsStrict() bool       { return flags&AccStrict != 0 }
+func (flags AccessFlags) IsSynthetic() bool    { return flags&AccSynthetic != 0 }
+func (flags AccessFlags) IsAnnotation() bool   { return flags&AccAnnotation != 0 }
+func (flags AccessFlags) IsEnum() bool         { return flags&AccEnum != 0 }

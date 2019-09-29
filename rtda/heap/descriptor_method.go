@@ -2,8 +2,8 @@ package heap
 
 type MethodDescriptor struct {
 	d              string
-	parameterTypes []*FieldType
-	returnType     *FieldType
+	ParameterTypes []FieldType
+	ReturnType     FieldType
 }
 
 func parseMethodDescriptor(descriptor string) *MethodDescriptor {
@@ -15,21 +15,14 @@ func (md *MethodDescriptor) String() string {
 	return md.d
 }
 
-func (md *MethodDescriptor) ParameterTypes() []*FieldType {
-	return md.parameterTypes
-}
-func (md *MethodDescriptor) ReturnType() *FieldType {
-	return md.returnType
-}
-
 // parameterCount()
 func (md *MethodDescriptor) argCount() uint {
-	return uint(len(md.parameterTypes))
+	return uint(len(md.ParameterTypes))
 }
 
 func (md *MethodDescriptor) argSlotCount() uint {
 	slotCount := md.argCount()
-	for _, paramType := range md.parameterTypes {
+	for _, paramType := range md.ParameterTypes {
 		if paramType.IsLongOrDouble() {
 			slotCount++
 		}
@@ -37,13 +30,13 @@ func (md *MethodDescriptor) argSlotCount() uint {
 	return slotCount
 }
 
-func (md *MethodDescriptor) addParameterType(t *FieldType) {
-	pLen := len(md.parameterTypes)
-	if pLen == cap(md.parameterTypes) {
-		s := make([]*FieldType, pLen, pLen+4)
-		copy(s, md.parameterTypes)
-		md.parameterTypes = s
+func (md *MethodDescriptor) addParameterType(t FieldType) {
+	pLen := len(md.ParameterTypes)
+	if pLen == cap(md.ParameterTypes) {
+		s := make([]FieldType, pLen, pLen+4)
+		copy(s, md.ParameterTypes)
+		md.ParameterTypes = s
 	}
 
-	md.parameterTypes = append(md.parameterTypes, t)
+	md.ParameterTypes = append(md.ParameterTypes, t)
 }

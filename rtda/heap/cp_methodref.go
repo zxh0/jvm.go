@@ -2,13 +2,9 @@ package heap
 
 type ConstantMethodRef struct {
 	ConstantMemberRef
-	argSlotCount uint
+	ArgSlotCount uint
 	method       *Method
 	vslot        int
-}
-
-func (mr *ConstantMethodRef) ArgSlotCount() uint {
-	return mr.argSlotCount
 }
 
 func (mr *ConstantMethodRef) StaticMethod() *Method {

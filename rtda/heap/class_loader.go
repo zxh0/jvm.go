@@ -59,9 +59,9 @@ func (loader *ClassLoader) _init() {
 	_jlObjectClass = loader.LoadClass(jlObjectClassName)
 	_jlClassClass = loader.LoadClass(jlClassClassName)
 	for _, class := range loader.classMap {
-		if class.jClass == nil {
-			class.jClass = _jlClassClass.NewObj()
-			class.jClass.extra = class
+		if class.JClass == nil {
+			class.JClass = _jlClassClass.NewObj()
+			class.JClass.extra = class
 		}
 	}
 	_jlCloneableClass = loader.LoadClass(jlCloneableClassName)
@@ -78,10 +78,10 @@ func (loader *ClassLoader) loadPrimitiveClasses() {
 	}
 }
 func (loader *ClassLoader) loadPrimitiveClass(className string) {
-	class := &Class{name: className}
+	class := &Class{Name: className}
 	//class.classLoader = loader
-	class.jClass = _jlClassClass.NewObj()
-	class.jClass.extra = class
+	class.JClass = _jlClassClass.NewObj()
+	class.JClass.extra = class
 	class.MarkFullyInitialized()
 	loader.classMap[className] = class
 }
@@ -92,12 +92,12 @@ func (loader *ClassLoader) loadPrimitiveArrayClasses() {
 	}
 }
 func (loader *ClassLoader) loadArrayClass(className string) *Class {
-	class := &Class{name: className}
+	class := &Class{Name: className}
 	//class.classLoader = loader
-	class.superClass = _jlObjectClass
-	class.interfaces = []*Class{_jlCloneableClass, _ioSerializableClass}
-	class.jClass = _jlClassClass.NewObj()
-	class.jClass.extra = class
+	class.SuperClass = _jlObjectClass
+	class.Interfaces = []*Class{_jlCloneableClass, _ioSerializableClass}
+	class.JClass = _jlClassClass.NewObj()
+	class.JClass.extra = class
 	createVtable(class)
 	class.MarkFullyInitialized()
 	loader.classMap[className] = class
@@ -105,7 +105,7 @@ func (loader *ClassLoader) loadArrayClass(className string) *Class {
 }
 
 func (loader *ClassLoader) getRefArrayClass(componentClass *Class) *Class {
-	arrClassName := "[L" + componentClass.Name() + ";"
+	arrClassName := "[L" + componentClass.Name + ";"
 	return loader._getRefArrayClass(arrClassName)
 }
 func (loader *ClassLoader) _getRefArrayClass(arrClassName string) *Class {
@@ -167,7 +167,7 @@ func (loader *ClassLoader) LoadClass(name string) *Class {
 func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 	cpEntry, data := loader.readClassData(name)
 	class := loader._loadClass(name, data)
-	class.loadedFrom = cpEntry
+	class.LoadedFrom = cpEntry
 
 	if loader.verbose {
 		fmt.Printf("[Loaded %s from %s]\n", name, cpEntry)
@@ -209,8 +209,8 @@ func (loader *ClassLoader) _loadClass(name string, data []byte) *Class {
 	loader.classMap[name] = class
 
 	if _jlClassClass != nil {
-		class.jClass = _jlClassClass.NewObj()
-		class.jClass.extra = class
+		class.JClass = _jlClassClass.NewObj()
+		class.JClass.extra = class
 	}
 
 	return class
@@ -218,33 +218,33 @@ func (loader *ClassLoader) _loadClass(name string, data []byte) *Class {
 
 // todo
 func hackClass(class *Class) {
-	if class.name == "java/lang/ClassLoader" {
+	if class.Name == "java/lang/ClassLoader" {
 		loadLibrary := class.GetStaticMethod("loadLibrary", "(Ljava/lang/Class;Ljava/lang/String;Z)V")
-		loadLibrary.code = []byte{0xb1} // return void
+		loadLibrary.Code = []byte{0xb1} // return void
 	}
 }
 
 // todo
 func (loader *ClassLoader) resolveSuperClass(class *Class) {
 	if class.superClassName != "" {
-		class.superClass = loader.LoadClass(class.superClassName)
+		class.SuperClass = loader.LoadClass(class.superClassName)
 	}
 }
 func (loader *ClassLoader) resolveInterfaces(class *Class) {
 	interfaceCount := len(class.interfaceNames)
 	if interfaceCount > 0 {
-		class.interfaces = make([]*Class, interfaceCount)
+		class.Interfaces = make([]*Class, interfaceCount)
 		for i, interfaceName := range class.interfaceNames {
-			class.interfaces[i] = loader.LoadClass(interfaceName)
+			class.Interfaces[i] = loader.LoadClass(interfaceName)
 		}
 	}
 }
 
 func calcStaticFieldSlotIds(class *Class) {
 	slotId := uint(0)
-	for _, field := range class.fields {
+	for _, field := range class.Fields {
 		if field.IsStatic() {
-			field.slotId = slotId
+			field.SlotId = slotId
 			slotId++
 		}
 	}
@@ -254,11 +254,11 @@ func calcStaticFieldSlotIds(class *Class) {
 func calcInstanceFieldSlotIds(class *Class) {
 	slotId := uint(0)
 	if class.superClassName != "" {
-		slotId = class.superClass.instanceFieldCount
+		slotId = class.SuperClass.instanceFieldCount
 	}
-	for _, field := range class.fields {
+	for _, field := range class.Fields {
 		if !field.IsStatic() {
-			field.slotId = slotId
+			field.SlotId = slotId
 			slotId++
 		}
 	}
@@ -266,10 +266,10 @@ func calcInstanceFieldSlotIds(class *Class) {
 }
 
 func prepare(class *Class) {
-	class.staticFieldSlots = make([]Slot, class.staticFieldCount)
-	for _, field := range class.fields {
+	class.StaticFieldSlots = make([]Slot, class.staticFieldCount)
+	for _, field := range class.Fields {
 		if field.IsStatic() {
-			class.staticFieldSlots[field.slotId] = EmptySlot // TODO
+			class.StaticFieldSlots[field.SlotId] = EmptySlot // TODO
 		}
 	}
 }

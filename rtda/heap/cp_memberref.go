@@ -19,12 +19,12 @@ func newConstantMemberRef(cf *classfile.ClassFile, refInfo classfile.ConstantMem
 	case classfile.ConstantMethodRef:
 		ref := &ConstantMethodRef{vslot: -1}
 		ref.copy(cf, refInfo)
-		ref.argSlotCount = calcArgSlotCount(ref.descriptor)
+		ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
 		return ref
 	case classfile.ConstantInterfaceMethodRef:
 		ref := &ConstantInterfaceMethodRef{}
 		ref.copy(cf, refInfo)
-		ref.argSlotCount = calcArgSlotCount(ref.descriptor)
+		ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
 		return ref
 	default:
 		panic("unreachable!")

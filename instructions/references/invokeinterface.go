@@ -25,9 +25,9 @@ func (instr *InvokeInterface) FetchOperands(reader *base.CodeReader) {
 
 func (instr *InvokeInterface) Execute(frame *rtda.Frame) {
 	if instr.kMethodRef == nil {
-		cp := frame.Method().ConstantPool()
+		cp := frame.GetConstantPool()
 		instr.kMethodRef = cp.GetConstant(instr.index).(*heap.ConstantInterfaceMethodRef)
-		instr.argSlotCount = instr.kMethodRef.ArgSlotCount()
+		instr.argSlotCount = instr.kMethodRef.ArgSlotCount
 	}
 
 	ref := frame.TopRef(instr.argSlotCount)

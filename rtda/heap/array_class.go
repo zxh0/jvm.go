@@ -1,19 +1,19 @@
 package heap
 
 func (class *Class) IsArray() bool {
-	return class.name[0] == '['
+	return class.Name[0] == '['
 }
 
 func (class *Class) IsPrimitiveArray() bool {
-	return class.IsArray() && len(class.name) == 2
+	return class.IsArray() && len(class.Name) == 2
 }
 
 func (class *Class) ComponentClass() *Class {
-	componentClassName := getComponentClassName(class.name)
+	componentClassName := getComponentClassName(class.Name)
 	return bootLoader.LoadClass(componentClassName)
 }
 
 func (class *Class) arrayClass() *Class {
-	arrayClassName := getArrayClassName(class.name)
+	arrayClassName := getArrayClassName(class.Name)
 	return bootLoader.LoadClass(arrayClassName)
 }

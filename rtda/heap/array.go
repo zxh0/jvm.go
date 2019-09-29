@@ -6,14 +6,14 @@ import (
 
 const (
 	//Array Type  atype
-	AT_BOOLEAN = 4
-	AT_CHAR    = 5
-	AT_FLOAT   = 6
-	AT_DOUBLE  = 7
-	AT_BYTE    = 8
-	AT_SHORT   = 9
-	AT_INT     = 10
-	AT_LONG    = 11
+	ATBoolean = 4
+	ATChar    = 5
+	ATFloat   = 6
+	ATDouble  = 7
+	ATByte    = 8
+	ATShort   = 9
+	ATInt     = 10
+	ATLong    = 11
 )
 
 func NewArray(arrClass *Class, count uint) *Object {
@@ -26,7 +26,7 @@ func NewArray(arrClass *Class, count uint) *Object {
 }
 
 func _newPrimitiveArray(arrClass *Class, count uint) *Object {
-	switch arrClass.Name() {
+	switch arrClass.Name {
 	case "[Z":
 		return newObj(arrClass, make([]int8, count), nil)
 	case "[B":
@@ -45,31 +45,29 @@ func _newPrimitiveArray(arrClass *Class, count uint) *Object {
 		return newObj(arrClass, make([]float64, count), nil)
 	default:
 		panic(fmt.Errorf("not primitive array: %v", arrClass))
-		return nil
 	}
 }
 
 func NewPrimitiveArray(atype uint8, count uint) *Object {
 	switch atype {
-	case AT_BOOLEAN:
+	case ATBoolean:
 		return newObj(bootLoader.getClass("[Z"), make([]int8, count), nil)
-	case AT_BYTE:
+	case ATByte:
 		return newObj(bootLoader.getClass("[B"), make([]int8, count), nil)
-	case AT_CHAR:
+	case ATChar:
 		return newObj(bootLoader.getClass("[C"), make([]uint16, count), nil)
-	case AT_SHORT:
+	case ATShort:
 		return newObj(bootLoader.getClass("[S"), make([]int16, count), nil)
-	case AT_INT:
+	case ATInt:
 		return newObj(bootLoader.getClass("[I"), make([]int32, count), nil)
-	case AT_LONG:
+	case ATLong:
 		return newObj(bootLoader.getClass("[J"), make([]int64, count), nil)
-	case AT_FLOAT:
+	case ATFloat:
 		return newObj(bootLoader.getClass("[F"), make([]float32, count), nil)
-	case AT_DOUBLE:
+	case ATDouble:
 		return newObj(bootLoader.getClass("[D"), make([]float64, count), nil)
 	default:
 		panic(fmt.Errorf("invalid atype: %v", atype))
-		return nil
 	}
 }
 
@@ -93,26 +91,25 @@ func NewRefArray2(componentClass *Class, components []*Object) *Object {
 }
 
 func ArrayLength(arr *Object) int32 {
-	switch arr.fields.(type) {
+	switch x := arr.fields.(type) {
 	case []int8:
-		return int32(len(arr.fields.([]int8)))
+		return int32(len(x))
 	case []int16:
-		return int32(len(arr.fields.([]int16)))
+		return int32(len(x))
 	case []int32:
-		return int32(len(arr.fields.([]int32)))
+		return int32(len(x))
 	case []int64:
-		return int32(len(arr.fields.([]int64)))
+		return int32(len(x))
 	case []uint16:
-		return int32(len(arr.fields.([]uint16)))
+		return int32(len(x))
 	case []float32:
-		return int32(len(arr.fields.([]float32)))
+		return int32(len(x))
 	case []float64:
-		return int32(len(arr.fields.([]float64)))
+		return int32(len(x))
 	case []*Object:
-		return int32(len(arr.fields.([]*Object)))
+		return int32(len(x))
 	default:
 		panic(fmt.Errorf("not array: %v", arr))
-		return -1
 	}
 }
 

@@ -18,14 +18,14 @@ const (
 type Method struct {
 	ClassMember
 	ExceptionTable
-	maxStack                uint
-	maxLocals               uint
-	argSlotCount            uint
-	slot                    uint
-	md                      *MethodDescriptor
-	code                    []byte
-	parameterAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
-	annotationDefaultData   []byte // AnnotationDefault_attribute
+	MaxStack                uint
+	MaxLocals               uint
+	ArgSlotCount            uint
+	Slot                    uint
+	ParsedDescriptor        *MethodDescriptor
+	Code                    []byte
+	ParameterAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
+	AnnotationDefaultData   []byte // AnnotationDefault_attribute
 	lineNumberTable         []classfile.LineNumberTableEntry
 	exIndexTable            []uint16    // TODO: rename
 	nativeMethod            interface{} // cannot use package 'native' because of cycle import!
@@ -34,71 +34,41 @@ type Method struct {
 
 func newMethod(class *Class, cf *classfile.ClassFile, methodInfo classfile.MemberInfo) *Method {
 	method := &Method{}
-	method.class = class
+	method.Class = class
 	method.AccessFlags = AccessFlags(methodInfo.AccessFlags)
-	method.name = cf.GetUTF8(methodInfo.NameIndex)
-	method.descriptor = cf.GetUTF8(methodInfo.DescriptorIndex)
-	method.md = parseMethodDescriptor(method.descriptor)
+	method.Name = cf.GetUTF8(methodInfo.NameIndex)
+	method.Descriptor = cf.GetUTF8(methodInfo.DescriptorIndex)
+	method.ParsedDescriptor = parseMethodDescriptor(method.Descriptor)
 	method.calcArgSlotCount()
 	method.copyAttributes(cf, methodInfo)
 	return method
 }
 func (method *Method) calcArgSlotCount() {
-	method.argSlotCount = method.md.argSlotCount()
+	method.ArgSlotCount = method.ParsedDescriptor.argSlotCount()
 	if !method.IsStatic() {
-		method.argSlotCount++
+		method.ArgSlotCount++
 	}
 }
 func (method *Method) copyAttributes(cf *classfile.ClassFile, methodInfo classfile.MemberInfo) {
 	if codeAttr := methodInfo.GetCodeAttribute(); codeAttr != nil {
 		method.exIndexTable = methodInfo.GetExceptionIndexTable()
-		method.signature = cf.GetUTF8(methodInfo.GetSignatureIndex())
-		method.code = codeAttr.Code
-		method.maxStack = uint(codeAttr.MaxStack)
-		method.maxLocals = uint(codeAttr.MaxLocals)
+		method.Signature = cf.GetUTF8(methodInfo.GetSignatureIndex())
+		method.Code = codeAttr.Code
+		method.MaxStack = uint(codeAttr.MaxStack)
+		method.MaxLocals = uint(codeAttr.MaxLocals)
 		method.lineNumberTable = codeAttr.GetLineNumberTable()
 		if len(codeAttr.ExceptionTable) > 0 {
-			rtCp := method.class.constantPool
+			rtCp := method.Class.ConstantPool
 			method.copyExceptionTable(codeAttr.ExceptionTable, rtCp)
 		}
 	}
-	method.annotationData = methodInfo.GetRuntimeVisibleAnnotationsAttributeData()
-	method.parameterAnnotationData = methodInfo.GetRuntimeVisibleParameterAnnotationsAttributeData()
-	method.annotationDefaultData = methodInfo.GetAnnotationDefaultAttributeData()
+	method.AnnotationData = methodInfo.GetRuntimeVisibleAnnotationsAttributeData()
+	method.ParameterAnnotationData = methodInfo.GetRuntimeVisibleParameterAnnotationsAttributeData()
+	method.AnnotationDefaultData = methodInfo.GetAnnotationDefaultAttributeData()
 }
 
 func (method *Method) String() string {
-	return fmt.Sprintf("{Method name:%v descriptor:%v}", method.name, method.descriptor)
-}
-
-// getters & setters
-func (method *Method) MaxStack() uint {
-	return method.maxStack
-}
-func (method *Method) MaxLocals() uint {
-	return method.maxLocals
-}
-func (method *Method) ArgSlotCount() uint {
-	return method.argSlotCount
-}
-func (method *Method) Slot() uint {
-	return method.slot
-}
-func (method *Method) Code() []byte {
-	return method.code
-}
-func (method *Method) ParameterAnnotationData() []byte {
-	return method.parameterAnnotationData
-}
-func (method *Method) AnnotationDefaultData() []byte {
-	return method.annotationDefaultData
-}
-func (method *Method) ParsedDescriptor() *MethodDescriptor {
-	return method.md
-}
-
-func (method *Method) HackSetCode(code []byte) {
-	method.code = code
+	return fmt.Sprintf("{Method name:%v descriptor:%v}", method.Name, method.Descriptor)
 }
 
 func (method *Method) NativeMethod() interface{} {
@@ -109,26 +79,26 @@ func (method *Method) NativeMethod() interface{} {
 }
 
 func (method *Method) IsVoidReturnType() bool {
-	return strings.HasSuffix(method.descriptor, ")V")
+	return strings.HasSuffix(method.Descriptor, ")V")
 }
 
 func (method *Method) isConstructor() bool {
-	return !method.IsStatic() && method.name == constructorName
+	return !method.IsStatic() && method.Name == constructorName
 }
 func (method *Method) IsClinit() bool {
 	return method.IsStatic() &&
-		method.name == clinitMethodName &&
-		method.descriptor == clinitMethodDesc
+		method.Name == clinitMethodName &&
+		method.Descriptor == clinitMethodDesc
 }
 func (method *Method) IsRegisterNatives() bool {
 	return method.IsStatic() &&
-		method.name == "registerNatives" &&
-		method.descriptor == "()V"
+		method.Name == "registerNatives" &&
+		method.Descriptor == "()V"
 }
 func (method *Method) IsInitIDs() bool {
 	return method.IsStatic() &&
-		method.name == "initIDs" &&
-		method.descriptor == "()V"
+		method.Name == "initIDs" &&
+		method.Descriptor == "()V"
 }
 
 func (method *Method) GetLineNumber(pc int) int {

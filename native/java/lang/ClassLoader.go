@@ -52,7 +52,7 @@ func findBootstrapClass(frame *rtda.Frame) {
 	class := heap.BootLoader().LoadClass(className)
 
 	// todo: init class?
-	frame.PushRef(class.JClass())
+	frame.PushRef(class.JClass)
 
 	// todo
 	if r := recover(); r != nil {
@@ -71,7 +71,7 @@ func findLoadedClass0(frame *rtda.Frame) {
 	if isAppClassLoader(this) {
 		class := heap.BootLoader().FindLoadedClass(className)
 		if class != nil {
-			frame.PushRef(class.JClass())
+			frame.PushRef(class.JClass)
 		} else {
 			frame.PushRef(nil)
 		}
@@ -84,5 +84,5 @@ func findLoadedClass0(frame *rtda.Frame) {
 
 // todo
 func isAppClassLoader(loader *heap.Object) bool {
-	return loader.Class().Name() == "sun/misc/Launcher$AppClassLoader"
+	return loader.Class().Name == "sun/misc/Launcher$AppClassLoader"
 }

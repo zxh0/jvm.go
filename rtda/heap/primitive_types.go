@@ -1,27 +1,15 @@
 package heap
 
-const (
-	V = 'V' // void
-	Z = 'Z' // boolean
-	B = 'B' // byte
-	C = 'C' // char
-	S = 'S' // short
-	I = 'I' // int
-	J = 'J' // long
-	F = 'F' // float
-	D = 'D' // double
-)
-
-var PrimitiveTypes = []*PrimitiveType{
-	&PrimitiveType{"V", "[V", "void", "java/lang/Void"},
-	&PrimitiveType{"Z", "[Z", "boolean", "java/lang/Boolean"},
-	&PrimitiveType{"B", "[B", "byte", "java/lang/Byte"},
-	&PrimitiveType{"C", "[C", "char", "java/lang/Character"},
-	&PrimitiveType{"S", "[S", "short", "java/lang/Short"},
-	&PrimitiveType{"I", "[I", "int", "java/lang/Integer"},
-	&PrimitiveType{"J", "[J", "long", "java/lang/Long"},
-	&PrimitiveType{"F", "[F", "float", "java/lang/Float"},
-	&PrimitiveType{"D", "[D", "double", "java/lang/Double"},
+var PrimitiveTypes = []PrimitiveType{
+	{"V", "[V", "void", "java/lang/Void"},
+	{"Z", "[Z", "boolean", "java/lang/Boolean"},
+	{"B", "[B", "byte", "java/lang/Byte"},
+	{"C", "[C", "char", "java/lang/Character"},
+	{"S", "[S", "short", "java/lang/Short"},
+	{"I", "[I", "int", "java/lang/Integer"},
+	{"J", "[J", "long", "java/lang/Long"},
+	{"F", "[F", "float", "java/lang/Float"},
+	{"D", "[D", "double", "java/lang/Double"},
 }
 
 // type jboolean bool

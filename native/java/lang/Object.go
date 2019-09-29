@@ -33,7 +33,7 @@ func clone(frame *rtda.Frame) {
 func getClass(frame *rtda.Frame) {
 	this := frame.GetThis()
 
-	class := this.Class().JClass()
+	class := this.Class().JClass
 	frame.PushRef(class)
 }
 

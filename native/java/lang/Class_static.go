@@ -34,7 +34,7 @@ func forName0(frame *rtda.Frame) {
 	goName := heap.GoString(jName)
 	goName = strings.ReplaceAll(goName, ".", "/")
 	goClass := frame.ClassLoader().LoadClass(goName)
-	jClass := goClass.JClass()
+	jClass := goClass.JClass
 
 	if initialize && goClass.InitializationNotStarted() {
 		// undo forName0
@@ -55,7 +55,7 @@ func getPrimitiveClass(frame *rtda.Frame) {
 	name := heap.GoString(nameObj)
 	classLoader := frame.ClassLoader()
 	class := classLoader.GetPrimitiveClass(name)
-	classObj := class.JClass()
+	classObj := class.JClass
 
 	frame.PushRef(classObj)
 }

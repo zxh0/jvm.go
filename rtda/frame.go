@@ -29,10 +29,10 @@ func newFrame(thread *Thread, method *heap.Method) *Frame {
 	return &Frame{
 		thread:       thread,
 		method:       method,
-		maxLocals:    method.MaxLocals(),
-		maxStack:     method.MaxStack(),
-		LocalVars:    newLocalVars(method.MaxLocals()),
-		OperandStack: newOperandStack(method.MaxStack()),
+		maxLocals:    method.MaxLocals,
+		maxStack:     method.MaxStack,
+		LocalVars:    newLocalVars(method.MaxLocals),
+		OperandStack: newOperandStack(method.MaxStack),
 	}
 }
 
@@ -74,9 +74,6 @@ func (frame *Frame) RevertNextPC() {
 func (frame *Frame) ClassLoader() *heap.ClassLoader {
 	return heap.BootLoader()
 }
-func (frame *Frame) ConstantPool() *heap.ConstantPool {
-	return frame.method.ConstantPool()
-}
 
 func (frame *Frame) Load(idx uint, isLongOrDouble bool) {
 	slot := frame.GetLocalVar(idx)
@@ -91,4 +88,12 @@ func (frame *Frame) Store(idx uint, isLongOrDouble bool) {
 	}
 	slot := frame.Pop()
 	frame.SetLocalVar(idx, slot)
+}
+
+// shortcuts
+func (frame *Frame) GetClass() *heap.Class {
+	return frame.method.Class
+}
+func (frame *Frame) GetConstantPool() *heap.ConstantPool {
+	return frame.method.Class.ConstantPool
 }

@@ -102,15 +102,14 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 	currentFrame := thread.CurrentFrame()
 	newFrame := thread.NewFrame(method)
 	thread.PushFrame(newFrame)
-	argSlotsCount := method.ArgSlotCount()
-	if argSlotsCount > 0 {
-		_passArgs(&currentFrame.OperandStack, &newFrame.LocalVars, argSlotsCount)
+	if method.ArgSlotCount > 0 {
+		_passArgs(&currentFrame.OperandStack, &newFrame.LocalVars, method.ArgSlotCount)
 	}
 
 	if method.IsSynchronized() {
 		var monitor *heap.Monitor
 		if method.IsStatic() {
-			classObj := method.Class().JClass()
+			classObj := method.Class.JClass
 			monitor = classObj.Monitor()
 		} else {
 			thisObj := newFrame.GetThis()
@@ -133,13 +132,12 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argSlotsCount uint) {
 }
 func (thread *Thread) _logInvoke(stackSize uint, method *heap.Method) {
 	space := strings.Repeat(" ", int(stackSize))
-	className := method.Class().Name()
-	methodName := method.Name()
+	className := method.Class.Name
 
 	if method.IsStatic() {
-		fmt.Printf("[method]%v thread:%p %v.%v()\n", space, thread, className, methodName)
+		fmt.Printf("[method]%v thread:%p %v.%v()\n", space, thread, className, method.Name)
 	} else {
-		fmt.Printf("[method]%v thread:%p %v#%v()\n", space, thread, className, methodName)
+		fmt.Printf("[method]%v thread:%p %v#%v()\n", space, thread, className, method.Name)
 	}
 }
 

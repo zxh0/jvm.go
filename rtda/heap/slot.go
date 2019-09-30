@@ -42,8 +42,8 @@ func (slot Slot) DoubleValue() float64 {
 
 // TODO
 func NewHackSlot(x interface{}) Slot {
-	return NewRefSlot(&Object{extra: x})
+	return NewRefSlot(&Object{Extra: x})
 }
 func (slot Slot) GetHack() interface{} {
-	return slot.Ref.extra
+	return slot.Ref.Extra
 }

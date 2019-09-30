@@ -34,7 +34,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 	classObj := frame.GetThis()
 	publicOnly := frame.GetBooleanVar(1)
 
-	class := classObj.Extra().(*heap.Class)
+	class := classObj.Extra.(*heap.Class)
 	constructors := class.GetConstructors(publicOnly)
 	constructorCount := uint(len(constructors))
 

@@ -61,7 +61,7 @@ func _extraThread(threadObj *heap.Object) *rtda.Thread {
 	threadObj.RLockState()
 	defer threadObj.RUnlockState()
 
-	extra := threadObj.Extra()
+	extra := threadObj.Extra
 	if extra == nil {
 		return nil
 	} else {
@@ -84,13 +84,13 @@ func start0(frame *rtda.Frame) {
 	this := frame.GetThis()
 
 	newThread := rtda.NewThread(this, frame.Thread().VMOptions)
-	runMethod := this.Class().GetInstanceMethod("run", "()V")
+	runMethod := this.Class.GetInstanceMethod("run", "()V")
 	newFrame := newThread.NewFrame(runMethod)
 	newFrame.SetRefVar(0, this)
 	newThread.PushFrame(newFrame)
 
 	this.LockState()
-	this.SetExtra(newThread)
+	this.Extra = newThread
 	this.UnlockState()
 
 	go interpreter.Loop(newThread)

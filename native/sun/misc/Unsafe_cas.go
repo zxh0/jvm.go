@@ -17,7 +17,7 @@ func init() {
 // public final native boolean compareAndSwapInt(Object o, long offset, int expected, int x);
 // (Ljava/lang/Object;JII)Z
 func compareAndSwapInt(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	expected := frame.GetIntVar(4)
 	newVal := frame.GetIntVar(5)
@@ -39,7 +39,7 @@ func compareAndSwapInt(frame *rtda.Frame) {
 // public final native boolean compareAndSwapLong(Object o, long offset, long expected, long x);
 // (Ljava/lang/Object;JJJ)Z
 func compareAndSwapLong(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	expected := frame.GetLongVar(4)
 	newVal := frame.GetLongVar(6)
@@ -62,7 +62,7 @@ func compareAndSwapLong(frame *rtda.Frame) {
 // (Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z
 func compareAndSwapObject(frame *rtda.Frame) {
 	obj := frame.GetRefVar(1)
-	fields := obj.Fields()
+	fields := obj.Fields
 	offset := frame.GetLongVar(2)
 	expected := frame.GetRefVar(4)
 	newVal := frame.GetRefVar(5)

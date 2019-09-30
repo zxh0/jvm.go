@@ -76,7 +76,7 @@ func (mr *ConstantMethodRef) findMethod(isStatic bool) *Method {
 
 func (mr *ConstantMethodRef) GetVirtualMethod(ref *Object) *Method {
 	if mr.vslot < 0 {
-		mr.vslot = getVslot(ref.class, mr.name, mr.descriptor)
+		mr.vslot = getVslot(ref.Class, mr.name, mr.descriptor)
 	}
-	return ref.class.vtable[mr.vslot]
+	return ref.Class.vtable[mr.vslot]
 }

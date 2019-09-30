@@ -76,7 +76,7 @@ func net_bind0(frame *rtda.Frame) {
 	if err != nil {
 		frame.Thread().ThrowIOException(err.Error())
 	}
-	this.SetExtra(listen)
+	this.Extra = listen
 }
 
 // static native void listen(FileDescriptor fd, int backlog) throws IOException;
@@ -104,7 +104,7 @@ func net_localInetAddress(frame *rtda.Frame) {
 
 func net_localPort(frame *rtda.Frame) {
 	this := frame.GetThis()
-	listen := this.Extra().(net.Listener)
+	listen := this.Extra.(net.Listener)
 
 	//fmt.Println(inetAddress)
 	address := listen.Addr().String()

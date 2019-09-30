@@ -15,7 +15,7 @@ func (instr *MonitorEnter) Execute(frame *rtda.Frame) {
 		frame.RevertNextPC()
 		thread.ThrowNPE()
 	} else {
-		ref.Monitor().Enter(thread)
+		ref.Monitor.Enter(thread)
 	}
 }
 
@@ -29,6 +29,6 @@ func (instr *MonitorExit) Execute(frame *rtda.Frame) {
 		frame.RevertNextPC()
 		thread.ThrowNPE()
 	} else {
-		ref.Monitor().Exit(thread)
+		ref.Monitor.Exit(thread)
 	}
 }

@@ -2,6 +2,9 @@ package heap
 
 import (
 	"fmt"
+	"reflect"
+
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 const (
@@ -91,63 +94,36 @@ func NewRefArray2(componentClass *Class, components []*Object) *Object {
 }
 
 func ArrayLength(arr *Object) int32 {
-	switch x := arr.fields.(type) {
-	case []int8:
-		return int32(len(x))
-	case []int16:
-		return int32(len(x))
-	case []int32:
-		return int32(len(x))
-	case []int64:
-		return int32(len(x))
-	case []uint16:
-		return int32(len(x))
-	case []float32:
-		return int32(len(x))
-	case []float64:
-		return int32(len(x))
-	case []*Object:
-		return int32(len(x))
-	default:
-		panic(fmt.Errorf("not array: %v", arr))
-	}
+	return int32(reflect.ValueOf(arr.Fields).Len())
 }
 
 func ArrayCopy(src, dst *Object, srcPos, dstPos, length int32) {
-	switch src.fields.(type) {
-	case []int8:
-		_src := src.fields.([]int8)[srcPos : srcPos+length]
-		_dst := dst.fields.([]int8)[dstPos : dstPos+length]
-		copy(_dst, _src)
-	case []int16:
-		_src := src.fields.([]int16)[srcPos : srcPos+length]
-		_dst := dst.fields.([]int16)[dstPos : dstPos+length]
-		copy(_dst, _src)
-	case []int32:
-		_src := src.fields.([]int32)[srcPos : srcPos+length]
-		_dst := dst.fields.([]int32)[dstPos : dstPos+length]
-		copy(_dst, _src)
-	case []int64:
-		_src := src.fields.([]int64)[srcPos : srcPos+length]
-		_dst := dst.fields.([]int64)[dstPos : dstPos+length]
-		copy(_dst, _src)
-	case []uint16:
-		_src := src.fields.([]uint16)[srcPos : srcPos+length]
-		_dst := dst.fields.([]uint16)[dstPos : dstPos+length]
-		copy(_dst, _src)
-	case []float32:
-		_src := src.fields.([]float32)[srcPos : srcPos+length]
-		_dst := dst.fields.([]float32)[dstPos : dstPos+length]
-		copy(_dst, _src)
-	case []float64:
-		_src := src.fields.([]float64)[srcPos : srcPos+length]
-		_dst := dst.fields.([]float64)[dstPos : dstPos+length]
-		copy(_dst, _src)
-	case []*Object:
-		_src := src.fields.([]*Object)[srcPos : srcPos+length]
-		_dst := dst.fields.([]*Object)[dstPos : dstPos+length]
-		copy(_dst, _src)
-	default:
-		panic(fmt.Errorf("not array: %v", src))
-	}
+	srcArr := reflect.ValueOf(src.Fields)
+	dstArr := reflect.ValueOf(dst.Fields)
+	reflect.Copy(
+		dstArr.Slice(int(dstPos), int(dstPos+length)),
+		srcArr.Slice(int(srcPos), int(srcPos+length)),
+	)
+}
+
+func (obj *Object) Refs() []*Object    { return obj.Fields.([]*Object) }
+func (obj *Object) Booleans() []int8   { return obj.Fields.([]int8) }
+func (obj *Object) Bytes() []int8      { return obj.Fields.([]int8) }
+func (obj *Object) Chars() []uint16    { return obj.Fields.([]uint16) }
+func (obj *Object) Shorts() []int16    { return obj.Fields.([]int16) }
+func (obj *Object) Ints() []int32      { return obj.Fields.([]int32) }
+func (obj *Object) Longs() []int64     { return obj.Fields.([]int64) }
+func (obj *Object) Floats() []float32  { return obj.Fields.([]float32) }
+func (obj *Object) Doubles() []float64 { return obj.Fields.([]float64) }
+
+func (obj *Object) IsArray() bool {
+	return obj.Class.IsArray()
+}
+func (obj *Object) IsPrimitiveArray() bool {
+	return obj.Class.IsPrimitiveArray()
+}
+
+func (obj *Object) GoBytes() []byte {
+	s := obj.Fields.([]int8)
+	return vmutils.CastInt8sToUint8s(s)
 }

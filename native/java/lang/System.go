@@ -53,8 +53,8 @@ func arraycopy(frame *rtda.Frame) {
 }
 
 func checkArrayCopy(src, dest *heap.Object) bool {
-	srcClass := src.Class()
-	destClass := dest.Class()
+	srcClass := src.Class
+	destClass := dest.Class
 
 	if !srcClass.IsArray() || !destClass.IsArray() {
 		return false
@@ -90,7 +90,7 @@ func initProperties(frame *rtda.Frame) {
 	frame.PushRef(props)
 
 	// public synchronized Object setProperty(String key, String value)
-	setPropMethod := props.Class().GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
+	setPropMethod := props.Class.GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
 	thread := frame.Thread()
 	for key, val := range _sysProps(thread.VMOptions.AbsJavaHome) {
 		jKey := heap.JString(key)

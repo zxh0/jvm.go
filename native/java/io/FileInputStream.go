@@ -31,7 +31,7 @@ func available(frame *rtda.Frame) {
 func close0(frame *rtda.Frame) {
 	this := frame.GetThis()
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 	err := goFile.Close()
 	if err != nil {
 		// todo
@@ -52,7 +52,7 @@ func open(frame *rtda.Frame) {
 		return
 	}
 
-	this.SetExtra(goFile)
+	this.Extra = goFile
 }
 
 // private native int readBytes(byte b[], int off, int len) throws IOException;
@@ -63,7 +63,7 @@ func readBytes(frame *rtda.Frame) {
 	off := frame.GetIntVar(2)
 	_len := frame.GetIntVar(3)
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 	goBuf := buf.GoBytes()
 	goBuf = goBuf[off : off+_len]
 

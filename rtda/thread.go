@@ -110,10 +110,10 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 		var monitor *heap.Monitor
 		if method.IsStatic() {
 			classObj := method.Class.JClass
-			monitor = classObj.Monitor()
+			monitor = classObj.Monitor
 		} else {
 			thisObj := newFrame.GetThis()
-			monitor = thisObj.Monitor()
+			monitor = thisObj.Monitor
 		}
 
 		monitor.Enter(thread)
@@ -155,7 +155,7 @@ func (thread *Thread) HandleUncaughtException(ex *heap.Object) {
 	thread.stack.clear()
 	sysClass := heap.BootLoader().LoadClass("java/lang/System")
 	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").Ref
-	printStackTrace := ex.Class().GetInstanceMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
+	printStackTrace := ex.Class.GetInstanceMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
 
 	// call ex.printStackTrace(System.err)
 	newFrame := thread.NewFrame(printStackTrace)

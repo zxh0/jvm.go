@@ -21,7 +21,7 @@ func Loop(thread *rtda.Thread) {
 
 	// terminate thread
 	threadObj = thread.JThread()
-	threadObj.Monitor().NotifyAll()
+	threadObj.Monitor.NotifyAll()
 	if !isDaemon {
 		nonDaemonThreadStop()
 	}

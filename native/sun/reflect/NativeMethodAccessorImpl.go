@@ -44,7 +44,7 @@ func _invokeMethod(frame *rtda.Frame) {
 	}
 
 	if goMethod.IsAbstract() {
-		goMethod = obj.Class().GetInstanceMethod(goMethod.Name, goMethod.Descriptor)
+		goMethod = obj.Class.GetInstanceMethod(goMethod.Name, goMethod.Descriptor)
 	}
 
 	args := convertArgs(obj, argArrObj, goMethod)

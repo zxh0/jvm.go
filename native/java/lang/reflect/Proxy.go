@@ -22,7 +22,7 @@ func defineClass0(frame *rtda.Frame) {
 	}
 
 	// init class
-	class := frame.TopRef(0).Extra().(*heap.Class)
+	class := frame.TopRef(0).Extra.(*heap.Class)
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread().InitClass(class)

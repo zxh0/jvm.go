@@ -25,20 +25,20 @@ func writeBytes(frame *rtda.Frame) {
 	//frame.GetBooleanVar(4) // append
 
 	fdObj := fosObj.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
-	if fdObj.Extra() == nil {
+	if fdObj.Extra == nil {
 		goFd := fdObj.GetFieldValue("fd", "I").IntValue()
 		switch goFd {
 		case 0:
-			fdObj.SetExtra(os.Stdin)
+			fdObj.Extra = os.Stdin
 		case 1:
-			fdObj.SetExtra(os.Stdout)
+			fdObj.Extra = os.Stdout
 		case 2:
-			fdObj.SetExtra(os.Stderr)
+			fdObj.Extra = os.Stderr
 		default:
-			fdObj.SetExtra(os.Stdout)
+			fdObj.Extra = os.Stdout
 		}
 	}
-	goFile := fdObj.Extra().(*os.File)
+	goFile := fdObj.Extra.(*os.File)
 
 	goBytes := byteArrObj.GoBytes()
 	goBytes = goBytes[offset : offset+length]

@@ -25,11 +25,11 @@ func newField(class *Class, cf *classfile.ClassFile, fieldInfo classfile.MemberI
 }
 
 func (field *Field) GetValue(ref *Object) Slot {
-	fields := ref.fields.([]Slot)
+	fields := ref.Fields.([]Slot)
 	return fields[field.SlotId]
 }
 func (field *Field) PutValue(ref *Object, val Slot) {
-	fields := ref.fields.([]Slot)
+	fields := ref.Fields.([]Slot)
 	fields[field.SlotId] = val
 }
 

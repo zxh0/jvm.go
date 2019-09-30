@@ -33,7 +33,7 @@ func clone(frame *rtda.Frame) {
 func getClass(frame *rtda.Frame) {
 	this := frame.GetThis()
 
-	class := this.Class().JClass
+	class := this.Class.JClass
 	frame.PushRef(class)
 }
 
@@ -54,7 +54,7 @@ func notifyAll(frame *rtda.Frame) {
 	this := frame.GetThis()
 
 	thread := frame.Thread()
-	monitor := this.Monitor()
+	monitor := this.Monitor
 	if !monitor.HasOwner(thread) {
 		// todo
 		panic("IllegalMonitorStateException")
@@ -70,7 +70,7 @@ func wait(frame *rtda.Frame) {
 	// timeout := frame.GetLongVar(1) // todo
 
 	thread := frame.Thread()
-	monitor := this.Monitor()
+	monitor := this.Monitor
 	if !monitor.HasOwner(thread) {
 		// todo
 		panic("IllegalMonitorStateException")

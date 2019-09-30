@@ -35,9 +35,9 @@ func mhn_init(frame *rtda.Frame) {
 	mn := frame.GetRefVar(0)
 	ref := frame.GetRefVar(1)
 
-	if ref.Class().Name == "java/lang/reflect/Method" {
+	if ref.Class.Name == "java/lang/reflect/Method" {
 		classObj := ref.GetFieldValue("clazz", "Ljava/lang/Class;").Ref
-		class := classObj.Extra().(*heap.Class)
+		class := classObj.Extra.(*heap.Class)
 		slot := ref.GetFieldValue("slot", "I").IntValue()
 		method := class.Methods[slot]
 

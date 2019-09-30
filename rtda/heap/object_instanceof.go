@@ -1,7 +1,7 @@
 package heap
 
 func (obj *Object) IsInstanceOf(class *Class) bool {
-	s, t := obj.class, class
+	s, t := obj.Class, class
 	return _checkcast(s, t)
 }
 

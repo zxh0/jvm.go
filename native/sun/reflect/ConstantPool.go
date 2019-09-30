@@ -35,6 +35,6 @@ func getUTF8At0(frame *rtda.Frame) {
 func _getPop(frame *rtda.Frame) (cp *heap.ConstantPool, index uint) {
 	this := frame.GetThis()
 	index = uint(frame.GetIntVar(2))
-	cp = this.Extra().(*heap.ConstantPool)
+	cp = this.Extra.(*heap.ConstantPool)
 	return
 }

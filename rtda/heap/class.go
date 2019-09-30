@@ -14,11 +14,24 @@ const (
 	_initFailed       = 3 // This Class object is in an erroneous state, perhaps because initialization was attempted and failed.
 )
 
+type ClassAttributes struct {
+	SourceFile      string
+	Signature       string
+	AnnotationData  []byte // RuntimeVisibleAnnotations_attribute
+	EnclosingMethod *EnclosingMethod
+}
+
+type EnclosingMethod struct {
+	ClassName        string
+	MethodName       string
+	MethodDescriptor string
+}
+
 // name, superClassName and interfaceNames are all binary names(jvms8-4.2.1)
 type Class struct {
 	AccessFlags
 	ClassAttributes
-	ConstantPool       *ConstantPool
+	ConstantPool       ConstantPool
 	Name               string // thisClassName
 	superClassName     string
 	interfaceNames     []string
@@ -132,7 +145,7 @@ func (class *Class) GetClinitMethod() *Method {
 
 func (class *Class) NewObjWithExtra(extra interface{}) *Object {
 	obj := class.NewObj()
-	obj.extra = extra
+	obj.Extra = extra
 	return obj
 }
 func (class *Class) NewObj() *Object {
@@ -170,5 +183,5 @@ func (class *Class) SetStaticValue(fieldName, fieldDescriptor string, value Slot
 }
 
 func (class *Class) AsObj() *Object {
-	return &Object{fields: class.StaticFieldSlots}
+	return &Object{Fields: class.StaticFieldSlots}
 }

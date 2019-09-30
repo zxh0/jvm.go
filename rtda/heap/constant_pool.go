@@ -7,15 +7,14 @@ import (
 type Constant interface{} // TODO: change to Slot ?
 
 type ConstantPool struct {
-	class  *Class
 	consts []Constant
 }
 
-func newConstantPool(owner *Class, cf *classfile.ClassFile) *ConstantPool {
+func newConstantPool(cf *classfile.ClassFile) ConstantPool {
 	cfCp := cf.ConstantPool
 	cpInfos := cfCp.Infos
 	consts := make([]Constant, len(cpInfos))
-	rtCp := &ConstantPool{owner, consts}
+	rtCp := ConstantPool{consts}
 
 	for i := 1; i < len(cpInfos); i++ {
 		cpInfo := cpInfos[i]
@@ -33,7 +32,7 @@ func newConstantPool(owner *Class, cf *classfile.ClassFile) *ConstantPool {
 		case classfile.ConstantMemberRefInfo:
 			consts[i] = newConstantMemberRef(cf, cpInfo.(classfile.ConstantMemberRefInfo))
 		case classfile.ConstantInvokeDynamicInfo:
-			consts[i] = newConstantInvokeDynamic(cf, rtCp, cpInfo.(classfile.ConstantInvokeDynamicInfo))
+			consts[i] = newConstantInvokeDynamic(cf, &rtCp, cpInfo.(classfile.ConstantInvokeDynamicInfo))
 		case classfile.ConstantMethodHandleInfo:
 			consts[i] = newConstantMethodHandle(cpInfo.(classfile.ConstantMethodHandleInfo))
 		case classfile.ConstantMethodTypeInfo:
@@ -48,7 +47,7 @@ func newConstantPool(owner *Class, cf *classfile.ClassFile) *ConstantPool {
 	return rtCp
 }
 
-func (cp *ConstantPool) GetConstant(index uint) Constant {
+func (cp ConstantPool) GetConstant(index uint) Constant {
 	// todo
 	return cp.consts[index]
 }

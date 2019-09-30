@@ -65,7 +65,7 @@ func psi_socketConnect(frame *rtda.Frame) {
 	}
 
 	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
-	fdObj.SetExtra(conn)
+	fdObj.Extra = conn
 }
 
 //  native void socketBind(InetAddress address, int port)
@@ -84,7 +84,7 @@ func psi_socketBind(frame *rtda.Frame) {
 	if err != nil {
 		frame.Thread().ThrowIOException(err.Error())
 	}
-	this.SetExtra(listen)
+	this.Extra = listen
 }
 
 //  native void socketListen(int count) throws IOException;
@@ -98,11 +98,11 @@ func psi_socketAccept(frame *rtda.Frame) {
 	s := frame.GetRefVar(1)
 	fdObj := s.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
 	//goFd := fdObj.GetFieldValue("fd", "I").(int32)
-	listen := this.Extra().(net.Listener)
+	listen := this.Extra.(net.Listener)
 	if conn, err := listen.Accept(); err != nil {
 		frame.Thread().ThrowIOException(err.Error())
 	} else {
-		fdObj.SetExtra(conn)
+		fdObj.Extra = conn
 	}
 }
 
@@ -112,8 +112,8 @@ func psi_socketAccept(frame *rtda.Frame) {
 func psi_socketClose0(frame *rtda.Frame) {
 	this := frame.GetThis()
 	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
-	if fdObj.Extra() != nil {
-		conn := fdObj.Extra().(net.Conn)
+	if fdObj.Extra != nil {
+		conn := fdObj.Extra.(net.Conn)
 		conn.Close()
 	}
 }
@@ -123,7 +123,7 @@ func psi_socketClose0(frame *rtda.Frame) {
 func psi_socketAvailable(frame *rtda.Frame) {
 	this := frame.GetThis()
 	fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
-	conn := fdObj.Extra().(net.Conn)
+	conn := fdObj.Extra.(net.Conn)
 	if r := conn.RemoteAddr(); r != nil {
 		frame.PushBoolean(true)
 	} else {
@@ -146,8 +146,8 @@ func psi_socketSetOption(frame *rtda.Frame) {
 	case 0x1006: //timeout
 		_timeout := box.Unbox(value, "I").IntValue()
 		fdObj := this.GetFieldValue("fd", "Ljava/io/FileDescriptor;").Ref
-		if fdObj.Extra() != nil {
-			conn := fdObj.Extra().(net.Conn)
+		if fdObj.Extra != nil {
+			conn := fdObj.Extra.(net.Conn)
 			conn.SetReadDeadline(time.Now().Add(time.Duration(_timeout) * time.Millisecond))
 		}
 		break

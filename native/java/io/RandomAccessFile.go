@@ -54,7 +54,7 @@ func raf_open(frame *rtda.Frame) {
 	if goFile, err := os.OpenFile(goName, flag, 0660); err != nil {
 		frame.Thread().ThrowFileNotFoundException(goName)
 	} else {
-		this.SetExtra(goFile)
+		this.Extra = goFile
 	}
 }
 
@@ -63,7 +63,7 @@ func raf_open(frame *rtda.Frame) {
 func raf_close0(frame *rtda.Frame) {
 	this := frame.GetThis()
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 	if err := goFile.Close(); err != nil {
 		frame.Thread().ThrowIOException(err.Error())
 	}
@@ -77,7 +77,7 @@ func raf_writeBytes(frame *rtda.Frame) {
 	offset := frame.GetIntVar(2)     // off
 	length := frame.GetIntVar(3)     // len
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 
 	goBytes := byteArrObj.GoBytes()
 	goBytes = goBytes[offset : offset+length]
@@ -90,7 +90,7 @@ func raf_write0(frame *rtda.Frame) {
 	this := frame.GetThis()
 	intObj := frame.GetIntVar(1) // b
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 	//b := make([]byte, 4)
 	//binary.BigEndian.PutUint32(b, uint32(intObj))
 	if _, err := goFile.Write([]byte{byte(intObj)}); err != nil {
@@ -106,7 +106,7 @@ func raf_readBytes(frame *rtda.Frame) {
 	off := frame.GetIntVar(2)
 	_len := frame.GetIntVar(3)
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 	goBuf := buf.GoBytes()
 	goBuf = goBuf[off : off+_len]
 
@@ -123,7 +123,7 @@ func raf_readBytes(frame *rtda.Frame) {
 func raf_read0(frame *rtda.Frame) {
 	this := frame.GetThis()
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 
 	//b := make([]byte, 4)
 	b := make([]byte, 1)
@@ -143,7 +143,7 @@ func raf_seek0(frame *rtda.Frame) {
 	this := frame.GetThis()
 	pos := frame.GetLongVar(1)
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 
 	if pos < 0 {
 		frame.Thread().ThrowIOException("Negative seek offset")
@@ -159,7 +159,7 @@ func raf_seek0(frame *rtda.Frame) {
 func raf_getFilePointer(frame *rtda.Frame) {
 	this := frame.GetThis()
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 
 	if pos, err := goFile.Seek(0, os.SEEK_CUR); err != nil {
 		frame.Thread().ThrowIOException("Seek failed")
@@ -174,7 +174,7 @@ func raf_getFilePointer(frame *rtda.Frame) {
 func raf_length(frame *rtda.Frame) {
 	this := frame.GetThis()
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 
 	cur, err := goFile.Seek(0, os.SEEK_CUR)
 	if err != nil {
@@ -199,7 +199,7 @@ func raf_setLength(frame *rtda.Frame) {
 	this := frame.GetThis()
 	//length := frame.GetLongVar(1)
 
-	goFile := this.Extra().(*os.File)
+	goFile := this.Extra.(*os.File)
 
 	cur, _ := goFile.Seek(0, os.SEEK_CUR)
 

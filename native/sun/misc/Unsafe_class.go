@@ -18,7 +18,7 @@ func init() {
 func allocateInstance(frame *rtda.Frame) {
 	classObj := frame.GetRefVar(1)
 
-	class := classObj.Extra().(*heap.Class)
+	class := classObj.Extra.(*heap.Class)
 	obj := class.NewObj()
 
 	frame.PushRef(obj)
@@ -51,7 +51,7 @@ func ensureClassInitialized(frame *rtda.Frame) {
 	// this := frame.GetRefVar(0)
 	classObj := frame.GetRefVar(1)
 
-	goClass := classObj.Extra().(*heap.Class)
+	goClass := classObj.Extra.(*heap.Class)
 	if goClass.InitializationNotStarted() {
 		// undo ensureClassInitialized()
 		frame.RevertNextPC()
@@ -83,11 +83,11 @@ func staticFieldBase(frame *rtda.Frame) {
 }
 
 func _getGoField(fieldObj *heap.Object) *heap.Field {
-	extra := fieldObj.Extra()
+	extra := fieldObj.Extra
 	if extra != nil {
 		return extra.(*heap.Field)
 	}
 
 	root := fieldObj.GetFieldValue("root", "Ljava/lang/reflect/Field;").Ref
-	return root.Extra().(*heap.Field)
+	return root.Extra.(*heap.Field)
 }

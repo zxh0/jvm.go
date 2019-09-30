@@ -99,7 +99,7 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 	if class.IsPrimitive() {
 		frame.PushNull()
 	} else {
-		emInfo := class.EnclosingMethod()
+		emInfo := class.EnclosingMethod
 		emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
 		if emInfoObj == nil || heap.ArrayLength(emInfoObj) == 0 {
 			frame.PushNull()
@@ -114,12 +114,12 @@ func _createEnclosintMethodInfo(classLoader *heap.ClassLoader, emInfo *heap.Encl
 		return nil
 	}
 
-	enclosingClass := classLoader.LoadClass(emInfo.ClassName())
+	enclosingClass := classLoader.LoadClass(emInfo.ClassName)
 	enclosingClassObj := enclosingClass.JClass
 	var methodNameObj, methodDescriptorObj *heap.Object
-	if emInfo.MethodName() != "" {
-		methodNameObj = heap.JString(emInfo.MethodName())
-		methodDescriptorObj = heap.JString(emInfo.MethodDescriptor())
+	if emInfo.MethodName != "" {
+		methodNameObj = heap.JString(emInfo.MethodName)
+		methodDescriptorObj = heap.JString(emInfo.MethodDescriptor)
 	} else {
 		methodNameObj, methodDescriptorObj = nil, nil
 	}
@@ -180,8 +180,8 @@ func isAssignableFrom(frame *rtda.Frame) {
 	this := frame.GetThis()
 	cls := frame.GetRefVar(1)
 
-	thisClass := this.Extra().(*heap.Class)
-	clsClass := cls.Extra().(*heap.Class)
+	thisClass := this.Extra.(*heap.Class)
+	clsClass := cls.Extra.(*heap.Class)
 	ok := thisClass.IsAssignableFrom(clsClass)
 
 	frame.PushBoolean(ok)
@@ -193,7 +193,7 @@ func isInstance(frame *rtda.Frame) {
 	this := frame.GetThis()
 	obj := frame.GetRefVar(1)
 
-	class := this.Extra().(*heap.Class)
+	class := this.Extra.(*heap.Class)
 	ok := obj.IsInstanceOf(class)
 
 	frame.PushBoolean(ok)
@@ -230,7 +230,7 @@ func getGenericSignature0(frame *rtda.Frame) {
 
 	// Return null for arrays and primatives
 	if !class.IsPrimitive() {
-		signature := class.Signature()
+		signature := class.Signature
 		if signature == "" {
 			frame.PushNull()
 		} else {
@@ -244,5 +244,5 @@ func getGenericSignature0(frame *rtda.Frame) {
 
 func _popClass(frame *rtda.Frame) *heap.Class {
 	this := frame.GetThis()
-	return this.Extra().(*heap.Class)
+	return this.Extra.(*heap.Class)
 }

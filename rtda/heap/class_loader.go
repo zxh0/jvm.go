@@ -61,7 +61,7 @@ func (loader *ClassLoader) _init() {
 	for _, class := range loader.classMap {
 		if class.JClass == nil {
 			class.JClass = _jlClassClass.NewObj()
-			class.JClass.extra = class
+			class.JClass.Extra = class
 		}
 	}
 	_jlCloneableClass = loader.LoadClass(jlCloneableClassName)
@@ -81,7 +81,7 @@ func (loader *ClassLoader) loadPrimitiveClass(className string) {
 	class := &Class{Name: className}
 	//class.classLoader = loader
 	class.JClass = _jlClassClass.NewObj()
-	class.JClass.extra = class
+	class.JClass.Extra = class
 	class.MarkFullyInitialized()
 	loader.classMap[className] = class
 }
@@ -97,7 +97,7 @@ func (loader *ClassLoader) loadArrayClass(className string) *Class {
 	class.SuperClass = _jlObjectClass
 	class.Interfaces = []*Class{_jlCloneableClass, _ioSerializableClass}
 	class.JClass = _jlClassClass.NewObj()
-	class.JClass.extra = class
+	class.JClass.Extra = class
 	createVtable(class)
 	class.MarkFullyInitialized()
 	loader.classMap[className] = class
@@ -210,7 +210,7 @@ func (loader *ClassLoader) _loadClass(name string, data []byte) *Class {
 
 	if _jlClassClass != nil {
 		class.JClass = _jlClassClass.NewObj()
-		class.JClass.extra = class
+		class.JClass.Extra = class
 	}
 
 	return class

@@ -31,7 +31,7 @@ func sis_socketRead0(frame *rtda.Frame) {
 	off := frame.GetIntVar(3)
 	_len := frame.GetIntVar(4)
 
-	conn := fd.Extra().(net.Conn)
+	conn := fd.Extra.(net.Conn)
 
 	_timeout := frame.GetIntVar(5)
 	if _timeout > 0 {

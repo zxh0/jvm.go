@@ -56,6 +56,6 @@ func park(frame *rtda.Frame) {
 func unpark(frame *rtda.Frame) {
 	threadObj := frame.GetRefVar(1)
 
-	thread := threadObj.Extra().(*rtda.Thread)
+	thread := threadObj.Extra.(*rtda.Thread)
 	thread.Unpark()
 }

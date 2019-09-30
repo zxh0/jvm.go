@@ -12,17 +12,17 @@ func getGoConstructor(constructorObj *heap.Object) *heap.Method {
 	return _getGoMethod(constructorObj, true)
 }
 func _getGoMethod(methodObj *heap.Object, isConstructor bool) *heap.Method {
-	extra := methodObj.Extra()
+	extra := methodObj.Extra
 	if extra != nil {
 		return extra.(*heap.Method)
 	}
 
 	if isConstructor {
 		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Constructor;").Ref
-		return root.Extra().(*heap.Method)
+		return root.Extra.(*heap.Method)
 	} else {
 		root := methodObj.GetFieldValue("root", "Ljava/lang/reflect/Method;").Ref
-		return root.Extra().(*heap.Method)
+		return root.Extra.(*heap.Method)
 	}
 }
 

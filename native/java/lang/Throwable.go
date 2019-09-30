@@ -30,7 +30,7 @@ func fillInStackTrace(frame *rtda.Frame) {
 	frame.PushRef(this)
 
 	stes := createStackTraceElements(this, frame)
-	this.SetExtra(stes)
+	this.Extra = stes
 }
 
 func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTraceElement {
@@ -39,7 +39,7 @@ func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTrac
 
 	// skip unrelated frames
 	i := uint(1)
-	for k := tObj.Class(); k != nil; k = k.SuperClass {
+	for k := tObj.Class; k != nil; k = k.SuperClass {
 		i++
 	}
 	if thread.TopFrameN(i).Method().Name == "<athrow>" {
@@ -56,7 +56,7 @@ func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTrac
 			ste := &StackTraceElement{
 				declaringClass: classN.NameJlsFormat(),
 				methodName:     methodN.Name,
-				fileName:       classN.SourceFile(),
+				fileName:       classN.SourceFile,
 				lineNumber:     lineNumber,
 			}
 			stes = append(stes, ste)
@@ -71,7 +71,7 @@ func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTrac
 func getStackTraceDepth(frame *rtda.Frame) {
 	this := frame.GetRefVar(0)
 
-	stes := this.Extra().([]*StackTraceElement)
+	stes := this.Extra.([]*StackTraceElement)
 	depth := int32(len(stes))
 
 	frame.PushInt(depth)
@@ -83,7 +83,7 @@ func getStackTraceElement(frame *rtda.Frame) {
 	this := frame.GetRefVar(0)
 	index := frame.GetIntVar(1)
 
-	stes := this.Extra().([]*StackTraceElement)
+	stes := this.Extra.([]*StackTraceElement)
 	ste := stes[index]
 
 	steObj := createStackTraceElementObj(ste, frame)

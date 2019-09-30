@@ -33,7 +33,7 @@ func defineClass1(frame *rtda.Frame) {
 	goBytes := byteArr.GoBytes()
 	goBytes = goBytes[off : off+_len]
 
-	println(this.Extra())
+	println(this.Extra)
 	panic(heap.GoString(name))
 
 }
@@ -84,5 +84,5 @@ func findLoadedClass0(frame *rtda.Frame) {
 
 // todo
 func isAppClassLoader(loader *heap.Object) bool {
-	return loader.Class().Name == "sun/misc/Launcher$AppClassLoader"
+	return loader.Class.Name == "sun/misc/Launcher$AppClassLoader"
 }

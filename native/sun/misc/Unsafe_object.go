@@ -67,7 +67,7 @@ func objectFieldOffset(frame *rtda.Frame) {
 // public native boolean getBoolean(Object o, long offset);
 // (Ljava/lang/Object;J)Z
 func getBoolean(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
 	if slots, ok := fields.([]heap.Slot); ok {
@@ -84,7 +84,7 @@ func getBoolean(frame *rtda.Frame) {
 // public native void putBoolean(Object o, long offset, boolean x);
 // (Ljava/lang/Object;JZ)V
 func putBoolean(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetIntVar(4)
 
@@ -102,7 +102,7 @@ func putBoolean(frame *rtda.Frame) {
 // public native boolean getByte(Object o, long offset);
 // (Ljava/lang/Object;J)B
 func getByte(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
 	if slots, ok := fields.([]heap.Slot); ok {
@@ -119,7 +119,7 @@ func getByte(frame *rtda.Frame) {
 // public native void putByte(Object o, long offset, byte x);
 // (Ljava/lang/Object;JB)V
 func putByte(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetIntVar(4)
 
@@ -137,7 +137,7 @@ func putByte(frame *rtda.Frame) {
 // public native boolean getChar(Object o, long offset);
 // (Ljava/lang/Object;J)C
 func getChar(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
 	if slots, ok := fields.([]heap.Slot); ok {
@@ -154,7 +154,7 @@ func getChar(frame *rtda.Frame) {
 // public native void putChar(Object o, long offset, char x);
 // (Ljava/lang/Object;JC)V
 func putChar(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetIntVar(4)
 
@@ -172,7 +172,7 @@ func putChar(frame *rtda.Frame) {
 // public native boolean getShort(Object o, long offset);
 // (Ljava/lang/Object;J)S
 func getShort(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
 	if slots, ok := fields.([]heap.Slot); ok {
@@ -189,7 +189,7 @@ func getShort(frame *rtda.Frame) {
 // public native void putShort(Object o, long offset, short x);
 // (Ljava/lang/Object;JS)V
 func putShort(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetIntVar(4)
 
@@ -207,7 +207,7 @@ func putShort(frame *rtda.Frame) {
 // public native boolean getInt(Object o, long offset);
 // (Ljava/lang/Object;J)I
 func getInt(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
 	if slots, ok := fields.([]heap.Slot); ok {
@@ -224,7 +224,7 @@ func getInt(frame *rtda.Frame) {
 // public native void putInt(Object o, long offset, int x);
 // (Ljava/lang/Object;JI)V
 func putInt(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetIntVar(4)
 
@@ -242,7 +242,7 @@ func putInt(frame *rtda.Frame) {
 // public native boolean getLong(Object o, long offset);
 // (Ljava/lang/Object;J)J
 func getLong(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
 	if slots, ok := fields.([]heap.Slot); ok {
@@ -259,7 +259,7 @@ func getLong(frame *rtda.Frame) {
 // public native void putLong(Object o, long offset, long x);
 // (Ljava/lang/Object;JJ)V
 func putLong(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetLongVar(4)
 
@@ -277,7 +277,7 @@ func putLong(frame *rtda.Frame) {
 // public native boolean getFloat(Object o, long offset);
 // (Ljava/lang/Object;J)F
 func getFloat(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
 	if slots, ok := fields.([]heap.Slot); ok {
@@ -294,7 +294,7 @@ func getFloat(frame *rtda.Frame) {
 // public native void putFloat(Object o, long offset, float x);
 // (Ljava/lang/Object;JF)V
 func putFloat(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetFloatVar(4)
 
@@ -312,7 +312,7 @@ func putFloat(frame *rtda.Frame) {
 // public native boolean getDouble(Object o, long offset);
 // (Ljava/lang/Object;J)D
 func getDouble(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
 	if slots, ok := fields.([]heap.Slot); ok {
@@ -329,7 +329,7 @@ func getDouble(frame *rtda.Frame) {
 // public native void putDouble(Object o, long offset, double x);
 // (Ljava/lang/Object;JD)V
 func putDouble(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetDoubleVar(4)
 
@@ -347,7 +347,7 @@ func putDouble(frame *rtda.Frame) {
 // public native void putObject(Object o, long offset, Object x);
 // (Ljava/lang/Object;JLjava/lang/Object;)V
 func putObject(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetRefVar(4)
 
@@ -365,7 +365,7 @@ func putObject(frame *rtda.Frame) {
 // public native Object getObject(Object o, long offset);
 // (Ljava/lang/Object;J)Ljava/lang/Object;
 func getObject(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields()
+	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
 	if slots, ok := fields.([]heap.Slot); ok {

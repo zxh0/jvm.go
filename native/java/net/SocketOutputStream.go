@@ -30,7 +30,7 @@ func sos_socketWrite0(frame *rtda.Frame) {
 	b := frame.GetRefVar(2)
 	offset := frame.GetIntVar(3)
 	length := frame.GetIntVar(4)
-	conn := fd.Extra().(net.Conn)
+	conn := fd.Extra.(net.Conn)
 	goBytes := b.GoBytes()
 	goBytes = goBytes[offset : offset+length]
 

@@ -94,6 +94,6 @@ func (frame *Frame) Store(idx uint, isLongOrDouble bool) {
 func (frame *Frame) GetClass() *heap.Class {
 	return frame.method.Class
 }
-func (frame *Frame) GetConstantPool() *heap.ConstantPool {
+func (frame *Frame) GetConstantPool() heap.ConstantPool {
 	return frame.method.Class.ConstantPool
 }

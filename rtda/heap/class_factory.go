@@ -19,7 +19,7 @@ func newClass(cf *classfile.ClassFile) *Class {
 }
 
 func (class *Class) copyConstantPool(cf *classfile.ClassFile) {
-	class.ConstantPool = newConstantPool(class, cf)
+	class.ConstantPool = newConstantPool(cf)
 }
 
 func (class *Class) copyClassNames(cf *classfile.ClassFile) {
@@ -44,19 +44,19 @@ func (class *Class) copyMethods(cf *classfile.ClassFile) {
 }
 
 func (class *Class) copyAttributes(cf *classfile.ClassFile) {
-	class.sourceFile = cf.GetUTF8(cf.GetSourceFileIndex()) // TODO
-	class.signature = cf.GetUTF8(cf.GetSignatureIndex())
-	class.annotationData = cf.GetRuntimeVisibleAnnotationsAttributeData()
-	class.enclosingMethod = getEnclosingMethod(cf)
+	class.SourceFile = cf.GetUTF8(cf.GetSourceFileIndex()) // TODO
+	class.Signature = cf.GetUTF8(cf.GetSignatureIndex())
+	class.AnnotationData = cf.GetRuntimeVisibleAnnotationsAttributeData()
+	class.EnclosingMethod = getEnclosingMethod(cf)
 }
 
 func getEnclosingMethod(cf *classfile.ClassFile) *EnclosingMethod {
 	if emAttr, found := cf.GetEnclosingMethodAttribute(); found {
 		methodName, methodDescriptor := getNameAndType(cf, emAttr.MethodIndex)
 		return &EnclosingMethod{
-			className:        cf.GetClassNameOf(emAttr.ClassIndex),
-			methodName:       methodName,
-			methodDescriptor: methodDescriptor,
+			ClassName:        cf.GetClassNameOf(emAttr.ClassIndex),
+			MethodName:       methodName,
+			MethodDescriptor: methodDescriptor,
 		}
 	}
 	return nil

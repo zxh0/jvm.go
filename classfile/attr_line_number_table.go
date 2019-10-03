@@ -20,12 +20,12 @@ type LineNumberTableEntry struct {
 }
 
 func readLineNumberTableAttribute(reader *ClassReader) LineNumberTableAttribute {
-	tableLength := reader.readUint16()
+	tableLength := reader.ReadUint16()
 	lineNumberTable := make([]LineNumberTableEntry, tableLength)
 	for i := range lineNumberTable {
 		lineNumberTable[i] = LineNumberTableEntry{
-			StartPC:    reader.readUint16(),
-			LineNumber: reader.readUint16(),
+			StartPC:    reader.ReadUint16(),
+			LineNumber: reader.ReadUint16(),
 		}
 	}
 	return LineNumberTableAttribute{

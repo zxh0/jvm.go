@@ -9,7 +9,7 @@ type ConstantPool struct {
 }
 
 func readConstantPool(reader *ClassReader) ConstantPool {
-	cpCount := int(reader.readUint16())
+	cpCount := int(reader.ReadUint16())
 	consts := make([]ConstantInfo, cpCount)
 
 	// The constant_pool table is indexed from 1 to constant_pool_count - 1.

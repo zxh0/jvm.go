@@ -13,8 +13,8 @@ CONSTANT_Utf8_info {
 }
 */
 func readConstantUtf8Info(reader *ClassReader) string {
-	length := uint32(reader.readUint16())
-	bytes := reader.readBytes(length)
+	length := uint(reader.ReadUint16())
+	bytes := reader.ReadBytes(length)
 	return decodeMUTF8(bytes)
 }
 

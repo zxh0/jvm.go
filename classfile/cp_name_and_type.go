@@ -14,7 +14,7 @@ type ConstantNameAndTypeInfo struct {
 
 func readConstantNameAndTypeInfo(reader *ClassReader) ConstantNameAndTypeInfo {
 	return ConstantNameAndTypeInfo{
-		NameIndex:       reader.readUint16(),
-		DescriptorIndex: reader.readUint16(),
+		NameIndex:       reader.ReadUint16(),
+		DescriptorIndex: reader.ReadUint16(),
 	}
 }

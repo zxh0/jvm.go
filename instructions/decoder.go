@@ -11,7 +11,7 @@ func Decode(code []byte) []base.Instruction {
 	pc := 0
 	for pc < len(code) {
 		instr := decodeInstruction(reader)
-		decoded[pc], pc = instr, reader.PC()
+		decoded[pc], pc = instr, int(reader.Position())
 	}
 
 	return decoded

@@ -13,6 +13,6 @@ type ConstantValueAttribute struct {
 
 func readConstantValueAttribute(reader *ClassReader) ConstantValueAttribute {
 	return ConstantValueAttribute{
-		ConstantValueIndex: reader.readUint16(),
+		ConstantValueIndex: reader.ReadUint16(),
 	}
 }

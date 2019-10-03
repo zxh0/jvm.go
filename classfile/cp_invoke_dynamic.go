@@ -14,8 +14,8 @@ type ConstantInvokeDynamicInfo struct {
 
 func readConstantInvokeDynamicInfo(reader *ClassReader) ConstantInvokeDynamicInfo {
 	return ConstantInvokeDynamicInfo{
-		BootstrapMethodAttrIndex: reader.readUint16(),
-		NameAndTypeIndex:         reader.readUint16(),
+		BootstrapMethodAttrIndex: reader.ReadUint16(),
+		NameAndTypeIndex:         reader.ReadUint16(),
 	}
 }
 
@@ -33,8 +33,8 @@ type ConstantMethodHandleInfo struct {
 
 func readConstantMethodHandleInfo(reader *ClassReader) ConstantMethodHandleInfo {
 	return ConstantMethodHandleInfo{
-		ReferenceKind:  reader.readUint8(),
-		ReferenceIndex: reader.readUint16(),
+		ReferenceKind:  reader.ReadUint8(),
+		ReferenceIndex: reader.ReadUint16(),
 	}
 }
 
@@ -50,6 +50,6 @@ type ConstantMethodTypeInfo struct {
 
 func readConstantMethodTypeInfo(reader *ClassReader) ConstantMethodTypeInfo {
 	return ConstantMethodTypeInfo{
-		DescriptorIndex: reader.readUint16(),
+		DescriptorIndex: reader.ReadUint16(),
 	}
 }

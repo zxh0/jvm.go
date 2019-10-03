@@ -13,6 +13,6 @@ type SignatureAttribute struct {
 
 func readSignatureAttribute(reader *ClassReader) SignatureAttribute {
 	return SignatureAttribute{
-		SignatureIndex: reader.readUint16(),
+		SignatureIndex: reader.ReadUint16(),
 	}
 }

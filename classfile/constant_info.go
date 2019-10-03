@@ -31,7 +31,7 @@ cp_info {
 type ConstantInfo interface{}
 
 func readConstantInfo(reader *ClassReader) ConstantInfo {
-	tag := reader.readUint8()
+	tag := reader.ReadUint8()
 	switch tag {
 	case ConstantInteger:
 		return readConstantIntegerInfo(reader)

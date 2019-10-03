@@ -16,7 +16,7 @@ type UnparsedAttribute struct {
 }
 
 func readAttributes(reader *ClassReader) []AttributeInfo {
-	attributesCount := reader.readUint16()
+	attributesCount := reader.ReadUint16()
 	attributes := make([]AttributeInfo, attributesCount)
 	for i := range attributes {
 		attributes[i] = readAttributeInfo(reader)
@@ -25,8 +25,8 @@ func readAttributes(reader *ClassReader) []AttributeInfo {
 }
 
 func readAttributeInfo(reader *ClassReader) AttributeInfo {
-	attrNameIndex := reader.readUint16()
-	attrLen := reader.readUint32()
+	attrNameIndex := reader.ReadUint16()
+	attrLen := reader.ReadUint32()
 	attrName := reader.cp.getUtf8(attrNameIndex)
 
 	switch attrName {
@@ -71,7 +71,7 @@ func readAttributeInfo(reader *ClassReader) AttributeInfo {
 		return UnparsedAttribute{
 			Name:   attrName,
 			Length: attrLen,
-			Info:   reader.readBytes(attrLen),
+			Info:   reader.ReadBytes(uint(attrLen)),
 		}
 	}
 }

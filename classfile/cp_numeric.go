@@ -11,7 +11,7 @@ CONSTANT_Integer_info {
 }
 */
 func readConstantIntegerInfo(reader *ClassReader) int32 {
-	return int32(reader.readUint32())
+	return int32(reader.ReadUint32())
 }
 
 /*
@@ -21,7 +21,7 @@ CONSTANT_Float_info {
 }
 */
 func readConstantFloatInfo(reader *ClassReader) float32 {
-	return math.Float32frombits(reader.readUint32())
+	return math.Float32frombits(reader.ReadUint32())
 }
 
 /*
@@ -32,7 +32,7 @@ CONSTANT_Long_info {
 }
 */
 func readConstantLongInfo(reader *ClassReader) int64 {
-	return int64(reader.readUint64())
+	return int64(reader.ReadUint64())
 }
 
 /*
@@ -43,5 +43,5 @@ CONSTANT_Double_info {
 }
 */
 func readConstantDoubleInfo(reader *ClassReader) float64 {
-	return math.Float64frombits(reader.readUint64())
+	return math.Float64frombits(reader.ReadUint64())
 }

@@ -39,25 +39,25 @@ func (cf *ClassFile) read(reader *ClassReader) {
 	cf.readAndCheckVersions(reader)
 	cf.ConstantPool = readConstantPool(reader)
 	reader.cp = cf.ConstantPool
-	cf.AccessFlags = reader.readUint16()
-	cf.ThisClass = reader.readUint16()
-	cf.SuperClass = reader.readUint16()
-	cf.Interfaces = reader.readUint16s()
+	cf.AccessFlags = reader.ReadUint16()
+	cf.ThisClass = reader.ReadUint16()
+	cf.SuperClass = reader.ReadUint16()
+	cf.Interfaces = reader.ReadUint16s()
 	cf.Fields = readMembers(reader)
 	cf.Methods = readMembers(reader)
 	cf.attributes = readAttributes(reader)
 }
 
 func (cf *ClassFile) readAndCheckMagic(reader *ClassReader) {
-	magic := reader.readUint32()
+	magic := reader.ReadUint32()
 	if magic != 0xCAFEBABE {
 		panic("Bad magic!") // TODO
 	}
 }
 
 func (cf *ClassFile) readAndCheckVersions(reader *ClassReader) {
-	cf.MinorVersion = reader.readUint16()
-	cf.MajorVersion = reader.readUint16()
+	cf.MinorVersion = reader.ReadUint16()
+	cf.MajorVersion = reader.ReadUint16()
 
 	switch cf.MajorVersion {
 	case 45:

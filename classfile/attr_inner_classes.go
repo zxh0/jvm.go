@@ -24,14 +24,14 @@ type InnerClassInfo struct {
 }
 
 func readInnerClassesAttribute(reader *ClassReader) InnerClassesAttribute {
-	numberOfClasses := reader.readUint16()
+	numberOfClasses := reader.ReadUint16()
 	classes := make([]InnerClassInfo, numberOfClasses)
 	for i := range classes {
 		classes[i] = InnerClassInfo{
-			InnerClassInfoIndex:   reader.readUint16(),
-			OuterClassInfoIndex:   reader.readUint16(),
-			InnerNameIndex:        reader.readUint16(),
-			InnerClassAccessFlags: reader.readUint16(),
+			InnerClassInfoIndex:   reader.ReadUint16(),
+			OuterClassInfoIndex:   reader.ReadUint16(),
+			InnerNameIndex:        reader.ReadUint16(),
+			InnerClassAccessFlags: reader.ReadUint16(),
 		}
 	}
 	return InnerClassesAttribute{

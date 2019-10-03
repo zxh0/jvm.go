@@ -12,5 +12,5 @@ type SourceFileAttribute struct {
 }
 
 func readSourceFileAttribute(reader *ClassReader) SourceFileAttribute {
-	return SourceFileAttribute{SourceFileIndex: reader.readUint16()}
+	return SourceFileAttribute{SourceFileIndex: reader.ReadUint16()}
 }

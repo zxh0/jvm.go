@@ -28,9 +28,9 @@ type CodeAttribute struct {
 
 func readCodeAttribute(reader *ClassReader) CodeAttribute {
 	return CodeAttribute{
-		MaxStack:       reader.readUint16(),
-		MaxLocals:      reader.readUint16(),
-		Code:           reader.readBytes(reader.readUint32()),
+		MaxStack:       reader.ReadUint16(),
+		MaxLocals:      reader.ReadUint16(),
+		Code:           reader.ReadBytes(uint(reader.ReadUint32())),
 		ExceptionTable: readExceptionTable(reader),
 		AttributeTable: AttributeTable{
 			readAttributes(reader),
@@ -46,14 +46,14 @@ type ExceptionTableEntry struct {
 }
 
 func readExceptionTable(reader *ClassReader) []ExceptionTableEntry {
-	tableLength := reader.readUint16()
+	tableLength := reader.ReadUint16()
 	exceptionTable := make([]ExceptionTableEntry, tableLength)
 	for i := range exceptionTable {
 		exceptionTable[i] = ExceptionTableEntry{
-			StartPc:   reader.readUint16(),
-			EndPc:     reader.readUint16(),
-			HandlerPc: reader.readUint16(),
-			CatchType: reader.readUint16(),
+			StartPc:   reader.ReadUint16(),
+			EndPc:     reader.ReadUint16(),
+			HandlerPc: reader.ReadUint16(),
+			CatchType: reader.ReadUint16(),
 		}
 	}
 	return exceptionTable

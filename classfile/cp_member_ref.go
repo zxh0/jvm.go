@@ -26,7 +26,7 @@ type ConstantMemberRefInfo struct {
 func readConstantMemberRefInfo(reader *ClassReader, tag uint8) ConstantMemberRefInfo {
 	return ConstantMemberRefInfo{
 		Tag:              tag,
-		ClassIndex:       reader.readUint16(),
-		NameAndTypeIndex: reader.readUint16(),
+		ClassIndex:       reader.ReadUint16(),
+		NameAndTypeIndex: reader.ReadUint16(),
 	}
 }

@@ -12,6 +12,6 @@ type ConstantClassInfo struct {
 
 func readConstantClassInfo(reader *ClassReader) ConstantClassInfo {
 	return ConstantClassInfo{
-		NameIndex: reader.readUint16(),
+		NameIndex: reader.ReadUint16(),
 	}
 }

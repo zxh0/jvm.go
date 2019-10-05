@@ -18,7 +18,7 @@ func getRawAnnotations(frame *rtda.Frame) {
 	class := this.Extra.(*heap.Class)
 	goBytes := class.AnnotationData
 	if goBytes != nil {
-		jBytes := vmutils.CastUint8sToInt8s(goBytes)
+		jBytes := vmutils.CastBytesToInt8s(goBytes)
 		byteArr := heap.NewByteArray(jBytes)
 		frame.PushRef(byteArr)
 		return

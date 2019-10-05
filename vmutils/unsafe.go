@@ -4,14 +4,22 @@ import (
 	"unsafe"
 )
 
-func CastInt8sToUint8s(jBytes []int8) (goBytes []byte) {
-	ptr := unsafe.Pointer(&jBytes)
-	goBytes = *((*[]byte)(ptr))
-	return
+func CastInt8sToBytes(s []int8) []byte {
+	ptr := unsafe.Pointer(&s)
+	return *((*[]byte)(ptr))
 }
 
-func CastUint8sToInt8s(goBytes []byte) (jBytes []int8) {
-	ptr := unsafe.Pointer(&goBytes)
-	jBytes = *((*[]int8)(ptr))
-	return
+func CastBytesToInt8s(s []byte) []int8 {
+	ptr := unsafe.Pointer(&s)
+	return *((*[]int8)(ptr))
+}
+
+func CastBytesToUint32s(s []byte) []uint32 {
+	ptr := unsafe.Pointer(&s)
+	return *((*[]uint32)(ptr))
+}
+
+func CastBytesToInt32s(s []byte) []int32 {
+	ptr := unsafe.Pointer(&s)
+	return *((*[]int32)(ptr))
 }

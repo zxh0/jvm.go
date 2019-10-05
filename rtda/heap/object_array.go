@@ -125,5 +125,5 @@ func (obj *Object) IsPrimitiveArray() bool {
 
 func (obj *Object) GoBytes() []byte {
 	s := obj.Fields.([]int8)
-	return vmutils.CastInt8sToUint8s(s)
+	return vmutils.CastInt8sToBytes(s)
 }

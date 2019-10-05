@@ -46,7 +46,7 @@ func getExceptionTypeArr(method *heap.Method) *heap.Object {
 
 func getAnnotationByteArr(goBytes []byte) *heap.Object {
 	if goBytes != nil {
-		jBytes := vmutils.CastUint8sToInt8s(goBytes)
+		jBytes := vmutils.CastBytesToInt8s(goBytes)
 		return heap.NewByteArray(jBytes)
 	}
 	return nil

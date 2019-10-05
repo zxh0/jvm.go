@@ -1,0 +1,26 @@
+header    --+
+redirect    |
+offsets     |> index
+locations   |
+strings   --+
+
+
+
+header
+redirect
+offsets
+  uint32 ---+
+  uint32    |
+  uint32    |
+  ...       |
+locations   |
+  byte      |
+  byte <----+  ~~+  decompress
+  byte           |>------------> [uint64, uint64, uint64, ...]
+  byte ~~~~~~~~--+                         |
+  ...                                      |
+strings                                    |
+  [bytes, 0]                               |
+  [bytes, 0]                               |
+  [bytes, 0] <-----------------------------+
+  ...

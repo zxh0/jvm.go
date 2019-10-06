@@ -12,12 +12,11 @@ type ConstantPool struct {
 
 func newConstantPool(cf *classfile.ClassFile) ConstantPool {
 	cfCp := cf.ConstantPool
-	cpInfos := cfCp.Infos
-	consts := make([]Constant, len(cpInfos))
+	consts := make([]Constant, len(cfCp))
 	rtCp := ConstantPool{consts}
 
-	for i := 1; i < len(cpInfos); i++ {
-		cpInfo := cpInfos[i]
+	for i := 1; i < len(cfCp); i++ {
+		cpInfo := cfCp[i]
 		switch cpInfo.(type) {
 		case int32, float32, string:
 			consts[i] = cpInfo

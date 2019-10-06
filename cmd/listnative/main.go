@@ -77,12 +77,12 @@ func handleClassfile(cf *classfile.ClassFile) {
 		if isNative(m) {
 			if isStatic(m) {
 				fmt.Printf("%v.%v%v\n",
-					cf.GetClassName(),
+					cf.GetThisClassName(),
 					cf.GetUTF8(m.NameIndex),
 					cf.GetUTF8(m.DescriptorIndex))
 			} else {
 				fmt.Printf("%v#%v%v\n",
-					cf.GetClassName(),
+					cf.GetThisClassName(),
 					cf.GetUTF8(m.NameIndex),
 					cf.GetUTF8(m.DescriptorIndex))
 			}

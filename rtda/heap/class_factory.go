@@ -23,7 +23,7 @@ func (class *Class) copyConstantPool(cf *classfile.ClassFile) {
 }
 
 func (class *Class) copyClassNames(cf *classfile.ClassFile) {
-	class.Name = cf.GetClassName()
+	class.Name = cf.GetThisClassName()
 	class.superClassName = cf.GetSuperClassName()
 	class.interfaceNames = cf.GetInterfaceNames()
 }

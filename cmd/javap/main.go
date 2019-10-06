@@ -56,7 +56,7 @@ func printClassInfo(opts options.Options, className string) {
 
 	fmt.Printf("%s %s",
 		accessFlagsForClass(cf.AccessFlags),
-		strings.ReplaceAll(cf.GetClassName(), "/", "."))
+		strings.ReplaceAll(cf.GetThisClassName(), "/", "."))
 
 	superClassName := cf.GetSuperClassName()
 	interfaceNames := cf.GetInterfaceNames()

@@ -1,5 +1,9 @@
 package classfile
 
+import (
+	"fmt"
+)
+
 /*
 ClassFile {
     u4             magic;
@@ -24,7 +28,7 @@ type ClassFile struct {
 	//magic      uint32
 	MinorVersion uint16
 	MajorVersion uint16
-	ConstantPool ConstantPool
+	ConstantPool []ConstantInfo
 	AccessFlags  uint16
 	ThisClass    uint16
 	SuperClass   uint16
@@ -35,10 +39,10 @@ type ClassFile struct {
 }
 
 func (cf *ClassFile) read(reader *ClassReader) {
+	reader.cf = cf
 	cf.readAndCheckMagic(reader)
 	cf.readAndCheckVersions(reader)
 	cf.ConstantPool = readConstantPool(reader)
-	reader.cp = cf.ConstantPool
 	cf.AccessFlags = reader.ReadUint16()
 	cf.ThisClass = reader.ReadUint16()
 	cf.SuperClass = reader.ReadUint16()
@@ -62,7 +66,8 @@ func (cf *ClassFile) readAndCheckVersions(reader *ClassReader) {
 	switch cf.MajorVersion {
 	case 45:
 		return
-	case 46, 47, 48, 49, 50, 51, 52:
+	case 46, 47, 48, 49, 50, 51, 52,
+		53, 54, 55, 56, 57:
 		if cf.MinorVersion == 0 {
 			return
 		}
@@ -70,7 +75,7 @@ func (cf *ClassFile) readAndCheckVersions(reader *ClassReader) {
 	panic("java.lang.UnsupportedClassVersionError!")
 }
 
-func (cf *ClassFile) GetClassName() string {
+func (cf *ClassFile) GetThisClassName() string {
 	return cf.GetClassNameOf(cf.ThisClass)
 }
 func (cf *ClassFile) GetSuperClassName() string {
@@ -85,17 +90,31 @@ func (cf *ClassFile) GetInterfaceNames() []string {
 }
 
 func (cf *ClassFile) GetUTF8(index uint16) string {
-	return cf.ConstantPool.getUtf8(index)
+	return cf.getUtf8(index)
 }
 func (cf *ClassFile) GetConstantInfo(index uint16) ConstantInfo {
-	return cf.ConstantPool.getConstantInfo(index)
+	return cf.getConstantInfo(index)
 }
 
 func (cf *ClassFile) GetClassNameOf(cpIndex uint16) string {
 	if cpIndex == 0 {
 		return ""
 	}
-	cp := cf.ConstantPool
-	classInfo := cp.getConstantInfo(cpIndex).(ConstantClassInfo)
-	return cp.getUtf8(classInfo.NameIndex)
+	classInfo := cf.getConstantInfo(cpIndex).(ConstantClassInfo)
+	return cf.getUtf8(classInfo.NameIndex)
+}
+
+func (cf *ClassFile) getUtf8(index uint16) string {
+	if index == 0 {
+		return ""
+	}
+	return cf.getConstantInfo(index).(string)
+}
+
+func (cf *ClassFile) getConstantInfo(index uint16) ConstantInfo {
+	if cpInfo := cf.ConstantPool[index]; cpInfo == nil {
+		panic(fmt.Errorf("invalid constant pool index: %d", index))
+	} else {
+		return cpInfo
+	}
 }

@@ -8,7 +8,7 @@ import (
 
 type ClassReader struct {
 	vmutils.BytesReader
-	cp ConstantPool
+	cf *ClassFile
 }
 
 func newClassReader(data []byte) ClassReader {

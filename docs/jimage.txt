@@ -6,21 +6,25 @@ strings   --+
 
 
 
-header
-redirect
-offsets
-  uint32 ---+
-  uint32    |
-  uint32    |
-  ...       |
-locations   |
-  byte      |
-  byte <----+  ~~+  decompress
-  byte           |>------------> [uint64, uint64, uint64, ...]
-  byte ~~~~~~~~--+                         |
-  ...                                      |
-strings                                    |
-  [bytes, 0]                               |
-  [bytes, 0]                               |
-  [bytes, 0] <-----------------------------+
-  ...
+    header
+    redirect
+      int32
+ +--- int32 <----------------------------------------------------------------------+
+ |    int32                                                                        |
+ |    ...                                                                          |
+ |  offsets                                                                        |
+ |    uint32 ---+                                                                  |
+ +--> uint32    |                                                                  |
+      uint32    |                                                                  |
+      ...       |                                                                  |
+    locations   |                                                                  |
+      byte      |                                                                  |
+      byte <----+  ~~+  decompress()                  fullName()         hash()%   |
+      byte           |>--------------> [uint64, ...] ------------> name --------> idx
+      byte ~~~~~~~~~~+                   |
+      ...                                |
+    strings                              |
+      [bytes, 0]                         |
+      [bytes, 0]                         |
+      [bytes, 0] <-----------------------+
+      ...

@@ -58,5 +58,6 @@ func ReadImage(data []byte) Image {
 		offsets:   vmutils.CastBytesToUint32s(offsets),
 		locations: locations,
 		strings:   strings,
+		fullData:  data,
 	}
 }

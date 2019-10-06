@@ -1,9 +1,13 @@
 package jimage
 
-import "github.com/zxh0/jvm.go/vmutils"
+import (
+	"github.com/zxh0/jvm.go/vmutils"
+)
 
-const HashMultiplier = 0x01000193
-const PositiveMask = 0x7FFFFFFF
+const (
+	HashMultiplier = 0x01000193
+	PositiveMask   = 0x7FFFFFFF
+)
 
 func getStringBytes(strings []byte, offset int) []byte {
 	nBytes := len(strings)
@@ -18,14 +22,6 @@ func getStringBytes(strings []byte, offset int) []byte {
 
 func hashCode(s string, seed int32) int32 {
 	return unmaskedHashCode(s, seed) & PositiveMask
-}
-
-func hashCode2(module, name string, seed int32) int32 {
-	seed = unmaskedHashCode("/", seed)
-	seed = unmaskedHashCode(module, seed)
-	seed = unmaskedHashCode("/", seed)
-	seed = unmaskedHashCode(name, seed)
-	return seed & PositiveMask
 }
 
 // public static int unmaskedHashCode(String s, int seed)

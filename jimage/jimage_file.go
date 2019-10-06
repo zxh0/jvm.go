@@ -2,6 +2,7 @@ package jimage
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -11,6 +12,7 @@ type Image struct {
 	offsets   []uint32
 	locations []byte
 	strings   []byte
+	fullData  []byte
 }
 
 func (image Image) GetEntryNames() []string {
@@ -56,31 +58,30 @@ func (image Image) FindLocation(name string) *Location {
 	}
 }
 
-func (image Image) FindLocation2(module, name string) *Location {
-	count := int32(image.TableLength)
-	index := image.redirect[hashCode2(module, name, HashMultiplier)%count]
-
-	if index < 0 {
-		// index is twos complement of location attributes index.
-		index = -index - 1
-	} else if index > 0 {
-		// index is hash seed needed to compute location attributes index.
-		index = hashCode2(module, name, index) % count
-	} else {
-		// No entry.
+func (image Image) GetResource(name string) []byte {
+	if location := image.FindLocation(name); location == nil {
 		return nil
+	} else {
+		return image.getResource0(location)
+	}
+}
+
+func (image Image) getResource0(loc *Location) []byte {
+	offset := loc.GetContentOffset() + uint64(image.GetIndexSize())
+	compressedSize := loc.GetCompressedSize()
+	uncompressedSize := loc.GetUncompressedSize()
+
+	if compressedSize < 0 || math.MaxInt32 < compressedSize {
+		panic(fmt.Errorf("bad compressed size: %d", compressedSize))
+	}
+	if uncompressedSize < 0 || math.MaxInt32 < uncompressedSize {
+		panic(fmt.Errorf("bad uncompressed size: %d", uncompressedSize))
+	}
+	if compressedSize != 0 {
+		panic("resource is compressed") // TODO
 	}
 
-	attributes := image.getAttributes(image.offsets[index])
-
-	// TODO
-	//if !ImageLocation.verify(module, name, attributes, stringsReader) {
-	//	return nil
-	//}
-	return &Location{
-		attributes: attributes,
-		image:      &image,
-	}
+	return image.fullData[offset : offset+uncompressedSize]
 }
 
 func (image Image) getAttributes(offset uint32) []uint64 {

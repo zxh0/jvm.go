@@ -49,7 +49,7 @@ func (cf *ClassFile) read(reader *ClassReader) {
 	cf.Interfaces = reader.readUint16s()
 	cf.Fields = readMembers(reader)
 	cf.Methods = readMembers(reader)
-	cf.attributes = readAttributes(reader)
+	cf.AttributeTable = readAttributes(reader)
 }
 
 func (cf *ClassFile) readAndCheckMagic(reader *ClassReader) {

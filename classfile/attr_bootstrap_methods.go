@@ -22,12 +22,11 @@ type BootstrapMethod struct {
 
 func readBootstrapMethodsAttribute(reader *ClassReader) BootstrapMethodsAttribute {
 	return BootstrapMethodsAttribute{
-		BootstrapMethods: reader.readTable(BootstrapMethod{},
-			func(reader *ClassReader) interface{} {
-				return BootstrapMethod{
-					BootstrapMethodRef: reader.ReadUint16(),
-					BootstrapArguments: reader.readUint16s(),
-				}
-			}).([]BootstrapMethod),
+		BootstrapMethods: reader.readTable(func(reader *ClassReader) BootstrapMethod {
+			return BootstrapMethod{
+				BootstrapMethodRef: reader.ReadUint16(),
+				BootstrapArguments: reader.readUint16s(),
+			}
+		}).([]BootstrapMethod),
 	}
 }

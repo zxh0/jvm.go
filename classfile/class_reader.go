@@ -26,15 +26,20 @@ func (reader *ClassReader) readUint16s() []uint16 {
 	return s
 }
 
-func (reader *ClassReader) readTable(x interface{},
-	readFn func(reader *ClassReader) interface{}) interface{} {
-
+// readFn: func(reader *ClassReader) XXX
+func (reader *ClassReader) readTable(readFn interface{}) interface{} {
 	n := int(reader.ReadUint16())
-	s := reflect.MakeSlice(reflect.SliceOf(reflect.TypeOf(x)), n, n) // make([]x, n, n)
+
+	itemType := reflect.TypeOf(readFn).Out(0)
+	sliceType := reflect.SliceOf(itemType)
+	s := reflect.MakeSlice(sliceType, n, n) // make([]x, n, n)
+
+	readFnVal := reflect.ValueOf(readFn)
+	args := []reflect.Value{reflect.ValueOf(reader)}
 
 	for i := 0; i < n; i++ {
-		x := readFn(reader)
-		s.Index(i).Set(reflect.ValueOf(x)) // s[i] = x
+		x := readFnVal.Call(args)[0]
+		s.Index(i).Set(x) // s[i] = x
 	}
 
 	return s.Interface()

@@ -7,7 +7,7 @@ import (
 )
 
 func TestAttributeTable(t *testing.T) {
-	at := AttributeTable{attributes: []AttributeInfo{
+	at := AttributeTable{
 		CodeAttribute{MaxStack: 1},
 		ConstantValueAttribute{ConstantValueIndex: 2},
 		ExceptionsAttribute{ExceptionIndexTable: []uint16{3}},
@@ -15,7 +15,7 @@ func TestAttributeTable(t *testing.T) {
 		SignatureAttribute{SignatureIndex: 5},
 		SourceFileAttribute{SourceFileIndex: 6},
 		LineNumberTableAttribute{[]LineNumberTableEntry{{StartPC: 7}}},
-	}}
+	}
 	require.Equal(t, uint16(1), at.GetCodeAttribute().MaxStack)
 	require.Equal(t, uint16(2), at.GetConstantValueIndex())
 	require.Equal(t, uint16(3), at.GetExceptionIndexTable()[0])

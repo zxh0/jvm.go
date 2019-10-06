@@ -1,13 +1,11 @@
 package classfile
 
-type AttributeTable struct {
-	attributes []AttributeInfo
-}
+type AttributeTable []AttributeInfo
 
 /* group 1 */
 
 func (at AttributeTable) GetCodeAttribute() *CodeAttribute {
-	for _, attrInfo := range at.attributes {
+	for _, attrInfo := range at {
 		switch attrInfo.(type) {
 		case CodeAttribute:
 			ca := attrInfo.(CodeAttribute)
@@ -18,7 +16,7 @@ func (at AttributeTable) GetCodeAttribute() *CodeAttribute {
 }
 
 func (at AttributeTable) GetConstantValueIndex() uint16 {
-	for _, attrInfo := range at.attributes {
+	for _, attrInfo := range at {
 		switch attrInfo.(type) {
 		case ConstantValueAttribute:
 			return attrInfo.(ConstantValueAttribute).ConstantValueIndex
@@ -28,7 +26,7 @@ func (at AttributeTable) GetConstantValueIndex() uint16 {
 }
 
 func (at AttributeTable) GetExceptionIndexTable() []uint16 {
-	for _, attrInfo := range at.attributes {
+	for _, attrInfo := range at {
 		switch attrInfo.(type) {
 		case ExceptionsAttribute:
 			return attrInfo.(ExceptionsAttribute).ExceptionIndexTable
@@ -38,7 +36,7 @@ func (at AttributeTable) GetExceptionIndexTable() []uint16 {
 }
 
 func (at AttributeTable) GetBootstrapMethods() []BootstrapMethod {
-	for _, attrInfo := range at.attributes {
+	for _, attrInfo := range at {
 		switch attrInfo.(type) {
 		case BootstrapMethodsAttribute:
 			return attrInfo.(BootstrapMethodsAttribute).BootstrapMethods
@@ -50,7 +48,7 @@ func (at AttributeTable) GetBootstrapMethods() []BootstrapMethod {
 /* group 2 */
 
 func (at AttributeTable) GetEnclosingMethodAttribute() (EnclosingMethodAttribute, bool) {
-	for _, attrInfo := range at.attributes {
+	for _, attrInfo := range at {
 		switch attrInfo.(type) {
 		case EnclosingMethodAttribute:
 			return attrInfo.(EnclosingMethodAttribute), true
@@ -60,7 +58,7 @@ func (at AttributeTable) GetEnclosingMethodAttribute() (EnclosingMethodAttribute
 }
 
 func (at AttributeTable) GetSignatureIndex() uint16 {
-	for _, attrInfo := range at.attributes {
+	for _, attrInfo := range at {
 		switch attrInfo.(type) {
 		case SignatureAttribute:
 			return attrInfo.(SignatureAttribute).SignatureIndex
@@ -72,7 +70,7 @@ func (at AttributeTable) GetSignatureIndex() uint16 {
 /* group 3 */
 
 func (at AttributeTable) GetSourceFileIndex() uint16 {
-	for _, attrInfo := range at.attributes {
+	for _, attrInfo := range at {
 		switch attrInfo.(type) {
 		case SourceFileAttribute:
 			return attrInfo.(SourceFileAttribute).SourceFileIndex
@@ -82,7 +80,7 @@ func (at AttributeTable) GetSourceFileIndex() uint16 {
 }
 
 func (at AttributeTable) GetLineNumberTable() []LineNumberTableEntry {
-	for _, attrInfo := range at.attributes {
+	for _, attrInfo := range at {
 		switch attrInfo.(type) {
 		case LineNumberTableAttribute:
 			return attrInfo.(LineNumberTableAttribute).LineNumberTable
@@ -104,7 +102,7 @@ func (at AttributeTable) GetAnnotationDefaultAttributeData() []byte {
 }
 
 func (at AttributeTable) getUnparsedAttributeData(name string) []byte {
-	for _, attrInfo := range at.attributes {
+	for _, attrInfo := range at {
 		switch attrInfo.(type) {
 		case UnparsedAttribute:
 			unparsedAttr := attrInfo.(UnparsedAttribute)

@@ -21,12 +21,11 @@ type LineNumberTableEntry struct {
 
 func readLineNumberTableAttribute(reader *ClassReader) LineNumberTableAttribute {
 	return LineNumberTableAttribute{
-		LineNumberTable: reader.readTable(LineNumberTableEntry{},
-			func(reader *ClassReader) interface{} {
-				return LineNumberTableEntry{
-					StartPC:    reader.ReadUint16(),
-					LineNumber: reader.ReadUint16(),
-				}
-			}).([]LineNumberTableEntry),
+		LineNumberTable: reader.readTable(func(reader *ClassReader) LineNumberTableEntry {
+			return LineNumberTableEntry{
+				StartPC:    reader.ReadUint16(),
+				LineNumber: reader.ReadUint16(),
+			}
+		}).([]LineNumberTableEntry),
 	}
 }

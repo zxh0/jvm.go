@@ -22,7 +22,7 @@ func TestJava8HW(t *testing.T) {
 	require.Equal(t, []string{}, cf.GetInterfaceNames())
 	require.Equal(t, 0, len(cf.Fields))
 	require.Equal(t, 2, len(cf.Methods))
-	require.Equal(t, 1, len(cf.AttributeTable.attributes))
+	require.Equal(t, 1, len(cf.AttributeTable))
 	require.Equal(t, "HelloWorld.java", cf.GetUTF8(cf.GetSourceFileIndex()))
 }
 

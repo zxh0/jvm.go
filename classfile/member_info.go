@@ -25,13 +25,14 @@ type MemberInfo struct {
 
 // read field or method table
 func readMembers(reader *ClassReader) []MemberInfo {
-	return reader.readTable(MemberInfo{},
-		func(reader *ClassReader) interface{} {
-			return MemberInfo{
-				AccessFlags:     reader.ReadUint16(),
-				NameIndex:       reader.ReadUint16(),
-				DescriptorIndex: reader.ReadUint16(),
-				AttributeTable:  AttributeTable{attributes: readAttributes(reader)},
-			}
-		}).([]MemberInfo)
+	return reader.readTable(readMember).([]MemberInfo)
+}
+
+func readMember(reader *ClassReader) MemberInfo {
+	return MemberInfo{
+		AccessFlags:     reader.ReadUint16(),
+		NameIndex:       reader.ReadUint16(),
+		DescriptorIndex: reader.ReadUint16(),
+		AttributeTable:  readAttributes(reader),
+	}
 }

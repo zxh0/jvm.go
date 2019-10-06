@@ -25,14 +25,13 @@ type InnerClassInfo struct {
 
 func readInnerClassesAttribute(reader *ClassReader) InnerClassesAttribute {
 	return InnerClassesAttribute{
-		Classes: reader.readTable(InnerClassInfo{},
-			func(reader *ClassReader) interface{} {
-				return InnerClassInfo{
-					InnerClassInfoIndex:   reader.ReadUint16(),
-					OuterClassInfoIndex:   reader.ReadUint16(),
-					InnerNameIndex:        reader.ReadUint16(),
-					InnerClassAccessFlags: reader.ReadUint16(),
-				}
-			}).([]InnerClassInfo),
+		Classes: reader.readTable(func(reader *ClassReader) InnerClassInfo {
+			return InnerClassInfo{
+				InnerClassInfoIndex:   reader.ReadUint16(),
+				OuterClassInfoIndex:   reader.ReadUint16(),
+				InnerNameIndex:        reader.ReadUint16(),
+				InnerClassAccessFlags: reader.ReadUint16(),
+			}
+		}).([]InnerClassInfo),
 	}
 }

@@ -16,12 +16,7 @@ type UnparsedAttribute struct {
 }
 
 func readAttributes(reader *ClassReader) []AttributeInfo {
-	attributesCount := reader.ReadUint16()
-	attributes := make([]AttributeInfo, attributesCount)
-	for i := range attributes {
-		attributes[i] = readAttributeInfo(reader)
-	}
-	return attributes
+	return reader.readTable(readAttributeInfo).([]AttributeInfo)
 }
 
 func readAttributeInfo(reader *ClassReader) AttributeInfo {

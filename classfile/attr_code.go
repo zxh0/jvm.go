@@ -39,18 +39,17 @@ func readCodeAttribute(reader *ClassReader) CodeAttribute {
 		MaxLocals:      reader.ReadUint16(),
 		Code:           reader.ReadBytes(uint(reader.ReadUint32())),
 		ExceptionTable: readExceptionTable(reader),
-		AttributeTable: AttributeTable{readAttributes(reader)},
+		AttributeTable: readAttributes(reader),
 	}
 }
 
 func readExceptionTable(reader *ClassReader) []ExceptionTableEntry {
-	return reader.readTable(ExceptionTableEntry{},
-		func(reader *ClassReader) interface{} {
-			return ExceptionTableEntry{
-				StartPc:   reader.ReadUint16(),
-				EndPc:     reader.ReadUint16(),
-				HandlerPc: reader.ReadUint16(),
-				CatchType: reader.ReadUint16(),
-			}
-		}).([]ExceptionTableEntry)
+	return reader.readTable(func(reader *ClassReader) ExceptionTableEntry {
+		return ExceptionTableEntry{
+			StartPc:   reader.ReadUint16(),
+			EndPc:     reader.ReadUint16(),
+			HandlerPc: reader.ReadUint16(),
+			CatchType: reader.ReadUint16(),
+		}
+	}).([]ExceptionTableEntry)
 }

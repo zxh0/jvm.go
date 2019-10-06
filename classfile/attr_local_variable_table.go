@@ -27,15 +27,14 @@ type LocalVariableTableEntry struct {
 
 func readLocalVariableTableAttribute(reader *ClassReader) LocalVariableTableAttribute {
 	return LocalVariableTableAttribute{
-		LocalVariableTable: reader.readTable(LocalVariableTableEntry{},
-			func(reader *ClassReader) interface{} {
-				return LocalVariableTableEntry{
-					StartPc:         reader.ReadUint16(),
-					Length:          reader.ReadUint16(),
-					NameIndex:       reader.ReadUint16(),
-					DescriptorIndex: reader.ReadUint16(),
-					Index:           reader.ReadUint16(),
-				}
-			}).([]LocalVariableTableEntry),
+		LocalVariableTable: reader.readTable(func(reader *ClassReader) LocalVariableTableEntry {
+			return LocalVariableTableEntry{
+				StartPc:         reader.ReadUint16(),
+				Length:          reader.ReadUint16(),
+				NameIndex:       reader.ReadUint16(),
+				DescriptorIndex: reader.ReadUint16(),
+				Index:           reader.ReadUint16(),
+			}
+		}).([]LocalVariableTableEntry),
 	}
 }

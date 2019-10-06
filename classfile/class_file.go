@@ -46,7 +46,7 @@ func (cf *ClassFile) read(reader *ClassReader) {
 	cf.AccessFlags = reader.ReadUint16()
 	cf.ThisClass = reader.ReadUint16()
 	cf.SuperClass = reader.ReadUint16()
-	cf.Interfaces = reader.ReadUint16s()
+	cf.Interfaces = reader.readUint16s()
 	cf.Fields = readMembers(reader)
 	cf.Methods = readMembers(reader)
 	cf.attributes = readAttributes(reader)

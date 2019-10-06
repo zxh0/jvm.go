@@ -25,18 +25,13 @@ type MemberInfo struct {
 
 // read field or method table
 func readMembers(reader *ClassReader) []MemberInfo {
-	memberCount := reader.ReadUint16()
-	members := make([]MemberInfo, memberCount)
-	for i := range members {
-		members[i] = MemberInfo{}
-		members[i].read(reader)
-	}
-	return members
-}
-
-func (mi *MemberInfo) read(reader *ClassReader) {
-	mi.AccessFlags = reader.ReadUint16()
-	mi.NameIndex = reader.ReadUint16()
-	mi.DescriptorIndex = reader.ReadUint16()
-	mi.attributes = readAttributes(reader)
+	return reader.readTable(MemberInfo{},
+		func(reader *ClassReader) interface{} {
+			return MemberInfo{
+				AccessFlags:     reader.ReadUint16(),
+				NameIndex:       reader.ReadUint16(),
+				DescriptorIndex: reader.ReadUint16(),
+				AttributeTable:  AttributeTable{attributes: readAttributes(reader)},
+			}
+		}).([]MemberInfo)
 }

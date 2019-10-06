@@ -14,6 +14,6 @@ type ExceptionsAttribute struct {
 
 func readExceptionsAttribute(reader *ClassReader) ExceptionsAttribute {
 	return ExceptionsAttribute{
-		ExceptionIndexTable: reader.ReadUint16s(),
+		ExceptionIndexTable: reader.readUint16s(),
 	}
 }

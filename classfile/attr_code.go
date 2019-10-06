@@ -26,18 +26,6 @@ type CodeAttribute struct {
 	AttributeTable
 }
 
-func readCodeAttribute(reader *ClassReader) CodeAttribute {
-	return CodeAttribute{
-		MaxStack:       reader.ReadUint16(),
-		MaxLocals:      reader.ReadUint16(),
-		Code:           reader.ReadBytes(uint(reader.ReadUint32())),
-		ExceptionTable: readExceptionTable(reader),
-		AttributeTable: AttributeTable{
-			readAttributes(reader),
-		},
-	}
-}
-
 type ExceptionTableEntry struct {
 	StartPc   uint16
 	EndPc     uint16
@@ -45,16 +33,24 @@ type ExceptionTableEntry struct {
 	CatchType uint16
 }
 
-func readExceptionTable(reader *ClassReader) []ExceptionTableEntry {
-	tableLength := reader.ReadUint16()
-	exceptionTable := make([]ExceptionTableEntry, tableLength)
-	for i := range exceptionTable {
-		exceptionTable[i] = ExceptionTableEntry{
-			StartPc:   reader.ReadUint16(),
-			EndPc:     reader.ReadUint16(),
-			HandlerPc: reader.ReadUint16(),
-			CatchType: reader.ReadUint16(),
-		}
+func readCodeAttribute(reader *ClassReader) CodeAttribute {
+	return CodeAttribute{
+		MaxStack:       reader.ReadUint16(),
+		MaxLocals:      reader.ReadUint16(),
+		Code:           reader.ReadBytes(uint(reader.ReadUint32())),
+		ExceptionTable: readExceptionTable(reader),
+		AttributeTable: AttributeTable{readAttributes(reader)},
 	}
-	return exceptionTable
+}
+
+func readExceptionTable(reader *ClassReader) []ExceptionTableEntry {
+	return reader.readTable(ExceptionTableEntry{},
+		func(reader *ClassReader) interface{} {
+			return ExceptionTableEntry{
+				StartPc:   reader.ReadUint16(),
+				EndPc:     reader.ReadUint16(),
+				HandlerPc: reader.ReadUint16(),
+				CatchType: reader.ReadUint16(),
+			}
+		}).([]ExceptionTableEntry)
 }

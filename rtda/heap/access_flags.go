@@ -11,14 +11,15 @@ const (
 	AccVolatile     = 0x0040
 	AccBridge       = 0x0040
 	AccTransient    = 0x0080
-	AccVarargs      = 0x0080
+	AccVarargs      = 0x0080 // 5.0
 	AccNative       = 0x0100
 	AccInterface    = 0x0200
 	AccAbstract     = 0x0400
 	AccStrict       = 0x0800
 	AccSynthetic    = 0x1000
-	AccAnnotation   = 0x2000
-	AccEnum         = 0x4000
+	AccAnnotation   = 0x2000 // 5.0
+	AccEnum         = 0x4000 // 5.0
+	AccModule       = 0x8000 // 9
 )
 
 type AccessFlags uint16
@@ -41,3 +42,4 @@ func (flags AccessFlags) IsStrict() bool       { return flags&AccStrict != 0 }
 func (flags AccessFlags) IsSynthetic() bool    { return flags&AccSynthetic != 0 }
 func (flags AccessFlags) IsAnnotation() bool   { return flags&AccAnnotation != 0 }
 func (flags AccessFlags) IsEnum() bool         { return flags&AccEnum != 0 }
+func (flags AccessFlags) IsModule() bool       { return flags&AccModule != 0 }

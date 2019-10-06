@@ -2,6 +2,8 @@ package classfile
 
 import (
 	"math"
+
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 /*
@@ -44,4 +46,17 @@ CONSTANT_Double_info {
 */
 func readConstantDoubleInfo(reader *ClassReader) float64 {
 	return math.Float64frombits(reader.ReadUint64())
+}
+
+/*
+CONSTANT_Utf8_info {
+    u1 tag;
+    u2 length;
+    u1 bytes[length];
+}
+*/
+func readConstantUtf8Info(reader *ClassReader) string {
+	length := uint(reader.ReadUint16())
+	bytes := reader.ReadBytes(length)
+	return vmutils.DecodeMUTF8(bytes)
 }

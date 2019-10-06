@@ -6,20 +6,23 @@ import (
 
 // Constant pool tags
 const (
-	ConstantClass              = 7
-	ConstantFieldRef           = 9
-	ConstantMethodRef          = 10
-	ConstantInterfaceMethodRef = 11
-	ConstantString             = 8
-	ConstantInteger            = 3
-	ConstantFloat              = 4
-	ConstantLong               = 5
-	ConstantDouble             = 6
-	ConstantNameAndType        = 12
-	ConstantUtf8               = 1
-	ConstantMethodHandle       = 15
-	ConstantMethodType         = 16
-	ConstantInvokeDynamic      = 18
+	ConstantUtf8               = 1  // Java 1.0.2
+	ConstantInteger            = 3  // Java 1.0.2
+	ConstantFloat              = 4  // Java 1.0.2
+	ConstantLong               = 5  // Java 1.0.2
+	ConstantDouble             = 6  // Java 1.0.2
+	ConstantClass              = 7  // Java 1.0.2
+	ConstantString             = 8  // Java 1.0.2
+	ConstantFieldRef           = 9  // Java 1.0.2
+	ConstantMethodRef          = 10 // Java 1.0.2
+	ConstantInterfaceMethodRef = 11 // Java 1.0.2
+	ConstantNameAndType        = 12 // Java 1.0.2
+	ConstantMethodHandle       = 15 // Java 7
+	ConstantMethodType         = 16 // Java 7
+	ConstantInvokeDynamic      = 18 // Java 7
+	ConstantModule             = 19 // Java 9
+	ConstantPackage            = 20 // Java 9
+	ConstantDynamic            = 17 // Java 11
 )
 
 /*
@@ -47,10 +50,16 @@ func readConstantInfo(reader *ClassReader) ConstantInfo {
 		return readConstantStringInfo(reader)
 	case ConstantClass:
 		return readConstantClassInfo(reader)
-	case ConstantFieldRef,
-		ConstantMethodRef,
-		ConstantInterfaceMethodRef:
-		return readConstantMemberRefInfo(reader, tag)
+	case ConstantModule:
+		return readConstantModuleInfo(reader)
+	case ConstantPackage:
+		return readConstantPackageInfo(reader)
+	case ConstantFieldRef:
+		return readConstantFieldRefInfo(reader)
+	case ConstantMethodRef:
+		return readConstantMethodRefInfo(reader)
+	case ConstantInterfaceMethodRef:
+		return readConstantInterfaceMethodRefInfo(reader)
 	case ConstantNameAndType:
 		return readConstantNameAndTypeInfo(reader)
 	case ConstantMethodType:

@@ -4,7 +4,7 @@ import (
 	"github.com/zxh0/jvm.go/classfile"
 )
 
-type Constant interface{} // TODO: change to Slot ?
+type Constant interface{}
 
 type ConstantPool struct {
 	consts []Constant
@@ -17,25 +17,28 @@ func newConstantPool(cf *classfile.ClassFile) ConstantPool {
 
 	for i := 1; i < len(cfCp); i++ {
 		cpInfo := cfCp[i]
-		switch cpInfo.(type) {
+		switch x := cpInfo.(type) {
 		case int32, float32, string:
 			consts[i] = cpInfo
 		case int64, float64:
 			consts[i] = cpInfo
 			i++
 		case classfile.ConstantStringInfo:
-			strInfo := cpInfo.(classfile.ConstantStringInfo)
-			consts[i] = cf.GetUTF8(strInfo.StringIndex)
+			consts[i] = cf.GetUTF8(x.StringIndex)
 		case classfile.ConstantClassInfo:
-			consts[i] = newConstantClass(cf, cpInfo.(classfile.ConstantClassInfo))
-		case classfile.ConstantMemberRefInfo:
-			consts[i] = newConstantMemberRef(cf, cpInfo.(classfile.ConstantMemberRefInfo))
+			consts[i] = newConstantClass(cf, x)
+		case classfile.ConstantFieldRefInfo:
+			consts[i] = newConstantFieldRef(cf, x)
+		case classfile.ConstantMethodRefInfo:
+			consts[i] = newConstantMethodRef(cf, x)
+		case classfile.ConstantInterfaceMethodRefInfo:
+			consts[i] = newConstantInterfaceMethodRef(cf, x)
 		case classfile.ConstantInvokeDynamicInfo:
-			consts[i] = newConstantInvokeDynamic(cf, &rtCp, cpInfo.(classfile.ConstantInvokeDynamicInfo))
+			consts[i] = newConstantInvokeDynamic(cf, &rtCp, x)
 		case classfile.ConstantMethodHandleInfo:
-			consts[i] = newConstantMethodHandle(cpInfo.(classfile.ConstantMethodHandleInfo))
+			consts[i] = newConstantMethodHandle(x)
 		case classfile.ConstantMethodTypeInfo:
-			consts[i] = newConstantMethodType(cpInfo.(classfile.ConstantMethodTypeInfo))
+			consts[i] = newConstantMethodType(x)
 		default:
 			// todo
 			//fmt.Printf("%T \n", cpInfo)

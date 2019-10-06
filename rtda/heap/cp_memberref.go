@@ -10,28 +10,27 @@ type ConstantMemberRef struct {
 	descriptor string
 }
 
-func newConstantMemberRef(cf *classfile.ClassFile, refInfo classfile.ConstantMemberRefInfo) Constant {
-	switch refInfo.Tag {
-	case classfile.ConstantFieldRef:
-		ref := &ConstantFieldRef{}
-		ref.copy(cf, refInfo)
-		return ref
-	case classfile.ConstantMethodRef:
-		ref := &ConstantMethodRef{vslot: -1}
-		ref.copy(cf, refInfo)
-		ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
-		return ref
-	case classfile.ConstantInterfaceMethodRef:
-		ref := &ConstantInterfaceMethodRef{}
-		ref.copy(cf, refInfo)
-		ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
-		return ref
-	default:
-		panic("unreachable!")
-	}
+func newConstantFieldRef(cf *classfile.ClassFile, refInfo classfile.ConstantFieldRefInfo) *ConstantFieldRef {
+	ref := &ConstantFieldRef{}
+	ref.init(cf, refInfo.ClassIndex, refInfo.NameAndTypeIndex)
+	return ref
 }
 
-func (mr *ConstantMemberRef) copy(cf *classfile.ClassFile, refInfo classfile.ConstantMemberRefInfo) {
-	mr.className = cf.GetClassNameOf(refInfo.ClassIndex)
-	mr.name, mr.descriptor = getNameAndType(cf, refInfo.NameAndTypeIndex)
+func newConstantMethodRef(cf *classfile.ClassFile, refInfo classfile.ConstantMethodRefInfo) *ConstantMethodRef {
+	ref := &ConstantMethodRef{vslot: -1}
+	ref.init(cf, refInfo.ClassIndex, refInfo.NameAndTypeIndex)
+	ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
+	return ref
+}
+
+func newConstantInterfaceMethodRef(cf *classfile.ClassFile, refInfo classfile.ConstantInterfaceMethodRefInfo) *ConstantInterfaceMethodRef {
+	ref := &ConstantInterfaceMethodRef{}
+	ref.init(cf, refInfo.ClassIndex, refInfo.NameAndTypeIndex)
+	ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
+	return ref
+}
+
+func (mr *ConstantMemberRef) init(cf *classfile.ClassFile, classIdx, nameAndTypeIdx uint16) {
+	mr.className = cf.GetClassNameOf(classIdx)
+	mr.name, mr.descriptor = getNameAndType(cf, nameAndTypeIdx)
 }

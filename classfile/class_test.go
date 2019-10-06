@@ -35,3 +35,13 @@ func TestJava13HW(t *testing.T) {
 	require.Equal(t, uint16(57), cf.MajorVersion)
 	require.Equal(t, uint16(0), cf.MinorVersion)
 }
+
+func TestModuleInfo(t *testing.T) {
+	bytes, err := ioutil.ReadFile("../test/testdata/java13/module-info.class")
+	require.NoError(t, err)
+
+	cf, err := Parse(bytes)
+	require.NoError(t, err)
+	require.Equal(t, uint16(57), cf.MajorVersion)
+	require.Equal(t, uint16(0), cf.MinorVersion)
+}

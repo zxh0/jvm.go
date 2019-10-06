@@ -17,15 +17,28 @@ CONSTANT_InterfaceMethodref_info {
     u2 name_and_type_index;
 }
 */
-type ConstantMemberRefInfo struct {
-	Tag              uint8
+
+type ConstantFieldRefInfo constantMemberRefInfo
+type ConstantMethodRefInfo constantMemberRefInfo
+type ConstantInterfaceMethodRefInfo constantMemberRefInfo
+
+type constantMemberRefInfo struct {
 	ClassIndex       uint16
 	NameAndTypeIndex uint16
 }
 
-func readConstantMemberRefInfo(reader *ClassReader, tag uint8) ConstantMemberRefInfo {
-	return ConstantMemberRefInfo{
-		Tag:              tag,
+func readConstantFieldRefInfo(reader *ClassReader) ConstantFieldRefInfo {
+	return ConstantFieldRefInfo(readConstantMemberRefInfo(reader))
+}
+func readConstantMethodRefInfo(reader *ClassReader) ConstantMethodRefInfo {
+	return ConstantMethodRefInfo(readConstantMemberRefInfo(reader))
+}
+func readConstantInterfaceMethodRefInfo(reader *ClassReader) ConstantInterfaceMethodRefInfo {
+	return ConstantInterfaceMethodRefInfo(readConstantMemberRefInfo(reader))
+}
+
+func readConstantMemberRefInfo(reader *ClassReader) constantMemberRefInfo {
+	return constantMemberRefInfo{
 		ClassIndex:       reader.ReadUint16(),
 		NameAndTypeIndex: reader.ReadUint16(),
 	}

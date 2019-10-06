@@ -1,9 +1,9 @@
-.gradle
-build
-
 .DS_Store
-*.swp
-
-/java
 
 .idea
+.gradle
+
+build
+out
+myjre
+/java

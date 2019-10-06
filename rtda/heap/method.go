@@ -1,7 +1,6 @@
 package heap
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/zxh0/jvm.go/classfile"
@@ -15,63 +14,58 @@ const (
 	constructorName  = "<init>"
 )
 
-type Method struct {
-	ClassMember
-	ExceptionTable
+type MethodData struct {
 	MaxStack                uint
 	MaxLocals               uint
-	ArgSlotCount            uint
-	Slot                    uint
-	ParsedDescriptor        MethodDescriptor
 	Code                    []byte
+	exceptionTable          []classfile.ExceptionTableEntry
+	lineNumberTable         []classfile.LineNumberTableEntry
 	ParameterAnnotationData []byte // RuntimeVisibleParameterAnnotations_attribute
 	AnnotationDefaultData   []byte // AnnotationDefault_attribute
-	lineNumberTable         []classfile.LineNumberTableEntry
-	exIndexTable            []uint16    // TODO: rename
-	nativeMethod            interface{} // cannot use package 'native' because of cycle import!
-	Instructions            interface{} // []instructions.Instruction
 }
 
-func newMethod(class *Class, cf *classfile.ClassFile, methodInfo classfile.MemberInfo) *Method {
+type Method struct {
+	ClassMember
+	MethodData
+	ArgSlotCount     uint
+	Slot             uint
+	ParsedDescriptor MethodDescriptor
+	exIndexTable     []uint16    // TODO: rename
+	nativeMethod     interface{} // cannot use package 'native' because of cycle import!
+	Instructions     interface{} // []instructions.Instruction
+}
+
+func newMethod(class *Class, cf *classfile.ClassFile, cfMember classfile.MemberInfo) *Method {
 	method := &Method{}
 	method.Class = class
-	method.AccessFlags = AccessFlags(methodInfo.AccessFlags)
-	method.Name = cf.GetUTF8(methodInfo.NameIndex)
-	method.Descriptor = cf.GetUTF8(methodInfo.DescriptorIndex)
-	method.ParsedDescriptor = parseMethodDescriptor(method.Descriptor)
-	method.calcArgSlotCount()
-	method.copyAttributes(cf, methodInfo)
+	method.copyMemberData(cf, cfMember)
+	method.copyAttributes(cf, cfMember)
+	method.parseDescriptor()
 	return method
 }
-func (method *Method) calcArgSlotCount() {
+
+func (method *Method) copyAttributes(cf *classfile.ClassFile, cfMember classfile.MemberInfo) {
+	if codeAttr := cfMember.GetCodeAttribute(); codeAttr != nil {
+		method.exIndexTable = cfMember.GetExceptionIndexTable()
+		method.MaxStack = uint(codeAttr.MaxStack)
+		method.MaxLocals = uint(codeAttr.MaxLocals)
+		method.Code = codeAttr.Code
+		method.exceptionTable = codeAttr.ExceptionTable
+		method.lineNumberTable = codeAttr.GetLineNumberTable()
+	}
+	method.ParameterAnnotationData = cfMember.GetRuntimeVisibleParameterAnnotationsAttributeData()
+	method.AnnotationDefaultData = cfMember.GetAnnotationDefaultAttributeData()
+}
+
+func (method *Method) parseDescriptor() {
+	method.ParsedDescriptor = parseMethodDescriptor(method.Descriptor)
 	method.ArgSlotCount = method.ParsedDescriptor.argSlotCount()
 	if !method.IsStatic() {
 		method.ArgSlotCount++
 	}
 }
-func (method *Method) copyAttributes(cf *classfile.ClassFile, methodInfo classfile.MemberInfo) {
-	if codeAttr := methodInfo.GetCodeAttribute(); codeAttr != nil {
-		method.exIndexTable = methodInfo.GetExceptionIndexTable()
-		method.Signature = cf.GetUTF8(methodInfo.GetSignatureIndex())
-		method.Code = codeAttr.Code
-		method.MaxStack = uint(codeAttr.MaxStack)
-		method.MaxLocals = uint(codeAttr.MaxLocals)
-		method.lineNumberTable = codeAttr.GetLineNumberTable()
-		if len(codeAttr.ExceptionTable) > 0 {
-			rtCp := method.Class.ConstantPool
-			method.copyExceptionTable(codeAttr.ExceptionTable, rtCp)
-		}
-	}
-	method.AnnotationData = methodInfo.GetRuntimeVisibleAnnotationsAttributeData()
-	method.ParameterAnnotationData = methodInfo.GetRuntimeVisibleParameterAnnotationsAttributeData()
-	method.AnnotationDefaultData = methodInfo.GetAnnotationDefaultAttributeData()
-}
 
-func (method *Method) String() string {
-	return fmt.Sprintf("{Method name:%v descriptor:%v}", method.Name, method.Descriptor)
-}
-
-func (method *Method) NativeMethod() interface{} {
+func (method *Method) GetNativeMethod() interface{} {
 	if method.nativeMethod == nil {
 		method.nativeMethod = findNativeMethod(method)
 	}
@@ -99,6 +93,26 @@ func (method *Method) IsInitIDs() bool {
 	return method.IsStatic() &&
 		method.Name == "initIDs" &&
 		method.Descriptor == "()V"
+}
+
+func (method *Method) FindExceptionHandler(exClass *Class, pc int) int {
+	for _, handler := range method.exceptionTable {
+		// jvms: The start_pc is inclusive and end_pc is exclusive
+		if pc >= int(handler.StartPc) && pc < int(handler.EndPc) {
+			if handler.CatchType == 0 {
+				// catch all
+				return int(handler.HandlerPc)
+			}
+
+			catchType := method.Class.GetConstantClass(uint(handler.CatchType))
+			if catchType.GetClass() == exClass ||
+				catchType.GetClass().isSuperClassOf(exClass) {
+
+				return int(handler.HandlerPc)
+			}
+		}
+	}
+	return -1
 }
 
 func (method *Method) GetLineNumber(pc int) int {

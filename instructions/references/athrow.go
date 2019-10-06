@@ -20,11 +20,11 @@ func (instr *AThrow) Execute(frame *rtda.Frame) {
 		frame := thread.CurrentFrame()
 		pc := frame.NextPC() - 1
 
-		handler := frame.Method().FindExceptionHandler(ex.Class, pc)
-		if handler != nil {
+		handlerPC := frame.Method().FindExceptionHandler(ex.Class, pc)
+		if handlerPC >= 0 {
 			frame.ClearStack()
 			frame.PushRef(ex)
-			frame.SetNextPC(handler.HandlerPc)
+			frame.SetNextPC(handlerPC)
 			return
 		}
 

@@ -12,15 +12,12 @@ type Field struct {
 	_type           *Class
 }
 
-func newField(class *Class, cf *classfile.ClassFile, fieldInfo classfile.MemberInfo) *Field {
+func newField(class *Class, cf *classfile.ClassFile, cfMember classfile.MemberInfo) *Field {
 	field := &Field{}
 	field.Class = class
-	field.AccessFlags = AccessFlags(fieldInfo.AccessFlags)
-	field.Name = cf.GetUTF8(fieldInfo.NameIndex)
-	field.Descriptor = cf.GetUTF8(fieldInfo.DescriptorIndex)
-	field.Signature = cf.GetUTF8(fieldInfo.GetSignatureIndex())
+	field.copyMemberData(cf, cfMember)
 	field.IsLongOrDouble = field.Descriptor == "J" || field.Descriptor == "D"
-	field.ConstValueIndex = fieldInfo.GetConstantValueIndex()
+	field.ConstValueIndex = cfMember.GetConstantValueIndex()
 	return field
 }
 

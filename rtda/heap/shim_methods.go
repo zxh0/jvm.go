@@ -11,7 +11,9 @@ var (
 			Name:        "<return>",
 			Class:       _shimClass,
 		},
-		Code: _returnCode,
+		MethodData: MethodData{
+			Code: _returnCode,
+		},
 	}
 
 	_athrowMethod = &Method{
@@ -20,7 +22,9 @@ var (
 			Name:        "<athrow>",
 			Class:       _shimClass,
 		},
-		Code: _athrowCode,
+		MethodData: MethodData{
+			Code: _athrowCode,
+		},
 	}
 )
 

@@ -6,10 +6,8 @@ type AttributeTable []AttributeInfo
 
 func (at AttributeTable) GetCodeAttribute() *CodeAttribute {
 	for _, attrInfo := range at {
-		switch attrInfo.(type) {
-		case CodeAttribute:
-			ca := attrInfo.(CodeAttribute)
-			return &ca
+		if a, ok := attrInfo.(CodeAttribute); ok {
+			return &a
 		}
 	}
 	return nil
@@ -17,9 +15,8 @@ func (at AttributeTable) GetCodeAttribute() *CodeAttribute {
 
 func (at AttributeTable) GetConstantValueIndex() uint16 {
 	for _, attrInfo := range at {
-		switch attrInfo.(type) {
-		case ConstantValueAttribute:
-			return attrInfo.(ConstantValueAttribute).ConstantValueIndex
+		if a, ok := attrInfo.(ConstantValueAttribute); ok {
+			return a.ConstantValueIndex
 		}
 	}
 	return 0
@@ -27,9 +24,8 @@ func (at AttributeTable) GetConstantValueIndex() uint16 {
 
 func (at AttributeTable) GetExceptionIndexTable() []uint16 {
 	for _, attrInfo := range at {
-		switch attrInfo.(type) {
-		case ExceptionsAttribute:
-			return attrInfo.(ExceptionsAttribute).ExceptionIndexTable
+		if a, ok := attrInfo.(ExceptionsAttribute); ok {
+			return a.ExceptionIndexTable
 		}
 	}
 	return nil
@@ -37,9 +33,8 @@ func (at AttributeTable) GetExceptionIndexTable() []uint16 {
 
 func (at AttributeTable) GetBootstrapMethods() []BootstrapMethod {
 	for _, attrInfo := range at {
-		switch attrInfo.(type) {
-		case BootstrapMethodsAttribute:
-			return attrInfo.(BootstrapMethodsAttribute).BootstrapMethods
+		if a, ok := attrInfo.(BootstrapMethodsAttribute); ok {
+			return a.BootstrapMethods
 		}
 	}
 	return nil
@@ -49,9 +44,8 @@ func (at AttributeTable) GetBootstrapMethods() []BootstrapMethod {
 
 func (at AttributeTable) GetEnclosingMethodAttribute() (EnclosingMethodAttribute, bool) {
 	for _, attrInfo := range at {
-		switch attrInfo.(type) {
-		case EnclosingMethodAttribute:
-			return attrInfo.(EnclosingMethodAttribute), true
+		if a, ok := attrInfo.(EnclosingMethodAttribute); ok {
+			return a, true
 		}
 	}
 	return EnclosingMethodAttribute{}, false
@@ -59,9 +53,8 @@ func (at AttributeTable) GetEnclosingMethodAttribute() (EnclosingMethodAttribute
 
 func (at AttributeTable) GetSignatureIndex() uint16 {
 	for _, attrInfo := range at {
-		switch attrInfo.(type) {
-		case SignatureAttribute:
-			return attrInfo.(SignatureAttribute).SignatureIndex
+		if a, ok := attrInfo.(SignatureAttribute); ok {
+			return a.SignatureIndex
 		}
 	}
 	return 0
@@ -71,9 +64,8 @@ func (at AttributeTable) GetSignatureIndex() uint16 {
 
 func (at AttributeTable) GetSourceFileIndex() uint16 {
 	for _, attrInfo := range at {
-		switch attrInfo.(type) {
-		case SourceFileAttribute:
-			return attrInfo.(SourceFileAttribute).SourceFileIndex
+		if a, ok := attrInfo.(SourceFileAttribute); ok {
+			return a.SourceFileIndex
 		}
 	}
 	return 0
@@ -81,9 +73,8 @@ func (at AttributeTable) GetSourceFileIndex() uint16 {
 
 func (at AttributeTable) GetLineNumberTable() []LineNumberTableEntry {
 	for _, attrInfo := range at {
-		switch attrInfo.(type) {
-		case LineNumberTableAttribute:
-			return attrInfo.(LineNumberTableAttribute).LineNumberTable
+		if a, ok := attrInfo.(LineNumberTableAttribute); ok {
+			return a.LineNumberTable
 		}
 	}
 	return nil
@@ -92,23 +83,19 @@ func (at AttributeTable) GetLineNumberTable() []LineNumberTableEntry {
 /* unparsed */
 
 func (at AttributeTable) GetRuntimeVisibleAnnotationsAttributeData() []byte {
-	return at.getUnparsedAttributeData("RuntimeVisibleAnnotations")
+	return at.getUnparsedAttributeData(RuntimeVisibleAnnotations)
 }
 func (at AttributeTable) GetRuntimeVisibleParameterAnnotationsAttributeData() []byte {
-	return at.getUnparsedAttributeData("RuntimeVisibleParameterAnnotationsAttribute")
+	return at.getUnparsedAttributeData(RuntimeVisibleParameterAnnotations)
 }
 func (at AttributeTable) GetAnnotationDefaultAttributeData() []byte {
-	return at.getUnparsedAttributeData("AnnotationDefault")
+	return at.getUnparsedAttributeData(AnnotationDefault)
 }
 
 func (at AttributeTable) getUnparsedAttributeData(name string) []byte {
 	for _, attrInfo := range at {
-		switch attrInfo.(type) {
-		case UnparsedAttribute:
-			unparsedAttr := attrInfo.(UnparsedAttribute)
-			if unparsedAttr.Name == name {
-				return unparsedAttr.Info
-			}
+		if a, ok := attrInfo.(UnparsedAttribute); ok && a.Name == name {
+			return a.Info
 		}
 	}
 	return nil

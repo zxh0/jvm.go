@@ -109,7 +109,7 @@ func initConstantStaticFields(class *heap.Class) {
 				case "D":
 					staticSlots[slotId] = heap.NewDoubleSlot(cp.GetConstant(kValIndex).(float64))
 				case "Ljava/lang/String;":
-					staticSlots[slotId] = heap.NewRefSlot(heap.JString(cp.GetConstant(kValIndex).(string)))
+					staticSlots[slotId] = heap.NewRefSlot(cp.GetConstantString(kValIndex).GetJString())
 				}
 			}
 		}

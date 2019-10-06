@@ -15,8 +15,8 @@ type PutField struct {
 func (instr *PutField) Execute(frame *rtda.Frame) {
 	if instr.field == nil {
 		cp := frame.GetConstantPool()
-		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldRef)
-		instr.field = kFieldRef.InstanceField()
+		kFieldRef := cp.GetConstantFieldRef(instr.Index)
+		instr.field = kFieldRef.GetField(false)
 	}
 
 	val := frame.PopL(instr.field.IsLongOrDouble)

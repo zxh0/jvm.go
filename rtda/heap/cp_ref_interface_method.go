@@ -1,7 +1,20 @@
 package heap
 
+import (
+	"github.com/zxh0/jvm.go/classfile"
+)
+
 type ConstantInterfaceMethodRef struct {
 	ConstantMethodRef
+}
+
+func newConstantInterfaceMethodRef(cf *classfile.ClassFile,
+	cfRef classfile.ConstantInterfaceMethodRefInfo) *ConstantInterfaceMethodRef {
+
+	ref := &ConstantInterfaceMethodRef{}
+	ref.init(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
+	ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
+	return ref
 }
 
 // todo

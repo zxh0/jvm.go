@@ -5,40 +5,38 @@ import (
 )
 
 type Constant interface{}
-
-type ConstantPool struct {
-	consts []Constant
-}
+type ConstantPool []Constant
 
 func newConstantPool(cf *classfile.ClassFile) ConstantPool {
 	cfCp := cf.ConstantPool
-	consts := make([]Constant, len(cfCp))
-	rtCp := ConstantPool{consts}
+	rtCp := make([]Constant, len(cfCp))
 
 	for i := 1; i < len(cfCp); i++ {
 		cpInfo := cfCp[i]
 		switch x := cpInfo.(type) {
-		case int32, float32, string:
-			consts[i] = cpInfo
+		case string: // utf8
+			rtCp[i] = cpInfo
+		case int32, float32:
+			rtCp[i] = cpInfo
 		case int64, float64:
-			consts[i] = cpInfo
+			rtCp[i] = cpInfo
 			i++
 		case classfile.ConstantStringInfo:
-			consts[i] = cf.GetUTF8(x.StringIndex)
+			rtCp[i] = newConstantString(cf.GetUTF8(x.StringIndex))
 		case classfile.ConstantClassInfo:
-			consts[i] = newConstantClass(cf, x)
+			rtCp[i] = newConstantClass(cf, x)
 		case classfile.ConstantFieldRefInfo:
-			consts[i] = newConstantFieldRef(cf, x)
+			rtCp[i] = newConstantFieldRef(cf, x)
 		case classfile.ConstantMethodRefInfo:
-			consts[i] = newConstantMethodRef(cf, x)
+			rtCp[i] = newConstantMethodRef(cf, x)
 		case classfile.ConstantInterfaceMethodRefInfo:
-			consts[i] = newConstantInterfaceMethodRef(cf, x)
+			rtCp[i] = newConstantInterfaceMethodRef(cf, x)
 		case classfile.ConstantInvokeDynamicInfo:
-			consts[i] = newConstantInvokeDynamic(cf, &rtCp, x)
+			rtCp[i] = newConstantInvokeDynamic(cf, rtCp, x)
 		case classfile.ConstantMethodHandleInfo:
-			consts[i] = newConstantMethodHandle(x)
+			rtCp[i] = newConstantMethodHandle(x)
 		case classfile.ConstantMethodTypeInfo:
-			consts[i] = newConstantMethodType(x)
+			rtCp[i] = newConstantMethodType(x)
 		default:
 			// todo
 			//fmt.Printf("%T \n", cpInfo)
@@ -49,7 +47,17 @@ func newConstantPool(cf *classfile.ClassFile) ConstantPool {
 	return rtCp
 }
 
+func (cp ConstantPool) GetConstantString(index uint) *ConstantString {
+	return cp.GetConstant(index).(*ConstantString)
+}
+func (cp ConstantPool) GetConstantClass(index uint) *ConstantClass {
+	return cp.GetConstant(index).(*ConstantClass)
+}
+func (cp ConstantPool) GetConstantFieldRef(index uint) *ConstantFieldRef {
+	return cp.GetConstant(index).(*ConstantFieldRef)
+}
+
 func (cp ConstantPool) GetConstant(index uint) Constant {
-	// todo
-	return cp.consts[index]
+	// TODO: check index
+	return cp[index]
 }

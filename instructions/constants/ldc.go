@@ -25,18 +25,15 @@ func (instr *LDC_W) Execute(frame *rtda.Frame) {
 func _ldc(frame *rtda.Frame, index uint) {
 	c := frame.GetConstantPool().GetConstant(index)
 
-	switch c.(type) {
+	switch x := c.(type) {
 	case int32:
-		frame.PushInt(c.(int32))
+		frame.PushInt(x)
 	case float32:
-		frame.PushFloat(c.(float32))
-	case string:
-		internedStr := heap.JString(c.(string))
-		frame.PushRef(internedStr)
+		frame.PushFloat(x)
+	case *heap.ConstantString: // string
+		frame.PushRef(x.GetJString())
 	case *heap.ConstantClass:
-		kClass := c.(*heap.ConstantClass)
-		classObj := kClass.Class().JClass
-		frame.PushRef(classObj)
+		frame.PushRef(x.GetClass().JClass)
 	default:
 		// todo
 		// ref to MethodType or MethodHandle

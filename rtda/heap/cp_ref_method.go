@@ -1,5 +1,9 @@
 package heap
 
+import (
+	"github.com/zxh0/jvm.go/classfile"
+)
+
 type ConstantMethodRef struct {
 	ConstantMemberRef
 	ArgSlotCount uint
@@ -7,12 +11,26 @@ type ConstantMethodRef struct {
 	vslot        int
 }
 
-func (mr *ConstantMethodRef) StaticMethod() *Method {
+func newConstantMethodRef(cf *classfile.ClassFile,
+	cfRef classfile.ConstantMethodRefInfo) *ConstantMethodRef {
+
+	ref := &ConstantMethodRef{vslot: -1}
+	ref.init(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
+	ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
+	return ref
+}
+
+func (mr *ConstantMethodRef) GetMethod(static bool) *Method {
 	if mr.method == nil {
-		mr.resolveStaticMethod()
+		if static {
+			mr.resolveStaticMethod()
+		} else {
+			mr.resolveSpecialMethod()
+		}
 	}
 	return mr.method
 }
+
 func (mr *ConstantMethodRef) resolveStaticMethod() {
 	method := mr.findMethod(true)
 	if method != nil {
@@ -23,12 +41,6 @@ func (mr *ConstantMethodRef) resolveStaticMethod() {
 	}
 }
 
-func (mr *ConstantMethodRef) SpecialMethod() *Method {
-	if mr.method == nil {
-		mr.resolveSpecialMethod()
-	}
-	return mr.method
-}
 func (mr *ConstantMethodRef) resolveSpecialMethod() {
 	method := mr.findMethod(false)
 	if method != nil {

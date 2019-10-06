@@ -17,9 +17,9 @@ func (instr *InvokeStatic) Execute(frame *rtda.Frame) {
 		cp := frame.GetConstantPool()
 		k := cp.GetConstant(instr.Index)
 		if kMethodRef, ok := k.(*heap.ConstantMethodRef); ok {
-			instr.method = kMethodRef.StaticMethod()
+			instr.method = kMethodRef.GetMethod(true)
 		} else {
-			instr.method = k.(*heap.ConstantInterfaceMethodRef).StaticMethod()
+			instr.method = k.(*heap.ConstantInterfaceMethodRef).GetMethod(true)
 		}
 	}
 

@@ -14,10 +14,10 @@ func (instr *InvokeSpecial) Execute(frame *rtda.Frame) {
 	cp := frame.GetConstantPool()
 	k := cp.GetConstant(instr.Index)
 	if kMethodRef, ok := k.(*heap.ConstantMethodRef); ok {
-		method := kMethodRef.SpecialMethod()
+		method := kMethodRef.GetMethod(false)
 		frame.Thread().InvokeMethod(method)
 	} else {
-		method := k.(*heap.ConstantInterfaceMethodRef).SpecialMethod()
+		method := k.(*heap.ConstantInterfaceMethodRef).GetMethod(false)
 		frame.Thread().InvokeMethod(method)
 	}
 }

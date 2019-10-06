@@ -26,9 +26,8 @@ func getLongAt0(frame *rtda.Frame) {
 // (Ljava/lang/Object;I)Ljava/lang/String;
 func getUTF8At0(frame *rtda.Frame) {
 	cp, index := _getPop(frame)
-	kUtf8 := cp.GetConstant(index).(*heap.ConstantUtf8)
-	goStr := kUtf8.Str()
-	jStr := heap.JString(goStr)
+	kUtf8 := cp.GetConstant(index).(string)
+	jStr := heap.JString(kUtf8)
 	frame.PushRef(jStr)
 }
 

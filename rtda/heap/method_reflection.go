@@ -30,8 +30,8 @@ func (method *Method) ExceptionTypes() []*Class {
 	cp := method.Class.ConstantPool
 
 	for i, exIndex := range method.exIndexTable {
-		kClass := cp.GetConstant(uint(exIndex)).(*ConstantClass)
-		exClasses[i] = kClass.Class()
+		kClass := cp.GetConstantClass(uint(exIndex))
+		exClasses[i] = kClass.GetClass()
 	}
 
 	return exClasses

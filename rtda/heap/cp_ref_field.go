@@ -2,6 +2,8 @@ package heap
 
 import (
 	"fmt"
+
+	"github.com/zxh0/jvm.go/classfile"
 )
 
 type ConstantFieldRef struct {
@@ -9,17 +11,30 @@ type ConstantFieldRef struct {
 	field *Field
 }
 
+func newConstantFieldRef(cf *classfile.ClassFile,
+	cfRef classfile.ConstantFieldRefInfo) *ConstantFieldRef {
+
+	ref := &ConstantFieldRef{}
+	ref.init(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
+	return ref
+}
+
 func (fr *ConstantFieldRef) String() string {
 	return fmt.Sprintf("{ConstantFieldref className:%v name:%v descriptor:%v}",
 		fr.className, fr.name, fr.descriptor)
 }
 
-func (fr *ConstantFieldRef) InstanceField() *Field {
+func (fr *ConstantFieldRef) GetField(static bool) *Field {
 	if fr.field == nil {
-		fr.resolveInstanceField()
+		if static {
+			fr.resolveStaticField()
+		} else {
+			fr.resolveInstanceField()
+		}
 	}
 	return fr.field
 }
+
 func (fr *ConstantFieldRef) resolveInstanceField() {
 	fromClass := bootLoader.LoadClass(fr.className)
 
@@ -35,12 +50,6 @@ func (fr *ConstantFieldRef) resolveInstanceField() {
 	panic(fmt.Errorf("instance field not found! %v", fr))
 }
 
-func (fr *ConstantFieldRef) StaticField() *Field {
-	if fr.field == nil {
-		fr.resolveStaticField()
-	}
-	return fr.field
-}
 func (fr *ConstantFieldRef) resolveStaticField() {
 	fromClass := bootLoader.LoadClass(fr.className)
 

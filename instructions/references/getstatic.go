@@ -15,8 +15,8 @@ type GetStatic struct {
 func (instr *GetStatic) Execute(frame *rtda.Frame) {
 	if instr.field == nil {
 		cp := frame.GetConstantPool()
-		kFieldRef := cp.GetConstant(instr.Index).(*heap.ConstantFieldRef)
-		instr.field = kFieldRef.StaticField()
+		kFieldRef := cp.GetConstantFieldRef(instr.Index)
+		instr.field = kFieldRef.GetField(true)
 	}
 
 	class := instr.field.Class

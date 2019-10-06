@@ -30,8 +30,8 @@ type ANewArray struct{ base.Index16Instruction }
 
 func (instr *ANewArray) Execute(frame *rtda.Frame) {
 	cp := frame.GetConstantPool()
-	kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
-	componentClass := kClass.Class()
+	kClass := cp.GetConstantClass(instr.Index)
+	componentClass := kClass.GetClass()
 
 	if componentClass.InitializationNotStarted() {
 		thread := frame.Thread()
@@ -61,8 +61,8 @@ func (instr *MultiANewArray) FetchOperands(reader *base.CodeReader) {
 }
 func (instr *MultiANewArray) Execute(frame *rtda.Frame) {
 	cp := frame.GetConstantPool()
-	kClass := cp.GetConstant(uint(instr.index)).(*heap.ConstantClass)
-	arrClass := kClass.Class()
+	kClass := cp.GetConstantClass(uint(instr.index))
+	arrClass := kClass.GetClass()
 
 	counts := frame.PopTops(uint(instr.dimensions))
 	if !_checkCounts(counts) {

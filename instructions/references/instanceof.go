@@ -3,7 +3,6 @@ package references
 import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 // Determine if object is of given type
@@ -13,8 +12,8 @@ func (instr *InstanceOf) Execute(frame *rtda.Frame) {
 	ref := frame.PopRef()
 
 	cp := frame.GetConstantPool()
-	kClass := cp.GetConstant(instr.Index).(*heap.ConstantClass)
-	class := kClass.Class()
+	kClass := cp.GetConstantClass(instr.Index)
+	class := kClass.GetClass()
 
 	if ref == nil {
 		frame.PushInt(0)

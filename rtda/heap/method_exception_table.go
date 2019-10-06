@@ -31,7 +31,7 @@ func newExceptionHandler(entry classfile.ExceptionTableEntry, rtCp ConstantPool)
 	if catchType == 0 {
 		handler.catchType = nil // catch all
 	} else {
-		handler.catchType = rtCp.GetConstant(catchType).(*ConstantClass)
+		handler.catchType = rtCp.GetConstantClass(catchType)
 	}
 	return handler
 }
@@ -41,8 +41,8 @@ func (et *ExceptionTable) FindExceptionHandler(exClass *Class, pc int) *Exceptio
 		// jvms: The start_pc is inclusive and end_pc is exclusive
 		if pc >= handler.startPc && pc < handler.endPc {
 			if handler.catchType == nil || // catch all
-				handler.catchType.Class() == exClass ||
-				handler.catchType.Class().isSuperClassOf(exClass) {
+				handler.catchType.GetClass() == exClass ||
+				handler.catchType.GetClass().isSuperClassOf(exClass) {
 
 				return handler
 			}

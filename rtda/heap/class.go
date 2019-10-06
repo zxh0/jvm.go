@@ -3,7 +3,7 @@ package heap
 import (
 	"sync"
 
-	cp "github.com/zxh0/jvm.go/classpath"
+	"github.com/zxh0/jvm.go/classpath"
 )
 
 // initialization state
@@ -31,7 +31,7 @@ type EnclosingMethod struct {
 type Class struct {
 	AccessFlags
 	ClassAttributes
-	ConstantPool       ConstantPool
+	ConstantPool
 	Name               string // thisClassName
 	superClassName     string
 	interfaceNames     []string
@@ -44,7 +44,7 @@ type Class struct {
 	JClass             *Object   // java.lang.Class instance
 	SuperClass         *Class
 	Interfaces         []*Class
-	LoadedFrom         cp.Entry // todo
+	LoadedFrom         classpath.Entry
 	initState          int
 	InitCond           *sync.Cond
 	initThread         uintptr

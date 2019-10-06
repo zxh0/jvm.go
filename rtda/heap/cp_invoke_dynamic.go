@@ -9,10 +9,10 @@ type ConstantInvokeDynamic struct {
 	_type              string
 	bootstrapMethodRef uint16 // method handle
 	bootstrapArguments []uint16
-	cp                 *ConstantPool
+	cp                 ConstantPool
 }
 
-func newConstantInvokeDynamic(cf *classfile.ClassFile, cp *ConstantPool, indyInfo classfile.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
+func newConstantInvokeDynamic(cf *classfile.ClassFile, cp ConstantPool, indyInfo classfile.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
 	name, _type := getNameAndType(cf, indyInfo.NameAndTypeIndex)
 	bm := cf.GetBootstrapMethods()[indyInfo.BootstrapMethodAttrIndex]
 	return &ConstantInvokeDynamic{

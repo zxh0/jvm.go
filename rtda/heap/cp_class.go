@@ -9,21 +9,21 @@ type ConstantClass struct {
 	class *Class
 }
 
-func newConstantClass(cf *classfile.ClassFile, classInfo classfile.ConstantClassInfo) *ConstantClass {
+func newConstantClass(cf *classfile.ClassFile, cfc classfile.ConstantClassInfo) *ConstantClass {
 	return &ConstantClass{
-		name: cf.GetUTF8(classInfo.NameIndex),
+		name: cf.GetUTF8(cfc.NameIndex),
 	}
 }
 
-func (cc *ConstantClass) Class() *Class {
-	if cc.class == nil {
-		cc.resolve()
+func (cr *ConstantClass) GetClass() *Class {
+	if cr.class == nil {
+		cr.resolve()
 	}
-	return cc.class
+	return cr.class
 }
 
 // todo
-func (cc *ConstantClass) resolve() {
+func (cr *ConstantClass) resolve() {
 	// load class
-	cc.class = bootLoader.LoadClass(cc.name)
+	cr.class = bootLoader.LoadClass(cr.name)
 }

@@ -44,4 +44,6 @@ func TestModuleInfo(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, uint16(57), cf.MajorVersion)
 	require.Equal(t, uint16(0), cf.MinorVersion)
+	modAttr, _ := cf.GetModuleAttribute()
+	require.Equal(t, uint16(6), modAttr.ModuleNameIndex)
 }

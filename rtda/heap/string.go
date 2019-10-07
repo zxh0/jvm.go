@@ -6,10 +6,6 @@ import (
 
 var _internedStrings = map[string]*Object{}
 
-func getInternedString(goStr string) *Object {
-	return _internedStrings[goStr]
-}
-
 // todo
 func InternString(goStr string, jStr *Object) *Object {
 	if internedStr, ok := _internedStrings[goStr]; ok {
@@ -23,14 +19,13 @@ func InternString(goStr string, jStr *Object) *Object {
 // todo: is there a better way to create String?
 // go string -> java.lang.String
 func JString(goStr string) *Object {
-	internedStr := getInternedString(goStr)
-	if internedStr != nil {
+	if internedStr, found := _internedStrings[goStr]; found {
 		return internedStr
 	}
 
 	chars := vmutils.UTF8ToUTF16(goStr)
 	charArr := NewCharArray(chars)
-	jStr := BootLoader().JLStringClass().NewObj()
+	jStr := bootLoader.JLStringClass().NewObj()
 	jStr.SetFieldValue("value", "[C", NewRefSlot(charArr))
 	return InternString(goStr, jStr)
 }

@@ -82,17 +82,40 @@ func readModuleAttribute(reader *ClassReader) ModuleAttribute {
 }
 
 func readRequiresTable(reader *ClassReader) []ModuleRequires {
-	return nil
+	return reader.readTable(func(reader *ClassReader) ModuleRequires {
+		return ModuleRequires{
+			RequiresIndex:        reader.ReadUint16(),
+			RequiresFlags:        reader.ReadUint16(),
+			RequiresVersionIndex: reader.ReadUint16(),
+		}
+	}).([]ModuleRequires)
 }
 
 func readExportsTable(reader *ClassReader) []ModuleExports {
-	return nil
+	return reader.readTable(func(reader *ClassReader) ModuleExports {
+		return ModuleExports{
+			ExportsIndex:        reader.ReadUint16(),
+			ExportsFlags:        reader.ReadUint16(),
+			ExportsToIndexTable: reader.readUint16s(),
+		}
+	}).([]ModuleExports)
 }
 
 func readOpensTable(reader *ClassReader) []ModuleOpens {
-	return nil
+	return reader.readTable(func(reader *ClassReader) ModuleOpens {
+		return ModuleOpens{
+			OpensIndex:        reader.ReadUint16(),
+			OpensFlags:        reader.ReadUint16(),
+			OpensToIndexTable: reader.readUint16s(),
+		}
+	}).([]ModuleOpens)
 }
 
 func readProvidesTable(reader *ClassReader) []ModuleProvides {
-	return nil
+	return reader.readTable(func(reader *ClassReader) ModuleProvides {
+		return ModuleProvides{
+			ProvidesIndex:          reader.ReadUint16(),
+			ProvidesWithIndexTable: reader.readUint16s(),
+		}
+	}).([]ModuleProvides)
 }

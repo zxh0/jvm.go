@@ -4,13 +4,13 @@ type AttributeTable []AttributeInfo
 
 /* group 1 */
 
-func (at AttributeTable) GetCodeAttribute() *CodeAttribute {
+func (at AttributeTable) GetCodeAttribute() (CodeAttribute, bool) {
 	for _, attrInfo := range at {
 		if a, ok := attrInfo.(CodeAttribute); ok {
-			return &a
+			return a, true
 		}
 	}
-	return nil
+	return CodeAttribute{}, false
 }
 
 func (at AttributeTable) GetConstantValueIndex() uint16 {
@@ -78,6 +78,15 @@ func (at AttributeTable) GetLineNumberTable() []LineNumberTableEntry {
 		}
 	}
 	return nil
+}
+
+func (at AttributeTable) GetModuleAttribute() (ModuleAttribute, bool) {
+	for _, attrInfo := range at {
+		if a, ok := attrInfo.(ModuleAttribute); ok {
+			return a, true
+		}
+	}
+	return ModuleAttribute{}, false
 }
 
 /* unparsed */

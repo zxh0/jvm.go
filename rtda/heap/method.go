@@ -45,7 +45,7 @@ func newMethod(class *Class, cf *classfile.ClassFile, cfMember classfile.MemberI
 }
 
 func (method *Method) copyAttributes(cf *classfile.ClassFile, cfMember classfile.MemberInfo) {
-	if codeAttr := cfMember.GetCodeAttribute(); codeAttr != nil {
+	if codeAttr, found := cfMember.GetCodeAttribute(); found {
 		method.exIndexTable = cfMember.GetExceptionIndexTable()
 		method.MaxStack = uint(codeAttr.MaxStack)
 		method.MaxLocals = uint(codeAttr.MaxLocals)

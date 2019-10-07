@@ -16,7 +16,8 @@ func TestAttributeTable(t *testing.T) {
 		SourceFileAttribute{SourceFileIndex: 6},
 		LineNumberTableAttribute{[]LineNumberTableEntry{{StartPC: 7}}},
 	}
-	require.Equal(t, uint16(1), at.GetCodeAttribute().MaxStack)
+	code, _ := at.GetCodeAttribute()
+	require.Equal(t, uint16(1), code.MaxStack)
 	require.Equal(t, uint16(2), at.GetConstantValueIndex())
 	require.Equal(t, uint16(3), at.GetExceptionIndexTable()[0])
 	require.Equal(t, uint16(4), at.GetBootstrapMethods()[0].BootstrapMethodRef)

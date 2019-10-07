@@ -47,7 +47,8 @@ func readAttributeInfo(reader *ClassReader) AttributeInfo {
 	case LocalVariableTypeTable:
 		return readLocalVariableTypeTableAttribute(reader)
 	// case MethodParameters:
-	//case Module:
+	case Module:
+		return readModuleAttribute(reader)
 	// case RuntimeInvisibleAnnotations:
 	// case RuntimeInvisibleParameterAnnotations:
 	// case RuntimeInvisibleTypeAnnotations:

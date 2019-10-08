@@ -1,4 +1,4 @@
-package stdlib.basic.util;
+package stdlib.util;
 
 import java.util.Collections;
 import java.util.zip.ZipEntry;

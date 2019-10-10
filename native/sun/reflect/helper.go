@@ -28,17 +28,17 @@ func _getGoMethod(methodObj *heap.Object, isConstructor bool) *heap.Method {
 
 // Object[] -> []Slot
 func convertArgs(this, argArr *heap.Object, method *heap.Method) []heap.Slot {
-	if method.ArgSlotCount == 0 {
+	if method.ParamSlotCount == 0 {
 		return nil
 	}
-	if method.ArgSlotCount == 1 && !method.IsStatic() {
+	if method.ParamSlotCount == 1 && !method.IsStatic() {
 		return []heap.Slot{heap.NewRefSlot(this)}
 	}
 
 	argObjs := argArr.Refs()
 	argTypes := method.ParameterTypes
 
-	args := make([]heap.Slot, method.ArgSlotCount)
+	args := make([]heap.Slot, method.ParamSlotCount)
 	j := 0
 	if !method.IsStatic() {
 		args[0] = heap.NewRefSlot(this)

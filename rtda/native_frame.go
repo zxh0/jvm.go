@@ -19,8 +19,8 @@ func newNativeFrame(thread *Thread, method *heap.Method) *Frame {
 	frame := &Frame{}
 	frame.thread = thread
 	frame.method = method
-	frame.LocalVars = newLocalVars(method.ArgSlotCount) // todo
-	frame.OperandStack = newOperandStack(4)             // todo
+	frame.LocalVars = newLocalVars(method.ParamSlotCount) // todo
+	frame.OperandStack = newOperandStack(4)               // todo
 
 	if method.Code == nil {
 		method.Code = getHackCode(method.Descriptor) // hack!

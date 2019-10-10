@@ -4,8 +4,8 @@ type MethodDescriptorParser struct {
 	d string
 }
 
-func calcArgSlotCount(descriptor string) uint {
-	return parseMethodDescriptor(descriptor).argSlotCount()
+func calcParamSlotCount(descriptor string) uint {
+	return parseMethodDescriptor(descriptor).getParamSlotCount()
 }
 
 func parseMethodDescriptor(descriptor string) ParsedDescriptor {

@@ -1,11 +1,11 @@
 package heap
 
 func (method *Method) GetParameterTypes() []*Class {
-	if method.ArgSlotCount == 0 {
+	if method.ParamSlotCount == 0 {
 		return nil
 	}
 
-	paramClasses := make([]*Class, 0, method.ArgSlotCount)
+	paramClasses := make([]*Class, 0, method.ParamSlotCount)
 	for _, paramType := range method.ParameterTypes {
 		paramClassName := getClassName(string(paramType))
 		paramClasses = append(paramClasses, bootLoader.LoadClass(paramClassName))

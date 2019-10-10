@@ -28,11 +28,12 @@ type Method struct {
 	ClassMember
 	MethodData
 	ParsedDescriptor
-	ArgSlotCount uint
-	Slot         uint
-	exIndexTable []uint16    // TODO: rename
-	nativeMethod interface{} // cannot use package 'native' because of cycle import!
-	Instructions interface{} // []instructions.Instruction
+	ParamCount     uint
+	ParamSlotCount uint
+	Slot           uint
+	exIndexTable   []uint16    // TODO: rename
+	nativeMethod   interface{} // cannot use package 'native' because of cycle import!
+	Instructions   interface{} // []instructions.Instruction
 }
 
 func newMethod(class *Class, cf *classfile.ClassFile, cfMember classfile.MemberInfo) *Method {
@@ -59,9 +60,10 @@ func (method *Method) copyAttributes(cf *classfile.ClassFile, cfMember classfile
 
 func (method *Method) parseDescriptor() {
 	method.ParsedDescriptor = parseMethodDescriptor(method.Descriptor)
-	method.ArgSlotCount = method.argSlotCount()
+	method.ParamCount = uint(len(method.ParameterTypes))
+	method.ParamSlotCount = method.getParamSlotCount()
 	if !method.IsStatic() {
-		method.ArgSlotCount++
+		method.ParamSlotCount++
 	}
 }
 

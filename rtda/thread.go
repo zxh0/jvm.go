@@ -102,8 +102,8 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 	currentFrame := thread.CurrentFrame()
 	newFrame := thread.NewFrame(method)
 	thread.PushFrame(newFrame)
-	if method.ArgSlotCount > 0 {
-		_passArgs(&currentFrame.OperandStack, &newFrame.LocalVars, method.ArgSlotCount)
+	if method.ParamSlotCount > 0 {
+		_passArgs(&currentFrame.OperandStack, &newFrame.LocalVars, method.ParamSlotCount)
 	}
 
 	if method.IsSynchronized() {

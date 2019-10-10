@@ -13,13 +13,12 @@ type ParsedDescriptor struct {
 	ReturnType     FieldOrReturnType
 }
 
-// parameterCount()
-func (md ParsedDescriptor) argCount() uint {
+func (md ParsedDescriptor) getParamCount() uint {
 	return uint(len(md.ParameterTypes))
 }
 
-func (md ParsedDescriptor) argSlotCount() uint {
-	slotCount := md.argCount()
+func (md ParsedDescriptor) getParamSlotCount() uint {
+	slotCount := md.getParamCount()
 	for _, paramType := range md.ParameterTypes {
 		if paramType.IsLongOrDouble() {
 			slotCount++

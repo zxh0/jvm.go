@@ -13,7 +13,7 @@ func newConstantInterfaceMethodRef(cf *classfile.ClassFile,
 
 	ref := &ConstantInterfaceMethodRef{}
 	ref.init(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
-	ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
+	ref.ParamSlotCount = calcParamSlotCount(ref.descriptor)
 	return ref
 }
 

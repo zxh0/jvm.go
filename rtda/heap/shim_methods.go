@@ -43,7 +43,7 @@ func BootstrapMethod() *Method {
 	method.AccessFlags = AccStatic
 	method.MaxStack = 8
 	method.MaxLocals = 8
-	method.ArgSlotCount = 2
+	method.ParamSlotCount = 2
 	method.Code = []byte{0xff, 0xb1} // bootstrap, return
 	return method
 }

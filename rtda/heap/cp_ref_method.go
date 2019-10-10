@@ -6,9 +6,9 @@ import (
 
 type ConstantMethodRef struct {
 	ConstantMemberRef
-	ArgSlotCount uint
-	method       *Method
-	vslot        int
+	ParamSlotCount uint
+	method         *Method
+	vslot          int
 }
 
 func newConstantMethodRef(cf *classfile.ClassFile,
@@ -16,7 +16,7 @@ func newConstantMethodRef(cf *classfile.ClassFile,
 
 	ref := &ConstantMethodRef{vslot: -1}
 	ref.init(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
-	ref.ArgSlotCount = calcArgSlotCount(ref.descriptor)
+	ref.ParamSlotCount = calcParamSlotCount(ref.descriptor)
 	return ref
 }
 

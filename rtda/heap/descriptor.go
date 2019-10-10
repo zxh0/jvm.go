@@ -8,17 +8,17 @@ func (ft FieldOrReturnType) IsObjectType() bool   { return ft[0] == 'L' }
 func (ft FieldOrReturnType) IsArrayType() bool    { return ft[0] == '[' }
 func (ft FieldOrReturnType) IsLongOrDouble() bool { return ft == "J" || ft == "D" }
 
-type MethodDescriptor struct {
+type ParsedDescriptor struct {
 	ParameterTypes []FieldOrReturnType
 	ReturnType     FieldOrReturnType
 }
 
 // parameterCount()
-func (md MethodDescriptor) argCount() uint {
+func (md ParsedDescriptor) argCount() uint {
 	return uint(len(md.ParameterTypes))
 }
 
-func (md MethodDescriptor) argSlotCount() uint {
+func (md ParsedDescriptor) argSlotCount() uint {
 	slotCount := md.argCount()
 	for _, paramType := range md.ParameterTypes {
 		if paramType.IsLongOrDouble() {

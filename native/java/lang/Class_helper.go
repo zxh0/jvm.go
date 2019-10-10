@@ -6,7 +6,7 @@ import (
 )
 
 func getParameterTypeArr(method *heap.Method) *heap.Object {
-	paramTypes := method.ParameterTypes()
+	paramTypes := method.GetParameterTypes()
 	paramCount := len(paramTypes)
 
 	classClass := heap.BootLoader().JLClassClass()
@@ -23,12 +23,12 @@ func getParameterTypeArr(method *heap.Method) *heap.Object {
 }
 
 func getReturnType(method *heap.Method) *heap.Object {
-	goReturnType := method.ReturnType()
+	goReturnType := method.GetReturnType()
 	return goReturnType.JClass
 }
 
 func getExceptionTypeArr(method *heap.Method) *heap.Object {
-	exTypes := method.ExceptionTypes()
+	exTypes := method.GetExceptionTypes()
 	exCount := len(exTypes)
 
 	classClass := heap.BootLoader().JLClassClass()

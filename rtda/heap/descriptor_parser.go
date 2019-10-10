@@ -8,15 +8,15 @@ func calcArgSlotCount(descriptor string) uint {
 	return parseMethodDescriptor(descriptor).argSlotCount()
 }
 
-func parseMethodDescriptor(descriptor string) MethodDescriptor {
+func parseMethodDescriptor(descriptor string) ParsedDescriptor {
 	parser := &MethodDescriptorParser{descriptor}
 	return parser.parse()
 }
 
-func (parser *MethodDescriptorParser) parse() MethodDescriptor {
+func (parser *MethodDescriptorParser) parse() ParsedDescriptor {
 	if paramTypes, ok := parser.parseParamTypes(); ok {
 		if returnType, ok := parser.parseReturnType(); ok {
-			return MethodDescriptor{
+			return ParsedDescriptor{
 				ParameterTypes: paramTypes,
 				ReturnType:     returnType,
 			}

@@ -36,7 +36,7 @@ func convertArgs(this, argArr *heap.Object, method *heap.Method) []heap.Slot {
 	}
 
 	argObjs := argArr.Refs()
-	argTypes := method.ParsedDescriptor.ParameterTypes
+	argTypes := method.ParameterTypes
 
 	args := make([]heap.Slot, method.ArgSlotCount)
 	j := 0

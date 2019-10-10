@@ -49,7 +49,7 @@ func _invokeMethod(frame *rtda.Frame) {
 
 	args := convertArgs(obj, argArrObj, goMethod)
 	// remember return type
-	returnType := goMethod.ParsedDescriptor.ReturnType
+	returnType := goMethod.ReturnType
 	frame.SetLocalVar(0, heap.NewHackSlot(returnType))
 
 	if len(args) > 1 {

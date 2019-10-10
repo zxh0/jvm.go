@@ -1,12 +1,12 @@
 package heap
 
-func (method *Method) ParameterTypes() []*Class {
+func (method *Method) GetParameterTypes() []*Class {
 	if method.ArgSlotCount == 0 {
 		return nil
 	}
 
 	paramClasses := make([]*Class, 0, method.ArgSlotCount)
-	for _, paramType := range method.ParsedDescriptor.ParameterTypes {
+	for _, paramType := range method.ParameterTypes {
 		paramClassName := getClassName(string(paramType))
 		paramClasses = append(paramClasses, bootLoader.LoadClass(paramClassName))
 	}
@@ -14,14 +14,14 @@ func (method *Method) ParameterTypes() []*Class {
 	return paramClasses
 }
 
-func (method *Method) ReturnType() *Class {
-	returnDescriptor := method.ParsedDescriptor.ReturnType
+func (method *Method) GetReturnType() *Class {
+	returnDescriptor := method.ReturnType
 	returnClassName := getClassName(string(returnDescriptor))
 	returnClass := bootLoader.LoadClass(returnClassName)
 	return returnClass
 }
 
-func (method *Method) ExceptionTypes() []*Class {
+func (method *Method) GetExceptionTypes() []*Class {
 	if method.exIndexTable == nil {
 		return nil
 	}

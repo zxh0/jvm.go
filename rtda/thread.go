@@ -19,7 +19,7 @@ JVM
         OperandStack
 */
 type Thread struct {
-	pc              int // the address of the instruction currently being executed
+	PC              int // the address of the instruction currently being executed
 	stack           *Stack
 	frameCache      *FrameCache
 	jThread         *heap.Object // java.lang.Thread
@@ -47,12 +47,6 @@ func NewThread(jThread *heap.Object, opts options.Options) *Thread {
 }
 
 // getters & setters
-func (thread *Thread) PC() int {
-	return thread.pc
-}
-func (thread *Thread) SetPC(pc int) {
-	thread.pc = pc
-}
 func (thread *Thread) JThread() *heap.Object {
 	return thread.jThread
 }
@@ -126,7 +120,7 @@ func _passArgs(stack *OperandStack, vars *LocalVars, argSlotsCount uint) {
 	args := stack.PopTops(argSlotsCount)
 	for i := uint(0); i < argSlotsCount; i++ {
 		arg := args[i]
-		args[i] = EmptySlot
+		args[i] = heap.EmptySlot
 		vars.SetLocalVar(i, arg)
 	}
 }
@@ -141,7 +135,7 @@ func (thread *Thread) _logInvoke(stackSize uint, method *heap.Method) {
 	}
 }
 
-func (thread *Thread) InvokeMethodWithShim(method *heap.Method, args []Slot) {
+func (thread *Thread) InvokeMethodWithShim(method *heap.Method, args []heap.Slot) {
 	shimFrame := newShimFrame(thread, args)
 	thread.PushFrame(shimFrame)
 	thread.InvokeMethod(method)

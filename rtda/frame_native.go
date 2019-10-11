@@ -7,12 +7,12 @@ import (
 )
 
 var (
-	_native_hack_ireturn = []byte{0xfe, 0xac}
-	_native_hack_lreturn = []byte{0xfe, 0xad}
-	_native_hack_freturn = []byte{0xfe, 0xae}
-	_native_hack_dreturn = []byte{0xfe, 0xaf}
-	_native_hack_areturn = []byte{0xfe, 0xb0}
-	_native_hack_return  = []byte{0xfe, 0xb1}
+	_invokeNativeIReturn = []byte{0xfe, 0xac}
+	_invokeNativeLReturn = []byte{0xfe, 0xad}
+	_invokeNativeFReturn = []byte{0xfe, 0xae}
+	_invokeNativeDReturn = []byte{0xfe, 0xaf}
+	_invokeNativeAReturn = []byte{0xfe, 0xb0}
+	_invokeNativeReturn  = []byte{0xfe, 0xb1}
 )
 
 func newNativeFrame(thread *Thread, method *heap.Method) *Frame {
@@ -30,19 +30,19 @@ func newNativeFrame(thread *Thread, method *heap.Method) *Frame {
 }
 
 func getHackCode(methodDescriptor string) []byte {
-	returnType := strings.Split(methodDescriptor, ")")[1]
-	switch returnType[0] {
+	rParenIdx := strings.IndexByte(methodDescriptor, ')')
+	switch methodDescriptor[rParenIdx+1] {
 	case 'V':
-		return _native_hack_return
+		return _invokeNativeReturn
 	case 'L', '[':
-		return _native_hack_areturn
+		return _invokeNativeAReturn
 	case 'D':
-		return _native_hack_dreturn
+		return _invokeNativeDReturn
 	case 'F':
-		return _native_hack_freturn
+		return _invokeNativeFReturn
 	case 'J':
-		return _native_hack_lreturn
+		return _invokeNativeLReturn
 	default:
-		return _native_hack_ireturn
+		return _invokeNativeIReturn
 	}
 }

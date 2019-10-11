@@ -56,7 +56,7 @@ func _loop(thread *rtda.Thread) {
 	for {
 		frame := thread.CurrentFrame()
 		pc := frame.NextPC
-		thread.SetPC(pc)
+		thread.PC = pc
 
 		// fetch instruction
 		method := frame.Method
@@ -121,7 +121,7 @@ func _logInstruction(frame *rtda.Frame, inst base.Instruction) {
 	thread := frame.Thread
 	method := frame.Method
 	className := method.Class.Name
-	pc := thread.PC()
+	pc := thread.PC
 
 	if method.IsStatic() {
 		fmt.Printf("[instruction] thread:%p %v.%v() #%v %T %v\n",

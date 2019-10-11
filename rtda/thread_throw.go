@@ -6,7 +6,7 @@ import (
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
-func (thread *Thread) throwException(className, initDesc string, initArgs ...Slot) {
+func (thread *Thread) throwException(className, initDesc string, initArgs ...heap.Slot) {
 	class := heap.BootLoader().LoadClass(className)
 	exObj := class.NewObj()
 	athrowFrame := newAthrowFrame(thread, exObj, initArgs)

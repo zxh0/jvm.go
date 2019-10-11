@@ -6,13 +6,13 @@ import (
 
 type OperandStack struct {
 	size  uint // TODO: change to int
-	slots []Slot
+	slots []heap.Slot
 }
 
 func newOperandStack(size uint) OperandStack {
-	var slots []Slot = nil
+	var slots []heap.Slot = nil
 	if size > 0 {
-		slots = make([]Slot, size)
+		slots = make([]heap.Slot, size)
 	}
 	return OperandStack{size: 0, slots: slots}
 }
@@ -22,7 +22,7 @@ func (stack *OperandStack) IsStackEmpty() bool {
 }
 
 func (stack *OperandStack) PushNull() {
-	stack.Push(EmptySlot)
+	stack.Push(heap.EmptySlot)
 }
 
 func (stack *OperandStack) PushBoolean(val bool) {
@@ -77,31 +77,31 @@ func (stack *OperandStack) PopRef() *heap.Object {
 	return stack.Pop().Ref
 }
 
-func (stack *OperandStack) Push(slot Slot) {
+func (stack *OperandStack) Push(slot heap.Slot) {
 	stack.slots[stack.size] = slot
 	stack.size++
 }
-func (stack *OperandStack) Pop() Slot {
+func (stack *OperandStack) Pop() heap.Slot {
 	stack.size--
 	top := stack.slots[stack.size]
-	stack.slots[stack.size] = EmptySlot // help GC
+	stack.slots[stack.size] = heap.EmptySlot // help GC
 	return top
 }
 
-func (stack *OperandStack) PushL(slot Slot, isLongOrDouble bool) {
+func (stack *OperandStack) PushL(slot heap.Slot, isLongOrDouble bool) {
 	stack.Push(slot)
 	if isLongOrDouble {
 		stack.size++
 	}
 }
-func (stack *OperandStack) PopL(isLongOrDouble bool) Slot {
+func (stack *OperandStack) PopL(isLongOrDouble bool) heap.Slot {
 	if isLongOrDouble {
 		stack.size--
 	}
 	return stack.Pop()
 }
 
-func (stack *OperandStack) PopTops(n uint) []Slot {
+func (stack *OperandStack) PopTops(n uint) []heap.Slot {
 	start := stack.size - n
 	end := stack.size
 	top := stack.slots[start:end]
@@ -116,12 +116,12 @@ func (stack *OperandStack) TopRef(n uint) *heap.Object {
 func (stack *OperandStack) ClearStack() {
 	stack.size = 0
 	for i := range stack.slots {
-		stack.slots[i] = EmptySlot
+		stack.slots[i] = heap.EmptySlot
 	}
 }
 
 // only used by native methods
-func (stack *OperandStack) HackSetSlots(slots []Slot) { // TODO
+func (stack *OperandStack) HackSetSlots(slots []heap.Slot) { // TODO
 	stack.slots = slots
 	stack.size = uint(len(slots))
 }

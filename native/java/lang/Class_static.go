@@ -39,7 +39,7 @@ func forName0(frame *rtda.Frame) {
 	if initialize && goClass.InitializationNotStarted() {
 		// undo forName0
 		thread := frame.Thread
-		frame.NextPC = thread.PC()
+		frame.NextPC = thread.PC
 		// init class
 		thread.InitClass(goClass)
 	} else {

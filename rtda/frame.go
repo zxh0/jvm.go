@@ -50,7 +50,7 @@ func (frame *Frame) reset(method *heap.Method) {
 }
 
 func (frame *Frame) RevertNextPC() {
-	frame.NextPC = frame.Thread.pc
+	frame.NextPC = frame.Thread.PC
 }
 
 func (frame *Frame) Load(idx uint, isLongOrDouble bool) {

@@ -5,13 +5,13 @@ import (
 )
 
 type LocalVars struct {
-	slots []Slot
+	slots []heap.Slot
 }
 
 func newLocalVars(size uint) LocalVars {
-	var slots []Slot = nil
+	var slots []heap.Slot = nil
 	if size > 0 {
-		slots = make([]Slot, size)
+		slots = make([]heap.Slot, size)
 	}
 	return LocalVars{slots: slots}
 }
@@ -51,10 +51,10 @@ func (lv *LocalVars) SetRefVar(index uint, ref *heap.Object) {
 	lv.SetLocalVar(index, heap.NewRefSlot(ref))
 }
 
-func (lv *LocalVars) GetLocalVar(index uint) Slot {
+func (lv *LocalVars) GetLocalVar(index uint) heap.Slot {
 	return lv.slots[index]
 }
-func (lv *LocalVars) SetLocalVar(index uint, slot Slot) {
+func (lv *LocalVars) SetLocalVar(index uint, slot heap.Slot) {
 	lv.slots[index] = slot
 }
 
@@ -67,6 +67,6 @@ func (lv *LocalVars) GetThis() *heap.Object {
 
 func (lv *LocalVars) clearLocalVars() {
 	for i := range lv.slots {
-		lv.slots[i] = EmptySlot
+		lv.slots[i] = heap.EmptySlot
 	}
 }

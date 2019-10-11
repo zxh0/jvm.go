@@ -35,7 +35,7 @@ func (instr *ANewArray) Execute(frame *rtda.Frame) {
 
 	if componentClass.InitializationNotStarted() {
 		thread := frame.Thread
-		frame.NextPC = thread.PC() // undo anewarray
+		frame.NextPC = thread.PC // undo anewarray
 		thread.InitClass(componentClass)
 		return
 	}

@@ -88,7 +88,7 @@ func getDeclaringClass0(frame *rtda.Frame) {
 
 	// todo
 	declaringClassName := class.Name[:lastDollarIndex]
-	declaringClass := frame.ClassLoader().LoadClass(declaringClassName)
+	declaringClass := frame.GetClassLoader().LoadClass(declaringClassName)
 	frame.PushRef(declaringClass.JClass)
 }
 
@@ -100,7 +100,7 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 		frame.PushNull()
 	} else {
 		emInfo := class.EnclosingMethod
-		emInfoObj := _createEnclosintMethodInfo(frame.ClassLoader(), emInfo)
+		emInfoObj := _createEnclosintMethodInfo(frame.GetClassLoader(), emInfo)
 		if emInfoObj == nil || heap.ArrayLength(emInfoObj) == 0 {
 			frame.PushNull()
 		} else {

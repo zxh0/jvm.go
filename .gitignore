@@ -4,6 +4,7 @@
 *.iml
 .gradle
 
+bin
 build
 out
 myjre

@@ -4,6 +4,7 @@ import (
 	"sync"
 )
 
+// TODO: use WaitGroup?
 var (
 	aliveCount = 0
 	lock       = &sync.Mutex{}

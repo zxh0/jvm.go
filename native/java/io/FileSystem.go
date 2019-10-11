@@ -17,7 +17,7 @@ func _fs(method func(frame *rtda.Frame), name, desc string) {
 // ()Ljava/io/FileSystem;
 func getFileSystem(frame *rtda.Frame) {
 	thread := frame.Thread()
-	unixFsClass := frame.ClassLoader().LoadClass("java/io/UnixFileSystem")
+	unixFsClass := frame.GetClassLoader().LoadClass("java/io/UnixFileSystem")
 	if unixFsClass.InitializationNotStarted() {
 		frame.SetNextPC(thread.PC()) // undo getFileSystem
 		thread.InitClass(unixFsClass)

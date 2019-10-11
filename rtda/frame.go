@@ -70,11 +70,6 @@ func (frame *Frame) RevertNextPC() {
 	frame.nextPC = frame.thread.pc
 }
 
-// todo
-func (frame *Frame) ClassLoader() *heap.ClassLoader {
-	return heap.BootLoader()
-}
-
 func (frame *Frame) Load(idx uint, isLongOrDouble bool) {
 	slot := frame.GetLocalVar(idx)
 	frame.Push(slot)
@@ -96,4 +91,9 @@ func (frame *Frame) GetClass() *heap.Class {
 }
 func (frame *Frame) GetConstantPool() heap.ConstantPool {
 	return frame.method.Class.ConstantPool
+}
+
+// todo
+func (frame *Frame) GetClassLoader() *heap.ClassLoader {
+	return heap.BootLoader()
 }

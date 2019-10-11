@@ -16,7 +16,7 @@ func _perf(method func(frame *rtda.Frame), name, desc string) {
 // public native ByteBuffer createLong(String name, int variability, int units, long value);
 // (Ljava/lang/String;IIJ)Ljava/nio/ByteBuffer;
 func createLong(frame *rtda.Frame) {
-	bbClass := frame.ClassLoader().LoadClass("java/nio/ByteBuffer")
+	bbClass := frame.GetClassLoader().LoadClass("java/nio/ByteBuffer")
 	if bbClass.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread().InitClass(bbClass)

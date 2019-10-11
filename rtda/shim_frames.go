@@ -6,8 +6,8 @@ import (
 
 func newShimFrame(thread *Thread, args []Slot) *Frame {
 	frame := &Frame{}
-	frame.thread = thread
-	frame.method = heap.ReturnMethod()
+	frame.Thread = thread
+	frame.Method = shimReturnMethod
 	frame.OperandStack = OperandStack{
 		size:  uint(len(args)),
 		slots: args,
@@ -23,8 +23,8 @@ func newAthrowFrame(thread *Thread, ex *heap.Object, initArgs []Slot) *Frame {
 	copy(stackSlots[2:], initArgs)
 
 	frame := &Frame{}
-	frame.thread = thread
-	frame.method = heap.AthrowMethod()
+	frame.Thread = thread
+	frame.Method = shimAThrowMethod
 	frame.OperandStack = OperandStack{
 		size:  uint(len(stackSlots)),
 		slots: stackSlots,

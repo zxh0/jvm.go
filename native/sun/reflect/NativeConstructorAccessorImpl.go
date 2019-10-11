@@ -24,7 +24,7 @@ func newInstance0(frame *rtda.Frame) {
 	goClass := goConstructor.Class
 	if goClass.InitializationNotStarted() {
 		frame.RevertNextPC()
-		frame.Thread().InitClass(goClass)
+		frame.Thread.InitClass(goClass)
 		return
 	}
 
@@ -33,5 +33,5 @@ func newInstance0(frame *rtda.Frame) {
 
 	// call <init>
 	args := convertArgs(obj, argArrObj, goConstructor)
-	frame.Thread().InvokeMethodWithShim(goConstructor, args)
+	frame.Thread.InvokeMethodWithShim(goConstructor, args)
 }

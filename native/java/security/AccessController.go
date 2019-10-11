@@ -26,7 +26,7 @@ func doPrivileged(frame *rtda.Frame) {
 	frame.PushRef(action)
 
 	method := action.Class.GetInstanceMethod("run", "()Ljava/lang/Object;") // todo
-	frame.Thread().InvokeMethod(method)
+	frame.Thread.InvokeMethod(method)
 }
 
 // @CallerSensitive

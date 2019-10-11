@@ -19,12 +19,12 @@ func createLong(frame *rtda.Frame) {
 	bbClass := frame.GetClassLoader().LoadClass("java/nio/ByteBuffer")
 	if bbClass.InitializationNotStarted() {
 		frame.RevertNextPC()
-		frame.Thread().InitClass(bbClass)
+		frame.Thread.InitClass(bbClass)
 		return
 	}
 
 	frame.PushInt(8)
 
 	allocate := bbClass.GetStaticMethod("allocate", "(I)Ljava/nio/ByteBuffer;")
-	frame.Thread().InvokeMethod(allocate)
+	frame.Thread.InvokeMethod(allocate)
 }

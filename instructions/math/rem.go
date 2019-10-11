@@ -35,7 +35,7 @@ func (instr *IRem) Execute(frame *rtda.Frame) {
 	v1 := frame.PopInt()
 
 	if v2 == 0 {
-		frame.Thread().ThrowDivByZero()
+		frame.Thread.ThrowDivByZero()
 	} else {
 		result := v1 % v2
 		frame.PushInt(result)
@@ -50,7 +50,7 @@ func (instr *LRem) Execute(frame *rtda.Frame) {
 	v1 := frame.PopLong()
 
 	if v2 == 0 {
-		frame.Thread().ThrowDivByZero()
+		frame.Thread.ThrowDivByZero()
 	} else {
 		result := v1 % v2
 		frame.PushLong(result)

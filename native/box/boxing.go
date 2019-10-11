@@ -40,10 +40,10 @@ func _callValueOf(frame *rtda.Frame, primitiveDescriptor, wrapperClassName strin
 	wrapperClass := heap.BootLoader().LoadClass(wrapperClassName)
 	valueOfDescriptor := "(" + primitiveDescriptor + ")L" + wrapperClassName + ";"
 	valueOfMethod := wrapperClass.GetStaticMethod("valueOf", valueOfDescriptor)
-	frame.Thread().InvokeMethod(valueOfMethod)
+	frame.Thread.InvokeMethod(valueOfMethod)
 
 	// init wrapper class
 	if wrapperClass.InitializationNotStarted() {
-		frame.Thread().InitClass(wrapperClass)
+		frame.Thread.InitClass(wrapperClass)
 	}
 }

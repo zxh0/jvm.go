@@ -133,11 +133,11 @@ func (instr *SAStore) Execute(frame *rtda.Frame) {
 
 func _checkArrayAndIndex(frame *rtda.Frame, arrRef *heap.Object, index int32) bool {
 	if arrRef == nil {
-		frame.Thread().ThrowNPE()
+		frame.Thread.ThrowNPE()
 		return false
 	}
 	if index < 0 || index >= heap.ArrayLength(arrRef) {
-		frame.Thread().ThrowArrayIndexOutOfBoundsException(index)
+		frame.Thread.ThrowArrayIndexOutOfBoundsException(index)
 		return false
 	}
 	return true

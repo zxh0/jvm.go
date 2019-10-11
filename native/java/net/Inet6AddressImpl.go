@@ -45,7 +45,7 @@ func i6di_lookupAllHostAddr(frame *rtda.Frame) {
 	//TODO
 	//getByName descriptor:(Ljava/lang/String;)Ljava/net/InetAddress;
 	//if constructorCount > 0 {
-	//	thread := frame.Thread()
+	//	thread := frame.Thread
 	//	constructorObjs := inetAddressArr.Refs()
 	//	inetAddressGetByNameMethod := inetAddress.GetStaticMethod("getByName", "(Ljava/lang/String;)Ljava/net/InetAddress;")
 

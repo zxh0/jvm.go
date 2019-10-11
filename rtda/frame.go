@@ -9,12 +9,12 @@ type Frame struct {
 	LocalVars
 	OperandStack
 	lower       *Frame // stack is implemented as linked list
-	thread      *Thread
-	method      *heap.Method
+	Thread      *Thread
+	Method      *heap.Method
 	maxLocals   uint
 	maxStack    uint
-	nextPC      int // the next instruction after the call
-	onPopAction func()
+	NextPC      int // the next instruction after the call
+	OnPopAction func()
 }
 
 // TODO
@@ -27,8 +27,8 @@ func NewFrame(maxLocals, maxStack int) *Frame {
 
 func newFrame(thread *Thread, method *heap.Method) *Frame {
 	return &Frame{
-		thread:       thread,
-		method:       method,
+		Thread:       thread,
+		Method:       method,
 		maxLocals:    method.MaxLocals,
 		maxStack:     method.MaxStack,
 		LocalVars:    newLocalVars(method.MaxLocals),
@@ -37,10 +37,10 @@ func newFrame(thread *Thread, method *heap.Method) *Frame {
 }
 
 func (frame *Frame) reset(method *heap.Method) {
-	frame.method = method
-	frame.nextPC = 0
+	frame.Method = method
+	frame.NextPC = 0
 	frame.lower = nil
-	frame.onPopAction = nil
+	frame.OnPopAction = nil
 	if frame.maxLocals > 0 {
 		frame.clearLocalVars()
 	}
@@ -49,25 +49,8 @@ func (frame *Frame) reset(method *heap.Method) {
 	}
 }
 
-// getters & setters
-func (frame *Frame) Thread() *Thread {
-	return frame.thread
-}
-func (frame *Frame) Method() *heap.Method {
-	return frame.method
-}
-func (frame *Frame) NextPC() int {
-	return frame.nextPC
-}
-func (frame *Frame) SetNextPC(nextPC int) {
-	frame.nextPC = nextPC
-}
-func (frame *Frame) SetOnPopAction(f func()) {
-	frame.onPopAction = f
-}
-
 func (frame *Frame) RevertNextPC() {
-	frame.nextPC = frame.thread.pc
+	frame.NextPC = frame.Thread.pc
 }
 
 func (frame *Frame) Load(idx uint, isLongOrDouble bool) {
@@ -87,10 +70,10 @@ func (frame *Frame) Store(idx uint, isLongOrDouble bool) {
 
 // shortcuts
 func (frame *Frame) GetClass() *heap.Class {
-	return frame.method.Class
+	return frame.Method.Class
 }
 func (frame *Frame) GetConstantPool() heap.ConstantPool {
-	return frame.method.Class.ConstantPool
+	return frame.Method.Class.ConstantPool
 }
 
 // todo

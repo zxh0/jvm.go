@@ -27,9 +27,9 @@ func (instr *InvokeStatic) Execute(frame *rtda.Frame) {
 	class := instr.method.Class
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC()
-		frame.Thread().InitClass(class)
+		frame.Thread.InitClass(class)
 		return
 	}
 
-	frame.Thread().InvokeMethod(instr.method)
+	frame.Thread.InvokeMethod(instr.method)
 }

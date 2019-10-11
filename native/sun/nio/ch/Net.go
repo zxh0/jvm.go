@@ -74,7 +74,7 @@ func net_bind0(frame *rtda.Frame) {
 	laddr := fmt.Sprintf("%s:%d", hostName, port.IntValue())
 	listen, err := net.Listen("tcp", laddr)
 	if err != nil {
-		frame.Thread().ThrowIOException(err.Error())
+		frame.Thread.ThrowIOException(err.Error())
 	}
 	this.Extra = listen
 }

@@ -34,7 +34,7 @@ func fillInStackTrace(frame *rtda.Frame) {
 }
 
 func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTraceElement {
-	thread := frame.Thread()
+	thread := frame.Thread
 	depth := thread.StackDepth()
 
 	// skip unrelated frames
@@ -42,17 +42,17 @@ func createStackTraceElements(tObj *heap.Object, frame *rtda.Frame) []*StackTrac
 	for k := tObj.Class; k != nil; k = k.SuperClass {
 		i++
 	}
-	if thread.TopFrameN(i).Method().Name == "<athrow>" {
+	if thread.TopFrameN(i).Method.Name == "<athrow>" {
 		i++
 	}
 
 	stes := make([]*StackTraceElement, 0, depth)
 	for ; i < depth; i++ {
 		frameN := thread.TopFrameN(i)
-		methodN := frameN.Method()
+		methodN := frameN.Method
 		classN := methodN.Class
 		if classN.Name != "~shim" { // skip shim frame
-			lineNumber := methodN.GetLineNumber(frameN.NextPC() - 1)
+			lineNumber := methodN.GetLineNumber(frameN.NextPC - 1)
 			ste := &StackTraceElement{
 				declaringClass: classN.NameJlsFormat(),
 				methodName:     methodN.Name,

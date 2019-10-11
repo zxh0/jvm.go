@@ -55,11 +55,11 @@ func _loop(thread *rtda.Thread) {
 
 	for {
 		frame := thread.CurrentFrame()
-		pc := frame.NextPC()
+		pc := frame.NextPC
 		thread.SetPC(pc)
 
 		// fetch instruction
-		method := frame.Method()
+		method := frame.Method
 		if method.Instructions == nil {
 			method.Instructions = instructions.Decode(method.Code)
 		}
@@ -74,7 +74,7 @@ func _loop(thread *rtda.Thread) {
 				break
 			}
 		}
-		frame.SetNextPC(pc)
+		frame.NextPC = pc
 
 		// execute instruction
 		//_logInstruction(frame, inst)
@@ -109,17 +109,17 @@ func _catchErr(thread *rtda.Thread) {
 func _logFrames(thread *rtda.Thread) {
 	for !thread.IsStackEmpty() {
 		frame := thread.PopFrame()
-		method := frame.Method()
+		method := frame.Method
 		className := method.Class.Name
-		lineNum := method.GetLineNumber(frame.NextPC())
+		lineNum := method.GetLineNumber(frame.NextPC)
 		fmt.Printf(">> line:%4d pc:%4d %v.%v%v \n",
-			lineNum, frame.NextPC(), className, method.Name, method.Descriptor)
+			lineNum, frame.NextPC, className, method.Name, method.Descriptor)
 	}
 }
 
 func _logInstruction(frame *rtda.Frame, inst base.Instruction) {
-	thread := frame.Thread()
-	method := frame.Method()
+	thread := frame.Thread
+	method := frame.Method
 	className := method.Class.Name
 	pc := thread.PC()
 

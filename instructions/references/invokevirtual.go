@@ -22,10 +22,10 @@ func (instr *InvokeVirtual) Execute(frame *rtda.Frame) {
 
 	ref := frame.TopRef(instr.argSlotCount)
 	if ref == nil {
-		frame.Thread().ThrowNPE()
+		frame.Thread.ThrowNPE()
 		return
 	}
 
 	method := instr.kMethodRef.GetVirtualMethod(ref)
-	frame.Thread().InvokeMethod(method)
+	frame.Thread.InvokeMethod(method)
 }

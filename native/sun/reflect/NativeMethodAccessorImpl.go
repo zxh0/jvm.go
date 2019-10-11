@@ -38,7 +38,7 @@ func _invokeMethod(frame *rtda.Frame) {
 	if goMethod.IsStatic() {
 		if goMethod.Class.InitializationNotStarted() {
 			frame.RevertNextPC()
-			frame.Thread().InitClass(goMethod.Class)
+			frame.Thread.InitClass(goMethod.Class)
 			return
 		}
 	}
@@ -65,7 +65,7 @@ func _invokeMethod(frame *rtda.Frame) {
 		frame.PopRef()
 	}
 
-	frame.Thread().InvokeMethod(goMethod)
+	frame.Thread.InvokeMethod(goMethod)
 	if returnType.IsVoidType() {
 		frame.PushNull()
 	}

@@ -13,7 +13,7 @@ func (instr *ArrayLength) Execute(frame *rtda.Frame) {
 	arrRef := frame.PopRef()
 
 	if arrRef == nil {
-		frame.Thread().ThrowNPE()
+		frame.Thread.ThrowNPE()
 		return
 	}
 

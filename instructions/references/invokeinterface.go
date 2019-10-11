@@ -36,5 +36,5 @@ func (instr *InvokeInterface) Execute(frame *rtda.Frame) {
 	}
 
 	method := instr.kMethodRef.FindInterfaceMethod(ref)
-	frame.Thread().InvokeMethod(method)
+	frame.Thread.InvokeMethod(method)
 }

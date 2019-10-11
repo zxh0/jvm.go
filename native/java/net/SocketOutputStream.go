@@ -35,6 +35,6 @@ func sos_socketWrite0(frame *rtda.Frame) {
 	goBytes = goBytes[offset : offset+length]
 
 	if _, err := conn.Write(goBytes); err != nil {
-		frame.Thread().ThrowIOException(err.Error())
+		frame.Thread.ThrowIOException(err.Error())
 	}
 }

@@ -42,7 +42,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
 	frame.PushRef(fieldArr)
 
 	if fieldCount > 0 {
-		thread := frame.Thread()
+		thread := frame.Thread
 		fieldObjs := fieldArr.Refs()
 		fieldConstructor := fieldClass.GetConstructor(_fieldConstructorDescriptor)
 		for i, goField := range fields {

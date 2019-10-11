@@ -9,7 +9,7 @@ import (
 type MonitorEnter struct{ base.NoOperandsInstruction }
 
 func (instr *MonitorEnter) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	thread := frame.Thread
 	ref := frame.PopRef()
 	if ref == nil {
 		frame.RevertNextPC()
@@ -23,7 +23,7 @@ func (instr *MonitorEnter) Execute(frame *rtda.Frame) {
 type MonitorExit struct{ base.NoOperandsInstruction }
 
 func (instr *MonitorExit) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	thread := frame.Thread
 	ref := frame.PopRef()
 	if ref == nil {
 		frame.RevertNextPC()

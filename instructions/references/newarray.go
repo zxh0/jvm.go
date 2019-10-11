@@ -17,7 +17,7 @@ func (instr *NewArray) FetchOperands(reader *base.CodeReader) {
 func (instr *NewArray) Execute(frame *rtda.Frame) {
 	count := frame.PopInt()
 	if count < 0 {
-		frame.Thread().ThrowNegativeArraySizeException()
+		frame.Thread.ThrowNegativeArraySizeException()
 		return
 	}
 
@@ -34,15 +34,15 @@ func (instr *ANewArray) Execute(frame *rtda.Frame) {
 	componentClass := kClass.GetClass()
 
 	if componentClass.InitializationNotStarted() {
-		thread := frame.Thread()
-		frame.SetNextPC(thread.PC()) // undo anewarray
+		thread := frame.Thread
+		frame.NextPC = thread.PC() // undo anewarray
 		thread.InitClass(componentClass)
 		return
 	}
 
 	count := frame.PopInt()
 	if count < 0 {
-		frame.Thread().ThrowNegativeArraySizeException()
+		frame.Thread.ThrowNegativeArraySizeException()
 	} else {
 		arr := heap.NewRefArray(componentClass, uint(count))
 		frame.PushRef(arr)
@@ -66,7 +66,7 @@ func (instr *MultiANewArray) Execute(frame *rtda.Frame) {
 
 	counts := frame.PopTops(uint(instr.dimensions))
 	if !_checkCounts(counts) {
-		frame.Thread().ThrowNegativeArraySizeException()
+		frame.Thread.ThrowNegativeArraySizeException()
 	} else {
 		arr := _newMultiArray(counts, arrClass)
 		frame.PushRef(arr)

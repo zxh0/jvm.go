@@ -22,7 +22,7 @@ func (instr *PupStatic) Execute(frame *rtda.Frame) {
 	class := instr.field.Class
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC()
-		frame.Thread().InitClass(class)
+		frame.Thread.InitClass(class)
 		return
 	}
 

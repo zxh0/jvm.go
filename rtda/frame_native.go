@@ -17,8 +17,8 @@ var (
 
 func newNativeFrame(thread *Thread, method *heap.Method) *Frame {
 	frame := &Frame{}
-	frame.thread = thread
-	frame.method = method
+	frame.Thread = thread
+	frame.Method = method
 	frame.LocalVars = newLocalVars(method.ParamSlotCount) // todo
 	frame.OperandStack = newOperandStack(4)               // todo
 

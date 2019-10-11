@@ -22,7 +22,7 @@ func (instr *GetStatic) Execute(frame *rtda.Frame) {
 	class := instr.field.Class
 	if class.InitializationNotStarted() {
 		frame.RevertNextPC() // undo getstatic
-		frame.Thread().InitClass(class)
+		frame.Thread.InitClass(class)
 		return
 	}
 

@@ -56,7 +56,7 @@ func psi_socketConnect(frame *rtda.Frame) {
 	conn, err := net.Dial("tcp", laddr)
 
 	if err != nil {
-		frame.Thread().ThrowIOException(err.Error())
+		frame.Thread.ThrowIOException(err.Error())
 	}
 	//TODO what ? timeout how to implement ?
 	_timeout := frame.GetIntVar(3)
@@ -82,7 +82,7 @@ func psi_socketBind(frame *rtda.Frame) {
 	listen, err := net.Listen("tcp", laddr)
 
 	if err != nil {
-		frame.Thread().ThrowIOException(err.Error())
+		frame.Thread.ThrowIOException(err.Error())
 	}
 	this.Extra = listen
 }
@@ -100,7 +100,7 @@ func psi_socketAccept(frame *rtda.Frame) {
 	//goFd := fdObj.GetFieldValue("fd", "I").(int32)
 	listen := this.Extra.(net.Listener)
 	if conn, err := listen.Accept(); err != nil {
-		frame.Thread().ThrowIOException(err.Error())
+		frame.Thread.ThrowIOException(err.Error())
 	} else {
 		fdObj.Extra = conn
 	}

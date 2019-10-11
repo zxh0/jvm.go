@@ -48,7 +48,7 @@ func open(frame *rtda.Frame) {
 	goName := heap.GoString(name)
 	goFile, err := os.Open(goName)
 	if err != nil {
-		frame.Thread().ThrowFileNotFoundException(goName)
+		frame.Thread.ThrowFileNotFoundException(goName)
 		return
 	}
 

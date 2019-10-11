@@ -27,6 +27,6 @@ func (instr *CheckCast) Execute(frame *rtda.Frame) {
 	}
 
 	if !ref.IsInstanceOf(instr.class) {
-		frame.Thread().ThrowClassCastException(ref.Class, instr.class)
+		frame.Thread.ThrowClassCastException(ref.Class, instr.class)
 	}
 }

@@ -67,15 +67,15 @@ func initSuperClass(thread *Thread, class *heap.Class) {
 func callClinit(thread *Thread, class *heap.Class) {
 	clinit := class.GetClinitMethod()
 	if clinit == nil {
-		clinit = heap.ReturnMethod() // just do nothing
+		clinit = shimReturnMethod // just do nothing
 	}
 
 	// exec <clinit>
 	newFrame := thread.NewFrame(clinit)
-	newFrame.SetOnPopAction(func() {
+	newFrame.OnPopAction = func() {
 		// step 10
 		initSucceeded(class)
-	})
+	}
 	thread.PushFrame(newFrame)
 }
 

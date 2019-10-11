@@ -36,14 +36,14 @@ func getClassLoader0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	from := class.LoadedFrom
 
-	if cp.IsBootClassPath(from, frame.Thread().VMOptions.AbsJreLib) {
+	if cp.IsBootClassPath(from, frame.Thread.VMOptions.AbsJreLib) {
 		frame.PushRef(nil)
 		return
 	}
 
 	clClass := heap.BootLoader().LoadClass("java/lang/ClassLoader")
 	getSysCl := clClass.GetStaticMethod("getSystemClassLoader", "()Ljava/lang/ClassLoader;")
-	frame.Thread().InvokeMethod(getSysCl)
+	frame.Thread.InvokeMethod(getSysCl)
 }
 
 // public native Class<?> getComponentType();
@@ -63,7 +63,7 @@ func getConstantPool(frame *rtda.Frame) {
 	cpClass := heap.BootLoader().LoadClass("sun/reflect/ConstantPool")
 	if cpClass.InitializationNotStarted() {
 		frame.RevertNextPC()
-		frame.Thread().InitClass(cpClass)
+		frame.Thread.InitClass(cpClass)
 		return
 	}
 

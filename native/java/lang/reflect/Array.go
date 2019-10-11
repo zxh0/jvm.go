@@ -25,15 +25,15 @@ func get(frame *rtda.Frame) {
 	index := frame.GetIntVar(1)
 
 	if arr == nil {
-		frame.Thread().ThrowNPE()
+		frame.Thread.ThrowNPE()
 		return
 	}
 	if !arr.IsArray() {
-		frame.Thread().ThrowIllegalArgumentException("Argument is not an array")
+		frame.Thread.ThrowIllegalArgumentException("Argument is not an array")
 		return
 	}
 	if index < 0 || index >= heap.ArrayLength(arr) {
-		frame.Thread().ThrowArrayIndexOutOfBoundsExceptionNoMsg()
+		frame.Thread.ThrowArrayIndexOutOfBoundsExceptionNoMsg()
 		return
 	}
 
@@ -77,16 +77,16 @@ func set(frame *rtda.Frame) {
 	value := frame.GetRefVar(2)
 
 	if arr == nil {
-		frame.Thread().ThrowNPE()
+		frame.Thread.ThrowNPE()
 		return
 	}
 	if !arr.IsArray() {
-		frame.Thread().ThrowIllegalArgumentException("Argument is not an array")
+		frame.Thread.ThrowIllegalArgumentException("Argument is not an array")
 		return
 	}
 
 	if index < 0 || index >= heap.ArrayLength(arr) {
-		frame.Thread().ThrowArrayIndexOutOfBoundsExceptionNoMsg()
+		frame.Thread.ThrowArrayIndexOutOfBoundsExceptionNoMsg()
 		return
 	}
 
@@ -99,12 +99,12 @@ func set(frame *rtda.Frame) {
 	// Such as:
 	// [I
 	// java/lang/Integer
-	// frame.Thread().ThrowIllegalArgumentException("argument type mismatch")
+	// frame.Thread.ThrowIllegalArgumentException("argument type mismatch")
 
 	// primitive array
 	primitiveDescriptorStr := arr.Class.Name[1:]
 	if primitiveDescriptorStr != value.GetPrimitiveDescriptor() {
-		frame.Thread().ThrowIllegalArgumentException("argument type mismatch")
+		frame.Thread.ThrowIllegalArgumentException("argument type mismatch")
 		return
 	}
 

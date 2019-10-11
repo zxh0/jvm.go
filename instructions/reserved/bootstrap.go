@@ -19,7 +19,7 @@ var (
 type Bootstrap struct{ base.NoOperandsInstruction } // TODO
 
 func (instr *Bootstrap) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	thread := frame.Thread
 
 	if _classLoader == nil {
 		_classLoader = heap.BootLoader()

@@ -21,7 +21,7 @@ func (instr *GetField) Execute(frame *rtda.Frame) {
 
 	ref := frame.PopRef()
 	if ref == nil {
-		frame.Thread().ThrowNPE()
+		frame.Thread.ThrowNPE()
 		return
 	}
 

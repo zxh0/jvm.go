@@ -47,7 +47,7 @@ func sis_socketRead0(frame *rtda.Frame) {
 	} else {
 		// todo
 		panic(err.Error())
-		//frame.Thread().ThrowIOException(err.Error())
+		//frame.Thread.ThrowIOException(err.Error())
 	}
 
 }

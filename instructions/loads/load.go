@@ -122,11 +122,11 @@ func _aLoadPop(frame *rtda.Frame) (*heap.Object, int, bool) {
 	arrRef := frame.PopRef()
 
 	if arrRef == nil {
-		frame.Thread().ThrowNPE()
+		frame.Thread.ThrowNPE()
 		return nil, 0, false
 	}
 	if index < 0 || index >= heap.ArrayLength(arrRef) {
-		frame.Thread().ThrowArrayIndexOutOfBoundsException(index)
+		frame.Thread.ThrowArrayIndexOutOfBoundsException(index)
 		return nil, 0, false
 	}
 

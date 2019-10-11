@@ -22,7 +22,7 @@ func (instr *PutField) Execute(frame *rtda.Frame) {
 	val := frame.PopL(instr.field.IsLongOrDouble)
 	ref := frame.PopRef()
 	if ref == nil {
-		frame.Thread().ThrowNPE()
+		frame.Thread.ThrowNPE()
 		return
 	}
 

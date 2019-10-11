@@ -79,9 +79,9 @@ func (thread *Thread) PushFrame(frame *Frame) {
 }
 func (thread *Thread) PopFrame() *Frame {
 	top := thread.stack.pop()
-	if top.onPopAction != nil {
+	if top.OnPopAction != nil {
 		// todo
-		top.onPopAction()
+		top.OnPopAction()
 	}
 
 	thread.frameCache.returnFrame(top)
@@ -117,9 +117,9 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 		}
 
 		monitor.Enter(thread)
-		newFrame.SetOnPopAction(func() {
+		newFrame.OnPopAction = func() {
 			monitor.Exit(thread)
-		})
+		}
 	}
 }
 func _passArgs(stack *OperandStack, vars *LocalVars, argSlotsCount uint) {

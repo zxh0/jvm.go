@@ -53,7 +53,7 @@ func hashCode(frame *rtda.Frame) {
 func notifyAll(frame *rtda.Frame) {
 	this := frame.GetThis()
 
-	thread := frame.Thread()
+	thread := frame.Thread
 	monitor := this.Monitor
 	if !monitor.HasOwner(thread) {
 		// todo
@@ -69,7 +69,7 @@ func wait(frame *rtda.Frame) {
 	this := frame.GetThis()
 	// timeout := frame.GetLongVar(1) // todo
 
-	thread := frame.Thread()
+	thread := frame.Thread
 	monitor := this.Monitor
 	if !monitor.HasOwner(thread) {
 		// todo

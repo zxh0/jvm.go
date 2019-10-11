@@ -56,7 +56,7 @@ func ensureClassInitialized(frame *rtda.Frame) {
 		// undo ensureClassInitialized()
 		frame.RevertNextPC()
 		// init
-		frame.Thread().InitClass(goClass)
+		frame.Thread.InitClass(goClass)
 	}
 }
 

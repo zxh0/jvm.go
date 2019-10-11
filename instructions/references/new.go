@@ -22,7 +22,7 @@ func (instr *New) Execute(frame *rtda.Frame) {
 	// init class
 	if instr.class.InitializationNotStarted() {
 		frame.RevertNextPC() // undo new
-		frame.Thread().InitClass(instr.class)
+		frame.Thread.InitClass(instr.class)
 		return
 	}
 

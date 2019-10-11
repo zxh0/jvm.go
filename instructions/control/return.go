@@ -9,7 +9,7 @@ import (
 type Return struct{ base.NoOperandsInstruction }
 
 func (instr *Return) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	thread := frame.Thread
 	thread.PopFrame()
 }
 
@@ -17,7 +17,7 @@ func (instr *Return) Execute(frame *rtda.Frame) {
 type AReturn struct{ base.NoOperandsInstruction }
 
 func (instr *AReturn) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	thread := frame.Thread
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
 	ref := currentFrame.PopRef()
@@ -28,7 +28,7 @@ func (instr *AReturn) Execute(frame *rtda.Frame) {
 type DReturn struct{ base.NoOperandsInstruction }
 
 func (instr *DReturn) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	thread := frame.Thread
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
 	val := currentFrame.PopDouble()
@@ -39,7 +39,7 @@ func (instr *DReturn) Execute(frame *rtda.Frame) {
 type FReturn struct{ base.NoOperandsInstruction }
 
 func (instr *FReturn) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	thread := frame.Thread
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
 	val := currentFrame.PopFloat()
@@ -50,7 +50,7 @@ func (instr *FReturn) Execute(frame *rtda.Frame) {
 type IReturn struct{ base.NoOperandsInstruction }
 
 func (instr *IReturn) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	thread := frame.Thread
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
 	val := currentFrame.PopInt()
@@ -61,7 +61,7 @@ func (instr *IReturn) Execute(frame *rtda.Frame) {
 type LReturn struct{ base.NoOperandsInstruction }
 
 func (instr *LReturn) Execute(frame *rtda.Frame) {
-	thread := frame.Thread()
+	thread := frame.Thread
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
 	val := currentFrame.PopLong()

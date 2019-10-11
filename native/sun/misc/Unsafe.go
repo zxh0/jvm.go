@@ -48,7 +48,7 @@ func park(frame *rtda.Frame) {
 		}
 	}
 
-	frame.Thread().Park(parkTime)
+	frame.Thread.Park(parkTime)
 }
 
 //  public native void unpark(Object thread);

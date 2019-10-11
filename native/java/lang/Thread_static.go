@@ -19,7 +19,7 @@ func init() {
 // public static native Thread currentThread();
 // ()Ljava/lang/Thread;
 func currentThread(frame *rtda.Frame) {
-	jThread := frame.Thread().JThread()
+	jThread := frame.Thread.JThread()
 	frame.PushRef(jThread)
 }
 
@@ -28,7 +28,7 @@ func currentThread(frame *rtda.Frame) {
 func sleep(frame *rtda.Frame) {
 	millis := frame.GetLongVar(0)
 
-	thread := frame.Thread()
+	thread := frame.Thread
 	if millis < 0 {
 		thread.ThrowIllegalArgumentException("timeout value is negative")
 		return

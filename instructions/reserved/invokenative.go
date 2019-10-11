@@ -9,6 +9,6 @@ import (
 type InvokeNative struct{ base.NoOperandsInstruction }
 
 func (instr *InvokeNative) Execute(frame *rtda.Frame) {
-	nativeMethod := frame.Method().GetNativeMethod().(func(*rtda.Frame))
+	nativeMethod := frame.Method.GetNativeMethod().(func(*rtda.Frame))
 	nativeMethod(frame)
 }

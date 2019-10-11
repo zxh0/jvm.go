@@ -52,7 +52,7 @@ func raf_open(frame *rtda.Frame) {
 
 	goName := heap.GoString(name)
 	if goFile, err := os.OpenFile(goName, flag, 0660); err != nil {
-		frame.Thread().ThrowFileNotFoundException(goName)
+		frame.Thread.ThrowFileNotFoundException(goName)
 	} else {
 		this.Extra = goFile
 	}
@@ -65,7 +65,7 @@ func raf_close0(frame *rtda.Frame) {
 
 	goFile := this.Extra.(*os.File)
 	if err := goFile.Close(); err != nil {
-		frame.Thread().ThrowIOException(err.Error())
+		frame.Thread.ThrowIOException(err.Error())
 	}
 }
 
@@ -94,7 +94,7 @@ func raf_write0(frame *rtda.Frame) {
 	//b := make([]byte, 4)
 	//binary.BigEndian.PutUint32(b, uint32(intObj))
 	if _, err := goFile.Write([]byte{byte(intObj)}); err != nil {
-		frame.Thread().ThrowIOException(err.Error())
+		frame.Thread.ThrowIOException(err.Error())
 	}
 }
 
@@ -114,7 +114,7 @@ func raf_readBytes(frame *rtda.Frame) {
 	if err == nil || n > 0 {
 		frame.PushInt(int32(n))
 	} else {
-		frame.Thread().ThrowIOException(err.Error())
+		frame.Thread.ThrowIOException(err.Error())
 	}
 }
 
@@ -130,7 +130,7 @@ func raf_read0(frame *rtda.Frame) {
 	_, err := goFile.Read(b)
 
 	if err != nil {
-		frame.Thread().ThrowIOException(err.Error())
+		frame.Thread.ThrowIOException(err.Error())
 	}
 	//n := binary.BigEndian.Uint32(b)
 	//frame.PushInt(int32(n))
@@ -146,11 +146,11 @@ func raf_seek0(frame *rtda.Frame) {
 	goFile := this.Extra.(*os.File)
 
 	if pos < 0 {
-		frame.Thread().ThrowIOException("Negative seek offset")
+		frame.Thread.ThrowIOException("Negative seek offset")
 	}
 
 	if _, err := goFile.Seek(pos, os.SEEK_SET); err != nil {
-		frame.Thread().ThrowIOException("Seek failed")
+		frame.Thread.ThrowIOException("Seek failed")
 	}
 }
 
@@ -162,7 +162,7 @@ func raf_getFilePointer(frame *rtda.Frame) {
 	goFile := this.Extra.(*os.File)
 
 	if pos, err := goFile.Seek(0, os.SEEK_CUR); err != nil {
-		frame.Thread().ThrowIOException("Seek failed")
+		frame.Thread.ThrowIOException("Seek failed")
 	} else {
 		frame.PushLong(pos)
 	}
@@ -178,16 +178,16 @@ func raf_length(frame *rtda.Frame) {
 
 	cur, err := goFile.Seek(0, os.SEEK_CUR)
 	if err != nil {
-		frame.Thread().ThrowIOException("Seek failed")
+		frame.Thread.ThrowIOException("Seek failed")
 	}
 
 	end, err := goFile.Seek(0, os.SEEK_END)
 	if err != nil {
-		frame.Thread().ThrowIOException("Seek failed")
+		frame.Thread.ThrowIOException("Seek failed")
 	}
 
 	if _, err := goFile.Seek(cur, os.SEEK_SET); err != nil {
-		frame.Thread().ThrowIOException("Seek failed")
+		frame.Thread.ThrowIOException("Seek failed")
 	}
 
 	frame.PushLong(end)
@@ -210,12 +210,12 @@ func raf_setLength(frame *rtda.Frame) {
 	newLength = 0
 	if cur > newLength {
 		if _, err := goFile.Seek(0, os.SEEK_END); err != nil {
-			frame.Thread().ThrowIOException("setLength failed")
+			frame.Thread.ThrowIOException("setLength failed")
 		}
 
 	} else {
 		if _, err := goFile.Seek(cur, os.SEEK_SET); err != nil {
-			frame.Thread().ThrowIOException("setLength failed")
+			frame.Thread.ThrowIOException("setLength failed")
 		}
 	}
 }

@@ -2,6 +2,7 @@ package lang
 
 import (
 	"runtime"
+	"sort"
 	"time"
 	"unsafe"
 
@@ -92,7 +93,12 @@ func initProperties(frame *rtda.Frame) {
 	// public synchronized Object setProperty(String key, String value)
 	setPropMethod := props.Class.GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
 	thread := frame.Thread
-	for key, val := range _sysProps(thread.VMOptions.AbsJavaHome) {
+
+	sysPropMap := _getSysProps(thread.VMOptions.AbsJavaHome)
+	sysPropKeys := _getSysPropKeys(sysPropMap)
+
+	for _, key := range sysPropKeys {
+		val := sysPropMap[key]
 		jKey := heap.JString(key)
 		jVal := heap.JString(val)
 		args := []heap.Slot{heap.NewRefSlot(props), heap.NewRefSlot(jKey), heap.NewRefSlot(jVal)}
@@ -100,7 +106,16 @@ func initProperties(frame *rtda.Frame) {
 	}
 }
 
-func _sysProps(absJavaHome string) map[string]string {
+func _getSysPropKeys(m map[string]string) []string {
+	keys := make([]string, 0, len(m))
+	for key, _ := range m {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	return keys
+}
+
+func _getSysProps(absJavaHome string) map[string]string {
 	return map[string]string{
 		"java.version":         "1.8.0",
 		"java.vendor":          "jvm.go",

@@ -17,10 +17,6 @@ func newOperandStack(size uint) OperandStack {
 	return OperandStack{size: 0, slots: slots}
 }
 
-func (stack *OperandStack) Size() uint {
-	return stack.size
-}
-
 func (stack *OperandStack) IsStackEmpty() bool {
 	return stack.size == 0
 }
@@ -128,4 +124,8 @@ func (stack *OperandStack) ClearStack() {
 func (stack *OperandStack) HackSetSlots(slots []heap.Slot) { // TODO
 	stack.slots = slots
 	stack.size = uint(len(slots))
+}
+
+func (stack *OperandStack) DebugGetSlots() []heap.Slot {
+	return stack.slots[:stack.size]
 }

@@ -2,6 +2,7 @@ package instructions
 
 import (
 	"github.com/zxh0/jvm.go/instructions/base"
+	"github.com/zxh0/jvm.go/instructions/control"
 )
 
 // BranchInstruction
@@ -33,31 +34,51 @@ func decodeInstruction(reader *base.CodeReader) base.Instruction {
 }
 
 func compactInstructions(decoded []base.Instruction) []base.Instruction {
-	pcMap := make(map[int]int) // bytecodePC -> instrPC
+	pcMap := make(map[int]int) // pc -> compactPC
 
-	instrPC := 0
-	for bytecodePC, instr := range decoded {
+	compactPC := 0
+	for pc, instr := range decoded {
 		if instr != nil {
-			pcMap[bytecodePC] = instrPC
-			instrPC++
+			pcMap[pc] = compactPC
+			compactPC++
 		}
 	}
 
-	instrPC = 0
-	for bytecodePC, instr := range decoded {
+	compactPC = 0
+	for pc, instr := range decoded {
 		if instr != nil {
 			if bi, ok := instr.(_BI); ok {
-				bytecodeTarget := bytecodePC + bi.GetOffset()
-				if instrTarget, found := pcMap[bytecodeTarget]; found {
-					bi.SetOffset(instrTarget - instrPC)
-				} else {
-					panic("!!!")
-				}
+				bi.SetOffset(adjustOffset(pc, bi.GetOffset(), pcMap))
+			} else if tableSwitch, ok := instr.(*control.TableSwitch); ok {
+				fixTableSwitchOffsets(tableSwitch, pc, pcMap)
+			} else if lookupSwitch, ok := instr.(*control.LookupSwitch); ok {
+				fixLookupSwitchOffsets(lookupSwitch, pc, pcMap)
 			}
-			decoded[instrPC] = instr
-			instrPC++
+
+			decoded[compactPC] = instr
+			compactPC++
 		}
 	}
 
-	return decoded[:instrPC]
+	return decoded[:compactPC]
+}
+
+func fixTableSwitchOffsets(instr *control.TableSwitch, pc int, pcMap map[int]int) {
+	instr.DefaultOffset = int32(adjustOffset(pc, int(instr.DefaultOffset), pcMap))
+	for i, offset := range instr.JumpOffsets {
+		instr.JumpOffsets[i] = int32(adjustOffset(pc, int(offset), pcMap))
+	}
+}
+
+func fixLookupSwitchOffsets(instr *control.LookupSwitch, pc int, pcMap map[int]int) {
+	instr.DefaultOffset = int32(adjustOffset(pc, int(instr.DefaultOffset), pcMap))
+	for i, offset := range instr.MatchOffsets {
+		if i%2 == 1 {
+			instr.MatchOffsets[i] = int32(adjustOffset(pc, int(offset), pcMap))
+		}
+	}
+}
+
+func adjustOffset(pc, offset int, pcMap map[int]int) int {
+	return pcMap[pc+offset] - pcMap[pc]
 }

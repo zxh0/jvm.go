@@ -25,19 +25,19 @@ jump offsets...
 */
 // Access jump table by index and jump
 type TableSwitch struct { // TODO
-	defaultOffset int32
+	DefaultOffset int32
 	low           int32
 	high          int32
-	jumpOffsets   []int32
+	JumpOffsets   []int32
 }
 
 func (instr *TableSwitch) FetchOperands(reader *base.CodeReader) {
 	reader.SkipPadding()
-	instr.defaultOffset = reader.ReadInt32()
+	instr.DefaultOffset = reader.ReadInt32()
 	instr.low = reader.ReadInt32()
 	instr.high = reader.ReadInt32()
 	jumpOffsetsCount := instr.high - instr.low + 1
-	instr.jumpOffsets = reader.ReadInt32s(jumpOffsetsCount)
+	instr.JumpOffsets = reader.ReadInt32s(jumpOffsetsCount)
 }
 
 func (instr *TableSwitch) Execute(frame *rtda.Frame) {
@@ -45,9 +45,9 @@ func (instr *TableSwitch) Execute(frame *rtda.Frame) {
 
 	var offset int
 	if index >= instr.low && index <= instr.high {
-		offset = int(instr.jumpOffsets[index-instr.low])
+		offset = int(instr.JumpOffsets[index-instr.low])
 	} else {
-		offset = int(instr.defaultOffset)
+		offset = int(instr.DefaultOffset)
 	}
 
 	base.Branch(frame, offset)

@@ -70,3 +70,7 @@ func (lv *LocalVars) clearLocalVars() {
 		lv.slots[i] = heap.EmptySlot
 	}
 }
+
+func (lv *LocalVars) DebugGetSlots() []heap.Slot {
+	return lv.slots
+}

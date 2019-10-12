@@ -13,6 +13,22 @@ import (
 	. "github.com/zxh0/jvm.go/instructions/stores"
 )
 
+func TestCompactInstructions(t *testing.T) {
+	instrs := Decode([]byte{
+		OpNop,
+		OpIfEQ, 0x00, 0x03,
+		OpIfEQ, 0x00, 0x03,
+		OpIfEQ, 0xff, 0xfd,
+		OpNop,
+	}, true)
+	require.Equal(t, 5, len(instrs))
+	require.Equal(t, nop, instrs[0])
+	require.Equal(t, 1, instrs[1].(*IfEQ).Offset)
+	require.Equal(t, 1, instrs[2].(*IfEQ).Offset)
+	require.Equal(t, -1, instrs[3].(*IfEQ).Offset)
+	require.Equal(t, nop, instrs[4])
+}
+
 func TestDecode(t *testing.T) {
 	testConsts(t)
 	testLoads(t)
@@ -237,7 +253,7 @@ func testNoOperands(t *testing.T, opcode byte, instruction Instruction) {
 
 func testOperands(t *testing.T, code []byte, instruction Instruction) {
 	code = append(code, OpNop)
-	instructions := Decode(code)
+	instructions := Decode(code, false)
 	require.Equal(t, instruction, instructions[0])
 	require.Equal(t, nop, instructions[len(code)-1])
 }

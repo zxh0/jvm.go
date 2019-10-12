@@ -37,7 +37,7 @@ func readCodeAttribute(reader *ClassReader) CodeAttribute {
 	return CodeAttribute{
 		MaxStack:       reader.ReadUint16(),
 		MaxLocals:      reader.ReadUint16(),
-		Code:           reader.ReadBytes(uint(reader.ReadUint32())),
+		Code:           reader.ReadBytes(int(reader.ReadUint32())),
 		ExceptionTable: readExceptionTable(reader),
 		AttributeTable: readAttributes(reader),
 	}

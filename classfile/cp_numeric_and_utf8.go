@@ -56,7 +56,7 @@ CONSTANT_Utf8_info {
 }
 */
 func readConstantUtf8Info(reader *ClassReader) string {
-	length := uint(reader.ReadUint16())
+	length := int(reader.ReadUint16())
 	bytes := reader.ReadBytes(length)
 	return vmutils.DecodeMUTF8(bytes)
 }

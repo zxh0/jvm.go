@@ -1,11 +1,13 @@
 package vmutils
 
-import "encoding/binary"
+import (
+	"encoding/binary"
+)
 
 type BytesReader struct {
 	byteOrder binary.ByteOrder
 	data      []byte
-	position  uint
+	position  int
 }
 
 func NewBytesReader(data []byte, byteOrder binary.ByteOrder) BytesReader {
@@ -16,7 +18,7 @@ func NewBytesReader(data []byte, byteOrder binary.ByteOrder) BytesReader {
 	}
 }
 
-func (reader *BytesReader) Position() uint {
+func (reader *BytesReader) Position() int {
 	return reader.position
 }
 
@@ -44,7 +46,7 @@ func (reader *BytesReader) ReadUint64() uint64 {
 	return i
 }
 
-func (reader *BytesReader) ReadBytes(n uint) []byte {
+func (reader *BytesReader) ReadBytes(n int) []byte {
 	bytes := reader.data[reader.position : reader.position+n]
 	reader.position += n
 	return bytes

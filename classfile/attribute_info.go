@@ -69,7 +69,7 @@ func readAttributeInfo(reader *ClassReader) AttributeInfo {
 		return UnparsedAttribute{
 			Name:   attrName,
 			Length: attrLen,
-			Info:   reader.ReadBytes(uint(attrLen)),
+			Info:   reader.ReadBytes(int(attrLen)),
 		}
 	}
 }

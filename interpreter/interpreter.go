@@ -6,6 +6,7 @@ import (
 	"github.com/zxh0/jvm.go/instructions"
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
+	"github.com/zxh0/jvm.go/rtda/heap"
 	"github.com/zxh0/jvm.go/vmerrors"
 )
 
@@ -17,7 +18,7 @@ func Loop(thread *rtda.Thread) {
 		nonDaemonThreadStart()
 	}
 
-	_loop(thread)
+	_loop0(thread)
 
 	// terminate thread
 	threadObj = thread.JThread()
@@ -27,30 +28,8 @@ func Loop(thread *rtda.Thread) {
 	}
 }
 
-/*func _loop(thread *rtda.Thread) {
-	defer _catchErr(thread) // todo
-
-	decoder := instructions.NewDecoder()
-	for {
-		frame := thread.CurrentFrame()
-		pc := frame.NextPC()
-		thread.SetPC(pc)
-
-		// decode
-		code := frame.Method().Code()
-		inst, nextPC := decoder.Decode(code, pc)
-		frame.SetNextPC(nextPC)
-
-		// execute
-		//_logInstruction(frame, inst)
-		inst.Execute(frame)
-		if thread.IsStackEmpty() {
-			break
-		}
-	}
-}*/
-
-func _loop(thread *rtda.Thread) {
+func _loop0(thread *rtda.Thread) {
+	verbose := thread.VMOptions.VerboseInstr
 	defer _catchErr(thread) // todo
 
 	for {
@@ -61,28 +40,60 @@ func _loop(thread *rtda.Thread) {
 		// fetch instruction
 		method := frame.Method
 		if method.Instructions == nil {
-			method.Instructions = instructions.Decode(method.Code)
+			method.Instructions = instructions.Decode(method.Code, false)
 		}
-		insts := method.Instructions.([]base.Instruction)
-		inst := insts[pc]
-		instCount := len(insts)
+		instrs := method.Instructions.([]base.Instruction)
+		instr := instrs[pc]
 
 		// update nextPC
-		for {
+		pc++
+		for pc < len(instrs) && instrs[pc] == nil {
 			pc++
-			if pc >= instCount || insts[pc] != nil {
-				break
-			}
 		}
 		frame.NextPC = pc
 
 		// execute instruction
-		//_logInstruction(frame, inst)
-		inst.Execute(frame)
+		instr.Execute(frame)
+		if verbose {
+			_logInstruction(frame, instr)
+		}
 		if thread.IsStackEmpty() {
 			break
 		}
 	}
+}
+
+func _loop(thread *rtda.Thread) {
+	verbose := thread.VMOptions.VerboseInstr
+	defer _catchErr(thread) // todo
+
+	for {
+		frame := thread.CurrentFrame()
+		pc := frame.NextPC
+		thread.PC = pc
+
+		// fetch instruction
+		instr := getInstruction(frame.Method, pc)
+
+		// update nextPC
+		frame.NextPC = pc + 1
+
+		// execute instruction
+		instr.Execute(frame)
+		if verbose {
+			_logInstruction(frame, instr)
+		}
+		if thread.IsStackEmpty() {
+			break
+		}
+	}
+}
+
+func getInstruction(method *heap.Method, pc int) base.Instruction {
+	if method.Instructions == nil {
+		method.Instructions = instructions.Decode(method.Code, true)
+	}
+	return method.Instructions.([]base.Instruction)[pc]
 }
 
 // todo
@@ -117,7 +128,7 @@ func _logFrames(thread *rtda.Thread) {
 	}
 }
 
-func _logInstruction(frame *rtda.Frame, inst base.Instruction) {
+func _logInstruction(frame *rtda.Frame, instr base.Instruction) {
 	thread := frame.Thread
 	method := frame.Method
 	className := method.Class.Name
@@ -125,9 +136,9 @@ func _logInstruction(frame *rtda.Frame, inst base.Instruction) {
 
 	if method.IsStatic() {
 		fmt.Printf("[instruction] thread:%p %v.%v() #%v %T %v\n",
-			thread, className, method.Name, pc, inst, inst)
+			thread, className, method.Name, pc, instr, instr)
 	} else {
 		fmt.Printf("[instruction] thread:%p %v#%v() #%v %T %v\n",
-			thread, className, method.Name, pc, inst, inst)
+			thread, className, method.Name, pc, instr, instr)
 	}
 }

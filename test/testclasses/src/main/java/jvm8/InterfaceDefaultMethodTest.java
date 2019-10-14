@@ -1,4 +1,4 @@
-package jvm.java8;
+package jvm8;
 
 import junit.framework.Assert;
 import helper.UnitTestRunner;

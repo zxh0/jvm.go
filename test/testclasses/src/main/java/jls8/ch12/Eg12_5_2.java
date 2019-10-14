@@ -1,6 +1,6 @@
-package jvm.jls8.ch12;
+package jls8.ch12;
 
-import jvm.jls8.StringOut;
+import jls8.StringOut;
 import helper.UnitTestRunner;
 import static org.junit.Assert.*;
 

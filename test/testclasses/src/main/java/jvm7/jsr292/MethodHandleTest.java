@@ -1,4 +1,4 @@
-package jvm.java7.jsr292;
+package jvm7.jsr292;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

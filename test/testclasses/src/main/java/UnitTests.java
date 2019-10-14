@@ -1,4 +1,5 @@
 import helper.UnitTestRunner;
+import jvm8.InterfaceMethodTest;
 
 public class UnitTests {
 
@@ -28,12 +29,12 @@ public class UnitTests {
             stdlib.basic.thread.MainThreadTest.class,
             stdlib.basic.thread.SleepTest.class,
             stdlib.basic.wrapper.DoubleTest.class,
-            //jvm.java8.InterfaceDefaultMethodTest.class,
-            jvm.java8.InterfaceMethodTest.class,
-            jvm.jls8.ch12.Eg12_4_1_1.class,
-            jvm.jls8.ch12.Eg12_4_1_2.class,
-            jvm.jls8.ch12.Eg12_4_1_3.class,
-            jvm.jls8.ch12.Eg12_5_2.class,
+            //jvm8.InterfaceDefaultMethodTest.class,
+            InterfaceMethodTest.class,
+            jls8.ch12.Eg12_4_1_1.class,
+            jls8.ch12.Eg12_4_1_2.class,
+            jls8.ch12.Eg12_4_1_3.class,
+            jls8.ch12.Eg12_5_2.class,
             thirdparty.gson.GsonTest.class
         );
     }

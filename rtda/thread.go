@@ -96,8 +96,8 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 	currentFrame := thread.CurrentFrame()
 	newFrame := thread.NewFrame(method)
 	thread.PushFrame(newFrame)
-	if method.ParamSlotCount > 0 {
-		_passArgs(&currentFrame.OperandStack, &newFrame.LocalVars, method.ParamSlotCount)
+	if n := method.ParamSlotCount; n > 0 {
+		_passArgs(currentFrame, newFrame, n)
 	}
 
 	if method.IsSynchronized() {
@@ -116,12 +116,11 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 		}
 	}
 }
-func _passArgs(stack *OperandStack, vars *LocalVars, argSlotsCount uint) {
-	args := stack.PopTops(argSlotsCount)
+func _passArgs(from *Frame, to *Frame, argSlotsCount uint) {
+	args := from.PopTops(argSlotsCount)
 	for i := uint(0); i < argSlotsCount; i++ {
-		arg := args[i]
+		to.SetLocalVar(i, args[i])
 		args[i] = heap.EmptySlot
-		vars.SetLocalVar(i, arg)
 	}
 }
 func (thread *Thread) _logInvoke(stackSize uint, method *heap.Method) {

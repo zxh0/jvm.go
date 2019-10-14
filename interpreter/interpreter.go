@@ -18,7 +18,7 @@ func Loop(thread *rtda.Thread) {
 		nonDaemonThreadStart()
 	}
 
-	_loop0(thread)
+	_loop(thread)
 
 	// terminate thread
 	threadObj = thread.JThread()
@@ -28,57 +28,17 @@ func Loop(thread *rtda.Thread) {
 	}
 }
 
-func _loop0(thread *rtda.Thread) {
-	verbose := thread.VMOptions.VerboseInstr
-	defer _catchErr(thread) // todo
-
-	for {
-		frame := thread.CurrentFrame()
-		pc := frame.NextPC
-		thread.PC = pc
-
-		// fetch instruction
-		method := frame.Method
-		if method.Instructions == nil {
-			method.Instructions = instructions.Decode(method.Code, false)
-		}
-		instrs := method.Instructions.([]base.Instruction)
-		instr := instrs[pc]
-
-		// update nextPC
-		pc++
-		for pc < len(instrs) && instrs[pc] == nil {
-			pc++
-		}
-		frame.NextPC = pc
-
-		// execute instruction
-		instr.Execute(frame)
-		if verbose {
-			_logInstruction(frame, instr)
-		}
-		if thread.IsStackEmpty() {
-			break
-		}
-	}
-}
-
 func _loop(thread *rtda.Thread) {
 	verbose := thread.VMOptions.VerboseInstr
 	defer _catchErr(thread) // todo
 
 	for {
 		frame := thread.CurrentFrame()
-		pc := frame.NextPC
-		thread.PC = pc
+		thread.PC = frame.NextPC
+		frame.NextPC++
 
-		// fetch instruction
-		instr := getInstruction(frame.Method, pc)
-
-		// update nextPC
-		frame.NextPC = pc + 1
-
-		// execute instruction
+		// fetch & execute instruction
+		instr := getInstruction(frame.Method, thread.PC)
 		instr.Execute(frame)
 		if verbose {
 			_logInstruction(frame, instr)

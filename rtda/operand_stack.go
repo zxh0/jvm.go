@@ -9,6 +9,13 @@ type OperandStack struct {
 	slots []heap.Slot
 }
 
+func newOperandStackWithSlots(slots []heap.Slot) OperandStack {
+	return OperandStack{
+		size:  uint(len(slots)),
+		slots: slots,
+	}
+}
+
 func newOperandStack(size uint) OperandStack {
 	var slots []heap.Slot = nil
 	if size > 0 {

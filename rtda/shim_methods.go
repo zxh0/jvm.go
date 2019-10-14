@@ -8,38 +8,34 @@ var (
 	_shimClass = &heap.Class{Name: "~shim"}
 
 	shimReturnMethod = &heap.Method{
-		ClassMember: heap.ClassMember{
-			AccessFlags: heap.AccStatic,
-			Name:        "<return>",
-			Class:       _shimClass,
-		},
+		ClassMember: newShimMember("<return>"),
 		MethodData: heap.MethodData{
 			Code: []byte{0xb1}, // return
 		},
 	}
 
 	shimAThrowMethod = &heap.Method{
-		ClassMember: heap.ClassMember{
-			AccessFlags: heap.AccStatic,
-			Name:        "<athrow>",
-			Class:       _shimClass,
-		},
+		ClassMember: newShimMember("<athrow>"),
 		MethodData: heap.MethodData{
 			Code: []byte{0xbf}, // athrow
 		},
 	}
 
 	ShimBootstrapMethod = &heap.Method{
-		ClassMember: heap.ClassMember{
-			AccessFlags: heap.AccStatic,
-			Name:        "<bootstrap>",
-			Class:       _shimClass,
-		},
+		ClassMember: newShimMember("<bootstrap>"),
 		MethodData: heap.MethodData{
+			Code:      []byte{0xff, 0xb1}, // bootstrap, return
 			MaxStack:  8,
 			MaxLocals: 8,
-			Code:      []byte{0xff, 0xb1}, // bootstrap, return
 		},
 		ParamSlotCount: 2,
 	}
 )
+
+func newShimMember(name string) heap.ClassMember {
+	return heap.ClassMember{
+		AccessFlags: heap.AccStatic,
+		Name:        name,
+		Class:       _shimClass,
+	}
+}

@@ -10,7 +10,37 @@ import (
 	"github.com/zxh0/jvm.go/vmerrors"
 )
 
-// todo
+func ExecMethod(thread *rtda.Thread, method *heap.Method, args []heap.Slot) heap.Slot {
+	shimFrame := rtda.NewShimFrame(thread, args)
+	thread.PushFrame(shimFrame)
+	thread.InvokeMethod(method)
+
+	verbose := thread.VMOptions.VerboseInstr
+	defer _catchErr(thread) // todo
+
+	for {
+		frame := thread.CurrentFrame()
+		if frame == shimFrame {
+			thread.PopFrame()
+			if frame.IsStackEmpty() {
+				return heap.EmptySlot
+			} else {
+				return frame.Pop()
+			}
+		}
+
+		thread.PC = frame.NextPC
+		frame.NextPC++
+
+		// fetch & execute instruction
+		instr := getInstruction(frame.Method, thread.PC)
+		instr.Execute(frame)
+		if verbose {
+			_logInstruction(frame, instr)
+		}
+	}
+}
+
 func Loop(thread *rtda.Thread) {
 	threadObj := thread.JThread()
 	isDaemon := threadObj != nil && threadObj.GetFieldValue("daemon", "Z").IntValue() == 1

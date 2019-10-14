@@ -14,6 +14,11 @@ func CastBytesToInt8s(s []byte) []int8 {
 	return *((*[]int8)(ptr))
 }
 
+func CastBytesToUint16s(s []byte) []uint16 {
+	ptr := unsafe.Pointer(&s)
+	return *((*[]uint16)(ptr))
+}
+
 func CastBytesToUint32s(s []byte) []uint32 {
 	ptr := unsafe.Pointer(&s)
 	return *((*[]uint32)(ptr))

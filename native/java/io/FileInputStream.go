@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	_fis(available, "available", "()I")
+	_fis(available, "available0", "()I")
 	_fis(close0, "close0", "()V")
 	_fis(readBytes, "readBytes", "([BII)I")
 	_fis(open, "open0", "(Ljava/lang/String;)V")

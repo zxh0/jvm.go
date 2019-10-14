@@ -91,9 +91,9 @@ func getStackTraceElement(frame *rtda.Frame) {
 }
 
 func createStackTraceElementObj(ste *StackTraceElement, frame *rtda.Frame) *heap.Object {
-	declaringClass := heap.JString(ste.declaringClass)
-	methodName := heap.JString(ste.methodName)
-	fileName := heap.JString(ste.fileName)
+	declaringClass := heap.JSFromGoStr(ste.declaringClass)
+	methodName := heap.JSFromGoStr(ste.methodName)
+	fileName := heap.JSFromGoStr(ste.fileName)
 	lineNumber := int32(ste.lineNumber)
 
 	/*

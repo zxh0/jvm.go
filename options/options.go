@@ -20,6 +20,7 @@ type Options struct {
 	HelpFlag        bool
 	VerboseClass    bool
 	VerboseInstr    bool
+	VerboseJNI      bool
 	VersionFlag     bool
 	Xss             string
 	XUseJavaHome    bool
@@ -39,6 +40,7 @@ func Parse() (Options, []string) {
 	flag.BoolVar(&options.HelpFlag, "?", false, "Displays usage information and exit.")
 	flag.BoolVar(&options.VerboseClass, "verbose:class", false, "Displays information about each class loaded.")
 	flag.BoolVar(&options.VerboseInstr, "verbose:instr", false, "Displays information about each instruction executed.")
+	flag.BoolVar(&options.VerboseJNI, "verbose:jni", false, "Displays information about the use of native methods and other Java Native Interface (JNI) activity.")
 	flag.BoolVar(&options.VersionFlag, "version", false, "Displays version information and exit.")
 	flag.StringVar(&options.Xss, "Xss", "", "Sets the thread stack size.")
 	flag.BoolVar(&options.XUseJavaHome, "XuseJavaHome", false, "Uses JAVA_HOME")

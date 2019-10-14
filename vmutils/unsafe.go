@@ -23,3 +23,8 @@ func CastBytesToInt32s(s []byte) []int32 {
 	ptr := unsafe.Pointer(&s)
 	return *((*[]int32)(ptr))
 }
+
+func CastBytesToInt64s(s []byte) []int64 {
+	ptr := unsafe.Pointer(&s)
+	return *((*[]int64)(ptr))
+}

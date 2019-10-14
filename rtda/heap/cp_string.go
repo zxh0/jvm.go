@@ -11,7 +11,7 @@ func newConstantString(str string) *ConstantString {
 
 func (s *ConstantString) GetJString() *Object {
 	if s.jStr == nil {
-		s.jStr = JString(s.goStr)
+		s.jStr = JSFromGoStr(s.goStr)
 	}
 	return s.jStr
 }

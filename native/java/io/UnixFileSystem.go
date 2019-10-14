@@ -24,10 +24,10 @@ func canonicalize0(frame *rtda.Frame) {
 	pathStr := frame.GetRefVar(1)
 
 	// todo
-	path := heap.GoString(pathStr)
+	path := heap.JSToGoStr(pathStr)
 	path2 := filepath.Clean(path)
 	if path2 != path {
-		pathStr = heap.JString(path2)
+		pathStr = heap.JSFromGoStr(path2)
 	}
 
 	frame.PushRef(pathStr)
@@ -53,7 +53,7 @@ func getBooleanAttributes0(frame *rtda.Frame) {
 
 func _getPath(fileObj *heap.Object) string {
 	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").Ref
-	return heap.GoString(pathStr)
+	return heap.JSToGoStr(pathStr)
 }
 
 // http://stackoverflow.com/questions/10510691/how-to-check-whether-a-file-or-directory-denoted-by-a-path-exists-in-golang

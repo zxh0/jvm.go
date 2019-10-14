@@ -60,7 +60,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 			thread.InvokeMethodWithShim(methodConstructor, []heap.Slot{
 				heap.NewRefSlot(methodObj),                                            // this
 				heap.NewRefSlot(classObj),                                             // declaringClass
-				heap.NewRefSlot(heap.JString(method.Name)),                            // name
+				heap.NewRefSlot(heap.JSFromGoStr(method.Name)),                        // name
 				heap.NewRefSlot(getParameterTypeArr(method)),                          // parameterTypes
 				heap.NewRefSlot(getReturnType(method)),                                // returnType
 				heap.NewRefSlot(getExceptionTypeArr(method)),                          // checkedExceptions

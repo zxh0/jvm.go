@@ -39,13 +39,13 @@ func getSystemTimeZoneID(frame *rtda.Frame) {
 			continue
 		}
 		zone := strings.Split(line, "\t")
-		if zone[0] == heap.GoString(countryObj) {
+		if zone[0] == heap.JSToGoStr(countryObj) {
 			timezone = zone[2]
 			break
 		}
 	}
 
 	location, _ := time.LoadLocation(timezone)
-	zoneID := heap.JString(location.String())
+	zoneID := heap.JSFromGoStr(location.String())
 	frame.PushRef(zoneID)
 }

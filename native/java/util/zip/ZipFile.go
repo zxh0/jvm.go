@@ -49,7 +49,7 @@ func zf_initIDs(frame *rtda.Frame) {
 func open(frame *rtda.Frame) {
 	nameObj := frame.GetRefVar(0)
 
-	name := heap.GoString(nameObj)
+	name := heap.JSToGoStr(nameObj)
 	jzfile, err := openZip(name)
 	if err != nil {
 		// todo

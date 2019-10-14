@@ -99,8 +99,8 @@ func initProperties(frame *rtda.Frame) {
 
 	for _, key := range sysPropKeys {
 		val := sysPropMap[key]
-		jKey := heap.JString(key)
-		jVal := heap.JString(val)
+		jKey := heap.JSFromGoStr(key)
+		jVal := heap.JSFromGoStr(val)
 		args := []heap.Slot{heap.NewRefSlot(props), heap.NewRefSlot(jKey), heap.NewRefSlot(jVal)}
 		thread.InvokeMethodWithShim(setPropMethod, args)
 	}

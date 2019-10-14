@@ -54,7 +54,7 @@ func getAnnotationByteArr(goBytes []byte) *heap.Object {
 
 func getSignatureStr(signature string) *heap.Object {
 	if signature != "" {
-		return heap.JString(signature)
+		return heap.JSFromGoStr(signature)
 	}
 	return nil
 }

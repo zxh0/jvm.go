@@ -35,7 +35,7 @@ func defineClass(frame *rtda.Frame) {
 	//loaderObj := frame.GetRefVar(5)
 	//pd := frame.GetRefVar(6)
 
-	name := heap.GoString(nameObj)
+	name := heap.JSToGoStr(nameObj)
 	name = heap.DotToSlash(name)
 	data := byteArr.GoBytes()
 	data = data[off : off+_len]

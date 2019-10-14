@@ -53,7 +53,7 @@ func getDeclaredFields0(frame *rtda.Frame) {
 			thread.InvokeMethodWithShim(fieldConstructor, []heap.Slot{
 				heap.NewRefSlot(fieldObj),                                     // this
 				heap.NewRefSlot(classObj),                                     // declaringClass
-				heap.NewRefSlot(heap.JString(goField.Name)),                   // name
+				heap.NewRefSlot(heap.JSFromGoStr(goField.Name)),               // name
 				heap.NewRefSlot(goField.Type().JClass),                        // type
 				heap.NewIntSlot(int32(goField.AccessFlags)),                   // modifiers
 				heap.NewIntSlot(int32(goField.SlotId)),                        // slot

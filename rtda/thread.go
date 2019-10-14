@@ -30,6 +30,7 @@ type Thread struct {
 	parkingFlag     bool // used by Unsafe
 	unparkedFlag    bool // used by Unsafe
 	VMOptions       options.Options
+	JNIEnv          interface{}
 	// todo
 }
 
@@ -161,7 +162,7 @@ func (thread *Thread) HandleUncaughtException(ex *heap.Object) {
 	// newFrame = thread.NewFrame(printString)
 	// vars = newFrame.localVars
 	// vars.SetRefVar(0, sysErr)
-	// vars.SetRefVar(1, JString("Exception in thread \"main\" ", newFrame))
+	// vars.SetRefVar(1, JSFromGoStr("Exception in thread \"main\" ", newFrame))
 	// thread.PushFrame(newFrame)
 }
 

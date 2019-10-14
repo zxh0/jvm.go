@@ -50,7 +50,7 @@ func raf_open(frame *rtda.Frame) {
 		flag |= os.O_SYNC | os.O_CREATE
 	}
 
-	goName := heap.GoString(name)
+	goName := heap.JSToGoStr(name)
 	if goFile, err := os.OpenFile(goName, flag, 0660); err != nil {
 		frame.Thread.ThrowFileNotFoundException(goName)
 	} else {

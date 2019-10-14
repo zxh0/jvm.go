@@ -86,7 +86,7 @@ public class ClassLoaderTest {
         ClassLoader urlCl = new URLClassLoader(new URL[0]);
         assertEquals(appCl, urlCl.getParent());
         assertEquals(null, m.invoke(urlCl, "java.lang.Object"));
-        assertEquals(null, m.invoke(urlCl, "stdlib.basic.java7.cl.ClassLoaderTest"));
+        assertEquals(null, m.invoke(urlCl, "jvm.java7.cl.ClassLoaderTest"));
     }
     
 }

@@ -1,4 +1,4 @@
-package stdlib.basic.java7.jsr292;
+package jvm.java7.jsr292;
 
 import helper.ReflectionHelper;
 import helper.UnitTestRunner;

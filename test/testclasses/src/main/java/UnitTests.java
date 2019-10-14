@@ -28,12 +28,12 @@ public class UnitTests {
             stdlib.basic.thread.MainThreadTest.class,
             stdlib.basic.thread.SleepTest.class,
             stdlib.basic.wrapper.DoubleTest.class,
-            //stdlib.basic.java8.InterfaceDefaultMethodTest.class,
-            stdlib.basic.java8.InterfaceMethodTest.class,
-            stdlib.basic.jls8.ch12.Eg12_4_1_1.class,
-            stdlib.basic.jls8.ch12.Eg12_4_1_2.class,
-            stdlib.basic.jls8.ch12.Eg12_4_1_3.class,
-            stdlib.basic.jls8.ch12.Eg12_5_2.class,
+            //jvm.java8.InterfaceDefaultMethodTest.class,
+            jvm.java8.InterfaceMethodTest.class,
+            jvm.jls8.ch12.Eg12_4_1_1.class,
+            jvm.jls8.ch12.Eg12_4_1_2.class,
+            jvm.jls8.ch12.Eg12_4_1_3.class,
+            jvm.jls8.ch12.Eg12_5_2.class,
             thirdparty.gson.GsonTest.class
         );
     }

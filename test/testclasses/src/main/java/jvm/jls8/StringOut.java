@@ -1,4 +1,4 @@
-package stdlib.basic.jls8;
+package jvm.jls8;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

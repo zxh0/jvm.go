@@ -1,4 +1,4 @@
-package stdlib.basic.jls8.ch12;
+package jvm.jls8.ch12;
 
 import helper.UnitTestRunner;
 import org.junit.Test;

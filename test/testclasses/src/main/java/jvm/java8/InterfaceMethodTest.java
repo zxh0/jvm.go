@@ -1,4 +1,4 @@
-package stdlib.basic.java8;
+package jvm.java8;
 
 import helper.UnitTestRunner;
 import org.junit.Test;

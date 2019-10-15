@@ -1,4 +1,4 @@
-package stdlib.basic;
+package jvm;
 
 
 public class ObjectInit {

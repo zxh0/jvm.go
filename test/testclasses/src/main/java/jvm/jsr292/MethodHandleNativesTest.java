@@ -1,4 +1,4 @@
-package jvm7.jsr292;
+package jvm.jsr292;
 
 import helper.ReflectionHelper;
 import helper.UnitTestRunner;

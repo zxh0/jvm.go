@@ -1,5 +1,5 @@
 import helper.UnitTestRunner;
-import jvm8.InterfaceMethodTest;
+import jvm.lambda.InterfaceMethodTest;
 
 public class UnitTests {
 
@@ -29,7 +29,7 @@ public class UnitTests {
             stdlib.basic.thread.MainThreadTest.class,
             stdlib.basic.thread.SleepTest.class,
             stdlib.basic.wrapper.DoubleTest.class,
-            //jvm8.InterfaceDefaultMethodTest.class,
+            //jvm.lambda.InterfaceDefaultMethodTest.class,
             InterfaceMethodTest.class,
             jls8.ch12.Eg12_4_1_1.class,
             jls8.ch12.Eg12_4_1_2.class,

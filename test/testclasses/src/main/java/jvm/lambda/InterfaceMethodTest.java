@@ -1,4 +1,4 @@
-package jvm8;
+package jvm.lambda;
 
 import helper.UnitTestRunner;
 import org.junit.Test;

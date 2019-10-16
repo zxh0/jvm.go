@@ -72,10 +72,10 @@ func callClinit(thread *Thread, class *heap.Class) {
 
 	// exec <clinit>
 	newFrame := thread.NewFrame(clinit)
-	newFrame.OnPopAction = func() {
+	newFrame.AppendOnPopAction(func(*Frame) {
 		// step 10
 		initSucceeded(class)
-	}
+	})
 	thread.PushFrame(newFrame)
 }
 

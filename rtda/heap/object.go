@@ -82,3 +82,7 @@ func (obj *Object) Clone() *Object {
 	var extra2 interface{} = nil // todo
 	return newObj(obj.Class, fields2.Interface(), extra2)
 }
+
+func (obj *Object) GetGoClass() *Class {
+	return obj.Extra.(*Class)
+}

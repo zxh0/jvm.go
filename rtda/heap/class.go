@@ -109,8 +109,7 @@ func (class *Class) getMethod(name, descriptor string, isStatic bool) *Method {
 	return nil
 }
 
-// todo
-func (class *Class) _getMethod(name, descriptor string, isStatic bool) *Method {
+func (class *Class) getDeclaredMethod(name, descriptor string, isStatic bool) *Method {
 	for _, method := range class.Methods {
 		if method.IsStatic() == isStatic &&
 			method.Name == name &&
@@ -140,7 +139,7 @@ func (class *Class) GetMainMethod() *Method {
 	return class.GetStaticMethod(mainMethodName, mainMethodDesc)
 }
 func (class *Class) GetClinitMethod() *Method {
-	return class._getMethod(clinitMethodName, clinitMethodDesc, true)
+	return class.getDeclaredMethod(clinitMethodName, clinitMethodDesc, true)
 }
 
 func (class *Class) NewObjWithExtra(extra interface{}) *Object {

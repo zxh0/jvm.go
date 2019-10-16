@@ -10,7 +10,40 @@ import (
 	"github.com/zxh0/jvm.go/vmerrors"
 )
 
-// todo
+func ExecMethod(thread *rtda.Thread, method *heap.Method, args []heap.Slot) heap.Slot {
+	shimFrame := rtda.NewShimFrame(thread, args)
+	thread.PushFrame(shimFrame)
+	thread.InvokeMethod(method)
+
+	verbose := thread.VMOptions.VerboseInstr
+	defer _catchErr(thread) // todo
+
+	for {
+		frame := thread.CurrentFrame()
+		if frame == shimFrame {
+			thread.PopFrame()
+			if frame.IsStackEmpty() {
+				return heap.EmptySlot
+			} else {
+				return frame.Pop()
+			}
+		}
+
+		pc := frame.NextPC
+		thread.PC = pc
+
+		// fetch instruction
+		instr, nextPC := fetchInstruction(frame.Method, pc)
+		frame.NextPC = nextPC
+
+		// execute instruction
+		instr.Execute(frame)
+		if verbose {
+			_logInstruction(frame, instr)
+		}
+	}
+}
+
 func Loop(thread *rtda.Thread) {
 	threadObj := thread.JThread()
 	isDaemon := threadObj != nil && threadObj.GetFieldValue("daemon", "Z").IntValue() == 1
@@ -34,11 +67,14 @@ func _loop(thread *rtda.Thread) {
 
 	for {
 		frame := thread.CurrentFrame()
-		thread.PC = frame.NextPC
-		frame.NextPC++
+		pc := frame.NextPC
+		thread.PC = pc
 
-		// fetch & execute instruction
-		instr := getInstruction(frame.Method, thread.PC)
+		// fetch instruction
+		instr, nextPC := fetchInstruction(frame.Method, pc)
+		frame.NextPC = nextPC
+
+		// execute instruction
 		instr.Execute(frame)
 		if verbose {
 			_logInstruction(frame, instr)
@@ -49,11 +85,21 @@ func _loop(thread *rtda.Thread) {
 	}
 }
 
-func getInstruction(method *heap.Method, pc int) base.Instruction {
+func fetchInstruction(method *heap.Method, pc int) (base.Instruction, int) {
 	if method.Instructions == nil {
-		method.Instructions = instructions.Decode(method.Code, true)
+		method.Instructions = instructions.Decode(method.Code)
 	}
-	return method.Instructions.([]base.Instruction)[pc]
+
+	instrs := method.Instructions.([]base.Instruction)
+	instr := instrs[pc]
+
+	// calc nextPC
+	pc++
+	for pc < len(instrs) && instrs[pc] == nil {
+		pc++
+	}
+
+	return instr, pc
 }
 
 // todo

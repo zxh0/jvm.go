@@ -25,10 +25,6 @@ func (instr *BranchInstruction) FetchOperands(reader *CodeReader) {
 	instr.Offset = int(reader.ReadInt16())
 }
 
-// only used by instruction decoder
-func (instr *BranchInstruction) GetOffset() int       { return instr.Offset }
-func (instr *BranchInstruction) SetOffset(offset int) { instr.Offset = offset }
-
 type Index8Instruction struct {
 	Index uint
 }

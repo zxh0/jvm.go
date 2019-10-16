@@ -180,8 +180,8 @@ func isAssignableFrom(frame *rtda.Frame) {
 	this := frame.GetThis()
 	cls := frame.GetRefVar(1)
 
-	thisClass := this.Extra.(*heap.Class)
-	clsClass := cls.Extra.(*heap.Class)
+	thisClass := this.GetGoClass()
+	clsClass := cls.GetGoClass()
 	ok := thisClass.IsAssignableFrom(clsClass)
 
 	frame.PushBoolean(ok)
@@ -193,7 +193,7 @@ func isInstance(frame *rtda.Frame) {
 	this := frame.GetThis()
 	obj := frame.GetRefVar(1)
 
-	class := this.Extra.(*heap.Class)
+	class := this.GetGoClass()
 	ok := obj.IsInstanceOf(class)
 
 	frame.PushBoolean(ok)
@@ -244,5 +244,5 @@ func getGenericSignature0(frame *rtda.Frame) {
 
 func _popClass(frame *rtda.Frame) *heap.Class {
 	this := frame.GetThis()
-	return this.Extra.(*heap.Class)
+	return this.GetGoClass()
 }

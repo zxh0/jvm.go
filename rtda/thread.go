@@ -74,9 +74,8 @@ func (thread *Thread) PushFrame(frame *Frame) {
 }
 func (thread *Thread) PopFrame() *Frame {
 	top := thread.stack.pop()
-	if top.OnPopAction != nil {
-		// todo
-		top.OnPopAction()
+	for _, action := range top.onPopActions {
+		action(top) // TODO
 	}
 
 	thread.frameCache.returnFrame(top)
@@ -90,6 +89,12 @@ func (thread *Thread) NewFrame(method *heap.Method) *Frame {
 		return thread.frameCache.borrowFrame(method)
 		//return newFrame(thread, method)
 	}
+}
+
+func (thread *Thread) InvokeMethodWithShim(method *heap.Method, args []heap.Slot) {
+	shimFrame := newShimFrame(thread, args)
+	thread.PushFrame(shimFrame)
+	thread.InvokeMethod(method)
 }
 
 func (thread *Thread) InvokeMethod(method *heap.Method) {
@@ -112,9 +117,9 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 		}
 
 		monitor.Enter(thread)
-		newFrame.OnPopAction = func() {
+		newFrame.AppendOnPopAction(func(*Frame) {
 			monitor.Exit(thread)
-		}
+		})
 	}
 }
 func _passArgs(from *Frame, to *Frame, argSlotsCount uint) {
@@ -133,12 +138,6 @@ func (thread *Thread) _logInvoke(stackSize uint, method *heap.Method) {
 	} else {
 		fmt.Printf("[method]%v thread:%p %v#%v()\n", space, thread, className, method.Name)
 	}
-}
-
-func (thread *Thread) InvokeMethodWithShim(method *heap.Method, args []heap.Slot) {
-	shimFrame := newShimFrame(thread, args)
-	thread.PushFrame(shimFrame)
-	thread.InvokeMethod(method)
 }
 
 func (thread *Thread) InitClass(class *heap.Class) {

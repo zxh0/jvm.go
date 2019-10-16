@@ -22,7 +22,7 @@ func _cl(method func(frame *rtda.Frame), name, desc string) {
 //                                      ProtectionDomain pd, String source);
 // (Ljava/lang/String;[BIILjava/security/ProtectionDomain;Ljava/lang/String;)Ljava/lang/Class;
 func defineClass1(frame *rtda.Frame) {
-	this := frame.GetThis()
+	//this := frame.GetThis()
 	name := frame.GetRefVar(1)
 	byteArr := frame.GetRefVar(2)
 	off := frame.GetIntVar(3)
@@ -33,7 +33,7 @@ func defineClass1(frame *rtda.Frame) {
 	goBytes := byteArr.GoBytes()
 	goBytes = goBytes[off : off+_len]
 
-	println(this.Extra)
+	//println(this.Extra)
 	panic(heap.JSToGoStr(name))
 
 }

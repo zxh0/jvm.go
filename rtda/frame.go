@@ -4,17 +4,19 @@ import (
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
+type OnPopAction func(popped *Frame)
+
 // stack frame
 type Frame struct {
 	LocalVars
 	OperandStack
-	lower       *Frame // stack is implemented as linked list
-	Thread      *Thread
-	Method      *heap.Method
-	maxLocals   uint
-	maxStack    uint
-	NextPC      int // the next instruction after the call
-	OnPopAction func()
+	lower        *Frame // stack is implemented as linked list
+	Thread       *Thread
+	Method       *heap.Method
+	maxLocals    uint
+	maxStack     uint
+	NextPC       int // the next instruction after the call
+	onPopActions []OnPopAction
 }
 
 // TODO
@@ -40,7 +42,7 @@ func (frame *Frame) reset(method *heap.Method) {
 	frame.Method = method
 	frame.NextPC = 0
 	frame.lower = nil
-	frame.OnPopAction = nil
+	frame.onPopActions = nil
 	if frame.maxLocals > 0 {
 		frame.clearLocalVars()
 	}
@@ -51,6 +53,9 @@ func (frame *Frame) reset(method *heap.Method) {
 
 func (frame *Frame) RevertNextPC() {
 	frame.NextPC = frame.Thread.PC
+}
+func (frame *Frame) AppendOnPopAction(action OnPopAction) {
+	frame.onPopActions = append(frame.onPopActions, action)
 }
 
 func (frame *Frame) Load(idx uint, isLongOrDouble bool) {

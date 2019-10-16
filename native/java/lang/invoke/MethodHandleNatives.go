@@ -9,7 +9,7 @@ import (
 
 func init() {
 	_mhn(getConstant, "getConstant", "(I)I")
-	_mhn(mhn_init, "init", "(Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V")
+	_mhn(mhnInit, "init", "(Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V")
 	_mhn(resolve, "resolve", "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;")
 }
 
@@ -31,31 +31,64 @@ func getConstant(frame *rtda.Frame) {
 
 // static native void init(MemberName self, Object ref);
 // (Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V
-func mhn_init(frame *rtda.Frame) {
+func mhnInit(frame *rtda.Frame) {
 	mn := frame.GetRefVar(0)
 	ref := frame.GetRefVar(1)
 
 	if ref.Class.Name == "java/lang/reflect/Method" {
 		classObj := ref.GetFieldValue("clazz", "Ljava/lang/Class;").Ref
-		class := classObj.Extra.(*heap.Class)
+		class := classObj.GetGoClass()
 		slot := ref.GetFieldValue("slot", "I").IntValue()
 		method := class.Methods[slot]
 
 		mn.SetFieldValue("clazz", "Ljava/lang/Class;", heap.NewRefSlot(classObj))
 
-		fmt.Printf("method:%v \n", method)
+		fmt.Printf("mhnInit! method:%v \n", method)
 	}
 
 	fmt.Printf("mn:%v  ref:%v \n", mn, ref)
-	//panic("todo mhn_init...")
+	//panic("TODO: mhnInit!")
 }
 
 // static native MemberName resolve(MemberName self, Class<?> caller) throws LinkageError;
 // (Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;
 func resolve(frame *rtda.Frame) {
-	mn := frame.GetRefVar(0)
+	mnSlot := frame.GetLocalVar(0)
+	mnObj := mnSlot.Ref
 	// caller := frame.GetRefVar(1)
+	// panic("TODO: resolve!")
+	frame.PushRef(mnObj)
 
-	// panic("todo resolve")
-	frame.PushRef(mn)
+	clsObj := mnObj.GetFieldValue("clazz", "Ljava/lang/Class;").Ref
+	nameObj := mnObj.GetFieldValue("name", "Ljava/lang/String;").Ref
+	flags := mnObj.GetFieldValue("flags", "I").IntValue()
+	getSig := mnObj.Class.GetInstanceMethod("getSignature", "()Ljava/lang/String;")
+
+	cls := clsObj.GetGoClass()
+	nameStr := heap.JSToGoStr(nameObj)
+
+	frame.Thread.InvokeMethodWithShim(getSig, []heap.Slot{mnSlot})
+	frame.Thread.CurrentFrame().AppendOnPopAction(func(shim *rtda.Frame) {
+		sigObj := shim.TopRef(0)
+		sigStr := heap.JSToGoStr(sigObj)
+		if sigStr[0] == '(' {
+			if m := getMethod(cls, nameStr, sigStr); m != nil {
+				flags |= int32(m.AccessFlags)
+				mnObj.SetFieldValue("flags", "I", heap.NewIntSlot(flags))
+			}
+		} else {
+			panic("TODO")
+		}
+	})
+}
+
+// TODO
+func getMethod(cls *heap.Class, name, descriptor string) *heap.Method {
+	if m := cls.GetStaticMethod(name, descriptor); m != nil {
+		return m
+	}
+	if m := cls.GetInstanceMethod(name, descriptor); m != nil {
+		return m
+	}
+	return nil
 }

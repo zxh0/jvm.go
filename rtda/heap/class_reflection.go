@@ -49,7 +49,7 @@ func (class *Class) GetConstructors(publicOnly bool) []*Method {
 }
 
 func (class *Class) GetConstructor(descriptor string) *Method {
-	return class._getMethod(constructorName, descriptor, false)
+	return class.getDeclaredMethod(constructorName, descriptor, false)
 }
 
 func (class *Class) GetDefaultConstructor() *Method {

@@ -152,7 +152,7 @@ func newArray(frame *rtda.Frame) {
 		panic("NegativeArraySizeException")
 	}
 
-	componentClass := componentType.Extra.(*heap.Class)
+	componentClass := componentType.GetGoClass()
 	arrObj := componentClass.NewArray(uint(length))
 
 	frame.PushRef(arrObj)

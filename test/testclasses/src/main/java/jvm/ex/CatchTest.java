@@ -5,17 +5,15 @@ public class CatchTest {
     public static void main(String[] args) {
         if (f0() != 0) {
             System.out.println("f0() failed!");
-        }
-        if (f1() != 1) {
+        } else if (f1() != 1) {
             System.out.println("f1() failed!");
-        }
-        if (f2() != 2) {
+        } else if (f2() != 2) {
             System.out.println("f2() failed!");
-        }
-        if (f3() != 3) {
+        } else if (f3() != 3) {
             System.out.println("f3() failed!");
+        } else {
+            System.out.println("OK!");
         }
-        System.out.println("OK!");
     }
     
     private static int f0() {

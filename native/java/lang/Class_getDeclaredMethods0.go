@@ -38,7 +38,7 @@ func getDeclaredMethods0(frame *rtda.Frame) {
 	classObj := frame.GetThis()
 	publicOnly := frame.GetBooleanVar(1)
 
-	class := classObj.Extra.(*heap.Class)
+	class := classObj.GetGoClass()
 	methods := class.GetMethods(publicOnly)
 	methodCount := uint(len(methods))
 

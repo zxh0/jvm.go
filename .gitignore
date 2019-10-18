@@ -8,4 +8,4 @@ bin
 build
 out
 myjre
-/java
+*.dylib

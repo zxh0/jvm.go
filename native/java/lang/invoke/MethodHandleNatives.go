@@ -1,32 +1,29 @@
 package invoke
 
 import (
-	"fmt"
-
+	"github.com/zxh0/jvm.go/instructions/references"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
+const (
+	MN_IS_METHOD            = 0x00010000 // method (not constructor)
+	MN_IS_CONSTRUCTOR       = 0x00020000 // constructor
+	MN_IS_FIELD             = 0x00040000 // field
+	MN_IS_TYPE              = 0x00080000 // nested type
+	MN_CALLER_SENSITIVE     = 0x00100000 // @CallerSensitive annotation detected
+	MN_REFERENCE_KIND_SHIFT = 24         // refKind
+	MN_REFERENCE_KIND_MASK  = 0x0F000000 >> MN_REFERENCE_KIND_SHIFT
+)
+
 func init() {
-	_mhn(getConstant, "getConstant", "(I)I")
 	_mhn(mhnInit, "init", "(Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V")
 	_mhn(resolve, "resolve", "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;")
+	_mhn(getConstant, "getConstant", "(I)I")
 }
 
 func _mhn(method func(frame *rtda.Frame), name, desc string) {
 	heap.RegisterNativeMethod("java/lang/invoke/MethodHandleNatives", name, desc, method)
-}
-
-// static native int getConstant(int which);
-// (I)I
-func getConstant(frame *rtda.Frame) {
-	which := frame.GetIntVar(0)
-
-	if which == 4 {
-		frame.PushInt(1)
-	} else {
-		frame.PushInt(0)
-	}
 }
 
 // static native void init(MemberName self, Object ref);
@@ -34,6 +31,7 @@ func getConstant(frame *rtda.Frame) {
 func mhnInit(frame *rtda.Frame) {
 	mn := frame.GetRefVar(0)
 	ref := frame.GetRefVar(1)
+	//fmt.Printf("mn:%v  ref:%v \n", mn, ref)
 
 	if ref.Class.Name == "java/lang/reflect/Method" {
 		classObj := ref.GetFieldValue("clazz", "Ljava/lang/Class;").Ref
@@ -42,12 +40,22 @@ func mhnInit(frame *rtda.Frame) {
 		method := class.Methods[slot]
 
 		mn.SetFieldValue("clazz", "Ljava/lang/Class;", heap.NewRefSlot(classObj))
-
-		fmt.Printf("mhnInit! method:%v \n", method)
+		mn.SetFieldValue("flags", "I", heap.NewIntSlot(getMNFlags(method)))
+	} else {
+		panic("TODO: mhnInit! " + ref.Class.Name)
 	}
+}
 
-	fmt.Printf("mn:%v  ref:%v \n", mn, ref)
-	//panic("TODO: mhnInit!")
+func getMNFlags(method *heap.Method) int32 {
+	flags := int32(method.AccessFlags)
+	if method.IsStatic() {
+		flags |= MN_IS_METHOD | (references.RefInvokeStatic << MN_REFERENCE_KIND_SHIFT)
+	} else if method.IsConstructor() {
+		flags |= MN_IS_CONSTRUCTOR | (references.RefInvokeSpecial << MN_REFERENCE_KIND_SHIFT)
+	} else {
+		flags |= MN_IS_METHOD | (references.RefInvokeSpecial << MN_REFERENCE_KIND_SHIFT)
+	}
+	return flags
 }
 
 // static native MemberName resolve(MemberName self, Class<?> caller) throws LinkageError;
@@ -91,4 +99,16 @@ func getMethod(cls *heap.Class, name, descriptor string) *heap.Method {
 		return m
 	}
 	return nil
+}
+
+// static native int getConstant(int which);
+// (I)I
+func getConstant(frame *rtda.Frame) {
+	which := frame.GetIntVar(0)
+
+	if which == 4 {
+		frame.PushInt(1)
+	} else {
+		frame.PushInt(0)
+	}
 }

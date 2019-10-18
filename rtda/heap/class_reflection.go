@@ -23,7 +23,7 @@ func (class *Class) GetFields(publicOnly bool) []*Field {
 func (class *Class) GetMethods(publicOnly bool) []*Method {
 	result := make([]*Method, 0, len(class.Methods))
 	for _, method := range class.Methods {
-		if !method.IsClinit() && !method.isConstructor() {
+		if !method.IsClinit() && !method.IsConstructor() {
 			if !publicOnly || method.IsPublic() {
 				n := len(result)
 				result = result[:n+1]
@@ -37,7 +37,7 @@ func (class *Class) GetMethods(publicOnly bool) []*Method {
 func (class *Class) GetConstructors(publicOnly bool) []*Method {
 	constructors := make([]*Method, 0, len(class.Methods))
 	for _, method := range class.Methods {
-		if method.isConstructor() {
+		if method.IsConstructor() {
 			if !publicOnly || method.IsPublic() {
 				n := len(constructors)
 				constructors = constructors[:n+1]

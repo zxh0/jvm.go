@@ -26,6 +26,7 @@ public class LookupTest {
         assertEquals("MethodHandle()long",                    lookup.findStaticGetter(LookupTest.class, "f2", long.class).toString());
         assertEquals("MethodHandle(long)void",                lookup.findStaticSetter(LookupTest.class, "f2", long.class).toString());
 
+        //System.out.println(lookup.findVirtual(LookupTest.class, "toString", MethodType.methodType(String.class)));
         System.out.println("OK!");
     }
 

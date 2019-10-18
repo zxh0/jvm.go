@@ -10,15 +10,15 @@ import (
 
 // Bytecode Behaviors for Method Handles
 const (
-	REF_getField         = 1 //	getfield C.f:T
-	REF_getStatic        = 2 //	getstatic C.f:T
-	REF_putField         = 3 //	putfield C.f:T
-	REF_putStatic        = 4 //	putstatic C.f:T
-	REF_invokeVirtual    = 5 //	invokevirtual C.m:(A*)T
-	REF_invokeStatic     = 6 // invokestatic C.m:(A*)T
-	REF_invokeSpecial    = 7 // invokespecial C.m:(A*)T
-	REF_newInvokeSpecial = 8 // new C; dup; invokespecial C.<init>:(A*)void
-	REF_invokeInterface  = 9 // invokeinterface C.m:(A*)T
+	RefGetField         = 1 // getfield C.f:T
+	RefGetStatic        = 2 // getstatic C.f:T
+	RefPutField         = 3 // putfield C.f:T
+	RefPutStatic        = 4 // putstatic C.f:T
+	RefInvokeVirtual    = 5 // invokevirtual C.m:(A*)T
+	RefInvokeStatic     = 6 // invokestatic C.m:(A*)T
+	RefInvokeSpecial    = 7 // invokespecial C.m:(A*)T
+	RefNewInvokeSpecial = 8 // new C; dup; invokespecial C.<init>:(A*)void
+	RefInvokeInterface  = 9 // invokeinterface C.m:(A*)T
 )
 
 // Invoke dynamic method

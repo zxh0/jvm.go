@@ -78,7 +78,7 @@ func (method *Method) IsVoidReturnType() bool {
 	return strings.HasSuffix(method.Descriptor, ")V")
 }
 
-func (method *Method) isConstructor() bool {
+func (method *Method) IsConstructor() bool {
 	return !method.IsStatic() && method.Name == constructorName
 }
 func (method *Method) IsClinit() bool {

@@ -18,7 +18,7 @@ func (instr *NoOperandsInstruction) FetchOperands(reader *CodeReader) {
 }
 
 type BranchInstruction struct {
-	Offset int // todo target
+	Offset int
 }
 
 func (instr *BranchInstruction) FetchOperands(reader *CodeReader) {

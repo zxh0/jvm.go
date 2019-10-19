@@ -29,7 +29,7 @@ func (instr *LCMP) Execute(frame *rtda.Frame) {
 // Compare float
 type FCMP struct {
 	base.NoOperandsInstruction
-	g bool
+	g bool // long or double
 }
 
 func (instr *FCMP) Execute(frame *rtda.Frame) {
@@ -51,7 +51,7 @@ func (instr *FCMP) Execute(frame *rtda.Frame) {
 // Compare double
 type DCMP struct {
 	base.NoOperandsInstruction
-	g bool
+	g bool // long or double
 }
 
 func (instr *DCMP) Execute(frame *rtda.Frame) {

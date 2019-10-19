@@ -16,7 +16,7 @@ func NewConstDouble(n float64) *Const { return &Const{k: heap.NewDoubleSlot(n), 
 type Const struct {
 	base.NoOperandsInstruction
 	k heap.Slot
-	d bool
+	d bool // long or double
 }
 
 func (instr *Const) Execute(frame *rtda.Frame) {

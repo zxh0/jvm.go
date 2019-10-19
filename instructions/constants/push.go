@@ -7,7 +7,7 @@ import (
 
 // Push byte
 type BIPush struct {
-	Val int32
+	Val int32 // TODO
 }
 
 func (instr *BIPush) FetchOperands(reader *base.CodeReader) {

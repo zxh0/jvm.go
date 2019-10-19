@@ -1,7 +1,7 @@
 package lang
 
 import (
-	"github.com/zxh0/jvm.go/interpreter"
+	"github.com/zxh0/jvm.go/cpu"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -93,5 +93,5 @@ func start0(frame *rtda.Frame) {
 	this.Extra = newThread
 	this.UnlockState()
 
-	go interpreter.Loop(newThread)
+	go cpu.Loop(newThread)
 }

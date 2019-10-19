@@ -1,4 +1,4 @@
-package interpreter
+package cpu
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
-	"github.com/zxh0/jvm.go/vmerrors"
+	"github.com/zxh0/jvm.go/vm"
 )
 
 func ExecMethod(thread *rtda.Thread, method *heap.Method, args []heap.Slot) heap.Slot {
@@ -105,7 +105,7 @@ func fetchInstruction(method *heap.Method, pc int) (base.Instruction, int) {
 // todo
 func _catchErr(thread *rtda.Thread) {
 	if r := recover(); r != nil {
-		if err, ok := r.(vmerrors.ClassNotFoundError); ok {
+		if err, ok := r.(vm.ClassNotFoundError); ok {
 			thread.ThrowClassNotFoundException(err.Error())
 			_loop(thread)
 			return

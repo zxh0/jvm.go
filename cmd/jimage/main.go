@@ -12,12 +12,6 @@ import (
 )
 
 const (
-	OffsetWidth         = 12
-	SizeWidth           = 10
-	CompressedSizeWidth = 10
-)
-
-const (
 	version = "jimage.go 0.0.1"
 	usage   = `jimage.
 

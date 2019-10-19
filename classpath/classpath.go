@@ -4,14 +4,14 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/zxh0/jvm.go/options"
+	"github.com/zxh0/jvm.go/vm"
 )
 
 type ClassPath struct {
 	CompositeEntry
 }
 
-func Parse(opts options.Options) *ClassPath {
+func Parse(opts vm.Options) *ClassPath {
 	cp := &ClassPath{}
 	cp.parseBootAndExtClassPath(opts.AbsJavaHome)
 	cp.parseUserClassPath(opts.Classpath)

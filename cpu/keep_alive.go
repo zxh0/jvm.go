@@ -1,4 +1,4 @@
-package interpreter
+package cpu
 
 import (
 	"sync"

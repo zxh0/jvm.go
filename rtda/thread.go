@@ -5,8 +5,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/zxh0/jvm.go/options"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/vm"
 )
 
 /*
@@ -29,12 +29,12 @@ type Thread struct {
 	interruptedFlag bool
 	parkingFlag     bool // used by Unsafe
 	unparkedFlag    bool // used by Unsafe
-	VMOptions       options.Options
+	VMOptions       vm.Options
 	JNIEnv          interface{}
 	// todo
 }
 
-func NewThread(jThread *heap.Object, opts options.Options) *Thread {
+func NewThread(jThread *heap.Object, opts vm.Options) *Thread {
 	stack := newStack(uint(opts.ThreadStackSize))
 	thread := &Thread{
 		stack:     stack,

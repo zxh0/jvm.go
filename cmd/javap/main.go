@@ -1,22 +1,15 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"strings"
 
 	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/classpath"
-	"github.com/zxh0/jvm.go/options"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/vm"
 )
-
-func main() {
-	opts, args := options.Parse()
-	if opts.HelpFlag || len(args) == 0 {
-		printUsage()
-	}
-	printClassInfo(opts, args[0])
-}
 
 var (
 	primitiveMap = map[string]string{
@@ -40,11 +33,31 @@ var (
 	}
 )
 
+func main() {
+	opts, args := parseOptions()
+	if opts.HelpFlag || len(args) == 0 {
+		printUsage()
+	}
+	printClassInfo(opts, args[0])
+}
+
+func parseOptions() (vm.Options, []string) {
+	options := vm.Options{}
+	flag.StringVar(&options.Classpath, "classpath", "", "Specifies a list of directories, JAR files, and ZIP archives to search for class files.")
+	flag.StringVar(&options.Classpath, "cp", "", "Specifies a list of directories, JAR files, and ZIP archives to search for class files.")
+	flag.BoolVar(&options.HelpFlag, "help", false, "Displays usage information and exit.")
+	flag.BoolVar(&options.HelpFlag, "h", false, "Displays usage information and exit.")
+	flag.BoolVar(&options.HelpFlag, "?", false, "Displays usage information and exit.")
+	flag.BoolVar(&options.VersionFlag, "version", false, "Displays version information and exit.")
+	flag.Parse()
+	return options, flag.Args()
+}
+
 func printUsage() {
 	fmt.Println("usage: javap [-options] class [args...]")
 }
 
-func printClassInfo(opts options.Options, className string) {
+func printClassInfo(opts vm.Options, className string) {
 	cp := classpath.Parse(opts)
 	_, classData, err := cp.ReadClass(className)
 

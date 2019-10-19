@@ -1,4 +1,4 @@
-package vmerrors
+package vm
 
 type ClassNotFoundError struct {
 	name string

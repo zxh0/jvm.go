@@ -23,7 +23,7 @@ func updateBytes(frame *rtda.Frame) {
 	off := frame.GetIntVar(2)
 	_len := frame.GetIntVar(3)
 
-	goBytes := byteArr.GoBytes()
+	goBytes := byteArr.GetGoBytes()
 	goBytes = goBytes[off : off+_len]
 	// func Update(crc uint32, tab *Table, p []byte) uint32
 	crc = crc32.Update(crc, crc32.IEEETable, goBytes)

@@ -6,129 +6,75 @@ import (
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
-// type Ref = *rtda.Object
+func NewLoadN(n uint, d bool) *LoadN { return &LoadN{n: n, d: d} }
+
+func NewLoad(d bool) *Load { return &Load{d: d} }
+
+func NewIALoad() *ALoad { return &ALoad{atype: heap.ATInt} }
+func NewLALoad() *ALoad { return &ALoad{atype: heap.ATLong} }
+func NewFALoad() *ALoad { return &ALoad{atype: heap.ATFloat} }
+func NewDALoad() *ALoad { return &ALoad{atype: heap.ATDouble} }
+func NewAALoad() *ALoad { return &ALoad{atype: 0} }
+func NewBALoad() *ALoad { return &ALoad{atype: heap.ATByte} }
+func NewCALoad() *ALoad { return &ALoad{atype: heap.ATChar} }
+func NewSALoad() *ALoad { return &ALoad{atype: heap.ATShort} }
 
 // xload: Load XXX from local variable
 type Load struct {
 	base.Index8Instruction
-	L bool
+	d bool
 }
 
 func (instr *Load) Execute(frame *rtda.Frame) {
-	frame.Load(instr.Index, instr.L)
+	frame.Load(instr.Index, instr.d)
 }
 
 // xload_n: Load XXX from local variable
 type LoadN struct {
 	base.NoOperandsInstruction
-	N uint
-	L bool
+	n uint
+	d bool
 }
 
 func (instr *LoadN) Execute(frame *rtda.Frame) {
-	frame.Load(instr.N, instr.L)
+	frame.Load(instr.n, instr.d)
 }
 
-// Load reference from array
-type AALoad struct{ base.NoOperandsInstruction }
-
-func (instr *AALoad) Execute(frame *rtda.Frame) {
-	arrRef, index, ok := _aLoadPop(frame)
-	if ok {
-		ref := arrRef.Refs()[index]
-		frame.PushRef(ref)
-	}
+// xaload: Load XXX from array
+type ALoad struct {
+	base.NoOperandsInstruction
+	atype byte
 }
 
-// Load byte or boolean from array
-type BALoad struct{ base.NoOperandsInstruction }
-
-func (instr *BALoad) Execute(frame *rtda.Frame) {
-	arrRef, index, ok := _aLoadPop(frame)
-	if ok {
-		val := arrRef.Bytes()[index]
-		frame.PushInt(int32(val))
-	}
-}
-
-// Load char from array
-type CALoad struct{ base.NoOperandsInstruction }
-
-func (instr *CALoad) Execute(frame *rtda.Frame) {
-	arrRef, index, ok := _aLoadPop(frame)
-	if ok {
-		val := arrRef.Chars()[index]
-		frame.PushInt(int32(val))
-	}
-}
-
-// Load double from array
-type DALoad struct{ base.NoOperandsInstruction }
-
-func (instr *DALoad) Execute(frame *rtda.Frame) {
-	arrRef, index, ok := _aLoadPop(frame)
-	if ok {
-		val := arrRef.Doubles()[index]
-		frame.PushDouble(val)
-	}
-}
-
-// Load float from array
-type FALoad struct{ base.NoOperandsInstruction }
-
-func (instr *FALoad) Execute(frame *rtda.Frame) {
-	arrRef, index, ok := _aLoadPop(frame)
-	if ok {
-		val := arrRef.Floats()[index]
-		frame.PushFloat(val)
-	}
-}
-
-// Load int from array
-type IALoad struct{ base.NoOperandsInstruction }
-
-func (instr *IALoad) Execute(frame *rtda.Frame) {
-	arrRef, index, ok := _aLoadPop(frame)
-	if ok {
-		val := arrRef.Ints()[index]
-		frame.PushInt(val)
-	}
-}
-
-// Load long from array
-type LALoad struct{ base.NoOperandsInstruction }
-
-func (instr *LALoad) Execute(frame *rtda.Frame) {
-	arrRef, index, ok := _aLoadPop(frame)
-	if ok {
-		val := arrRef.Longs()[index]
-		frame.PushLong(val)
-	}
-}
-
-// Load short from array
-type SALoad struct{ base.NoOperandsInstruction }
-
-func (instr *SALoad) Execute(frame *rtda.Frame) {
-	arrRef, index, ok := _aLoadPop(frame)
-	if ok {
-		val := arrRef.Shorts()[index]
-		frame.PushInt(int32(val))
-	}
-}
-
-func _aLoadPop(frame *rtda.Frame) (*heap.Object, int, bool) {
+func (instr *ALoad) Execute(frame *rtda.Frame) {
 	index := frame.PopInt()
 	arrRef := frame.PopRef()
 
 	if arrRef == nil {
 		frame.Thread.ThrowNPE()
-		return nil, 0, false
+		return
 	}
-	if index < 0 || index >= heap.ArrayLength(arrRef) {
+	if index < 0 || index >= arrRef.ArrayLength() {
 		frame.Thread.ThrowArrayIndexOutOfBoundsException(index)
-		return nil, 0, false
+		return
 	}
 
-	return arrRef, int(index), true
+	switch instr.atype {
+	case heap.ATByte:
+		frame.PushInt(int32(arrRef.GetBytes()[index]))
+	case heap.ATChar:
+		frame.PushInt(int32(arrRef.GetChars()[index]))
+	case heap.ATShort:
+		frame.PushInt(int32(arrRef.GetShorts()[index]))
+	case heap.ATInt:
+		frame.PushInt(arrRef.GetInts()[index])
+	case heap.ATLong:
+		frame.PushLong(arrRef.GetLongs()[index])
+	case heap.ATFloat:
+		frame.PushFloat(arrRef.GetFloats()[index])
+	case heap.ATDouble:
+		frame.PushDouble(arrRef.GetDoubles()[index])
+	default:
+		frame.PushRef(arrRef.GetRefs()[index])
+	}
 }

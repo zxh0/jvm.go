@@ -45,7 +45,7 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 
 	if constructorCount > 0 {
 		thread := frame.Thread
-		constructorObjs := constructorArr.Refs()
+		constructorObjs := constructorArr.GetRefs()
 		constructorInitMethod := constructorClass.GetConstructor(_constructorConstructorDescriptor)
 		for i, constructor := range constructors {
 			constructorObj := constructorClass.NewObjWithExtra(constructor)

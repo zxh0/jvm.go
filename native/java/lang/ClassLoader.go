@@ -30,7 +30,7 @@ func defineClass1(frame *rtda.Frame) {
 	// pd := frame.GetRefVar(5)
 	// source := frame.GetRefVar(6)
 
-	goBytes := byteArr.GoBytes()
+	goBytes := byteArr.GetGoBytes()
 	goBytes = goBytes[off : off+_len]
 
 	//println(this.Extra)

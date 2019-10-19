@@ -40,7 +40,7 @@ func writeBytes(frame *rtda.Frame) {
 	}
 	goFile := fdObj.Extra.(*os.File)
 
-	goBytes := byteArrObj.GoBytes()
+	goBytes := byteArrObj.GetGoBytes()
 	goBytes = goBytes[offset : offset+length]
 	goFile.Write(goBytes)
 }

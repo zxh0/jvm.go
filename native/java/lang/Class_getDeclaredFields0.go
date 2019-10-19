@@ -37,13 +37,13 @@ func getDeclaredFields0(frame *rtda.Frame) {
 	fieldCount := uint(len(fields))
 
 	fieldClass := heap.BootLoader().LoadClass("java/lang/reflect/Field")
-	fieldArr := heap.NewRefArray(fieldClass, fieldCount)
+	fieldArr := heap.NewRefArrayN(fieldClass, fieldCount)
 
 	frame.PushRef(fieldArr)
 
 	if fieldCount > 0 {
 		thread := frame.Thread
-		fieldObjs := fieldArr.Refs()
+		fieldObjs := fieldArr.GetRefs()
 		fieldConstructor := fieldClass.GetConstructor(_fieldConstructorDescriptor)
 		for i, goField := range fields {
 			fieldObj := fieldClass.NewObjWithExtra(goField)

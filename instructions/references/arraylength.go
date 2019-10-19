@@ -3,7 +3,6 @@ package references
 import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 // Get length of array
@@ -17,6 +16,6 @@ func (instr *ArrayLength) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	arrLen := heap.ArrayLength(arrRef)
+	arrLen := arrRef.ArrayLength()
 	frame.PushInt(arrLen)
 }

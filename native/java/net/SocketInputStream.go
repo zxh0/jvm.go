@@ -38,7 +38,7 @@ func sis_socketRead0(frame *rtda.Frame) {
 		conn.SetDeadline(time.Now().Add(time.Duration(_timeout) * time.Millisecond))
 	}
 
-	goBuf := buf.GoBytes()
+	goBuf := buf.GetGoBytes()
 	goBuf = goBuf[off : off+_len]
 
 	n, err := conn.Read(goBuf)

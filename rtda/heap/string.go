@@ -44,5 +44,5 @@ func JSToGoStr(jStr *Object) string {
 // java.lang.String -> java char[]
 func JSToChars(jStr *Object) []uint16 {
 	charArr := jStr.GetFieldValue("value", "[C").Ref
-	return charArr.Chars()
+	return charArr.GetChars()
 }

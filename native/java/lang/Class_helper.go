@@ -13,7 +13,7 @@ func getParameterTypeArr(method *heap.Method) *heap.Object {
 	classArr := classClass.NewArray(uint(paramCount))
 
 	if paramCount > 0 {
-		classObjs := classArr.Refs()
+		classObjs := classArr.GetRefs()
 		for i, paramType := range paramTypes {
 			classObjs[i] = paramType.JClass
 		}
@@ -35,7 +35,7 @@ func getExceptionTypeArr(method *heap.Method) *heap.Object {
 	classArr := classClass.NewArray(uint(exCount))
 
 	if exCount > 0 {
-		classObjs := classArr.Refs()
+		classObjs := classArr.GetRefs()
 		for i, exType := range exTypes {
 			classObjs[i] = exType.JClass
 		}

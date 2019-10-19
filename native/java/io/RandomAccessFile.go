@@ -79,7 +79,7 @@ func raf_writeBytes(frame *rtda.Frame) {
 
 	goFile := this.Extra.(*os.File)
 
-	goBytes := byteArrObj.GoBytes()
+	goBytes := byteArrObj.GetGoBytes()
 	goBytes = goBytes[offset : offset+length]
 	goFile.Write(goBytes)
 }
@@ -107,7 +107,7 @@ func raf_readBytes(frame *rtda.Frame) {
 	_len := frame.GetIntVar(3)
 
 	goFile := this.Extra.(*os.File)
-	goBuf := buf.GoBytes()
+	goBuf := buf.GetGoBytes()
 	goBuf = goBuf[off : off+_len]
 
 	n, err := goFile.Read(goBuf)

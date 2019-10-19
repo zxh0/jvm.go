@@ -16,7 +16,7 @@ func TestClone(t *testing.T) {
 
 func TestArrayLength(t *testing.T) {
 	arr := newObj(nil, []int8{1, 2, 3, 4, 5}, nil)
-	require.Equal(t, int32(5), ArrayLength(arr))
+	require.Equal(t, int32(5), arr.ArrayLength())
 }
 
 func TestArrayCopy(t *testing.T) {

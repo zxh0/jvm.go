@@ -44,8 +44,8 @@ func arraycopy(frame *rtda.Frame) {
 	}
 	// IndexOutOfBoundsException
 	if srcPos < 0 || destPos < 0 || length < 0 ||
-		srcPos+length > heap.ArrayLength(src) ||
-		destPos+length > heap.ArrayLength(dest) {
+		srcPos+length > src.ArrayLength() ||
+		destPos+length > dest.ArrayLength() {
 
 		panic("IndexOutOfBoundsException") // todo
 	}

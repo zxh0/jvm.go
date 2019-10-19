@@ -101,7 +101,7 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 	} else {
 		emInfo := class.EnclosingMethod
 		emInfoObj := _createEnclosintMethodInfo(frame.GetClassLoader(), emInfo)
-		if emInfoObj == nil || heap.ArrayLength(emInfoObj) == 0 {
+		if emInfoObj == nil || emInfoObj.ArrayLength() == 0 {
 			frame.PushNull()
 		} else {
 			frame.PushRef(emInfoObj)
@@ -125,7 +125,7 @@ func _createEnclosintMethodInfo(classLoader *heap.ClassLoader, emInfo *heap.Encl
 	}
 
 	objs := []*heap.Object{enclosingClassObj, methodNameObj, methodDescriptorObj}
-	return heap.NewRefArray2(classLoader.JLObjectClass(), objs) // Object[]
+	return heap.NewRefArray(classLoader.JLObjectClass(), objs) // Object[]
 }
 
 // private native Class<?>[] getInterfaces0();
@@ -139,7 +139,7 @@ func getInterfaces0(frame *rtda.Frame) {
 	}
 
 	jlClassClass := heap.BootLoader().JLClassClass()
-	interfaceArr := heap.NewRefArray2(jlClassClass, interfaceObjs)
+	interfaceArr := heap.NewRefArray(jlClassClass, interfaceObjs)
 
 	frame.PushRef(interfaceArr)
 }

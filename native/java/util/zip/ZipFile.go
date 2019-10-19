@@ -101,7 +101,7 @@ func getEntry(frame *rtda.Frame) {
 	//addSlash := frame.GetBooleanVar(3)
 
 	// todo
-	name := nameObj.GoBytes()
+	name := nameObj.GetGoBytes()
 	jzentry := getJzentry2(jzfile, name)
 
 	frame.PushLong(jzentry)
@@ -212,7 +212,7 @@ func read(frame *rtda.Frame) {
 	off := frame.GetIntVar(7)
 	_len := frame.GetIntVar(8)
 
-	goBytes := byteArr.GoBytes()
+	goBytes := byteArr.GetGoBytes()
 	goBytes = goBytes[off : off+_len]
 	n := readEntry(jzentry, pos, goBytes)
 

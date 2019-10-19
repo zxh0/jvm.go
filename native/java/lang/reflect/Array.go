@@ -32,13 +32,13 @@ func get(frame *rtda.Frame) {
 		frame.Thread.ThrowIllegalArgumentException("Argument is not an array")
 		return
 	}
-	if index < 0 || index >= heap.ArrayLength(arr) {
+	if index < 0 || index >= arr.ArrayLength() {
 		frame.Thread.ThrowArrayIndexOutOfBoundsExceptionNoMsg()
 		return
 	}
 
 	if !arr.IsPrimitiveArray() {
-		obj := arr.Refs()[index]
+		obj := arr.GetRefs()[index]
 		frame.PushRef(obj)
 		return
 	}
@@ -47,21 +47,21 @@ func get(frame *rtda.Frame) {
 	primitiveDescriptor := arr.Class.Name[1]
 	switch primitiveDescriptor {
 	case 'Z':
-		frame.PushBoolean(arr.Booleans()[index] == 1)
+		frame.PushBoolean(arr.GetBooleans()[index] == 1)
 	case 'B':
-		frame.PushInt(int32(arr.Bytes()[index]))
+		frame.PushInt(int32(arr.GetBytes()[index]))
 	case 'C':
-		frame.PushInt(int32(arr.Chars()[index]))
+		frame.PushInt(int32(arr.GetChars()[index]))
 	case 'S':
-		frame.PushInt(int32(arr.Shorts()[index]))
+		frame.PushInt(int32(arr.GetShorts()[index]))
 	case 'I':
-		frame.PushInt(arr.Ints()[index])
+		frame.PushInt(arr.GetInts()[index])
 	case 'J':
-		frame.PushLong(arr.Longs()[index])
+		frame.PushLong(arr.GetLongs()[index])
 	case 'F':
-		frame.PushFloat(arr.Floats()[index])
+		frame.PushFloat(arr.GetFloats()[index])
 	case 'D':
-		frame.PushDouble(arr.Doubles()[index])
+		frame.PushDouble(arr.GetDoubles()[index])
 	}
 
 	// boxing
@@ -85,13 +85,13 @@ func set(frame *rtda.Frame) {
 		return
 	}
 
-	if index < 0 || index >= heap.ArrayLength(arr) {
+	if index < 0 || index >= arr.ArrayLength() {
 		frame.Thread.ThrowArrayIndexOutOfBoundsExceptionNoMsg()
 		return
 	}
 
 	if !arr.IsPrimitiveArray() {
-		arr.Refs()[index] = value
+		arr.GetRefs()[index] = value
 		return
 	}
 
@@ -113,21 +113,21 @@ func set(frame *rtda.Frame) {
 	primitiveDescriptor := arr.Class.Name[1]
 	switch primitiveDescriptor {
 	case 'Z':
-		arr.Booleans()[index] = int8(unboxed.IntValue())
+		arr.GetBooleans()[index] = int8(unboxed.IntValue())
 	case 'B':
-		arr.Bytes()[index] = int8(unboxed.IntValue())
+		arr.GetBytes()[index] = int8(unboxed.IntValue())
 	case 'C':
-		arr.Chars()[index] = uint16(unboxed.IntValue())
+		arr.GetChars()[index] = uint16(unboxed.IntValue())
 	case 'S':
-		arr.Shorts()[index] = int16(unboxed.IntValue())
+		arr.GetShorts()[index] = int16(unboxed.IntValue())
 	case 'I':
-		arr.Ints()[index] = unboxed.IntValue()
+		arr.GetInts()[index] = unboxed.IntValue()
 	case 'J':
-		arr.Longs()[index] = unboxed.LongValue()
+		arr.GetLongs()[index] = unboxed.LongValue()
 	case 'F':
-		arr.Floats()[index] = unboxed.FloatValue()
+		arr.GetFloats()[index] = unboxed.FloatValue()
 	case 'D':
-		arr.Doubles()[index] = unboxed.DoubleValue()
+		arr.GetDoubles()[index] = unboxed.DoubleValue()
 	}
 }
 
@@ -137,7 +137,7 @@ func getLength(frame *rtda.Frame) {
 	arr := frame.GetRefVar(0)
 
 	// todo IllegalArgumentException
-	_len := heap.ArrayLength(arr)
+	_len := arr.ArrayLength()
 	frame.PushInt(_len)
 }
 

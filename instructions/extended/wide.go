@@ -18,19 +18,19 @@ func (instr *Wide) FetchOperands(reader *base.CodeReader) {
 	opcode := reader.ReadUint8()
 	switch opcode {
 	case 0x15, 0x17, 0x19:
-		inst := &loads.Load{}
+		inst := loads.NewLoad(false)
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x16, 0x18:
-		inst := &loads.Load{L: true}
+		inst := loads.NewLoad(true)
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x36, 0x38, 0x3a:
-		inst := &stores.Store{}
+		inst := stores.NewStore(false)
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0x37, 0x39:
-		inst := &stores.Store{L: true}
+		inst := stores.NewStore(true)
 		inst.Index = uint(reader.ReadUint16())
 		instr.modifiedInstruction = inst
 	case 0xa9:

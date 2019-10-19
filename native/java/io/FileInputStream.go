@@ -64,7 +64,7 @@ func readBytes(frame *rtda.Frame) {
 	_len := frame.GetIntVar(3)
 
 	goFile := this.Extra.(*os.File)
-	goBuf := buf.GoBytes()
+	goBuf := buf.GetGoBytes()
 	goBuf = goBuf[off : off+_len]
 
 	// func (f *File) Read(b []byte) (n int, err error)

@@ -137,5 +137,5 @@ func createArgs() *heap.Object {
 		jArgs[i] = heap.JSFromGoStr(arg)
 	}
 
-	return heap.NewRefArray2(_classLoader.JLStringClass(), jArgs)
+	return heap.NewRefArray(_classLoader.JLStringClass(), jArgs)
 }

@@ -24,7 +24,7 @@ func NewArray(arrClass *Class, count uint) *Object {
 		return _newPrimitiveArray(arrClass, count)
 	} else {
 		componentClass := arrClass.ComponentClass()
-		return NewRefArray(componentClass, count)
+		return NewRefArrayN(componentClass, count)
 	}
 }
 
@@ -80,21 +80,14 @@ func NewByteArray(bytes []int8) *Object {
 func NewCharArray(chars []uint16) *Object {
 	return newObj(bootLoader.getClass("[C"), chars, nil)
 }
-
-func NewRefArray(componentClass *Class, count uint) *Object {
+func NewRefArray(componentClass *Class, components []*Object) *Object {
+	arrClass := componentClass.arrayClass()
+	return newObj(arrClass, components, nil)
+}
+func NewRefArrayN(componentClass *Class, count uint) *Object {
 	arrClass := componentClass.arrayClass()
 	components := make([]*Object, count)
 	return newObj(arrClass, components, nil)
-}
-
-// todo rename
-func NewRefArray2(componentClass *Class, components []*Object) *Object {
-	arrClass := componentClass.arrayClass()
-	return newObj(arrClass, components, nil)
-}
-
-func ArrayLength(arr *Object) int32 {
-	return int32(reflect.ValueOf(arr.Fields).Len())
 }
 
 func ArrayCopy(src, dst *Object, srcPos, dstPos, length int32) {
@@ -106,24 +99,28 @@ func ArrayCopy(src, dst *Object, srcPos, dstPos, length int32) {
 	)
 }
 
-func (obj *Object) Refs() []*Object    { return obj.Fields.([]*Object) }
-func (obj *Object) Booleans() []int8   { return obj.Fields.([]int8) }
-func (obj *Object) Bytes() []int8      { return obj.Fields.([]int8) }
-func (obj *Object) Chars() []uint16    { return obj.Fields.([]uint16) }
-func (obj *Object) Shorts() []int16    { return obj.Fields.([]int16) }
-func (obj *Object) Ints() []int32      { return obj.Fields.([]int32) }
-func (obj *Object) Longs() []int64     { return obj.Fields.([]int64) }
-func (obj *Object) Floats() []float32  { return obj.Fields.([]float32) }
-func (obj *Object) Doubles() []float64 { return obj.Fields.([]float64) }
+func (obj *Object) ArrayLength() int32 {
+	return int32(reflect.ValueOf(obj.Fields).Len())
+}
+
+func (obj *Object) GetRefs() []*Object    { return obj.Fields.([]*Object) }
+func (obj *Object) GetBooleans() []int8   { return obj.Fields.([]int8) }
+func (obj *Object) GetBytes() []int8      { return obj.Fields.([]int8) }
+func (obj *Object) GetChars() []uint16    { return obj.Fields.([]uint16) }
+func (obj *Object) GetShorts() []int16    { return obj.Fields.([]int16) }
+func (obj *Object) GetInts() []int32      { return obj.Fields.([]int32) }
+func (obj *Object) GetLongs() []int64     { return obj.Fields.([]int64) }
+func (obj *Object) GetFloats() []float32  { return obj.Fields.([]float32) }
+func (obj *Object) GetDoubles() []float64 { return obj.Fields.([]float64) }
+
+func (obj *Object) GetGoBytes() []byte {
+	s := obj.Fields.([]int8)
+	return vmutils.CastInt8sToBytes(s)
+}
 
 func (obj *Object) IsArray() bool {
 	return obj.Class.IsArray()
 }
 func (obj *Object) IsPrimitiveArray() bool {
 	return obj.Class.IsPrimitiveArray()
-}
-
-func (obj *Object) GoBytes() []byte {
-	s := obj.Fields.([]int8)
-	return vmutils.CastInt8sToBytes(s)
 }

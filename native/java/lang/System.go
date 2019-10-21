@@ -8,6 +8,7 @@ import (
 
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/vm"
 )
 
 func init() {
@@ -94,7 +95,7 @@ func initProperties(frame *rtda.Frame) {
 	setPropMethod := props.Class.GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
 	thread := frame.Thread
 
-	sysPropMap := _getSysProps(thread.VMOptions.AbsJavaHome)
+	sysPropMap := _getSysProps(thread.VMOptions)
 	sysPropKeys := _getSysPropKeys(sysPropMap)
 
 	for _, key := range sysPropKeys {
@@ -115,14 +116,14 @@ func _getSysPropKeys(m map[string]string) []string {
 	return keys
 }
 
-func _getSysProps(absJavaHome string) map[string]string {
+func _getSysProps(opts vm.Options) map[string]string {
 	return map[string]string{
 		"java.version":         "1.8.0",
 		"java.vendor":          "jvm.go",
 		"java.vendor.url":      "https://github.com/zxh0/jvm.go",
-		"java.home":            absJavaHome,
+		"java.home":            opts.AbsJavaHome,
 		"java.class.version":   "52.0",
-		"java.class.path":      heap.BootLoader().ClassPath().String(),
+		"java.class.path":      opts.Classpath, // TODO
 		"java.awt.graphicsenv": "sun.awt.CGraphicsEnvironment",
 		"os.name":              runtime.GOOS,   // todo
 		"os.arch":              runtime.GOARCH, // todo

@@ -8,7 +8,7 @@ import (
 )
 
 type ClassPath struct {
-	CompositeEntry
+	entries []Entry
 }
 
 func Parse(opts vm.Options) *ClassPath {
@@ -21,29 +21,29 @@ func Parse(opts vm.Options) *ClassPath {
 func (cp *ClassPath) parseBootAndExtClassPath(absJavaHome string) {
 	// jre/lib/*
 	jreLibPath := filepath.Join(absJavaHome, "lib", "*")
-	cp.addEntry(newWildcardEntry(jreLibPath))
+	cp.entries = append(cp.entries, spreadWildcardEntry(jreLibPath)...)
 
 	// jre/lib/ext/*
 	jreExtPath := filepath.Join(absJavaHome, "lib", "ext", "*")
-	cp.addEntry(newWildcardEntry(jreExtPath))
+	cp.entries = append(cp.entries, spreadWildcardEntry(jreExtPath)...)
 }
 
 func (cp *ClassPath) parseUserClassPath(cpOption string) {
 	if cpOption == "" {
 		cpOption = "."
 	}
-	cp.addEntry(newEntry(cpOption))
+	cp.entries = append(cp.entries, parsePath(cpOption)...)
 }
 
 // className: fully/qualified/ClassName
-func (cp *ClassPath) ReadClass(className string) (Entry, []byte, error) {
+func (cp *ClassPath) ReadClass(className string) (Entry, []byte) {
 	className = className + ".class"
-	return cp.readClass(className)
-}
-
-func (cp *ClassPath) String() string {
-	userClassPath := cp.CompositeEntry.entries[2]
-	return userClassPath.String()
+	for _, entry := range cp.entries {
+		if data, err := entry.readClass(className); err == nil {
+			return entry, data
+		}
+	}
+	return nil, nil
 }
 
 func IsBootClassPath(entry Entry, absJreLib string) bool {

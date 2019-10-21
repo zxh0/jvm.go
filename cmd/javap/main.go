@@ -59,13 +59,15 @@ func printUsage() {
 
 func printClassInfo(opts vm.Options, className string) {
 	cp := classpath.Parse(opts)
-	_, classData, err := cp.ReadClass(className)
-
-	if err != nil {
-		panic(err)
+	_, classData := cp.ReadClass(className)
+	if classData == nil {
+		panic("class not found: " + className)
 	}
 
 	cf, err := classfile.Parse(classData)
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Printf("%s %s",
 		accessFlagsForClass(cf.AccessFlags),

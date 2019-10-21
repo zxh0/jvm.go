@@ -1,75 +1,32 @@
 package classpath
 
 import (
-	"archive/zip"
-	"errors"
-	"io/ioutil"
-	"path/filepath"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 type ZipEntry struct {
-	absZip string
-	zipRC  *zip.ReadCloser
+	zipFile *vmutils.ZipFile
 }
 
 func newZipEntry(path string) *ZipEntry {
-	absZip, err := filepath.Abs(path)
-	if err != nil {
-		panic(err)
+	if zipFile, err := vmutils.NewZipFile(path); err != nil {
+		panic(err) // TODO
+	} else {
+		return &ZipEntry{zipFile: zipFile}
 	}
-
-	return &ZipEntry{absZip, nil}
 }
 
-func (entry *ZipEntry) readClass(className string) (Entry, []byte, error) {
-	if entry.zipRC == nil {
-		err := entry.openJar()
-		if err != nil {
-			return entry, nil, err
+func (entry *ZipEntry) readClass(className string) ([]byte, error) {
+	// TODO: close ZipFile
+	if !entry.zipFile.IsOpen() {
+		if err := entry.zipFile.Open(); err != nil {
+			return nil, err
 		}
 	}
 
-	classFile := entry.findClass(className)
-	if classFile == nil {
-		return entry, nil, errors.New("class not found: " + className)
-	}
-
-	data, err := readClass(classFile)
-	return entry, data, err
-}
-
-// todo: close zip
-func (entry *ZipEntry) openJar() error {
-	r, err := zip.OpenReader(entry.absZip) // func OpenReader(name string) (*ReadCloser, error)
-	if err == nil {
-		entry.zipRC = r
-	}
-	return err
-}
-
-func (entry *ZipEntry) findClass(className string) *zip.File {
-	for _, f := range entry.zipRC.File {
-		if f.Name == className {
-			return f
-		}
-	}
-	return nil
-}
-
-func readClass(classFile *zip.File) ([]byte, error) {
-	rc, err := classFile.Open() // func (f *File) Open() (rc io.ReadCloser, err error)
-	if err != nil {
-		return nil, err
-	}
-	// read class data
-	data, err := ioutil.ReadAll(rc) // func ReadAll(r io.Reader) ([]byte, error)
-	rc.Close()
-	if err != nil {
-		return nil, err
-	}
-	return data, nil
+	return entry.zipFile.ReadFile(className)
 }
 
 func (entry *ZipEntry) String() string {
-	return entry.absZip
+	return entry.zipFile.AbsPath()
 }

@@ -1,31 +1,25 @@
 package classpath
 
 import (
-	"io/ioutil"
-	"path/filepath"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 type DirEntry struct {
-	absDir string
+	dir *vmutils.Dir
 }
 
 func newDirEntry(path string) *DirEntry {
-	absDir, err := filepath.Abs(path)
-	if err != nil {
-		panic(err)
+	if dir, err := vmutils.NewDir(path); err != nil {
+		panic(err) // TODO
+	} else {
+		return &DirEntry{dir: dir}
 	}
-	return &DirEntry{absDir}
 }
 
-func (entry *DirEntry) readClass(className string) (Entry, []byte, error) {
-	fileName := filepath.Join(entry.absDir, className)
-	data, err := ioutil.ReadFile(fileName)
-	if err != nil {
-		return entry, nil, err
-	}
-	return entry, data, nil
+func (entry *DirEntry) readClass(className string) ([]byte, error) {
+	return entry.dir.ReadFile(className)
 }
 
 func (entry *DirEntry) String() string {
-	return entry.absDir
+	return entry.dir.AbsPath()
 }

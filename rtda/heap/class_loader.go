@@ -177,8 +177,8 @@ func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 }
 
 func (loader *ClassLoader) readClassData(name string) (classpath.Entry, []byte) {
-	cpEntry, classData, err := loader.classPath.ReadClass(name)
-	if err != nil {
+	cpEntry, classData := loader.classPath.ReadClass(name)
+	if classData == nil {
 		panic(vm.NewClassNotFoundError(SlashToDot(name)))
 	}
 

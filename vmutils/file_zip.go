@@ -12,6 +12,16 @@ type ZipFile struct {
 	rc      *zip.ReadCloser
 }
 
+func OpenZipFile(path string) (*ZipFile, error) {
+	if zipFile, err := NewZipFile(path); err != nil {
+		return nil, err
+	} else if err := zipFile.Open(); err != nil {
+		return nil, err
+	} else {
+		return zipFile, nil
+	}
+}
+
 func NewZipFile(path string) (*ZipFile, error) {
 	if absPath, err := filepath.Abs(path); err != nil {
 		return nil, err
@@ -42,16 +52,29 @@ func (zf *ZipFile) Close() error {
 	return nil
 }
 
-func (zf *ZipFile) ReadFile(filename string) ([]byte, error) {
+func (zf *ZipFile) HasFile(filename string) bool {
 	for _, f := range zf.rc.File {
 		if f.Name == filename {
-			return readFileInZip(f)
+			return true
+		}
+	}
+	return false
+}
+
+func (zf *ZipFile) ReadFile(filename string) ([]byte, error) {
+	return readFileInZip(&zf.rc.Reader, filename)
+}
+
+func readFileInZip(r *zip.Reader, filename string) ([]byte, error) {
+	for _, f := range r.File {
+		if f.Name == filename {
+			return readFileInZip0(f)
 		}
 	}
 	return nil, io.EOF // TODO
 }
 
-func readFileInZip(file *zip.File) ([]byte, error) {
+func readFileInZip0(file *zip.File) ([]byte, error) {
 	if rc, err := file.Open(); err != nil {
 		return nil, err
 	} else {

@@ -1,10 +1,8 @@
 package main
 
 import (
-	"archive/zip"
-	"bytes"
 	"fmt"
-	"io/ioutil"
+	"github.com/zxh0/jvm.go/vmutils"
 	"os"
 
 	"github.com/docopt/docopt-go"
@@ -37,17 +35,11 @@ func main() {
 }
 
 func list(filename string) {
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
+	if r, err := vmutils.OpenJModReader(filename); err != nil {
 		panic(err)
-	}
-
-	zr, err := zip.NewReader(bytes.NewReader(data[4:]), int64(len(data)-4))
-	if err != nil {
-		panic(err)
-	}
-
-	for _, f := range zr.File {
-		fmt.Println(f.Name)
+	} else {
+		for _, f := range r.File {
+			fmt.Println(f.Name)
+		}
 	}
 }

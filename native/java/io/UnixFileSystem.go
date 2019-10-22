@@ -6,6 +6,7 @@ import (
 
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 func init() {
@@ -41,10 +42,10 @@ func getBooleanAttributes0(frame *rtda.Frame) {
 
 	// todo
 	attributes0 := 0
-	if _exists(path) {
+	if vmutils.IsExists(path) {
 		attributes0 |= 0x01
 	}
-	if _isDir(path) {
+	if vmutils.IsDir(path) {
 		attributes0 |= 0x04
 	}
 
@@ -54,28 +55,6 @@ func getBooleanAttributes0(frame *rtda.Frame) {
 func _getPath(fileObj *heap.Object) string {
 	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").Ref
 	return heap.JSToGoStr(pathStr)
-}
-
-// http://stackoverflow.com/questions/10510691/how-to-check-whether-a-file-or-directory-denoted-by-a-path-exists-in-golang
-// exists returns whether the given file or directory exists or not
-func _exists(path string) bool {
-	_, err := os.Stat(path)
-	if err == nil {
-		return true
-	}
-	if os.IsNotExist(err) {
-		return false
-	}
-	return false
-}
-
-// http://stackoverflow.com/questions/8824571/golang-determining-whether-file-points-to-file-or-directory
-func _isDir(path string) bool {
-	fileInfo, err := os.Stat(path)
-	if err == nil {
-		return fileInfo.IsDir()
-	}
-	return false
 }
 
 // public native long getLastModifiedTime(File f);

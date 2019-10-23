@@ -12,6 +12,16 @@ type JModFile struct {
 	r       *zip.Reader
 }
 
+func OpenJModFile(path string) (*JModFile, error) {
+	if jmodFile, err := NewJModFile(path); err != nil {
+		return nil, err
+	} else if err := jmodFile.Open(); err != nil {
+		return nil, err
+	} else {
+		return jmodFile, nil
+	}
+}
+
 func NewJModFile(path string) (*JModFile, error) {
 	if absPath, err := filepath.Abs(path); err != nil {
 		return nil, err
@@ -28,7 +38,13 @@ func (mf *JModFile) IsOpen() bool {
 }
 
 func (mf *JModFile) Open() error {
-	r, err := OpenJModReader(mf.absPath)
+	data, err := ioutil.ReadFile(mf.absPath)
+	if err != nil {
+		return err
+	}
+
+	data = data[4:] // skip 0x4a4d0100
+	r, err := zip.NewReader(bytes.NewReader(data), int64(len(data)))
 	if err == nil {
 		mf.r = r
 	}
@@ -39,12 +55,10 @@ func (mf *JModFile) ReadFile(filename string) ([]byte, error) {
 	return readFileInZip(mf.r, filename)
 }
 
-func OpenJModReader(filename string) (*zip.Reader, error) {
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil, err
+func (mf *JModFile) ListFiles() []string {
+	files := make([]string, 0, 100)
+	for _, f := range mf.r.File {
+		files = append(files, f.Name)
 	}
-
-	data = data[4:] // skip 0x4a4d0100
-	return zip.NewReader(bytes.NewReader(data), int64(len(data)))
+	return files
 }

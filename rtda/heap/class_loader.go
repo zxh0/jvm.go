@@ -6,6 +6,7 @@ import (
 	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/classpath"
 	"github.com/zxh0/jvm.go/vm"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 const (
@@ -179,7 +180,7 @@ func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 func (loader *ClassLoader) readClassData(name string) (classpath.Entry, []byte) {
 	cpEntry, classData := loader.classPath.ReadClass(name)
 	if classData == nil {
-		panic(vm.NewClassNotFoundError(SlashToDot(name)))
+		panic(vm.NewClassNotFoundError(vmutils.SlashToDot(name)))
 	}
 
 	return cpEntry, classData

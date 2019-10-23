@@ -3,6 +3,7 @@ package lang
 import (
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 func init() {
@@ -48,7 +49,7 @@ func findBootstrapClass(frame *rtda.Frame) {
 	//this := frame.GetThis()
 	name := frame.GetRefVar(1)
 
-	className := heap.DotToSlash(heap.JSToGoStr(name))
+	className := vmutils.DotToSlash(heap.JSToGoStr(name))
 	class := heap.BootLoader().LoadClass(className)
 
 	// todo: init class?
@@ -66,7 +67,7 @@ func findLoadedClass0(frame *rtda.Frame) {
 	this := frame.GetThis()
 	name := frame.GetRefVar(1)
 
-	className := heap.DotToSlash(heap.JSToGoStr(name))
+	className := vmutils.DotToSlash(heap.JSToGoStr(name))
 
 	if isAppClassLoader(this) {
 		class := heap.BootLoader().FindLoadedClass(className)

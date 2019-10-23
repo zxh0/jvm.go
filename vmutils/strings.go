@@ -2,8 +2,16 @@ package vmutils
 
 import (
 	"fmt"
+	"strings"
 	"unicode/utf16"
 )
+
+func DotToSlash(name string) string {
+	return strings.ReplaceAll(name, ".", "/")
+}
+func SlashToDot(name string) string {
+	return strings.ReplaceAll(name, "/", ".")
+}
 
 func UTF8ToUTF16(s string) []uint16 {
 	runes := []rune(s)

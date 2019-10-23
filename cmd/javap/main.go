@@ -7,7 +7,6 @@ import (
 
 	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/classpath"
-	"github.com/zxh0/jvm.go/rtda/heap"
 	"github.com/zxh0/jvm.go/vm"
 )
 
@@ -110,7 +109,7 @@ func printClassInfo(opts vm.Options, className string) {
 func accessFlagsForClass(af uint16) string {
 	var result []string
 
-	accessFlags := heap.AccessFlags(af)
+	accessFlags := classfile.AccessFlags(af)
 	if accessFlags.IsPublic() {
 		result = append(result, "public")
 	}
@@ -134,7 +133,7 @@ func accessFlagsForClass(af uint16) string {
 func accessFlagsForField(af uint16) string {
 	var result []string
 
-	accessFlags := heap.AccessFlags(af)
+	accessFlags := classfile.AccessFlags(af)
 	if accessFlags.IsPublic() {
 		result = append(result, "public")
 	}
@@ -165,7 +164,7 @@ func accessFlagsForField(af uint16) string {
 func accessFlagsForMethod(af uint16) string {
 	var result []string
 
-	accessFlags := heap.AccessFlags(af)
+	accessFlags := classfile.AccessFlags(af)
 	if accessFlags.IsPublic() {
 		result = append(result, "public")
 	}

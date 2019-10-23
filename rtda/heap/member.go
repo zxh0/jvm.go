@@ -5,7 +5,7 @@ import (
 )
 
 type ClassMember struct {
-	AccessFlags
+	classfile.AccessFlags
 	Name           string
 	Descriptor     string
 	Signature      string
@@ -14,7 +14,7 @@ type ClassMember struct {
 }
 
 func (m *ClassMember) copyMemberData(cf *classfile.ClassFile, cfMember classfile.MemberInfo) {
-	m.AccessFlags = AccessFlags(cfMember.AccessFlags)
+	m.AccessFlags = classfile.AccessFlags(cfMember.AccessFlags)
 	m.Name = cf.GetUTF8(cfMember.NameIndex)
 	m.Descriptor = cf.GetUTF8(cfMember.DescriptorIndex)
 	m.Signature = cf.GetUTF8(cfMember.GetSignatureIndex())

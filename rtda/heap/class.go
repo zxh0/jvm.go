@@ -3,7 +3,9 @@ package heap
 import (
 	"sync"
 
+	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/classpath"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 // initialization state
@@ -29,7 +31,7 @@ type EnclosingMethod struct {
 
 // name, superClassName and interfaceNames are all binary names(jvms8-4.2.1)
 type Class struct {
-	AccessFlags
+	classfile.AccessFlags
 	ClassAttributes
 	ConstantPool
 	Name               string // thisClassName
@@ -57,7 +59,7 @@ func (class *Class) String() string {
 
 // todo
 func (class *Class) NameJlsFormat() string {
-	return SlashToDot(class.Name)
+	return vmutils.SlashToDot(class.Name)
 }
 
 func (class *Class) InitializationNotStarted() bool {

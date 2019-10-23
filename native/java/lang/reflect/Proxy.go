@@ -3,6 +3,7 @@ package reflect
 import (
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 func init() {
@@ -37,7 +38,7 @@ func _loadClass(frame *rtda.Frame) {
 	_len := frame.GetIntVar(4)
 
 	name := heap.JSToGoStr(nameObj)
-	name = heap.DotToSlash(name)
+	name = vmutils.DotToSlash(name)
 	data := byteArr.GetGoBytes()
 	data = data[off : off+_len]
 

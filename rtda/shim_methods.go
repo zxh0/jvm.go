@@ -1,6 +1,7 @@
 package rtda
 
 import (
+	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
@@ -34,7 +35,7 @@ var (
 
 func newShimMember(name string) heap.ClassMember {
 	return heap.ClassMember{
-		AccessFlags: heap.AccStatic,
+		AccessFlags: classfile.AccStatic,
 		Name:        name,
 		Class:       _shimClass,
 	}

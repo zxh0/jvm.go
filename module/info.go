@@ -38,7 +38,7 @@ type Provide struct {
 	Impls   []string
 }
 
-func NewModuleInfo(classData []byte) Info {
+func ParseModuleInfo(classData []byte) *Info {
 	cf, err := classfile.Parse(classData)
 	if err != nil {
 		panic(err) // TODO
@@ -49,7 +49,7 @@ func NewModuleInfo(classData []byte) Info {
 		panic("no module attribute")
 	}
 
-	return Info{
+	return &Info{
 		Name:     getModuleName(cf, modAttr.ModuleNameIndex),
 		Flags:    modAttr.ModuleFlags,
 		Version:  cf.GetUTF8(modAttr.ModuleVersionIndex),

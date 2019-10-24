@@ -11,8 +11,8 @@ func TestModuleInfo(t *testing.T) {
 	bytes, err := ioutil.ReadFile("../test/testdata/java13/module-info.class")
 	require.NoError(t, err)
 
-	info := NewModuleInfo(bytes)
-	require.Equal(t, info, Info{
+	info := ParseModuleInfo(bytes)
+	require.Equal(t, info, &Info{
 		Name:    "hello.modules",
 		Flags:   0,
 		Version: "0.1",

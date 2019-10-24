@@ -9,6 +9,7 @@ import (
 
 	"github.com/zxh0/jvm.go/classpath"
 	"github.com/zxh0/jvm.go/cpu"
+	"github.com/zxh0/jvm.go/module"
 	_ "github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
@@ -94,7 +95,18 @@ func printVersion() {
 }
 
 func listModules(opts *vm.Options) {
-	// TODO
+	mp := module.ParseModulePath(opts)
+	for _, m := range mp {
+		info := m.GetInfo()
+		fmt.Printf("%s@%s\n", info.Name, info.Version)
+	}
+
+	fmt.Println("----------")
+	x := module.CheckDeps(mp, opts.MainModule)
+	for _, m := range x {
+		info := m.GetInfo()
+		fmt.Printf("%s@%s\n", info.Name, info.Version)
+	}
 }
 
 func startJVM13(opts *vm.Options, args []string) {

@@ -15,13 +15,15 @@ const (
 )
 
 type Options struct {
-	Classpath       string
-	HelpFlag        bool
+	MainModule      string
+	MainClass       string
+	ClassPath       string
+	ModulePath      string
 	VerboseClass    bool
-	VerboseInstr    bool
+	VerboseModule   bool
 	VerboseJNI      bool
-	VersionFlag     bool
 	Xss             string
+	Xjre            string
 	XUseJavaHome    bool
 	XDebugInstr     bool
 	XCPUProfile     string
@@ -31,25 +33,38 @@ type Options struct {
 }
 
 func (options *Options) Init() {
-	options.AbsJavaHome = getJavaHome(options.XUseJavaHome)
-	options.AbsJreLib = filepath.Join(options.AbsJavaHome, "lib")
+	if options.ModulePath != "" {
+		options.AbsJavaHome = getJavaHome13(options.Xjre)
+	} else {
+		options.AbsJavaHome = getJavaHome8(options.Xjre, options.XUseJavaHome)
+		options.AbsJreLib = filepath.Join(options.AbsJavaHome, "lib")
+	}
 	options.ThreadStackSize = parseXss(options.Xss)
 }
 
-func getJavaHome(useOsEnv bool) string {
+func getJavaHome13(jreDir string) string {
+	if absJH, err := filepath.Abs(jreDir); err != nil {
+		panic(err) // TODO
+	} else {
+		return absJH
+	}
+}
+
+func getJavaHome8(jreDir string, useOsEnv bool) string {
 	jh := "./jre"
-	if useOsEnv {
-		jh = os.Getenv("JAVA_HOME")
-		if jh == "" {
+	if jreDir != "" {
+		jh = jreDir
+	} else if useOsEnv {
+		if jh = os.Getenv("JAVA_HOME"); jh == "" {
 			panic("$JAVA_HOME not set!")
 		}
 	}
 
-	if absJh, err := filepath.Abs(jh); err == nil {
-		if strings.Contains(absJh, "jre") {
-			return absJh
+	if absJH, err := filepath.Abs(jh); err == nil {
+		if strings.Contains(absJH, "jre") {
+			return absJH
 		} else {
-			return filepath.Join(absJh, "jre")
+			return filepath.Join(absJH, "jre")
 		}
 	} else {
 		panic(err) // TODO

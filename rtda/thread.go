@@ -29,12 +29,12 @@ type Thread struct {
 	interruptedFlag bool
 	parkingFlag     bool // used by Unsafe
 	unparkedFlag    bool // used by Unsafe
-	VMOptions       vm.Options
+	VMOptions       *vm.Options
 	JNIEnv          interface{}
 	// todo
 }
 
-func NewThread(jThread *heap.Object, opts vm.Options) *Thread {
+func NewThread(jThread *heap.Object, opts *vm.Options) *Thread {
 	stack := newStack(uint(opts.ThreadStackSize))
 	thread := &Thread{
 		stack:     stack,

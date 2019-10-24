@@ -1,10 +1,9 @@
 package lang
 
 import (
-	"strings"
-
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 func init() {
@@ -32,7 +31,7 @@ func forName0(frame *rtda.Frame) {
 	//jLoader := frame.GetRefVar(2)
 
 	goName := heap.JSToGoStr(jName)
-	goName = strings.ReplaceAll(goName, ".", "/")
+	goName = vmutils.DotToSlash(goName)
 	goClass := frame.GetClassLoader().LoadClass(goName)
 	jClass := goClass.JClass
 

@@ -11,10 +11,10 @@ type ClassPath struct {
 	entries []Entry
 }
 
-func Parse(opts vm.Options) *ClassPath {
+func Parse(opts *vm.Options) *ClassPath {
 	cp := &ClassPath{}
 	cp.parseBootAndExtClassPath(opts.AbsJavaHome)
-	cp.parseUserClassPath(opts.Classpath)
+	cp.parseUserClassPath(opts.ClassPath)
 	return cp
 }
 

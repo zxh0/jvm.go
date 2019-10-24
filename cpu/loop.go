@@ -15,7 +15,7 @@ func ExecMethod(thread *rtda.Thread, method *heap.Method, args []heap.Slot) heap
 	thread.PushFrame(shimFrame)
 	thread.InvokeMethod(method)
 
-	verbose := thread.VMOptions.VerboseInstr
+	debug := thread.VMOptions.XDebugInstr
 	defer _catchErr(thread) // todo
 
 	for {
@@ -38,7 +38,7 @@ func ExecMethod(thread *rtda.Thread, method *heap.Method, args []heap.Slot) heap
 
 		// execute instruction
 		instr.Execute(frame)
-		if verbose {
+		if debug {
 			_logInstruction(frame, instr)
 		}
 	}
@@ -62,7 +62,7 @@ func Loop(thread *rtda.Thread) {
 }
 
 func _loop(thread *rtda.Thread) {
-	verbose := thread.VMOptions.VerboseInstr
+	debug := thread.VMOptions.XDebugInstr
 	defer _catchErr(thread) // todo
 
 	for {
@@ -76,7 +76,7 @@ func _loop(thread *rtda.Thread) {
 
 		// execute instruction
 		instr.Execute(frame)
-		if verbose {
+		if debug {
 			_logInstruction(frame, instr)
 		}
 		if thread.IsStackEmpty() {

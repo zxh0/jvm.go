@@ -8,6 +8,12 @@ import (
 	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/classpath"
 	"github.com/zxh0/jvm.go/vm"
+	"github.com/zxh0/jvm.go/vmutils"
+)
+
+var (
+	versionFlag bool
+	helpFlag    bool
 )
 
 var (
@@ -34,20 +40,20 @@ var (
 
 func main() {
 	opts, args := parseOptions()
-	if opts.HelpFlag || len(args) == 0 {
+	if helpFlag || len(args) == 0 {
 		printUsage()
 	}
 	printClassInfo(opts, args[0])
 }
 
-func parseOptions() (vm.Options, []string) {
-	options := vm.Options{}
-	flag.StringVar(&options.Classpath, "classpath", "", "Specifies a list of directories, JAR files, and ZIP archives to search for class files.")
-	flag.StringVar(&options.Classpath, "cp", "", "Specifies a list of directories, JAR files, and ZIP archives to search for class files.")
-	flag.BoolVar(&options.HelpFlag, "help", false, "Displays usage information and exit.")
-	flag.BoolVar(&options.HelpFlag, "h", false, "Displays usage information and exit.")
-	flag.BoolVar(&options.HelpFlag, "?", false, "Displays usage information and exit.")
-	flag.BoolVar(&options.VersionFlag, "version", false, "Displays version information and exit.")
+func parseOptions() (*vm.Options, []string) {
+	options := &vm.Options{}
+	flag.StringVar(&options.ClassPath, "classpath", "", "Specifies a list of directories, JAR files, and ZIP archives to search for class files.")
+	flag.StringVar(&options.ClassPath, "cp", "", "Specifies a list of directories, JAR files, and ZIP archives to search for class files.")
+	flag.BoolVar(&helpFlag, "help", false, "Displays usage information and exit.")
+	flag.BoolVar(&helpFlag, "h", false, "Displays usage information and exit.")
+	flag.BoolVar(&helpFlag, "?", false, "Displays usage information and exit.")
+	flag.BoolVar(&versionFlag, "version", false, "Displays version information and exit.")
 	flag.Parse()
 	return options, flag.Args()
 }
@@ -56,7 +62,7 @@ func printUsage() {
 	fmt.Println("usage: javap [-options] class [args...]")
 }
 
-func printClassInfo(opts vm.Options, className string) {
+func printClassInfo(opts *vm.Options, className string) {
 	cp := classpath.Parse(opts)
 	_, classData := cp.ReadClass(className)
 	if classData == nil {
@@ -70,19 +76,19 @@ func printClassInfo(opts vm.Options, className string) {
 
 	fmt.Printf("%s %s",
 		accessFlagsForClass(cf.AccessFlags),
-		strings.ReplaceAll(cf.GetThisClassName(), "/", "."))
+		vmutils.SlashToDot(cf.GetThisClassName()))
 
 	superClassName := cf.GetSuperClassName()
 	interfaceNames := cf.GetInterfaceNames()
 
 	if superClassName != "" {
 		fmt.Printf(" extends %s",
-			strings.ReplaceAll(superClassName, "/", "."))
+			vmutils.SlashToDot(superClassName))
 	}
 
 	if len(interfaceNames) > 0 {
 		fmt.Printf(" implements %s",
-			strings.ReplaceAll(strings.Join(interfaceNames, ","), "/", "."))
+			vmutils.SlashToDot(strings.Join(interfaceNames, ",")))
 	}
 
 	fmt.Println(" {")
@@ -194,9 +200,9 @@ func descriptorToRealName(descriptor string) string {
 		return primitiveMap[descriptor]
 	} else {
 		if strings.Contains(descriptor, "[L") {
-			return strings.ReplaceAll(strings.TrimSuffix(strings.TrimPrefix(descriptor, "[L"), ";"), "/", ".") + "[]"
+			return vmutils.SlashToDot(strings.TrimSuffix(strings.TrimPrefix(descriptor, "[L"), ";")) + "[]"
 		} else {
-			return strings.ReplaceAll(strings.TrimSuffix(strings.TrimPrefix(descriptor, "L"), ";"), "/", ".")
+			return vmutils.SlashToDot(strings.TrimSuffix(strings.TrimPrefix(descriptor, "L"), ";"))
 		}
 	}
 }

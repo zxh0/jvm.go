@@ -37,6 +37,10 @@ func (mf *JModFile) IsOpen() bool {
 	return mf.r != nil
 }
 
+func (mf *JModFile) Close() {
+	mf.r = nil
+}
+
 func (mf *JModFile) Open() error {
 	data, err := ioutil.ReadFile(mf.absPath)
 	if err != nil {

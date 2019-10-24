@@ -63,11 +63,11 @@ func describe(filename string) {
 		panic(err)
 	}
 
-	modInfo := module.NewModuleInfo(classData)
+	modInfo := module.ParseModuleInfo(classData)
 	describeModule(jmodFile, modInfo)
 }
 
-func describeModule(jmodFile *vmutils.JModFile, modInfo module.Info) {
+func describeModule(jmodFile *vmutils.JModFile, modInfo *module.Info) {
 	fmt.Printf("%s@%s\n", modInfo.Name, modInfo.Version)
 	// unqualified exports (sorted by package)
 	for _, export := range modInfo.Exports {
@@ -127,7 +127,7 @@ func describeModule(jmodFile *vmutils.JModFile, modInfo module.Info) {
 	// TODO: platform & hashes
 }
 
-func getPrivatePackages(jmodFile *vmutils.JModFile, modInfo module.Info) []string {
+func getPrivatePackages(jmodFile *vmutils.JModFile, modInfo *module.Info) []string {
 	nonPrivatePkgMap := map[string]bool{}
 	for _, export := range modInfo.Exports {
 		nonPrivatePkgMap[export.Package] = true

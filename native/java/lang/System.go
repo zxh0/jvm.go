@@ -116,14 +116,14 @@ func _getSysPropKeys(m map[string]string) []string {
 	return keys
 }
 
-func _getSysProps(opts vm.Options) map[string]string {
+func _getSysProps(opts *vm.Options) map[string]string {
 	return map[string]string{
 		"java.version":         "1.8.0",
 		"java.vendor":          "jvm.go",
 		"java.vendor.url":      "https://github.com/zxh0/jvm.go",
 		"java.home":            opts.AbsJavaHome,
 		"java.class.version":   "52.0",
-		"java.class.path":      opts.Classpath, // TODO
+		"java.class.path":      opts.ClassPath, // TODO
 		"java.awt.graphicsenv": "sun.awt.CGraphicsEnvironment",
 		"os.name":              runtime.GOOS,   // todo
 		"os.arch":              runtime.GOARCH, // todo

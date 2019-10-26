@@ -11,11 +11,11 @@ type ConstantFieldRef struct {
 	resolved *Field
 }
 
-func newConstantFieldRef(cf *classfile.ClassFile,
+func newConstantFieldRef(class *Class, cf *classfile.ClassFile,
 	cfRef classfile.ConstantFieldRefInfo) *ConstantFieldRef {
 
 	ref := &ConstantFieldRef{}
-	ref.ConstantMemberRef = newConstantMemberRef(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
+	ref.ConstantMemberRef = newConstantMemberRef(class, cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
 	return ref
 }
 
@@ -36,7 +36,7 @@ func (ref *ConstantFieldRef) GetField(static bool) *Field {
 }
 
 func (ref *ConstantFieldRef) resolveInstanceField() {
-	fromClass := bootLoader.LoadClass(ref.className)
+	fromClass := ref.class.bootLoader.LoadClass(ref.className)
 
 	for class := fromClass; class != nil; class = class.SuperClass {
 		field := class.getField(ref.name, ref.descriptor, false)
@@ -51,7 +51,7 @@ func (ref *ConstantFieldRef) resolveInstanceField() {
 }
 
 func (ref *ConstantFieldRef) resolveStaticField() {
-	fromClass := bootLoader.LoadClass(ref.className)
+	fromClass := ref.class.bootLoader.LoadClass(ref.className)
 
 	for class := fromClass; class != nil; class = class.SuperClass {
 		field := class.getField(ref.name, ref.descriptor, true)

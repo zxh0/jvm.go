@@ -123,19 +123,18 @@ func startJVM8(opts *vm.Options, args []string) {
 		defer pprof.StopCPUProfile()
 	}
 
-	cp := classpath.Parse(opts)
-	heap.InitBootLoader(cp, opts.VerboseClass)
-
-	mainClass := vmutils.DotToSlash(opts.MainClass)
-	mainThread := createMainThread(opts, mainClass, args)
+	mainThread := createMainThread(opts, args)
 	cpu.Loop(mainThread)
 	cpu.KeepAlive()
 }
 
-func createMainThread(opts *vm.Options, className string, args []string) *rtda.Thread {
-	mainThread := rtda.NewThread(nil, opts)
-	bootMethod := rtda.ShimBootstrapMethod
-	bootArgs := []heap.Slot{heap.NewHackSlot(className), heap.NewHackSlot(args)}
-	mainThread.InvokeMethodWithShim(bootMethod, bootArgs)
+func createMainThread(opts *vm.Options, args []string) *rtda.Thread {
+	cp := classpath.Parse(opts)
+	rt := heap.NewRuntime(cp, opts.VerboseClass)
+
+	mainClass := vmutils.DotToSlash(opts.MainClass)
+	bootArgs := []heap.Slot{heap.NewHackSlot(mainClass), heap.NewHackSlot(args)}
+	mainThread := rtda.NewThread(nil, opts, rt)
+	mainThread.InvokeMethodWithShim(rtda.ShimBootstrapMethod, bootArgs)
 	return mainThread
 }

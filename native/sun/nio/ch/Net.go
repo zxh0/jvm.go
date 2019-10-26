@@ -90,7 +90,7 @@ func net_localInetAddress(frame *rtda.Frame) {
 	//this := frame.GetThis()
 	//listen := this.Extra().(net.Listener)
 
-	inetAddress := heap.BootLoader().LoadClass("java/net/InetAddress")
+	inetAddress := frame.GetBootLoader().LoadClass("java/net/InetAddress")
 	inetObj := inetAddress.NewObj()
 
 	frame.PushRef(inetObj)

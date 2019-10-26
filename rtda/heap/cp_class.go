@@ -5,15 +5,17 @@ import (
 )
 
 type ConstantClass struct {
+	class    *Class
 	name     string
 	resolved *Class
 }
 
-func newConstantClass(cf *classfile.ClassFile,
+func newConstantClass(class *Class, cf *classfile.ClassFile,
 	cfc classfile.ConstantClassInfo) *ConstantClass {
 
 	return &ConstantClass{
-		name: cf.GetUTF8(cfc.NameIndex),
+		class: class,
+		name:  cf.GetUTF8(cfc.NameIndex),
 	}
 }
 
@@ -27,5 +29,5 @@ func (ref *ConstantClass) GetClass() *Class {
 // todo
 func (ref *ConstantClass) resolve() {
 	// load class
-	ref.resolved = bootLoader.LoadClass(ref.name)
+	ref.resolved = ref.class.bootLoader.LoadClass(ref.name)
 }

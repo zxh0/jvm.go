@@ -18,10 +18,6 @@ const (
 	ioSerializableClassName = "java/io/Serializable"
 )
 
-var (
-	bootLoader *ClassLoader // bootstrap class loader
-)
-
 /*
 class names:
     - primitive types: boolean, byte, int ...
@@ -32,6 +28,7 @@ class names:
 
 // the bootstrap class loader
 type ClassLoader struct {
+	rt        *Runtime
 	classPath *classpath.ClassPath
 	classMap  map[string]*Class // loaded classes
 	verbose   bool
@@ -44,17 +41,12 @@ type ClassLoader struct {
 	ioSerializableClass *Class
 }
 
-func BootLoader() *ClassLoader {
-	return bootLoader
-}
-
-func InitBootLoader(cp *classpath.ClassPath, verbose bool) {
-	bootLoader = &ClassLoader{
+func newBootLoader(cp *classpath.ClassPath, verbose bool) *ClassLoader {
+	return &ClassLoader{
 		classPath: cp,
 		classMap:  map[string]*Class{},
 		verbose:   verbose,
 	}
-	bootLoader.init()
 }
 
 func (loader *ClassLoader) init() {
@@ -81,7 +73,7 @@ func (loader *ClassLoader) loadPrimitiveClasses() {
 }
 func (loader *ClassLoader) loadPrimitiveClass(className string) {
 	class := &Class{Name: className}
-	//class.bootLoader = loader
+	class.bootLoader = loader
 	class.JClass = loader.jlClassClass.NewObj()
 	class.JClass.Extra = class
 	class.MarkFullyInitialized()
@@ -95,7 +87,7 @@ func (loader *ClassLoader) loadPrimitiveArrayClasses() {
 }
 func (loader *ClassLoader) loadArrayClass(className string) *Class {
 	class := &Class{Name: className}
-	//class.bootLoader = loader
+	class.bootLoader = loader
 	class.SuperClass = loader.jlObjectClass
 	class.Interfaces = []*Class{loader.jlCloneableClass, loader.ioSerializableClass}
 	class.JClass = loader.jlClassClass.NewObj()
@@ -207,7 +199,7 @@ func (loader *ClassLoader) loadClass(name string, data []byte) *Class {
 	createVtable(class)
 	prepare(class)
 	// todo
-	//class.bootLoader = loader
+	class.bootLoader = loader
 	loader.classMap[name] = class
 
 	if loader.jlClassClass != nil {

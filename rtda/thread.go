@@ -31,10 +31,11 @@ type Thread struct {
 	unparkedFlag    bool // used by Unsafe
 	VMOptions       *vm.Options
 	JNIEnv          interface{}
+	Runtime         *heap.Runtime
 	// todo
 }
 
-func NewThread(jThread *heap.Object, opts *vm.Options) *Thread {
+func NewThread(jThread *heap.Object, opts *vm.Options, rt *heap.Runtime) *Thread {
 	stack := newStack(uint(opts.ThreadStackSize))
 	thread := &Thread{
 		stack:     stack,
@@ -42,6 +43,7 @@ func NewThread(jThread *heap.Object, opts *vm.Options) *Thread {
 		lock:      &sync.Mutex{},
 		ch:        make(chan int),
 		VMOptions: opts,
+		Runtime:   rt,
 	}
 	thread.frameCache = newFrameCache(thread, 16) // todo
 	return thread
@@ -146,7 +148,7 @@ func (thread *Thread) InitClass(class *heap.Class) {
 
 func (thread *Thread) HandleUncaughtException(ex *heap.Object) {
 	thread.stack.clear()
-	sysClass := heap.BootLoader().LoadClass("java/lang/System")
+	sysClass := thread.Runtime.BootLoader().LoadClass("java/lang/System")
 	sysErr := sysClass.GetStaticValue("out", "Ljava/io/PrintStream;").Ref
 	printStackTrace := ex.Class.GetInstanceMethod("printStackTrace", "(Ljava/io/PrintStream;)V")
 

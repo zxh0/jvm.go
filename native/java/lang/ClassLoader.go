@@ -50,7 +50,7 @@ func findBootstrapClass(frame *rtda.Frame) {
 	name := frame.GetRefVar(1)
 
 	className := vmutils.DotToSlash(heap.JSToGoStr(name))
-	class := heap.BootLoader().LoadClass(className)
+	class := frame.GetBootLoader().LoadClass(className)
 
 	// todo: init class?
 	frame.PushRef(class.JClass)
@@ -70,7 +70,7 @@ func findLoadedClass0(frame *rtda.Frame) {
 	className := vmutils.DotToSlash(heap.JSToGoStr(name))
 
 	if isAppClassLoader(this) {
-		class := heap.BootLoader().FindLoadedClass(className)
+		class := frame.GetBootLoader().FindLoadedClass(className)
 		if class != nil {
 			frame.PushRef(class.JClass)
 		} else {

@@ -41,7 +41,7 @@ func getClassLoader0(frame *rtda.Frame) {
 		return
 	}
 
-	clClass := heap.BootLoader().LoadClass("java/lang/ClassLoader")
+	clClass := frame.GetBootLoader().LoadClass("java/lang/ClassLoader")
 	getSysCl := clClass.GetStaticMethod("getSystemClassLoader", "()Ljava/lang/ClassLoader;")
 	frame.Thread.InvokeMethod(getSysCl)
 }
@@ -60,7 +60,7 @@ func getComponentType(frame *rtda.Frame) {
 // ()Lsun/reflect/ConstantPool;
 func getConstantPool(frame *rtda.Frame) {
 	class := _popClass(frame)
-	cpClass := heap.BootLoader().LoadClass("sun/reflect/ConstantPool")
+	cpClass := frame.GetBootLoader().LoadClass("sun/reflect/ConstantPool")
 	if cpClass.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread.InitClass(cpClass)
@@ -100,7 +100,7 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 		frame.PushNull()
 	} else {
 		emInfo := class.EnclosingMethod
-		emInfoObj := _createEnclosintMethodInfo(frame.GetClassLoader(), emInfo)
+		emInfoObj := _createEnclosintMethodInfo(frame.GetRuntime(), emInfo)
 		if emInfoObj == nil || emInfoObj.ArrayLength() == 0 {
 			frame.PushNull()
 		} else {
@@ -109,23 +109,24 @@ func getEnclosingMethod0(frame *rtda.Frame) {
 	}
 }
 
-func _createEnclosintMethodInfo(classLoader *heap.ClassLoader, emInfo *heap.EnclosingMethod) *heap.Object {
+func _createEnclosintMethodInfo(rt *heap.Runtime, emInfo *heap.EnclosingMethod) *heap.Object {
 	if emInfo == nil {
 		return nil
 	}
 
-	enclosingClass := classLoader.LoadClass(emInfo.ClassName)
+	bootLoader := rt.BootLoader()
+	enclosingClass := bootLoader.LoadClass(emInfo.ClassName)
 	enclosingClassObj := enclosingClass.JClass
 	var methodNameObj, methodDescriptorObj *heap.Object
 	if emInfo.MethodName != "" {
-		methodNameObj = heap.JSFromGoStr(emInfo.MethodName)
-		methodDescriptorObj = heap.JSFromGoStr(emInfo.MethodDescriptor)
+		methodNameObj = rt.JSFromGoStr(emInfo.MethodName)
+		methodDescriptorObj = rt.JSFromGoStr(emInfo.MethodDescriptor)
 	} else {
 		methodNameObj, methodDescriptorObj = nil, nil
 	}
 
 	objs := []*heap.Object{enclosingClassObj, methodNameObj, methodDescriptorObj}
-	return heap.NewRefArray(classLoader.JLObjectClass(), objs) // Object[]
+	return heap.NewRefArray(bootLoader.JLObjectClass(), objs) // Object[]
 }
 
 // private native Class<?>[] getInterfaces0();
@@ -138,7 +139,7 @@ func getInterfaces0(frame *rtda.Frame) {
 		interfaceObjs[i] = iface.JClass
 	}
 
-	jlClassClass := heap.BootLoader().JLClassClass()
+	jlClassClass := frame.GetBootLoader().JLClassClass()
 	interfaceArr := heap.NewRefArray(jlClassClass, interfaceObjs)
 
 	frame.PushRef(interfaceArr)
@@ -149,7 +150,7 @@ func getInterfaces0(frame *rtda.Frame) {
 func getName0(frame *rtda.Frame) {
 	class := _popClass(frame)
 	name := class.NameJlsFormat()
-	nameObj := heap.JSFromGoStr(name)
+	nameObj := frame.GetRuntime().JSFromGoStr(name)
 
 	frame.PushRef(nameObj)
 }
@@ -234,7 +235,7 @@ func getGenericSignature0(frame *rtda.Frame) {
 		if signature == "" {
 			frame.PushNull()
 		} else {
-			frame.PushRef(heap.JSFromGoStr(signature))
+			frame.PushRef(frame.GetRuntime().JSFromGoStr(signature))
 		}
 		return
 	}

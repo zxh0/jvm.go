@@ -74,6 +74,12 @@ func (frame *Frame) Store(idx uint, isLongOrDouble bool) {
 }
 
 // shortcuts
+func (frame *Frame) GetRuntime() *heap.Runtime {
+	return frame.Thread.Runtime // TODO
+}
+func (frame *Frame) GetBootLoader() *heap.ClassLoader {
+	return frame.Thread.Runtime.BootLoader()
+}
 func (frame *Frame) GetClass() *heap.Class {
 	return frame.Method.Class
 }
@@ -83,5 +89,5 @@ func (frame *Frame) GetConstantPool() heap.ConstantPool {
 
 // todo
 func (frame *Frame) GetClassLoader() *heap.ClassLoader {
-	return heap.BootLoader()
+	return frame.Thread.Runtime.BootLoader()
 }

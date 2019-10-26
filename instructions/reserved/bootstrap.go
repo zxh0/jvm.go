@@ -22,7 +22,7 @@ func (instr *Bootstrap) Execute(frame *rtda.Frame) {
 	thread := frame.Thread
 
 	if _classLoader == nil {
-		_classLoader = heap.BootLoader()
+		_classLoader = frame.GetBootLoader()
 		initVars(frame)
 	}
 	if bootClassesNotReady(thread) ||
@@ -90,9 +90,9 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 		thread.HackSetJThread(mainThreadObj)
 
 		initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
-		frame.PushRef(mainThreadObj)            // this
-		frame.PushRef(_mainThreadGroup)         // group
-		frame.PushRef(heap.JSFromGoStr("main")) // name
+		frame.PushRef(mainThreadObj)                          // this
+		frame.PushRef(_mainThreadGroup)                       // group
+		frame.PushRef(frame.GetRuntime().JSFromGoStr("main")) // name
 		thread.InvokeMethod(initMethod)
 		return true
 	}
@@ -124,17 +124,17 @@ func execMain(thread *rtda.Thread) {
 	if mainMethod != nil {
 		newFrame := thread.NewFrame(mainMethod)
 		thread.PushFrame(newFrame)
-		args := createArgs()
+		args := createArgs(thread.Runtime)
 		newFrame.SetRefVar(0, args)
 	} else {
 		panic("no main method!") // todo
 	}
 }
 
-func createArgs() *heap.Object {
+func createArgs(rt *heap.Runtime) *heap.Object {
 	jArgs := make([]*heap.Object, len(_args))
 	for i, arg := range _args {
-		jArgs[i] = heap.JSFromGoStr(arg)
+		jArgs[i] = rt.JSFromGoStr(arg)
 	}
 
 	return heap.NewRefArray(_classLoader.JLStringClass(), jArgs)

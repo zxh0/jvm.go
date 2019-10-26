@@ -37,7 +37,7 @@ func Box(frame *rtda.Frame, primitiveDescriptor byte) {
 }
 
 func _callValueOf(frame *rtda.Frame, primitiveDescriptor, wrapperClassName string) {
-	wrapperClass := heap.BootLoader().LoadClass(wrapperClassName)
+	wrapperClass := frame.GetBootLoader().LoadClass(wrapperClassName)
 	valueOfDescriptor := "(" + primitiveDescriptor + ")L" + wrapperClassName + ";"
 	valueOfMethod := wrapperClass.GetStaticMethod("valueOf", valueOfDescriptor)
 	frame.Thread.InvokeMethod(valueOfMethod)

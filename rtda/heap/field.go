@@ -45,6 +45,7 @@ func (field *Field) Type() *Class {
 	return field._type
 }
 func (field *Field) resolveType() *Class {
+	bootLoader := field.Class.bootLoader
 	descriptor := field.Descriptor
 	if len(descriptor) == 1 {
 		switch descriptor[0] {

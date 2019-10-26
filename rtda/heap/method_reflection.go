@@ -5,6 +5,7 @@ func (method *Method) GetParameterTypes() []*Class {
 		return nil
 	}
 
+	bootLoader := method.Class.bootLoader
 	paramClasses := make([]*Class, 0, method.ParamSlotCount)
 	for _, paramType := range method.ParameterTypes {
 		paramClassName := getClassName(string(paramType))
@@ -17,7 +18,7 @@ func (method *Method) GetParameterTypes() []*Class {
 func (method *Method) GetReturnType() *Class {
 	returnDescriptor := method.ReturnType
 	returnClassName := getClassName(string(returnDescriptor))
-	returnClass := bootLoader.LoadClass(returnClassName)
+	returnClass := method.Class.bootLoader.LoadClass(returnClassName)
 	return returnClass
 }
 

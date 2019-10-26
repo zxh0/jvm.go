@@ -46,7 +46,7 @@ type Class struct {
 	initState          int
 	InitCond           *sync.Cond
 	initThread         uintptr
-	//bootLoader         *ClassLoader // TODO
+	bootLoader         *ClassLoader // TODO
 }
 
 func (class *Class) String() string {
@@ -160,13 +160,13 @@ func (class *Class) NewArray(count uint) *Object {
 }
 
 func (class *Class) isJlObject() bool {
-	return class == bootLoader.jlObjectClass
+	return class == class.bootLoader.jlObjectClass
 }
 func (class *Class) isJlCloneable() bool {
-	return class == bootLoader.jlCloneableClass
+	return class == class.bootLoader.jlCloneableClass
 }
 func (class *Class) isJioSerializable() bool {
-	return class == bootLoader.ioSerializableClass
+	return class == class.bootLoader.ioSerializableClass
 }
 
 // reflection

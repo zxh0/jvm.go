@@ -46,6 +46,6 @@ func getSystemTimeZoneID(frame *rtda.Frame) {
 	}
 
 	location, _ := time.LoadLocation(timezone)
-	zoneID := heap.JSFromGoStr(location.String())
+	zoneID := frame.GetRuntime().JSFromGoStr(location.String())
 	frame.PushRef(zoneID)
 }

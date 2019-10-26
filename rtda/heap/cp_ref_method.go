@@ -11,11 +11,11 @@ type ConstantMethodRef struct {
 	vslot          int
 }
 
-func newConstantMethodRef(cf *classfile.ClassFile,
+func newConstantMethodRef(class *Class, cf *classfile.ClassFile,
 	cfRef classfile.ConstantMethodRefInfo) *ConstantMethodRef {
 
 	ref := &ConstantMethodRef{vslot: -1}
-	ref.ConstantMemberRef = newConstantMemberRef(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
+	ref.ConstantMemberRef = newConstantMemberRef(class, cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
 	ref.ParamSlotCount = calcParamSlotCount(ref.descriptor)
 	return ref
 }
@@ -63,7 +63,7 @@ func (ref *ConstantMethodRef) resolveSpecialMethod() {
 }
 
 func (ref *ConstantMethodRef) findMethod(isStatic bool) *Method {
-	class := bootLoader.LoadClass(ref.className)
+	class := ref.class.bootLoader.LoadClass(ref.className)
 	return class.getMethod(ref.name, ref.descriptor, isStatic)
 }
 

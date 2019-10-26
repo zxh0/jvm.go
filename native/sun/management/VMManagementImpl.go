@@ -38,7 +38,7 @@ func getStartupTime(frame *rtda.Frame) {
 // ()Ljava/lang/String;
 func getVersion0(frame *rtda.Frame) {
 	// todo
-	version := heap.JSFromGoStr("0")
+	version := frame.GetRuntime().JSFromGoStr("0")
 
 	frame.PushRef(version)
 }

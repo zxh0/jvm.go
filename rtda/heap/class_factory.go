@@ -9,7 +9,6 @@ import (
 func newClass(cf *classfile.ClassFile) *Class {
 	class := &Class{
 		AccessFlags:     classfile.AccessFlags(cf.AccessFlags),
-		ConstantPool:    newConstantPool(cf),
 		Name:            cf.GetThisClassName(),
 		superClassName:  cf.GetSuperClassName(),
 		interfaceNames:  cf.GetInterfaceNames(),
@@ -19,6 +18,7 @@ func newClass(cf *classfile.ClassFile) *Class {
 		EnclosingMethod: getEnclosingMethod(cf),
 		InitCond:        sync.NewCond(&sync.Mutex{}),
 	}
+	class.ConstantPool = newConstantPool(class, cf)
 	class.copyFields(cf)
 	class.copyMethods(cf)
 	return class

@@ -8,11 +8,11 @@ type ConstantInterfaceMethodRef struct {
 	ConstantMethodRef
 }
 
-func newConstantInterfaceMethodRef(cf *classfile.ClassFile,
+func newConstantInterfaceMethodRef(class *Class, cf *classfile.ClassFile,
 	cfRef classfile.ConstantInterfaceMethodRefInfo) *ConstantInterfaceMethodRef {
 
 	ref := &ConstantInterfaceMethodRef{}
-	ref.ConstantMemberRef = newConstantMemberRef(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
+	ref.ConstantMemberRef = newConstantMemberRef(class, cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
 	ref.ParamSlotCount = calcParamSlotCount(ref.descriptor)
 	return ref
 }

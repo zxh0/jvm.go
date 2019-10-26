@@ -5,11 +5,11 @@ import (
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
-func getParameterTypeArr(method *heap.Method) *heap.Object {
+func getParameterTypeArr(rt *heap.Runtime, method *heap.Method) *heap.Object {
 	paramTypes := method.GetParameterTypes()
 	paramCount := len(paramTypes)
 
-	classClass := heap.BootLoader().JLClassClass()
+	classClass := rt.BootLoader().JLClassClass()
 	classArr := classClass.NewArray(uint(paramCount))
 
 	if paramCount > 0 {
@@ -27,11 +27,11 @@ func getReturnType(method *heap.Method) *heap.Object {
 	return goReturnType.JClass
 }
 
-func getExceptionTypeArr(method *heap.Method) *heap.Object {
+func getExceptionTypeArr(rt *heap.Runtime, method *heap.Method) *heap.Object {
 	exTypes := method.GetExceptionTypes()
 	exCount := len(exTypes)
 
-	classClass := heap.BootLoader().JLClassClass()
+	classClass := rt.BootLoader().JLClassClass()
 	classArr := classClass.NewArray(uint(exCount))
 
 	if exCount > 0 {
@@ -44,17 +44,17 @@ func getExceptionTypeArr(method *heap.Method) *heap.Object {
 	return classArr
 }
 
-func getAnnotationByteArr(goBytes []byte) *heap.Object {
+func getAnnotationByteArr(rt *heap.Runtime, goBytes []byte) *heap.Object {
 	if goBytes != nil {
 		jBytes := vmutils.CastBytesToInt8s(goBytes)
-		return heap.NewByteArray(jBytes)
+		return rt.NewByteArray(jBytes)
 	}
 	return nil
 }
 
-func getSignatureStr(signature string) *heap.Object {
+func getSignatureStr(rt *heap.Runtime, signature string) *heap.Object {
 	if signature != "" {
-		return heap.JSFromGoStr(signature)
+		return rt.JSFromGoStr(signature)
 	}
 	return nil
 }

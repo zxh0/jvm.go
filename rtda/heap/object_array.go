@@ -51,36 +51,6 @@ func newPrimitiveArray(arrClass *Class, count uint) *Object {
 	}
 }
 
-func NewPrimitiveArray(atype uint8, count uint) *Object {
-	switch atype {
-	case ATBoolean:
-		return newObj(bootLoader.getClass("[Z"), make([]int8, count), nil)
-	case ATByte:
-		return newObj(bootLoader.getClass("[B"), make([]int8, count), nil)
-	case ATChar:
-		return newObj(bootLoader.getClass("[C"), make([]uint16, count), nil)
-	case ATShort:
-		return newObj(bootLoader.getClass("[S"), make([]int16, count), nil)
-	case ATInt:
-		return newObj(bootLoader.getClass("[I"), make([]int32, count), nil)
-	case ATLong:
-		return newObj(bootLoader.getClass("[J"), make([]int64, count), nil)
-	case ATFloat:
-		return newObj(bootLoader.getClass("[F"), make([]float32, count), nil)
-	case ATDouble:
-		return newObj(bootLoader.getClass("[D"), make([]float64, count), nil)
-	default:
-		panic(fmt.Errorf("invalid atype: %v", atype))
-	}
-}
-
-func NewByteArray(bytes []int8) *Object {
-	return newObj(bootLoader.getClass("[B"), bytes, nil)
-}
-func NewCharArray(chars []uint16) *Object {
-	return newObj(bootLoader.getClass("[C"), chars, nil)
-}
-
 func NewRefArray(componentClass *Class, components []*Object) *Object {
 	arrClass := componentClass.arrayClass()
 	return newObj(arrClass, components, nil)

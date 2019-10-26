@@ -83,7 +83,7 @@ func setPriority0(frame *rtda.Frame) {
 func start0(frame *rtda.Frame) {
 	this := frame.GetThis()
 
-	newThread := rtda.NewThread(this, frame.Thread.VMOptions)
+	newThread := rtda.NewThread(this, frame.Thread.VMOptions, frame.Thread.Runtime)
 	runMethod := this.Class.GetInstanceMethod("run", "()V")
 	newFrame := newThread.NewFrame(runMethod)
 	newFrame.SetRefVar(0, this)

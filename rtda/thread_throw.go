@@ -7,7 +7,7 @@ import (
 )
 
 func (thread *Thread) throwException(className, initDesc string, initArgs ...heap.Slot) {
-	class := heap.BootLoader().LoadClass(className)
+	class := thread.Runtime.BootLoader().LoadClass(className)
 	exObj := class.NewObj()
 	athrowFrame := newAthrowFrame(thread, exObj, initArgs)
 	thread.PushFrame(athrowFrame)
@@ -21,7 +21,7 @@ func (thread *Thread) throwExceptionV(className string) {
 	thread.throwException(className, "()V")
 }
 func (thread *Thread) throwExceptionS(className, msg string) {
-	msgObj := heap.JSFromGoStr(msg)
+	msgObj := thread.Runtime.JSFromGoStr(msg)
 	thread.throwException(className, "(Ljava/lang/String;)V", heap.NewRefSlot(msgObj))
 }
 

@@ -27,7 +27,7 @@ func getLongAt0(frame *rtda.Frame) {
 func getUTF8At0(frame *rtda.Frame) {
 	cp, index := _getPop(frame)
 	kUtf8 := cp.GetConstant(index).(string)
-	jStr := heap.JSFromGoStr(kUtf8)
+	jStr := frame.GetRuntime().JSFromGoStr(kUtf8)
 	frame.PushRef(jStr)
 }
 

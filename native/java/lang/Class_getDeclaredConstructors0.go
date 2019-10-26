@@ -38,13 +38,14 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 	constructors := class.GetConstructors(publicOnly)
 	constructorCount := uint(len(constructors))
 
-	constructorClass := heap.BootLoader().LoadClass("java/lang/reflect/Constructor")
+	constructorClass := frame.GetBootLoader().LoadClass("java/lang/reflect/Constructor")
 	constructorArr := constructorClass.NewArray(constructorCount)
 
 	frame.PushRef(constructorArr)
 
 	if constructorCount > 0 {
 		thread := frame.Thread
+		rt := frame.GetRuntime()
 		constructorObjs := constructorArr.GetRefs()
 		constructorInitMethod := constructorClass.GetConstructor(_constructorConstructorDescriptor)
 		for i, constructor := range constructors {
@@ -53,15 +54,15 @@ func getDeclaredConstructors0(frame *rtda.Frame) {
 
 			// init constructorObj
 			thread.InvokeMethodWithShim(constructorInitMethod, []heap.Slot{
-				heap.NewRefSlot(constructorObj),                                            // this
-				heap.NewRefSlot(classObj),                                                  // declaringClass
-				heap.NewRefSlot(getParameterTypeArr(constructor)),                          // parameterTypes
-				heap.NewRefSlot(getExceptionTypeArr(constructor)),                          // checkedExceptions
-				heap.NewIntSlot(int32(constructor.AccessFlags)),                            // modifiers
-				heap.NewIntSlot(int32(0)),                                                  // todo slot
-				heap.NewRefSlot(getSignatureStr(constructor.Signature)),                    // signature
-				heap.NewRefSlot(getAnnotationByteArr(constructor.AnnotationData)),          // annotations
-				heap.NewRefSlot(getAnnotationByteArr(constructor.ParameterAnnotationData)), // parameterAnnotations
+				heap.NewRefSlot(constructorObj),                                                // this
+				heap.NewRefSlot(classObj),                                                      // declaringClass
+				heap.NewRefSlot(getParameterTypeArr(rt, constructor)),                          // parameterTypes
+				heap.NewRefSlot(getExceptionTypeArr(rt, constructor)),                          // checkedExceptions
+				heap.NewIntSlot(int32(constructor.AccessFlags)),                                // modifiers
+				heap.NewIntSlot(int32(0)),                                                      // todo slot
+				heap.NewRefSlot(getSignatureStr(rt, constructor.Signature)),                    // signature
+				heap.NewRefSlot(getAnnotationByteArr(rt, constructor.AnnotationData)),          // annotations
+				heap.NewRefSlot(getAnnotationByteArr(rt, constructor.ParameterAnnotationData)), // parameterAnnotations
 			})
 		}
 	}

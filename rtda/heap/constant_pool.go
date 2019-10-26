@@ -7,7 +7,7 @@ import (
 type Constant interface{}
 type ConstantPool []Constant
 
-func newConstantPool(cf *classfile.ClassFile) ConstantPool {
+func newConstantPool(class *Class, cf *classfile.ClassFile) ConstantPool {
 	cfCp := cf.ConstantPool
 	rtCp := make([]Constant, len(cfCp))
 
@@ -22,15 +22,15 @@ func newConstantPool(cf *classfile.ClassFile) ConstantPool {
 			rtCp[i] = cpInfo
 			i++
 		case classfile.ConstantStringInfo:
-			rtCp[i] = newConstantString(cf.GetUTF8(x.StringIndex))
+			rtCp[i] = newConstantString(class, cf.GetUTF8(x.StringIndex))
 		case classfile.ConstantClassInfo:
-			rtCp[i] = newConstantClass(cf, x)
+			rtCp[i] = newConstantClass(class, cf, x)
 		case classfile.ConstantFieldRefInfo:
-			rtCp[i] = newConstantFieldRef(cf, x)
+			rtCp[i] = newConstantFieldRef(class, cf, x)
 		case classfile.ConstantMethodRefInfo:
-			rtCp[i] = newConstantMethodRef(cf, x)
+			rtCp[i] = newConstantMethodRef(class, cf, x)
 		case classfile.ConstantInterfaceMethodRefInfo:
-			rtCp[i] = newConstantInterfaceMethodRef(cf, x)
+			rtCp[i] = newConstantInterfaceMethodRef(class, cf, x)
 		case classfile.ConstantInvokeDynamicInfo:
 			rtCp[i] = newConstantInvokeDynamic(cf, rtCp, x)
 		case classfile.ConstantMethodHandleInfo:

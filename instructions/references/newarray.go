@@ -21,7 +21,7 @@ func (instr *NewArray) Execute(frame *rtda.Frame) {
 		return
 	}
 
-	arr := heap.NewPrimitiveArray(instr.atype, uint(count))
+	arr := frame.GetRuntime().NewPrimitiveArray(instr.atype, uint(count))
 	frame.PushRef(arr)
 }
 

@@ -28,7 +28,7 @@ func canonicalize0(frame *rtda.Frame) {
 	path := heap.JSToGoStr(pathStr)
 	path2 := filepath.Clean(path)
 	if path2 != path {
-		pathStr = heap.JSFromGoStr(path2)
+		pathStr = frame.GetRuntime().JSFromGoStr(path2)
 	}
 
 	frame.PushRef(pathStr)

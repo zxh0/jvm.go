@@ -36,12 +36,13 @@ func getDeclaredFields0(frame *rtda.Frame) {
 	fields := class.GetFields(publicOnly)
 	fieldCount := uint(len(fields))
 
-	fieldClass := heap.BootLoader().LoadClass("java/lang/reflect/Field")
+	fieldClass := frame.GetBootLoader().LoadClass("java/lang/reflect/Field")
 	fieldArr := heap.NewRefArrayN(fieldClass, fieldCount)
 
 	frame.PushRef(fieldArr)
 
 	if fieldCount > 0 {
+		rt := frame.GetRuntime()
 		thread := frame.Thread
 		fieldObjs := fieldArr.GetRefs()
 		fieldConstructor := fieldClass.GetConstructor(_fieldConstructorDescriptor)
@@ -51,14 +52,14 @@ func getDeclaredFields0(frame *rtda.Frame) {
 
 			// init fieldObj
 			thread.InvokeMethodWithShim(fieldConstructor, []heap.Slot{
-				heap.NewRefSlot(fieldObj),                                     // this
-				heap.NewRefSlot(classObj),                                     // declaringClass
-				heap.NewRefSlot(heap.JSFromGoStr(goField.Name)),               // name
-				heap.NewRefSlot(goField.Type().JClass),                        // type
-				heap.NewIntSlot(int32(goField.AccessFlags)),                   // modifiers
-				heap.NewIntSlot(int32(goField.SlotId)),                        // slot
-				heap.NewRefSlot(getSignatureStr(goField.Signature)),           // signature
-				heap.NewRefSlot(getAnnotationByteArr(goField.AnnotationData)), // annotations
+				heap.NewRefSlot(fieldObj),                                         // this
+				heap.NewRefSlot(classObj),                                         // declaringClass
+				heap.NewRefSlot(frame.GetRuntime().JSFromGoStr(goField.Name)),     // name
+				heap.NewRefSlot(goField.Type().JClass),                            // type
+				heap.NewIntSlot(int32(goField.AccessFlags)),                       // modifiers
+				heap.NewIntSlot(int32(goField.SlotId)),                            // slot
+				heap.NewRefSlot(getSignatureStr(rt, goField.Signature)),           // signature
+				heap.NewRefSlot(getAnnotationByteArr(rt, goField.AnnotationData)), // annotations
 			})
 		}
 	}

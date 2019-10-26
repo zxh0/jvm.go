@@ -19,7 +19,7 @@ func intern(frame *rtda.Frame) {
 	jStr := frame.GetThis()
 
 	goStr := heap.JSToGoStr(jStr)
-	internedStr := heap.JSIntern(goStr, jStr)
+	internedStr := frame.GetRuntime().JSIntern(goStr, jStr)
 
 	frame.PushRef(internedStr)
 }

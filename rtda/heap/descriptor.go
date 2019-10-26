@@ -1,23 +1,23 @@
 package heap
 
-type FieldOrReturnType string
+type TypeDescriptor string
 
-func (ft FieldOrReturnType) IsBaseType() bool     { return len(ft) == 1 }
-func (ft FieldOrReturnType) IsVoidType() bool     { return ft == "V" }
-func (ft FieldOrReturnType) IsObjectType() bool   { return ft[0] == 'L' }
-func (ft FieldOrReturnType) IsArrayType() bool    { return ft[0] == '[' }
-func (ft FieldOrReturnType) IsLongOrDouble() bool { return ft == "J" || ft == "D" }
+func (td TypeDescriptor) IsBaseType() bool     { return len(td) == 1 }
+func (td TypeDescriptor) IsVoidType() bool     { return td == "V" }
+func (td TypeDescriptor) IsObjectType() bool   { return td[0] == 'L' }
+func (td TypeDescriptor) IsArrayType() bool    { return td[0] == '[' }
+func (td TypeDescriptor) IsLongOrDouble() bool { return td == "J" || td == "D" }
 
-type ParsedDescriptor struct {
-	ParameterTypes []FieldOrReturnType
-	ReturnType     FieldOrReturnType
+type MethodDescriptor struct {
+	ParameterTypes []TypeDescriptor
+	ReturnType     TypeDescriptor
 }
 
-func (md ParsedDescriptor) getParamCount() uint {
+func (md MethodDescriptor) getParamCount() uint {
 	return uint(len(md.ParameterTypes))
 }
 
-func (md ParsedDescriptor) getParamSlotCount() uint {
+func (md MethodDescriptor) getParamSlotCount() uint {
 	slotCount := md.getParamCount()
 	for _, paramType := range md.ParameterTypes {
 		if paramType.IsLongOrDouble() {

@@ -6,40 +6,39 @@ import (
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
-// todo
-var (
-	_bootClasses     []string
-	_classLoader     *heap.ClassLoader // todo
-	_mainClassName   string
-	_args            []string
-	_mainThreadGroup *heap.Object
-)
-
 // Fake instruction to load and execute main class
-type Bootstrap struct{ base.NoOperandsInstruction } // TODO
+type Bootstrap struct {
+	base.NoOperandsInstruction
+
+	bootLoader      *heap.ClassLoader // todo
+	mainClassName   string
+	args            []string
+	bootClassNames  []string
+	mainThreadGroup *heap.Object
+}
 
 func (instr *Bootstrap) Execute(frame *rtda.Frame) {
-	thread := frame.Thread
-
-	if _classLoader == nil {
-		_classLoader = frame.GetBootLoader()
-		initVars(frame)
+	if instr.bootLoader == nil {
+		instr.init(frame)
 	}
-	if bootClassesNotReady(thread) ||
-		mainThreadNotReady(thread) ||
-		jlSystemNotReady(thread) ||
-		mainClassNotReady(thread) {
+
+	thread := frame.Thread
+	if instr.bootClassesNotReady(thread) ||
+		instr.mainThreadNotReady(thread) ||
+		instr.jlSystemNotReady(thread) ||
+		instr.mainClassNotReady(thread) {
 
 		return
 	}
 
-	execMain(thread)
+	instr.execMain(thread)
 }
 
-func initVars(frame *rtda.Frame) {
-	_mainClassName = frame.GetLocalVar(0).GetHack().(string)
-	_args = frame.GetLocalVar(1).GetHack().([]string)
-	_bootClasses = []string{
+func (instr *Bootstrap) init(frame *rtda.Frame) {
+	instr.bootLoader = frame.GetBootLoader()
+	instr.mainClassName = frame.GetLocalVar(0).GetHack().(string)
+	instr.args = frame.GetLocalVar(1).GetHack().([]string)
+	instr.bootClassNames = []string{
 		"java/lang/Class",
 		"java/lang/String",
 		"java/lang/System",
@@ -49,9 +48,9 @@ func initVars(frame *rtda.Frame) {
 	}
 }
 
-func bootClassesNotReady(thread *rtda.Thread) bool {
-	for _, className := range _bootClasses {
-		class := _classLoader.LoadClass(className)
+func (instr *Bootstrap) bootClassesNotReady(thread *rtda.Thread) bool {
+	for _, className := range instr.bootClassNames {
+		class := instr.bootLoader.LoadClass(className)
 		if class.InitializationNotStarted() {
 			undoExec(thread)
 			thread.InitClass(class)
@@ -61,8 +60,8 @@ func bootClassesNotReady(thread *rtda.Thread) bool {
 	return false
 }
 
-func mainClassNotReady(thread *rtda.Thread) bool {
-	mainClass := _classLoader.LoadClass(_mainClassName)
+func (instr *Bootstrap) mainClassNotReady(thread *rtda.Thread) bool {
+	mainClass := instr.bootLoader.LoadClass(instr.mainClassName)
 	if mainClass.InitializationNotStarted() {
 		undoExec(thread)
 		thread.InitClass(mainClass)
@@ -71,27 +70,27 @@ func mainClassNotReady(thread *rtda.Thread) bool {
 	return false
 }
 
-func mainThreadNotReady(thread *rtda.Thread) bool {
+func (instr *Bootstrap) mainThreadNotReady(thread *rtda.Thread) bool {
 	frame := thread.CurrentFrame()
-	if _mainThreadGroup == nil {
+	if instr.mainThreadGroup == nil {
 		undoExec(thread)
-		threadGroupClass := _classLoader.LoadClass("java/lang/ThreadGroup")
-		_mainThreadGroup = threadGroupClass.NewObj()
+		threadGroupClass := instr.bootLoader.LoadClass("java/lang/ThreadGroup")
+		instr.mainThreadGroup = threadGroupClass.NewObj()
 		initMethod := threadGroupClass.GetConstructor("()V")
-		frame.PushRef(_mainThreadGroup) // this
+		frame.PushRef(instr.mainThreadGroup) // this
 		thread.InvokeMethod(initMethod)
 		return true
 	}
 	if thread.JThread() == nil {
 		undoExec(thread)
-		threadClass := _classLoader.LoadClass("java/lang/Thread")
+		threadClass := instr.bootLoader.LoadClass("java/lang/Thread")
 		mainThreadObj := threadClass.NewObjWithExtra(thread)
 		mainThreadObj.SetFieldValue("priority", "I", heap.NewIntSlot(1))
 		thread.HackSetJThread(mainThreadObj)
 
 		initMethod := threadClass.GetConstructor("(Ljava/lang/ThreadGroup;Ljava/lang/String;)V")
 		frame.PushRef(mainThreadObj)                          // this
-		frame.PushRef(_mainThreadGroup)                       // group
+		frame.PushRef(instr.mainThreadGroup)                  // group
 		frame.PushRef(frame.GetRuntime().JSFromGoStr("main")) // name
 		thread.InvokeMethod(initMethod)
 		return true
@@ -99,8 +98,8 @@ func mainThreadNotReady(thread *rtda.Thread) bool {
 	return false
 }
 
-func jlSystemNotReady(thread *rtda.Thread) bool {
-	sysClass := _classLoader.LoadClass("java/lang/System")
+func (instr *Bootstrap) jlSystemNotReady(thread *rtda.Thread) bool {
+	sysClass := instr.bootLoader.LoadClass("java/lang/System")
 	propsField := sysClass.GetStaticField("props", "Ljava/util/Properties;")
 	props := propsField.GetStaticValue().Ref
 	if props == nil {
@@ -112,30 +111,30 @@ func jlSystemNotReady(thread *rtda.Thread) bool {
 	return false
 }
 
-// prepare to reexec this instruction
-func undoExec(thread *rtda.Thread) {
-	thread.CurrentFrame().RevertNextPC()
-}
-
-func execMain(thread *rtda.Thread) {
+func (instr *Bootstrap) execMain(thread *rtda.Thread) {
 	thread.PopFrame()
-	mainClass := _classLoader.LoadClass(_mainClassName)
+	mainClass := instr.bootLoader.LoadClass(instr.mainClassName)
 	mainMethod := mainClass.GetMainMethod()
 	if mainMethod != nil {
 		newFrame := thread.NewFrame(mainMethod)
 		thread.PushFrame(newFrame)
-		args := createArgs(thread.Runtime)
+		args := instr.createArgs(thread.Runtime)
 		newFrame.SetRefVar(0, args)
 	} else {
 		panic("no main method!") // todo
 	}
 }
 
-func createArgs(rt *heap.Runtime) *heap.Object {
-	jArgs := make([]*heap.Object, len(_args))
-	for i, arg := range _args {
+func (instr *Bootstrap) createArgs(rt *heap.Runtime) *heap.Object {
+	jArgs := make([]*heap.Object, len(instr.args))
+	for i, arg := range instr.args {
 		jArgs[i] = rt.JSFromGoStr(arg)
 	}
 
-	return heap.NewRefArray(_classLoader.JLStringClass(), jArgs)
+	return rt.NewStringArray(jArgs)
+}
+
+// prepare to reexec this instruction
+func undoExec(thread *rtda.Thread) {
+	thread.CurrentFrame().RevertNextPC()
 }

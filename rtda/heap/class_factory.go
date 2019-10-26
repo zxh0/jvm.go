@@ -40,9 +40,9 @@ func (class *Class) copyMethods(cf *classfile.ClassFile) {
 
 func getEnclosingMethod(cf *classfile.ClassFile) *EnclosingMethod {
 	if emAttr, found := cf.GetEnclosingMethodAttribute(); found {
-		methodName, methodDescriptor := getNameAndType(cf, emAttr.MethodIndex)
+		methodName, methodDescriptor := cf.GetNameAndType(emAttr.MethodIndex)
 		return &EnclosingMethod{
-			ClassName:        cf.GetClassNameOf(emAttr.ClassIndex),
+			ClassName:        cf.GetClassName(emAttr.ClassIndex),
 			MethodName:       methodName,
 			MethodDescriptor: methodDescriptor,
 		}

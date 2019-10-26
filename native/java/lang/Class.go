@@ -50,7 +50,7 @@ func getClassLoader0(frame *rtda.Frame) {
 // ()Ljava/lang/Class;
 func getComponentType(frame *rtda.Frame) {
 	class := _popClass(frame)
-	componentClass := class.ComponentClass()
+	componentClass := class.GetComponentClass()
 	componentClassObj := componentClass.JClass
 
 	frame.PushRef(componentClassObj)
@@ -126,7 +126,7 @@ func _createEnclosintMethodInfo(rt *heap.Runtime, emInfo *heap.EnclosingMethod) 
 	}
 
 	objs := []*heap.Object{enclosingClassObj, methodNameObj, methodDescriptorObj}
-	return heap.NewRefArray(bootLoader.JLObjectClass(), objs) // Object[]
+	return rt.NewObjectArray(objs)
 }
 
 // private native Class<?>[] getInterfaces0();
@@ -139,9 +139,7 @@ func getInterfaces0(frame *rtda.Frame) {
 		interfaceObjs[i] = iface.JClass
 	}
 
-	jlClassClass := frame.GetBootLoader().JLClassClass()
-	interfaceArr := heap.NewRefArray(jlClassClass, interfaceObjs)
-
+	interfaceArr := frame.GetRuntime().NewClassArray(interfaceObjs)
 	frame.PushRef(interfaceArr)
 }
 

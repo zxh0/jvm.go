@@ -34,8 +34,8 @@ func _checkcast(s, t *Class) bool {
 				return t.isJlCloneable() || t.isJioSerializable()
 			}
 		} else { // t is array
-			sc := s.ComponentClass()
-			tc := t.ComponentClass()
+			sc := s.GetComponentClass()
+			tc := t.GetComponentClass()
 			return sc == tc || _checkcast(sc, tc)
 		}
 	}

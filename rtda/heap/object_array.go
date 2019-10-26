@@ -23,8 +23,8 @@ func NewArray(arrClass *Class, count uint) *Object {
 	if arrClass.IsPrimitiveArray() {
 		return newPrimitiveArray(arrClass, count)
 	} else {
-		componentClass := arrClass.ComponentClass()
-		return NewRefArrayN(componentClass, count)
+		componentClass := arrClass.GetComponentClass()
+		return newRefArray(componentClass, count)
 	}
 }
 
@@ -51,12 +51,8 @@ func newPrimitiveArray(arrClass *Class, count uint) *Object {
 	}
 }
 
-func NewRefArray(componentClass *Class, components []*Object) *Object {
-	arrClass := componentClass.arrayClass()
-	return newObj(arrClass, components, nil)
-}
-func NewRefArrayN(componentClass *Class, count uint) *Object {
-	arrClass := componentClass.arrayClass()
+func newRefArray(componentClass *Class, count uint) *Object {
+	arrClass := componentClass.getArrayClass()
 	components := make([]*Object, count)
 	return newObj(arrClass, components, nil)
 }

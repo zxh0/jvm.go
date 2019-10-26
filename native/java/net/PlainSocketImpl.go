@@ -77,7 +77,7 @@ func psi_socketBind(frame *rtda.Frame) {
 
 	holder := address.GetFieldValue("holder", "Ljava/net/InetAddress$InetAddressHolder;").Ref
 	hostNameObj := holder.GetFieldValue("hostName", "Ljava/lang/String;").Ref
-	hostName := heap.JSToGoStr(hostNameObj)
+	hostName := hostNameObj.JSToGoStr()
 	laddr := fmt.Sprintf("%s:%d", hostName, port.IntValue())
 	listen, err := net.Listen("tcp", laddr)
 

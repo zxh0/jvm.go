@@ -73,12 +73,12 @@ func resolve(frame *rtda.Frame) {
 	getSig := mnObj.Class.GetInstanceMethod("getSignature", "()Ljava/lang/String;")
 
 	cls := clsObj.GetGoClass()
-	nameStr := heap.JSToGoStr(nameObj)
+	nameStr := nameObj.JSToGoStr()
 
 	frame.Thread.InvokeMethodWithShim(getSig, []heap.Slot{mnSlot})
 	frame.Thread.CurrentFrame().AppendOnPopAction(func(shim *rtda.Frame) {
 		sigObj := shim.TopRef(0)
-		sigStr := heap.JSToGoStr(sigObj)
+		sigStr := sigObj.JSToGoStr()
 		if sigStr[0] == '(' {
 			if m := getMethod(cls, nameStr, sigStr); m != nil {
 				flags |= int32(m.AccessFlags)

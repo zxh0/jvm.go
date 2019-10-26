@@ -17,7 +17,7 @@ func testParseMethodDescriptor(t *testing.T, md string) {
 	require.Equal(t, md, mdToStr(parsed))
 }
 
-func mdToStr(md ParsedDescriptor) string {
+func mdToStr(md MethodDescriptor) string {
 	str := "("
 	for _, paramType := range md.ParameterTypes {
 		str += string(paramType)

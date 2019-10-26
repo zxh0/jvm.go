@@ -46,33 +46,6 @@ func (field *Field) Type() *Class {
 }
 func (field *Field) resolveType() *Class {
 	bootLoader := field.Class.bootLoader
-	descriptor := field.Descriptor
-	if len(descriptor) == 1 {
-		switch descriptor[0] {
-		case 'B':
-			return bootLoader.GetPrimitiveClass("byte")
-		case 'C':
-			return bootLoader.GetPrimitiveClass("char")
-		case 'D':
-			return bootLoader.GetPrimitiveClass("double")
-		case 'F':
-			return bootLoader.GetPrimitiveClass("float")
-		case 'I':
-			return bootLoader.GetPrimitiveClass("int")
-		case 'J':
-			return bootLoader.GetPrimitiveClass("long")
-		case 'S':
-			return bootLoader.GetPrimitiveClass("short")
-		case 'V':
-			return bootLoader.GetPrimitiveClass("void")
-		case 'Z':
-			return bootLoader.GetPrimitiveClass("boolean")
-		default:
-			panic("BAD descriptor: " + descriptor)
-		}
-	}
-	if descriptor[0] == 'L' {
-		return bootLoader.LoadClass(descriptor[1 : len(descriptor)-1])
-	}
-	return bootLoader.LoadClass(descriptor)
+	className := getClassName(field.Descriptor)
+	return bootLoader.LoadClass(className)
 }

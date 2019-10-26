@@ -76,44 +76,46 @@ func (cf *ClassFile) readAndCheckVersions(reader *ClassReader) {
 }
 
 func (cf *ClassFile) GetThisClassName() string {
-	return cf.GetClassNameOf(cf.ThisClass)
+	return cf.GetClassName(cf.ThisClass)
 }
 func (cf *ClassFile) GetSuperClassName() string {
-	return cf.GetClassNameOf(cf.SuperClass)
+	return cf.GetClassName(cf.SuperClass)
 }
 func (cf *ClassFile) GetInterfaceNames() []string {
 	interfaceNames := make([]string, len(cf.Interfaces))
 	for i, cpIndex := range cf.Interfaces {
-		interfaceNames[i] = cf.GetClassNameOf(cpIndex)
+		interfaceNames[i] = cf.GetClassName(cpIndex)
 	}
 	return interfaceNames
 }
 
-func (cf *ClassFile) GetUTF8(index uint16) string {
-	return cf.getUtf8(index)
-}
-func (cf *ClassFile) GetConstantInfo(index uint16) ConstantInfo {
-	return cf.getConstantInfo(index)
+func (cf *ClassFile) GetNameAndType(cpIndex uint16) (name, _type string) {
+	if cpIndex > 0 {
+		ntInfo := cf.GetConstantInfo(cpIndex).(ConstantNameAndTypeInfo)
+		name = cf.GetUTF8(ntInfo.NameIndex)
+		_type = cf.GetUTF8(ntInfo.DescriptorIndex)
+	}
+	return
 }
 
-func (cf *ClassFile) GetClassNameOf(cpIndex uint16) string {
+func (cf *ClassFile) GetClassName(cpIndex uint16) string {
 	if cpIndex == 0 {
 		return ""
 	}
-	classInfo := cf.getConstantInfo(cpIndex).(ConstantClassInfo)
-	return cf.getUtf8(classInfo.NameIndex)
+	classInfo := cf.GetConstantInfo(cpIndex).(ConstantClassInfo)
+	return cf.GetUTF8(classInfo.NameIndex)
 }
 
-func (cf *ClassFile) getUtf8(index uint16) string {
-	if index == 0 {
+func (cf *ClassFile) GetUTF8(cpIndex uint16) string {
+	if cpIndex == 0 {
 		return ""
 	}
-	return cf.getConstantInfo(index).(string)
+	return cf.GetConstantInfo(cpIndex).(string)
 }
 
-func (cf *ClassFile) getConstantInfo(index uint16) ConstantInfo {
-	if cpInfo := cf.ConstantPool[index]; cpInfo == nil {
-		panic(fmt.Errorf("invalid constant pool index: %d", index))
+func (cf *ClassFile) GetConstantInfo(cpIndex uint16) ConstantInfo {
+	if cpInfo := cf.ConstantPool[cpIndex]; cpInfo == nil {
+		panic(fmt.Errorf("invalid constant pool index: %d", cpIndex))
 	} else {
 		return cpInfo
 	}

@@ -22,7 +22,7 @@ func readAttributes(reader *ClassReader) []AttributeInfo {
 func readAttributeInfo(reader *ClassReader) AttributeInfo {
 	attrNameIndex := reader.ReadUint16()
 	attrLen := reader.ReadUint32()
-	attrName := reader.cf.getUtf8(attrNameIndex)
+	attrName := reader.cf.GetUTF8(attrNameIndex)
 
 	switch attrName {
 	// case AnnotationDefault:

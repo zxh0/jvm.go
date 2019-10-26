@@ -25,7 +25,7 @@ func canonicalize0(frame *rtda.Frame) {
 	pathStr := frame.GetRefVar(1)
 
 	// todo
-	path := heap.JSToGoStr(pathStr)
+	path := pathStr.JSToGoStr()
 	path2 := filepath.Clean(path)
 	if path2 != path {
 		pathStr = frame.GetRuntime().JSFromGoStr(path2)
@@ -54,7 +54,7 @@ func getBooleanAttributes0(frame *rtda.Frame) {
 
 func _getPath(fileObj *heap.Object) string {
 	pathStr := fileObj.GetFieldValue("path", "Ljava/lang/String;").Ref
-	return heap.JSToGoStr(pathStr)
+	return pathStr.JSToGoStr()
 }
 
 // public native long getLastModifiedTime(File f);

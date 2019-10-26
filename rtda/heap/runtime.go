@@ -66,6 +66,15 @@ func (rt *Runtime) NewByteArray(bytes []int8) *Object {
 func (rt *Runtime) NewCharArray(chars []uint16) *Object {
 	return newObj(rt.bootLoader.getClass("[C"), chars, nil)
 }
+func (rt *Runtime) NewObjectArray(objs []*Object) *Object {
+	return newObj(rt.bootLoader.jlObjectClass.getArrayClass(), objs, nil)
+}
+func (rt *Runtime) NewStringArray(objs []*Object) *Object {
+	return newObj(rt.bootLoader.jlStringClass.getArrayClass(), objs, nil)
+}
+func (rt *Runtime) NewClassArray(objs []*Object) *Object {
+	return newObj(rt.bootLoader.jlClassClass.getArrayClass(), objs, nil)
+}
 
 func (rt *Runtime) NewPrimitiveArray(atype uint8, count uint) *Object {
 	switch atype {

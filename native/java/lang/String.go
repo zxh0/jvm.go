@@ -18,7 +18,7 @@ func _string(method func(frame *rtda.Frame), name, desc string) {
 func intern(frame *rtda.Frame) {
 	jStr := frame.GetThis()
 
-	goStr := heap.JSToGoStr(jStr)
+	goStr := jStr.JSToGoStr()
 	internedStr := frame.GetRuntime().JSIntern(goStr, jStr)
 
 	frame.PushRef(internedStr)

@@ -156,7 +156,7 @@ func (class *Class) NewObj() *Object {
 	}
 }
 func (class *Class) NewArray(count uint) *Object {
-	return NewRefArrayN(class, count)
+	return newRefArray(class, count)
 }
 
 func (class *Class) isJlObject() bool {

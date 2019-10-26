@@ -14,8 +14,8 @@ type ConstantMemberRef struct {
 func newConstantMemberRef(class *Class, cf *classfile.ClassFile,
 	classIdx, nameAndTypeIdx uint16) ConstantMemberRef {
 
-	className := cf.GetClassNameOf(classIdx)
-	name, descriptor := getNameAndType(cf, nameAndTypeIdx)
+	className := cf.GetClassName(classIdx)
+	name, descriptor := cf.GetNameAndType(nameAndTypeIdx)
 	return ConstantMemberRef{
 		class:      class,
 		className:  className,

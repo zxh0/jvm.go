@@ -33,7 +33,7 @@ func i6di_getHostByAddr(frame *rtda.Frame) {
 
 //(Ljava/lang/String;)[Ljava/net/InetAddress;
 func i6di_lookupAllHostAddr(frame *rtda.Frame) {
-	host := heap.JSToGoStr(frame.GetRefVar(1))
+	host := frame.GetRefVar(1).JSToGoStr()
 	address, _ := net.LookupHost(host)
 	constructorCount := uint(len(address))
 

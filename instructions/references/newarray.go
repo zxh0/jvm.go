@@ -44,7 +44,7 @@ func (instr *ANewArray) Execute(frame *rtda.Frame) {
 	if count < 0 {
 		frame.Thread.ThrowNegativeArraySizeException()
 	} else {
-		arr := heap.NewRefArrayN(componentClass, uint(count))
+		arr := componentClass.NewArray(uint(count))
 		frame.PushRef(arr)
 	}
 }
@@ -89,7 +89,7 @@ func _newMultiArray(counts []heap.Slot, arrClass *heap.Class) *heap.Object {
 	if len(counts) > 1 {
 		objs := arr.GetRefs()
 		for i := range objs {
-			objs[i] = _newMultiArray(counts[1:], arrClass.ComponentClass())
+			objs[i] = _newMultiArray(counts[1:], arrClass.GetComponentClass())
 		}
 	}
 

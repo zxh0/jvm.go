@@ -45,7 +45,7 @@ func open(frame *rtda.Frame) {
 	this := frame.GetThis()
 	name := frame.GetRefVar(1)
 
-	goName := heap.JSToGoStr(name)
+	goName := name.JSToGoStr()
 	goFile, err := os.Open(goName)
 	if err != nil {
 		frame.Thread.ThrowFileNotFoundException(goName)

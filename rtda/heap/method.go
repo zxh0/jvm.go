@@ -27,7 +27,7 @@ type MethodData struct {
 type Method struct {
 	ClassMember
 	MethodData
-	ParsedDescriptor
+	MethodDescriptor
 	ParamCount     uint
 	ParamSlotCount uint
 	Slot           uint
@@ -60,7 +60,7 @@ func (method *Method) copyAttributes(cfMember classfile.MemberInfo) {
 }
 
 func (method *Method) parseDescriptor() {
-	method.ParsedDescriptor = parseMethodDescriptor(method.Descriptor)
+	method.MethodDescriptor = parseMethodDescriptor(method.Descriptor)
 	method.ParamCount = uint(len(method.ParameterTypes))
 	method.ParamSlotCount = method.getParamSlotCount()
 	if !method.IsStatic() {

@@ -67,7 +67,7 @@ func (loader *ClassLoader) init() {
 }
 
 func (loader *ClassLoader) loadPrimitiveClasses() {
-	for _, primitiveType := range PrimitiveTypes {
+	for _, primitiveType := range primitiveTypes {
 		loader.loadPrimitiveClass(primitiveType.Name)
 	}
 }
@@ -81,7 +81,7 @@ func (loader *ClassLoader) loadPrimitiveClass(className string) {
 }
 
 func (loader *ClassLoader) loadPrimitiveArrayClasses() {
-	for _, primitiveType := range PrimitiveTypes {
+	for _, primitiveType := range primitiveTypes {
 		loader.loadArrayClass(primitiveType.ArrayClassName)
 	}
 }

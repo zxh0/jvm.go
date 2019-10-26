@@ -103,7 +103,7 @@ func set(frame *rtda.Frame) {
 
 	// primitive array
 	primitiveDescriptorStr := arr.Class.Name[1:]
-	if primitiveDescriptorStr != value.GetPrimitiveDescriptor() {
+	if primitiveDescriptorStr != heap.GetPrimitiveDescriptor(value.Class.Name) {
 		frame.Thread.ThrowIllegalArgumentException("argument type mismatch")
 		return
 	}

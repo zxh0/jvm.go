@@ -13,7 +13,7 @@ type ConstantInvokeDynamic struct {
 }
 
 func newConstantInvokeDynamic(cf *classfile.ClassFile, cp ConstantPool, indyInfo classfile.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
-	name, _type := getNameAndType(cf, indyInfo.NameAndTypeIndex)
+	name, _type := cf.GetNameAndType(indyInfo.NameAndTypeIndex)
 	bm := cf.GetBootstrapMethods()[indyInfo.BootstrapMethodAttrIndex]
 	return &ConstantInvokeDynamic{
 		name:               name,

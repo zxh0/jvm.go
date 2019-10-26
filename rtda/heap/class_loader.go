@@ -19,13 +19,7 @@ const (
 )
 
 var (
-	bootLoader           *ClassLoader // bootstrap class loader
-	_jlObjectClass       *Class
-	_jlClassClass        *Class
-	_jlStringClass       *Class
-	_jlThreadClass       *Class
-	_jlCloneableClass    *Class
-	_ioSerializableClass *Class
+	bootLoader *ClassLoader // bootstrap class loader
 )
 
 /*
@@ -39,8 +33,15 @@ class names:
 // the bootstrap class loader
 type ClassLoader struct {
 	classPath *classpath.ClassPath
-	classMap  map[string]*Class
+	classMap  map[string]*Class // loaded classes
 	verbose   bool
+	// some frequently used classes
+	jlObjectClass       *Class
+	jlClassClass        *Class
+	jlStringClass       *Class
+	jlThreadClass       *Class
+	jlCloneableClass    *Class
+	ioSerializableClass *Class
 }
 
 func BootLoader() *ClassLoader {
@@ -53,22 +54,22 @@ func InitBootLoader(cp *classpath.ClassPath, verbose bool) {
 		classMap:  map[string]*Class{},
 		verbose:   verbose,
 	}
-	bootLoader._init()
+	bootLoader.init()
 }
 
-func (loader *ClassLoader) _init() {
-	_jlObjectClass = loader.LoadClass(jlObjectClassName)
-	_jlClassClass = loader.LoadClass(jlClassClassName)
+func (loader *ClassLoader) init() {
+	loader.jlObjectClass = loader.LoadClass(jlObjectClassName)
+	loader.jlClassClass = loader.LoadClass(jlClassClassName)
 	for _, class := range loader.classMap {
 		if class.JClass == nil {
-			class.JClass = _jlClassClass.NewObj()
+			class.JClass = loader.jlClassClass.NewObj()
 			class.JClass.Extra = class
 		}
 	}
-	_jlCloneableClass = loader.LoadClass(jlCloneableClassName)
-	_ioSerializableClass = loader.LoadClass(ioSerializableClassName)
-	_jlThreadClass = loader.LoadClass(jlThreadClassName)
-	_jlStringClass = loader.LoadClass(jlStringClassName)
+	loader.jlCloneableClass = loader.LoadClass(jlCloneableClassName)
+	loader.ioSerializableClass = loader.LoadClass(ioSerializableClassName)
+	loader.jlThreadClass = loader.LoadClass(jlThreadClassName)
+	loader.jlStringClass = loader.LoadClass(jlStringClassName)
 	loader.loadPrimitiveClasses()
 	loader.loadPrimitiveArrayClasses()
 }
@@ -80,8 +81,8 @@ func (loader *ClassLoader) loadPrimitiveClasses() {
 }
 func (loader *ClassLoader) loadPrimitiveClass(className string) {
 	class := &Class{Name: className}
-	//class.classLoader = loader
-	class.JClass = _jlClassClass.NewObj()
+	//class.bootLoader = loader
+	class.JClass = loader.jlClassClass.NewObj()
 	class.JClass.Extra = class
 	class.MarkFullyInitialized()
 	loader.classMap[className] = class
@@ -94,10 +95,10 @@ func (loader *ClassLoader) loadPrimitiveArrayClasses() {
 }
 func (loader *ClassLoader) loadArrayClass(className string) *Class {
 	class := &Class{Name: className}
-	//class.classLoader = loader
-	class.SuperClass = _jlObjectClass
-	class.Interfaces = []*Class{_jlCloneableClass, _ioSerializableClass}
-	class.JClass = _jlClassClass.NewObj()
+	//class.bootLoader = loader
+	class.SuperClass = loader.jlObjectClass
+	class.Interfaces = []*Class{loader.jlCloneableClass, loader.ioSerializableClass}
+	class.JClass = loader.jlClassClass.NewObj()
 	class.JClass.Extra = class
 	createVtable(class)
 	class.MarkFullyInitialized()
@@ -107,9 +108,9 @@ func (loader *ClassLoader) loadArrayClass(className string) *Class {
 
 func (loader *ClassLoader) getRefArrayClass(componentClass *Class) *Class {
 	arrClassName := "[L" + componentClass.Name + ";"
-	return loader._getRefArrayClass(arrClassName)
+	return loader.getRefArrayClassByName(arrClassName)
 }
-func (loader *ClassLoader) _getRefArrayClass(arrClassName string) *Class {
+func (loader *ClassLoader) getRefArrayClassByName(arrClassName string) *Class {
 	if arrClass, ok := loader.classMap[arrClassName]; ok {
 		return arrClass
 	}
@@ -121,16 +122,16 @@ func (loader *ClassLoader) ClassPath() *classpath.ClassPath {
 }
 
 func (loader *ClassLoader) JLObjectClass() *Class {
-	return _jlObjectClass
+	return loader.jlObjectClass
 }
 func (loader *ClassLoader) JLClassClass() *Class {
-	return _jlClassClass
+	return loader.jlClassClass
 }
 func (loader *ClassLoader) JLStringClass() *Class {
-	return _jlStringClass
+	return loader.jlStringClass
 }
 func (loader *ClassLoader) JLThreadClass() *Class {
-	return _jlThreadClass
+	return loader.jlThreadClass
 }
 
 // todo
@@ -159,7 +160,7 @@ func (loader *ClassLoader) LoadClass(name string) *Class {
 		return class
 	} else if name[0] == '[' {
 		// array class
-		return loader._getRefArrayClass(name)
+		return loader.getRefArrayClassByName(name)
 	} else {
 		return loader.reallyLoadClass(name)
 	}
@@ -167,7 +168,7 @@ func (loader *ClassLoader) LoadClass(name string) *Class {
 
 func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 	cpEntry, data := loader.readClassData(name)
-	class := loader._loadClass(name, data)
+	class := loader.loadClass(name, data)
 	class.LoadedFrom = cpEntry
 
 	if loader.verbose {
@@ -196,7 +197,7 @@ func (loader *ClassLoader) parseClassData(name string, data []byte) *Class {
 	return newClass(cf)
 }
 
-func (loader *ClassLoader) _loadClass(name string, data []byte) *Class {
+func (loader *ClassLoader) loadClass(name string, data []byte) *Class {
 	class := loader.parseClassData(name, data)
 	hackClass(class)
 	loader.resolveSuperClass(class)
@@ -206,11 +207,11 @@ func (loader *ClassLoader) _loadClass(name string, data []byte) *Class {
 	createVtable(class)
 	prepare(class)
 	// todo
-	//class.classLoader = loader
+	//class.bootLoader = loader
 	loader.classMap[name] = class
 
-	if _jlClassClass != nil {
-		class.JClass = _jlClassClass.NewObj()
+	if loader.jlClassClass != nil {
+		class.JClass = loader.jlClassClass.NewObj()
 		class.JClass.Extra = class
 	}
 
@@ -277,5 +278,5 @@ func prepare(class *Class) {
 
 // todo
 func (loader *ClassLoader) DefineClass(name string, data []byte) *Class {
-	return loader._loadClass(name, data)
+	return loader.loadClass(name, data)
 }

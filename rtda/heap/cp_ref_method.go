@@ -7,7 +7,7 @@ import (
 type ConstantMethodRef struct {
 	ConstantMemberRef
 	ParamSlotCount uint
-	method         *Method
+	resolved       *Method
 	vslot          int
 }
 
@@ -15,45 +15,45 @@ func newConstantMethodRef(cf *classfile.ClassFile,
 	cfRef classfile.ConstantMethodRefInfo) *ConstantMethodRef {
 
 	ref := &ConstantMethodRef{vslot: -1}
-	ref.init(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
+	ref.ConstantMemberRef = newConstantMemberRef(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
 	ref.ParamSlotCount = calcParamSlotCount(ref.descriptor)
 	return ref
 }
 
-func (mr *ConstantMethodRef) GetMethod(static bool) *Method {
-	if mr.method == nil {
+func (ref *ConstantMethodRef) GetMethod(static bool) *Method {
+	if ref.resolved == nil {
 		if static {
-			mr.resolveStaticMethod()
+			ref.resolveStaticMethod()
 		} else {
-			mr.resolveSpecialMethod()
+			ref.resolveSpecialMethod()
 		}
 	}
-	return mr.method
+	return ref.resolved
 }
 
-func (mr *ConstantMethodRef) resolveStaticMethod() {
-	method := mr.findMethod(true)
+func (ref *ConstantMethodRef) resolveStaticMethod() {
+	method := ref.findMethod(true)
 	if method != nil {
-		mr.method = method
+		ref.resolved = method
 	} else {
 		// todo
 		panic("static method not found!")
 	}
 }
 
-func (mr *ConstantMethodRef) resolveSpecialMethod() {
-	method := mr.findMethod(false)
+func (ref *ConstantMethodRef) resolveSpecialMethod() {
+	method := ref.findMethod(false)
 	if method != nil {
-		mr.method = method
+		ref.resolved = method
 		return
 	}
 
 	// todo
-	// class := mr.cp.class.classLoader.LoadClass(mr.className)
+	// class := ref.cp.class.classLoader.LoadClass(ref.className)
 	// if class.IsInterface() {
-	// 	method = mr.findMethodInInterfaces(class)
+	// 	method = ref.findMethodInInterfaces(class)
 	// 	if method != nil {
-	// 		mr.method = method
+	// 		ref.method = method
 	// 		return
 	// 	}
 	// }
@@ -62,9 +62,9 @@ func (mr *ConstantMethodRef) resolveSpecialMethod() {
 	panic("special method not found!")
 }
 
-func (mr *ConstantMethodRef) findMethod(isStatic bool) *Method {
-	class := bootLoader.LoadClass(mr.className)
-	return class.getMethod(mr.name, mr.descriptor, isStatic)
+func (ref *ConstantMethodRef) findMethod(isStatic bool) *Method {
+	class := bootLoader.LoadClass(ref.className)
+	return class.getMethod(ref.name, ref.descriptor, isStatic)
 }
 
 // todo
@@ -86,9 +86,9 @@ func (mr *ConstantMethodRef) findMethod(isStatic bool) *Method {
 	return nil
 }*/
 
-func (mr *ConstantMethodRef) GetVirtualMethod(ref *Object) *Method {
-	if mr.vslot < 0 {
-		mr.vslot = getVslot(ref.Class, mr.name, mr.descriptor)
+func (ref *ConstantMethodRef) GetVirtualMethod(obj *Object) *Method {
+	if ref.vslot < 0 {
+		ref.vslot = getVslot(obj.Class, ref.name, ref.descriptor)
 	}
-	return ref.Class.vtable[mr.vslot]
+	return obj.Class.vtable[ref.vslot]
 }

@@ -10,7 +10,14 @@ type ConstantMemberRef struct {
 	descriptor string
 }
 
-func (mr *ConstantMemberRef) init(cf *classfile.ClassFile, classIdx, nameAndTypeIdx uint16) {
-	mr.className = cf.GetClassNameOf(classIdx)
-	mr.name, mr.descriptor = getNameAndType(cf, nameAndTypeIdx)
+func newConstantMemberRef(cf *classfile.ClassFile,
+	classIdx, nameAndTypeIdx uint16) ConstantMemberRef {
+
+	className := cf.GetClassNameOf(classIdx)
+	name, descriptor := getNameAndType(cf, nameAndTypeIdx)
+	return ConstantMemberRef{
+		className:  className,
+		name:       name,
+		descriptor: descriptor,
+	}
 }

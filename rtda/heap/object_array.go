@@ -21,14 +21,14 @@ const (
 
 func NewArray(arrClass *Class, count uint) *Object {
 	if arrClass.IsPrimitiveArray() {
-		return _newPrimitiveArray(arrClass, count)
+		return newPrimitiveArray(arrClass, count)
 	} else {
 		componentClass := arrClass.ComponentClass()
 		return NewRefArrayN(componentClass, count)
 	}
 }
 
-func _newPrimitiveArray(arrClass *Class, count uint) *Object {
+func newPrimitiveArray(arrClass *Class, count uint) *Object {
 	switch arrClass.Name {
 	case "[Z":
 		return newObj(arrClass, make([]int8, count), nil)
@@ -80,6 +80,7 @@ func NewByteArray(bytes []int8) *Object {
 func NewCharArray(chars []uint16) *Object {
 	return newObj(bootLoader.getClass("[C"), chars, nil)
 }
+
 func NewRefArray(componentClass *Class, components []*Object) *Object {
 	arrClass := componentClass.arrayClass()
 	return newObj(arrClass, components, nil)

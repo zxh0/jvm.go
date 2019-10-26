@@ -7,25 +7,21 @@ import (
 )
 
 func newClass(cf *classfile.ClassFile) *Class {
-	class := &Class{}
-	class.InitCond = sync.NewCond(&sync.Mutex{})
-	class.AccessFlags = classfile.AccessFlags(cf.AccessFlags)
-	class.copyConstantPool(cf)
-	class.copyClassNames(cf)
+	class := &Class{
+		AccessFlags:     classfile.AccessFlags(cf.AccessFlags),
+		ConstantPool:    newConstantPool(cf),
+		Name:            cf.GetThisClassName(),
+		superClassName:  cf.GetSuperClassName(),
+		interfaceNames:  cf.GetInterfaceNames(),
+		SourceFile:      cf.GetUTF8(cf.GetSourceFileIndex()),
+		Signature:       cf.GetUTF8(cf.GetSignatureIndex()),
+		AnnotationData:  cf.GetRuntimeVisibleAnnotationsAttributeData(),
+		EnclosingMethod: getEnclosingMethod(cf),
+		InitCond:        sync.NewCond(&sync.Mutex{}),
+	}
 	class.copyFields(cf)
 	class.copyMethods(cf)
-	class.copyAttributes(cf)
 	return class
-}
-
-func (class *Class) copyConstantPool(cf *classfile.ClassFile) {
-	class.ConstantPool = newConstantPool(cf)
-}
-
-func (class *Class) copyClassNames(cf *classfile.ClassFile) {
-	class.Name = cf.GetThisClassName()
-	class.superClassName = cf.GetSuperClassName()
-	class.interfaceNames = cf.GetInterfaceNames()
 }
 
 func (class *Class) copyFields(cf *classfile.ClassFile) {
@@ -38,16 +34,8 @@ func (class *Class) copyFields(cf *classfile.ClassFile) {
 func (class *Class) copyMethods(cf *classfile.ClassFile) {
 	class.Methods = make([]*Method, len(cf.Methods))
 	for i, methodInfo := range cf.Methods {
-		class.Methods[i] = newMethod(class, cf, methodInfo)
-		class.Methods[i].Slot = uint(i)
+		class.Methods[i] = newMethod(class, cf, methodInfo, uint(i))
 	}
-}
-
-func (class *Class) copyAttributes(cf *classfile.ClassFile) {
-	class.SourceFile = cf.GetUTF8(cf.GetSourceFileIndex()) // TODO
-	class.Signature = cf.GetUTF8(cf.GetSignatureIndex())
-	class.AnnotationData = cf.GetRuntimeVisibleAnnotationsAttributeData()
-	class.EnclosingMethod = getEnclosingMethod(cf)
 }
 
 func getEnclosingMethod(cf *classfile.ClassFile) *EnclosingMethod {

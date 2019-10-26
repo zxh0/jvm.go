@@ -36,16 +36,17 @@ type Method struct {
 	Instructions   interface{} // []instructions.Instruction
 }
 
-func newMethod(class *Class, cf *classfile.ClassFile, cfMember classfile.MemberInfo) *Method {
+func newMethod(class *Class, cf *classfile.ClassFile, cfMember classfile.MemberInfo, slot uint) *Method {
 	method := &Method{}
 	method.Class = class
+	method.Slot = slot
 	method.copyMemberData(cf, cfMember)
-	method.copyAttributes(cf, cfMember)
+	method.copyAttributes(cfMember)
 	method.parseDescriptor()
 	return method
 }
 
-func (method *Method) copyAttributes(cf *classfile.ClassFile, cfMember classfile.MemberInfo) {
+func (method *Method) copyAttributes(cfMember classfile.MemberInfo) {
 	if codeAttr, found := cfMember.GetCodeAttribute(); found {
 		method.exIndexTable = cfMember.GetExceptionIndexTable()
 		method.MaxStack = uint(codeAttr.MaxStack)

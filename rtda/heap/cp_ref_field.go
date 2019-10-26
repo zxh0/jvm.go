@@ -8,75 +8,75 @@ import (
 
 type ConstantFieldRef struct {
 	ConstantMemberRef
-	field *Field
+	resolved *Field
 }
 
 func newConstantFieldRef(cf *classfile.ClassFile,
 	cfRef classfile.ConstantFieldRefInfo) *ConstantFieldRef {
 
 	ref := &ConstantFieldRef{}
-	ref.init(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
+	ref.ConstantMemberRef = newConstantMemberRef(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
 	return ref
 }
 
-func (fr *ConstantFieldRef) String() string {
+func (ref *ConstantFieldRef) String() string {
 	return fmt.Sprintf("{ConstantFieldref className:%v name:%v descriptor:%v}",
-		fr.className, fr.name, fr.descriptor)
+		ref.className, ref.name, ref.descriptor)
 }
 
-func (fr *ConstantFieldRef) GetField(static bool) *Field {
-	if fr.field == nil {
+func (ref *ConstantFieldRef) GetField(static bool) *Field {
+	if ref.resolved == nil {
 		if static {
-			fr.resolveStaticField()
+			ref.resolveStaticField()
 		} else {
-			fr.resolveInstanceField()
+			ref.resolveInstanceField()
 		}
 	}
-	return fr.field
+	return ref.resolved
 }
 
-func (fr *ConstantFieldRef) resolveInstanceField() {
-	fromClass := bootLoader.LoadClass(fr.className)
+func (ref *ConstantFieldRef) resolveInstanceField() {
+	fromClass := bootLoader.LoadClass(ref.className)
 
 	for class := fromClass; class != nil; class = class.SuperClass {
-		field := class.getField(fr.name, fr.descriptor, false)
+		field := class.getField(ref.name, ref.descriptor, false)
 		if field != nil {
-			fr.field = field
+			ref.resolved = field
 			return
 		}
 	}
 
 	// todo
-	panic(fmt.Errorf("instance field not found! %v", fr))
+	panic(fmt.Errorf("instance field not found! %v", ref))
 }
 
-func (fr *ConstantFieldRef) resolveStaticField() {
-	fromClass := bootLoader.LoadClass(fr.className)
+func (ref *ConstantFieldRef) resolveStaticField() {
+	fromClass := bootLoader.LoadClass(ref.className)
 
 	for class := fromClass; class != nil; class = class.SuperClass {
-		field := class.getField(fr.name, fr.descriptor, true)
+		field := class.getField(ref.name, ref.descriptor, true)
 		if field != nil {
-			fr.field = field
+			ref.resolved = field
 			return
 		}
-		if fr._findInterfaceField(class) {
+		if ref._findInterfaceField(class) {
 			return
 		}
 	}
 
 	// todo
-	panic(fmt.Errorf("static field not found! %v", fr))
+	panic(fmt.Errorf("static field not found! %v", ref))
 }
 
-func (fr *ConstantFieldRef) _findInterfaceField(class *Class) bool {
+func (ref *ConstantFieldRef) _findInterfaceField(class *Class) bool {
 	for _, iface := range class.Interfaces {
 		for _, f := range iface.Fields {
-			if f.Name == fr.name && f.Descriptor == fr.descriptor {
-				fr.field = f
+			if f.Name == ref.name && f.Descriptor == ref.descriptor {
+				ref.resolved = f
 				return true
 			}
 		}
-		if fr._findInterfaceField(iface) {
+		if ref._findInterfaceField(iface) {
 			return true
 		}
 	}

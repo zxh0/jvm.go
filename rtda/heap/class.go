@@ -16,13 +16,6 @@ const (
 	_initFailed       = 3 // This Class object is in an erroneous state, perhaps because initialization was attempted and failed.
 )
 
-type ClassAttributes struct {
-	SourceFile      string
-	Signature       string
-	AnnotationData  []byte // RuntimeVisibleAnnotations_attribute
-	EnclosingMethod *EnclosingMethod
-}
-
 type EnclosingMethod struct {
 	ClassName        string
 	MethodName       string
@@ -32,11 +25,14 @@ type EnclosingMethod struct {
 // name, superClassName and interfaceNames are all binary names(jvms8-4.2.1)
 type Class struct {
 	classfile.AccessFlags
-	ClassAttributes
 	ConstantPool
 	Name               string // thisClassName
 	superClassName     string
 	interfaceNames     []string
+	SourceFile         string
+	Signature          string
+	AnnotationData     []byte // RuntimeVisibleAnnotations_attribute
+	EnclosingMethod    *EnclosingMethod
 	Fields             []*Field
 	Methods            []*Method
 	instanceFieldCount uint
@@ -50,7 +46,7 @@ type Class struct {
 	initState          int
 	InitCond           *sync.Cond
 	initThread         uintptr
-	//classLoader        *ClassLoader      // defining class loader
+	//bootLoader         *ClassLoader // TODO
 }
 
 func (class *Class) String() string {
@@ -164,13 +160,13 @@ func (class *Class) NewArray(count uint) *Object {
 }
 
 func (class *Class) isJlObject() bool {
-	return class == _jlObjectClass
+	return class == bootLoader.jlObjectClass
 }
 func (class *Class) isJlCloneable() bool {
-	return class == _jlCloneableClass
+	return class == bootLoader.jlCloneableClass
 }
 func (class *Class) isJioSerializable() bool {
-	return class == _ioSerializableClass
+	return class == bootLoader.ioSerializableClass
 }
 
 // reflection

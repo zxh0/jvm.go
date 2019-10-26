@@ -12,21 +12,21 @@ func newConstantInterfaceMethodRef(cf *classfile.ClassFile,
 	cfRef classfile.ConstantInterfaceMethodRefInfo) *ConstantInterfaceMethodRef {
 
 	ref := &ConstantInterfaceMethodRef{}
-	ref.init(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
+	ref.ConstantMemberRef = newConstantMemberRef(cf, cfRef.ClassIndex, cfRef.NameAndTypeIndex)
 	ref.ParamSlotCount = calcParamSlotCount(ref.descriptor)
 	return ref
 }
 
 // todo
-func (imr *ConstantInterfaceMethodRef) FindInterfaceMethod(ref *Object) *Method {
-	for class := ref.Class; class != nil; class = class.SuperClass {
-		method := class.getMethod(imr.name, imr.descriptor, false)
+func (ref *ConstantInterfaceMethodRef) FindInterfaceMethod(obj *Object) *Method {
+	for class := obj.Class; class != nil; class = class.SuperClass {
+		method := class.getMethod(ref.name, ref.descriptor, false)
 		if method != nil {
 			return method
 		}
 	}
 
-	if method := findInterfaceMethod(ref.Class.Interfaces, imr.name, imr.descriptor); method != nil {
+	if method := findInterfaceMethod(obj.Class.Interfaces, ref.name, ref.descriptor); method != nil {
 		return method
 	} else {
 		//TODO

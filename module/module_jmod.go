@@ -5,8 +5,8 @@ import (
 )
 
 type JModModule struct {
+	BaseModule
 	jmod *vmutils.JModFile
-	info *Info
 }
 
 func NewJModModule(path string) *JModModule {
@@ -23,10 +23,17 @@ func NewJModModule(path string) *JModModule {
 	jmod.Close()
 	return &JModModule{
 		jmod: jmod,
-		info: ParseModuleInfo(classData),
+		BaseModule: BaseModule{
+			info: ParseModuleInfo(classData),
+		},
 	}
 }
 
-func (module *JModModule) GetInfo() *Info {
-	return module.info
+func (m *JModModule) ReadClass(name string) ([]byte, error) {
+	if !m.jmod.IsOpen() {
+		if err := m.jmod.Open(); err != nil {
+			return nil, err
+		}
+	}
+	return m.jmod.ReadFile("classes/" + name + ".class")
 }

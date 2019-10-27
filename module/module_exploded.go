@@ -5,8 +5,8 @@ import (
 )
 
 type ExplodedModule struct {
-	dir  *vmutils.Dir
-	info *Info
+	BaseModule
+	dir *vmutils.Dir
 }
 
 func NewExplodedModule(path string) *ExplodedModule {
@@ -21,11 +21,13 @@ func NewExplodedModule(path string) *ExplodedModule {
 	}
 
 	return &ExplodedModule{
-		dir:  dir,
-		info: ParseModuleInfo(classData),
+		dir: dir,
+		BaseModule: BaseModule{
+			info: ParseModuleInfo(classData),
+		},
 	}
 }
 
-func (module *ExplodedModule) GetInfo() *Info {
-	return module.info
+func (m *ExplodedModule) ReadClass(name string) ([]byte, error) {
+	return m.dir.ReadFile(name + ".class")
 }

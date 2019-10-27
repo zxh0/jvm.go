@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/zxh0/jvm.go/classfile"
-	"github.com/zxh0/jvm.go/classpath"
+	"github.com/zxh0/jvm.go/module"
 	"github.com/zxh0/jvm.go/vm"
 	"github.com/zxh0/jvm.go/vmutils"
 )
@@ -28,10 +28,10 @@ class names:
 
 // the bootstrap class loader
 type ClassLoader struct {
-	rt        *Runtime
-	classPath *classpath.ClassPath
-	classMap  map[string]*Class // loaded classes
-	verbose   bool
+	rt          *Runtime
+	moduleGraph module.Graph
+	classMap    map[string]*Class // loaded classes
+	verbose     bool
 	// some frequently used classes
 	jlObjectClass       *Class
 	jlClassClass        *Class
@@ -41,11 +41,11 @@ type ClassLoader struct {
 	ioSerializableClass *Class
 }
 
-func newBootLoader(cp *classpath.ClassPath, verbose bool) *ClassLoader {
+func newBootLoader(mp module.Graph, verbose bool) *ClassLoader {
 	return &ClassLoader{
-		classPath: cp,
-		classMap:  map[string]*Class{},
-		verbose:   verbose,
+		moduleGraph: mp,
+		classMap:    map[string]*Class{},
+		verbose:     verbose,
 	}
 }
 
@@ -109,10 +109,6 @@ func (loader *ClassLoader) getRefArrayClassByName(arrClassName string) *Class {
 	return loader.loadArrayClass(arrClassName)
 }
 
-func (loader *ClassLoader) ClassPath() *classpath.ClassPath {
-	return loader.classPath
-}
-
 func (loader *ClassLoader) JLObjectClass() *Class {
 	return loader.jlObjectClass
 }
@@ -170,13 +166,13 @@ func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 	return class
 }
 
-func (loader *ClassLoader) readClassData(name string) (classpath.Entry, []byte) {
-	cpEntry, classData := loader.classPath.ReadClass(name)
+func (loader *ClassLoader) readClassData(name string) (string, []byte) {
+	from, classData := loader.moduleGraph.ReadClass(name)
 	if classData == nil {
 		panic(vm.NewClassNotFoundError(vmutils.SlashToDot(name)))
 	}
 
-	return cpEntry, classData
+	return from, classData
 }
 
 func (loader *ClassLoader) parseClassData(name string, data []byte) *Class {

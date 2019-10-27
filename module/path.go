@@ -13,7 +13,7 @@ func (path Path) Sort() {
 
 func (path Path) findModule(name string) Module {
 	for _, module := range path {
-		if module.GetInfo().Name == name {
+		if module.GetName() == name {
 			return module
 		}
 	}
@@ -25,8 +25,8 @@ func (path Path) Len() int {
 	return len(path)
 }
 func (path Path) Less(i, j int) bool {
-	name1 := path[i].GetInfo().Name
-	name2 := path[j].GetInfo().Name
+	name1 := path[i].GetName()
+	name2 := path[j].GetName()
 	return strings.Compare(name1, name2) < 0
 }
 func (path Path) Swap(i, j int) {

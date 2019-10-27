@@ -1,37 +1,47 @@
 package module
 
-func CheckDeps(path Path, rootModuleName string) []Module {
-	rootModule := path.findModule(rootModuleName)
-	if rootModule == nil {
-		panic("unknown module: " + rootModule.GetInfo().Name + "@" + rootModule.GetInfo().Version)
-	}
+import (
+	"strings"
 
-	checkList := []Module{rootModule}
-	checked := map[string]Module{}
+	"github.com/zxh0/jvm.go/vmutils"
+)
 
-	for len(checkList) > 0 {
-		m := checkList[0]
-		checkList = checkList[1:]
+type Graph struct {
+	mList []Module
+	mMap  map[string]Module // module by exported package
+}
 
-		if checked[m.GetInfo().Name] == nil {
-			for _, require := range m.GetInfo().Requires {
-				if checked[require.Name] == nil {
-					if found := path.findModule(require.Name); found != nil {
-						checkList = append(checkList, found)
-					} else {
-						panic("unknown module: " + require.Name + "@" + require.Version)
-					}
-				}
-			}
-			checked[m.GetInfo().Name] = m
+func newGraph(mList []Module) Graph {
+	mMap := map[string]Module{}
+	for _, m := range mList {
+		for _, export := range m.GetInfo().Exports {
+			mMap[vmutils.DotToSlash(export.Package)] = m
 		}
 	}
 
-	checkedList := make([]Module, 0, len(checked))
-	for _, m := range checked {
-		checkedList = append(checkedList, m)
+	return Graph{
+		mList: mList,
+		mMap:  mMap,
+	}
+}
+
+func (g Graph) GetModules() []Module {
+	return g.mList
+}
+
+func (g Graph) ReadClass(className string) (string, []byte) {
+	pkgName := className[:strings.LastIndexByte(className, '/')]
+
+	module, found := g.mMap[pkgName]
+	if !found {
+		panic("class not found:" + className)
 	}
 
-	Path(checkedList).Sort()
-	return checkedList
+	//println("read class " + className + " from " + module.GetName())
+	data, err := module.ReadClass(className)
+	if err != nil {
+		panic("class not found:" + className)
+	}
+
+	return "todo", data
 }

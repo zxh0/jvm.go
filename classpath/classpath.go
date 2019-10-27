@@ -46,11 +46,11 @@ func (cp *ClassPath) ReadClass(className string) (Entry, []byte) {
 	return nil, nil
 }
 
-func IsBootClassPath(entry Entry, absJreLib string) bool {
-	if entry == nil {
+func IsBootClassPath(entry string, absJreLib string) bool {
+	if entry == "" {
 		// todo
 		return true
 	}
 
-	return strings.HasPrefix(entry.String(), absJreLib)
+	return strings.HasPrefix(entry, absJreLib)
 }

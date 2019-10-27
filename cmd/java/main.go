@@ -7,7 +7,6 @@ import (
 	"runtime/pprof"
 	"strings"
 
-	"github.com/zxh0/jvm.go/classpath"
 	"github.com/zxh0/jvm.go/cpu"
 	"github.com/zxh0/jvm.go/module"
 	_ "github.com/zxh0/jvm.go/native"
@@ -38,10 +37,8 @@ func main() {
 		printVersion()
 	} else if listModulesFlag {
 		listModules(opts)
-	} else if opts.MainModule != "" {
-		startJVM13(opts, args)
 	} else {
-		startJVM8(opts, args)
+		startJVM(opts, args)
 	}
 }
 
@@ -97,23 +94,11 @@ func printVersion() {
 func listModules(opts *vm.Options) {
 	mp := module.ParseModulePath(opts)
 	for _, m := range mp {
-		info := m.GetInfo()
-		fmt.Printf("%s@%s\n", info.Name, info.Version)
-	}
-
-	fmt.Println("----------")
-	x := module.CheckDeps(mp, opts.MainModule)
-	for _, m := range x {
-		info := m.GetInfo()
-		fmt.Printf("%s@%s\n", info.Name, info.Version)
+		fmt.Printf("%s@%s\n", m.GetName(), m.GetVersion())
 	}
 }
 
-func startJVM13(opts *vm.Options, args []string) {
-	// TODO
-}
-
-func startJVM8(opts *vm.Options, args []string) {
+func startJVM(opts *vm.Options, args []string) {
 	if opts.XCPUProfile != "" {
 		f, err := os.Create(opts.XCPUProfile)
 		if err != nil {
@@ -129,12 +114,19 @@ func startJVM8(opts *vm.Options, args []string) {
 }
 
 func createMainThread(opts *vm.Options, args []string) *rtda.Thread {
-	cp := classpath.Parse(opts)
-	rt := heap.NewRuntime(cp, opts.VerboseClass)
+	modulePath := module.ParseModulePath(opts)
+	moduleGraph := module.CheckDeps(modulePath, opts.MainModule)
+	if showModuleResolutionFlag {
+		for _, m := range moduleGraph.GetModules() {
+			fmt.Printf("%s@%s\n", m.GetName(), m.GetVersion())
+		}
+	}
+
+	rt := heap.NewRuntime(moduleGraph, opts.VerboseClass)
+	mainThread := rtda.NewThread(nil, opts, rt)
 
 	mainClass := vmutils.DotToSlash(opts.MainClass)
 	bootArgs := []heap.Slot{heap.NewHackSlot(mainClass), heap.NewHackSlot(args)}
-	mainThread := rtda.NewThread(nil, opts, rt)
 	mainThread.InvokeMethodWithShim(rtda.ShimBootstrapMethod, bootArgs)
 	return mainThread
 }

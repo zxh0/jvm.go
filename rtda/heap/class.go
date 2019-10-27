@@ -4,7 +4,6 @@ import (
 	"sync"
 
 	"github.com/zxh0/jvm.go/classfile"
-	"github.com/zxh0/jvm.go/classpath"
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
@@ -42,7 +41,7 @@ type Class struct {
 	JClass             *Object   // java.lang.Class instance
 	SuperClass         *Class
 	Interfaces         []*Class
-	LoadedFrom         classpath.Entry
+	LoadedFrom         string
 	initState          int
 	InitCond           *sync.Cond
 	initThread         uintptr

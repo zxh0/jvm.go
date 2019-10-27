@@ -3,7 +3,7 @@ package heap
 import (
 	"fmt"
 
-	"github.com/zxh0/jvm.go/classpath"
+	"github.com/zxh0/jvm.go/module"
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
@@ -12,8 +12,8 @@ type Runtime struct {
 	stringPool map[string]*Object // interned strings
 }
 
-func NewRuntime(cp *classpath.ClassPath, verboseClass bool) *Runtime {
-	bl := newBootLoader(cp, verboseClass)
+func NewRuntime(mp module.Graph, verboseClass bool) *Runtime {
+	bl := newBootLoader(mp, verboseClass)
 	rt := &Runtime{
 		bootLoader: bl,
 		stringPool: map[string]*Object{},

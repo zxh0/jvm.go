@@ -115,14 +115,14 @@ func startJVM(opts *vm.Options, args []string) {
 
 func createMainThread(opts *vm.Options, args []string) *rtda.Thread {
 	modulePath := module.ParseModulePath(opts)
-	moduleGraph := module.CheckDeps(modulePath, opts.MainModule)
+	modulePath = module.CheckDeps(modulePath, opts.MainModule)
 	if showModuleResolutionFlag {
-		for _, m := range moduleGraph.GetModules() {
+		for _, m := range modulePath {
 			fmt.Printf("%s@%s\n", m.GetName(), m.GetVersion())
 		}
 	}
 
-	rt := heap.NewRuntime(moduleGraph, opts.VerboseClass)
+	rt := heap.NewRuntime(modulePath, opts.VerboseClass)
 	mainThread := rtda.NewThread(nil, opts, rt)
 
 	mainClass := vmutils.DotToSlash(opts.MainClass)

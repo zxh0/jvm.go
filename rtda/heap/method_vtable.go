@@ -18,14 +18,14 @@ func createVtable(class *Class) {
 			if i := indexOf(class.vtable, m); i > -1 {
 				class.vtable[i] = m // override
 			} else {
-				addVmethod(class, m)
+				class.vtable = append(class.vtable, m)
 			}
 		}
 	}
 
-	_eachInterfaceMethod(class, func(m *Method) {
+	forEachInterfaceMethod(class, func(m *Method) {
 		if i := indexOf(class.vtable, m); i < 0 {
-			addVmethod(class, m)
+			class.vtable = append(class.vtable, m)
 		}
 	})
 }
@@ -57,21 +57,10 @@ func indexOf(vtable []*Method, m *Method) int {
 	return -1
 }
 
-func addVmethod(class *Class, m *Method) {
-	_len := len(class.vtable)
-	if _len == cap(class.vtable) {
-		newVtable := make([]*Method, _len, _len+8)
-		copy(newVtable, class.vtable)
-		class.vtable = newVtable
-	}
-
-	class.vtable = append(class.vtable, m)
-}
-
 // visit all interface methods
-func _eachInterfaceMethod(class *Class, f func(*Method)) {
+func forEachInterfaceMethod(class *Class, f func(*Method)) {
 	for _, iface := range class.Interfaces {
-		_eachInterfaceMethod(iface, f)
+		forEachInterfaceMethod(iface, f)
 		for _, m := range iface.Methods {
 			f(m)
 		}

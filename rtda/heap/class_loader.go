@@ -28,10 +28,10 @@ class names:
 
 // the bootstrap class loader
 type ClassLoader struct {
-	rt          *Runtime
-	moduleGraph module.Graph
-	classMap    map[string]*Class // loaded classes
-	verbose     bool
+	rt         *Runtime
+	modulePath module.Path
+	classMap   map[string]*Class // loaded classes
+	verbose    bool
 	// some frequently used classes
 	jlObjectClass       *Class
 	jlClassClass        *Class
@@ -41,11 +41,11 @@ type ClassLoader struct {
 	ioSerializableClass *Class
 }
 
-func newBootLoader(mp module.Graph, verbose bool) *ClassLoader {
+func newBootLoader(mp module.Path, verbose bool) *ClassLoader {
 	return &ClassLoader{
-		moduleGraph: mp,
-		classMap:    map[string]*Class{},
-		verbose:     verbose,
+		modulePath: mp,
+		classMap:   map[string]*Class{},
+		verbose:    verbose,
 	}
 }
 
@@ -167,7 +167,7 @@ func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 }
 
 func (loader *ClassLoader) readClassData(name string) (string, []byte) {
-	from, classData := loader.moduleGraph.ReadClass(name)
+	from, classData := loader.modulePath.ReadClass(name)
 	if classData == nil {
 		panic(vm.NewClassNotFoundError(vmutils.SlashToDot(name)))
 	}

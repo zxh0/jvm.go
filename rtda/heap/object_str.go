@@ -6,6 +6,15 @@ import (
 
 // java.lang.String -> go string
 func (obj *Object) JSToGoStr() string {
-	charArr := obj.GetFieldValue("value", "[C").Ref
-	return vmutils.UTF16ToUTF8(charArr.GetChars())
+	jByteArr := obj.GetFieldValue("value", "[B").Ref
+	coder := obj.GetFieldValue("coder", "B").IntValue()
+
+	if coder == 0 { // latin
+		return string(jByteArr.GetGoBytes())
+	} else {
+		jBytes := jByteArr.GetBytes()
+		uint16s := vmutils.CastInt8sToUint16s(jBytes)
+		bytes := vmutils.UTF16ToUTF8(uint16s)
+		return bytes
+	}
 }

@@ -104,7 +104,7 @@ func (instr *Bootstrap) jlSystemNotReady(thread *rtda.Thread) bool {
 	props := propsField.GetStaticValue().Ref
 	if props == nil {
 		undoExec(thread)
-		initSys := sysClass.GetStaticMethod("initializeSystemClass", "()V")
+		initSys := sysClass.GetStaticMethod("initPhase1", "()V")
 		thread.InvokeMethod(initSys)
 		return true
 	}

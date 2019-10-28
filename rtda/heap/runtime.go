@@ -2,6 +2,7 @@ package heap
 
 import (
 	"fmt"
+	"unicode/utf8"
 
 	"github.com/zxh0/jvm.go/module"
 	"github.com/zxh0/jvm.go/vmutils"
@@ -12,7 +13,7 @@ type Runtime struct {
 	stringPool map[string]*Object // interned strings
 }
 
-func NewRuntime(mp module.Graph, verboseClass bool) *Runtime {
+func NewRuntime(mp module.Path, verboseClass bool) *Runtime {
 	bl := newBootLoader(mp, verboseClass)
 	rt := &Runtime{
 		bootLoader: bl,
@@ -44,17 +45,29 @@ func (rt *Runtime) JSFromGoStr(goStr string) *Object {
 		return internedStr
 	}
 
-	chars := vmutils.UTF8ToUTF16(goStr)
-	jStr := rt.JSFromChars(chars)
+	jStr := rt.jsFromGoStr(goStr)
 	jStr = rt.JSIntern(goStr, jStr) // TODO
 	return jStr
 }
 
-// java char[] -> java.lang.String
-func (rt *Runtime) JSFromChars(chars []uint16) *Object {
-	charArr := rt.NewCharArray(chars)
+func (rt *Runtime) jsFromGoStr(goStr string) *Object {
+	var jBytes []int8
+	var coder int32
+
+	bytes := []byte(goStr)
+	if len(bytes) == utf8.RuneCount(bytes) { // latin
+		jBytes = vmutils.CastBytesToInt8s(bytes)
+		coder = 0
+	} else {
+		uint16s := vmutils.UTF8ToUTF16(goStr)
+		jBytes = vmutils.CastUint16sToInt8s(uint16s)
+		coder = 1
+	}
+
+	jByteArr := rt.NewByteArray(jBytes)
 	jStr := rt.bootLoader.JLStringClass().NewObj()
-	jStr.SetFieldValue("value", "[C", NewRefSlot(charArr))
+	jStr.SetFieldValue("value", "[B", NewRefSlot(jByteArr))
+	jStr.SetFieldValue("coder", "B", NewIntSlot(coder))
 	return jStr
 }
 

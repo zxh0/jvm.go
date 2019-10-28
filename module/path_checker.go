@@ -1,6 +1,7 @@
 package module
 
-func CheckDeps(path Path, rootModuleName string) Graph {
+// TODO: check dependency loop
+func CheckDeps(path Path, rootModuleName string) Path {
 	rootModule := path.findModule(rootModuleName)
 	if rootModule == nil {
 		panic("unknown module: " + rootModule.GetName() + "@" + rootModule.GetVersion())
@@ -32,6 +33,7 @@ func CheckDeps(path Path, rootModuleName string) Graph {
 		checkedList = append(checkedList, m)
 	}
 
-	Path(checkedList).Sort()
-	return newGraph(checkedList)
+	checkedPath := Path(checkedList)
+	checkedPath.Sort()
+	return checkedPath
 }

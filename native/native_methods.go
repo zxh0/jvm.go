@@ -12,6 +12,7 @@ import (
 	_ "github.com/zxh0/jvm.go/native/java/util/concurrent/atomic"
 	_ "github.com/zxh0/jvm.go/native/java/util/jar"
 	_ "github.com/zxh0/jvm.go/native/java/util/zip"
+	_ "github.com/zxh0/jvm.go/native/jdk/internal_/util"
 	_ "github.com/zxh0/jvm.go/native/sun/awt"
 	_ "github.com/zxh0/jvm.go/native/sun/io"
 	_ "github.com/zxh0/jvm.go/native/sun/java2d/opengl"

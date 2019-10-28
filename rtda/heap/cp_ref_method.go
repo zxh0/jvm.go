@@ -90,5 +90,10 @@ func (ref *ConstantMethodRef) GetVirtualMethod(obj *Object) *Method {
 	if ref.vslot < 0 {
 		ref.vslot = getVslot(obj.Class, ref.name, ref.descriptor)
 	}
-	return obj.Class.vtable[ref.vslot]
+	if ref.vslot >= 0 {
+		return obj.Class.vtable[ref.vslot]
+	}
+
+	// TODO: invoking private method ?
+	return obj.Class.getDeclaredMethod(ref.name, ref.descriptor, false)
 }

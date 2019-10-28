@@ -1,4 +1,4 @@
-package misc
+package loader
 
 import (
 	"github.com/zxh0/jvm.go/rtda"

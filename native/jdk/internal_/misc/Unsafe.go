@@ -11,10 +11,13 @@ import (
 func init() {
 	_unsafe(park, "park", "(ZJ)V")
 	_unsafe(unpark, "unpark", "(Ljava/lang/Object;)V")
+	_unsafe(loadFence, "loadFence", "()V")
+	_unsafe(storeFence, "storeFence", "()V")
+	_unsafe(fullFence, "fullFence", "()V")
 }
 
 func _unsafe(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/misc/Unsafe", name, desc, method)
+	heap.RegisterNativeMethod("jdk/internal/misc/Unsafe", name, desc, method)
 }
 
 // public native void park(boolean isAbsolute, long time);
@@ -58,4 +61,21 @@ func unpark(frame *rtda.Frame) {
 
 	thread := threadObj.Extra.(*rtda.Thread)
 	thread.Unpark()
+}
+
+// public native void loadFence();
+// ()V
+func loadFence(frame *rtda.Frame) {
+	// TODO
+}
+
+// public native void storeFence();
+// ()V
+func storeFence(frame *rtda.Frame) {
+	// TODO
+}
+
+// public native void fullFence();
+func fullFence(frame *rtda.Frame) {
+	// TODO
 }

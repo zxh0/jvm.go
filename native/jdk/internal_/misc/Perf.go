@@ -10,7 +10,7 @@ func init() {
 }
 
 func _perf(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/misc/Perf", name, desc, method)
+	heap.RegisterNativeMethod("jdk/internal/misc/Perf", name, desc, method)
 }
 
 // public native ByteBuffer createLong(String name, int variability, int units, long value);

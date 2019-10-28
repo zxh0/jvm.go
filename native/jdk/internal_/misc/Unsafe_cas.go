@@ -9,19 +9,20 @@ import (
 )
 
 func init() {
-	_unsafe(compareAndSwapInt, "compareAndSwapInt", "(Ljava/lang/Object;JII)Z")
-	_unsafe(compareAndSwapLong, "compareAndSwapLong", "(Ljava/lang/Object;JJJ)Z")
-	_unsafe(compareAndSwapObject, "compareAndSwapObject", "(Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z")
+	_unsafe(compareAndSetInt, "compareAndSetInt", "(Ljava/lang/Object;JII)Z")
+	_unsafe(compareAndSetLong, "compareAndSetLong", "(Ljava/lang/Object;JJJ)Z")
+	_unsafe(compareAndSetReference, "compareAndSetReference", "(Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z")
 }
 
-// public final native boolean compareAndSwapInt(Object o, long offset, int expected, int x);
+// public final native boolean compareAndSetInt(Object o, long offset, int expected, int x);
 // (Ljava/lang/Object;JII)Z
-func compareAndSwapInt(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
+func compareAndSetInt(frame *rtda.Frame) {
+	obj := frame.GetRefVar(1)
 	offset := frame.GetLongVar(2)
 	expected := frame.GetIntVar(4)
 	newVal := frame.GetIntVar(5)
 
+	fields := obj.Fields
 	if slots, ok := fields.([]heap.Slot); ok {
 		// object
 		swapped := atomic.CompareAndSwapInt64(&(slots[offset].Val), int64(expected), int64(newVal))
@@ -36,14 +37,15 @@ func compareAndSwapInt(frame *rtda.Frame) {
 	}
 }
 
-// public final native boolean compareAndSwapLong(Object o, long offset, long expected, long x);
+// public final native boolean compareAndSetLong(Object o, long offset, long expected, long x);
 // (Ljava/lang/Object;JJJ)Z
-func compareAndSwapLong(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
+func compareAndSetLong(frame *rtda.Frame) {
+	obj := frame.GetRefVar(1)
 	offset := frame.GetLongVar(2)
 	expected := frame.GetLongVar(4)
 	newVal := frame.GetLongVar(6)
 
+	fields := obj.Fields
 	if slots, ok := fields.([]heap.Slot); ok {
 		// object
 		swapped := atomic.CompareAndSwapInt64(&(slots[offset].Val), expected, newVal)
@@ -54,20 +56,20 @@ func compareAndSwapLong(frame *rtda.Frame) {
 		frame.PushBoolean(swapped)
 	} else {
 		// todo
-		panic("todo: compareAndSwapLong!")
+		panic("todo: compareAndSetLong!")
 	}
 }
 
-// public final native boolean compareAndSwapObject(Object o, long offset, Object expected, Object x)
+// public final native boolean compareAndSetReference(Object o, long offset, Object expected, Object x)
 // (Ljava/lang/Object;JLjava/lang/Object;Ljava/lang/Object;)Z
-func compareAndSwapObject(frame *rtda.Frame) {
+func compareAndSetReference(frame *rtda.Frame) {
 	obj := frame.GetRefVar(1)
-	fields := obj.Fields
 	offset := frame.GetLongVar(2)
 	expected := frame.GetRefVar(4)
 	newVal := frame.GetRefVar(5)
 
 	// todo
+	fields := obj.Fields
 	if slots, ok := fields.([]heap.Slot); ok {
 		// object
 		swapped := _casObj(obj, slots, offset, expected, newVal)
@@ -78,7 +80,7 @@ func compareAndSwapObject(frame *rtda.Frame) {
 		frame.PushBoolean(swapped)
 	} else {
 		// todo
-		panic("todo: compareAndSwapObject!")
+		panic("todo: compareAndSetReference!")
 	}
 }
 func _casObj(obj *heap.Object, fields []heap.Slot, offset int64, expected, newVal *heap.Object) bool {

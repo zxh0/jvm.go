@@ -10,7 +10,7 @@ func init() {
 }
 
 func _vm(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/misc/VM", name, desc, method)
+	heap.RegisterNativeMethod("jdk/internal/misc/VM", name, desc, method)
 }
 
 // private static native void initialize();

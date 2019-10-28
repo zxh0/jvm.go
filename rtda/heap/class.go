@@ -82,7 +82,7 @@ func (class *Class) getField(name, descriptor string, isStatic bool) *Field {
 		for _, field := range k.Fields {
 			if field.IsStatic() == isStatic &&
 				field.Name == name &&
-				field.Descriptor == descriptor {
+				(descriptor == "*" || field.Descriptor == descriptor) {
 
 				return field
 			}

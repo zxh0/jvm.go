@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"math"
 	"runtime"
 
 	"github.com/zxh0/jvm.go/rtda"
@@ -10,6 +11,7 @@ import (
 func init() {
 	_runtime(availableProcessors, "availableProcessors", "()I")
 	_runtime(freeMemory, "freeMemory", "()J")
+	_runtime(maxMemory, "maxMemory", "()J")
 }
 
 func _runtime(method func(frame *rtda.Frame), name, desc string) {
@@ -34,8 +36,13 @@ func freeMemory(frame *rtda.Frame) {
 	frame.PushLong(int64(frees))
 }
 
-// public native long totalMemory();
 // public native long maxMemory();
+// ()J
+func maxMemory(frame *rtda.Frame) {
+	frame.PushLong(math.MaxInt64)
+}
+
+// public native long totalMemory();
 // public native void gc();
 // private static native void runFinalization0();
 // public native void traceInstructions(boolean on);

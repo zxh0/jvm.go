@@ -11,7 +11,7 @@ func init() {
 }
 
 func _signal(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/misc/Signal", name, desc, method)
+	heap.RegisterNativeMethod("jdk/internal/misc/Signal", name, desc, method)
 }
 
 // private static native int findSignal(String string);

@@ -6,9 +6,10 @@ import (
 )
 
 func init() {
-	_unsafe(arrayBaseOffset, "arrayBaseOffset", "(Ljava/lang/Class;)I")
-	_unsafe(arrayIndexScale, "arrayIndexScale", "(Ljava/lang/Class;)I")
-	_unsafe(objectFieldOffset, "objectFieldOffset", "(Ljava/lang/reflect/Field;)J")
+	_unsafe(arrayBaseOffset0, "arrayBaseOffset0", "(Ljava/lang/Class;)I")
+	_unsafe(arrayIndexScale0, "arrayIndexScale0", "(Ljava/lang/Class;)I")
+	_unsafe(objectFieldOffset0, "objectFieldOffset0", "(Ljava/lang/reflect/Field;)J")
+	_unsafe(objectFieldOffset1, "objectFieldOffset1", "(Ljava/lang/Class;Ljava/lang/String;)J")
 	_unsafe(getBoolean, "getBoolean", "(Ljava/lang/Object;J)Z")
 	_unsafe(putBoolean, "putBoolean", "(Ljava/lang/Object;JZ)V")
 	_unsafe(getByte, "getByte", "(Ljava/lang/Object;J)B")
@@ -25,13 +26,13 @@ func init() {
 	_unsafe(putFloat, "putFloat", "(Ljava/lang/Object;JF)V")
 	_unsafe(getDouble, "getDouble", "(Ljava/lang/Object;J)D")
 	_unsafe(putDouble, "putDouble", "(Ljava/lang/Object;JD)V")
-	_unsafe(getObject, "getObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
-	_unsafe(putObject, "putObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
+	_unsafe(getReference, "getReference", "(Ljava/lang/Object;J)Ljava/lang/Object;")
+	_unsafe(putReference, "putReference", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	// todo
-	_unsafe(getObject, "getObjectVolatile", "(Ljava/lang/Object;J)Ljava/lang/Object;")
-	_unsafe(putObject, "putObjectVolatile", "(Ljava/lang/Object;JLjava/lang/Object;)V")
-	_unsafe(getObject, "getOrderedObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
-	_unsafe(putObject, "putOrderedObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
+	_unsafe(getReference, "getReferenceVolatile", "(Ljava/lang/Object;J)Ljava/lang/Object;")
+	_unsafe(putReference, "putReferenceVolatile", "(Ljava/lang/Object;JLjava/lang/Object;)V")
+	_unsafe(getReference, "getOrderedObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
+	_unsafe(putReference, "putOrderedObject", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getInt, "getIntVolatile", "(Ljava/lang/Object;J)I")
 	_unsafe(getLong, "getLongVolatile", "(Ljava/lang/Object;J)J")
 	_unsafe(getBoolean, "getBooleanVolatile", "(Ljava/lang/Object;J)Z")
@@ -44,24 +45,33 @@ func init() {
 
 // public native int arrayBaseOffset(Class<?> type);
 // (Ljava/lang/Class;)I
-func arrayBaseOffset(frame *rtda.Frame) {
+func arrayBaseOffset0(frame *rtda.Frame) {
 	frame.PushInt(0) // todo
 }
 
 // public native int arrayIndexScale(Class<?> type);
 // (Ljava/lang/Class;)I
-func arrayIndexScale(frame *rtda.Frame) {
+func arrayIndexScale0(frame *rtda.Frame) {
 	frame.PushInt(1) // todo
 }
 
-// public native long objectFieldOffset(Field field);
+// public native long objectFieldOffset0(Field field);
 // (Ljava/lang/reflect/Field;)J
-func objectFieldOffset(frame *rtda.Frame) {
+func objectFieldOffset0(frame *rtda.Frame) {
 	jField := frame.GetRefVar(1)
 
 	offset := jField.GetFieldValue("slot", "I").IntValue()
 
 	frame.PushLong(int64(offset))
+}
+
+// private native long objectFieldOffset1(Class<?> c, String name);
+// (Ljava/lang/Class;Ljava/lang/String;)J
+func objectFieldOffset1(frame *rtda.Frame) {
+	class := frame.GetRefVar(1).GetGoClass()
+	name := frame.GetRefVar(2).JSToGoStr()
+	field := class.GetInstanceField(name, "*")
+	frame.PushLong(int64(field.SlotId))
 }
 
 // public native boolean getBoolean(Object o, long offset);
@@ -344,9 +354,9 @@ func putDouble(frame *rtda.Frame) {
 	}
 }
 
-// public native void putObject(Object o, long offset, Object x);
+// public native void putReference(Object o, long offset, Object x);
 // (Ljava/lang/Object;JLjava/lang/Object;)V
-func putObject(frame *rtda.Frame) {
+func putReference(frame *rtda.Frame) {
 	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 	x := frame.GetRefVar(4)
@@ -358,13 +368,13 @@ func putObject(frame *rtda.Frame) {
 		// ref[]
 		objs[offset] = x
 	} else {
-		panic("putObject!")
+		panic("putReference!")
 	}
 }
 
-// public native Object getObject(Object o, long offset);
+// public native Object getReference(Object o, long offset);
 // (Ljava/lang/Object;J)Ljava/lang/Object;
-func getObject(frame *rtda.Frame) {
+func getReference(frame *rtda.Frame) {
 	fields := frame.GetRefVar(1).Fields
 	offset := frame.GetLongVar(2)
 
@@ -377,6 +387,6 @@ func getObject(frame *rtda.Frame) {
 		x := objs[offset]
 		frame.PushRef(x)
 	} else {
-		panic("getObject!")
+		panic("getReference!")
 	}
 }

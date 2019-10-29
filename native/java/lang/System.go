@@ -1,21 +1,17 @@
 package lang
 
 import (
-	"runtime"
-	"sort"
 	"time"
 	"unsafe"
 
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
-	"github.com/zxh0/jvm.go/vm"
 )
 
 func init() {
 	_system(arraycopy, "arraycopy", "(Ljava/lang/Object;ILjava/lang/Object;II)V")
 	_system(currentTimeMillis, "currentTimeMillis", "()J")
 	_system(identityHashCode, "identityHashCode", "(Ljava/lang/Object;)I")
-	_system(initProperties, "initProperties", "(Ljava/util/Properties;)Ljava/util/Properties;")
 	_system(nanoTime, "nanoTime", "()J")
 	_system(setErr0, "setErr0", "(Ljava/io/PrintStream;)V")
 	_system(setIn0, "setIn0", "(Ljava/io/InputStream;)V")
@@ -82,63 +78,6 @@ func identityHashCode(frame *rtda.Frame) {
 	// todo
 	hashCode := int32(uintptr(unsafe.Pointer(ref)))
 	frame.PushInt(hashCode)
-}
-
-// private static native Properties initProperties(Properties props);
-// (Ljava/util/Properties;)Ljava/util/Properties;
-func initProperties(frame *rtda.Frame) {
-	props := frame.GetRefVar(0)
-
-	frame.PushRef(props)
-
-	// public synchronized Object setProperty(String key, String value)
-	setPropMethod := props.Class.GetInstanceMethod("setProperty", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;")
-	thread := frame.Thread
-
-	sysPropMap := _getSysProps(thread.VMOptions)
-	sysPropKeys := _getSysPropKeys(sysPropMap)
-
-	for _, key := range sysPropKeys {
-		val := sysPropMap[key]
-		jKey := frame.GetRuntime().JSFromGoStr(key)
-		jVal := frame.GetRuntime().JSFromGoStr(val)
-		args := []heap.Slot{heap.NewRefSlot(props), heap.NewRefSlot(jKey), heap.NewRefSlot(jVal)}
-		thread.InvokeMethodWithShim(setPropMethod, args)
-	}
-}
-
-func _getSysPropKeys(m map[string]string) []string {
-	keys := make([]string, 0, len(m))
-	for key, _ := range m {
-		keys = append(keys, key)
-	}
-	sort.Strings(keys)
-	return keys
-}
-
-func _getSysProps(opts *vm.Options) map[string]string {
-	return map[string]string{
-		"java.version":         "1.8.0",
-		"java.vendor":          "jvm.go",
-		"java.vendor.url":      "https://github.com/zxh0/jvm.go",
-		"java.home":            opts.AbsJavaHome,
-		"java.class.version":   "52.0",
-		"java.class.path":      opts.ClassPath, // TODO
-		"java.awt.graphicsenv": "sun.awt.CGraphicsEnvironment",
-		"os.name":              runtime.GOOS,   // todo
-		"os.arch":              runtime.GOARCH, // todo
-		"os.version":           "",             // todo
-		"file.separator":       "/",            // todo os.PathSeparator
-		"path.separator":       ":",            // todo os.PathListSeparator
-		"line.separator":       "\n",           // todo
-		"user.name":            "",             // todo
-		"user.home":            "",             // todo
-		"user.dir":             ".",            // todo
-		"user.country":         "CN",           // todo
-		"file.encoding":        "UTF-8",
-		"sun.stdout.encoding":  "UTF-8",
-		"sun.stderr.encoding":  "UTF-8",
-	}
 }
 
 // public static native long nanoTime();

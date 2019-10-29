@@ -7,6 +7,7 @@ import (
 
 func init() {
 	_vm(initialize, "initialize", "()V")
+	_vm(initializeFromArchive, "initializeFromArchive", "(Ljava/lang/Class;)V")
 }
 
 func _vm(method func(frame *rtda.Frame), name, desc string) {
@@ -16,5 +17,11 @@ func _vm(method func(frame *rtda.Frame), name, desc string) {
 // private static native void initialize();
 // ()V
 func initialize(frame *rtda.Frame) {
-	// todo
+	// TODO
+}
+
+// public static native void initializeFromArchive(Class<?> c);
+// (Ljava/lang/Class;)V
+func initializeFromArchive(frame *rtda.Frame) {
+	// TODO
 }

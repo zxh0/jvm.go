@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	_signal(findSignal, "findSignal", "(Ljava/lang/String;)I")
+	_signal(findSignal0, "findSignal0", "(Ljava/lang/String;)I")
 	_signal(handle0, "handle0", "(IJ)J")
 }
 
@@ -14,9 +14,9 @@ func _signal(method func(frame *rtda.Frame), name, desc string) {
 	heap.RegisterNativeMethod("jdk/internal/misc/Signal", name, desc, method)
 }
 
-// private static native int findSignal(String string);
+// private static native int findSignal0(String string);
 // (Ljava/lang/String;)I
-func findSignal(frame *rtda.Frame) {
+func findSignal0(frame *rtda.Frame) {
 	frame.GetRefVar(0) // name
 
 	frame.PushInt(0) // todo

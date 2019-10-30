@@ -1,8 +1,7 @@
 package stdlib.basic.reflection;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
 import helper.UnitTestRunner;
+import static helper.MyAssert.*;
 
 public class PrimitiveClassTest {
     
@@ -10,7 +9,7 @@ public class PrimitiveClassTest {
         UnitTestRunner.run(PrimitiveClassTest.class);
     }
     
-    @Test
+//    @Test
     public void test() {
         testPrimitiveClass(void.class,      "void");
         testPrimitiveClass(boolean.class,   "boolean");

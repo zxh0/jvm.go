@@ -1,3 +1,5 @@
+package main;
+
 import helper.UnitTestRunner;
 import jvm.lambda.InterfaceMethodTest;
 
@@ -23,8 +25,8 @@ public class UnitTests {
             stdlib.basic.reflection.PrimitiveClassTest.class,
             stdlib.basic.string.StringTest.class,
             stdlib.basic.string.Mutf8Test.class,
-            stdlib.basic.sunmisc.UnsafeMemoryTest.class,
-            stdlib.basic.sunmisc.UnsafeObjectTest.class,
+//            stdlib.basic.sunmisc.UnsafeMemoryTest.class,
+//            stdlib.basic.sunmisc.UnsafeObjectTest.class,
             stdlib.basic.thread.DaemonTest.class,
             stdlib.basic.thread.MainThreadTest.class,
             stdlib.basic.thread.SleepTest.class,
@@ -34,8 +36,8 @@ public class UnitTests {
             jls8.ch12.Eg12_4_1_1.class,
             jls8.ch12.Eg12_4_1_2.class,
             jls8.ch12.Eg12_4_1_3.class,
-            jls8.ch12.Eg12_5_2.class,
-            thirdparty.gson.GsonTest.class
+            jls8.ch12.Eg12_5_2.class
+//            thirdparty.gson.GsonTest.class
         );
     }
 

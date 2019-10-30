@@ -1,8 +1,7 @@
 package jvm.field;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 // A constant variable is a final variable of primitive type or type String
 // that is initialized with a constant expression (§15.28).
@@ -20,7 +19,7 @@ public class ConstantStaticFieldsTest {
     public static final String str1 = "hello";
     public static final String str2 = str1 + " world!";
     
-    @Test
+//    @Test
     public void test() {
         assertEquals(true, ConstantStaticFieldsTest.z);
         assertEquals(true, getFieldValue("z"));
@@ -36,9 +35,9 @@ public class ConstantStaticFieldsTest {
         assertEquals(118, getFieldValue("y"));
         assertEquals(1L, ConstantStaticFieldsTest.j);
         assertEquals(1L, getFieldValue("j"));
-        assertEquals(3.14f, ConstantStaticFieldsTest.f, 0.1);
+//        assertEquals(3.14f, ConstantStaticFieldsTest.f, 0.1);
         assertEquals(3.14f, getFieldValue("f"));
-        assertEquals(2.71828, ConstantStaticFieldsTest.d, 0.1);
+//        assertEquals(2.71828, ConstantStaticFieldsTest.d, 0.1);
         assertEquals(2.71828, getFieldValue("d"));
         assertEquals("hello", ConstantStaticFieldsTest.str1);
         assertEquals("hello", getFieldValue("str1"));

@@ -1,8 +1,7 @@
 package jvm.ex;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class ClassLibExTest {
     
@@ -10,7 +9,7 @@ public class ClassLibExTest {
         UnitTestRunner.run(ClassLibExTest.class);
     }
     
-    @Test
+//    @Test
     public void threadSleep() throws InterruptedException {
         try {
             Thread.sleep(-1);
@@ -20,7 +19,7 @@ public class ClassLibExTest {
         }
     }
     
-    @Test
+//    @Test
     public void threadSleep2() throws InterruptedException {
         Thread.currentThread().interrupt();
         assertTrue(Thread.currentThread().isInterrupted());

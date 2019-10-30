@@ -1,8 +1,7 @@
 package jvm.field;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class FieldsTest {
     
@@ -16,7 +15,7 @@ public class FieldsTest {
         int b;
     }
     
-    @Test
+//    @Test
     public void staticFields() {
         int z = Sub.x + Sub.y;
         z += 100;
@@ -25,7 +24,7 @@ public class FieldsTest {
         assertTrue(Sub.x == 100 && Sub.y == 100);
     }
     
-    @Test
+//    @Test
     public void instanceFields() {
         Sub sub = new Sub();
         int c = sub.a + sub.b;

@@ -1,8 +1,7 @@
 package stdlib.basic.string;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class StringTest {
     
@@ -10,7 +9,7 @@ public class StringTest {
         UnitTestRunner.run(StringTest.class);
     }
     
-    @Test
+//    @Test
     public void test() {
         String s1 = "abc1";
         String s2 = "abc1";

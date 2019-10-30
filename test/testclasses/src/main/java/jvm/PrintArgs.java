@@ -1,3 +1,5 @@
+package jvm;
+
 public class PrintArgs {
     
     public static void main(String[] args) {

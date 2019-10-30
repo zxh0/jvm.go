@@ -1,8 +1,7 @@
 package jls8.ch12;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 /**
  * Example 12.4.1-2.
@@ -22,7 +21,7 @@ public class Eg12_4_1_2 {
         }
     }
     
-    @Test
+//    @Test
     public void test() {
         assertEquals(1729, Sub.taxi);
     }

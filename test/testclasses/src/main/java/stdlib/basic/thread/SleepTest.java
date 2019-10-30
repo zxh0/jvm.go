@@ -1,8 +1,7 @@
 package stdlib.basic.thread;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class SleepTest {
     
@@ -10,7 +9,7 @@ public class SleepTest {
         UnitTestRunner.run(SleepTest.class);
     }
     
-    @Test
+//    @Test
     public void sleep() throws InterruptedException {
         long beforeSleep = System.currentTimeMillis();
         Thread.sleep(100);

@@ -1,8 +1,7 @@
 package jvm.field;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class FieldAccessTest {
     
@@ -26,7 +25,7 @@ public class FieldAccessTest {
         return x;
     }
     
-    @Test
+//    @Test
     public void test() {
         assertEquals(1, B.i);
         assertEquals(2, B.j);

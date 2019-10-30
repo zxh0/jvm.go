@@ -2,8 +2,7 @@ package jls8.ch12;
 
 import jls8.StringOut;
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 /**
  * Example 12.4.1-1. 
@@ -23,7 +22,7 @@ public class Eg12_4_1_1 {
         static { out.print("Two "); }
     }
     
-    @Test
+//    @Test
     public void test() {
         One o = null;
         Two t = new Two();

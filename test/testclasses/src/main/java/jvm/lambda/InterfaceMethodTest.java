@@ -1,8 +1,7 @@
 package jvm.lambda;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class InterfaceMethodTest {
     
@@ -37,12 +36,12 @@ public class InterfaceMethodTest {
         UnitTestRunner.run(InterfaceMethodTest.class);
     }
     
-    @Test
+//    @Test
     public void staticMethod() {
         assertEquals(1, If1.x());
     }
     
-    @Test
+//    @Test
     public void defaultMethod() {
         assertEquals(2, new Impl1().y());
         assertEquals(12, new Impl2().y());

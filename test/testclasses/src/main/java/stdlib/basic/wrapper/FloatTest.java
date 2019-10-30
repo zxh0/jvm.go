@@ -1,8 +1,7 @@
 package stdlib.basic.wrapper;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class FloatTest {
     
@@ -10,12 +9,12 @@ public class FloatTest {
         UnitTestRunner.run(FloatTest.class);
     }
     
-    @Test
+//    @Test
     public void floatToRawIntBits() {
         assertEquals(1076754509, Float.floatToRawIntBits(2.71828f));
     }
     
-    @Test
+//    @Test
     public void intBitsToFloat() {
        // assertEquals(2.71828f, Float.intBitsToFloat(1076754509), 0);
     }

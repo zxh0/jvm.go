@@ -1,11 +1,9 @@
 package stdlib.nio.io.file;
 
 import helper.UnitTestRunner;
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import static helper.MyAssert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,7 +30,7 @@ public class RandomAccessFileTest {
         UnitTestRunner.run(RandomAccessFileTest.class);
     }
 
-    @Test
+//    @Test
     public void writeTest() throws IOException {
         try (RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw")) {
             //write data
@@ -43,24 +41,24 @@ public class RandomAccessFileTest {
         }
     }
 
-    @Test
+//    @Test
     public void readTest() throws IOException {
         try (RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw")) {
             byte data[] = new byte[5];
             randomAccessFile.read(data);
             String result = new String(data);
-            Assert.assertTrue(result.equals("hello"));
+            assertTrue(result.equals("hello"));
             int intValue = randomAccessFile.readInt();
-            Assert.assertTrue(intValue == 54);
+            assertTrue(intValue == 54);
             randomAccessFile.read(data);
             result = new String(data);
-            Assert.assertTrue(result.equals("world"));
+            assertTrue(result.equals("world"));
             intValue = randomAccessFile.readInt();
-            Assert.assertTrue(intValue == -57);
+            assertTrue(intValue == -57);
         }
     }
 
-    @Test
+//    @Test
     public void seekTest() throws Exception {
         RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw");
         //write data
@@ -73,12 +71,12 @@ public class RandomAccessFileTest {
         randomAccessFile.read(data);
         String result = new String(data);
         long seek = randomAccessFile.getFilePointer();
-        Assert.assertTrue(seek == 14);
-        Assert.assertTrue(result.equals("world"));
+        assertTrue(seek == 14);
+        assertTrue(result.equals("world"));
         randomAccessFile.close();
     }
 
-    @Test
+//    @Test
     public void lengthTest() throws Exception {
         RandomAccessFile randomAccessFile = new RandomAccessFile("RandomAccessFileWriteTest", "rw");
         //write data
@@ -89,8 +87,8 @@ public class RandomAccessFileTest {
 
         //randomAccessFile.setLength(5457);
         long length = randomAccessFile.length();
-        //Assert.assertTrue(length == 5457);
-        Assert.assertTrue(length == 18);
+        //assertTrue(length == 5457);
+        assertTrue(length == 18);
         randomAccessFile.close();
     }
 

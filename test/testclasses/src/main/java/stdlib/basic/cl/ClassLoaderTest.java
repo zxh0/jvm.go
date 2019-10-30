@@ -5,8 +5,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class ClassLoaderTest {
     
@@ -14,7 +13,7 @@ public class ClassLoaderTest {
         UnitTestRunner.run(ClassLoaderTest.class);
     }
     
-    @Test
+//    @Test
     public void sysClassLoader() {
         ClassLoader sysCl = ClassLoader.getSystemClassLoader();
         assertEquals("sun.misc.Launcher$AppClassLoader", sysCl.getClass().getName());
@@ -26,7 +25,7 @@ public class ClassLoaderTest {
         assertNull(bootCl);
     }
     
-    @Test
+//    @Test
     public void sysClassLoader2() {
         ClassLoader sysCl = ClassLoader.getSystemClassLoader();
         URLClassLoader urlCl = (URLClassLoader) sysCl;
@@ -43,7 +42,7 @@ public class ClassLoaderTest {
         assertSame(sysCl, appCl);
     }
     
-    @Test
+//    @Test
     public void loadClass() throws Exception {
         ClassLoader sysCl = ClassLoader.getSystemClassLoader();
         assertSame(Object.class, sysCl.loadClass("java.lang.Object"));

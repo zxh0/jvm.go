@@ -1,8 +1,7 @@
 package stdlib.basic.thread;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class DaemonTest {
     
@@ -10,7 +9,7 @@ public class DaemonTest {
         UnitTestRunner.run(DaemonTest.class);
     }
     
-    @Test
+//    @Test
     public void isDaemon() {
         Thread mainThread = Thread.currentThread();
         assertFalse(mainThread.isDaemon());

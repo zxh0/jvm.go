@@ -2,8 +2,7 @@ package stdlib.basic.reflection;
 
 import java.lang.reflect.Array;
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class ArrayGetTest {
 
@@ -11,7 +10,7 @@ public class ArrayGetTest {
         UnitTestRunner.run(ArrayGetTest.class);
     }
 
-    @Test
+//    @Test
     public void getNullArray() {
         try {
             Object x = null;
@@ -22,7 +21,7 @@ public class ArrayGetTest {
         }
     }
 
-    @Test
+//    @Test
     public void getNonArray() {
         try {
             String str = "abc";
@@ -33,7 +32,7 @@ public class ArrayGetTest {
         }
     }
 
-    @Test
+//    @Test
     public void getArrayBadIndex() {
         try {
             int[] arr = {1, 2, 3};
@@ -44,13 +43,13 @@ public class ArrayGetTest {
         }
     }
 
-    @Test
+//    @Test
     public void getObjectArray() {
         String[] arr = {"a", "b", "c"};
         assertEquals("c", Array.get(arr, 2));
     }
     
-    @Test
+//    @Test
     public void getPrimitiveArray() {
         assertEquals(true,     Array.get(new boolean[]{true}, 0));
         assertEquals((byte)2,  Array.get(new byte[]{2},       0));

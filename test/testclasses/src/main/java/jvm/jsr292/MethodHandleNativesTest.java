@@ -2,8 +2,7 @@ package jvm.jsr292;
 
 import helper.ReflectionHelper;
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class MethodHandleNativesTest {
     
@@ -11,7 +10,7 @@ public class MethodHandleNativesTest {
         UnitTestRunner.run(MethodHandleNativesTest.class);
     }
     
-    @Test
+//    @Test
     public void getConstant() throws Exception {
         Class<?> mhnClass = Class.forName("java.lang.invoke.MethodHandleNatives");
         

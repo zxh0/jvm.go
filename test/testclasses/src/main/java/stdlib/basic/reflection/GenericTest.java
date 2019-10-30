@@ -4,8 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class GenericTest {
     
@@ -16,13 +15,13 @@ public class GenericTest {
     private static final String str = "abc";
     private static final List<String> list = new ArrayList<>();
     
-    @Test
+//    @Test
     public void typeParameter() {
         assertEquals(1, GenericClass.class.getTypeParameters().length);
         assertEquals("String", GenericClass.class.getTypeParameters()[0].toString());
     }
     
-    @Test
+//    @Test
     public void fieldGenericType() throws NoSuchFieldException {
         assertEquals(String.class,
                 GenericTest.class.getDeclaredField("str").getGenericType());

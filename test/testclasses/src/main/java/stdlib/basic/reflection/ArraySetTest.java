@@ -3,9 +3,7 @@ package stdlib.basic.reflection;
 import java.lang.reflect.Array;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class ArraySetTest {
 
@@ -13,7 +11,7 @@ public class ArraySetTest {
         UnitTestRunner.run(ArraySetTest.class);
     }
 
-    @Test
+//    @Test
     public void setNullArray() {
         try {
             Object x = null;
@@ -24,7 +22,7 @@ public class ArraySetTest {
         }
     }
 
-    @Test
+//    @Test
     public void setNonArray() {
         try {
             String str = "abc";
@@ -35,7 +33,7 @@ public class ArraySetTest {
         }
     }
 
-    @Test
+//    @Test
     public void setArrayTypeMismatch() {
         try {
             int[] arr = {1, 2, 3};
@@ -46,7 +44,7 @@ public class ArraySetTest {
         }
     }
 
-    @Test
+//    @Test
     public void setArrayBadIndex() {
         try {
             int[] arr = {1, 2, 3};
@@ -57,14 +55,14 @@ public class ArraySetTest {
         }
     }
 
-    @Test
+//    @Test
     public void setObjectArray() {
         String[] arr = {"beyond"};
         Array.set(arr, 0, "5457");
         assertEquals("5457", Array.get(arr, 0));
     }
 
-    @Test
+//    @Test
     public void setPrimitiveArray() {
         Array.set(new boolean[]{true}, 0, false);
         Array.set(new byte[]{2}, 0, (byte) 3);

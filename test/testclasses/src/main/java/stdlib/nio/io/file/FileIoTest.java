@@ -3,8 +3,7 @@ package stdlib.nio.io.file;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class FileIoTest {
     
@@ -12,7 +11,7 @@ public class FileIoTest {
         UnitTestRunner.run(FileIoTest.class);
     }
     
-    @Test
+//    @Test
     public void fileNotFoundException() {
         try {
             FileInputStream fis = new FileInputStream("a/b/foo.txt");

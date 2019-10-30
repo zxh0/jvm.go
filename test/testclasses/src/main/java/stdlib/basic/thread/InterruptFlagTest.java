@@ -1,8 +1,7 @@
 package stdlib.basic.thread;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class InterruptFlagTest {
     
@@ -10,7 +9,7 @@ public class InterruptFlagTest {
         UnitTestRunner.run(InterruptFlagTest.class);
     }
     
-    @Test
+//    @Test
     public void interruptFlag() {
         Thread t = Thread.currentThread();
         assertFalse(t.isInterrupted());

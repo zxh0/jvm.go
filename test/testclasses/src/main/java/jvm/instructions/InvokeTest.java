@@ -3,8 +3,7 @@ package jvm.instructions;
 import java.util.ArrayList;
 import java.util.List;
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 @SuppressWarnings("serial")
 public class InvokeTest extends ArrayList<String> {
@@ -24,7 +23,7 @@ public class InvokeTest extends ArrayList<String> {
         return super.get(index);
     }
     
-    @Test
+//    @Test
     public void invoke() {
         InvokeTest test = new InvokeTest();
         test.add("ArrayList");

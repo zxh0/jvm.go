@@ -1,7 +1,5 @@
 package stdlib.basic;
 
-import org.junit.Test;
-
 public class SysPropsTest {
     
     public static void main(String[] args) {
@@ -11,7 +9,7 @@ public class SysPropsTest {
         System.out.println(System.getProperty("os.version"));
     }
     
-    @Test
+//    @Test
     public void test() {
         String osName = System.getProperty("os.name");
         System.out.println(osName);

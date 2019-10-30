@@ -3,8 +3,7 @@ package stdlib.basic.reflection;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class MethodTest implements Callable<Integer> {
     
@@ -12,14 +11,14 @@ public class MethodTest implements Callable<Integer> {
         UnitTestRunner.run(MethodTest.class);
     }
     
-    @Test
+//    @Test
     public void boxReturn() throws Exception {
         Method m = MethodTest.class.getMethod("returnLong");
         Object x = m.invoke(new MethodTest());
         assertEquals(3L, x);
     }
     
-    @Test
+//    @Test
     public void invokeInterfaceMethod() throws Exception {
         Method m = Callable.class.getMethod("call");
         Object x = m.invoke(new MethodTest());

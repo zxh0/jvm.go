@@ -1,8 +1,7 @@
 package stdlib.basic.thread;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class MainThreadTest {
     
@@ -10,7 +9,7 @@ public class MainThreadTest {
         UnitTestRunner.run(MainThreadTest.class);
     }
     
-    @Test
+//    @Test
     public void mainThread() {
         Thread mainThread = Thread.currentThread();
         assertEquals("main", mainThread.getName());

@@ -2,8 +2,7 @@ package jls8.ch12;
 
 import jls8.StringOut;
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 /**
  * Example 12.4.1-3.
@@ -28,7 +27,7 @@ public class Eg12_4_1_3 {
         return i;
     }
     
-    @Test
+//    @Test
     public void test() {
         sout.println("" + J.i);
         sout.println("" + K.j);

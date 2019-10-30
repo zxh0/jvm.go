@@ -1,8 +1,7 @@
 package stdlib.basic.reflection;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class ClassInitTest {
     
@@ -14,7 +13,7 @@ public class ClassInitTest {
         UnitTestRunner.run(ClassInitTest.class);
     }
     
-    @Test
+//    @Test
     public void getStatic() throws Exception {
         assertEquals(100, A.class.getField("a").get(null));
     }

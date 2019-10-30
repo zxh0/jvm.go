@@ -1,8 +1,7 @@
 package jvm.ex;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class InstructionExTest {
     
@@ -10,23 +9,23 @@ public class InstructionExTest {
         UnitTestRunner.run(InstructionExTest.class);
     }
     
-    @Test(expected = ClassCastException.class)
+//    @Test(expected = ClassCastException.class)
     public void checkcast() {
         Object x = "String";
         Integer y = (Integer) x;
     }
     
-    @Test(expected = NegativeArraySizeException.class)
+//    @Test(expected = NegativeArraySizeException.class)
     public void newarray() {
         int[] a = new int[-3];
     }
     
-    @Test(expected = NegativeArraySizeException.class)
+//    @Test(expected = NegativeArraySizeException.class)
     public void anewarray() {
         Object[] a = new Object[-1];
     }
     
-    @Test
+//    @Test
     public void aload() {
         try {
             int[] a = {1};
@@ -37,7 +36,7 @@ public class InstructionExTest {
         }
     }
     
-    @Test
+//    @Test
     public void astore() {
         try {
             int[] a = {};
@@ -49,13 +48,13 @@ public class InstructionExTest {
         }
     }
     
-    @Test(expected = ArithmeticException.class)
+//    @Test(expected = ArithmeticException.class)
     public void idiv() {
         int x = 0;
         int y = 1 / x;
     }
     
-    @Test(expected = ArithmeticException.class)
+//    @Test(expected = ArithmeticException.class)
     public void irem() {
         int x = 0;
         int y = 1 % x;

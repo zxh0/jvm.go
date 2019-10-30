@@ -1,8 +1,7 @@
 package stdlib.basic.string;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 // http://www.oracle.com/technetwork/articles/javase/supplementary-142654.html
 public class Mutf8Test {
@@ -11,7 +10,7 @@ public class Mutf8Test {
         UnitTestRunner.run(Mutf8Test.class);
     }
     
-    @Test
+//    @Test
     public void test() {
         assertEquals("A", 1, "A".length()); // U+0041
         assertEquals("NULL", 1, "\u0000".length());

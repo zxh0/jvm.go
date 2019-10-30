@@ -1,8 +1,7 @@
 package stdlib.basic.cl;
 
 import helper.UnitTestRunner;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static helper.MyAssert.*;
 
 public class GetClassLoaderTest {
     
@@ -10,12 +9,12 @@ public class GetClassLoaderTest {
         UnitTestRunner.run(GetClassLoaderTest.class);
     }
     
-    @Test
+//    @Test
     public void primitiveTypes() {
         assertNull(int.class.getClassLoader());
     }
     
-    @Test
+//    @Test
     public void array() {
         assertNull(float[].class.getClassLoader());
         assertNull(new int[0].getClass().getClassLoader());
@@ -23,7 +22,7 @@ public class GetClassLoaderTest {
         assertNull(int[][].class.getClassLoader());
     }
     
-    @Test
+//    @Test
     public void bootCl() {
         assertNull(Object.class.getClassLoader());
         assertNull("".getClass().getClassLoader());

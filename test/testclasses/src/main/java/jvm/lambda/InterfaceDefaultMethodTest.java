@@ -1,7 +1,7 @@
 package jvm.lambda;
 
-import junit.framework.Assert;
 import helper.UnitTestRunner;
+import static helper.MyAssert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -57,10 +57,10 @@ public class InterfaceDefaultMethodTest {
         FirstTestClass firstTestClass = testInterfaceDefaultTest;
         SecondTest secondTest = testInterfaceDefaultTest;
         ThirdTest thirdTest = testInterfaceDefaultTest;
-        Assert.assertEquals(defaultTest.test(), "ThirdTest");
-        Assert.assertEquals(firstTestClass.test(), "ThirdTest");
-        Assert.assertEquals(secondTest.test(), "ThirdTest");
-        Assert.assertEquals(thirdTest.test(), "ThirdTest");
+        assertEquals(defaultTest.test(), "ThirdTest");
+        assertEquals(firstTestClass.test(), "ThirdTest");
+        assertEquals(secondTest.test(), "ThirdTest");
+        assertEquals(thirdTest.test(), "ThirdTest");
     }
 
     //@Test
@@ -75,9 +75,9 @@ public class InterfaceDefaultMethodTest {
 //        System.out.println(firstTest.test());
 //        System.out.println(secondTest.test());
 //        System.out.println(thirdTest.test());
-        Assert.assertEquals(defaultTest.test(), "ThirdTest");
-        Assert.assertEquals(firstTest.test(), "ThirdTest");
-        Assert.assertEquals(secondTest.test(), "ThirdTest");
-        Assert.assertEquals(thirdTest.test(), "ThirdTest");
+        assertEquals(defaultTest.test(), "ThirdTest");
+        assertEquals(firstTest.test(), "ThirdTest");
+        assertEquals(secondTest.test(), "ThirdTest");
+        assertEquals(thirdTest.test(), "ThirdTest");
     }
 }

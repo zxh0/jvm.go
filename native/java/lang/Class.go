@@ -16,7 +16,7 @@ func init() {
 	_class(getEnclosingMethod0, "getEnclosingMethod0", "()[Ljava/lang/Object;")
 	_class(getInterfaces0, "getInterfaces0", "()[Ljava/lang/Class;")
 	_class(getModifiers, "getModifiers", "()I")
-	_class(getName0, "getName0", "()Ljava/lang/String;")
+	_class(initClassName, "initClassName", "()Ljava/lang/String;")
 	_class(getSuperclass, "getSuperclass", "()Ljava/lang/Class;")
 	_class(isArray, "isArray", "()Z")
 	_class(isAssignableFrom, "isAssignableFrom", "(Ljava/lang/Class;)Z")
@@ -33,7 +33,7 @@ func _class(method func(frame *rtda.Frame), name, desc string) {
 // native ClassLoader getClassLoader0();
 // ()Ljava/lang/ClassLoader;
 func getClassLoader0(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	from := class.LoadedFrom
 
 	if cp.IsBootClassPath(from, frame.Thread.VMOptions.AbsJreLib) {
@@ -49,7 +49,7 @@ func getClassLoader0(frame *rtda.Frame) {
 // public native Class<?> getComponentType();
 // ()Ljava/lang/Class;
 func getComponentType(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	componentClass := class.GetComponentClass()
 	componentClassObj := componentClass.JClass
 
@@ -59,7 +59,7 @@ func getComponentType(frame *rtda.Frame) {
 // native ConstantPool getConstantPool();
 // ()Lsun/reflect/ConstantPool;
 func getConstantPool(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	cpClass := frame.GetBootLoader().LoadClass("sun/reflect/ConstantPool")
 	if cpClass.InitializationNotStarted() {
 		frame.RevertNextPC()
@@ -74,7 +74,7 @@ func getConstantPool(frame *rtda.Frame) {
 // private native Class<?> getDeclaringClass0();
 // ()Ljava/lang/Class;
 func getDeclaringClass0(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	if class.IsArray() || class.IsPrimitive() {
 		frame.PushRef(nil)
 		return
@@ -95,7 +95,7 @@ func getDeclaringClass0(frame *rtda.Frame) {
 // private native Object[] getEnclosingMethod0();
 // ()[Ljava/lang/Object;
 func getEnclosingMethod0(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	if class.IsPrimitive() {
 		frame.PushNull()
 	} else {
@@ -132,7 +132,7 @@ func _createEnclosintMethodInfo(rt *heap.Runtime, emInfo *heap.EnclosingMethod) 
 // private native Class<?>[] getInterfaces0();
 // ()[Ljava/lang/Class;
 func getInterfaces0(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	interfaces := class.Interfaces
 	interfaceObjs := make([]*heap.Object, len(interfaces))
 	for i, iface := range interfaces {
@@ -143,27 +143,27 @@ func getInterfaces0(frame *rtda.Frame) {
 	frame.PushRef(interfaceArr)
 }
 
-// private native String getName0();
+// private native String initClassName();
 // ()Ljava/lang/String;
-func getName0(frame *rtda.Frame) {
-	class := _popClass(frame)
+func initClassName(frame *rtda.Frame) {
+	class := frame.GetThis().GetGoClass()
 	name := class.NameJlsFormat()
-	nameObj := frame.GetRuntime().JSFromGoStr(name)
+	jsName := frame.GetRuntime().JSFromGoStr(name)
 
-	frame.PushRef(nameObj)
+	frame.PushRef(jsName)
 }
 
 // public native int getModifiers();
 // ()I
 func getModifiers(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	frame.PushInt(int32(class.AccessFlags))
 }
 
 // public native Class<? super T> getSuperclass();
 // ()Ljava/lang/Class;
 func getSuperclass(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	superClass := class.SuperClass
 
 	if superClass != nil {
@@ -201,28 +201,28 @@ func isInstance(frame *rtda.Frame) {
 // public native boolean isArray();
 // ()Z
 func isArray(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	frame.PushBoolean(class.IsArray())
 }
 
 // public native boolean isInterface();
 // ()Z
 func isInterface(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	frame.PushBoolean(class.IsInterface())
 }
 
 // public native boolean isPrimitive();
 // ()Z
 func isPrimitive(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	frame.PushBoolean(class.IsPrimitive())
 }
 
 // private native String getGenericSignature0();
 // ()Ljava/lang/String;
 func getGenericSignature0(frame *rtda.Frame) {
-	class := _popClass(frame)
+	class := frame.GetThis().GetGoClass()
 	if class == nil {
 		panic("illegal class")
 	}
@@ -239,9 +239,4 @@ func getGenericSignature0(frame *rtda.Frame) {
 	}
 
 	frame.PushNull()
-}
-
-func _popClass(frame *rtda.Frame) *heap.Class {
-	this := frame.GetThis()
-	return this.GetGoClass()
 }

@@ -4,7 +4,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class CheckCast {
+public class RefCheckCastTest {
 
     static class Sup implements Closeable {
 

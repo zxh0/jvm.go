@@ -1,15 +1,17 @@
 package main;
 
-import jvm.instructions.LookupSwitchTest;
-import jvm.instructions.MathTest;
-import jvm.instructions.TableSwitchTest;
+import jvm.instructions.*;
 
 public class AllTests {
 
     public static void main(String[] args) {
         runTest(new MathTest());
-        runTest(new TableSwitchTest());
-        runTest(new LookupSwitchTest());
+        runTest(new ControlTest());
+        runTest(new ComparisonsTest());
+        runTest(new RefFieldTest());
+        runTest(new RefInvokeTest());
+        runTest(new RefArrayTest());
+        runTest(new RefAThrowTest());
         System.out.println("OK!");
     }
 

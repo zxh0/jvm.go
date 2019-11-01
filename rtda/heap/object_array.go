@@ -40,7 +40,7 @@ func newPrimitiveArray(arrClass *Class, count uint) *Object {
 		return newObj(arrClass, make([]int16, count), nil)
 	case "[I":
 		return newObj(arrClass, make([]int32, count), nil)
-	case "[L":
+	case "[J":
 		return newObj(arrClass, make([]int64, count), nil)
 	case "[F":
 		return newObj(arrClass, make([]float32, count), nil)

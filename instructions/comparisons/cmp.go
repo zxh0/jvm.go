@@ -17,11 +17,12 @@ type LCMP struct{ base.NoOperandsInstruction }
 func (instr *LCMP) Execute(frame *rtda.Frame) {
 	v2 := frame.PopLong()
 	v1 := frame.PopLong()
-	if v1 > v2 {
+	switch {
+	case v1 > v2:
 		frame.PushInt(1)
-	} else if v1 == v2 {
+	case v1 == v2:
 		frame.PushInt(0)
-	} else {
+	default:
 		frame.PushInt(-1)
 	}
 }
@@ -29,21 +30,22 @@ func (instr *LCMP) Execute(frame *rtda.Frame) {
 // Compare float
 type FCMP struct {
 	base.NoOperandsInstruction
-	g bool // long or double
+	g bool
 }
 
 func (instr *FCMP) Execute(frame *rtda.Frame) {
 	v2 := frame.PopFloat()
 	v1 := frame.PopFloat()
-	if v1 > v2 {
+	switch {
+	case v1 > v2:
 		frame.PushInt(1)
-	} else if v1 == v2 {
+	case v1 == v2:
 		frame.PushInt(0)
-	} else if v1 < v2 {
+	case v1 < v2:
 		frame.PushInt(-1)
-	} else if instr.g {
+	case instr.g:
 		frame.PushInt(1)
-	} else {
+	default:
 		frame.PushInt(-1)
 	}
 }
@@ -51,21 +53,22 @@ func (instr *FCMP) Execute(frame *rtda.Frame) {
 // Compare double
 type DCMP struct {
 	base.NoOperandsInstruction
-	g bool // long or double
+	g bool
 }
 
 func (instr *DCMP) Execute(frame *rtda.Frame) {
 	v2 := frame.PopDouble()
 	v1 := frame.PopDouble()
-	if v1 > v2 {
+	switch {
+	case v1 > v2:
 		frame.PushInt(1)
-	} else if v1 == v2 {
+	case v1 == v2:
 		frame.PushInt(0)
-	} else if v1 < v2 {
+	case v1 < v2:
 		frame.PushInt(-1)
-	} else if instr.g {
+	case instr.g:
 		frame.PushInt(1)
-	} else {
+	default:
 		frame.PushInt(-1)
 	}
 }

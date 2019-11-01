@@ -109,10 +109,6 @@ func (loader *ClassLoader) getRefArrayClassByName(arrClassName string) *Class {
 	return loader.loadArrayClass(arrClassName)
 }
 
-func (loader *ClassLoader) ClassPath() *classpath.ClassPath {
-	return loader.classPath
-}
-
 func (loader *ClassLoader) JLObjectClass() *Class {
 	return loader.jlObjectClass
 }

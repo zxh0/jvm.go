@@ -61,6 +61,14 @@ func (zf *ZipFile) HasFile(filename string) bool {
 	return false
 }
 
+func (zf *ZipFile) ListFiles() []string {
+	filenames := make([]string, 0, 64)
+	for _, f := range zf.rc.File {
+		filenames = append(filenames, f.Name)
+	}
+	return filenames
+}
+
 func (zf *ZipFile) ReadFile(filename string) ([]byte, error) {
 	return readFileInZip(&zf.rc.Reader, filename)
 }

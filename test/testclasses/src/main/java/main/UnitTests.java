@@ -2,13 +2,15 @@ package main;
 
 import helper.UnitTestRunner;
 import jvm.lambda.InterfaceMethodTest;
+import stdlib.basic.cl.ClassLoaderTest;
+import stdlib.basic.cl.ClassLoaderTest2;
 
 public class UnitTests {
 
     public static void main(String[] args) {
         UnitTestRunner.run(
-            stdlib.basic.cl.ClassLoaderTest.class,
-            stdlib.basic.cl.GetClassLoaderTest.class,
+            ClassLoaderTest2.class,
+            ClassLoaderTest.class,
             jvm.ex.ClassLibExTest.class,
             jvm.ex.InstructionExTest.class,
             jvm.ex.InstructionNpeTest.class,

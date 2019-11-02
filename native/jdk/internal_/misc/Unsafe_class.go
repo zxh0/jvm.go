@@ -10,7 +10,7 @@ func init() {
 	_unsafe(allocateInstance, "allocateInstance", "(Ljava/lang/Class;)Ljava/lang/Object;")
 	_unsafe(defineClass, "defineClass", "(Ljava/lang/String;[BIILjava/lang/ClassLoader;Ljava/security/ProtectionDomain;)Ljava/lang/Class;")
 	_unsafe(shouldBeInitialized, "shouldBeInitialized", "(Ljava/lang/Class;)Z")
-	_unsafe(ensureClassInitialized, "ensureClassInitialized", "(Ljava/lang/Class;)V")
+	_unsafe(ensureClassInitialized0, "ensureClassInitialized0", "(Ljava/lang/Class;)V")
 	_unsafe(staticFieldOffset, "staticFieldOffset", "(Ljava/lang/reflect/Field;)J")
 	_unsafe(staticFieldBase, "staticFieldBase", "(Ljava/lang/reflect/Field;)Ljava/lang/Object;")
 }
@@ -58,15 +58,15 @@ func shouldBeInitialized(frame *rtda.Frame) {
 	frame.PushBoolean(ret)
 }
 
-// public native void ensureClassInitialized(Class<?> c);
+// public native void ensureClassInitialized0(Class<?> c);
 // (Ljava/lang/Class;)V
-func ensureClassInitialized(frame *rtda.Frame) {
+func ensureClassInitialized0(frame *rtda.Frame) {
 	// this := frame.GetRefVar(0)
 	classObj := frame.GetRefVar(1)
 
 	goClass := classObj.GetGoClass()
 	if goClass.InitializationNotStarted() {
-		// undo ensureClassInitialized()
+		// undo ensureClassInitialized0()
 		frame.RevertNextPC()
 		// init
 		frame.Thread.InitClass(goClass)

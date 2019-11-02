@@ -25,6 +25,7 @@ type Options struct {
 	Xss             string
 	Xjre            string
 	XUseJavaHome    bool
+	XDebugMethod    bool
 	XDebugInstr     bool
 	XCPUProfile     string
 	AbsJavaHome     string // /path/to/jre

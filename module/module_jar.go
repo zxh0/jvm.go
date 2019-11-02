@@ -22,12 +22,25 @@ func NewModularJAR(path string) *ModularJAR {
 		panic(err) // TODO
 	}
 
+	pkgs := map[string]bool{}
+	for _, path := range jar.ListFiles() {
+		if vmutils.IsClassFile(path) {
+			pkgName := vmutils.StripFileName(path)
+			pkgs[pkgName] = true
+		}
+	}
+
 	return &ModularJAR{
 		jar: jar,
 		BaseModule: BaseModule{
 			info: ParseModuleInfo(classData),
+			pkgs: pkgs,
 		},
 	}
+}
+
+func (m *ModularJAR) GetPath() string {
+	return "file:" + m.jar.AbsPath()
 }
 
 func (m *ModularJAR) ReadClass(name string) ([]byte, error) {

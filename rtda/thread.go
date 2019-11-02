@@ -100,7 +100,10 @@ func (thread *Thread) InvokeMethodWithShim(method *heap.Method, args []heap.Slot
 }
 
 func (thread *Thread) InvokeMethod(method *heap.Method) {
-	//thread._logInvoke(thread.stack.size, method)
+	if thread.VMOptions.XDebugMethod {
+		_logInvoke(thread, method)
+	}
+
 	currentFrame := thread.CurrentFrame()
 	newFrame := thread.NewFrame(method)
 	thread.PushFrame(newFrame)
@@ -124,6 +127,7 @@ func (thread *Thread) InvokeMethod(method *heap.Method) {
 		})
 	}
 }
+
 func _passArgs(from *Frame, to *Frame, argSlotsCount uint) {
 	args := from.PopTops(argSlotsCount)
 	for i := uint(0); i < argSlotsCount; i++ {
@@ -131,14 +135,15 @@ func _passArgs(from *Frame, to *Frame, argSlotsCount uint) {
 		args[i] = heap.EmptySlot
 	}
 }
-func (thread *Thread) _logInvoke(stackSize uint, method *heap.Method) {
-	space := strings.Repeat(" ", int(stackSize))
+
+func _logInvoke(thread *Thread, method *heap.Method) {
+	space := strings.Repeat(">", int(thread.stack.size))
 	className := method.Class.Name
 
 	if method.IsStatic() {
-		fmt.Printf("[method]%v thread:%p %v.%v()\n", space, thread, className, method.Name)
+		fmt.Printf("[method] thread:%p %s%s.%s()\n", thread, space, className, method.Name)
 	} else {
-		fmt.Printf("[method]%v thread:%p %v#%v()\n", space, thread, className, method.Name)
+		fmt.Printf("[method] thread:%p %s%s#%s()\n", thread, space, className, method.Name)
 	}
 }
 

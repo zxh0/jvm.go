@@ -28,6 +28,10 @@ func NewExplodedModule(path string) *ExplodedModule {
 	}
 }
 
+func (m *ExplodedModule) GetPath() string {
+	return m.dir.AbsPath()
+}
+
 func (m *ExplodedModule) ReadClass(name string) ([]byte, error) {
 	return m.dir.ReadFile(name + ".class")
 }

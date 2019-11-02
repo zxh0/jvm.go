@@ -10,7 +10,7 @@ func init() {
 }
 
 func _urlcp(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/misc/URLClassPath", name, desc, method)
+	heap.RegisterNativeMethod("jdk/internal/loader/URLClassPath", name, desc, method)
 }
 
 // private static native URL[] getLookupCacheURLs(ClassLoader var0);

@@ -13,6 +13,7 @@ import (
 	_ "github.com/zxh0/jvm.go/native/java/util/concurrent/atomic"
 	_ "github.com/zxh0/jvm.go/native/java/util/jar"
 	_ "github.com/zxh0/jvm.go/native/java/util/zip"
+	_ "github.com/zxh0/jvm.go/native/jdk/internal_/loader"
 	_ "github.com/zxh0/jvm.go/native/jdk/internal_/misc"
 	_ "github.com/zxh0/jvm.go/native/jdk/internal_/reflect"
 	_ "github.com/zxh0/jvm.go/native/jdk/internal_/util"

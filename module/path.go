@@ -12,16 +12,25 @@ func (path Path) Sort() {
 }
 
 // TODO
-func (path Path) ReadClass(className string) (string, []byte) {
+func (path Path) ReadClass(className string) (Module, []byte) {
 	for _, m := range path {
 		if data, err := m.ReadClass(className); err == nil {
-			return "todo", data
+			return m, data
 		}
 	}
 	panic("class not found:" + className)
 }
 
-func (path Path) findModule(name string) Module {
+func (path Path) GetModuleByPackageName(pkgName string) Module {
+	for _, module := range path {
+		if module.HasPackage(pkgName) {
+			return module
+		}
+	}
+	return nil
+}
+
+func (path Path) getModuleByName(name string) Module {
 	for _, module := range path {
 		if module.GetName() == name {
 			return module

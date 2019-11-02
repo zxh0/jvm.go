@@ -62,6 +62,7 @@ func parseOptions() (*vm.Options, []string) {
 	flag.BoolVar(&options.VerboseJNI, "verbose:jni", false, "Displays information about the use of native methods and other Java Native Interface (JNI) activity.")
 	flag.StringVar(&options.Xjre, "Xjre", "", "Specifies JRE path.")
 	flag.BoolVar(&options.XUseJavaHome, "XuseJavaHome", false, "Uses JAVA_HOME to find JRE path.")
+	flag.BoolVar(&options.XDebugMethod, "Xdebug:method", false, "Displays executed methods.")
 	flag.BoolVar(&options.XDebugInstr, "Xdebug:instr", false, "Displays executed instructions.")
 	flag.StringVar(&options.XCPUProfile, "Xprofile:cpu", "", "")
 	flag.Parse()

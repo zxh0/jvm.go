@@ -41,7 +41,7 @@ type Class struct {
 	JClass             *Object   // java.lang.Class instance
 	SuperClass         *Class
 	Interfaces         []*Class
-	LoadedFrom         string
+	LoadedFrom         string // TODO
 	initState          int
 	InitCond           *sync.Cond
 	initThread         uintptr

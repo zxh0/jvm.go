@@ -76,6 +76,13 @@ public class MyAssert {
         }
     }
 
+    public static void assertArrayEquals(Object[] expected, Object[] actual) {
+        assertEquals(expected.length, actual.length);
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals(expected[i], actual[i]);
+        }
+    }
+
     public static void fail() {
         throw new RuntimeException(":(");
     }

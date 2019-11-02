@@ -1,6 +1,8 @@
 package module
 
 import (
+	"strings"
+
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
@@ -14,19 +16,37 @@ func NewJModModule(path string) *JModModule {
 	if err != nil {
 		panic(err) // TODO
 	}
+	defer jmod.Close()
 
 	classData, err := jmod.ReadFile("classes/module-info.class")
 	if err != nil {
 		panic(err) // TODO
 	}
 
-	jmod.Close()
+	pkgs := map[string]bool{}
+	for _, path := range jmod.ListFiles() {
+		if vmutils.IsClassFile(path) {
+			pkgName := vmutils.StripFileName(path)
+			pkgName = strings.TrimPrefix(pkgName, "classes/")
+			pkgs[pkgName] = true
+		}
+	}
+
 	return &JModModule{
 		jmod: jmod,
 		BaseModule: BaseModule{
 			info: ParseModuleInfo(classData),
+			pkgs: pkgs,
 		},
 	}
+}
+
+func (m *JModModule) GetPath() string {
+	return "file:" + m.jmod.AbsPath()
+}
+
+func (m *JModModule) HasPackage(pkgName string) bool {
+	return m.pkgs[pkgName]
 }
 
 func (m *JModModule) ReadClass(name string) ([]byte, error) {

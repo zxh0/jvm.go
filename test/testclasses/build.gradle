@@ -12,14 +12,41 @@ repositories {
     jcenter()
 }
 
-dependencies {
-    implementation 'junit:junit:4.12'
-    implementation 'com.google.guava:guava:28.0-jre'
-    implementation 'com.google.code.gson:gson:2.3.1'
-    implementation 'org.eclipse.jetty.aggregate:jetty-all:9.2.9.v20150224'
-}
+//dependencies {
+//    implementation 'junit:junit:4.12'
+//    implementation 'com.google.guava:guava:28.0-jre'
+//    implementation 'com.google.code.gson:gson:2.3.1'
+//    implementation 'org.eclipse.jetty.aggregate:jetty-all:9.2.9.v20150224'
+//}
 
 application {
     // Define the main class for the application
     mainClassName = 'UnitTests'
+}
+
+
+// https://guides.gradle.org/building-java-9-modules/
+ext.moduleName = 'jvmgo.tests'
+
+compileJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}
+
+compileTestJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'junit',
+                '--add-reads', "$moduleName=junit",
+                '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
+        ]
+        classpath = files()
+    }
 }

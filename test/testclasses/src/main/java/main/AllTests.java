@@ -3,6 +3,8 @@ package main;
 import jvm.instructions.*;
 import stdlib.basic.StringTest;
 import stdlib.basic.WrapperTest;
+import stdlib.basic.cl.ClassLoaderTest;
+import stdlib.basic.reflection.ClassTest;
 import stdlib.basic.reflection.PrimitiveClassTest;
 
 public class AllTests {
@@ -18,6 +20,8 @@ public class AllTests {
         runTest(new StringTest());
         runTest(new WrapperTest());
         runTest(new PrimitiveClassTest());
+//        runTest(new ClassTest());
+        runTest(new ClassLoaderTest());
         System.out.println("OK!");
     }
 

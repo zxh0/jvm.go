@@ -138,9 +138,12 @@ func getPrivatePackages(jmodFile *vmutils.JModFile, modInfo *module.Info) []stri
 
 	privatePkgMap := map[string]bool{}
 	for _, f := range jmodFile.ListFiles() {
-		pkg := getPackage(f)
-		if pkg != "" && !nonPrivatePkgMap[pkg] {
-			privatePkgMap[pkg] = true
+		if vmutils.IsClassFile(f) {
+			pkg := vmutils.StripFileName(f)
+			pkg = strings.TrimPrefix(pkg, "classes/")
+			if pkg != "" && !nonPrivatePkgMap[pkg] {
+				privatePkgMap[pkg] = true
+			}
 		}
 	}
 
@@ -150,18 +153,4 @@ func getPrivatePackages(jmodFile *vmutils.JModFile, modInfo *module.Info) []stri
 	}
 	sort.Strings(privatePackages)
 	return privatePackages
-}
-
-func getPackage(pathInJModFile string) string {
-	if strings.Index(pathInJModFile, ".class") < 0 {
-		return ""
-	}
-
-	slashIdx := strings.IndexByte(pathInJModFile, '/')
-	lastSlashIdx := strings.LastIndexByte(pathInJModFile, '/')
-	if lastSlashIdx > slashIdx {
-		return pathInJModFile[slashIdx+1 : lastSlashIdx]
-	} else {
-		return ""
-	}
 }

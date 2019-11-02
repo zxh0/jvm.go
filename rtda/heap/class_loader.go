@@ -155,18 +155,18 @@ func (loader *ClassLoader) LoadClass(name string) *Class {
 }
 
 func (loader *ClassLoader) reallyLoadClass(name string) *Class {
-	cpEntry, data := loader.readClassData(name)
+	module, data := loader.readClassData(name)
 	class := loader.loadClass(name, data)
-	class.LoadedFrom = cpEntry
+	class.LoadedFrom = module.GetPath()
 
 	if loader.verbose {
-		fmt.Printf("[Loaded %s from %s]\n", name, cpEntry)
+		fmt.Printf("[Loaded %s from %s]\n", name, module.GetPath())
 	}
 
 	return class
 }
 
-func (loader *ClassLoader) readClassData(name string) (string, []byte) {
+func (loader *ClassLoader) readClassData(name string) (module.Module, []byte) {
 	from, classData := loader.modulePath.ReadClass(name)
 	if classData == nil {
 		panic(vm.NewClassNotFoundError(vmutils.SlashToDot(name)))

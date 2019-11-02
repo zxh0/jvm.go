@@ -12,6 +12,9 @@ func NewAutomaticModule(path string) *AutomaticModule {
 	}
 }
 
+func (m *AutomaticModule) GetPath() string {
+	panic("TODO")
+}
 func (m *AutomaticModule) ReadClass(name string) ([]byte, error) {
 	panic("TODO")
 }

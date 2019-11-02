@@ -112,3 +112,13 @@ func (rt *Runtime) NewPrimitiveArray(atype uint8, count uint) *Object {
 		panic(fmt.Errorf("invalid atype: %v", atype))
 	}
 }
+
+/* others */
+
+func (rt *Runtime) GetSystemPackageLocation(pkg string) string {
+	module := rt.bootLoader.modulePath.GetModuleByPackageName(pkg)
+	if module == nil {
+		panic("module not found! pkg=" + pkg)
+	}
+	panic("TODO: " + pkg + ":" + module.GetPath())
+}

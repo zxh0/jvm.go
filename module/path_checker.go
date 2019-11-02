@@ -2,7 +2,7 @@ package module
 
 // TODO: check dependency loop
 func CheckDeps(path Path, rootModuleName string) Path {
-	rootModule := path.findModule(rootModuleName)
+	rootModule := path.getModuleByName(rootModuleName)
 	if rootModule == nil {
 		panic("unknown module: " + rootModule.GetName() + "@" + rootModule.GetVersion())
 	}
@@ -17,7 +17,7 @@ func CheckDeps(path Path, rootModuleName string) Path {
 		if checked[m.GetName()] == nil {
 			for _, require := range m.GetInfo().Requires {
 				if checked[require.Name] == nil {
-					if found := path.findModule(require.Name); found != nil {
+					if found := path.getModuleByName(require.Name); found != nil {
 						checkList = append(checkList, found)
 					} else {
 						panic("unknown module: " + require.Name + "@" + require.Version)

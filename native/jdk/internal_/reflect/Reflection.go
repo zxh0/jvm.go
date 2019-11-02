@@ -11,7 +11,7 @@ func init() {
 }
 
 func _reflection(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/reflect/Reflection", name, desc, method)
+	heap.RegisterNativeMethod("jdk/internal/reflect/Reflection", name, desc, method)
 }
 
 // public static native Class<?> getCallerClass(int i);

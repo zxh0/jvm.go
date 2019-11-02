@@ -11,7 +11,7 @@ func init() {
 }
 
 func _nmai(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/reflect/NativeMethodAccessorImpl", name, desc, method)
+	heap.RegisterNativeMethod("jdk/internal/reflect/NativeMethodAccessorImpl", name, desc, method)
 }
 
 // private static native Object invoke0(Method method, Object o, Object[] os);

@@ -1,8 +1,9 @@
 package main;
 
 import jvm.instructions.*;
-import stdlib.basic.string.MUTF8Test;
-import stdlib.basic.string.StringTest;
+import stdlib.basic.StringTest;
+import stdlib.basic.WrapperTest;
+import stdlib.basic.reflection.PrimitiveClassTest;
 
 public class AllTests {
 
@@ -15,7 +16,8 @@ public class AllTests {
         runTest(new RefArrayTest());
         runTest(new RefAThrowTest());
         runTest(new StringTest());
-        runTest(new MUTF8Test());
+        runTest(new WrapperTest());
+        runTest(new PrimitiveClassTest());
         System.out.println("OK!");
     }
 

@@ -11,7 +11,7 @@ func init() {
 }
 
 func _cp(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/reflect/ConstantPool", name, desc, method)
+	heap.RegisterNativeMethod("jdk/internal/reflect/ConstantPool", name, desc, method)
 }
 
 // private native long getLongAt0(Object o, int i);

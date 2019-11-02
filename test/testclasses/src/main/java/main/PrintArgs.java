@@ -1,4 +1,4 @@
-package jvm;
+package main;
 
 public class PrintArgs {
     

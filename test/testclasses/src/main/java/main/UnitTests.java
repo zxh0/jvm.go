@@ -24,7 +24,6 @@ public class UnitTests {
             stdlib.basic.reflection.MethodTest.class,
             stdlib.basic.reflection.PrimitiveClassTest.class,
             stdlib.basic.string.StringTest.class,
-            stdlib.basic.string.Mutf8Test.class,
 //            stdlib.basic.sunmisc.UnsafeMemoryTest.class,
 //            stdlib.basic.sunmisc.UnsafeObjectTest.class,
             stdlib.basic.thread.DaemonTest.class,

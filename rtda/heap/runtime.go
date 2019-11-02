@@ -45,30 +45,31 @@ func (rt *Runtime) JSFromGoStr(goStr string) *Object {
 		return internedStr
 	}
 
-	jStr := rt.jsFromGoStr(goStr)
+	jStr := rt.goStrToJS(goStr)
 	jStr = rt.JSIntern(goStr, jStr) // TODO
 	return jStr
 }
 
-func (rt *Runtime) jsFromGoStr(goStr string) *Object {
-	var jBytes []int8
-	var coder int32
-
-	bytes := []byte(goStr)
-	if len(bytes) == utf8.RuneCount(bytes) { // latin
-		jBytes = vmutils.CastBytesToInt8s(bytes)
-		coder = 0
-	} else {
-		uint16s := vmutils.UTF8ToUTF16(goStr)
-		jBytes = vmutils.CastUint16sToInt8s(uint16s)
-		coder = 1
-	}
-
-	jByteArr := rt.NewByteArray(jBytes)
+func (rt *Runtime) goStrToJS(goStr string) *Object {
+	value, coder := goStrToJSFields(goStr)
+	jByteArr := rt.NewByteArray(value)
 	jStr := rt.bootLoader.JLStringClass().NewObj()
 	jStr.SetFieldValue("value", "[B", NewRefSlot(jByteArr))
 	jStr.SetFieldValue("coder", "B", NewIntSlot(coder))
 	return jStr
+}
+
+func goStrToJSFields(goStr string) (value []int8, coder int32) {
+	bytes := []byte(goStr)
+	if len(bytes) == utf8.RuneCount(bytes) { // latin1
+		value = vmutils.CastBytesToInt8s(bytes)
+		coder = 0
+	} else {
+		uint16s := vmutils.UTF8ToUTF16(goStr)
+		value = vmutils.CastUint16sToInt8s(uint16s)
+		coder = 1
+	}
+	return
 }
 
 /* array factory */

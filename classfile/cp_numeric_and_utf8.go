@@ -2,8 +2,6 @@ package classfile
 
 import (
 	"math"
-
-	"github.com/zxh0/jvm.go/vmutils"
 )
 
 /*
@@ -55,8 +53,7 @@ CONSTANT_Utf8_info {
     u1 bytes[length];
 }
 */
-func readConstantUtf8Info(reader *ClassReader) string {
+func readConstantUtf8Info(reader *ClassReader) []byte {
 	length := int(reader.ReadUint16())
-	bytes := reader.ReadBytes(length)
-	return vmutils.DecodeMUTF8(bytes)
+	return reader.ReadBytes(length)
 }

@@ -76,12 +76,6 @@ public class MyAssert {
         }
     }
 
-    public static void assertEquals(String msg, Object expected, Object actual) {
-        if (!expected.equals(actual)) {
-            throw new AssertionError(actual + " != " + expected);
-        }
-    }
-
     public static void fail() {
         throw new RuntimeException(":(");
     }

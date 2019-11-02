@@ -2,6 +2,8 @@ package classfile
 
 import (
 	"fmt"
+
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 /*
@@ -82,16 +84,12 @@ func (cf *ClassFile) GetSuperClassName() string {
 	return cf.GetClassName(cf.SuperClass)
 }
 func (cf *ClassFile) GetInterfaceNames() []string {
-	interfaceNames := make([]string, len(cf.Interfaces))
-	for i, cpIndex := range cf.Interfaces {
-		interfaceNames[i] = cf.GetClassName(cpIndex)
-	}
-	return interfaceNames
+	return cf.GetClassNames(cf.Interfaces)
 }
 
 func (cf *ClassFile) GetNameAndType(cpIndex uint16) (name, _type string) {
 	if cpIndex > 0 {
-		ntInfo := cf.GetConstantInfo(cpIndex).(ConstantNameAndTypeInfo)
+		ntInfo := cf.getConstantInfo(cpIndex).(ConstantNameAndTypeInfo)
 		name = cf.GetUTF8(ntInfo.NameIndex)
 		_type = cf.GetUTF8(ntInfo.DescriptorIndex)
 	}
@@ -102,18 +100,55 @@ func (cf *ClassFile) GetClassName(cpIndex uint16) string {
 	if cpIndex == 0 {
 		return ""
 	}
-	classInfo := cf.GetConstantInfo(cpIndex).(ConstantClassInfo)
+	classInfo := cf.getConstantInfo(cpIndex).(ConstantClassInfo)
 	return cf.GetUTF8(classInfo.NameIndex)
 }
+func (cf *ClassFile) GetPackageName(cpIndex uint16) string {
+	if cpIndex == 0 {
+		return ""
+	}
+	pkgInfo := cf.getConstantInfo(cpIndex).(ConstantPackageInfo)
+	return cf.GetUTF8(pkgInfo.NameIndex)
+}
+func (cf *ClassFile) GetModuleName(cpIndex uint16) string {
+	if cpIndex == 0 {
+		return ""
+	}
+	modInfo := cf.getConstantInfo(cpIndex).(ConstantModuleInfo)
+	return cf.GetUTF8(modInfo.NameIndex)
+}
 
+func (cf *ClassFile) GetClassNames(cpIndexes []uint16) []string {
+	ss := make([]string, len(cpIndexes))
+	for i, cpIndex := range cpIndexes {
+		ss[i] = cf.GetClassName(cpIndex)
+	}
+	return ss
+}
+func (cf *ClassFile) GetModuleNames(cpIndexes []uint16) []string {
+	ss := make([]string, len(cpIndexes))
+	for i, cpIndex := range cpIndexes {
+		ss[i] = cf.GetModuleName(cpIndex)
+	}
+	return ss
+}
+
+func (cf *ClassFile) GetRawUTF8(cpIndex uint16) string {
+	if cpIndex == 0 {
+		return ""
+	}
+	rawBytes := cf.getConstantInfo(cpIndex).([]byte)
+	return string(rawBytes)
+}
 func (cf *ClassFile) GetUTF8(cpIndex uint16) string {
 	if cpIndex == 0 {
 		return ""
 	}
-	return cf.GetConstantInfo(cpIndex).(string)
+	bytes := cf.getConstantInfo(cpIndex).([]byte)
+	return vmutils.DecodeMUTF8(bytes)
 }
 
-func (cf *ClassFile) GetConstantInfo(cpIndex uint16) ConstantInfo {
+func (cf *ClassFile) getConstantInfo(cpIndex uint16) ConstantInfo {
 	if cpInfo := cf.ConstantPool[cpIndex]; cpInfo == nil {
 		panic(fmt.Errorf("invalid constant pool index: %d", cpIndex))
 	} else {

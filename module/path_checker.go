@@ -1,9 +1,10 @@
 package module
 
-func CheckDeps(path Path, rootModuleName string) []Module {
+// TODO: check dependency loop
+func CheckDeps(path Path, rootModuleName string) Path {
 	rootModule := path.findModule(rootModuleName)
 	if rootModule == nil {
-		panic("unknown module: " + rootModule.GetInfo().Name + "@" + rootModule.GetInfo().Version)
+		panic("unknown module: " + rootModule.GetName() + "@" + rootModule.GetVersion())
 	}
 
 	checkList := []Module{rootModule}
@@ -13,7 +14,7 @@ func CheckDeps(path Path, rootModuleName string) []Module {
 		m := checkList[0]
 		checkList = checkList[1:]
 
-		if checked[m.GetInfo().Name] == nil {
+		if checked[m.GetName()] == nil {
 			for _, require := range m.GetInfo().Requires {
 				if checked[require.Name] == nil {
 					if found := path.findModule(require.Name); found != nil {
@@ -23,7 +24,7 @@ func CheckDeps(path Path, rootModuleName string) []Module {
 					}
 				}
 			}
-			checked[m.GetInfo().Name] = m
+			checked[m.GetName()] = m
 		}
 	}
 
@@ -32,6 +33,7 @@ func CheckDeps(path Path, rootModuleName string) []Module {
 		checkedList = append(checkedList, m)
 	}
 
-	Path(checkedList).Sort()
-	return checkedList
+	checkedPath := Path(checkedList)
+	checkedPath.Sort()
+	return checkedPath
 }

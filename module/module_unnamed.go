@@ -1,10 +1,6 @@
 package module
 
 type UnnamedModule struct {
+	BaseModule
 	// TODO
-	info *Info
-}
-
-func (module UnnamedModule) GetInfo() *Info {
-	return module.info
 }

@@ -50,13 +50,13 @@ func ParseModuleInfo(classData []byte) *Info {
 	}
 
 	return &Info{
-		Name:     getModuleName(cf, modAttr.ModuleNameIndex),
+		Name:     cf.GetModuleName(modAttr.ModuleNameIndex),
 		Flags:    modAttr.ModuleFlags,
-		Version:  cf.GetUTF8(modAttr.ModuleVersionIndex),
+		Version:  cf.GetRawUTF8(modAttr.ModuleVersionIndex),
 		Requires: getRequires(cf, modAttr),
 		Exports:  getExports(cf, modAttr),
 		Opens:    getOpens(cf, modAttr),
-		Uses:     getClassNames(cf, modAttr.UsesIndexTable),
+		Uses:     cf.GetClassNames(modAttr.UsesIndexTable),
 		Provides: getProvides(cf, modAttr),
 	}
 }
@@ -67,9 +67,9 @@ func getRequires(cf *classfile.ClassFile,
 	requires := make([]Require, len(modAttr.RequiresTable))
 	for i, cfRequire := range modAttr.RequiresTable {
 		requires[i] = Require{
-			Name:    getModuleName(cf, cfRequire.RequiresIndex),
+			Name:    cf.GetModuleName(cfRequire.RequiresIndex),
 			Flags:   cfRequire.RequiresFlags,
-			Version: cf.GetUTF8(cfRequire.RequiresVersionIndex),
+			Version: cf.GetRawUTF8(cfRequire.RequiresVersionIndex),
 		}
 	}
 
@@ -82,9 +82,9 @@ func getExports(cf *classfile.ClassFile,
 	exports := make([]Export, len(modAttr.ExportsTable))
 	for i, cfExport := range modAttr.ExportsTable {
 		exports[i] = Export{
-			Package: getPackageName(cf, cfExport.ExportsIndex),
+			Package: cf.GetPackageName(cfExport.ExportsIndex),
 			Flags:   cfExport.ExportsFlags,
-			To:      getModuleNames(cf, cfExport.ExportsToIndexTable),
+			To:      cf.GetModuleNames(cfExport.ExportsToIndexTable),
 		}
 	}
 
@@ -97,9 +97,9 @@ func getOpens(cf *classfile.ClassFile,
 	opens := make([]Open, len(modAttr.OpensTable))
 	for i, cfOpen := range modAttr.OpensTable {
 		opens[i] = Open{
-			Package: getPackageName(cf, cfOpen.OpensIndex),
+			Package: cf.GetPackageName(cfOpen.OpensIndex),
 			Flags:   cfOpen.OpensFlags,
-			To:      getModuleNames(cf, cfOpen.OpensToIndexTable),
+			To:      cf.GetModuleNames(cfOpen.OpensToIndexTable),
 		}
 	}
 
@@ -112,41 +112,10 @@ func getProvides(cf *classfile.ClassFile,
 	provides := make([]Provide, len(modAttr.ProvidesTable))
 	for i, cfProvide := range modAttr.ProvidesTable {
 		provides[i] = Provide{
-			Service: getClassName(cf, cfProvide.ProvidesIndex),
-			Impls:   getClassNames(cf, cfProvide.ProvidesWithIndexTable),
+			Service: cf.GetClassName(cfProvide.ProvidesIndex),
+			Impls:   cf.GetClassNames(cfProvide.ProvidesWithIndexTable),
 		}
 	}
 
 	return provides
-}
-
-func getModuleNames(cf *classfile.ClassFile, cpIdxes []uint16) []string {
-	ss := make([]string, len(cpIdxes))
-	for i, cpIdx := range cpIdxes {
-		ss[i] = getModuleName(cf, cpIdx)
-	}
-	return ss
-}
-
-func getClassNames(cf *classfile.ClassFile, cpIdxes []uint16) []string {
-	ss := make([]string, len(cpIdxes))
-	for i, cpIdx := range cpIdxes {
-		ss[i] = getClassName(cf, cpIdx)
-	}
-	return ss
-}
-
-func getModuleName(cf *classfile.ClassFile, cpIdx uint16) string {
-	modInfo := cf.GetConstantInfo(cpIdx).(classfile.ConstantModuleInfo)
-	return cf.GetUTF8(modInfo.NameIndex)
-}
-
-func getPackageName(cf *classfile.ClassFile, cpIdx uint16) string {
-	pkgInfo := cf.GetConstantInfo(cpIdx).(classfile.ConstantPackageInfo)
-	return cf.GetUTF8(pkgInfo.NameIndex)
-}
-
-func getClassName(cf *classfile.ClassFile, cpIdx uint16) string {
-	clsInfo := cf.GetConstantInfo(cpIdx).(classfile.ConstantClassInfo)
-	return cf.GetUTF8(clsInfo.NameIndex)
 }

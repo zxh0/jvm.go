@@ -63,7 +63,7 @@ func (ref *ConstantMethodRef) resolveSpecialMethod() {
 }
 
 func (ref *ConstantMethodRef) findMethod(isStatic bool) *Method {
-	class := ref.class.bootLoader.LoadClass(ref.className)
+	class := ref.getBootLoader().LoadClass(ref.className)
 	return class.getMethod(ref.name, ref.descriptor, isStatic)
 }
 
@@ -90,5 +90,12 @@ func (ref *ConstantMethodRef) GetVirtualMethod(obj *Object) *Method {
 	if ref.vslot < 0 {
 		ref.vslot = getVslot(obj.Class, ref.name, ref.descriptor)
 	}
-	return obj.Class.vtable[ref.vslot]
+	if ref.vslot >= 0 {
+		return obj.Class.vtable[ref.vslot]
+	}
+
+	// TODO: invoking private method ?
+	//println("GetVirtualMethod:", ref.className, ref.name, ref.descriptor)
+	class := ref.getBootLoader().LoadClass(ref.className)
+	return class.getDeclaredMethod(ref.name, ref.descriptor, false)
 }

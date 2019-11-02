@@ -6,8 +6,8 @@ import (
 
 // JAR with module-info.class
 type ModularJAR struct {
-	jar  *vmutils.ZipFile
-	info *Info
+	BaseModule
+	jar *vmutils.ZipFile
 }
 
 func NewModularJAR(path string) *ModularJAR {
@@ -23,11 +23,18 @@ func NewModularJAR(path string) *ModularJAR {
 	}
 
 	return &ModularJAR{
-		jar:  jar,
-		info: ParseModuleInfo(classData),
+		jar: jar,
+		BaseModule: BaseModule{
+			info: ParseModuleInfo(classData),
+		},
 	}
 }
 
-func (module *ModularJAR) GetInfo() *Info {
-	return module.info
+func (m *ModularJAR) ReadClass(name string) ([]byte, error) {
+	if !m.jar.IsOpen() {
+		if err := m.jar.Open(); err != nil {
+			return nil, err
+		}
+	}
+	return m.jar.ReadFile(name + ".class")
 }

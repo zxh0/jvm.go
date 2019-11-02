@@ -23,3 +23,7 @@ func newConstantMemberRef(class *Class, cf *classfile.ClassFile,
 		descriptor: descriptor,
 	}
 }
+
+func (ref *ConstantMemberRef) getBootLoader() *ClassLoader {
+	return ref.class.bootLoader
+}

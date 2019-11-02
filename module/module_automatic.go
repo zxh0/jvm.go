@@ -2,7 +2,7 @@ package module
 
 // JAR without module-info.class
 type AutomaticModule struct {
-	info *Info
+	BaseModule
 	// TODO
 }
 
@@ -12,6 +12,6 @@ func NewAutomaticModule(path string) *AutomaticModule {
 	}
 }
 
-func (module *AutomaticModule) GetInfo() *Info {
-	return module.info
+func (m *AutomaticModule) ReadClass(name string) ([]byte, error) {
+	panic("TODO")
 }

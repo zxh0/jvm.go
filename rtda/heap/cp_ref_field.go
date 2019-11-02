@@ -36,7 +36,7 @@ func (ref *ConstantFieldRef) GetField(static bool) *Field {
 }
 
 func (ref *ConstantFieldRef) resolveInstanceField() {
-	fromClass := ref.class.bootLoader.LoadClass(ref.className)
+	fromClass := ref.getBootLoader().LoadClass(ref.className)
 
 	for class := fromClass; class != nil; class = class.SuperClass {
 		field := class.getField(ref.name, ref.descriptor, false)
@@ -51,7 +51,7 @@ func (ref *ConstantFieldRef) resolveInstanceField() {
 }
 
 func (ref *ConstantFieldRef) resolveStaticField() {
-	fromClass := ref.class.bootLoader.LoadClass(ref.className)
+	fromClass := ref.getBootLoader().LoadClass(ref.className)
 
 	for class := fromClass; class != nil; class = class.SuperClass {
 		field := class.getField(ref.name, ref.descriptor, true)

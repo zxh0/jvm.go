@@ -2,6 +2,7 @@ package heap
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/module"
@@ -157,7 +158,14 @@ func (loader *ClassLoader) LoadClass(name string) *Class {
 func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 	module, data := loader.readClassData(name)
 	class := loader.loadClass(name, data)
-	class.LoadedFrom = module.GetPath()
+	class.LoadedFrom = module
+
+	if !strings.HasPrefix(module.GetName(), "java.") {
+		// user defined class
+		classLoadersClass := loader.getClass("jdk/internal/loader/ClassLoaders")
+		appLoader := classLoadersClass.GetStaticValue("APP_LOADER", "*")
+		class.JClass.SetFieldValue("classLoader", "*", appLoader)
+	}
 
 	if loader.verbose {
 		fmt.Printf("[Loaded %s from %s]\n", name, module.GetPath())
@@ -171,17 +179,14 @@ func (loader *ClassLoader) readClassData(name string) (module.Module, []byte) {
 	if classData == nil {
 		panic(vm.NewClassNotFoundError(vmutils.SlashToDot(name)))
 	}
-
 	return from, classData
 }
 
 func (loader *ClassLoader) parseClassData(name string, data []byte) *Class {
 	cf, err := classfile.Parse(data)
-	if err != nil {
-		// todo
+	if err != nil { // TODO
 		panic("failed to parse class file: " + name + "! " + err.Error())
 	}
-
 	return newClass(cf)
 }
 
@@ -194,7 +199,7 @@ func (loader *ClassLoader) loadClass(name string, data []byte) *Class {
 	calcInstanceFieldSlotIds(class)
 	createVtable(class)
 	prepare(class)
-	// todo
+
 	class.bootLoader = loader
 	loader.classMap[name] = class
 

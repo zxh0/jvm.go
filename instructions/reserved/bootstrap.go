@@ -26,6 +26,7 @@ func (instr *Bootstrap) Execute(frame *rtda.Frame) {
 	if instr.bootClassesNotReady(thread) ||
 		instr.mainThreadNotReady(thread) ||
 		instr.jlSystemNotReady(thread) ||
+		instr.classLoadersNodReady(thread) ||
 		instr.mainClassNotReady(thread) {
 
 		return
@@ -44,6 +45,7 @@ func (instr *Bootstrap) init(frame *rtda.Frame) {
 		"java/lang/System",
 		"java/lang/Thread",
 		"java/lang/ThreadGroup",
+		"java/lang/ClassLoader",
 		"java/io/PrintStream",
 	}
 }
@@ -56,16 +58,6 @@ func (instr *Bootstrap) bootClassesNotReady(thread *rtda.Thread) bool {
 			thread.InitClass(class)
 			return true
 		}
-	}
-	return false
-}
-
-func (instr *Bootstrap) mainClassNotReady(thread *rtda.Thread) bool {
-	mainClass := instr.bootLoader.LoadClass(instr.mainClassName)
-	if mainClass.InitializationNotStarted() {
-		undoExec(thread)
-		thread.InitClass(mainClass)
-		return true
 	}
 	return false
 }
@@ -100,12 +92,32 @@ func (instr *Bootstrap) mainThreadNotReady(thread *rtda.Thread) bool {
 
 func (instr *Bootstrap) jlSystemNotReady(thread *rtda.Thread) bool {
 	sysClass := instr.bootLoader.LoadClass("java/lang/System")
-	propsField := sysClass.GetStaticField("props", "Ljava/util/Properties;")
-	props := propsField.GetStaticValue().Ref
+	props := sysClass.GetStaticValue("props", "Ljava/util/Properties;").Ref
 	if props == nil {
 		undoExec(thread)
 		initSys := sysClass.GetStaticMethod("initPhase1", "()V")
 		thread.InvokeMethod(initSys)
+		return true
+	}
+	return false
+}
+
+func (instr *Bootstrap) classLoadersNodReady(thread *rtda.Thread) bool {
+	classLoadersClass := instr.bootLoader.LoadClass("jdk/internal/loader/ClassLoaders")
+	appLoader := classLoadersClass.GetStaticValue("APP_LOADER", "*").Ref
+	if appLoader == nil {
+		undoExec(thread)
+		thread.InitClass(classLoadersClass)
+		return true
+	}
+	return false
+}
+
+func (instr *Bootstrap) mainClassNotReady(thread *rtda.Thread) bool {
+	mainClass := instr.bootLoader.LoadClass(instr.mainClassName)
+	if mainClass.InitializationNotStarted() {
+		undoExec(thread)
+		thread.InitClass(mainClass)
 		return true
 	}
 	return false

@@ -72,7 +72,6 @@ func getRequires(cf *classfile.ClassFile,
 			Version: cf.GetRawUTF8(cfRequire.RequiresVersionIndex),
 		}
 	}
-
 	return requires
 }
 
@@ -87,7 +86,6 @@ func getExports(cf *classfile.ClassFile,
 			To:      cf.GetModuleNames(cfExport.ExportsToIndexTable),
 		}
 	}
-
 	return exports
 }
 
@@ -102,7 +100,6 @@ func getOpens(cf *classfile.ClassFile,
 			To:      cf.GetModuleNames(cfOpen.OpensToIndexTable),
 		}
 	}
-
 	return opens
 }
 
@@ -116,6 +113,5 @@ func getProvides(cf *classfile.ClassFile,
 			Impls:   cf.GetClassNames(cfProvide.ProvidesWithIndexTable),
 		}
 	}
-
 	return provides
 }

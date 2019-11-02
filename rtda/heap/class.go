@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/module"
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
@@ -34,18 +35,18 @@ type Class struct {
 	EnclosingMethod    *EnclosingMethod
 	Fields             []*Field
 	Methods            []*Method
+	SuperClass         *Class
+	Interfaces         []*Class
 	instanceFieldCount uint
 	staticFieldCount   uint
 	StaticFieldSlots   []Slot
 	vtable             []*Method // virtual method table
 	JClass             *Object   // java.lang.Class instance
-	SuperClass         *Class
-	Interfaces         []*Class
-	LoadedFrom         string // TODO
+	LoadedFrom         module.Module
+	bootLoader         *ClassLoader // TODO
 	initState          int
 	InitCond           *sync.Cond
 	initThread         uintptr
-	bootLoader         *ClassLoader // TODO
 }
 
 func (class *Class) String() string {

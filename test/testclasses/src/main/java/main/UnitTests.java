@@ -9,8 +9,6 @@ public class UnitTests {
 
     public static void main(String[] args) {
         UnitTestRunner.run(
-            ClassLoaderTest2.class,
-            ClassLoaderTest.class,
             jvm.ex.ClassLibExTest.class,
             jvm.ex.InstructionExTest.class,
             jvm.ex.InstructionNpeTest.class,

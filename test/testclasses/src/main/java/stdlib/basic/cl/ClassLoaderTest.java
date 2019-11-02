@@ -3,13 +3,19 @@ package stdlib.basic.cl;
 import static helper.MyAssert.*;
 
 public class ClassLoaderTest implements Runnable {
-    
+
     public static void main(String[] args) {
        new ClassLoaderTest().run();
     }
 
     @Override
     public void run() {
+        testBootLoader();
+        testPlatformLoader();
+        testAppLoader();
+    }
+
+    private static void testBootLoader() {
         // primitive types
         assertNull(int.class.getClassLoader());
         // array types
@@ -17,16 +23,20 @@ public class ClassLoaderTest implements Runnable {
         assertNull(new int[0].getClass().getClassLoader());
         assertNull(new Object[0].getClass().getClassLoader());
         assertNull(int[][].class.getClassLoader());
-        // bootstrap loader
+        // basic types
         assertNull(Object.class.getClassLoader());
         assertNull("".getClass().getClassLoader());
-        // system loader
+    }
+
+    private static void testPlatformLoader() {
+         ClassLoader pl = ClassLoader.getPlatformClassLoader();
+    }
+
+    private static void testAppLoader() {
         ClassLoader sysCl = ClassLoader.getSystemClassLoader();
-        System.out.println(sysCl.toString());
-        System.out.println(ClassLoaderTest.class.getClassLoader());
-//        assertSame(sysCl, ClassLoaderTest.class.getClassLoader());
-        // platform loader
-        // ClassLoader.getPlatformClassLoader();
+        assertSame(sysCl, ClassLoaderTest.class.getClassLoader());
+        assertTrue(sysCl.toString().startsWith(
+                "jdk.internal.loader.ClassLoaders$AppClassLoader@"));
     }
 
 }

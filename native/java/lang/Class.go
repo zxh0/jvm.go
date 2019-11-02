@@ -3,13 +3,11 @@ package lang
 import (
 	"strings"
 
-	cp "github.com/zxh0/jvm.go/classpath"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
-	_class(getClassLoader0, "getClassLoader0", "()Ljava/lang/ClassLoader;")
 	_class(getComponentType, "getComponentType", "()Ljava/lang/Class;")
 	_class(getConstantPool, "getConstantPool", "()Lsun/reflect/ConstantPool;")
 	_class(getDeclaringClass0, "getDeclaringClass0", "()Ljava/lang/Class;")
@@ -28,22 +26,6 @@ func init() {
 
 func _class(method func(frame *rtda.Frame), name, desc string) {
 	heap.RegisterNativeMethod("java/lang/Class", name, desc, method)
-}
-
-// native ClassLoader getClassLoader0();
-// ()Ljava/lang/ClassLoader;
-func getClassLoader0(frame *rtda.Frame) {
-	class := frame.GetThis().GetGoClass()
-	from := class.LoadedFrom
-
-	if cp.IsBootClassPath(from, frame.Thread.VMOptions.AbsJreLib) {
-		frame.PushRef(nil)
-		return
-	}
-
-	clClass := frame.GetBootLoader().LoadClass("java/lang/ClassLoader")
-	getSysCl := clClass.GetStaticMethod("getSystemClassLoader", "()Ljava/lang/ClassLoader;")
-	frame.Thread.InvokeMethod(getSysCl)
 }
 
 // public native Class<?> getComponentType();

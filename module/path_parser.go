@@ -10,6 +10,23 @@ import (
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
+/*
+  module_path       : path_element (path_separator path_element)* ;
+  path_element      : module_definition
+                    | dir # module_definition*
+                    ;
+  module_definition : module_artifact
+                    | exploded-module
+                    ;
+  module_artifact   : jmod_file
+                    | modular_jar      # jar with module-info.class
+                    | automatic_module # jar without module-info.class
+                    ;
+  path_separator    : ':' # Unix
+                    | ';' # Windows
+                    ;
+*/
+
 // http://openjdk.java.net/jeps/261#Module-paths
 func ParseModulePath(options *vm.Options) Path {
 	sysPath := parsePath(filepath.Join(options.AbsJavaHome, "jmods")) // system module path
@@ -17,8 +34,8 @@ func ParseModulePath(options *vm.Options) Path {
 		return sysPath
 	}
 
-	userPath := parsePath(options.ModulePath)
-	return append(sysPath, userPath...)
+	appPath := parsePath(options.ModulePath)
+	return append(sysPath, appPath...)
 }
 
 func parsePath(path string) []Module {

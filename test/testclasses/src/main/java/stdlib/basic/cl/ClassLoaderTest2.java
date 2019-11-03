@@ -4,63 +4,20 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import helper.UnitTestRunner;
+
 import static helper.MyAssert.*;
 
-public class ClassLoaderTest2 {
+public class ClassLoaderTest2 implements Runnable {
     
-    public static void main(String[] args) throws Exception {
-        UnitTestRunner.run(ClassLoaderTest2.class);
+    public static void main(String[] args) {
+        new ClassLoaderTest2().run();
     }
-    
-//    @Test
-    public void sysClassLoader() {
-        ClassLoader sysCl = ClassLoader.getSystemClassLoader();
-        assertEquals("sun.misc.Launcher$AppClassLoader", sysCl.getClass().getName());
-        
-        ClassLoader extCl = sysCl.getParent();
-        assertEquals("sun.misc.Launcher$ExtClassLoader", extCl.getClass().getName());
-        
-        ClassLoader bootCl = extCl.getParent();
-        assertNull(bootCl);
+
+    @Override
+    public void run() {
+        // TODO
     }
-    
-//    @Test
-    public void sysClassLoader2() {
-        ClassLoader sysCl = ClassLoader.getSystemClassLoader();
-        URLClassLoader urlCl = (URLClassLoader) sysCl;
-        assertTrue(urlCl.getURLs().length > 0);
-    }
-    
-    //@Test
-    public void getClassLoader() {
-        ClassLoader bootCl = Object.class.getClassLoader();
-        assertNull(bootCl);
-        
-        ClassLoader appCl = ClassLoaderTest2.class.getClassLoader();
-        ClassLoader sysCl = ClassLoader.getSystemClassLoader();
-        assertSame(sysCl, appCl);
-    }
-    
-//    @Test
-    public void loadClass() throws Exception {
-        ClassLoader sysCl = ClassLoader.getSystemClassLoader();
-        assertSame(Object.class, sysCl.loadClass("java.lang.Object"));
-        assertSame(ClassLoaderTest2.class, sysCl.loadClass("stdlib.basic.cl.ClassLoaderTest2"));
-    }
-    
-    //@Test
-    public void classNotFound() throws Exception {
-        try {
-            ClassLoader sysCl = ClassLoader.getSystemClassLoader();
-            sysCl.loadClass("foo.bar.XXX");
-            fail();
-        } catch (ClassNotFoundException e) {
-            assertEquals("foo.bar.XXX", e.getMessage());
-        }
-    }
-    
-    //@Test
+
     public void getResource() {
         ClassLoader appCl = ClassLoaderTest2.class.getClassLoader();
         //URL url = appCl.getResource("org/eclipse/jetty/http/mime.properties");
@@ -71,8 +28,7 @@ public class ClassLoaderTest2 {
         InputStream is = appCl.getResourceAsStream("LICENSE.txt");
         assertNotNull(is);
     }
-    
-    //@Test
+
     public void findLoadedClass() throws Exception {
         Method m = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
         m.setAccessible(true);
@@ -87,5 +43,5 @@ public class ClassLoaderTest2 {
         assertEquals(null, m.invoke(urlCl, "java.lang.Object"));
         assertEquals(null, m.invoke(urlCl, "jvm.java7.cl.ClassLoaderTest"));
     }
-    
+
 }

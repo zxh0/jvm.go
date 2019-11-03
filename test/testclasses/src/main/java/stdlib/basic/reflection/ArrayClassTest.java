@@ -1,17 +1,22 @@
 package stdlib.basic.reflection;
 
 import java.io.Serializable;
-import helper.UnitTestRunner;
+
 import static helper.MyAssert.*;
 
-public class ArrayClassTest {
+public class ArrayClassTest implements Runnable {
     
     public static void main(String[] args) {
-        UnitTestRunner.run(ArrayClassTest.class);
+        new ArrayClassTest().run();
     }
-    
-//    @Test
-    public void test() {
+
+    @Override
+    public void run() {
+        testArrayClasses();
+        testGetComponentType();
+    }
+
+    private static void testArrayClasses() {
         testArrayClass(boolean[].class, "[Z");
         testArrayClass(byte[].class,    "[B");
         testArrayClass(char[].class,    "[C");
@@ -24,15 +29,20 @@ public class ArrayClassTest {
         testArrayClass(Object[].class,  "[Ljava.lang.Object;");
         testArrayClass(Object[][].class,"[[Ljava.lang.Object;");
     }
-    
-    private void testArrayClass(Class<?> c, String name) {
+
+    private static void testArrayClass(Class<?> c, String name) {
         assertEquals(name, c.getName());
         assertEquals(Object.class, c.getSuperclass());
-//        assertArrayEquals(new Class<?>[]{Cloneable.class, Serializable.class}, c.getInterfaces());
+        assertArrayEquals(new Class<?>[]{Cloneable.class, Serializable.class}, c.getInterfaces());
         assertEquals(0, c.getFields().length);
         assertEquals(0, c.getDeclaredFields().length);
         assertEquals(9, c.getMethods().length);
         assertEquals(0, c.getDeclaredMethods().length);
     }
-    
+
+    private static void testGetComponentType() {
+        assertSame(int.class, int[].class.getComponentType());
+        assertSame(String.class, new String[0].getClass().getComponentType());
+    }
+
 }

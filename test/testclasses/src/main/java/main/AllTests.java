@@ -1,11 +1,11 @@
 package main;
 
+import jvm.ClassInitTest;
 import jvm.instructions.*;
 import stdlib.basic.StringTest;
-import stdlib.basic.WrapperTest;
+import stdlib.basic.WrappersTest;
 import stdlib.basic.cl.ClassLoaderTest;
-import stdlib.basic.reflection.ClassTest;
-import stdlib.basic.reflection.PrimitiveClassTest;
+import stdlib.basic.reflection.*;
 
 public class AllTests {
 
@@ -17,10 +17,13 @@ public class AllTests {
         runTest(new RefInvokeTest());
         runTest(new RefArrayTest());
         runTest(new RefAThrowTest());
+        runTest(new ClassInitTest());
         runTest(new StringTest());
-        runTest(new WrapperTest());
+        runTest(new WrappersTest());
         runTest(new PrimitiveClassTest());
-//        runTest(new ClassTest());
+        runTest(new ArrayClassTest());
+        runTest(new ClassTest());
+        runTest(new ArrayTest());
         runTest(new ClassLoaderTest());
         System.out.println("OK!");
     }

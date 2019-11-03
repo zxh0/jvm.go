@@ -33,12 +33,12 @@ func (instr *ANewArray) Execute(frame *rtda.Frame) {
 	kClass := cp.GetConstantClass(instr.Index)
 	componentClass := kClass.GetClass()
 
-	if componentClass.InitializationNotStarted() {
-		thread := frame.Thread
-		frame.NextPC = thread.PC // undo anewarray
-		thread.InitClass(componentClass)
-		return
-	}
+	//if componentClass.InitializationNotStarted() {
+	//	thread := frame.Thread
+	//	frame.NextPC = thread.PC // undo anewarray
+	//	thread.InitClass(componentClass)
+	//	return
+	//}
 
 	count := frame.PopInt()
 	if count < 0 {

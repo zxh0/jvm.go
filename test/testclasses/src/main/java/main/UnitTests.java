@@ -2,8 +2,7 @@ package main;
 
 import helper.UnitTestRunner;
 import jvm.lambda.InterfaceMethodTest;
-import stdlib.basic.cl.ClassLoaderTest;
-import stdlib.basic.cl.ClassLoaderTest2;
+import stdlib.basic.reflection.ArrayTest;
 
 public class UnitTests {
 
@@ -17,9 +16,6 @@ public class UnitTests {
             jvm.field.FieldsTest.class,
             stdlib.nio.io.file.FileIoTest.class,
             stdlib.nio.io.file.RandomAccessFileTest.class,
-            stdlib.basic.reflection.ArrayClassTest.class,
-            stdlib.basic.reflection.ArrayGetTest.class,
-            stdlib.basic.reflection.ArraySetTest.class,
             stdlib.basic.reflection.GenericTest.class,
             stdlib.basic.reflection.MethodTest.class,
             stdlib.basic.reflection.PrimitiveClassTest.class,

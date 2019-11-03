@@ -86,23 +86,27 @@ func (loader *ClassLoader) loadPrimitiveArrayClasses() {
 		loader.loadArrayClass(primitiveType.ArrayClassName)
 	}
 }
-func (loader *ClassLoader) loadArrayClass(className string) *Class {
-	class := &Class{Name: className}
-	class.bootLoader = loader
-	class.SuperClass = loader.jlObjectClass
-	class.Interfaces = []*Class{loader.jlCloneableClass, loader.ioSerializableClass}
-	class.JClass = loader.jlClassClass.NewObj()
-	class.JClass.Extra = class
-	createVtable(class)
-	class.MarkFullyInitialized()
-	loader.classMap[className] = class
-	return class
+
+func (loader *ClassLoader) loadArrayClass(arrClassName string) *Class {
+	arrClass := &Class{Name: arrClassName}
+	arrClass.bootLoader = loader
+	arrClass.SuperClass = loader.jlObjectClass
+	arrClass.Interfaces = []*Class{loader.jlCloneableClass, loader.ioSerializableClass}
+	arrClass.JClass = loader.jlClassClass.NewObj()
+	arrClass.JClass.Extra = arrClass
+	createVtable(arrClass)
+	arrClass.MarkFullyInitialized()
+	loader.classMap[arrClassName] = arrClass
+
+	// set java.lang.Class.componentType
+	componentClassName := getComponentClassName(arrClassName)
+	componentClass := loader.LoadClass(componentClassName)
+	arrClass.JClass.SetFieldValue("componentType", "*",
+		NewRefSlot(componentClass.JClass))
+
+	return arrClass
 }
 
-func (loader *ClassLoader) getRefArrayClass(componentClass *Class) *Class {
-	arrClassName := "[L" + componentClass.Name + ";"
-	return loader.getRefArrayClassByName(arrClassName)
-}
 func (loader *ClassLoader) getRefArrayClassByName(arrClassName string) *Class {
 	if arrClass, ok := loader.classMap[arrClassName]; ok {
 		return arrClass
@@ -160,8 +164,9 @@ func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 	class := loader.loadClass(name, data)
 	class.LoadedFrom = module
 
+	// user defined class ?
 	if !strings.HasPrefix(module.GetName(), "java.") {
-		// user defined class
+		// set java.lang.Class.classLoader
 		classLoadersClass := loader.getClass("jdk/internal/loader/ClassLoaders")
 		appLoader := classLoadersClass.GetStaticValue("APP_LOADER", "*")
 		class.JClass.SetFieldValue("classLoader", "*", appLoader)

@@ -18,7 +18,8 @@ func (path Path) ReadClass(className string) (Module, []byte) {
 			return m, data
 		}
 	}
-	panic("class not found:" + className)
+	//panic("class not found:" + className)
+	return nil, nil
 }
 
 func (path Path) GetModuleByPackageName(pkgName string) Module {

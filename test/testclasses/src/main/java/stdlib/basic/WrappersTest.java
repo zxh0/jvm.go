@@ -2,10 +2,10 @@ package stdlib.basic;
 
 import static helper.MyAssert.*;
 
-public class WrapperTest implements Runnable {
+public class WrappersTest implements Runnable {
     
     public static void main(String[] args) {
-        new WrapperTest().run();
+        new WrappersTest().run();
     }
 
     @Override

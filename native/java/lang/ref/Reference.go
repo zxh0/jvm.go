@@ -1,8 +1,8 @@
 package ref
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -11,8 +11,8 @@ func init() {
 	_ref(waitForReferencePendingList, "waitForReferencePendingList", "()V")
 }
 
-func _ref(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/ref/Reference", name, desc, method)
+func _ref(method native.Method, name, desc string) {
+	native.Register("java/lang/ref/Reference", name, desc, method)
 }
 
 // private static native Reference<Object> getAndClearReferencePendingList();

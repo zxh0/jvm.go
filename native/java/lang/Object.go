@@ -3,8 +3,8 @@ package lang
 import (
 	"unsafe"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -15,8 +15,8 @@ func init() {
 	_object(wait, "wait", "(J)V")
 }
 
-func _object(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/Object", name, desc, method)
+func _object(method native.Method, name, desc string) {
+	native.Register("java/lang/Object", name, desc, method)
 }
 
 // protected native Object clone() throws CloneNotSupportedException;

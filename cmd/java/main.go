@@ -9,7 +9,7 @@ import (
 
 	"github.com/zxh0/jvm.go/cpu"
 	"github.com/zxh0/jvm.go/module"
-	_ "github.com/zxh0/jvm.go/native"
+	_ "github.com/zxh0/jvm.go/native/all"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 	"github.com/zxh0/jvm.go/vm"

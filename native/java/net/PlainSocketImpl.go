@@ -6,9 +6,9 @@ import (
 	"net"
 	"time"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/native/box"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -24,8 +24,8 @@ func init() {
 
 }
 
-func _psi(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/net/PlainSocketImpl", name, desc, method)
+func _psi(method native.Method, name, desc string) {
+	native.Register("java/net/PlainSocketImpl", name, desc, method)
 }
 
 func psi_initProto(frame *rtda.Frame) {

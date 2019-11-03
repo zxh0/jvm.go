@@ -1,13 +1,12 @@
 package ch
 
 import (
-	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/native"
 )
 
 func init() {
 }
 
-func _ssci(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/nio/ch/ServerSocketChannelImpl", name, desc, method)
+func _ssci(method native.Method, name, desc string) {
+	native.Register("sun/nio/ch/ServerSocketChannelImpl", name, desc, method)
 }

@@ -1,8 +1,8 @@
 package management
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -12,8 +12,8 @@ func init() {
 	_vmm(initOptionalSupportFields, "initOptionalSupportFields", "()V")
 }
 
-func _vmm(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/management/VMManagementImpl", name, desc, method)
+func _vmm(method native.Method, name, desc string) {
+	native.Register("sun/management/VMManagementImpl", name, desc, method)
 }
 
 // private native long getUptime0();

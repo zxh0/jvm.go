@@ -1,16 +1,16 @@
 package io
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_fs(getFileSystem, "getFileSystem", "()Ljava/io/FileSystem;")
 }
 
-func _fs(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/io/FileSystem", name, desc, method)
+func _fs(method native.Method, name, desc string) {
+	native.Register("java/io/FileSystem", name, desc, method)
 }
 
 // public static native FileSystem getFileSystem()

@@ -1,16 +1,16 @@
 package atomic
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_al(VMSupportsCS8, "VMSupportsCS8", "()Z")
 }
 
-func _al(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/util/concurrent/atomic/AtomicLong", name, desc, method)
+func _al(method native.Method, name, desc string) {
+	native.Register("java/util/concurrent/atomic/AtomicLong", name, desc, method)
 }
 
 // private static native boolean VMSupportsCS8();

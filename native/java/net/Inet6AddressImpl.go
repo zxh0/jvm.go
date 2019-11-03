@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -13,8 +13,8 @@ func init() {
 	_i6di(i6di_lookupAllHostAddr, "lookupAllHostAddr", "(Ljava/lang/String;)[Ljava/net/InetAddress;")
 }
 
-func _i6di(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/net/Inet6AddressImpl", name, desc, method)
+func _i6di(method native.Method, name, desc string) {
+	native.Register("java/net/Inet6AddressImpl", name, desc, method)
 }
 
 //([B)Ljava/lang/String;

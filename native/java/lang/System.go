@@ -4,6 +4,7 @@ import (
 	"time"
 	"unsafe"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -18,8 +19,8 @@ func init() {
 	_system(setOut0, "setOut0", "(Ljava/io/PrintStream;)V")
 }
 
-func _system(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/System", name, desc, method)
+func _system(method native.Method, name, desc string) {
+	native.Register("java/lang/System", name, desc, method)
 }
 
 // public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)

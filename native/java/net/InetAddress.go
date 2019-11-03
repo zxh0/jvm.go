@@ -1,16 +1,16 @@
 package io
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_ia(ia_init, "init", "()V")
 }
 
-func _ia(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/net/InetAddress", name, desc, method)
+func _ia(method native.Method, name, desc string) {
+	native.Register("java/net/InetAddress", name, desc, method)
 }
 
 func ia_init(frame *rtda.Frame) {

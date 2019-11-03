@@ -4,8 +4,8 @@ import (
 	gozip "archive/zip"
 	"fmt"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
@@ -33,8 +33,8 @@ func init() {
 	_zf(startsWithLOC, "startsWithLOC", "(J)Z")
 }
 
-func _zf(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/util/zip/ZipFile", name, desc, method)
+func _zf(method native.Method, name, desc string) {
+	native.Register("java/util/zip/ZipFile", name, desc, method)
 }
 
 // private static native void initIDs();

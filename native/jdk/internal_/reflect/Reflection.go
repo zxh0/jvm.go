@@ -1,8 +1,8 @@
 package reflect
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -10,8 +10,8 @@ func init() {
 	_reflection(getClassAccessFlags, "getClassAccessFlags", "(Ljava/lang/Class;)I")
 }
 
-func _reflection(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("jdk/internal/reflect/Reflection", name, desc, method)
+func _reflection(method native.Method, name, desc string) {
+	native.Register("jdk/internal/reflect/Reflection", name, desc, method)
 }
 
 // public static native Class<?> getCallerClass(int i);

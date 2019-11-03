@@ -1,16 +1,16 @@
 package reflect
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_ncai(newInstance0, "newInstance0", "(Ljava/lang/reflect/Constructor;[Ljava/lang/Object;)Ljava/lang/Object;")
 }
 
-func _ncai(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("jdk/internal/reflect/NativeConstructorAccessorImpl", name, desc, method)
+func _ncai(method native.Method, name, desc string) {
+	native.Register("jdk/internal/reflect/NativeConstructorAccessorImpl", name, desc, method)
 }
 
 // private static native Object newInstance0(Constructor<?> c, Object[] os)

@@ -1,8 +1,8 @@
 package misc
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -10,8 +10,8 @@ func init() {
 	_signal(handle0, "handle0", "(IJ)J")
 }
 
-func _signal(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("jdk/internal/misc/Signal", name, desc, method)
+func _signal(method native.Method, name, desc string) {
+	native.Register("jdk/internal/misc/Signal", name, desc, method)
 }
 
 // private static native int findSignal0(String string);

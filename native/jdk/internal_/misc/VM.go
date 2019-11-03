@@ -1,8 +1,8 @@
 package misc
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -10,8 +10,8 @@ func init() {
 	_vm(initializeFromArchive, "initializeFromArchive", "(Ljava/lang/Class;)V")
 }
 
-func _vm(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("jdk/internal/misc/VM", name, desc, method)
+func _vm(method native.Method, name, desc string) {
+	native.Register("jdk/internal/misc/VM", name, desc, method)
 }
 
 // private static native void initialize();

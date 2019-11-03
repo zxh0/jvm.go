@@ -1,8 +1,8 @@
 package ch
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -12,8 +12,8 @@ func init() {
 	_ioUtil(iou_makePipe, "makePipe", "(Z)J")
 }
 
-func _ioUtil(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/nio/ch/IOUtil", name, desc, method)
+func _ioUtil(method native.Method, name, desc string) {
+	native.Register("sun/nio/ch/IOUtil", name, desc, method)
 }
 
 func iou_iovMax(frame *rtda.Frame) {

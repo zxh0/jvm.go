@@ -4,8 +4,8 @@ import (
 	"math"
 	"runtime"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -14,8 +14,8 @@ func init() {
 	_runtime(maxMemory, "maxMemory", "()J")
 }
 
-func _runtime(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/Runtime", name, desc, method)
+func _runtime(method native.Method, name, desc string) {
+	native.Register("java/lang/Runtime", name, desc, method)
 }
 
 // public native int availableProcessors();

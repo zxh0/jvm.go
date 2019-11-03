@@ -1,13 +1,12 @@
 package awt
 
 import (
-	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/native"
 )
 
 func init() {
 }
 
-func _container(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/awt/Container", name, desc, method)
+func _container(method native.Method, name, desc string) {
+	native.Register("java/awt/Container", name, desc, method)
 }

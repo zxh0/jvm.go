@@ -5,6 +5,7 @@ import (
 	"os/user"
 	"runtime"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -57,8 +58,8 @@ func init() {
 	sysPropsRaw(platformProperties, "platformProperties", "()[Ljava/lang/String;")
 }
 
-func sysPropsRaw(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("jdk/internal/util/SystemProps$Raw", name, desc, method)
+func sysPropsRaw(method native.Method, name, desc string) {
+	native.Register("jdk/internal/util/SystemProps$Raw", name, desc, method)
 }
 
 // private static native String[] vmProperties();

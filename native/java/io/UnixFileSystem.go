@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 	"github.com/zxh0/jvm.go/vmutils"
@@ -15,8 +16,8 @@ func init() {
 	_ufs(getLastModifiedTime, "getLastModifiedTime", "(Ljava/io/File;)J")
 }
 
-func _ufs(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/io/UnixFileSystem", name, desc, method)
+func _ufs(method native.Method, name, desc string) {
+	native.Register("java/io/UnixFileSystem", name, desc, method)
 }
 
 // private native String canonicalize0(String path) throws IOException;

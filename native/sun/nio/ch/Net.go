@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -28,8 +28,8 @@ func init() {
 	_net(net_localPort, "localPort", "(Ljava/io/FileDescriptor;)I")
 }
 
-func _net(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/nio/ch/Net", name, desc, method)
+func _net(method native.Method, name, desc string) {
+	native.Register("sun/nio/ch/Net", name, desc, method)
 }
 
 func net_isExclusiveBindAvailable(frame *rtda.Frame) {

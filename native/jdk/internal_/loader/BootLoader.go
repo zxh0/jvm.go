@@ -1,8 +1,8 @@
 package loader
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -11,8 +11,8 @@ func init() {
 	_bl(setBootLoaderUnnamedModule0, "setBootLoaderUnnamedModule0", "(Ljava/lang/Module;)V")
 }
 
-func _bl(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("jdk/internal/loader/BootLoader", name, desc, method)
+func _bl(method native.Method, name, desc string) {
+	native.Register("jdk/internal/loader/BootLoader", name, desc, method)
 }
 
 /**

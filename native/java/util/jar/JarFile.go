@@ -1,16 +1,16 @@
 package jar
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_jf(getMetaInfEntryNames, "getMetaInfEntryNames", "()[Ljava/lang/String;")
 }
 
-func _jf(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/util/jar/JarFile", name, desc, method)
+func _jf(method native.Method, name, desc string) {
+	native.Register("java/util/jar/JarFile", name, desc, method)
 }
 
 // private native String[] getMetaInfEntryNames();

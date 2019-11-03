@@ -3,8 +3,8 @@ package io
 import (
 	"os"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -20,8 +20,8 @@ func init() {
 	_raf(raf_setLength, "setLength", "(J)V")
 }
 
-func _raf(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/io/RandomAccessFile", name, desc, method)
+func _raf(method native.Method, name, desc string) {
+	native.Register("java/io/RandomAccessFile", name, desc, method)
 }
 
 // private native void open(String name, int mode) throws FileNotFoundException;

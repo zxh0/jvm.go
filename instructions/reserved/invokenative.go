@@ -18,6 +18,7 @@ func (instr *InvokeNative) Execute(frame *rtda.Frame) {
 			method.Class.Name, method.Name, method.Descriptor)
 	}
 
+	// TODO: cache native method
 	nativeMethod := native.FindNativeMethod(method)
 	nativeMethod(frame)
 }

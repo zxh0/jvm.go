@@ -6,16 +6,16 @@ import (
 	"strings"
 	"time"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_tz(getSystemTimeZoneID, "getSystemTimeZoneID", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;")
 }
 
-func _tz(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/util/TimeZone", name, desc, method)
+func _tz(method native.Method, name, desc string) {
+	native.Register("java/util/TimeZone", name, desc, method)
 }
 
 // private static native String getSystemTimeZoneID(String javaHome, String country);

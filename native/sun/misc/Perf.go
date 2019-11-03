@@ -1,16 +1,16 @@
 package misc
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_perf(createLong, "createLong", "(Ljava/lang/String;IIJ)Ljava/nio/ByteBuffer;")
 }
 
-func _perf(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/misc/Perf", name, desc, method)
+func _perf(method native.Method, name, desc string) {
+	native.Register("sun/misc/Perf", name, desc, method)
 }
 
 // public native ByteBuffer createLong(String name, int variability, int units, long value);

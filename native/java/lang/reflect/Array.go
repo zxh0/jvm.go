@@ -1,6 +1,7 @@
 package reflect
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/native/box"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
@@ -13,8 +14,8 @@ func init() {
 	_array(set, "set", "(Ljava/lang/Object;ILjava/lang/Object;)V")
 }
 
-func _array(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/reflect/Array", name, desc, method)
+func _array(method native.Method, name, desc string) {
+	native.Register("java/lang/reflect/Array", name, desc, method)
 }
 
 // public static native Object get(Object array, int index)

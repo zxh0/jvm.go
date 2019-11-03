@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -11,8 +12,8 @@ func init() {
 	_throwable(getStackTraceDepth, "getStackTraceDepth", "()I")
 }
 
-func _throwable(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/Throwable", name, desc, method)
+func _throwable(method native.Method, name, desc string) {
+	native.Register("java/lang/Throwable", name, desc, method)
 }
 
 type StackTraceElement struct {

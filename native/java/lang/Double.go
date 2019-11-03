@@ -3,8 +3,8 @@ package lang
 import (
 	"math"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -12,8 +12,8 @@ func init() {
 	_double(longBitsToDouble, "longBitsToDouble", "(J)D")
 }
 
-func _double(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/Double", name, desc, method)
+func _double(method native.Method, name, desc string) {
+	native.Register("java/lang/Double", name, desc, method)
 }
 
 // public static native long doubleToRawLongBits(double value);

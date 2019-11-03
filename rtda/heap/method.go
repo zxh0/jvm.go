@@ -32,7 +32,6 @@ type Method struct {
 	ParamSlotCount uint
 	Slot           uint
 	exIndexTable   []uint16    // TODO: rename
-	nativeMethod   interface{} // cannot use package 'native' because of cycle import!
 	Instructions   interface{} // []instructions.Instruction
 }
 
@@ -66,13 +65,6 @@ func (method *Method) parseDescriptor() {
 	if !method.IsStatic() {
 		method.ParamSlotCount++
 	}
-}
-
-func (method *Method) GetNativeMethod() interface{} {
-	if method.nativeMethod == nil {
-		method.nativeMethod = findNativeMethod(method)
-	}
-	return method.nativeMethod
 }
 
 func (method *Method) IsVoidReturnType() bool {

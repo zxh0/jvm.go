@@ -4,8 +4,8 @@ import (
 	"io"
 	"os"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -15,8 +15,8 @@ func init() {
 	_fis(open, "open0", "(Ljava/lang/String;)V")
 }
 
-func _fis(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/io/FileInputStream", name, desc, method)
+func _fis(method native.Method, name, desc string) {
+	native.Register("java/io/FileInputStream", name, desc, method)
 }
 
 // public native int available() throws IOException;

@@ -1,4 +1,4 @@
-package native
+package all
 
 import (
 	_ "github.com/zxh0/jvm.go/native/java/awt"
@@ -19,14 +19,4 @@ import (
 	_ "github.com/zxh0/jvm.go/native/sun/misc"
 	_ "github.com/zxh0/jvm.go/native/sun/nio/ch"
 	_ "github.com/zxh0/jvm.go/native/sun/reflect"
-	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
-
-func init() {
-	heap.SetEmptyNativeMethod(emptyNativeMethod)
-}
-
-func emptyNativeMethod(frame *rtda.Frame) {
-	// do nothing
-}

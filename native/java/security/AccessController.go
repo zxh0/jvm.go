@@ -1,8 +1,8 @@
 package security
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -13,8 +13,8 @@ func init() {
 	_ac(getStackAccessControlContext, "getStackAccessControlContext", "()Ljava/security/AccessControlContext;")
 }
 
-func _ac(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/security/AccessController", name, desc, method)
+func _ac(method native.Method, name, desc string) {
+	native.Register("java/security/AccessController", name, desc, method)
 }
 
 // @CallerSensitive

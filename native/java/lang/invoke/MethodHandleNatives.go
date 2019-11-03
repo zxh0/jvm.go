@@ -2,6 +2,7 @@ package invoke
 
 import (
 	"github.com/zxh0/jvm.go/instructions/references"
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -22,8 +23,8 @@ func init() {
 	_mhn(getConstant, "getConstant", "(I)I")
 }
 
-func _mhn(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/invoke/MethodHandleNatives", name, desc, method)
+func _mhn(method native.Method, name, desc string) {
+	native.Register("java/lang/invoke/MethodHandleNatives", name, desc, method)
 }
 
 // static native void init(MemberName self, Object ref);

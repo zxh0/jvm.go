@@ -3,16 +3,16 @@ package io
 import (
 	"os"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_fos(writeBytes, "writeBytes", "([BIIZ)V")
 }
 
-func _fos(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/io/FileOutputStream", name, desc, method)
+func _fos(method native.Method, name, desc string) {
+	native.Register("java/io/FileOutputStream", name, desc, method)
 }
 
 // private native void writeBytes(byte b[], int off, int len, boolean append) throws IOException;

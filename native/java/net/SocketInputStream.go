@@ -5,8 +5,8 @@ import (
 	"net"
 	"time"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
@@ -14,8 +14,8 @@ func init() {
 	_sis(sis_socketRead0, "socketRead0", "(Ljava/io/FileDescriptor;[BIII)I")
 }
 
-func _sis(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/net/SocketInputStream", name, desc, method)
+func _sis(method native.Method, name, desc string) {
+	native.Register("java/net/SocketInputStream", name, desc, method)
 }
 
 // native java/net/SocketOutputStream~init~()V

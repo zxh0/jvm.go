@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	cp "github.com/zxh0/jvm.go/classpath"
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -26,8 +27,8 @@ func init() {
 	_class(getGenericSignature0, "getGenericSignature0", "()Ljava/lang/String;")
 }
 
-func _class(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/Class", name, desc, method)
+func _class(method native.Method, name, desc string) {
+	native.Register("java/lang/Class", name, desc, method)
 }
 
 // native ClassLoader getClassLoader0();

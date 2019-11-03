@@ -1,8 +1,8 @@
 package reflect
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
@@ -10,8 +10,8 @@ func init() {
 	_proxy(defineClass0, "defineClass0", "(Ljava/lang/ClassLoader;Ljava/lang/String;[BII)Ljava/lang/Class;")
 }
 
-func _proxy(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/reflect/Proxy", name, desc, method)
+func _proxy(method native.Method, name, desc string) {
+	native.Register("java/lang/reflect/Proxy", name, desc, method)
 }
 
 // private static native Class<?> defineClass0(ClassLoader loader, String name,

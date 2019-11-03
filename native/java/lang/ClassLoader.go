@@ -1,6 +1,7 @@
 package lang
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 	"github.com/zxh0/jvm.go/vmutils"
@@ -12,8 +13,8 @@ func init() {
 	_cl(findLoadedClass0, "findLoadedClass0", "(Ljava/lang/String;)Ljava/lang/Class;")
 }
 
-func _cl(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/ClassLoader", name, desc, method)
+func _cl(method native.Method, name, desc string) {
+	native.Register("java/lang/ClassLoader", name, desc, method)
 }
 
 // private native Class<?> defineClass0(String name, byte[] b, int off, int len,

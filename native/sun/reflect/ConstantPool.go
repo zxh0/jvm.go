@@ -1,6 +1,7 @@
 package reflect
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -10,8 +11,8 @@ func init() {
 	_cp(getUTF8At0, "getUTF8At0", "(Ljava/lang/Object;I)Ljava/lang/String;")
 }
 
-func _cp(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/reflect/ConstantPool", name, desc, method)
+func _cp(method native.Method, name, desc string) {
+	native.Register("sun/reflect/ConstantPool", name, desc, method)
 }
 
 // private native long getLongAt0(Object o, int i);

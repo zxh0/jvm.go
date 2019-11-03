@@ -1,6 +1,7 @@
 package reflect
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/native/box"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
@@ -10,8 +11,8 @@ func init() {
 	_nmai(invoke0, "invoke0", "(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;")
 }
 
-func _nmai(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("sun/reflect/NativeMethodAccessorImpl", name, desc, method)
+func _nmai(method native.Method, name, desc string) {
+	native.Register("sun/reflect/NativeMethodAccessorImpl", name, desc, method)
 }
 
 // private static native Object invoke0(Method method, Object o, Object[] os);

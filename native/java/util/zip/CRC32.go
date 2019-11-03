@@ -3,16 +3,16 @@ package zip
 import (
 	"hash/crc32"
 
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_crc(updateBytes, "updateBytes", "(I[BII)I")
 }
 
-func _crc(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/util/zip/CRC32", name, desc, method)
+func _crc(method native.Method, name, desc string) {
+	native.Register("java/util/zip/CRC32", name, desc, method)
 }
 
 // private native static int updateBytes(int crc, byte[] b, int off, int len);

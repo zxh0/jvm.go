@@ -2,6 +2,7 @@ package lang
 
 import (
 	"github.com/zxh0/jvm.go/cpu"
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
 )
@@ -14,8 +15,8 @@ func init() {
 	_thread(start0, "start0", "()V")
 }
 
-func _thread(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/Thread", name, desc, method)
+func _thread(method native.Method, name, desc string) {
+	native.Register("java/lang/Thread", name, desc, method)
 }
 
 // @Deprecated public native int countStackFrames();

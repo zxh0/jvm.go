@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/zxh0/jvm.go/instructions/base"
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 )
 
@@ -11,11 +12,13 @@ import (
 type InvokeNative struct{ base.NoOperandsInstruction }
 
 func (instr *InvokeNative) Execute(frame *rtda.Frame) {
+	method := frame.Method
 	if frame.Thread.VMOptions.VerboseJNI {
 		fmt.Printf("invokenative: %s.%s%s\n",
-			frame.Method.Class.Name, frame.Method.Name, frame.Method.Descriptor)
+			method.Class.Name, method.Name, method.Descriptor)
 	}
 
-	nativeMethod := frame.Method.GetNativeMethod().(func(*rtda.Frame))
+	// TODO: cache native method
+	nativeMethod := native.FindNativeMethod(method)
 	nativeMethod(frame)
 }

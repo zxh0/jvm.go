@@ -1,16 +1,16 @@
 package lang
 
 import (
+	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
-	"github.com/zxh0/jvm.go/rtda/heap"
 )
 
 func init() {
 	_package(getSystemPackage0, "getSystemPackage0", "(Ljava/lang/String;)Ljava/lang/String;")
 }
 
-func _package(method func(frame *rtda.Frame), name, desc string) {
-	heap.RegisterNativeMethod("java/lang/Package", name, desc, method)
+func _package(method native.Method, name, desc string) {
+	native.Register("java/lang/Package", name, desc, method)
 }
 
 // private static native String getSystemPackage0(String name);

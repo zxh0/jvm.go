@@ -10,7 +10,7 @@ import (
 
 func init() {
 	_class(getComponentType, "getComponentType", "()Ljava/lang/Class;")
-	_class(getConstantPool, "getConstantPool", "()Lsun/reflect/ConstantPool;")
+	_class(getConstantPool, "getConstantPool", "()Ljdk/internal/reflect/ConstantPool;")
 	_class(getDeclaringClass0, "getDeclaringClass0", "()Ljava/lang/Class;")
 	_class(getEnclosingMethod0, "getEnclosingMethod0", "()[Ljava/lang/Object;")
 	_class(getInterfaces0, "getInterfaces0", "()[Ljava/lang/Class;")
@@ -40,17 +40,17 @@ func getComponentType(frame *rtda.Frame) {
 }
 
 // native ConstantPool getConstantPool();
-// ()Lsun/reflect/ConstantPool;
+// ()Ljdk/internal/reflect/ConstantPool;
 func getConstantPool(frame *rtda.Frame) {
 	class := frame.GetThis().GetGoClass()
-	cpClass := frame.GetBootLoader().LoadClass("sun/reflect/ConstantPool")
+	cpClass := frame.GetBootLoader().LoadClass("jdk/internal/reflect/ConstantPool")
 	if cpClass.InitializationNotStarted() {
 		frame.RevertNextPC()
 		frame.Thread.InitClass(cpClass)
 		return
 	}
 
-	cpObj := cpClass.NewObjWithExtra(class.ConstantPool) // todo init cpObj
+	cpObj := cpClass.NewObjWithExtra(class) // TODO: init cpObj
 	frame.PushRef(cpObj)
 }
 

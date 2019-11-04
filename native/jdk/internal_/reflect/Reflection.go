@@ -17,7 +17,7 @@ func _reflection(method native.Method, name, desc string) {
 // public static native Class<?> getCallerClass(int i);
 // (I)Ljava/lang/Class;
 func getCallerClass(frame *rtda.Frame) {
-	// top0 is sun/reflect/Reflection
+	// top0 is jdk/internal/reflect/Reflection
 	// top1 is the caller of getCallerClass()
 	// top2 is the caller of method
 	callerFrame := frame.Thread.TopFrameN(2)

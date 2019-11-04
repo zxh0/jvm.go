@@ -11,8 +11,8 @@ func init() {
 	_unsafe(defineClass, "defineClass", "(Ljava/lang/String;[BIILjava/lang/ClassLoader;Ljava/security/ProtectionDomain;)Ljava/lang/Class;")
 	_unsafe(shouldBeInitialized, "shouldBeInitialized", "(Ljava/lang/Class;)Z")
 	_unsafe(ensureClassInitialized0, "ensureClassInitialized0", "(Ljava/lang/Class;)V")
-	_unsafe(staticFieldOffset, "staticFieldOffset", "(Ljava/lang/reflect/Field;)J")
-	_unsafe(staticFieldBase, "staticFieldBase", "(Ljava/lang/reflect/Field;)Ljava/lang/Object;")
+	_unsafe(staticFieldOffset0, "staticFieldOffset0", "(Ljava/lang/reflect/Field;)J")
+	_unsafe(staticFieldBase0, "staticFieldBase0", "(Ljava/lang/reflect/Field;)Ljava/lang/Object;")
 }
 
 // public native Object allocateInstance(Class<?> type) throws InstantiationException;
@@ -73,9 +73,9 @@ func ensureClassInitialized0(frame *rtda.Frame) {
 	}
 }
 
-// public native long staticFieldOffset(Field f);
+// public native long staticFieldOffset0(Field f);
 // (Ljava/lang/reflect/Field;)J
-func staticFieldOffset(frame *rtda.Frame) {
+func staticFieldOffset0(frame *rtda.Frame) {
 	// frame.GetRefVar(0) // this
 	fieldObj := frame.GetRefVar(1)
 
@@ -83,9 +83,9 @@ func staticFieldOffset(frame *rtda.Frame) {
 	frame.PushLong(int64(offset))
 }
 
-// public native Object staticFieldBase(Field f);
+// public native Object staticFieldBase0(Field f);
 // (Ljava/lang/reflect/Field;)Ljava/lang/Object;
-func staticFieldBase(frame *rtda.Frame) {
+func staticFieldBase0(frame *rtda.Frame) {
 	// frame.GetRefVar(0) // this
 	fieldObj := frame.GetRefVar(1)
 

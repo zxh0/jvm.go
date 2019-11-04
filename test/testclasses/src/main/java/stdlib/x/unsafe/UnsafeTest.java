@@ -1,4 +1,4 @@
-package stdlib.basic.sunmisc;
+package stdlib.x.unsafe;
 //
 //import sun.misc.Unsafe;
 //

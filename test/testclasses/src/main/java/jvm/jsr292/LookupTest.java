@@ -5,7 +5,7 @@ import java.lang.invoke.MethodType;
 
 import static helper.MyAssert.assertEquals;
 
-public class LookupTest {
+public class LookupTest implements Runnable {
 
     public LookupTest(String[] x) {}
     private void foo(String[] x) {}
@@ -13,7 +13,20 @@ public class LookupTest {
     public int f1;
     public static long f2;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        new LookupTest(args).run();
+    }
+
+    @Override
+    public void run() {
+        try {
+            test();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void test() throws Exception {
         MethodHandles.Lookup lookup = MethodHandles.lookup();
         MethodType mt = MethodType.methodType(void.class, String[].class);
 
@@ -27,7 +40,7 @@ public class LookupTest {
         assertEquals("MethodHandle(long)void",                lookup.findStaticSetter(LookupTest.class, "f2", long.class).toString());
 
         //System.out.println(lookup.findVirtual(LookupTest.class, "toString", MethodType.methodType(String.class)));
-        System.out.println("OK!");
+        //System.out.println("OK!");
     }
 
 }

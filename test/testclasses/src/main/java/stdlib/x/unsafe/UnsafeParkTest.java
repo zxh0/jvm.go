@@ -1,4 +1,4 @@
-package stdlib.basic.sunmisc;
+package stdlib.x.unsafe;
 //
 //import helper.UnitTestRunner;
 //import org.junit.Assert;

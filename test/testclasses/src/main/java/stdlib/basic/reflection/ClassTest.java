@@ -16,9 +16,9 @@ public class ClassTest implements Runnable {
 
     @Override
     public void run() {
-        //testGetPackage();
+        //testGetPackage(); // TODO
         testGetClass();
-        //testGetMethod();
+        //testGetMethod(); // TODO
     }
 
     public void testGetPackage() {
@@ -31,9 +31,9 @@ public class ClassTest implements Runnable {
         assertEquals(Object.class, c.getSuperclass());
         assertArrayEquals(new Class<?>[]{Runnable.class}, c.getInterfaces());
         assertEquals(1, c.getFields().length);
-//        assertEquals(3, c.getDeclaredFields().length);
-//        assertEquals(14, c.getMethods().length);
-//        assertEquals(5, c.getDeclaredMethods().length);
+        assertEquals(3, c.getDeclaredFields().length);
+        assertEquals(14, c.getMethods().length);
+        assertEquals(5, c.getDeclaredMethods().length);
     }
 
     public void testGetMethod() {

@@ -9,8 +9,8 @@ import (
 )
 
 func init() {
-	_unsafe(allocateMemory, "allocateMemory", "(J)J")
-	_unsafe(reallocateMemory, "reallocateMemory", "(JJ)J")
+	_unsafe(allocateMemory0, "allocateMemory0", "(J)J")
+	_unsafe(reallocateMemory0, "reallocateMemory0", "(JJ)J")
 	_unsafe(freeMemory, "freeMemory", "(J)V")
 	_unsafe(addressSize, "addressSize", "()I")
 	_unsafe(putAddress, "putAddress", "(JJ)V")
@@ -31,9 +31,9 @@ func init() {
 	_unsafe(memGetDouble, "getDouble", "(J)D")
 }
 
-// public native long allocateMemory(long bytes);
+// public native long allocateMemory0(long bytes);
 // (J)J
-func allocateMemory(frame *rtda.Frame) {
+func allocateMemory0(frame *rtda.Frame) {
 	// frame.GetRefVar(0) // this
 	bytes := frame.GetLongVar(1)
 
@@ -41,9 +41,9 @@ func allocateMemory(frame *rtda.Frame) {
 	frame.PushLong(address)
 }
 
-// public native long reallocateMemory(long address, long bytes);
+// public native long reallocateMemory0(long address, long bytes);
 // (JJ)J
-func reallocateMemory(frame *rtda.Frame) {
+func reallocateMemory0(frame *rtda.Frame) {
 	// frame.GetRefVar(0) // this
 	address := frame.GetLongVar(1)
 	bytes := frame.GetLongVar(3)

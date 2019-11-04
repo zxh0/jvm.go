@@ -3,6 +3,7 @@ package misc
 import (
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 func init() {
@@ -28,7 +29,6 @@ func init() {
 	_unsafe(putDouble, "putDouble", "(Ljava/lang/Object;JD)V")
 	_unsafe(getReference, "getReference", "(Ljava/lang/Object;J)Ljava/lang/Object;")
 	_unsafe(putReference, "putReference", "(Ljava/lang/Object;JLjava/lang/Object;)V")
-	// todo
 	_unsafe(getReference, "getReferenceVolatile", "(Ljava/lang/Object;J)Ljava/lang/Object;")
 	_unsafe(putReference, "putReferenceVolatile", "(Ljava/lang/Object;JLjava/lang/Object;)V")
 	_unsafe(getReference, "getOrderedObject", "(Ljava/lang/Object;J)Ljava/lang/Object;")
@@ -77,16 +77,13 @@ func objectFieldOffset1(frame *rtda.Frame) {
 // public native boolean getBoolean(Object o, long offset);
 // (Ljava/lang/Object;J)Z
 func getBoolean(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		frame.PushBoolean(slots[offset].IntValue() == 1)
-	} else if bytes, ok := fields.([]int8); ok {
-		// byte[]
-		frame.PushBoolean(bytes[offset] == 1)
-	} else {
+	obj, offset := _getArgs(frame)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		frame.PushBoolean(s[offset].IntValue() == 1) // TODO
+	case []int8: // bytes
+		frame.PushBoolean(s[offset] == 1)
+	default:
 		panic("getBoolean!")
 	}
 }
@@ -94,34 +91,28 @@ func getBoolean(frame *rtda.Frame) {
 // public native void putBoolean(Object o, long offset, boolean x);
 // (Ljava/lang/Object;JZ)V
 func putBoolean(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
+	obj, offset := _getArgs(frame)
 	x := frame.GetIntVar(4)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		slots[offset] = heap.NewIntSlot(x) // TODO
-	} else if bytes, ok := fields.([]int8); ok {
-		// byte[]
-		bytes[offset] = int8(x)
-	} else {
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		s[offset] = heap.NewIntSlot(x) // TODO
+	case []int8: // byte[]
+		s[offset] = int8(x)
+	default:
 		panic("putBoolean!")
 	}
 }
 
-// public native boolean getByte(Object o, long offset);
+// public native byte getByte(Object o, long offset);
 // (Ljava/lang/Object;J)B
 func getByte(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		frame.PushInt(slots[offset].IntValue())
-	} else if bytes, ok := fields.([]int8); ok {
-		// byte[]
-		frame.PushInt(int32(bytes[offset]))
-	} else {
+	obj, offset := _getArgs(frame)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		frame.PushInt(s[offset].IntValue())
+	case []int8: // byte[]
+		frame.PushInt(int32(s[offset]))
+	default:
 		panic("getByte!")
 	}
 }
@@ -129,34 +120,28 @@ func getByte(frame *rtda.Frame) {
 // public native void putByte(Object o, long offset, byte x);
 // (Ljava/lang/Object;JB)V
 func putByte(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
+	obj, offset := _getArgs(frame)
 	x := frame.GetIntVar(4)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		slots[offset] = heap.NewIntSlot(x)
-	} else if bytes, ok := fields.([]int8); ok {
-		// byte[]
-		bytes[offset] = int8(x)
-	} else {
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		s[offset] = heap.NewIntSlot(x)
+	case []int8: // byte[]
+		s[offset] = int8(x)
+	default:
 		panic("putByte!")
 	}
 }
 
-// public native boolean getChar(Object o, long offset);
+// public native char getChar(Object o, long offset);
 // (Ljava/lang/Object;J)C
 func getChar(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		frame.PushInt(slots[offset].IntValue())
-	} else if chars, ok := fields.([]uint16); ok {
-		// char[]
-		frame.PushInt(int32(chars[offset]))
-	} else {
+	obj, offset := _getArgs(frame)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		frame.PushInt(s[offset].IntValue())
+	case []uint16: // char[]
+		frame.PushInt(int32(s[offset]))
+	default:
 		panic("getChar!")
 	}
 }
@@ -164,34 +149,31 @@ func getChar(frame *rtda.Frame) {
 // public native void putChar(Object o, long offset, char x);
 // (Ljava/lang/Object;JC)V
 func putChar(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
+	obj, offset := _getArgs(frame)
 	x := frame.GetIntVar(4)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		slots[offset] = heap.NewIntSlot(x)
-	} else if chars, ok := fields.([]uint16); ok {
-		// char[]
-		chars[offset] = uint16(x)
-	} else {
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		s[offset] = heap.NewIntSlot(x)
+	case []uint16: // char[]
+		s[offset] = uint16(x)
+	default:
 		panic("putChar!")
 	}
 }
 
-// public native boolean getShort(Object o, long offset);
+// public native short getShort(Object o, long offset);
 // (Ljava/lang/Object;J)S
 func getShort(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		frame.PushInt(slots[offset].IntValue()) // TODO
-	} else if shorts, ok := fields.([]int16); ok {
-		// short[]
-		frame.PushInt(int32(shorts[offset]))
-	} else {
+	obj, offset := _getArgs(frame)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		frame.PushInt(s[offset].IntValue()) // TODO
+	case []int16: // short[]
+		frame.PushInt(int32(s[offset]))
+	case []int8: // byte[]
+		shorts := vmutils.CastInt8sToUint16s(s[offset:])
+		frame.PushInt(int32(shorts[0]))
+	default:
 		panic("getShort!")
 	}
 }
@@ -199,34 +181,28 @@ func getShort(frame *rtda.Frame) {
 // public native void putShort(Object o, long offset, short x);
 // (Ljava/lang/Object;JS)V
 func putShort(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
+	obj, offset := _getArgs(frame)
 	x := frame.GetIntVar(4)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		slots[offset] = heap.NewIntSlot(x)
-	} else if shorts, ok := fields.([]int16); ok {
-		// short[]
-		shorts[offset] = int16(x)
-	} else {
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		s[offset] = heap.NewIntSlot(x)
+	case []int16: // short[]
+		s[offset] = int16(x)
+	default:
 		panic("putShort!")
 	}
 }
 
-// public native boolean getInt(Object o, long offset);
+// public native int getInt(Object o, long offset);
 // (Ljava/lang/Object;J)I
 func getInt(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		frame.PushInt(slots[offset].IntValue())
-	} else if shorts, ok := fields.([]int32); ok {
-		// int[]
-		frame.PushInt(int32(shorts[offset]))
-	} else {
+	obj, offset := _getArgs(frame)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		frame.PushInt(s[offset].IntValue())
+	case []int32: // int[]
+		frame.PushInt(int32(s[offset]))
+	default:
 		panic("getInt!")
 	}
 }
@@ -234,34 +210,28 @@ func getInt(frame *rtda.Frame) {
 // public native void putInt(Object o, long offset, int x);
 // (Ljava/lang/Object;JI)V
 func putInt(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
+	obj, offset := _getArgs(frame)
 	x := frame.GetIntVar(4)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		slots[offset] = heap.NewIntSlot(x)
-	} else if shorts, ok := fields.([]int32); ok {
-		// int[]
-		shorts[offset] = x
-	} else {
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		s[offset] = heap.NewIntSlot(x)
+	case []int32: // int[]
+		s[offset] = x
+	default:
 		panic("putInt!")
 	}
 }
 
-// public native boolean getLong(Object o, long offset);
+// public native long getLong(Object o, long offset);
 // (Ljava/lang/Object;J)J
 func getLong(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		frame.PushLong(slots[offset].LongValue())
-	} else if longs, ok := fields.([]int64); ok {
-		// long[]
-		frame.PushLong(longs[offset])
-	} else {
+	obj, offset := _getArgs(frame)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		frame.PushLong(s[offset].LongValue())
+	case []int64: // long[]
+		frame.PushLong(s[offset])
+	default:
 		panic("getLong!")
 	}
 }
@@ -269,34 +239,28 @@ func getLong(frame *rtda.Frame) {
 // public native void putLong(Object o, long offset, long x);
 // (Ljava/lang/Object;JJ)V
 func putLong(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
+	obj, offset := _getArgs(frame)
 	x := frame.GetLongVar(4)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		slots[offset] = heap.NewLongSlot(x)
-	} else if longs, ok := fields.([]int64); ok {
-		// long[]
-		longs[offset] = x
-	} else {
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		s[offset] = heap.NewLongSlot(x)
+	case []int64: // long[]
+		s[offset] = x
+	default:
 		panic("putLong!")
 	}
 }
 
-// public native boolean getFloat(Object o, long offset);
+// public native float getFloat(Object o, long offset);
 // (Ljava/lang/Object;J)F
 func getFloat(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		frame.PushFloat(slots[offset].FloatValue())
-	} else if floats, ok := fields.([]float32); ok {
-		// float[]
-		frame.PushFloat(floats[offset])
-	} else {
+	obj, offset := _getArgs(frame)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		frame.PushFloat(s[offset].FloatValue())
+	case []float32: // float[]
+		frame.PushFloat(s[offset])
+	default:
 		panic("getFloat!")
 	}
 }
@@ -304,34 +268,28 @@ func getFloat(frame *rtda.Frame) {
 // public native void putFloat(Object o, long offset, float x);
 // (Ljava/lang/Object;JF)V
 func putFloat(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
+	obj, offset := _getArgs(frame)
 	x := frame.GetFloatVar(4)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		slots[offset] = heap.NewFloatSlot(x)
-	} else if floats, ok := fields.([]float32); ok {
-		// float[]
-		floats[offset] = x
-	} else {
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		s[offset] = heap.NewFloatSlot(x)
+	case []float32: // float[]
+		s[offset] = x
+	default:
 		panic("putFloat!")
 	}
 }
 
-// public native boolean getDouble(Object o, long offset);
+// public native double getDouble(Object o, long offset);
 // (Ljava/lang/Object;J)D
 func getDouble(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		frame.PushDouble(slots[offset].DoubleValue())
-	} else if doubles, ok := fields.([]float64); ok {
-		// double[]
-		frame.PushDouble(doubles[offset])
-	} else {
+	obj, offset := _getArgs(frame)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		frame.PushDouble(s[offset].DoubleValue())
+	case []float64: // double[]
+		frame.PushDouble(s[offset])
+	default:
 		panic("getDouble!")
 	}
 }
@@ -339,54 +297,49 @@ func getDouble(frame *rtda.Frame) {
 // public native void putDouble(Object o, long offset, double x);
 // (Ljava/lang/Object;JD)V
 func putDouble(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
+	obj, offset := _getArgs(frame)
 	x := frame.GetDoubleVar(4)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		slots[offset] = heap.NewDoubleSlot(x)
-	} else if doubles, ok := fields.([]float64); ok {
-		// double[]
-		doubles[offset] = x
-	} else {
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		s[offset] = heap.NewDoubleSlot(x)
+	case []float64: // double[]
+		s[offset] = x
+	default:
 		panic("putDouble!")
-	}
-}
-
-// public native void putReference(Object o, long offset, Object x);
-// (Ljava/lang/Object;JLjava/lang/Object;)V
-func putReference(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-	x := frame.GetRefVar(4)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		slots[offset] = heap.NewRefSlot(x)
-	} else if objs, ok := fields.([]*heap.Object); ok {
-		// ref[]
-		objs[offset] = x
-	} else {
-		panic("putReference!")
 	}
 }
 
 // public native Object getReference(Object o, long offset);
 // (Ljava/lang/Object;J)Ljava/lang/Object;
 func getReference(frame *rtda.Frame) {
-	fields := frame.GetRefVar(1).Fields
-	offset := frame.GetLongVar(2)
-
-	if slots, ok := fields.([]heap.Slot); ok {
-		// object
-		x := slots[offset].Ref
-		frame.PushRef(x)
-	} else if objs, ok := fields.([]*heap.Object); ok {
-		// ref[]
-		x := objs[offset]
-		frame.PushRef(x)
-	} else {
+	obj, offset := _getArgs(frame)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		frame.PushRef(s[offset].Ref)
+	case []*heap.Object: // ref[]
+		frame.PushRef(s[offset])
+	default:
 		panic("getReference!")
 	}
+}
+
+// public native void putReference(Object o, long offset, Object x);
+// (Ljava/lang/Object;JLjava/lang/Object;)V
+func putReference(frame *rtda.Frame) {
+	obj, offset := _getArgs(frame)
+	x := frame.GetRefVar(4)
+	switch s := obj.Fields.(type) {
+	case []heap.Slot: // object
+		s[offset] = heap.NewRefSlot(x)
+	case []*heap.Object: // ref[]
+		s[offset] = x
+	default:
+		panic("putReference!")
+	}
+}
+
+func _getArgs(frame *rtda.Frame) (obj *heap.Object, offset int64) {
+	obj = frame.GetRefVar(1)
+	offset = frame.GetLongVar(2)
+	return
 }

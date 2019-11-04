@@ -2,10 +2,13 @@ package main;
 
 import jvm.ClassInitTest;
 import jvm.instructions.*;
+import jvm.jsr292.LookupTest;
 import stdlib.basic.StringTest;
 import stdlib.basic.WrappersTest;
 import stdlib.basic.cl.ClassLoaderTest;
 import stdlib.basic.reflection.*;
+import stdlib.x.unsafe.UnsafeMemoryTest;
+import stdlib.x.unsafe.UnsafeObjectTest;
 
 public class AllTests {
 
@@ -20,11 +23,14 @@ public class AllTests {
         runTest(new ClassInitTest());
         runTest(new StringTest());
         runTest(new WrappersTest());
+        runTest(new ClassLoaderTest());
         runTest(new PrimitiveClassTest());
         runTest(new ArrayClassTest());
         runTest(new ClassTest());
         runTest(new ArrayTest());
-        runTest(new ClassLoaderTest());
+        runTest(new UnsafeObjectTest());
+        //runTest(new UnsafeMemoryTest());
+        runTest(new LookupTest(args));
         System.out.println("OK!");
     }
 

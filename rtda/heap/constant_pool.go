@@ -2,6 +2,7 @@ package heap
 
 import (
 	"github.com/zxh0/jvm.go/classfile"
+	"github.com/zxh0/jvm.go/vmutils"
 )
 
 type Constant interface{}
@@ -14,13 +15,13 @@ func newConstantPool(class *Class, cf *classfile.ClassFile) ConstantPool {
 	for i := 1; i < len(cfCp); i++ {
 		cpInfo := cfCp[i]
 		switch x := cpInfo.(type) {
-		case string: // utf8
-			rtCp[i] = cpInfo
 		case int32, float32:
 			rtCp[i] = cpInfo
 		case int64, float64:
 			rtCp[i] = cpInfo
 			i++
+		case []byte: // utf8
+			rtCp[i] = vmutils.DecodeMUTF8(x)
 		case classfile.ConstantStringInfo:
 			rtCp[i] = newConstantString(class, cf.GetUTF8(x.StringIndex))
 		case classfile.ConstantClassInfo:

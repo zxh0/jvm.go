@@ -8,25 +8,23 @@ import (
 )
 
 func init() {
-	_raf(raf_open, "open0", "(Ljava/lang/String;I)V")
-	_raf(raf_close0, "close0", "()V")
-	_raf(raf_write0, "write0", "(I)V")
-	_raf(raf_writeBytes, "writeBytes", "([BII)V")
-	_raf(raf_readBytes, "readBytes", "([BII)I")
-	_raf(raf_read0, "read0", "()I")
-	_raf(raf_seek0, "seek0", "(J)V")
-	_raf(raf_getFilePointer, "getFilePointer", "()J")
-	_raf(raf_length, "length", "()J")
-	_raf(raf_setLength, "setLength", "(J)V")
-}
-
-func _raf(method native.Method, name, desc string) {
-	native.Register("java/io/RandomAccessFile", name, desc, method)
+	native.ForClass("java/io/RandomAccessFile").
+		RemovePrefix("raf_").
+		Register(raf_open0, "(Ljava/lang/String;I)V").
+		Register(raf_close0, "()V").
+		Register(raf_write0, "(I)V").
+		Register(raf_writeBytes, "([BII)V").
+		Register(raf_readBytes, "([BII)I").
+		Register(raf_read0, "()I").
+		Register(raf_seek0, "(J)V").
+		Register(raf_getFilePointer, "()J").
+		Register(raf_length, "()J").
+		Register(raf_setLength, "(J)V")
 }
 
 // private native void open(String name, int mode) throws FileNotFoundException;
 // (Ljava/lang/String;)V
-func raf_open(frame *rtda.Frame) {
+func raf_open0(frame *rtda.Frame) {
 	this := frame.GetThis()
 	name := frame.GetRefVar(1)
 	mode := frame.GetIntVar(2) //flag

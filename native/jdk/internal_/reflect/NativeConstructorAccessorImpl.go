@@ -6,11 +6,8 @@ import (
 )
 
 func init() {
-	_ncai(newInstance0, "newInstance0", "(Ljava/lang/reflect/Constructor;[Ljava/lang/Object;)Ljava/lang/Object;")
-}
-
-func _ncai(method native.Method, name, desc string) {
-	native.Register("jdk/internal/reflect/NativeConstructorAccessorImpl", name, desc, method)
+	native.ForClass("jdk/internal/reflect/NativeConstructorAccessorImpl").
+		Register(newInstance0, "(Ljava/lang/reflect/Constructor;[Ljava/lang/Object;)Ljava/lang/Object;")
 }
 
 // private static native Object newInstance0(Constructor<?> c, Object[] os)

@@ -6,12 +6,9 @@ import (
 )
 
 func init() {
-	_reflection(getCallerClass, "getCallerClass", "()Ljava/lang/Class;")
-	_reflection(getClassAccessFlags, "getClassAccessFlags", "(Ljava/lang/Class;)I")
-}
-
-func _reflection(method native.Method, name, desc string) {
-	native.Register("jdk/internal/reflect/Reflection", name, desc, method)
+	native.ForClass("jdk/internal/reflect/Reflection").
+		Register(getCallerClass, "()Ljava/lang/Class;").
+		Register(getClassAccessFlags, "(Ljava/lang/Class;)I")
 }
 
 // public static native Class<?> getCallerClass(int i);

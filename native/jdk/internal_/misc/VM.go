@@ -6,12 +6,9 @@ import (
 )
 
 func init() {
-	_vm(initialize, "initialize", "()V")
-	_vm(initializeFromArchive, "initializeFromArchive", "(Ljava/lang/Class;)V")
-}
-
-func _vm(method native.Method, name, desc string) {
-	native.Register("jdk/internal/misc/VM", name, desc, method)
+	native.ForClass("jdk/internal/misc/VM").
+		Register(initialize, "()V").
+		Register(initializeFromArchive, "(Ljava/lang/Class;)V")
 }
 
 // private static native void initialize();

@@ -54,12 +54,9 @@ const (
 )
 
 func init() {
-	sysPropsRaw(vmProperties, "vmProperties", "()[Ljava/lang/String;")
-	sysPropsRaw(platformProperties, "platformProperties", "()[Ljava/lang/String;")
-}
-
-func sysPropsRaw(method native.Method, name, desc string) {
-	native.Register("jdk/internal/util/SystemProps$Raw", name, desc, method)
+	native.ForClass("jdk/internal/util/SystemProps$Raw").
+		Register(vmProperties, "()[Ljava/lang/String;").
+		Register(platformProperties, "()[Ljava/lang/String;")
 }
 
 // private static native String[] vmProperties();

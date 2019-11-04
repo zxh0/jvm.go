@@ -6,11 +6,8 @@ import (
 )
 
 func init() {
-	_perf(createLong, "createLong", "(Ljava/lang/String;IIJ)Ljava/nio/ByteBuffer;")
-}
-
-func _perf(method native.Method, name, desc string) {
-	native.Register("jdk/internal/misc/Perf", name, desc, method)
+	native.ForClass("jdk/internal/misc/Perf").
+		Register(createLong, "(Ljava/lang/String;IIJ)Ljava/nio/ByteBuffer;")
 }
 
 // public native ByteBuffer createLong(String name, int variability, int units, long value);

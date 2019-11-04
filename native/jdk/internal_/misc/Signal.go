@@ -6,12 +6,9 @@ import (
 )
 
 func init() {
-	_signal(findSignal0, "findSignal0", "(Ljava/lang/String;)I")
-	_signal(handle0, "handle0", "(IJ)J")
-}
-
-func _signal(method native.Method, name, desc string) {
-	native.Register("jdk/internal/misc/Signal", name, desc, method)
+	native.ForClass("jdk/internal/misc/Signal").
+		Register(findSignal0, "(Ljava/lang/String;)I").
+		Register(handle0, "(IJ)J")
 }
 
 // private static native int findSignal0(String string);

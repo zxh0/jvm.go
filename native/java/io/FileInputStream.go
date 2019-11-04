@@ -9,14 +9,11 @@ import (
 )
 
 func init() {
-	_fis(available, "available0", "()I")
-	_fis(close0, "close0", "()V")
-	_fis(readBytes, "readBytes", "([BII)I")
-	_fis(open, "open0", "(Ljava/lang/String;)V")
-}
-
-func _fis(method native.Method, name, desc string) {
-	native.Register("java/io/FileInputStream", name, desc, method)
+	native.ForClass("java/io/FileInputStream").
+		Register(available, "()I").
+		Register(close0, "()V").
+		Register(readBytes, "([BII)I").
+		Register(open0, "(Ljava/lang/String;)V")
 }
 
 // public native int available() throws IOException;
@@ -41,7 +38,7 @@ func close0(frame *rtda.Frame) {
 
 // private native void open(String name) throws FileNotFoundException;
 // (Ljava/lang/String;)V
-func open(frame *rtda.Frame) {
+func open0(frame *rtda.Frame) {
 	this := frame.GetThis()
 	name := frame.GetRefVar(1)
 

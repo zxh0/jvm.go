@@ -6,13 +6,10 @@ import (
 )
 
 func init() {
-	_fd(set, "set", "(I)J")
-	_fd(getHandle, "getHandle", "(I)J")
-	_fd(getAppend, "getAppend", "(I)Z")
-}
-
-func _fd(method native.Method, name, desc string) {
-	native.Register("java/io/FileDescriptor", name, desc, method)
+	native.ForClass("java/io/FileDescriptor").
+		Register(set, "(I)J").
+		Register(getHandle, "(I)J").
+		Register(getAppend, "(I)Z")
 }
 
 func set(frame *rtda.Frame) {

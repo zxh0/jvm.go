@@ -8,11 +8,8 @@ import (
 )
 
 func init() {
-	_nmai(invoke0, "invoke0", "(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;")
-}
-
-func _nmai(method native.Method, name, desc string) {
-	native.Register("jdk/internal/reflect/NativeMethodAccessorImpl", name, desc, method)
+	native.ForClass("jdk/internal/reflect/NativeMethodAccessorImpl").
+		Register(invoke0, "(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;")
 }
 
 // private static native Object invoke0(Method method, Object o, Object[] os);

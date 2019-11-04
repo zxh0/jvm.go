@@ -10,17 +10,14 @@ import (
 )
 
 func init() {
-	_system(arraycopy, "arraycopy", "(Ljava/lang/Object;ILjava/lang/Object;II)V")
-	_system(currentTimeMillis, "currentTimeMillis", "()J")
-	_system(identityHashCode, "identityHashCode", "(Ljava/lang/Object;)I")
-	_system(nanoTime, "nanoTime", "()J")
-	_system(setErr0, "setErr0", "(Ljava/io/PrintStream;)V")
-	_system(setIn0, "setIn0", "(Ljava/io/InputStream;)V")
-	_system(setOut0, "setOut0", "(Ljava/io/PrintStream;)V")
-}
-
-func _system(method native.Method, name, desc string) {
-	native.Register("java/lang/System", name, desc, method)
+	native.ForClass("java/lang/System").
+		Register(arraycopy, "(Ljava/lang/Object;ILjava/lang/Object;II)V").
+		Register(currentTimeMillis, "()J").
+		Register(identityHashCode, "(Ljava/lang/Object;)I").
+		Register(nanoTime, "()J").
+		Register(setErr0, "(Ljava/io/PrintStream;)V").
+		Register(setIn0, "(Ljava/io/InputStream;)V").
+		Register(setOut0, "(Ljava/io/PrintStream;)V")
 }
 
 // public static native void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)

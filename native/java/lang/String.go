@@ -6,11 +6,8 @@ import (
 )
 
 func init() {
-	_string(intern, "intern", "()Ljava/lang/String;")
-}
-
-func _string(method native.Method, name, desc string) {
-	native.Register("java/lang/String", name, desc, method)
+	native.ForClass("java/lang/String").
+		Register(intern, "()Ljava/lang/String;")
 }
 
 // public native String intern();

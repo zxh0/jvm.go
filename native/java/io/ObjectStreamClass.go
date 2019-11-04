@@ -6,11 +6,8 @@ import (
 )
 
 func init() {
-	_osc(initNative, "initNative", "()V")
-}
-
-func _osc(method native.Method, name, desc string) {
-	native.Register("java/io/ObjectStreamClass", name, desc, method)
+	native.ForClass("java/io/ObjectStreamClass").
+		Register(initNative, "()V")
 }
 
 // private static native void initNative();

@@ -22,10 +22,6 @@ const _fieldConstructorDescriptor = "" +
 	"Ljava/lang/String;" +
 	"[B)V"
 
-func init() {
-	_class(getDeclaredFields0, "getDeclaredFields0", "(Z)[Ljava/lang/reflect/Field;")
-}
-
 // private native Field[] getDeclaredFields0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Field;
 func getDeclaredFields0(frame *rtda.Frame) {

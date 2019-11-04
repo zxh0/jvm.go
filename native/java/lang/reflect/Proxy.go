@@ -7,11 +7,8 @@ import (
 )
 
 func init() {
-	_proxy(defineClass0, "defineClass0", "(Ljava/lang/ClassLoader;Ljava/lang/String;[BII)Ljava/lang/Class;")
-}
-
-func _proxy(method native.Method, name, desc string) {
-	native.Register("java/lang/reflect/Proxy", name, desc, method)
+	native.ForClass("java/lang/reflect/Proxy").
+		Register(defineClass0, "(Ljava/lang/ClassLoader;Ljava/lang/String;[BII)Ljava/lang/Class;")
 }
 
 // private static native Class<?> defineClass0(ClassLoader loader, String name,

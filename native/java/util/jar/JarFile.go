@@ -6,11 +6,8 @@ import (
 )
 
 func init() {
-	_jf(getMetaInfEntryNames, "getMetaInfEntryNames", "()[Ljava/lang/String;")
-}
-
-func _jf(method native.Method, name, desc string) {
-	native.Register("java/util/jar/JarFile", name, desc, method)
+	native.ForClass("java/util/jar/JarFile").
+		Register(getMetaInfEntryNames, "()[Ljava/lang/String;")
 }
 
 // private native String[] getMetaInfEntryNames();

@@ -8,14 +8,11 @@ import (
 )
 
 func init() {
-	_array(get, "get", "(Ljava/lang/Object;I)Ljava/lang/Object;")
-	_array(getLength, "getLength", "(Ljava/lang/Object;)I")
-	_array(newArray, "newArray", "(Ljava/lang/Class;I)Ljava/lang/Object;")
-	_array(set, "set", "(Ljava/lang/Object;ILjava/lang/Object;)V")
-}
-
-func _array(method native.Method, name, desc string) {
-	native.Register("java/lang/reflect/Array", name, desc, method)
+	native.ForClass("java/lang/reflect/Array").
+		Register(get, "(Ljava/lang/Object;I)Ljava/lang/Object;").
+		Register(getLength, "(Ljava/lang/Object;)I").
+		Register(newArray, "(Ljava/lang/Class;I)Ljava/lang/Object;").
+		Register(set, "(Ljava/lang/Object;ILjava/lang/Object;)V")
 }
 
 // public static native Object get(Object array, int index)

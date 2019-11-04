@@ -9,13 +9,10 @@ import (
 )
 
 func init() {
-	_runtime(availableProcessors, "availableProcessors", "()I")
-	_runtime(freeMemory, "freeMemory", "()J")
-	_runtime(maxMemory, "maxMemory", "()J")
-}
-
-func _runtime(method native.Method, name, desc string) {
-	native.Register("java/lang/Runtime", name, desc, method)
+	native.ForClass("java/lang/Runtime").
+		Register(availableProcessors, "()I").
+		Register(freeMemory, "()J").
+		Register(maxMemory, "()J")
 }
 
 // public native int availableProcessors();

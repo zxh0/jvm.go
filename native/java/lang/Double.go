@@ -8,12 +8,9 @@ import (
 )
 
 func init() {
-	_double(doubleToRawLongBits, "doubleToRawLongBits", "(D)J")
-	_double(longBitsToDouble, "longBitsToDouble", "(J)D")
-}
-
-func _double(method native.Method, name, desc string) {
-	native.Register("java/lang/Double", name, desc, method)
+	native.ForClass("java/lang/Double").
+		Register(doubleToRawLongBits, "(D)J").
+		Register(longBitsToDouble, "(J)D")
 }
 
 // public static native long doubleToRawLongBits(double value);

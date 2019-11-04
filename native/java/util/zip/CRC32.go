@@ -8,11 +8,8 @@ import (
 )
 
 func init() {
-	_crc(updateBytes, "updateBytes", "(I[BII)I")
-}
-
-func _crc(method native.Method, name, desc string) {
-	native.Register("java/util/zip/CRC32", name, desc, method)
+	native.ForClass("java/util/zip/CRC32").
+		Register(updateBytes, "(I[BII)I")
 }
 
 // private native static int updateBytes(int crc, byte[] b, int off, int len);

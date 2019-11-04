@@ -8,12 +8,9 @@ import (
 )
 
 func init() {
-	_float(floatToRawIntBits, "floatToRawIntBits", "(F)I")
-	_float(intBitsToFloat, "intBitsToFloat", "(I)F")
-}
-
-func _float(method native.Method, name, desc string) {
-	native.Register("java/lang/Float", name, desc, method)
+	native.ForClass("java/lang/Float").
+		Register(floatToRawIntBits, "(F)I").
+		Register(intBitsToFloat, "(I)F")
 }
 
 // public static native int floatToRawIntBits(float value);

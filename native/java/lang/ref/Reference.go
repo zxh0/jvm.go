@@ -6,13 +6,10 @@ import (
 )
 
 func init() {
-	_ref(getAndClearReferencePendingList, "getAndClearReferencePendingList", "()Ljava/lang/ref/Reference;")
-	_ref(hasReferencePendingList, "hasReferencePendingList", "()B")
-	_ref(waitForReferencePendingList, "waitForReferencePendingList", "()V")
-}
-
-func _ref(method native.Method, name, desc string) {
-	native.Register("java/lang/ref/Reference", name, desc, method)
+	native.ForClass("java/lang/ref/Reference").
+		Register(getAndClearReferencePendingList, "()Ljava/lang/ref/Reference;").
+		Register(hasReferencePendingList, "()B").
+		Register(waitForReferencePendingList, "()V")
 }
 
 // private static native Reference<Object> getAndClearReferencePendingList();

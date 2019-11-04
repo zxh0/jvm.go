@@ -11,13 +11,10 @@ import (
 )
 
 func init() {
-	_ufs(canonicalize0, "canonicalize0", "(Ljava/lang/String;)Ljava/lang/String;")
-	_ufs(getBooleanAttributes0, "getBooleanAttributes0", "(Ljava/io/File;)I")
-	_ufs(getLastModifiedTime, "getLastModifiedTime", "(Ljava/io/File;)J")
-}
-
-func _ufs(method native.Method, name, desc string) {
-	native.Register("java/io/UnixFileSystem", name, desc, method)
+	native.ForClass("java/io/UnixFileSystem").
+		Register(canonicalize0, "(Ljava/lang/String;)Ljava/lang/String;").
+		Register(getBooleanAttributes0, "(Ljava/io/File;)I").
+		Register(getLastModifiedTime, "(Ljava/io/File;)J")
 }
 
 // private native String canonicalize0(String path) throws IOException;

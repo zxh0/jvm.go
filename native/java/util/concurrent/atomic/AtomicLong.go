@@ -6,11 +6,8 @@ import (
 )
 
 func init() {
-	_al(VMSupportsCS8, "VMSupportsCS8", "()Z")
-}
-
-func _al(method native.Method, name, desc string) {
-	native.Register("java/util/concurrent/atomic/AtomicLong", name, desc, method)
+	native.ForClass("java/util/concurrent/atomic/AtomicLong").
+		Register(VMSupportsCS8, "()Z")
 }
 
 // private static native boolean VMSupportsCS8();

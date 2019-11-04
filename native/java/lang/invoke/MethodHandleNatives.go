@@ -18,18 +18,16 @@ const (
 )
 
 func init() {
-	_mhn(mhnInit, "init", "(Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V")
-	_mhn(resolve, "resolve", "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;")
-	_mhn(getConstant, "getConstant", "(I)I")
-}
-
-func _mhn(method native.Method, name, desc string) {
-	native.Register("java/lang/invoke/MethodHandleNatives", name, desc, method)
+	native.ForClass("java/lang/invoke/MethodHandleNatives").
+		RemovePrefix("mhn_").
+		Register(mhn_init, "(Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V").
+		Register(resolve, "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;").
+		Register(getConstant, "(I)I")
 }
 
 // static native void init(MemberName self, Object ref);
 // (Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V
-func mhnInit(frame *rtda.Frame) {
+func mhn_init(frame *rtda.Frame) {
 	mn := frame.GetRefVar(0)
 	ref := frame.GetRefVar(1)
 	//fmt.Printf("mn:%v  ref:%v \n", mn, ref)

@@ -8,11 +8,8 @@ import (
 )
 
 func init() {
-	_fos(writeBytes, "writeBytes", "([BIIZ)V")
-}
-
-func _fos(method native.Method, name, desc string) {
-	native.Register("java/io/FileOutputStream", name, desc, method)
+	native.ForClass("java/io/FileOutputStream").
+		Register(writeBytes, "([BIIZ)V")
 }
 
 // private native void writeBytes(byte b[], int off, int len, boolean append) throws IOException;

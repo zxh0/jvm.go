@@ -6,11 +6,8 @@ import (
 )
 
 func init() {
-	_urlcp(getLookupCacheURLs, "getLookupCacheURLs", "(Ljava/lang/ClassLoader;)[Ljava/net/URL;")
-}
-
-func _urlcp(method native.Method, name, desc string) {
-	native.Register("jdk/internal/loader/URLClassPath", name, desc, method)
+	native.ForClass("jdk/internal/loader/URLClassPath").
+		Register(getLookupCacheURLs, "(Ljava/lang/ClassLoader;)[Ljava/net/URL;")
 }
 
 // private static native URL[] getLookupCacheURLs(ClassLoader var0);

@@ -8,13 +8,10 @@ import (
 )
 
 func init() {
-	_cl(defineClass1, "defineClass1", "(Ljava/lang/String;[BIILjava/security/ProtectionDomain;Ljava/lang/String;)Ljava/lang/Class;")
-	_cl(findBootstrapClass, "findBootstrapClass", "(Ljava/lang/String;)Ljava/lang/Class;")
-	_cl(findLoadedClass0, "findLoadedClass0", "(Ljava/lang/String;)Ljava/lang/Class;")
-}
-
-func _cl(method native.Method, name, desc string) {
-	native.Register("java/lang/ClassLoader", name, desc, method)
+	native.ForClass("java/lang/ClassLoader").
+		Register(defineClass1, "(Ljava/lang/String;[BIILjava/security/ProtectionDomain;Ljava/lang/String;)Ljava/lang/Class;").
+		Register(findBootstrapClass, "(Ljava/lang/String;)Ljava/lang/Class;").
+		Register(findLoadedClass0, "(Ljava/lang/String;)Ljava/lang/Class;")
 }
 
 // private native Class<?> defineClass0(String name, byte[] b, int off, int len,

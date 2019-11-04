@@ -1,6 +1,8 @@
 package lang
 
 import (
+	"time"
+
 	"github.com/zxh0/jvm.go/cpu"
 	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
@@ -8,15 +10,14 @@ import (
 )
 
 func init() {
-	_thread(interrupt0, "interrupt0", "()V")
-	_thread(isInterrupted, "isInterrupted", "(Z)Z")
-	_thread(isAlive, "isAlive", "()Z")
-	_thread(setPriority0, "setPriority0", "(I)V")
-	_thread(start0, "start0", "()V")
-}
-
-func _thread(method native.Method, name, desc string) {
-	native.Register("java/lang/Thread", name, desc, method)
+	native.ForClass("java/lang/Thread").
+		Register(interrupt0, "()V").
+		Register(isInterrupted, "(Z)Z").
+		Register(isAlive, "()Z").
+		Register(setPriority0, "(I)V").
+		Register(start0, "()V").
+		Register(currentThread, "()Ljava/lang/Thread;").
+		Register(sleep, "(J)V")
 }
 
 // @Deprecated public native int countStackFrames();
@@ -95,4 +96,36 @@ func start0(frame *rtda.Frame) {
 	this.UnlockState()
 
 	go cpu.Loop(newThread)
+}
+
+// public static native boolean holdsLock(Object obj);
+// public static native void yield();
+// private native static StackTraceElement[][] dumpThreads(Thread[] threads);
+// private native static Thread[] getThreads();
+
+// public static native Thread currentThread();
+// ()Ljava/lang/Thread;
+func currentThread(frame *rtda.Frame) {
+	jThread := frame.Thread.JThread()
+	frame.PushRef(jThread)
+}
+
+// public static native void sleep(long millis) throws InterruptedException;
+// (J)V
+func sleep(frame *rtda.Frame) {
+	millis := frame.GetLongVar(0)
+
+	thread := frame.Thread
+	if millis < 0 {
+		thread.ThrowIllegalArgumentException("timeout value is negative")
+		return
+	}
+
+	m := millis * int64(time.Millisecond)
+	d := time.Duration(m)
+	interrupted := thread.Sleep(d)
+
+	if interrupted {
+		thread.ThrowInterruptedException("sleep interrupted")
+	}
 }

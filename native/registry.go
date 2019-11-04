@@ -16,6 +16,7 @@ func emptyNativeMethod(frame *rtda.Frame) {
 
 func Register(className, methodName, methodDescriptor string, method Method) {
 	key := className + "~" + methodName + "~" + methodDescriptor
+	//println("register native method: " + key)
 
 	if _, ok := registry[key]; !ok {
 		registry[key] = method

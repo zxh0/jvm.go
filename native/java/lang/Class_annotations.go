@@ -5,10 +5,6 @@ import (
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
-func init() {
-	_class(getRawAnnotations, "getRawAnnotations", "()[B")
-}
-
 // native byte[] getRawAnnotations();
 // ()[B
 func getRawAnnotations(frame *rtda.Frame) {

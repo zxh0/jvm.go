@@ -11,11 +11,8 @@ import (
 )
 
 func init() {
-	_tz(getSystemTimeZoneID, "getSystemTimeZoneID", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;")
-}
-
-func _tz(method native.Method, name, desc string) {
-	native.Register("java/util/TimeZone", name, desc, method)
+	native.ForClass("java/util/TimeZone").
+		Register(getSystemTimeZoneID, "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;")
 }
 
 // private static native String getSystemTimeZoneID(String javaHome, String country);

@@ -6,13 +6,10 @@ import (
 )
 
 func init() {
-	_bl(getSystemPackageNames, "getSystemPackageNames", "()[Ljava/lang/String;")
-	_bl(getSystemPackageLocation, "getSystemPackageLocation", "(Ljava/lang/String;)Ljava/lang/String;")
-	_bl(setBootLoaderUnnamedModule0, "setBootLoaderUnnamedModule0", "(Ljava/lang/Module;)V")
-}
-
-func _bl(method native.Method, name, desc string) {
-	native.Register("jdk/internal/loader/BootLoader", name, desc, method)
+	native.ForClass("jdk/internal/loader/BootLoader").
+		Register(getSystemPackageNames, "()[Ljava/lang/String;").
+		Register(getSystemPackageLocation, "(Ljava/lang/String;)Ljava/lang/String;").
+		Register(setBootLoaderUnnamedModule0, "(Ljava/lang/Module;)V")
 }
 
 /**

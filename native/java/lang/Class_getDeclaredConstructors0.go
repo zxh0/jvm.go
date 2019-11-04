@@ -24,10 +24,6 @@ const _constructorConstructorDescriptor = "" +
 	"Ljava/lang/String;" +
 	"[B[B)V"
 
-func init() {
-	_class(getDeclaredConstructors0, "getDeclaredConstructors0", "(Z)[Ljava/lang/reflect/Constructor;")
-}
-
 // private native Constructor<T>[] getDeclaredConstructors0(boolean publicOnly);
 // (Z)[Ljava/lang/reflect/Constructor;
 func getDeclaredConstructors0(frame *rtda.Frame) {

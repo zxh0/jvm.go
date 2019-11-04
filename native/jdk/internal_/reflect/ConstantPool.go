@@ -7,12 +7,9 @@ import (
 )
 
 func init() {
-	_cp(getLongAt0, "getLongAt0", "(Ljava/lang/Object;I)J")
-	_cp(getUTF8At0, "getUTF8At0", "(Ljava/lang/Object;I)Ljava/lang/String;")
-}
-
-func _cp(method native.Method, name, desc string) {
-	native.Register("jdk/internal/reflect/ConstantPool", name, desc, method)
+	native.ForClass("jdk/internal/reflect/ConstantPool").
+		Register(getLongAt0, "(Ljava/lang/Object;I)J").
+		Register(getUTF8At0, "(Ljava/lang/Object;I)Ljava/lang/String;")
 }
 
 // private native long getLongAt0(Object o, int i);

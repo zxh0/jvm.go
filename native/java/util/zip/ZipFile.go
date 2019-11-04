@@ -16,31 +16,21 @@ const (
 )
 
 func init() {
-	_zf(zf_initIDs, "initIDs", "()V")
-	_zf(freeEntry, "freeEntry", "(JJ)V")
-	_zf(getEntry, "getEntry", "(J[BZ)J")
-	_zf(getEntryBytes, "getEntryBytes", "(JI)[B")
-	_zf(getEntryCrc, "getEntryCrc", "(J)J")
-	_zf(getEntryCSize, "getEntryCSize", "(J)J")
-	_zf(getEntryFlag, "getEntryFlag", "(J)I")
-	_zf(getEntryMethod, "getEntryMethod", "(J)I")
-	_zf(getEntrySize, "getEntrySize", "(J)J")
-	_zf(getEntryTime, "getEntryTime", "(J)J")
-	_zf(getNextEntry, "getNextEntry", "(JI)J")
-	_zf(getTotal, "getTotal", "(J)I")
-	_zf(open, "open", "(Ljava/lang/String;IJZ)J")
-	_zf(read, "read", "(JJJ[BII)I")
-	_zf(startsWithLOC, "startsWithLOC", "(J)Z")
-}
-
-func _zf(method native.Method, name, desc string) {
-	native.Register("java/util/zip/ZipFile", name, desc, method)
-}
-
-// private static native void initIDs();
-// ()V
-func zf_initIDs(frame *rtda.Frame) {
-	// todo
+	native.ForClass("java/util/zip/ZipFile").
+		Register(freeEntry, "(JJ)V").
+		Register(getEntry, "(J[BZ)J").
+		Register(getEntryBytes, "(JI)[B").
+		Register(getEntryCrc, "(J)J").
+		Register(getEntryCSize, "(J)J").
+		Register(getEntryFlag, "(J)I").
+		Register(getEntryMethod, "(J)I").
+		Register(getEntrySize, "(J)J").
+		Register(getEntryTime, "(J)J").
+		Register(getNextEntry, "(JI)J").
+		Register(getTotal, "(J)I").
+		Register(open, "(Ljava/lang/String;IJZ)J").
+		Register(read, "(JJJ[BII)I").
+		Register(startsWithLOC, "(J)Z")
 }
 
 // private static native long open(String name, int mode, long lastModified,

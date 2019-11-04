@@ -8,15 +8,12 @@ import (
 )
 
 func init() {
-	_object(clone, "clone", "()Ljava/lang/Object;")
-	_object(getClass, "getClass", "()Ljava/lang/Class;")
-	_object(hashCode, "hashCode", "()I")
-	_object(notifyAll, "notifyAll", "()V")
-	_object(wait, "wait", "(J)V")
-}
-
-func _object(method native.Method, name, desc string) {
-	native.Register("java/lang/Object", name, desc, method)
+	native.ForClass("java/lang/Object").
+		Register(clone, "()Ljava/lang/Object;").
+		Register(getClass, "()Ljava/lang/Class;").
+		Register(hashCode, "()I").
+		Register(notifyAll, "()V").
+		Register(wait, "(J)V")
 }
 
 // protected native Object clone() throws CloneNotSupportedException;

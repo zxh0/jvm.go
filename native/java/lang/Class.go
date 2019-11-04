@@ -9,24 +9,28 @@ import (
 )
 
 func init() {
-	_class(getComponentType, "getComponentType", "()Ljava/lang/Class;")
-	_class(getConstantPool, "getConstantPool", "()Ljdk/internal/reflect/ConstantPool;")
-	_class(getDeclaringClass0, "getDeclaringClass0", "()Ljava/lang/Class;")
-	_class(getEnclosingMethod0, "getEnclosingMethod0", "()[Ljava/lang/Object;")
-	_class(getInterfaces0, "getInterfaces0", "()[Ljava/lang/Class;")
-	_class(getModifiers, "getModifiers", "()I")
-	_class(initClassName, "initClassName", "()Ljava/lang/String;")
-	_class(getSuperclass, "getSuperclass", "()Ljava/lang/Class;")
-	_class(isArray, "isArray", "()Z")
-	_class(isAssignableFrom, "isAssignableFrom", "(Ljava/lang/Class;)Z")
-	_class(isInstance, "isInstance", "(Ljava/lang/Object;)Z")
-	_class(isInterface, "isInterface", "()Z")
-	_class(isPrimitive, "isPrimitive", "()Z")
-	_class(getGenericSignature0, "getGenericSignature0", "()Ljava/lang/String;")
-}
-
-func _class(method native.Method, name, desc string) {
-	native.Register("java/lang/Class", name, desc, method)
+	native.ForClass("java/lang/Class").
+		Register(getComponentType, "()Ljava/lang/Class;").
+		Register(getConstantPool, "()Ljdk/internal/reflect/ConstantPool;").
+		Register(getDeclaringClass0, "()Ljava/lang/Class;").
+		Register(getEnclosingMethod0, "()[Ljava/lang/Object;").
+		Register(getInterfaces0, "()[Ljava/lang/Class;").
+		Register(getModifiers, "()I").
+		Register(initClassName, "()Ljava/lang/String;").
+		Register(getSuperclass, "()Ljava/lang/Class;").
+		Register(isArray, "()Z").
+		Register(isAssignableFrom, "(Ljava/lang/Class;)Z").
+		Register(isInstance, "(Ljava/lang/Object;)Z").
+		Register(isInterface, "()Z").
+		Register(isPrimitive, "()Z").
+		Register(getGenericSignature0, "()Ljava/lang/String;").
+		Register(getRawAnnotations, "()[B").
+		Register(getDeclaredConstructors0, "(Z)[Ljava/lang/reflect/Constructor;").
+		Register(getDeclaredFields0, "(Z)[Ljava/lang/reflect/Field;").
+		Register(getDeclaredMethods0, "(Z)[Ljava/lang/reflect/Method;").
+		Register(desiredAssertionStatus0, "(Ljava/lang/Class;)Z").
+		Register(forName0, "(Ljava/lang/String;ZLjava/lang/ClassLoader;Ljava/lang/Class;)Ljava/lang/Class;").
+		Register(getPrimitiveClass, "(Ljava/lang/String;)Ljava/lang/Class;")
 }
 
 // public native Class<?> getComponentType();

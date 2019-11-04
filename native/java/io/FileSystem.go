@@ -6,11 +6,8 @@ import (
 )
 
 func init() {
-	_fs(getFileSystem, "getFileSystem", "()Ljava/io/FileSystem;")
-}
-
-func _fs(method native.Method, name, desc string) {
-	native.Register("java/io/FileSystem", name, desc, method)
+	native.ForClass("java/io/FileSystem").
+		Register(getFileSystem, "()Ljava/io/FileSystem;")
 }
 
 // public static native FileSystem getFileSystem()

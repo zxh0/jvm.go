@@ -7,13 +7,10 @@ import (
 )
 
 func init() {
-	_throwable(fillInStackTrace, "fillInStackTrace", "(I)Ljava/lang/Throwable;")
-	_throwable(getStackTraceElement, "getStackTraceElement", "(I)Ljava/lang/StackTraceElement;")
-	_throwable(getStackTraceDepth, "getStackTraceDepth", "()I")
-}
-
-func _throwable(method native.Method, name, desc string) {
-	native.Register("java/lang/Throwable", name, desc, method)
+	native.ForClass("java/lang/Throwable").
+		Register(fillInStackTrace, "(I)Ljava/lang/Throwable;").
+		Register(getStackTraceElement, "(I)Ljava/lang/StackTraceElement;").
+		Register(getStackTraceDepth, "()I")
 }
 
 type StackTraceElement struct {

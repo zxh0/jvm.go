@@ -57,9 +57,9 @@ func readConstantInfo(reader *ClassReader) ConstantInfo {
 	case ConstantFieldRef:
 		return readConstantFieldRefInfo(reader)
 	case ConstantMethodRef:
-		return readConstantMethodRefInfo(reader)
+		return readConstantMethodRefInfo(reader, false)
 	case ConstantInterfaceMethodRef:
-		return readConstantInterfaceMethodRefInfo(reader)
+		return readConstantMethodRefInfo(reader, true)
 	case ConstantNameAndType:
 		return readConstantNameAndTypeInfo(reader)
 	case ConstantMethodType:

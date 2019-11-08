@@ -5,6 +5,17 @@ import (
 	"github.com/zxh0/jvm.go/vmutils"
 )
 
+/*
+symbolic_ref
+  class_ref
+  member_ref
+    field_ref
+    method_ref
+    interface_method_ref
+  method_type_ref
+  method_handle_ref
+*/
+
 type Constant interface{}
 type ConstantPool []Constant
 
@@ -25,13 +36,11 @@ func newConstantPool(class *Class, cf *classfile.ClassFile) ConstantPool {
 		case classfile.ConstantStringInfo:
 			rtCp[i] = newConstantString(class, cf.GetUTF8(x.StringIndex))
 		case classfile.ConstantClassInfo:
-			rtCp[i] = newConstantClass(class, cf, x)
+			rtCp[i] = newConstantClass(cf, x)
 		case classfile.ConstantFieldRefInfo:
-			rtCp[i] = newConstantFieldRef(class, cf, x)
+			rtCp[i] = newConstantFieldRef(cf, x)
 		case classfile.ConstantMethodRefInfo:
-			rtCp[i] = newConstantMethodRef(class, cf, x)
-		case classfile.ConstantInterfaceMethodRefInfo:
-			rtCp[i] = newConstantInterfaceMethodRef(class, cf, x)
+			rtCp[i] = newConstantMethodRef(cf, x)
 		case classfile.ConstantInvokeDynamicInfo:
 			rtCp[i] = newConstantInvokeDynamic(cf, rtCp, x)
 		case classfile.ConstantMethodHandleInfo:

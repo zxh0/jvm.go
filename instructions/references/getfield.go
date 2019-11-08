@@ -4,6 +4,7 @@ import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/rtda/linker"
 )
 
 // Fetch field from object
@@ -15,8 +16,8 @@ type GetField struct {
 func (instr *GetField) Execute(frame *rtda.Frame) {
 	if instr.field == nil {
 		cp := frame.GetConstantPool()
-		kFieldRef := cp.GetConstantFieldRef(instr.Index)
-		instr.field = kFieldRef.GetField(false)
+		fieldRef := cp.GetConstantFieldRef(instr.Index)
+		instr.field = linker.ResolveField(frame.GetBootLoader(), fieldRef, false)
 	}
 
 	ref := frame.PopRef()

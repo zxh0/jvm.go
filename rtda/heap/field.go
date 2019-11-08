@@ -1,6 +1,8 @@
 package heap
 
 import (
+	"fmt"
+
 	"github.com/zxh0/jvm.go/classfile"
 )
 
@@ -48,4 +50,9 @@ func (field *Field) resolveType() *Class {
 	bootLoader := field.Class.bootLoader
 	className := getClassName(field.Descriptor)
 	return bootLoader.LoadClass(className)
+}
+
+func (field *Field) String() string {
+	return fmt.Sprintf("{class: %s, name:%s, descriptor:%s}",
+		field.Class.Name, field.Name, field.Descriptor)
 }

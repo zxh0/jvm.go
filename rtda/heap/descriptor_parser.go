@@ -4,10 +4,6 @@ type MethodDescriptorParser struct {
 	d string
 }
 
-func calcParamSlotCount(descriptor string) uint {
-	return parseMethodDescriptor(descriptor).getParamSlotCount()
-}
-
 func parseMethodDescriptor(descriptor string) MethodDescriptor {
 	parser := &MethodDescriptorParser{descriptor}
 	return parser.parse()

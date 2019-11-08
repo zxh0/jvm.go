@@ -1,8 +1,8 @@
 package main;
 
 import helper.UnitTestRunner;
+import jvm.cls.FieldsTest;
 import jvm.lambda.InterfaceMethodTest;
-import stdlib.basic.reflection.ArrayTest;
 
 public class UnitTests {
 
@@ -11,9 +11,7 @@ public class UnitTests {
             jvm.ex.ClassLibExTest.class,
             jvm.ex.InstructionExTest.class,
             jvm.ex.InstructionNpeTest.class,
-            jvm.field.ConstantStaticFieldsTest.class,
-            jvm.field.FieldAccessTest.class,
-            jvm.field.FieldsTest.class,
+            FieldsTest.class,
             stdlib.nio.io.file.FileIoTest.class,
             stdlib.nio.io.file.RandomAccessFileTest.class,
             stdlib.basic.reflection.GenericTest.class,

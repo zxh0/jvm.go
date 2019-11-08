@@ -4,6 +4,7 @@ import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/rtda/linker"
 )
 
 // Create new array
@@ -30,8 +31,8 @@ type ANewArray struct{ base.Index16Instruction }
 
 func (instr *ANewArray) Execute(frame *rtda.Frame) {
 	cp := frame.GetConstantPool()
-	kClass := cp.GetConstantClass(instr.Index)
-	componentClass := kClass.GetClass()
+	classRef := cp.GetConstantClass(instr.Index)
+	componentClass := linker.ResolveClass(frame.GetBootLoader(), classRef)
 
 	//if componentClass.InitializationNotStarted() {
 	//	thread := frame.Thread
@@ -61,8 +62,8 @@ func (instr *MultiANewArray) FetchOperands(reader *base.CodeReader) {
 }
 func (instr *MultiANewArray) Execute(frame *rtda.Frame) {
 	cp := frame.GetConstantPool()
-	kClass := cp.GetConstantClass(uint(instr.index))
-	arrClass := kClass.GetClass()
+	classRef := cp.GetConstantClass(uint(instr.index))
+	arrClass := linker.ResolveClass(frame.GetBootLoader(), classRef)
 
 	counts := frame.PopTops(uint(instr.dimensions))
 	if !_checkCounts(counts) {

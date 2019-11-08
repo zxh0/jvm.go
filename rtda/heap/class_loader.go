@@ -182,7 +182,7 @@ func (loader *ClassLoader) reallyLoadClass(name string) *Class {
 func (loader *ClassLoader) readClassData(name string) (module.Module, []byte) {
 	from, classData := loader.modulePath.ReadClass(name)
 	if classData == nil {
-		panic(vm.NewClassNotFoundError(vmutils.SlashToDot(name)))
+		panic(vm.NewClassNotFoundEx(vmutils.SlashToDot(name)))
 	}
 	return from, classData
 }

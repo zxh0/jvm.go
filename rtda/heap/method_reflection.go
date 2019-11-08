@@ -32,7 +32,7 @@ func (method *Method) GetExceptionTypes() []*Class {
 
 	for i, exIndex := range method.exIndexTable {
 		kClass := cp.GetConstantClass(uint(exIndex))
-		exClasses[i] = kClass.GetClass()
+		exClasses[i] = method.Class.bootLoader.LoadClass(kClass.Name) // TODO
 	}
 
 	return exClasses

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/vm"
 )
 
 func (thread *Thread) throwException(className, initDesc string, initArgs ...heap.Slot) {
@@ -23,6 +24,10 @@ func (thread *Thread) throwExceptionV(className string) {
 func (thread *Thread) throwExceptionS(className, msg string) {
 	msgObj := thread.Runtime.JSFromGoStr(msg)
 	thread.throwException(className, "(Ljava/lang/String;)V", heap.NewRefSlot(msgObj))
+}
+
+func (thread *Thread) ThrowException(ex vm.ErrOrEx) {
+	thread.throwExceptionS(ex.ClassName, ex.Message)
 }
 
 func (thread *Thread) ThrowNPE() {
@@ -47,10 +52,6 @@ func (thread *Thread) ThrowIllegalArgumentException(msg string) {
 
 func (thread *Thread) ThrowInterruptedException(msg string) {
 	thread.throwExceptionS("java/lang/InterruptedException", msg)
-}
-
-func (thread *Thread) ThrowClassNotFoundException(name string) {
-	thread.throwExceptionS("java/lang/ClassNotFoundException", name)
 }
 
 func (thread *Thread) ThrowFileNotFoundException(name string) {

@@ -4,6 +4,8 @@ import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/rtda/linker"
+	"github.com/zxh0/jvm.go/vm"
 )
 
 // Invoke interface method
@@ -13,8 +15,7 @@ type InvokeInterface struct {
 	// zero uint8
 
 	// optimization
-	kMethodRef   *heap.ConstantInterfaceMethodRef
-	argSlotCount uint
+	methodRef *heap.ConstantMethodRef
 }
 
 func (instr *InvokeInterface) FetchOperands(reader *base.CodeReader) {
@@ -24,17 +25,27 @@ func (instr *InvokeInterface) FetchOperands(reader *base.CodeReader) {
 }
 
 func (instr *InvokeInterface) Execute(frame *rtda.Frame) {
-	if instr.kMethodRef == nil {
+	if instr.methodRef == nil {
 		cp := frame.GetConstantPool()
-		instr.kMethodRef = cp.GetConstant(instr.index).(*heap.ConstantInterfaceMethodRef)
-		instr.argSlotCount = instr.kMethodRef.ParamSlotCount
+		methodRef := cp.GetConstant(instr.index).(*heap.ConstantMethodRef)
+		if !methodRef.IsInterface {
+			panic(vm.NewIncompatibleClassChangeError(methodRef.String()))
+		}
+
+		method := linker.ResolveMethod(frame.GetBootLoader(), methodRef)
+		if method.IsStatic() || method.IsConstructor() {
+			panic(vm.NewIncompatibleClassChangeError(method.String()))
+		}
+
+		instr.methodRef = methodRef
 	}
 
-	ref := frame.TopRef(instr.argSlotCount)
-	if ref == nil {
-		panic("NPE") // todo
+	obj := frame.TopRef(instr.methodRef.ResolvedMethod.ParamSlotCount - 1)
+	if obj == nil {
+		frame.Thread.ThrowNPE()
+		return
 	}
 
-	method := instr.kMethodRef.FindInterfaceMethod(ref)
+	method := linker.SelectMethod(obj, instr.methodRef)
 	frame.Thread.InvokeMethod(method)
 }

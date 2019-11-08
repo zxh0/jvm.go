@@ -1,4 +1,4 @@
-package jvm;
+package jvm.cls;
 
 import static helper.MyAssert.*;
 

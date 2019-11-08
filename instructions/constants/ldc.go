@@ -6,6 +6,7 @@ import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/rtda/linker"
 )
 
 // Push item from run-time constant pool
@@ -33,7 +34,7 @@ func _ldc(frame *rtda.Frame, index uint) {
 	case *heap.ConstantString: // string
 		frame.PushRef(x.GetJString())
 	case *heap.ConstantClass:
-		frame.PushRef(x.GetClass().JClass)
+		frame.PushRef(linker.ResolveClass(frame.GetBootLoader(), x).JClass)
 	default:
 		// todo
 		// ref to MethodType or MethodHandle

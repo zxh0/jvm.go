@@ -1,13 +1,14 @@
 package main;
 
-import jvm.ClassInitTest;
+import jvm.cls.ClassInitTest;
+import jvm.cls.FieldConstantStaticVarTest;
+import jvm.cls.FieldAccessTest;
 import jvm.instructions.*;
 import jvm.jsr292.LookupTest;
 import stdlib.basic.StringTest;
 import stdlib.basic.WrappersTest;
 import stdlib.basic.cl.ClassLoaderTest;
 import stdlib.basic.reflection.*;
-import stdlib.x.unsafe.UnsafeMemoryTest;
 import stdlib.x.unsafe.UnsafeObjectTest;
 
 public class AllTests {
@@ -21,6 +22,8 @@ public class AllTests {
         runTest(new RefArrayTest());
         runTest(new RefAThrowTest());
         runTest(new ClassInitTest());
+        runTest(new FieldAccessTest());
+        runTest(new FieldConstantStaticVarTest());
         runTest(new StringTest());
         runTest(new WrappersTest());
         runTest(new ClassLoaderTest());

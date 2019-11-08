@@ -21,7 +21,7 @@ func init() {
 	native.ForClass("java/lang/invoke/MethodHandleNatives").
 		RemovePrefix("mhn_").
 		Register(mhn_init, "(Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V").
-		Register(resolve, "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;").
+		Register(resolve, "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;Z)Ljava/lang/invoke/MemberName;").
 		Register(getConstant, "(I)I")
 }
 
@@ -57,12 +57,13 @@ func getMNFlags(method *heap.Method) int32 {
 	return flags
 }
 
-// static native MemberName resolve(MemberName self, Class<?> caller) throws LinkageError;
-// (Ljava/lang/invoke/MemberName;Ljava/lang/Class;)Ljava/lang/invoke/MemberName;
+// static native MemberName resolve(MemberName self, Class<?> caller, boolean speculativeResolve) throws LinkageError, ClassNotFoundException;
+// (Ljava/lang/invoke/MemberName;Ljava/lang/Class;Z)Ljava/lang/invoke/MemberName;
 func resolve(frame *rtda.Frame) {
 	mnSlot := frame.GetLocalVar(0)
 	mnObj := mnSlot.Ref
 	// caller := frame.GetRefVar(1)
+	// speculativeResolve := frame.GetBooleanVar(2)
 	// panic("TODO: resolve!")
 	frame.PushRef(mnObj)
 
@@ -79,32 +80,20 @@ func resolve(frame *rtda.Frame) {
 		sigObj := shim.TopRef(0)
 		sigStr := sigObj.JSToGoStr()
 		if sigStr[0] == '(' {
-			if m := getMethod(cls, nameStr, sigStr); m != nil {
+			if m := cls.GetMethod(nameStr, sigStr); m != nil {
 				flags |= int32(m.AccessFlags)
 				mnObj.SetFieldValue("flags", "I", heap.NewIntSlot(flags))
 			}
 		} else {
-			panic("TODO")
+			panic("TODO: MHN: resolve!" + nameStr + "||" + sigStr)
 		}
 	})
-}
-
-// TODO
-func getMethod(cls *heap.Class, name, descriptor string) *heap.Method {
-	if m := cls.GetStaticMethod(name, descriptor); m != nil {
-		return m
-	}
-	if m := cls.GetInstanceMethod(name, descriptor); m != nil {
-		return m
-	}
-	return nil
 }
 
 // static native int getConstant(int which);
 // (I)I
 func getConstant(frame *rtda.Frame) {
 	which := frame.GetIntVar(0)
-
 	if which == 4 {
 		frame.PushInt(1)
 	} else {

@@ -4,6 +4,7 @@ import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/rtda/linker"
 )
 
 // Create new object
@@ -15,8 +16,8 @@ type New struct {
 func (instr *New) Execute(frame *rtda.Frame) {
 	if instr.class == nil {
 		cp := frame.GetConstantPool()
-		kClass := cp.GetConstantClass(instr.Index)
-		instr.class = kClass.GetClass()
+		classRef := cp.GetConstantClass(instr.Index)
+		instr.class = linker.ResolveClass(frame.GetBootLoader(), classRef)
 	}
 
 	// init class

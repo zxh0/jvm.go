@@ -4,12 +4,34 @@ import (
 	"github.com/zxh0/jvm.go/classfile"
 )
 
+type ConstantMethodType struct {
+	// todo
+}
+
+type ConstantMethodHandle struct {
+	referenceKind  uint8
+	referenceIndex uint16
+}
+
 type ConstantInvokeDynamic struct {
 	name               string
 	_type              string
 	bootstrapMethodRef uint16 // method handle
 	bootstrapArguments []uint16
 	cp                 ConstantPool
+}
+
+func newConstantMethodType(mtInfo classfile.ConstantMethodTypeInfo) *ConstantMethodType {
+	return &ConstantMethodType{
+		// todo
+	}
+}
+
+func newConstantMethodHandle(mhInfo classfile.ConstantMethodHandleInfo) *ConstantMethodHandle {
+	return &ConstantMethodHandle{
+		referenceKind:  mhInfo.ReferenceKind,
+		referenceIndex: mhInfo.ReferenceIndex,
+	}
 }
 
 func newConstantInvokeDynamic(cf *classfile.ClassFile, cp ConstantPool, indyInfo classfile.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {

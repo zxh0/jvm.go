@@ -4,6 +4,8 @@ import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
+	"github.com/zxh0/jvm.go/rtda/linker"
+	"github.com/zxh0/jvm.go/vm"
 )
 
 // Invoke a class (static) method
@@ -15,12 +17,12 @@ type InvokeStatic struct {
 func (instr *InvokeStatic) Execute(frame *rtda.Frame) {
 	if instr.method == nil {
 		cp := frame.GetConstantPool()
-		k := cp.GetConstant(instr.Index)
-		if kMethodRef, ok := k.(*heap.ConstantMethodRef); ok {
-			instr.method = kMethodRef.GetMethod(true)
-		} else {
-			instr.method = k.(*heap.ConstantInterfaceMethodRef).GetMethod(true)
+		methodRef := cp.GetConstant(instr.Index).(*heap.ConstantMethodRef)
+		method := linker.ResolveMethod(frame.GetBootLoader(), methodRef)
+		if !method.IsStatic() || method.IsClinit() || method.IsConstructor() {
+			panic(vm.NewIncompatibleClassChangeError(method.String()))
 		}
+		instr.method = method
 	}
 
 	// init class

@@ -5,38 +5,23 @@ import (
 	"unsafe"
 )
 
-var NativeEndian nativeEndian
-var _ binary.ByteOrder = NativeEndian
+var NativeEndian binary.ByteOrder
 
-type nativeEndian struct{}
+// https://stackoverflow.com/questions/51332658/any-better-way-to-check-endianness-in-go
+func init() {
+	buf := [2]byte{}
+	*(*uint16)(unsafe.Pointer(&buf[0])) = uint16(0xABCD)
 
-func (n nativeEndian) Uint16(b []byte) uint16 {
-	_ = b[1]
-	return *(*uint16)(unsafe.Pointer(&b[0]))
+	switch buf {
+	case [2]byte{0xCD, 0xAB}:
+		NativeEndian = binary.LittleEndian
+	case [2]byte{0xAB, 0xCD}:
+		NativeEndian = binary.BigEndian
+	default:
+		panic("Could not determine native endianness.")
+	}
 }
 
-func (n nativeEndian) Uint32(b []byte) uint32 {
-	_ = b[3]
-	return *(*uint32)(unsafe.Pointer(&b[0]))
-}
-
-func (n nativeEndian) Uint64(b []byte) uint64 {
-	_ = b[7]
-	return *(*uint64)(unsafe.Pointer(&b[0]))
-}
-
-func (n nativeEndian) PutUint16([]byte, uint16) {
-	panic("not implemented")
-}
-
-func (n nativeEndian) PutUint32([]byte, uint32) {
-	panic("not implemented")
-}
-
-func (n nativeEndian) PutUint64([]byte, uint64) {
-	panic("not implemented")
-}
-
-func (n nativeEndian) String() string {
-	panic("not implemented")
+func IsBigEndian() bool {
+	return NativeEndian == binary.BigEndian
 }

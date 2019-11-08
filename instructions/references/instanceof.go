@@ -3,6 +3,7 @@ package references
 import (
 	"github.com/zxh0/jvm.go/instructions/base"
 	"github.com/zxh0/jvm.go/rtda"
+	"github.com/zxh0/jvm.go/rtda/linker"
 )
 
 // Determine if object is of given type
@@ -12,8 +13,8 @@ func (instr *InstanceOf) Execute(frame *rtda.Frame) {
 	ref := frame.PopRef()
 
 	cp := frame.GetConstantPool()
-	kClass := cp.GetConstantClass(instr.Index)
-	class := kClass.GetClass()
+	classRef := cp.GetConstantClass(instr.Index)
+	class := linker.ResolveClass(frame.GetBootLoader(), classRef)
 
 	if ref == nil {
 		frame.PushInt(0)

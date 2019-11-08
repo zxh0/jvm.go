@@ -1,10 +1,10 @@
-package jvm.field;
+package jvm.cls;
 
-import helper.UnitTestRunner;
 import static helper.MyAssert.*;
 
-public class FieldAccessTest {
-    
+// test field resolution
+public class FieldAccessTest implements Runnable {
+
     private static interface I {
         static int i = val(1);
     }
@@ -24,18 +24,18 @@ public class FieldAccessTest {
     private static int val(int x) {
         return x;
     }
-    
-//    @Test
-    public void test() {
+
+    public static void main(String[] args) {
+        new FieldAccessTest().run();
+    }
+
+    @Override
+    public void run() {
         assertEquals(1, B.i);
         assertEquals(2, B.j);
         assertEquals(3, B.k);
         assertEquals(4, B.a);
         assertEquals(5, B.b);
     }
-    
-    public static void main(String[] args) {
-        UnitTestRunner.run(FieldAccessTest.class);
-    }
-    
+
 }

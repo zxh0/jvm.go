@@ -105,8 +105,8 @@ func fetchInstruction(method *heap.Method, pc int) (base.Instruction, int) {
 // todo
 func _catchErr(thread *rtda.Thread) {
 	if r := recover(); r != nil {
-		if err, ok := r.(vm.ClassNotFoundError); ok {
-			thread.ThrowClassNotFoundException(err.Error())
+		if ex, ok := r.(vm.ErrOrEx); ok {
+			thread.ThrowException(ex)
 			_loop(thread)
 			return
 		}

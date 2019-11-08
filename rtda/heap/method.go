@@ -1,6 +1,7 @@
 package heap
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/zxh0/jvm.go/classfile"
@@ -100,9 +101,8 @@ func (method *Method) FindExceptionHandler(exClass *Class, pc int) int {
 			}
 
 			catchType := method.Class.GetConstantClass(uint(handler.CatchType))
-			if catchType.GetClass() == exClass ||
-				catchType.GetClass().isSuperClassOf(exClass) {
-
+			catchClass := method.Class.bootLoader.LoadClass(catchType.Name) // TODO
+			if catchClass == exClass || catchClass.isSuperClassOf(exClass) {
 				return int(handler.HandlerPc)
 			}
 		}
@@ -121,4 +121,9 @@ func (method *Method) GetLineNumber(pc int) int {
 		}
 	}
 	return -1
+}
+
+func (method *Method) String() string {
+	return fmt.Sprintf("{class: %s, name:%s, descriptor:%s}",
+		method.Class.Name, method.Name, method.Descriptor)
 }

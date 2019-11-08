@@ -1,4 +1,4 @@
-package jvm.field;
+package jvm.cls;
 
 import helper.UnitTestRunner;
 import static helper.MyAssert.*;

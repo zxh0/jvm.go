@@ -9,7 +9,7 @@ import (
 func init() {
 	_unsafe(allocateInstance, "allocateInstance", "(Ljava/lang/Class;)Ljava/lang/Object;")
 	_unsafe(defineClass, "defineClass", "(Ljava/lang/String;[BIILjava/lang/ClassLoader;Ljava/security/ProtectionDomain;)Ljava/lang/Class;")
-	_unsafe(shouldBeInitialized, "shouldBeInitialized", "(Ljava/lang/Class;)Z")
+	_unsafe(shouldBeInitialized0, "shouldBeInitialized0", "(Ljava/lang/Class;)Z")
 	_unsafe(ensureClassInitialized0, "ensureClassInitialized0", "(Ljava/lang/Class;)V")
 	_unsafe(staticFieldOffset0, "staticFieldOffset0", "(Ljava/lang/reflect/Field;)J")
 	_unsafe(staticFieldBase0, "staticFieldBase0", "(Ljava/lang/reflect/Field;)Ljava/lang/Object;")
@@ -47,9 +47,9 @@ func defineClass(frame *rtda.Frame) {
 	frame.PushRef(class.JClass)
 }
 
-// public native boolean shouldBeInitialized(Class<?> c);
+// public native boolean shouldBeInitialized0(Class<?> c);
 // (Ljava/lang/Class;)V
-func shouldBeInitialized(frame *rtda.Frame) {
+func shouldBeInitialized0(frame *rtda.Frame) {
 	// this := frame.GetRefVar(0)
 	classObj := frame.GetRefVar(1)
 

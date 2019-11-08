@@ -42,7 +42,6 @@ func (flags AccessFlags) IsPrivate() bool      { return flags&AccPrivate != 0 }
 func (flags AccessFlags) IsProtected() bool    { return flags&AccProtected != 0 }
 func (flags AccessFlags) IsStatic() bool       { return flags&AccStatic != 0 }
 func (flags AccessFlags) IsFinal() bool        { return flags&AccFinal != 0 }
-func (flags AccessFlags) IsSuper() bool        { return flags&AccSuper != 0 }
 func (flags AccessFlags) IsSynchronized() bool { return flags&AccSynchronized != 0 }
 func (flags AccessFlags) IsOpen() bool         { return flags&AccOpen != 0 }
 func (flags AccessFlags) IsTransitive() bool   { return flags&AccTransitive != 0 }
@@ -60,3 +59,12 @@ func (flags AccessFlags) IsAnnotation() bool   { return flags&AccAnnotation != 0
 func (flags AccessFlags) IsEnum() bool         { return flags&AccEnum != 0 }
 func (flags AccessFlags) IsModule() bool       { return flags&AccModule != 0 }
 func (flags AccessFlags) IsMandated() bool     { return flags&AccMandated != 0 }
+
+/*
+In Java SE 8 and above, the Java Virtual Machine considers the ACC_SUPER flag
+to be set in every class file, regardless of the actual value of the flag in
+the class file and the version of the class file.
+*/
+func (flags AccessFlags) IsAccSuper() bool {
+	return true
+}

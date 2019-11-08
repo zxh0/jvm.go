@@ -18,28 +18,28 @@ CONSTANT_InterfaceMethodref_info {
 }
 */
 
-type ConstantFieldRefInfo constantMemberRefInfo
-type ConstantMethodRefInfo constantMemberRefInfo
-type ConstantInterfaceMethodRefInfo constantMemberRefInfo
-
-type constantMemberRefInfo struct {
+type ConstantFieldRefInfo struct {
 	ClassIndex       uint16
 	NameAndTypeIndex uint16
 }
 
-func readConstantFieldRefInfo(reader *ClassReader) ConstantFieldRefInfo {
-	return ConstantFieldRefInfo(readConstantMemberRefInfo(reader))
-}
-func readConstantMethodRefInfo(reader *ClassReader) ConstantMethodRefInfo {
-	return ConstantMethodRefInfo(readConstantMemberRefInfo(reader))
-}
-func readConstantInterfaceMethodRefInfo(reader *ClassReader) ConstantInterfaceMethodRefInfo {
-	return ConstantInterfaceMethodRefInfo(readConstantMemberRefInfo(reader))
+type ConstantMethodRefInfo struct {
+	ClassIndex        uint16
+	NameAndTypeIndex  uint16
+	IsInterfaceMethod bool
 }
 
-func readConstantMemberRefInfo(reader *ClassReader) constantMemberRefInfo {
-	return constantMemberRefInfo{
+func readConstantFieldRefInfo(reader *ClassReader) ConstantFieldRefInfo {
+	return ConstantFieldRefInfo{
 		ClassIndex:       reader.ReadUint16(),
 		NameAndTypeIndex: reader.ReadUint16(),
+	}
+}
+
+func readConstantMethodRefInfo(reader *ClassReader, isInterfaceMethod bool) ConstantMethodRefInfo {
+	return ConstantMethodRefInfo{
+		ClassIndex:        reader.ReadUint16(),
+		NameAndTypeIndex:  reader.ReadUint16(),
+		IsInterfaceMethod: isInterfaceMethod,
 	}
 }

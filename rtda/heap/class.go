@@ -78,68 +78,6 @@ func (class *Class) MarkFullyInitialized() {
 	class.initState = _fullyInitialized
 }
 
-func (class *Class) getField(name, descriptor string, isStatic bool) *Field {
-	for k := class; k != nil; k = k.SuperClass {
-		for _, field := range k.Fields {
-			if field.IsStatic() == isStatic &&
-				field.Name == name &&
-				(descriptor == "*" || field.Descriptor == descriptor) {
-
-				return field
-			}
-		}
-	}
-	// todo
-	return nil
-}
-func (class *Class) getMethod(name, descriptor string, isStatic bool) *Method {
-	for k := class; k != nil; k = k.SuperClass {
-		for _, method := range k.Methods {
-			if method.IsStatic() == isStatic &&
-				method.Name == name &&
-				method.Descriptor == descriptor {
-
-				return method
-			}
-		}
-	}
-	// todo
-	return nil
-}
-
-func (class *Class) getDeclaredMethod(name, descriptor string, isStatic bool) *Method {
-	for _, method := range class.Methods {
-		if method.IsStatic() == isStatic &&
-			method.Name == name &&
-			method.Descriptor == descriptor {
-
-			return method
-		}
-	}
-	return nil
-}
-
-func (class *Class) GetStaticField(name, descriptor string) *Field {
-	return class.getField(name, descriptor, true)
-}
-func (class *Class) GetInstanceField(name, descriptor string) *Field {
-	return class.getField(name, descriptor, false)
-}
-
-func (class *Class) GetStaticMethod(name, descriptor string) *Method {
-	return class.getMethod(name, descriptor, true)
-}
-func (class *Class) GetInstanceMethod(name, descriptor string) *Method {
-	return class.getMethod(name, descriptor, false)
-}
-
-func (class *Class) GetMainMethod() *Method {
-	return class.GetStaticMethod(mainMethodName, mainMethodDesc)
-}
-func (class *Class) GetClinitMethod() *Method {
-	return class.getDeclaredMethod(clinitMethodName, clinitMethodDesc, true)
-}
-
 func (class *Class) NewObjWithExtra(extra interface{}) *Object {
 	obj := class.NewObj()
 	obj.Extra = extra
@@ -167,16 +105,6 @@ func (class *Class) isJlCloneable() bool {
 }
 func (class *Class) isJioSerializable() bool {
 	return class == class.bootLoader.ioSerializableClass
-}
-
-// reflection
-func (class *Class) GetStaticValue(fieldName, fieldDescriptor string) Slot {
-	field := class.GetStaticField(fieldName, fieldDescriptor)
-	return field.GetStaticValue()
-}
-func (class *Class) SetStaticValue(fieldName, fieldDescriptor string, value Slot) {
-	field := class.GetStaticField(fieldName, fieldDescriptor)
-	field.PutStaticValue(value)
 }
 
 func (class *Class) AsObj() *Object {

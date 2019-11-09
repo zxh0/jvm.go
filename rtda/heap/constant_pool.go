@@ -42,7 +42,7 @@ func newConstantPool(class *Class, cf *classfile.ClassFile) ConstantPool {
 		case classfile.ConstantMethodRefInfo:
 			rtCp[i] = newConstantMethodRef(cf, x)
 		case classfile.ConstantInvokeDynamicInfo:
-			rtCp[i] = newConstantInvokeDynamic(cf, rtCp, x)
+			rtCp[i] = newConstantInvokeDynamic(cf, x)
 		case classfile.ConstantMethodHandleInfo:
 			rtCp[i] = newConstantMethodHandle(x)
 		case classfile.ConstantMethodTypeInfo:
@@ -65,6 +65,9 @@ func (cp ConstantPool) GetConstantClass(index uint) *ConstantClass {
 }
 func (cp ConstantPool) GetConstantFieldRef(index uint) *ConstantFieldRef {
 	return cp.GetConstant(index).(*ConstantFieldRef)
+}
+func (cp ConstantPool) GetConstantInvokeDynamic(index uint) *ConstantInvokeDynamic {
+	return cp.GetConstant(index).(*ConstantInvokeDynamic)
 }
 
 func (cp ConstantPool) GetConstant(index uint) Constant {

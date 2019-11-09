@@ -5,6 +5,7 @@ import jvm.cls.FieldConstantStaticVarTest;
 import jvm.cls.FieldAccessTest;
 import jvm.instructions.*;
 import jvm.jsr292.LookupTest;
+import jvm.lambda.LambdaTest;
 import stdlib.basic.StringTest;
 import stdlib.basic.WrappersTest;
 import stdlib.basic.cl.ClassLoaderTest;
@@ -34,6 +35,7 @@ public class AllTests {
         runTest(new UnsafeObjectTest());
         //runTest(new UnsafeMemoryTest());
         runTest(new LookupTest(args));
+        runTest(new LambdaTest());
         System.out.println("OK!");
     }
 

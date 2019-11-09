@@ -6,8 +6,8 @@ import (
 )
 
 // https://docs.oracle.com/javase/specs/jvms/se13/html/jvms-5.html#jvms-5.4.3.2
-func ResolveField(loader *heap.ClassLoader, ref *heap.ConstantFieldRef,
-	static bool) *heap.Field {
+func ResolveField(loader *heap.ClassLoader,
+	ref *heap.ConstantFieldRef, static bool) *heap.Field {
 
 	if ref.ResolvedField == nil {
 		ref.ResolvedClass = loader.LoadClass(ref.ClassName)

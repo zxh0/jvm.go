@@ -14,11 +14,12 @@ type ConstantMethodHandle struct {
 }
 
 type ConstantInvokeDynamic struct {
-	name               string
-	_type              string
-	bootstrapMethodRef uint16 // method handle
-	bootstrapArguments []uint16
-	cp                 ConstantPool
+	Name          string
+	Type          string
+	RefKind       int8
+	FieldRef      *ConstantFieldRef
+	MethodRef     *ConstantMethodRef
+	bootstrapArgs []uint16
 }
 
 func newConstantMethodType(mtInfo classfile.ConstantMethodTypeInfo) *ConstantMethodType {
@@ -34,19 +35,35 @@ func newConstantMethodHandle(mhInfo classfile.ConstantMethodHandleInfo) *Constan
 	}
 }
 
-func newConstantInvokeDynamic(cf *classfile.ClassFile, cp ConstantPool, indyInfo classfile.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
+func newConstantInvokeDynamic(cf *classfile.ClassFile,
+	indyInfo classfile.ConstantInvokeDynamicInfo) *ConstantInvokeDynamic {
+
 	name, _type := cf.GetNameAndType(indyInfo.NameAndTypeIndex)
 	bm := cf.GetBootstrapMethods()[indyInfo.BootstrapMethodAttrIndex]
+	mh := cf.GetMethodHandleInfo(bm.BootstrapMethodRef)
+	fieldRef, methodRef := getRef(cf, mh.ReferenceKind, mh.ReferenceIndex)
+
 	return &ConstantInvokeDynamic{
-		name:               name,
-		_type:              _type,
-		bootstrapMethodRef: bm.BootstrapMethodRef,
-		bootstrapArguments: bm.BootstrapArguments,
-		cp:                 cp,
+		Name:          name,
+		Type:          _type,
+		FieldRef:      fieldRef,
+		MethodRef:     methodRef,
+		bootstrapArgs: bm.BootstrapArguments,
 	}
 }
 
-func (indy *ConstantInvokeDynamic) MethodHandle() {
-	kMH := indy.cp.GetConstant(uint(indy.bootstrapMethodRef)).(*ConstantMethodHandle)
-	println(kMH)
+// https://docs.oracle.com/javase/specs/jvms/se13/html/jvms-4.html#jvms-4.4.8
+func getRef(cf *classfile.ClassFile, refKind uint8, refIdx uint16) (*ConstantFieldRef, *ConstantMethodRef) {
+	switch refKind {
+	case classfile.RefGetField, classfile.RefGetStatic,
+		classfile.RefPutField, classfile.RefPutStatic:
+		return newConstantFieldRef(cf, cf.GetFieldRefInfo(refIdx)), nil
+	default: // TODO
+		return nil, newConstantMethodRef(cf, cf.GetMethodRefInfo(refIdx))
+	}
 }
+
+//func (indy *ConstantInvokeDynamic) MethodHandle() {
+//	kMH := indy.cp.GetConstant(uint(indy.bootstrapMethodRef)).(*ConstantMethodHandle)
+//	println(kMH)
+//}

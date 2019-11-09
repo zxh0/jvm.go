@@ -1,7 +1,7 @@
 package invoke
 
 import (
-	"github.com/zxh0/jvm.go/instructions/references"
+	"github.com/zxh0/jvm.go/classfile"
 	"github.com/zxh0/jvm.go/native"
 	"github.com/zxh0/jvm.go/rtda"
 	"github.com/zxh0/jvm.go/rtda/heap"
@@ -17,12 +17,42 @@ const (
 	MN_REFERENCE_KIND_MASK  = 0x0F000000 >> MN_REFERENCE_KIND_SHIFT
 )
 
+/*
+	/// MemberName support
+
+    static native void init(MemberName self, Object ref);
+    static native void expand(MemberName self);
+    static native MemberName resolve(MemberName self, Class<?> caller,
+            boolean speculativeResolve) throws LinkageError, ClassNotFoundException;
+    static native int getMembers(Class<?> defc, String matchName, String matchSig,
+            int matchFlags, Class<?> caller, int skip, MemberName[] results);
+
+    /// Field layout queries parallel to jdk.internal.misc.Unsafe:
+    static native long objectFieldOffset(MemberName self);  // e.g., returns vmindex
+    static native long staticFieldOffset(MemberName self);  // e.g., returns vmindex
+    static native Object staticFieldBase(MemberName self);  // e.g., returns clazz
+    static native Object getMemberVMInfo(MemberName self);  // returns {vmindex,vmtarget}
+
+    /// CallSite support
+
+	// Tell the JVM that we need to change the target of a CallSite.
+	static native void setCallSiteTargetNormal(CallSite site, MethodHandle target);
+	static native void setCallSiteTargetVolatile(CallSite site, MethodHandle target);
+
+	static native void copyOutBootstrapArguments(Class<?> caller, int[] indexInfo,
+												int start, int end,
+												Object[] buf, int pos,
+												boolean resolve,
+												Object ifNotAvailable);
+*/
 func init() {
 	native.ForClass("java/lang/invoke/MethodHandleNatives").
 		RemovePrefix("mhn_").
 		Register(mhn_init, "(Ljava/lang/invoke/MemberName;Ljava/lang/Object;)V").
 		Register(resolve, "(Ljava/lang/invoke/MemberName;Ljava/lang/Class;Z)Ljava/lang/invoke/MemberName;").
-		Register(getConstant, "(I)I")
+		Register(objectFieldOffset, "(Ljava/lang/invoke/MemberName;)J").
+		Register(staticFieldOffset, "(Ljava/lang/invoke/MemberName;)J").
+		Register(staticFieldBase, "(Ljava/lang/invoke/MemberName;)Ljava/lang/Object;")
 }
 
 // static native void init(MemberName self, Object ref);
@@ -48,11 +78,11 @@ func mhn_init(frame *rtda.Frame) {
 func getMNFlags(method *heap.Method) int32 {
 	flags := int32(method.AccessFlags)
 	if method.IsStatic() {
-		flags |= MN_IS_METHOD | (references.RefInvokeStatic << MN_REFERENCE_KIND_SHIFT)
+		flags |= MN_IS_METHOD | (classfile.RefInvokeStatic << MN_REFERENCE_KIND_SHIFT)
 	} else if method.IsConstructor() {
-		flags |= MN_IS_CONSTRUCTOR | (references.RefInvokeSpecial << MN_REFERENCE_KIND_SHIFT)
+		flags |= MN_IS_CONSTRUCTOR | (classfile.RefInvokeSpecial << MN_REFERENCE_KIND_SHIFT)
 	} else {
-		flags |= MN_IS_METHOD | (references.RefInvokeSpecial << MN_REFERENCE_KIND_SHIFT)
+		flags |= MN_IS_METHOD | (classfile.RefInvokeSpecial << MN_REFERENCE_KIND_SHIFT)
 	}
 	return flags
 }
@@ -85,18 +115,37 @@ func resolve(frame *rtda.Frame) {
 				mnObj.SetFieldValue("flags", "I", heap.NewIntSlot(flags))
 			}
 		} else {
-			panic("TODO: MHN: resolve!" + nameStr + "||" + sigStr)
+			if f := cls.GetField(nameStr, sigStr); f != nil {
+				flags |= int32(f.AccessFlags)
+				mnObj.SetFieldValue("flags", "I", heap.NewIntSlot(flags))
+			}
 		}
 	})
 }
 
-// static native int getConstant(int which);
-// (I)I
-func getConstant(frame *rtda.Frame) {
-	which := frame.GetIntVar(0)
-	if which == 4 {
-		frame.PushInt(1)
-	} else {
-		frame.PushInt(0)
-	}
+// static native Object staticFieldBase(MemberName self);
+func staticFieldBase(frame *rtda.Frame) {
+	mName := frame.GetRefVar(0)
+	class := mName.GetFieldValue("clazz", "*").Ref.GetGoClass()
+	name := mName.GetFieldValue("name", "*").Ref.JSToGoStr()
+	field := class.GetField(name, "*") // TODO: check static
+	frame.PushRef(field.Class.JClass)
+}
+
+// static native long staticFieldOffset(MemberName self);
+func staticFieldOffset(frame *rtda.Frame) {
+	mName := frame.GetRefVar(0)
+	class := mName.GetFieldValue("clazz", "*").Ref.GetGoClass()
+	name := mName.GetFieldValue("name", "*").Ref.JSToGoStr()
+	field := class.GetField(name, "*") // TODO: check static
+	frame.PushLong(int64(field.SlotId))
+}
+
+// static native long objectFieldOffset(MemberName self);
+func objectFieldOffset(frame *rtda.Frame) {
+	mName := frame.GetRefVar(0)
+	class := mName.GetFieldValue("clazz", "*").Ref.GetGoClass()
+	name := mName.GetFieldValue("name", "*").Ref.JSToGoStr()
+	field := class.GetField(name, "*") // TODO: check non-static
+	frame.PushLong(int64(field.SlotId))
 }

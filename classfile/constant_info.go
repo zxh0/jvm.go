@@ -19,10 +19,10 @@ const (
 	ConstantNameAndType        = 12 // Java 1.0.2
 	ConstantMethodHandle       = 15 // Java 7
 	ConstantMethodType         = 16 // Java 7
+	ConstantDynamic            = 17 // Java 11
 	ConstantInvokeDynamic      = 18 // Java 7
 	ConstantModule             = 19 // Java 9
 	ConstantPackage            = 20 // Java 9
-	ConstantDynamic            = 17 // Java 11
 )
 
 /*
@@ -68,6 +68,7 @@ func readConstantInfo(reader *ClassReader) ConstantInfo {
 		return readConstantMethodHandleInfo(reader)
 	case ConstantInvokeDynamic:
 		return readConstantInvokeDynamicInfo(reader)
+	//case ConstantDynamic: // TODO
 	default: // TODO
 		panic(fmt.Errorf("invalid constant pool tag: %d", tag))
 	}

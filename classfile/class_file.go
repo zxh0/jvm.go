@@ -148,6 +148,16 @@ func (cf *ClassFile) GetUTF8(cpIndex uint16) string {
 	return vmutils.DecodeMUTF8(bytes)
 }
 
+func (cf *ClassFile) GetFieldRefInfo(cpIndex uint16) ConstantFieldRefInfo {
+	return cf.getConstantInfo(cpIndex).(ConstantFieldRefInfo)
+}
+func (cf *ClassFile) GetMethodRefInfo(cpIndex uint16) ConstantMethodRefInfo {
+	return cf.getConstantInfo(cpIndex).(ConstantMethodRefInfo)
+}
+func (cf *ClassFile) GetMethodHandleInfo(cpIndex uint16) ConstantMethodHandleInfo {
+	return cf.getConstantInfo(cpIndex).(ConstantMethodHandleInfo)
+}
+
 func (cf *ClassFile) getConstantInfo(cpIndex uint16) ConstantInfo {
 	if cpInfo := cf.ConstantPool[cpIndex]; cpInfo == nil {
 		panic(fmt.Errorf("invalid constant pool index: %d", cpIndex))
